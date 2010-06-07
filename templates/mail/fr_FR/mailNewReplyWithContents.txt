@@ -1,0 +1,13 @@
+<html>
+<head>
+<base href="${forumLink}">
+<style type="text/css">@import url( ${forumLink}/templates/default/styles/style.css );</style>
+</head>
+<body>
+${message}
+<br>
+---------<br>
+Lire ce sujet en ligne: ${path}<br>
+Se désinscrire du sujet: ${unwatch}<br>
+</body>
+</html>

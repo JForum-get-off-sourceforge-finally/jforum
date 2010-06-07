@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+	<!--
+		*********************************************************************
+	-->
+	<!-- Ant build script for JForum -->
+	<!--
+		Version: $Id: build.xml,v 1.28 2009/12/05 00:12:15 andowson Exp $
+	-->
+	<!--
+		*********************************************************************
+	-->
+
+<project name="JForum" default="compile" basedir=".">
+	<description>JForum</description>
+
+	<!-- Enable access to build.properties variables -->
+	<property file="build.properties" />
+	
+	<property name="project.name" value="JForum" />
+	<property name="project.title" value="JForum API" />
+	<property name="author" value="JForum Team - http://www.jforum.net/team.jsp" />
+	<property name="copyright" value="Copyright (c) 2004-2010" />
+	<property name="version" value="${version}" />
+	<property name="filename" value="jforum-${version}" />
+	<property name="warfile" value="${filename}.war" />
+	<property name="srcfile" value="${filename}-src.zip" />
+	<property name="javadoc.packages" value="net.jforum.*" />
+
+	<property name="build.dir" location="build" />
+	<property name="dist.dir" location="dist" />
+	<property name="docs.dir" location="docs" />
+	<property name="api.dir" location="${docs.dir}/api" />
+	<property name="reports.dir" location="reports" />
+	<property name="project.libs" location="WEB-INF/lib" />
+	<property name="custom.libs" location="lib" />
+	<property name="src.dir" value="src" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="appserver.home" value="${appserver.home}" />
+	<property name="deploy.dir" value="${appserver.home}/webapps" />
+	<property name="deploy.dev.dir" value="${dist.dir}/jforum-test" />
+	<property name="web.dir" value="." />
+
+	<path id="base.path">
+		<fileset dir="${project.libs}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${custom.libs}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Init -->
+	<target name="init">
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${classes.dir}" />
+	</target>
+
+	<!-- Clean -->
+	<target name="clean" description="clean-up">
+		<delete dir="${dist.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${api.dir}" />
+		<delete dir="${reports.dir}" />
+	</target>
+
+	<!-- Java Docs -->
+	<target name="javadocs" description="Generates the API documentation">
+		<javadoc bottom="${copyright} ${author}. All Rights Reserved."
+			packagenames="${javadoc.packages}" sourcepath="${src.dir}"
+			defaultexcludes="yes" destdir="${api.dir}" doctitle="${project.name} ${version} API"
+			use="true" private="false" version="false" windowtitle="${project.name} ${version} API"
+			classpathref="base.path">
+			<link href="http://java.sun.com/j2se/1.5/docs/api/" />
+			<link href="http://java.sun.com/products/servlet/2.3/javadoc/" />
+			<link href="http://java.sun.com/products/javamail/javadocs/" />
+			<link href="http://freemarker.org/docs/api/" />
+			<link href="http://lucene.apache.org/java/3_0_1/api/core/" />
+			<link href="http://www.quartz-scheduler.org/docs/api/1.8.0/" />
+			<link href="http://www.jboss.org/file-access/default/members/jbosscache/freezone/docs/3.2.1.GA/apidocs" />
+		</javadoc>
+	</target>
+
+	<!-- Compile -->
+	<target name="compile" depends="init" description="Compiles the source code">
+		<javac fork="true" debug="true" optimize="false" deprecation="false"
+			source="1.5" target="1.5" srcdir="${src.dir}" destdir="${classes.dir}">
+			<classpath>
+				<path refid="base.path" />
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Dist -->
+	<target name="dist" depends="compile" description="Generates the distribution file">
+		<delete file="${dist.dir}/${warfile}" />
+		<delete file="${dist.dir}/${srcfile}" />
+
+		<!-- war -->
+		<war destfile="${dist.dir}/${warfile}" webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}">
+				<include name="images/**/*" />
+				<include name="js/**/*" />
+				<include name="styles/**/*" />
+				<include name="templates/**/*" />
+				<include name="tmp/**/*" />
+				<include name="upgrade/**/*" />
+				<include name="upload/**/*" />
+				<include name="*.htm" />
+				<include name="*.txt" />
+				<include name="*.jsp" />
+				<include name="tools/bin/**/*" />
+			</fileset>
+			<webinf dir="${web.dir}/WEB-INF">
+				<include name="*.xml" />
+				<include name="config/**/*" />
+				<exclude name="config/jforum-custom.conf" />
+				<!-- 
+				<exclude name="config/jboss-*.xml" /> 
+				-->
+				<exclude name="jforumLuceneIndex/**/*" />
+			</webinf>
+			<lib dir="${project.libs}">
+			<!--	
+				<exclude name="jboss*.jar" />
+				<exclude name="jgroups*.jar" />
+			-->	
+			</lib>
+			<classes dir="${classes.dir}" />
+			<manifest>
+				<attribute name="Implementation-Version" value="${version}" />
+				<attribute name="Built-Date" value="${TODAY}" />
+			</manifest>
+		</war>
+
+		<!-- src -->
+		<zip destfile="${dist.dir}/${srcfile}" update="false">
+			<fileset dir="${web.dir}">
+				<include name="**/*" />
+				<exclude name="www/" />
+				<exclude name="build/" />
+				<exclude name="dist/" />
+				<exclude name="reports/" />
+				<exclude name="WEB-INF/jforumLuceneIndex/**/*" />
+				<exclude name="WEB-INF/config/jforum-custom.conf" />
+			</fileset>
+		</zip>
+	</target>
+
+	<!-- Deploy -->
+	<target name="deploy" depends="dist"
+		description="Copies WAR File into your Container">
+		<copy file="${dist.dir}/${warfile}" todir="${deploy.dir}" />
+	</target>
+
+	<!-- Deploy Dev -->
+	<target name="deploy-dev" depends="dist"
+		description="Deploys JForum to a development dir">
+		<unwar dest="${deploy.dev.dir}" src="${dist.dir}/${warfile}" />
+	</target>
+
+	<!-- Undeploy -->
+	<target name="undeploy" description="Undeploy WAR Module from Tomcat">
+		<delete file="${deploy.dir}/${warfile}" />
+		<delete dir="${deploy.dir}/${filename}" />
+	</target>
+
+	<!-- Test -->
+	<property name="test.src.dir" location="tests/core" />
+	<property name="test.classes.dir" location="${build.dir}/tests/bin" />
+
+	<target name="buildtests" description="Compile test tree java files">
+		<mkdir dir="${test.classes.dir}" />
+		<javac destdir="${test.classes.dir}" source="1.5" target="1.5"
+			debug="true" deprecation="false" optimize="false" failonerror="true">
+			<src path="${test.src.dir}" />
+			<classpath refid="test-classpath" />
+		</javac>
+	</target>
+
+	<path id="test-classpath">
+		<fileset dir="${project.libs}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${custom.libs}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="${classes.dir}" />
+		<pathelement path="${test.classes.dir}" />
+	</path>
+
+	<target name="tests" depends="compile, buildtests" description="Run tests">
+		<junit printsummary="on" fork="false" haltonfailure="false"
+			failureproperty="tests.failed" showoutput="true">
+			<classpath refid="test-classpath" />
+			<formatter type="brief" usefile="false" />
+
+			<batchtest>
+				<fileset dir="${test.classes.dir}">
+					<include name="**/*Test*.*" />
+					<exclude name="**/*$*.*" />
+					<exclude name="**/TestCaseUtils.*" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<fail if="tests.failed">
+			tests.failed=${tests.failed}
+			***********************************************************
+			***********************************************************
+			**** One or more tests failed! Check the output ... ****
+			***********************************************************
+			***********************************************************
+        </fail>
+	</target>
+
+</project>
