@@ -70,7 +70,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -78,7 +77,6 @@ import org.apache.log4j.Logger;
  */
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
 {
-	private static final Logger LOGGER = Logger.getLogger(WebRequestContext.class);
 	private Map<String, Object> query;
 	
 	/**
@@ -260,10 +258,10 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		upload.setHeaderEncoding(encoding);
 
 		try {
-			List<FileItem> items = upload.parseRequest(superRequest);
+			List<?> items = upload.parseRequest(superRequest);
 			
-			for (Iterator<FileItem> iter = items.iterator(); iter.hasNext(); ) {
-				FileItem item = iter.next();
+			for (Iterator<?> iter = items.iterator(); iter.hasNext(); ) {
+				FileItem item = (FileItem)iter.next();
 			
 				if (item.isFormField()) {
 					this.addParameter(item.getFieldName(), item.getString(encoding));
