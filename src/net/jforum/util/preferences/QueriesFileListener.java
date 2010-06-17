@@ -57,12 +57,12 @@ public class QueriesFileListener implements FileChangeListener
 	/** 
 	 * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
 	 */
-	public void fileChanged(String filename)
+	public void fileChanged(final String filename)
 	{
         LOGGER.info("Reloading "+ filename);
         SystemGlobals.loadQueries(filename);
 			
-        String driverQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
+        final String driverQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
 			
         // Force reload of driver specific queries
         if (!filename.equals(driverQueries)) {

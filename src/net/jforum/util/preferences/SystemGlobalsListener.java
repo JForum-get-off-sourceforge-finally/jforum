@@ -58,7 +58,7 @@ public class SystemGlobalsListener implements FileChangeListener
 	/** 
 	 * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
 	 */
-	public void fileChanged(String filename)
+	public void fileChanged(final String filename)
 	{
         LOGGER.info("Reloading "+ filename);
 

@@ -50,7 +50,7 @@ public class CacheException extends RuntimeException
 {
 	private static final long serialVersionUID = 8608740478943321166L;
 
-	public CacheException(String message)
+	public CacheException(final String message)
 	{
 		super(message);
 	}

@@ -27,7 +27,12 @@
 		<priority value="info"/>
 		<appender-ref ref="jforum.log"/>
 	</category>
-
+	
+	<category name="net.sf.ehcache">
+		<priority value="info"/>
+		<appender-ref ref="jforum.log"/>
+	</category>
+	
 	<category name="net.jforum">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
@@ -41,5 +46,10 @@
 	<category name="com.mchange">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
+	</category>
+	
+	<category name="org.quartz">
+		<priority value="info"/>
+		<appender-ref ref="jforum.log"/>
 	</category>
 </log4j:configuration>

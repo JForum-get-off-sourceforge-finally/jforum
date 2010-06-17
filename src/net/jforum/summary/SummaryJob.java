@@ -58,9 +58,9 @@ public class SummaryJob implements Job
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
-	public void execute(JobExecutionContext context) throws JobExecutionException
+	public void execute(final JobExecutionContext context) throws JobExecutionException
 	{
-		SummaryModel model = new SummaryModel();
+		final SummaryModel model = new SummaryModel();
 		
 		try {
 			model.sendPostsSummary(model.listRecipients());

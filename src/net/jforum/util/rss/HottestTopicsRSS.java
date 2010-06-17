@@ -55,8 +55,8 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class HottestTopicsRSS extends TopicRSS
 {
-	public HottestTopicsRSS(String title, String description, List<Post> posts)
-	{
+	public HottestTopicsRSS(final String title, final String description, final List<Post> posts)
+	{		
 		super.posts = posts;
 		this.forumLink = ViewCommon.getForumLink();
 		

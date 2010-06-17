@@ -111,12 +111,12 @@ public class ForumRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	public void setCacheEngine(final CacheEngine engine)
 	{
 		ForumRepository.setEngine(engine);
 	}
 	
-	private static void setEngine(CacheEngine engine) 
+	private static void setEngine(final CacheEngine engine) 
 	{
 		cache = engine;
 	}
@@ -124,25 +124,25 @@ public class ForumRepository implements Cacheable
 	/**
 	 * Starts the repository.
 	 * 
-	 * @param fm The <code>ForumModel</code> instance which will be
+	 * @param forumDAO The <code>ForumDAO</code> instance which will be
 	 * used to retrieve information about the forums.
-	 * @param cm The <code>CategoryModel</code> instance which will
+	 * @param categoryDAO The <code>CategoryDAO</code> instance which will
 	 * be used to retrieve information about the categories.
      * @param  configModel ConfigDAO
 	 */
-	public synchronized static void start(ForumDAO fm, CategoryDAO cm, ConfigDAO configModel)
+	public synchronized static void start(final ForumDAO forumDAO, final CategoryDAO categoryDAO, final ConfigDAO configModel)
 	{
 		instance = new ForumRepository();
 		
 		if (cache.get(FQN, LOADED) == null) {
-			instance.loadCategories(cm);
-			instance.loadForums(fm);
+			instance.loadCategories(categoryDAO);
+			instance.loadForums(forumDAO);
 			instance.loadMostUsersEverOnline(configModel);
 			instance.loadUsersInfo();
 			
-			Integer i = (Integer)cache.get(FQN, TOTAL_MESSAGES);
+			final Integer totalMessages = (Integer)cache.get(FQN, TOTAL_MESSAGES);
 			
-			if (i == null) {
+			if (totalMessages == null) {
 				cache.add(FQN, TOTAL_MESSAGES, Integer.valueOf(0));
 			}
 			
@@ -184,9 +184,9 @@ public class ForumRepository implements Cacheable
 		return (Category)cache.get(FQN, Integer.toString(categoryId));
 	}
 	
-	public static Category getCategory(PermissionControl pc, int categoryId)
+	public static Category getCategory(PermissionControl permissonControl, int categoryId)
 	{
-		if (!isCategoryAccessible(pc, categoryId)) {
+		if (!isCategoryAccessible(permissonControl, categoryId)) {
 			return null;
 		}
 		
@@ -212,6 +212,9 @@ public class ForumRepository implements Cacheable
 	
 	/**
 	 * Check if some category is accessible.
+	 * A call to @link #isCategoryAccessible(int, int) is made, using the
+	 * return of <code>SessionFacade.getUserSession().getUserId()</code>
+	 * as argument for the "userId" parameter.
 	 * 
 	 * @param categoryId The category id to check for access rights
 	 * @return <code>true</code> if access to the category is allowed.
@@ -224,14 +227,14 @@ public class ForumRepository implements Cacheable
 	/**
 	 * Check is some category is accessible.
 	 * 
-	 * @param pc The <code>PermissionControl</code> instance containing
+	 * @param permissionControl The <code>PermissionControl</code> instance containing
 	 * all security info related to the user.
 	 * @param categoryId the category's id to check for access rights
 	 * @return <code>true</code> if access to the category is allowed.
 	 */
-	public static boolean isCategoryAccessible(PermissionControl pc, int categoryId)
+	public static boolean isCategoryAccessible(PermissionControl permissionControl, int categoryId)
 	{
-		return pc.canAccess(SecurityConstants.PERM_CATEGORY, Integer.toString(categoryId));
+		return permissionControl.canAccess(SecurityConstants.PERM_CATEGORY, Integer.toString(categoryId));
 	}
 	
 	/**
@@ -242,8 +245,8 @@ public class ForumRepository implements Cacheable
 	 */
 	public static List<Category> getAllCategories(int userId)
 	{
-		PermissionControl pc = SecurityRepository.get(userId);
-		List<Category> l = new ArrayList<Category>();
+		final PermissionControl pc = SecurityRepository.get(userId);
+		final List<Category> l = new ArrayList<Category>();
 		
 		Set<Category> categoriesSet = (Set<Category>)cache.get(FQN, CATEGORIES_SET);		
 		
@@ -269,8 +272,8 @@ public class ForumRepository implements Cacheable
 			}
 		}
 		
-		for (Iterator<Category> iter = ((Set<Category>)cache.get(FQN, CATEGORIES_SET)).iterator(); iter.hasNext(); ) {
-			Category category = getCategory(pc, iter.next().getId());
+		for (final Iterator<Category> iter = ((Set<Category>)cache.get(FQN, CATEGORIES_SET)).iterator(); iter.hasNext(); ) {
+			final Category category = getCategory(pc, iter.next().getId());
 			
 			if (category != null) {
 				l.add(category);
@@ -343,15 +346,15 @@ public class ForumRepository implements Cacheable
 	/**
 	 * Refreshes a category entry in the cache.
 	 * 
-	 * @param c The category to refresh
+	 * @param category The category to refresh
 	 */
-	public synchronized static void refreshCategory(Category c)
+	public synchronized static void refreshCategory(Category category)
 	{
-		cache.add(FQN, Integer.toString(c.getId()), c);
-		Set<Category> s = (Set<Category>)cache.get(FQN, CATEGORIES_SET);
-		s.remove(c);
-		s.add(c);
-		cache.add(FQN, CATEGORIES_SET, s);
+		cache.add(FQN, Integer.toString(category.getId()), category);
+		Set<Category> set = (Set<Category>)cache.get(FQN, CATEGORIES_SET);
+		set.remove(category);
+		set.add(category);
+		cache.add(FQN, CATEGORIES_SET, set);
 	}
 	
 	public synchronized static void refreshForum(Forum forum)
@@ -370,18 +373,18 @@ public class ForumRepository implements Cacheable
 	{
 		cache.remove(FQN, Integer.toString(category.getId()));
 		
-		Set<Category> s = (Set<Category>)cache.get(FQN, CATEGORIES_SET);
-		s.remove(category);
-		cache.add(FQN, CATEGORIES_SET, s);
+		Set<Category> set = (Set<Category>)cache.get(FQN, CATEGORIES_SET);
+		set.remove(category);
+		cache.add(FQN, CATEGORIES_SET, set);
 		
-		Map<String, String> m = (Map<String, String>)cache.get(FQN, RELATION);
-		for (Iterator<String> iter = m.values().iterator(); iter.hasNext(); ) {
+		Map<String, String> map = (Map<String, String>)cache.get(FQN, RELATION);
+		for (Iterator<String> iter = map.values().iterator(); iter.hasNext(); ) {
 			if (Integer.parseInt((String)iter.next()) == category.getId()) {
 				iter.remove();
 			}
 		}
 		
-		cache.add(FQN, RELATION, m);
+		cache.add(FQN, RELATION, map);
 	}
 	
 	/**
@@ -681,7 +684,7 @@ public class ForumRepository implements Cacheable
 	
 	public static synchronized void incrementTotalMessages()
 	{
-		int total = ((Integer)cache.get(FQN, TOTAL_MESSAGES)).intValue();
+		int total = getTotalMessages(false);
 		cache.add(FQN, TOTAL_MESSAGES, Integer.valueOf(total + 1));
 	}
 	

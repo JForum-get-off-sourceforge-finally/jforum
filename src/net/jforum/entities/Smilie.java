@@ -66,14 +66,14 @@ public class Smilie implements Serializable
 	/**
 	 * @param code
 	 */
-	public void setCode(String code) {
+	public void setCode(final String code) {
 		this.code = code;
 	}
 	
 	/**
 	 * @param diskName
 	 */
-	public void setDiskName(String diskName) {
+	public void setDiskName(final String diskName) {
 		this.diskName = diskName;
 	}
 
@@ -87,7 +87,7 @@ public class Smilie implements Serializable
 	/**
 	 * @param id
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -101,7 +101,7 @@ public class Smilie implements Serializable
 	/**
 	 * @param url
 	 */
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 

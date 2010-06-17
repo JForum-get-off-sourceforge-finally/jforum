@@ -51,21 +51,21 @@ import java.util.List;
  */
 public class SearchResult
 {
-	private List<?> records;
-	private int numberOfHits;
+	private transient final List<?> records;
+	private transient final int numberOfHits;
 	
-	public SearchResult(List<?> records, int numberOfHits)
+	public SearchResult(final List<?> records, final int numberOfHits)
 	{
 		this.records = records;
 		this.numberOfHits = numberOfHits;
 	}
 	
-	public List<?> records()
+	public List<?> getRecords()
 	{
 		return this.records;
 	}
 	
-	public int numberOfHits()
+	public int getNumberOfHits()
 	{
 		return this.numberOfHits;
 	}

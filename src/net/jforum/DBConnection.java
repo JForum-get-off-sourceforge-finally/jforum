@@ -62,7 +62,7 @@ import org.apache.log4j.Logger;
 public abstract class DBConnection 
 {
 	private static final Logger LOGGER = Logger.getLogger(DBConnection.class);
-	protected boolean isDatabaseUp;
+	protected transient boolean isDatabaseUp;
 	
 	private static DBConnection instance;
 

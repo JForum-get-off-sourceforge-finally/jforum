@@ -58,19 +58,16 @@ public class CategoryOrderComparator implements Comparator<Category>, Serializab
 	/** 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(Category o1, Category o2) 
-	{
-		Category c1 = (Category)o1;
-		Category c2 = (Category)o2;
-		
-		if (c1.getOrder() > c2.getOrder()) {
+	public int compare(Category category1, Category category2) 
+	{		
+		if (category1.getOrder() > category2.getOrder()) {
 			return 1;
 		}
-		else if (c1.getOrder() < c2.getOrder() ) {
+		else if (category1.getOrder() < category2.getOrder() ) {
 			return -1;
 		}
 		else {
-			return c1.getName().compareTo(c2.getName());
+			return category1.getName().compareTo(category2.getName());
 		}
 	}
 

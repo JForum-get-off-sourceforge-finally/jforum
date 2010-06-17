@@ -59,17 +59,17 @@ public interface AttachmentDAO
 	/**
 	 * Adds a new attachment.
 	 * 
-	 * @param a The attachment to add
+	 * @param attachment The attachment to add
 	 */
-	public void addAttachment(Attachment a);
+	void addAttachment(Attachment attachment);
 	
 	/**
 	 * Updates an attachment.
 	 * Only the file comment is updated.
 	 * 
-	 * @param a The attachment to update
+	 * @param attachment The attachment to update
 	 */
-	public void updateAttachment(Attachment a);
+	void updateAttachment(Attachment attachment);
 	
 	/**
 	 * Remove an attachment.
@@ -77,7 +77,7 @@ public interface AttachmentDAO
 	 * @param id The attachment's id to remove
 	 * @param postId the post id
 	 */
-	public void removeAttachment(int id, int postId);
+	void removeAttachment(int id, int postId);
 	
 	/**
 	 * Gets the attachments of some message.
@@ -86,7 +86,7 @@ public interface AttachmentDAO
 	 * @return A list where each entry is a net.jforum.entities.Attachment 
 	 * instance.
 	 */
-	public List<Attachment> selectAttachments(int postId);
+	List<Attachment> selectAttachments(int postId);
 	
 	/**
 	 * Gets an attachment by its id
@@ -94,35 +94,35 @@ public interface AttachmentDAO
 	 * @param attachId The attachment id
 	 * @return The attachment, or <code>null</code> if no record was found
 	 */
-	public Attachment selectAttachmentById(int attachId);
+	Attachment selectAttachmentById(int attachId);
 	
 	/**
 	 * Inserts a new quota limit.
 	 * 
 	 * @param limit The data to insert
 	 */
-	public void addQuotaLimit(QuotaLimit limit);
+	void addQuotaLimit(QuotaLimit limit);
 	
 	/**
 	 * Updates a quota limit.
 	 * 
 	 * @param limit The data to update
 	 */
-	public void updateQuotaLimit(QuotaLimit limit);
+	void updateQuotaLimit(QuotaLimit limit);
 	
 	/**
 	 * Deletes a quota limit
 	 * 
 	 * @param id The id of the quota to remove
 	 */
-	public void removeQuotaLimit(int id);
+	void removeQuotaLimit(int id);
 	
 	/**
 	 * Removes a set of quota limit.
 	 * 
 	 * @param ids The ids to remove.
 	 */
-	public void removeQuotaLimit(String[] ids);
+	void removeQuotaLimit(String[] ids);
 	
 	/**
 	 * Associates a quota limit to some group.
@@ -130,13 +130,13 @@ public interface AttachmentDAO
 	 * @param groupId The group id
 	 * @param quotaId The quota id
 	 */
-	public void setGroupQuota(int groupId, int quotaId);
+	void setGroupQuota(int groupId, int quotaId);
 	
 	/**
 	 * Removes all quotas limits from all groups.
 	 *  
 	 */
-	public void cleanGroupQuota();
+	void cleanGroupQuota();
 	
 	/**
 	 * Gets all registered quota limits
@@ -144,7 +144,7 @@ public interface AttachmentDAO
 	 * @return A list instance where each entry is a
 	 * {@link net.jforum.entities.QuotaLimit} instance.
 	 */
-	public List<QuotaLimit> selectQuotaLimit();
+	List<QuotaLimit> selectQuotaLimit();
 	
 	/**
 	 * Gets the quota associated to some group.
@@ -153,7 +153,7 @@ public interface AttachmentDAO
 	 * @return A <code>QuotaLimit</code> instance, or <code>null</code> if
 	 * no records were found. 
 	 */
-	public QuotaLimit selectQuotaLimitByGroup(int groupId) ;
+	QuotaLimit selectQuotaLimitByGroup(int groupId) ;
 	
 	/**
 	 * Gets the quota limits of registered groups.
@@ -161,28 +161,28 @@ public interface AttachmentDAO
 	 * @return A map instance where each key is the group id
 	 * and the value is the quota limit id.
 	 */
-	public Map<Integer, Integer> selectGroupsQuotaLimits();
+	Map<Integer, Integer> selectGroupsQuotaLimits();
 	
 	/**
 	 * Adds a new extension group.
 	 * 
-	 * @param g The data to insert
+	 * @param aeg The data to insert
 	 */
-	public void addExtensionGroup(AttachmentExtensionGroup g);
+	void addExtensionGroup(AttachmentExtensionGroup aeg);
 	
 	/**
 	 * Updates some extension group.
 	 * 
 	 * @param g The data to update
 	 */
-	public void updateExtensionGroup(AttachmentExtensionGroup g);
+	void updateExtensionGroup(AttachmentExtensionGroup g);
 	
 	/**
 	 * Removes a set of extension groups.
 	 * 
 	 * @param ids The ids to remove.
 	 */
-	public void removeExtensionGroups(String[] ids);
+	void removeExtensionGroups(String[] ids);
 	
 	/**
 	 * Gets all extension groups.
@@ -190,7 +190,7 @@ public interface AttachmentDAO
 	 * @return A list instance where each entry is an 
 	 * {@link net.jforum.entities.AttachmentExtensionGroup} instance.
 	 */
-	public List<AttachmentExtensionGroup> selectExtensionGroups();
+	List<AttachmentExtensionGroup> selectExtensionGroups();
 	
 	/**
 	 * Gets all extensions and its security options, 
@@ -201,28 +201,28 @@ public interface AttachmentDAO
 	 * be used in the uploaded files. If there is no entry for
 	 * a given extension, then it means that it is allowed. 
 	 */
-	public Map<String, Boolean> extensionsForSecurity();
+	Map<String, Boolean> extensionsForSecurity();
 	
 	/**
 	 * Adds a new extension
 	 * 
 	 * @param e The extension to add
 	 */
-	public void addExtension(AttachmentExtension e);
+	void addExtension(AttachmentExtension e);
 	
 	/**
 	 * Updates an extension
 	 * 
 	 * @param e The extension to update
 	 */
-	public void updateExtension(AttachmentExtension e);
+	void updateExtension(AttachmentExtension e);
 	
 	/**
 	 * Removes a set of extensions
 	 * 
 	 * @param ids The ids to remove
 	 */
-	public void removeExtensions(String[] ids);
+	void removeExtensions(String[] ids);
 	
 	/**
 	 * Gets all registered extensions
@@ -230,19 +230,19 @@ public interface AttachmentDAO
 	 * @return A list instance, where each entry is an
 	 * {@link net.jforum.entities.AttachmentExtension} instance
 	 */
-	public List<AttachmentExtension> selectExtensions();
+	List<AttachmentExtension> selectExtensions();
 	
 	/**
 	 * Gets an extension information by the extension's name
 	 * @param extension
 	 * @return AttachmentExtension
 	 */
-	public AttachmentExtension selectExtension(String extension);
+	AttachmentExtension selectExtension(String extension);
 
 	/**
 	 * Gets the download mode by the extension group id
 	 * @param extensionGroupId extension group id
 	 * @return true = physical download mode; false = inline download mode
 	 */
-	public boolean isPhysicalDownloadMode(int extensionGroupId);
+	boolean isPhysicalDownloadMode(int extensionGroupId);
 }

@@ -53,7 +53,7 @@ public class RequestEmptyException extends RuntimeException
 {
 	private static final long serialVersionUID = -5587642498748626340L;
 
-	public RequestEmptyException(String message) {
+	public RequestEmptyException(final String message) {
 		super(message);
 	}
 }

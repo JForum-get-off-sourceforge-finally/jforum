@@ -63,7 +63,7 @@ import org.jboss.cache.Fqn;
 public class JBossCacheEngine implements CacheEngine
 {
 	private static final Logger LOGGER = Logger.getLogger(JBossCacheEngine.class);
-	private Cache<String, Object> cache;
+	private transient Cache<String, Object> cache;
 
 	/**
 	 * @see net.jforum.cache.CacheEngine#init()
@@ -71,7 +71,7 @@ public class JBossCacheEngine implements CacheEngine
 	public void init()
 	{
 		try {
-			CacheFactory<String, Object> factory = new DefaultCacheFactory<String, Object>();			
+			final CacheFactory<String, Object> factory = new DefaultCacheFactory<String, Object>();			
 			this.cache = factory.createCache(SystemGlobals.getValue(ConfigKeys.JBOSS_CACHE_PROPERTIES));
 			
 			this.cache.addCacheListener(new JBossCacheListener());
@@ -94,7 +94,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.Object)
 	 */
-	public void add(String key, Object value)
+	public void add(final String key, final Object value)
 	{
 		this.add(CacheEngine.DUMMY_FQN, key, value);
 	}
@@ -102,7 +102,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.String, java.lang.Object)
 	 */
-	public void add(String fqn, String key, Object value)
+	public void add(final String fqn, final String key, final Object value)
 	{
 		try {
 			this.cache.put(Fqn.fromString(fqn), key, value);
@@ -115,7 +115,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String, java.lang.String)
 	 */
-	public Object get(String fqn, String key)
+	public Object get(final String fqn, final String key)
 	{		
 		try {
 			return this.cache.get(Fqn.fromString(fqn), key);
@@ -128,7 +128,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String)
 	 */
-	public Object get(String fqn)
+	public Object get(final String fqn)
 	{
 		try {
 			return this.cache.getData(Fqn.fromString(fqn));
@@ -141,20 +141,20 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#getValues(java.lang.String)
 	 */
-	public Collection<Object> getValues(String fqn)
+	public Collection<Object> getValues(final String fqn)
 	{
-		Map<String, Object> m = this.cache.getData(Fqn.fromString(fqn));
-		if (m == null) {
+		final Map<String, Object> map = this.cache.getData(Fqn.fromString(fqn));
+		if (map == null) {
 			return new ArrayList<Object>();
 		}
 		
-		return m.values();
+		return map.values();
 	}
 
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String, java.lang.String)
 	 */
-	public void remove(String fqn, String key)
+	public void remove(final String fqn, final String key)
 	{
 		try {
 			if (key == null) {
@@ -172,7 +172,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String)
 	 */
-	public void remove(String fqn)
+	public void remove(final String fqn)
 	{
 		try {
 			this.cache.removeNode(Fqn.fromString(fqn));

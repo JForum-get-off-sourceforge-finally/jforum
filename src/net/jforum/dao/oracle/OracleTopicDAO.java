@@ -57,7 +57,7 @@ public class OracleTopicDAO extends net.jforum.dao.generic.GenericTopicDAO
    	 * Does some addition to make the parameters work with our query flavor.
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
 	 */
-	public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count)
+	public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
 	{
 		return super.selectAllByForumByLimit(forumId, startFrom, startFrom + count);
 	}
@@ -65,7 +65,7 @@ public class OracleTopicDAO extends net.jforum.dao.generic.GenericTopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Topic> selectByUserByLimit(int userId, int startFrom, int count) 
+	public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count) 
 	{
 		return super.selectByUserByLimit(userId, startFrom, startFrom + count);
 	}

@@ -50,7 +50,7 @@ public class LoadForumException extends RuntimeException
 {
 	private static final long serialVersionUID = 7003798815003619830L;
 
-	public LoadForumException(String message) {
+	public LoadForumException(final String message) {
 		super(message);
 	}
 }

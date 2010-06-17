@@ -50,18 +50,18 @@ import java.util.Collection;
  */
 public interface CacheEngine
 {
-	public static final String DUMMY_FQN = "";
-	public static final String NOTIFICATION = "notification";
+	String DUMMY_FQN = "";
+	String NOTIFICATION = "notification";
 	
 	/**
 	 * Initializes the cache engine. 
 	 */
-	public void init();
+	void init();
 	
 	/**
 	 * Stops the cache engine
 	 */
-	public void stop();
+	void stop();
 	
 	/**
 	 * Adds a new object to the cache. 
@@ -70,7 +70,7 @@ public interface CacheEngine
 	 * @param key The key to associate with the object. 
 	 * @param value The object to cache
 	 */
-	public void add(String key, Object value);
+	void add(String key, Object value);
 	
 	/**
 	 * 
@@ -80,7 +80,7 @@ public interface CacheEngine
 	 * @param key The key to associate with the object
 	 * @param value The object to cache
 	 */
-	public void add(String fqn, String key, Object value);
+	void add(String fqn, String key, Object value);
 	
 	/**
 	 * Gets some object from the cache.
@@ -89,7 +89,7 @@ public interface CacheEngine
 	 * @param key The key to get
 	 * @return The cached object, or <code>null</code> if no entry was found
 	 */
-	public Object get(String fqn, String key);
+	Object get(String fqn, String key);
 	
 	/**
 	 * Gets some object from the cache.
@@ -97,7 +97,7 @@ public interface CacheEngine
 	 * @param fqn The fqn tree to get
 	 * @return The cached object, or <code>null</code> if no entry was found
 	 */
-	public Object get(String fqn);
+	Object get(String fqn);
 	
 	/**
 	 * Gets all values from some given FQN.
@@ -105,7 +105,7 @@ public interface CacheEngine
 	 * @param fqn String
 	 * @return Collection
 	 */
-	public Collection getValues(String fqn);
+	Collection getValues(String fqn);
 	
 	/**
 	 * Removes an entry from the cache.
@@ -113,11 +113,11 @@ public interface CacheEngine
 	 * @param fqn The fully qualified name associated with the key
 	 * @param key The key to remove
 	 */
-	public void remove(String fqn, String key);
+	void remove(String fqn, String key);
 	
 	/**
 	 * Removes a complete node from the cache
 	 * @param fqn The fqn to remove
 	 */
-	public void remove(String fqn);
+	void remove(String fqn);
 }

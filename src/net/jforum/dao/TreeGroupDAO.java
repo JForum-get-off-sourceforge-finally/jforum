@@ -52,5 +52,5 @@ import net.jforum.util.GroupNode;
  */
 public interface TreeGroupDAO 
 {
-	public List<GroupNode> selectGroups(int parentId) ;
+	List<GroupNode> selectGroups(int parentId) ;
 }

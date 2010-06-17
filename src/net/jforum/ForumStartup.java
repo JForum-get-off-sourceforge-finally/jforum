@@ -74,7 +74,7 @@ public class ForumStartup
 				DBConnection.getImplementation().init();
 				
 				// Check if we're in fact up and running
-				Connection conn = DBConnection.getImplementation().getConnection();
+				final Connection conn = DBConnection.getImplementation().getConnection();
 				DBConnection.getImplementation().releaseConnection(conn);
 			}
 		}
@@ -92,15 +92,17 @@ public class ForumStartup
 	public static void startForumRepository()
 	{
 		try {
-			ForumDAO fm = DataAccessDriver.getInstance().newForumDAO();
-			CategoryDAO cm = DataAccessDriver.getInstance().newCategoryDAO();
-			ConfigDAO configModel = DataAccessDriver.getInstance().newConfigDAO();
+			final ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
+			final CategoryDAO categoryDao = DataAccessDriver.getInstance().newCategoryDAO();
+			final ConfigDAO configModel = DataAccessDriver.getInstance().newConfigDAO();
 
-			ForumRepository.start(fm, cm, configModel);
+			ForumRepository.start(forumDao, categoryDao, configModel);
 		}
 		catch (Exception e) {
 			LOGGER.error("Unable to bootstrap JForum repository.", e);
 			throw new RepositoryStartupException("Error while trying to start ForumRepository: " + e, e);
 		}
 	}
+	
+	private ForumStartup() {}
 }

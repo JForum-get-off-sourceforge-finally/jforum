@@ -59,18 +59,18 @@ public final class PollCommon
 
 	public static Poll fillPollFromRequest() 
 	{
-		RequestContext request = JForumExecutionContext.getRequest();
-		String label = request.getParameter("poll_label");
+		final RequestContext request = JForumExecutionContext.getRequest();
+		final String label = request.getParameter("poll_label");
 
 		if (label == null || label.length() == 0) {
 			return null;
 		}
 
-		Poll poll = new Poll();
+		final Poll poll = new Poll();
 		poll.setStartTime(new Date());
 		poll.setLabel(label);
 		
-		int count = request.getIntParameter("poll_option_count");
+		final int count = request.getIntParameter("poll_option_count");
 
 		for (int i = 0; i <= count; i++) {
 			String option = request.getParameter("poll_option_" + i);
@@ -82,14 +82,14 @@ public final class PollCommon
 			option = option.trim();
 			
 			if (option.length() > 0) {
-				PollOption po = new PollOption();
-				po.setId(i);
-				po.setText(option);
-				poll.addOption(po);
+				PollOption pollOption = new PollOption();
+				pollOption.setId(i);
+				pollOption.setText(option);
+				poll.addOption(pollOption);
 			}
 		}
 		
-		String pollLength = request.getParameter("poll_length");
+		final String pollLength = request.getParameter("poll_length");
 		
 		if (pollLength != null && pollLength.length() > 0) {
 			poll.setLength(Integer.parseInt(pollLength));

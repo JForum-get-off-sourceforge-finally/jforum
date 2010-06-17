@@ -46,7 +46,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,33 +71,25 @@ import freemarker.template.Template;
 public class InstallServlet extends JForumBaseServlet
 {
 	private static final long serialVersionUID = 959359188496986295L;
-
-	/** 
-	 * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException
-	{
-		super.init(config);
-	}
 	
 	/** 
 	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
 	 */
-	public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+	public void service(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException
 	{
 		try {
-			String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
+			final String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
 			req.setCharacterEncoding(encoding);
 			
 			// Request
-			RequestContext request = new WebRequestContext(req);
-			ResponseContext response = new WebResponseContext(res);
+			final RequestContext request = new WebRequestContext(req);
+			final ResponseContext response = new WebResponseContext(res);
 
 			request.setCharacterEncoding(encoding);
 
-            JForumExecutionContext ex = JForumExecutionContext.get();
+            final JForumExecutionContext executionContext = JForumExecutionContext.get();
 
-            ForumContext forumContext = new JForumContext(
+            final ForumContext forumContext = new JForumContext(
                 request.getContextPath(),
                 SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION),
                 request,
@@ -106,13 +97,13 @@ public class InstallServlet extends JForumBaseServlet
                 false
             );
 
-            ex.setForumContext(forumContext);
+            executionContext.setForumContext(forumContext);
 	
 			// Assigns the information to user's thread 
-			JForumExecutionContext.set(ex);
+			JForumExecutionContext.set(executionContext);
 			
 			// Context
-			SimpleHash context = JForumExecutionContext.getTemplateContext();
+			final SimpleHash context = JForumExecutionContext.getTemplateContext();
 			context.put("contextPath", req.getContextPath());
 			context.put("serverName", req.getServerName());
 			context.put("templateName", "default");
@@ -129,18 +120,18 @@ public class InstallServlet extends JForumBaseServlet
 			}
 			else {		
 				// Module and Action
-				String moduleClass = ModulesRepository.getModuleClass(request.getModule());
+				final String moduleClass = ModulesRepository.getModuleClass(request.getModule());
 				
 				context.put("moduleName", request.getModule());
 				context.put("action", request.getAction());
 				
-				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
+				final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
 				
 				try {
 					if (moduleClass != null) {
 						// Here we go, baby
-						Command c = (Command)Class.forName(moduleClass).newInstance();
-						Template template = c.process(request, response, context);
+						final Command command = (Command)Class.forName(moduleClass).newInstance();
+						final Template template = command.process(request, response, context);
 			
 						if (JForumExecutionContext.getRedirectTo() == null) {
 							response.setContentType("text/html; charset=" + encoding);
@@ -152,17 +143,17 @@ public class InstallServlet extends JForumBaseServlet
 				}
 				catch (Exception e) {
 					response.setContentType("text/html; charset=" + encoding);
-					if (out != null) {
-						new ExceptionWriter().handleExceptionData(e, out, request);
+					if (out == null) {
+						new ExceptionWriter().handleExceptionData(e, 
+								new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);						
 					}
 					else {
-						new ExceptionWriter().handleExceptionData(e, 
-							new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);
+						new ExceptionWriter().handleExceptionData(e, out, request);
 					}
 				}
 			}
 			
-			String redirectTo = JForumExecutionContext.getRedirectTo();
+			final String redirectTo = JForumExecutionContext.getRedirectTo();
 			
 			if (redirectTo != null) {
 				response.sendRedirect(response.encodeRedirectURL(redirectTo));

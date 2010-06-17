@@ -1,9 +1,13 @@
 package net.jforum.util.legacy.clickstream;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import net.jforum.util.legacy.clickstream.config.ClickstreamConfig;
 import net.jforum.util.legacy.clickstream.config.ConfigLoader;
@@ -23,7 +27,7 @@ public class BotChecker
 	 * @return <code>null</code> if there is no bots in the current request, 
 	 * or the bot's name otherwise
 	 */
-	public static String isBot(HttpServletRequest request)
+	public static String isBot(HttpServletRequest request) 
 	{
 		if (request.getRequestURI().indexOf("robots.txt") != -1) {
 			// there is a specific request for the robots.txt file, so we assume

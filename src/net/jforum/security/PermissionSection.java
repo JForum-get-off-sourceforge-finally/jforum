@@ -56,18 +56,18 @@ import java.util.List;
  */
 public class PermissionSection 
 {
-	private String sectionName;
-	private String sectionId;
-	private List<PermissionItem> permissionItems;
+	private transient final String sectionName;
+	private transient final String sectionId;
+	private transient final List<PermissionItem> permissionItems;
 	
-	public PermissionSection(String sectionName, String sectionId)
+	public PermissionSection(final String sectionName, final String sectionId)
 	{
 		this.sectionName = sectionName;
 		this.sectionId = sectionId;
 		this.permissionItems = new ArrayList<PermissionItem>();
 	}		
 	
-	public void addPermission(PermissionItem item)
+	public void addPermission(final PermissionItem item)
 	{
 		this.permissionItems.add(item);
 	}

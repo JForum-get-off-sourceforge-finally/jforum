@@ -67,9 +67,12 @@ import freemarker.template.SimpleHash;
  */
 public class ModerationAction extends AdminCommand
 {
+	/**
+	 * Empty Constructor
+	 */
 	public ModerationAction() {}
 	
-	public ModerationAction(SimpleHash context, RequestContext request)
+	public ModerationAction(final SimpleHash context, final RequestContext request)
 	{
 		this.context = context;
 		this.request = request;
@@ -86,7 +89,7 @@ public class ModerationAction extends AdminCommand
 	
 	public void view()
 	{
-		int forumId = this.request.getIntParameter("forum_id");
+		final int forumId = this.request.getIntParameter("forum_id");
 		
 		this.setTemplateName(TemplateKeys.MODERATION_ADMIN_VIEW);
 		this.context.put("forum", ForumRepository.getForum(forumId));
@@ -96,15 +99,15 @@ public class ModerationAction extends AdminCommand
 	
 	public void doSave()
 	{
-		String[] posts = this.request.getParameterValues("post_id");
+		final String[] posts = this.request.getParameterValues("post_id");
 
 		if (posts != null) {
-			TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
+			final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 			
 			for (int i = 0; i < posts.length; i++) {
-				int postId = Integer.parseInt(posts[i]);
+				final int postId = Integer.parseInt(posts[i]);
 				
-				String status = this.request.getParameter("status_" + postId);
+				final String status = this.request.getParameter("status_" + postId);
 				
 				if ("defer".startsWith(status)) {
 					continue;
@@ -165,14 +168,14 @@ public class ModerationAction extends AdminCommand
 					}
 				}
 				else {
-					PostDAO pm = DataAccessDriver.getInstance().newPostDAO();
-					Post post = pm.selectById(postId);
+					PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
+					Post post = postDao.selectById(postId);
 					
 					if (post == null || !post.isModerationNeeded()) {
 						continue;
 					}
 					
-					pm.delete(post);
+					postDao.delete(post);
 					
 					new AttachmentCommon(this.request, post.getForumId()).deleteAttachments(postId, post.getForumId());
 					

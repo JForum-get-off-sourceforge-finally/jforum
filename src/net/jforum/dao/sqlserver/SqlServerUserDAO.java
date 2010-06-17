@@ -57,7 +57,7 @@ public class SqlServerUserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAll(int, int)
 	 */
-	public List<User> selectAll(int startFrom, int count)
+	public List<User> selectAll(final int startFrom, final int count)
 	{
 		return super.selectAll(startFrom, (count > 0 ? startFrom + count : 0));
 	}
@@ -65,7 +65,7 @@ public class SqlServerUserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllByGroup(int, int, int)
 	 */
-	public List<User> selectAllByGroup(int groupId, int startFrom, int count)
+	public List<User> selectAllByGroup(final int groupId, final int startFrom, final int count)
 	{
 		return super.selectAllByGroup(groupId, startFrom, startFrom + count);
 	}
@@ -73,7 +73,7 @@ public class SqlServerUserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllWithKarma(int, int)
 	 */
-	public List<User> selectAllWithKarma(int startFrom, int count)
+	public List<User> selectAllWithKarma(final int startFrom, final int count)
 	{
 		return super.loadKarma(this.selectAll(startFrom, count));
 	}

@@ -59,7 +59,7 @@ public interface ModerationDAO
 	 * 
 	 * @param postId The post id to approve
 	 */
-	public void approvePost(int postId) ;
+	void approvePost(int postId) ;
 	/**
 	 * Gets all messages that need moderation.
 	 * 
@@ -68,7 +68,7 @@ public interface ModerationDAO
 	 * @return A map instance where the key is the topic id and the value is 
 	 * a TopicModerationInfo instance.
 	 */
-	public Map<Integer, TopicModerationInfo> topicsByForum(int forumId) ;
+	Map<Integer, TopicModerationInfo> topicsByForum(int forumId) ;
 	
 	/**
 	 * Gets information about which categories and
@@ -77,5 +77,5 @@ public interface ModerationDAO
 	 * @return a list instance where each entry is a
 	 * ModerationPendingInfo instance.
 	 */
-	public List<ModerationPendingInfo> categoryPendingModeration() ;
+	List<ModerationPendingInfo> categoryPendingModeration() ;
 }

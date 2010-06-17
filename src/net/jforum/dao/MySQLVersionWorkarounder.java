@@ -45,6 +45,7 @@ package net.jforum.dao;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -67,9 +68,9 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
     private static final String MYSQL_323_DATA_ACCESS_DRIVER = net.jforum.dao.mysql.MySQL323DataAccessDriver.class.getName();
     private static final String MYSQL_DATA_ACCESS_DRIVER = net.jforum.dao.mysql.MysqlDataAccessDriver.class.getName();
 
-    public void handleWorkarounds(Connection c)
+    public void handleWorkarounds(final Connection conn)
 	{
-		if (c == null) {
+		if (conn == null) {
 			LOGGER.warn("Cannot work with a null connection");
 			return;
     	}
@@ -79,11 +80,11 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
     	}
     	
     	try {
-    		DatabaseMetaData meta = c.getMetaData();
+    		final DatabaseMetaData meta = conn.getMetaData();
     		LOGGER.debug("MySQL Version: " + meta.getDatabaseProductVersion());
     		
-    		int major = meta.getDatabaseMajorVersion();
-    		int minor = meta.getDatabaseMinorVersion();
+    		final int major = meta.getDatabaseMajorVersion();
+    		final int minor = meta.getDatabaseMinorVersion();
     		
     		if (major == 3 && minor == 23) {
     			this.handleMySql323();
@@ -100,14 +101,14 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
     	}
 	}
 	
-	private void handleMySql323() throws Exception
+	private void handleMySql323() throws IOException
 	{
 		this.ensureDaoClassIsCorrect(MYSQL_323_DATA_ACCESS_DRIVER);
 		
-		Properties p = this.loadSqlQueries();
+		final Properties properties = this.loadSqlQueries();
 		
-		if (p != null) {
-			String[] necessaryKeys = { 
+		if (properties != null) {
+			final String[] necessaryKeys = { 
 				"PermissionControl.deleteRoleValuesByRoleId",
 				"PermissionControl.getRoleIdsByGroup",
 				"PermissionControl.getRoles",
@@ -116,14 +117,14 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
 			
 			boolean shouldUpdate = false;
 			
-			if (p.size() == 0) {
+			if (properties.size() == 0) {
 				shouldUpdate = true;
 			}
 			else {
 				for (int i = 0; i < necessaryKeys.length; i++) {
-					String key = necessaryKeys[i];
+					final String key = necessaryKeys[i];
 					
-					if (p.getProperty(key) == null) {
+					if (properties.getProperty(key) == null) {
 						shouldUpdate = true;
 						break;
 					}
@@ -131,13 +132,13 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
 			}
 			
 			if (shouldUpdate) {
-				String path = this.buildPath("mysql_323.sql");
+				final String path = this.buildPath("mysql_323.sql");
 				
-				FileInputStream fis = new FileInputStream(path);
+				final FileInputStream fis = new FileInputStream(path);
 				
 				try {
-					p.load(fis);
-					this.saveSqlQueries(p);
+					properties.load(fis);
+					this.saveSqlQueries(properties);
 				}
 				finally {
 					fis.close();
@@ -146,75 +147,74 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
 		}
 	}
 	
-	private void handleMySql40x() throws Exception
+	private void handleMySql40x() throws IOException
 	{
 		this.ensureDaoClassIsCorrect(MYSQL_DATA_ACCESS_DRIVER);
 		
-		Properties p = this.loadSqlQueries();
+		final Properties properties = this.loadSqlQueries();
 		
-		if (p != null) {
-			if (p.size() == 0 || p.getProperty("PermissionControl.deleteAllRoleValues") == null) {
-				String path = this.buildPath("mysql_40.sql");
-				
-				FileInputStream fis = new FileInputStream(path);
-				
-				try {
-					p.load(fis);
-					this.saveSqlQueries(p);
-				}
-				finally {
-					fis.close();
-				}
+		if (properties != null &&
+			 (properties.size() == 0 || properties.getProperty("PermissionControl.deleteAllRoleValues") == null)) {
+			final String path = this.buildPath("mysql_40.sql");
+
+			FileInputStream fis = new FileInputStream(path);
+
+			try {
+				properties.load(fis);
+				this.saveSqlQueries(properties);
 			}
+			finally {
+				fis.close();
+			}			
 		}
 	}
 	
-	private void handleMySql41xPlus() throws Exception
+	private void handleMySql41xPlus() throws IOException
 	{
 		this.ensureDaoClassIsCorrect(MYSQL_DATA_ACCESS_DRIVER);
 		
-		Properties p = this.loadSqlQueries();
+		Properties properties = this.loadSqlQueries();
 		
-		if (p != null && p.size() > 0) {
+		if (properties != null && properties.size() > 0) {
 			this.saveSqlQueries(new Properties());
 		}
 		
 		this.fixEncoding();
 	}
 	
-	private void fixEncoding() throws Exception
+	private void fixEncoding() throws IOException
 	{
 		FileInputStream fis = null;
-		OutputStream os = null;
+		OutputStream outputStream = null;
 		
 		try {
-			Properties p = new Properties();
+			Properties properties = new Properties();
 			
-			File f = new File(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
+			File file = new File(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
 			
-			if (f.canWrite()) {
-				fis = new FileInputStream(f);
+			if (file.canWrite()) {
+				fis = new FileInputStream(file);
 				
-				p.load(fis);
+				properties.load(fis);
 				
-				p.setProperty(ConfigKeys.DATABASE_MYSQL_ENCODING, "");
-				p.setProperty(ConfigKeys.DATABASE_MYSQL_UNICODE, "");
+				properties.setProperty(ConfigKeys.DATABASE_MYSQL_ENCODING, "");
+				properties.setProperty(ConfigKeys.DATABASE_MYSQL_UNICODE, "");
 				
-				os = new FileOutputStream(f);
-				p.store(os, null);
+				outputStream = new FileOutputStream(file);
+				properties.store(outputStream, null);
 			}
 		}
 		finally {
 			if (fis != null) {
 				fis.close();
 			}
-			if (os != null) {
-				os.close();
+			if (outputStream != null) {
+				outputStream.close();
 			}
 		}
 	}
 	
-	private String buildPath(String concat)
+	private String buildPath(final String concat)
 	{
 		return new StringBuffer(256)
 			.append(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR))

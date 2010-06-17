@@ -61,14 +61,14 @@ public class RemoteUserSSO implements SSO
 	 * @see net.jforum.sso.SSO#authenticateUser(net.jforum.context.RequestContext)
      * @param request AWebContextRequest     * @return String
 	 */
-	public String authenticateUser(RequestContext request)
+	public String authenticateUser(final RequestContext request)
 	{
 		return request.getRemoteUser();
 	}
 
-	public boolean isSessionValid(UserSession userSession, RequestContext request)
+	public boolean isSessionValid(final UserSession userSession, final RequestContext request)
 	{
-		String remoteUser = request.getRemoteUser();
+		final String remoteUser = request.getRemoteUser();
 
 		// user has since logged out
 		if (remoteUser == null && userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {

@@ -67,7 +67,7 @@ public class SearchFacade
 				+ "instance for runtime configuration changes");
 		}
 		
-		String clazz = SystemGlobals.getValue(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION);
+		final String clazz = SystemGlobals.getValue(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION);
 		
 		if (clazz == null || "".equals(clazz)) {
 			LOGGER.info(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION + " is not defined. Skipping.");
@@ -85,21 +85,21 @@ public class SearchFacade
 		}
 	}
 	
-	public static void create(Post post)
+	public static void create(final Post post)
 	{
 		if (isSearchEnabled()) {
 			searchManager.create(post);
 		}
 	}
 	
-	public static void update(Post post) 
+	public static void update(final Post post) 
 	{
 		if (isSearchEnabled()) {
 			searchManager.update(post);
 		}
 	}
 	
-	public static SearchResult search(SearchArgs args)
+	public static SearchResult search(final SearchArgs args)
 	{
 		return isSearchEnabled()
 			? searchManager.search(args)
@@ -111,7 +111,7 @@ public class SearchFacade
 		return SystemGlobals.getBoolValue(ConfigKeys.SEARCH_INDEXING_ENABLED);
 	}
 
-	public static void delete(Post post)
+	public static void delete(final Post post)
 	{
 		if (isSearchEnabled()) {
 			searchManager.delete(post);
@@ -122,4 +122,6 @@ public class SearchFacade
 	{
 		return searchManager;
 	}
+	
+	private SearchFacade() {}
 }

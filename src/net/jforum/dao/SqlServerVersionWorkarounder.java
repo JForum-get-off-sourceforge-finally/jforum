@@ -43,6 +43,7 @@
 package net.jforum.dao;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.util.Properties;
@@ -64,9 +65,9 @@ public class SqlServerVersionWorkarounder extends DBVersionWorkarounder
     private static final String SQLSERVER_2000_DATA_ACCESS_DRIVER = net.jforum.dao.sqlserver.SqlServer2000DataAccessDriver.class.getName();
     private static final String SQLSERVER_DATA_ACCESS_DRIVER = net.jforum.dao.sqlserver.SqlServerDataAccessDriver.class.getName();
 
-    public void handleWorkarounds(Connection c)
+    public void handleWorkarounds(final Connection conn)
 	{
-		if (c == null) {
+		if (conn == null) {
 			LOGGER.warn("Cannot work with a null connection");
 			return;
     	}
@@ -76,11 +77,11 @@ public class SqlServerVersionWorkarounder extends DBVersionWorkarounder
     	}
     	
     	try {
-    		DatabaseMetaData meta = c.getMetaData();
+    		final DatabaseMetaData meta = conn.getMetaData();
     		LOGGER.debug("SQL Server Version: " + meta.getDatabaseProductVersion());
     		
-    		int major = meta.getDatabaseMajorVersion();
-    		int minor = meta.getDatabaseMinorVersion();
+    		final int major = meta.getDatabaseMajorVersion();
+    		final int minor = meta.getDatabaseMinorVersion();
     		LOGGER.debug("SQL Server Major Version: " + major);
     		LOGGER.debug("SQL Server Minor Version: " + minor);
     		
@@ -98,45 +99,45 @@ public class SqlServerVersionWorkarounder extends DBVersionWorkarounder
     	}
 	}
 	
-	private void handleSQLServer2000() throws Exception
+	private void handleSQLServer2000() throws IOException
 	{
 		this.ensureDaoClassIsCorrect(SQLSERVER_2000_DATA_ACCESS_DRIVER);		
 		
-		Properties p = this.loadSqlQueries();
+		final Properties properties = this.loadSqlQueries();
 		
-		String path = this.buildPath("sqlserver_2000.sql");
+		final String path = this.buildPath("sqlserver_2000.sql");
 				
-		FileInputStream fis = new FileInputStream(path);
+		final FileInputStream fis = new FileInputStream(path);
 			
 		try {
-			p.load(fis);
-			this.saveSqlQueries(p);
+			properties.load(fis);
+			this.saveSqlQueries(properties);
 		}
 		finally {
 			fis.close();
 		}
 	}
 	
-	private void handleSQLServer2005xPlus() throws Exception
+	private void handleSQLServer2005xPlus() throws IOException
 	{
 		this.ensureDaoClassIsCorrect(SQLSERVER_DATA_ACCESS_DRIVER);
 		
-        Properties p = this.loadSqlQueries();
+        final Properties properties = this.loadSqlQueries();
 		
-		String path = this.buildPath("sqlserver_2005.sql");
+		final String path = this.buildPath("sqlserver_2005.sql");
 				
-		FileInputStream fis = new FileInputStream(path);
+		final FileInputStream fis = new FileInputStream(path);
 			
 		try {
-			p.load(fis);
-			this.saveSqlQueries(p);
+			properties.load(fis);
+			this.saveSqlQueries(properties);
 		}
 		finally {
 			fis.close();
 		}
 	}
 	
-	private String buildPath(String concat)
+	private String buildPath(final String concat)
 	{
 		return new StringBuffer(256)
 			.append(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR))

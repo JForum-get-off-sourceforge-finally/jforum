@@ -55,7 +55,7 @@ public class SearchPost extends Post
 	private static final long serialVersionUID = -8707019572752485188L;
 	private Forum forum;
 	
-	public void setForum(Forum forum)
+	public void setForum(final Forum forum)
 	{
 		this.forum = forum;
 	}
@@ -65,14 +65,14 @@ public class SearchPost extends Post
 		return this.forum;
 	}
 	
-    public boolean equals(Object o) 
+    public boolean equals(final Object obj) 
     {
-        if (!(o instanceof SearchPost)) {
+        if (!(obj instanceof SearchPost)) {
             return false;
         }
         
-        return super.equals(o) && 
-               ((SearchPost)o).getForum().equals(this.forum);
+        return super.equals(obj) && 
+               ((SearchPost)obj).getForum().equals(this.forum);
     }
     
     public int hashCode() 

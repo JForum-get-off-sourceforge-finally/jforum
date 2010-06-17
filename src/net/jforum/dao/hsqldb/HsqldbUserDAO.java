@@ -57,7 +57,7 @@ public class HsqldbUserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericUserDAO#selectAllByGroup(int, int, int)
 	 */
-	public List<User> selectAllByGroup(int groupId, int start, int count)
+	public List<User> selectAllByGroup(final int groupId, final int start, final int count)
 	{
 		return super.selectAllByGroup(start, count, groupId);
 	}

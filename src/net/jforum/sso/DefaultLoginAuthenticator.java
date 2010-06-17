@@ -65,12 +65,12 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class DefaultLoginAuthenticator implements LoginAuthenticator
 {
-	private UserDAO userModel;
+	private transient UserDAO userModel;
 
 	/**
 	 * @see net.jforum.sso.LoginAuthenticator#setUserModel(net.jforum.dao.UserDAO)
 	 */
-	public void setUserModel(UserDAO userModel)
+	public void setUserModel(final UserDAO userModel)
 	{
 		this.userModel = userModel;
 	}
@@ -78,22 +78,22 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 	/**
 	 * @see net.jforum.sso.LoginAuthenticator#validateLogin(String, String, java.util.Map) 
 	 */
-	public User validateLogin(String username, String password, Map<?, ?> extraParams)
+	public User validateLogin(final String username, final String password, final Map<?, ?> extraParams)
 	{
 		User user = null;
-		ResultSet rs=null;
-		PreparedStatement p=null;
+		ResultSet resultSet = null;
+		PreparedStatement pstmt = null;
 		
 		try 
 		{
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("UserModel.login"));
-			p.setString(1, username);
-			p.setString(2, MD5.crypt(password));
+			pstmt.setString(1, username);
+			pstmt.setString(2, MD5.crypt(password));
 
-			rs = p.executeQuery();
-			if (rs.next() && rs.getInt("user_id") > 0) {
-				user = this.userModel.selectById(rs.getInt("user_id"));
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next() && resultSet.getInt("user_id") > 0) {
+				user = this.userModel.selectById(resultSet.getInt("user_id"));
 			}
 		}
 		catch (SQLException e)
@@ -102,7 +102,7 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 		}
 		finally
 		{
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 
 		if (user != null && !user.isDeleted() && (user.getActivationKey() == null || user.isActive())) {

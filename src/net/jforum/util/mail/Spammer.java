@@ -69,6 +69,7 @@ import org.apache.log4j.Logger;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * Dispatch emails to the world. 
@@ -99,12 +100,12 @@ public class Spammer
 	
 	protected Spammer() throws MailException
 	{
-		boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
+		final boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
 		
-		String hostProperty = this.hostProperty(ssl);
-		String portProperty = this.portProperty(ssl);
-		String authProperty = this.authProperty(ssl);
-		String localhostProperty = this.localhostProperty(ssl);
+		final String hostProperty = this.hostProperty(ssl);
+		final String portProperty = this.portProperty(ssl);
+		final String authProperty = this.authProperty(ssl);
+		final String localhostProperty = this.localhostProperty(ssl);
 		
 		mailProps.put(hostProperty, SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST));
 		mailProps.put(portProperty, SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PORT));
@@ -175,7 +176,7 @@ public class Spammer
                     	throw new MailException(e);
                     }
                     finally {
-                    	try { transport.close(); } catch (Exception e) { e.printStackTrace(); }
+                    	try { transport.close(); } catch (Exception e) { LOGGER.error(e); }
                     }
                 }
             }
@@ -209,7 +210,7 @@ public class Spammer
         return true;
 	}
 
-	private void defineUserMessage(User user)
+	private void defineUserMessage(final User user)
 	{
 		try {
 			this.templateParams.put("user", user);
@@ -230,7 +231,7 @@ public class Spammer
 	 * @param messageFile the path to the mail message template
 	 * @throws MailException
 	 */
-	protected void prepareMessage(String subject, String messageFile) throws MailException
+	protected void prepareMessage(final String subject, final String messageFile) throws MailException
 	{
 		if (this.messageId != null) {
 			this.message = new IdentifiableMimeMessage(session);
@@ -271,7 +272,7 @@ public class Spammer
 	 * @param text the text to set
 	 * @throws MessagingException
 	 */
-	private void defineMessageText(String text) throws MessagingException
+	private void defineMessageText(final String text) throws MessagingException
 	{
 		String charset = SystemGlobals.getValue(ConfigKeys.MAIL_CHARSET);
 		
@@ -289,7 +290,7 @@ public class Spammer
 	 * @param messageFile The optional message file to load the text. 
 	 * @throws Exception
 	 */
-	protected void createTemplate(String messageFile) throws IOException
+	protected void createTemplate(final String messageFile) throws IOException
 	{
 		String templateEncoding = SystemGlobals.getValue(ConfigKeys.MAIL_TEMPLATE_ENCODING);
 
@@ -307,9 +308,10 @@ public class Spammer
 	 * and {@link #setTemplateParams(SimpleHash)}
 	 * 
 	 * @return the generated content
-	 * @throws Exception
+	 * @throws IOException 
+	 * @throws TemplateException 
 	 */
-	protected String processTemplate() throws Exception
+	protected String processTemplate() throws TemplateException, IOException
 	{
 		StringWriter writer = new StringWriter();
 		this.template.process(this.templateParams, writer);
@@ -345,43 +347,43 @@ public class Spammer
 		return need;
 	}
 	
-	protected void setMessageId(String messageId)
+	protected void setMessageId(final String messageId)
 	{
 		this.messageId = messageId;
 	}
 	
-	protected void setInReplyTo(String inReplyTo)
+	protected void setInReplyTo(final String inReplyTo)
 	{
 		this.inReplyTo = inReplyTo;
 	}
 	
-	protected void setUsers(List<User> users)
+	protected void setUsers(final List<User> users)
 	{
 		this.users = users;
 	}
 
-	private String localhostProperty(boolean ssl)
+	private String localhostProperty(final boolean ssl)
 	{
 		return ssl 
 			? ConfigKeys.MAIL_SMTP_SSL_LOCALHOST
 			: ConfigKeys.MAIL_SMTP_LOCALHOST;
 	}
 
-	private String authProperty(boolean ssl)
+	private String authProperty(final boolean ssl)
 	{
 		return ssl 
 			? ConfigKeys.MAIL_SMTP_SSL_AUTH
 			: ConfigKeys.MAIL_SMTP_AUTH;
 	}
 
-	private String portProperty(boolean ssl)
+	private String portProperty(final boolean ssl)
 	{
 		return ssl 
 			? ConfigKeys.MAIL_SMTP_SSL_PORT
 			: ConfigKeys.MAIL_SMTP_PORT;
 	}
 
-	private String hostProperty(boolean ssl)
+	private String hostProperty(final boolean ssl)
 	{
 		return ssl 
 			? ConfigKeys.MAIL_SMTP_SSL_HOST

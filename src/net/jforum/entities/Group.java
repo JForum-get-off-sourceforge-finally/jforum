@@ -63,7 +63,9 @@ public class Group implements Serializable
 	/**
 	 * Default constructor	 
 	 * **/
-	public Group() {}
+	public Group() {
+		// Empty Constructor
+	}
 	
 	/**
 	 * Create a new <code>Group</code> object.
@@ -73,12 +75,12 @@ public class Group implements Serializable
 	 * @param name The Group Name
 	 * @param description The Group Description
  	 **/
-	public Group(int id, int parentId, String name, String description) 
+	public Group(final int id, final int parentId, final String name, final String description) 
 	{
-		setName(name);
-		setId(id);
-		setParentId(parentId);
-		setDescription(description);
+		this.name = name;
+		this.id = id;
+		this.parentId = parentId;
+		this.description = description;		
 	}
 	
 	/**
@@ -113,7 +115,7 @@ public class Group implements Serializable
 	 * Sets the description.
 	 * @param description The description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -121,7 +123,7 @@ public class Group implements Serializable
 	 * Sets the id.
 	 * @param id The id to set
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -129,7 +131,7 @@ public class Group implements Serializable
 	 * Sets the parent id.
 	 * @param parentId The parent id to set
 	 */
-	public void setParentId(int parentId) {
+	public void setParentId(final int parentId) {
 		this.parentId = parentId;
 	}
 
@@ -137,20 +139,20 @@ public class Group implements Serializable
 	 * Sets the name.
 	 * @param name The name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	/* 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) 
+	public boolean equals(final Object obj) 
 	{
-		if (!(o instanceof Group)) {
+		if (!(obj instanceof Group)) {
 			return false;
 		}
 		
-		return (((Group)o).getId() == this.id);
+		return (((Group)obj).getId() == this.id);
 	}
 
 	/* 

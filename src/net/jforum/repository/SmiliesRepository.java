@@ -67,12 +67,12 @@ public class SmiliesRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	public void setCacheEngine(final CacheEngine engine)
 	{
 		SmiliesRepository.setEngine(engine);
 	}
 	
-	private static void setEngine(CacheEngine engine) 
+	private static void setEngine(final CacheEngine engine) 
 	{
 		cache = engine;
 	}
@@ -90,16 +90,16 @@ public class SmiliesRepository implements Cacheable
 	
 	public static List<Smilie> getSmilies()
 	{
-		List<Smilie> list = (List<Smilie>)cache.get(FQN, ENTRIES);
+		final List<Smilie> list = (List<Smilie>)cache.get(FQN, ENTRIES);
 		if (!contexted) {
 			String forumLink = SystemGlobals.getValue(ConfigKeys.FORUM_LINK);
 			if (forumLink.endsWith("/")) {
                 forumLink = forumLink.substring(0, forumLink.length() -1);
             }
 			
-			for (Iterator<Smilie> iter = list.iterator(); iter.hasNext(); ) {
-				Smilie s = iter.next();
-				s.setUrl(s.getUrl().replaceAll("#CONTEXT#", forumLink).replaceAll("\\\\", ""));
+			for (final Iterator<Smilie> iter = list.iterator(); iter.hasNext(); ) {
+				final Smilie smilie = iter.next();
+				smilie.setUrl(smilie.getUrl().replaceAll("#CONTEXT#", forumLink).replaceAll("\\\\", ""));
 			}
 			
 			cache.add(FQN, ENTRIES, list);

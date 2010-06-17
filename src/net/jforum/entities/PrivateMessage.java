@@ -56,9 +56,11 @@ public class PrivateMessage
 	private Post post;
 	private String formattedDate;
 	
-	public PrivateMessage() { }
+	public PrivateMessage() {
+		// Empty Constructor
+	}
 	
-	public PrivateMessage(int id) {
+	public PrivateMessage(final int id) {
 		this.id = id;
 	}
 	
@@ -73,7 +75,7 @@ public class PrivateMessage
 	/**
 	 * @param fromUser The fromUser to set.
 	 */
-	public void setFromUser(User fromUser)
+	public void setFromUser(final User fromUser)
 	{
 		this.fromUser = fromUser;
 	}
@@ -89,7 +91,7 @@ public class PrivateMessage
 	/**
 	 * @param toUser The toUser to set.
 	 */
-	public void setToUser(User toUser)
+	public void setToUser(final User toUser)
 	{
 		this.toUser = toUser;
 	}
@@ -105,7 +107,7 @@ public class PrivateMessage
 	/**
 	 * @param type The type to set.
 	 */
-	public void setType(int type)
+	public void setType(final int type)
 	{
 		this.type = type;
 	}
@@ -121,7 +123,7 @@ public class PrivateMessage
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -137,7 +139,7 @@ public class PrivateMessage
 	/**
 	 * @param post The post to set.
 	 */
-	public void setPost(Post post)
+	public void setPost(final Post post)
 	{
 		this.post = post;
 	}
@@ -153,7 +155,7 @@ public class PrivateMessage
 	/**
 	 * @param formattedDate The formattedDate to set.
 	 */
-	public void setFormattedDate(String formattedDate)
+	public void setFormattedDate(final String formattedDate)
 	{
 		this.formattedDate = formattedDate;
 	}

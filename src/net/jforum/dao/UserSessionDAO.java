@@ -55,7 +55,7 @@ public interface UserSessionDAO
 	/**
 	 * Writes a new <code>UserSession</code> to the database.
 	 * 
-	 * @param us The <code>UserSession</code> to store
+	 * @param userSession The <code>UserSession</code> to store
 	 * @param conn The {@link java.sql.Connection} object to use. 
 	 * As many times user session management will be done in places where 
 	 * a valid request is not available, we cannot try to retrieve the 
@@ -64,12 +64,12 @@ public interface UserSessionDAO
 	 * ( eg, where a <code>Connection</code> is not required ), when just
 	 * pass <code>null</code> as argument.
 	 */
-	public void add(UserSession us, Connection conn) ;
+	void add(UserSession userSession, Connection conn) ;
 	
 	/**
 	 * Updates a <code>UserSession</code> 
 	 * 
-	 * @param us The <code>UserSession</code> to update
+	 * @param userSession The <code>UserSession</code> to update
 	 * @param conn The {@link java.sql.Connection} object to use. 
 	 * As many times user session management will be done in places where 
 	 * a valid request is not available, we cannot try to retrieve the 
@@ -79,14 +79,14 @@ public interface UserSessionDAO
 	 * pass <code>null</code> as argument.
 
 	 */
-	public void update(UserSession us, Connection conn) ;
+	void update(UserSession userSession, Connection conn) ;
 	
 	/**
 	 * Gets a <code>UserSession</code> from the database.
 	 * The object passed as argument should at least have the user id 
 	 * in order to find the correct register. 
 	 * 
-	 * @param us The complete <code>UserSession</code> object data
+	 * @param userSession The complete <code>UserSession</code> object data
 	 * @param conn The {@link java.sql.Connection} object to use. 
 	 * As many times user session management will be done in places where 
 	 * a valid request is not available, we cannot try to retrieve the 
@@ -97,5 +97,5 @@ public interface UserSessionDAO
 	 * 
 	 * @return UserSession
 	 */
-	public UserSession selectById(UserSession us, Connection conn) ;
+	UserSession selectById(UserSession userSession, Connection conn) ;
 }

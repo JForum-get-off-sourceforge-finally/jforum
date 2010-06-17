@@ -52,5 +52,5 @@ public interface Cacheable
 	 * Sets the cache engine instance.
 	 * @param engine The instance of the cache engine
 	 */
-	public void setCacheEngine(CacheEngine engine);
+	void setCacheEngine(CacheEngine engine);
 }

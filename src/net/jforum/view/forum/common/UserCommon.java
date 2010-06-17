@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -74,6 +75,7 @@ import org.apache.log4j.Logger;
 public class UserCommon 
 {
 	private static final Logger LOGGER = Logger.getLogger(UserCommon.class);
+	private static final String IMAGE_AVATAR = "/images/avatar/";
 
 	/**
 	 * Updates the user information
@@ -81,15 +83,15 @@ public class UserCommon
 	 * @param userId int The user id we are saving
      * @return List
 	 */
-	public static List<String> saveUser(int userId)
+	public static List<String> saveUser(final int userId)
 	{
-		List<String> errors = new ArrayList<String>();
+		final List<String> errors = new ArrayList<String>();
 		
-		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
-		User user = um.selectById(userId);
+		final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+		final User user = userDao.selectById(userId);
 		
-		RequestContext request = JForumExecutionContext.getRequest();
-		boolean isAdmin = SessionFacade.getUserSession().isAdmin();
+		final RequestContext request = JForumExecutionContext.getRequest();
+		final boolean isAdmin = SessionFacade.getUserSession().isAdmin();
 
 		if (isAdmin) {
 			String username = request.getParameter("username");
@@ -128,7 +130,7 @@ public class UserCommon
 		user.setNotifyText("1".equals(request.getParameter("notify_text")));
 		
 		String website = safeHtml.makeSafe(request.getParameter("website"));
-		if (StringUtils.isNotEmpty(website) && !website.toLowerCase().startsWith("http://")) {
+		if (StringUtils.isNotEmpty(website) && !website.toLowerCase(Locale.US).startsWith("http://")) {
 			website = "http://" + website;
 		}
 	
@@ -157,10 +159,10 @@ public class UserCommon
 		}
 		
 		if (request.getParameter("avatardel") != null) {
-			File f = new File(SystemGlobals.getApplicationPath() + "/images/avatar/"+ user.getAvatar());
-			boolean result = f.delete();
+			File file = new File(SystemGlobals.getApplicationPath() + IMAGE_AVATAR+ user.getAvatar());
+			boolean result = file.delete();
 			if (result != true) {
-				LOGGER.error("Delete file failed: " + f.getName());
+				LOGGER.error("Delete file failed: " + file.getName());
 			}
 			
 			user.setAvatar(null);
@@ -178,7 +180,7 @@ public class UserCommon
 		else if (SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL)) {
 			String avatarUrl = request.getParameter("avatarUrl");
 			if (StringUtils.isNotEmpty(avatarUrl)) {
-				if (avatarUrl.toLowerCase().startsWith("http://")) {
+				if (avatarUrl.toLowerCase(Locale.US).startsWith("http://")) {
 					user.setAvatar(avatarUrl);
 				}
 				else {
@@ -188,7 +190,7 @@ public class UserCommon
 		}
 		
 		if (errors.isEmpty()) {
-			um.update(user);
+			userDao.update(user);
 		}
 		
 		if (SessionFacade.getUserSession().getUserId() == userId) {
@@ -200,7 +202,7 @@ public class UserCommon
 	/**
 	 * @param user User
 	 */
-	private static void handleAvatar(User user)
+	private static void handleAvatar(final User user)
 	{
 		boolean result = false;
 		// Delete old avatar file
@@ -208,7 +210,7 @@ public class UserCommon
 			File avatarFile = new File(user.getAvatar());
 			
 			File fileToDelete = new File(SystemGlobals.getApplicationPath() 
-				+ "/images/avatar/"
+				+ IMAGE_AVATAR
 				+ avatarFile.getName());
 			
 			if (fileToDelete.exists()) {
@@ -239,13 +241,13 @@ public class UserCommon
 		
 		if (type != ImageUtils.IMAGE_UNKNOWN) {
 			String avatarTmpFileName = SystemGlobals.getApplicationPath() 
-				+ "/images/avatar/" 
+				+ IMAGE_AVATAR 
 				+ fileName 
 				+ "_tmp." 
 				+ extension;
 	
 			String avatarFinalFileName = SystemGlobals.getApplicationPath() 
-				+ "/images/avatar/" 
+				+ IMAGE_AVATAR 
 				+ fileName 
 				+ "." 
 				+ extension;

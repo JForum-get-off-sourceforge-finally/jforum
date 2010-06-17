@@ -56,7 +56,7 @@ public class SqlServerModerationLogDAO extends GenericModerationLogDAO
     /**
      * @see net.jforum.dao.generic.GenericModerationLogDAO#selectAll(int, int)
      */
-    public List<ModerationLog> selectAll(int start, int count) 
+    public List<ModerationLog> selectAll(final int start, final int count) 
     {
         return super.selectAll(start, start + count);
     }

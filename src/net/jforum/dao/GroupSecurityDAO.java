@@ -58,26 +58,26 @@ public interface GroupSecurityDAO
 	 * Deletes all roles related to a forum
 	 * @param forumId
 	 */
-	public void deleteForumRoles(int forumId);
+	void deleteForumRoles(int forumId);
 	
 	/**
 	 * Delete all roles from a specific group
 	 * @param groupId ID of the group
 	 **/
-	public void deleteAllRoles(int groupId);
+	void deleteAllRoles(int groupId);
 
 	/**
 	 * Adds a new role
 	 * @param groupId Group id the role should be associated
 	 * */
-	public void addRole(int groupId, Role role) ;
+	void addRole(int groupId, Role role) ;
 
 	/**
 	 * @param id
 	 * @param role
 	 * @param rvc
 	 */
-	public void addRoleValue(int id, Role role, RoleValueCollection rvc) ;
+	void addRoleValue(int id, Role role, RoleValueCollection rvc) ;
 	
 	/**
 	 * 
@@ -85,13 +85,13 @@ public interface GroupSecurityDAO
 	 * @param role
 	 * @param roleValues
 	 */
-	public void addRole(int id, Role role, RoleValueCollection roleValues) ;
+	void addRole(int id, Role role, RoleValueCollection roleValues) ;
 
 	/**
 	 * @param groupId int
 	 * @return RoleCollection
 	 */
-	public RoleCollection loadRoles(int groupId) ;
+	RoleCollection loadRoles(int groupId) ;
 
-    public RoleCollection loadRolesByUserGroups(User user) ;
+    RoleCollection loadRolesByUserGroups(User user) ;
 }

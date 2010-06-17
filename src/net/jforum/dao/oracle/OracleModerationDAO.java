@@ -56,8 +56,8 @@ public class OracleModerationDAO extends GenericModerationDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationDAO#getPostTextFromResultSet(java.sql.ResultSet)
 	 */
-	protected String getPostTextFromResultSet(ResultSet rs) throws SQLException
+	protected String getPostTextFromResultSet(final ResultSet resultSet) throws SQLException
     {
-		return OracleUtils.readBlobUTF16BinaryStream(rs, "post_text");
+		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "post_text");
 	}
 }

@@ -50,7 +50,7 @@ public class AttachmentException extends RuntimeException
 {
 	private static final long serialVersionUID = 942700256072969032L;
 
-	public AttachmentException(String message)
+	public AttachmentException(final String message)
 	{
 		super(message);
 	}

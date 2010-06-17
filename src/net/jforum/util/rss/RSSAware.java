@@ -50,11 +50,11 @@ package net.jforum.util.rss;
  */
 public interface RSSAware
 {
-	public static final String RSS_VERSION = "rss_2.0";
-	public static final String CONTENT_HTML = "text/html";
-	public static final String CONTENT_TEXT = "text/plain";
+	String RSS_VERSION = "rss_2.0";
+	String CONTENT_HTML = "text/html";
+	String CONTENT_TEXT = "text/plain";
 	
-	public static final String DATE_FORMAT = "EEE, d MMM yyyy HH:mm:ss";
+	String DATE_FORMAT = "EEE, d MMM yyyy HH:mm:ss";
 	
-	public String createRSS() ;
+	String createRSS() ;
 }

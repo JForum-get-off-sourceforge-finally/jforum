@@ -60,7 +60,7 @@ public interface ResponseContext
 	 * @param len an integer specifying the length of the content being returned to the client; 
 	 * sets the Content-Length header
 	 */
-	public void setContentLength(int len);
+	void setContentLength(int len);
 
 	/**
 	 * Returns a boolean indicating whether the named response header has already been set.
@@ -69,7 +69,7 @@ public interface ResponseContext
 	 * @return <code>true</code> if the named response header has already been set;
 	 * <code>false</code> otherwise
 	 */
-	public boolean containsHeader(String name);
+	boolean containsHeader(String name);
 
 	/**
 	 * Sets a response header with the given name and value. If the header had already been set, the
@@ -83,7 +83,7 @@ public interface ResponseContext
 	 * @see #containsHeader
 	 * @see #addHeader
 	 */
-	public void setHeader(String name, String value);
+	void setHeader(String name, String value);
 
 	/**
 	 * Adds the specified cookie to the response. This method can be called multiple times to set
@@ -91,7 +91,7 @@ public interface ResponseContext
 	 * 
 	 * @param cookie the Cookie to return to the client
 	 */
-	public void addCookie(Cookie cookie);
+	void addCookie(Cookie cookie);
 
 	/**
 	 * Encodes the specified URL for use in the <code>sendRedirect</code> method or, if encoding
@@ -111,7 +111,7 @@ public interface ResponseContext
 	 * @see #sendRedirect
 	 * @see #encodeURL
 	 */
-	public String encodeRedirectURL(String url);
+	String encodeRedirectURL(String url);
 
 	/**
 	 * Returns the name of the character encoding (MIME charset) used for the body sent in this
@@ -129,7 +129,7 @@ public interface ResponseContext
 	 * <code>UTF-8</code>
 	 * 
 	 */
-	public String getCharacterEncoding();
+	String getCharacterEncoding();
 
 	/**
 	 * Sends a temporary redirect response to the client using the specified redirect location URL.
@@ -149,7 +149,7 @@ public interface ResponseContext
 	 * @exception IllegalStateException If the response was committed or if a partial 
 	 * URL is given and cannot be converted into a valid URL
 	 */
-	public void sendRedirect(String location) throws IOException;
+	void sendRedirect(String location) throws IOException;
 
 	/**
 	 * Returns a {@link javax.servlet.ServletOutputStream} suitable for writing binary data in the
@@ -167,7 +167,7 @@ public interface ResponseContext
 	 * @see #getWriter
 	 */
 
-	public ServletOutputStream getOutputStream() throws IOException;
+	ServletOutputStream getOutputStream() throws IOException;
 
 	/**
 	 * Returns a <code>PrintWriter</code> object that can send character text to the client. The
@@ -193,7 +193,7 @@ public interface ResponseContext
 	 * @see javax.servlet.ServletResponse#setCharacterEncoding
 	 * 
 	 */
-	public PrintWriter getWriter() throws IOException;
+	PrintWriter getWriter() throws IOException;
 
 	/**
 	 * Sets the content type of the response being sent to the client, if the response has not been
@@ -218,7 +218,7 @@ public interface ResponseContext
 	 * @see javax.servlet.ServletResponse#getOutputStream
 	 * @see javax.servlet.ServletResponse#getWriter
 	 */
-	public void setContentType(String type);
+	void setContentType(String type);
 
 	/**
 	 * Encodes the specified URL by including the session ID in it, or, if encoding is not needed,
@@ -233,7 +233,7 @@ public interface ResponseContext
 	 * @param url the url to be encoded.
 	 * @return the encoded URL if encoding is needed; the unchanged URL otherwise.
 	 */
-	public String encodeURL(String url);
+	String encodeURL(String url);
 
 	/**
 	 * Adds a response header with the given name and value. This method allows response headers to
@@ -243,7 +243,7 @@ public interface ResponseContext
 	 * @param value the additional header value If it contains octet string, 
 	 * it should be encoded according to RFC 2047 (http://www.ietf.org/rfc/rfc2047.txt)
 	 */
-	public void addHeader(String name, String value);
+	void addHeader(String name, String value);
 
 	/**
 	 * Sends an error response to the client using the specified status code and clearing the
@@ -253,9 +253,9 @@ public interface ResponseContext
 	 * After using this method, the response should be considered to be committed and should not be
 	 * written to.
 	 * 
-	 * @param sc the error status code
+	 * @param statusCode the error status code
 	 * @exception java.io.IOException If an input or output exception occurs
 	 * @exception IllegalStateException If the response was committed before this method call
 	 */
-	public void sendError(int sc) throws IOException;
+	void sendError(int statusCode) throws IOException;
 }

@@ -55,9 +55,9 @@ import javax.mail.internet.MimeMessage;
  */
 public class IdentifiableMimeMessage extends MimeMessage
 {
-	private String messageId;
+	private transient String messageId;
 	
-	public IdentifiableMimeMessage(Session session)
+	public IdentifiableMimeMessage(final Session session)
 	{
 		super(session);
 	}
@@ -66,7 +66,7 @@ public class IdentifiableMimeMessage extends MimeMessage
 	 * Sets the Message-ID header for this message
 	 * @param messageId the Message-ID
 	 */
-	public void setMessageId(String messageId)
+	public void setMessageId(final String messageId)
 	{
 		this.messageId = messageId;
 	}
@@ -76,11 +76,11 @@ public class IdentifiableMimeMessage extends MimeMessage
 	 */
 	protected void updateMessageID() throws MessagingException 
 	{
-		if (this.messageId != null) {
-			this.addHeader("Message-ID", this.messageId);
+		if (this.messageId == null) {
+			super.updateMessageID();	
 		}
-		else {
-			super.updateMessageID();
+		else {			
+			this.addHeader("Message-ID", this.messageId);
 		}
 	}
 }

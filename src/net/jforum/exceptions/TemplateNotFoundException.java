@@ -50,7 +50,7 @@ public class TemplateNotFoundException extends RuntimeException
 {
 	private static final long serialVersionUID = -2345957226067403274L;
 
-	public TemplateNotFoundException(String message)
+	public TemplateNotFoundException(final String message)
 	{
 		super(message);
 	}

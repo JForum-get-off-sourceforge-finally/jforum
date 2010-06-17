@@ -55,8 +55,8 @@ import net.jforum.entities.Banner;
  */
 public class BannerCommon
 {
-	private BannerDAO dao;
-	private List<Banner> banners;
+	private transient BannerDAO dao;
+	private transient List<Banner> banners;
 
 	public BannerCommon()
 	{
@@ -69,7 +69,7 @@ public class BannerCommon
      * @return boolean
      * @param bannerId int
      */
-    public boolean canBannerDisplay(int bannerId)
+    public boolean canBannerDisplay(final int bannerId)
 	{
     	return true;
 	}
@@ -111,14 +111,14 @@ public class BannerCommon
 		}
 
 		// get correct banner based on weight
-		int r = new Random().nextInt(99);
+		final int random = new Random().nextInt(99);
 		int weightFrom = 0;
 		int weightTo = 0;
 		for(int i = 0; i < banners.size(); i++)
 		{
 			result = banners.get(i);
 			weightTo += result.getWeight();
-			if (r >= weightFrom && r < weightTo)
+			if (random >= weightFrom && random < weightTo)
 			{
 				break;
 			}

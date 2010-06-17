@@ -69,7 +69,7 @@ public class Karma
 	/**
 	 * @param topicId The topicId to set.
 	 */
-	public void setTopicId(int topicId)
+	public void setTopicId(final int topicId)
 	{
 		this.topicId = topicId;
 	}
@@ -85,7 +85,7 @@ public class Karma
 	/**
 	 * @param fromUserId The fromUserId to set.
 	 */
-	public void setFromUserId(int fromUserId)
+	public void setFromUserId(final int fromUserId)
 	{
 		this.fromUserId = fromUserId;
 	}
@@ -101,7 +101,7 @@ public class Karma
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -117,7 +117,7 @@ public class Karma
 	/**
 	 * @param userId The userId to set.
 	 */
-	public void setPostUserId(int userId)
+	public void setPostUserId(final int userId)
 	{
 		this.postUserId = userId;
 	}
@@ -133,7 +133,7 @@ public class Karma
 	/**
 	 * @param points The points to set.
 	 */
-	public void setPoints(int points)
+	public void setPoints(final int points)
 	{
 		this.points = points;
 	}
@@ -149,7 +149,7 @@ public class Karma
 	/**
 	 * @param postId The postId to set.
 	 */
-	public void setPostId(int postId)
+	public void setPostId(final int postId)
 	{
 		this.postId = postId;
 	}
@@ -165,7 +165,7 @@ public class Karma
     /**
 	 * @param rateDate The date of the vote.
 	 */
-    public void setRateDate(Date rateDate) 
+    public void setRateDate(final Date rateDate) 
     {
         this.rateDate = rateDate;
     }

@@ -60,17 +60,17 @@ public class BBCodeRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	public void setCacheEngine(final CacheEngine engine)
 	{
 		BBCodeRepository.setEngine(engine);
 	}	
 	
-	private static void setEngine(CacheEngine engine) 
+	private static void setEngine(final CacheEngine engine) 
 	{
 		cache = engine;
 	}
 	
-	public static void setBBCollection(BBCodeHandler bbCollection)
+	public static void setBBCollection(final BBCodeHandler bbCollection)
 	{
 		cache.add(FQN, BBCOLLECTION, bbCollection);
 	}
@@ -80,7 +80,7 @@ public class BBCodeRepository implements Cacheable
 		return (BBCodeHandler)cache.get(FQN, BBCOLLECTION);
 	}
 	
-	public static BBCode findByName(String tagName)
+	public static BBCode findByName(final String tagName)
 	{
 		return getBBCollection().findByName(tagName);
 	}

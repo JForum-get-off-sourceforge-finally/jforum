@@ -65,7 +65,7 @@ public interface BannerDAO
 	 * @return <code>Banner</code> object containing all the information
 	 * @see #selectAll
 	 */
-	public Banner selectById(int bannerId);
+	Banner selectById(int bannerId);
 
 	/**
 	 * Selects all banners data from the database.
@@ -73,7 +73,7 @@ public interface BannerDAO
 	 * @return List with the banners found
 	 * @see #selectById
 	 */
-	public List<Banner> selectAll();
+	List<Banner> selectAll();
 
 	/**
 	 * Adds a new banner.
@@ -81,14 +81,14 @@ public interface BannerDAO
 	 * @param banner Reference to a valid and configured <code>Banner</code> object
      * @return int
 	 */
-	public int addNew(Banner banner);
+	int addNew(Banner banner);
 
 	/**
 	 * Updates a banner.
 	 *
 	 * @param banner Reference to a <code>Banner</code> object to update
 	 */
-	public void update(Banner banner);
+	void update(Banner banner);
 
 	/**
 	 * Checks if is possible to delete a specific banner.
@@ -97,14 +97,14 @@ public interface BannerDAO
 	 * @return <code>true</code> if is possible to delete, <code>false</code> if not
 	 * @see #delete(int)
 	 */
-	public boolean canDelete(int bannerId);
+	boolean canDelete(int bannerId);
 
 	/**
 	 * Delete a banner.
 	 *
 	 * @param bannerId The banner ID to delete
 	 */
-	public void delete(int bannerId);
+	void delete(int bannerId);
 
 	/**
 	 * Select a list of active banners by its placement.
@@ -112,5 +112,5 @@ public interface BannerDAO
 	 * @param placement The placement number
      * @return List
 	 */
-	public List<Banner> selectActiveBannerByPlacement(int placement);
+	List<Banner> selectActiveBannerByPlacement(int placement);
 }

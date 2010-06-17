@@ -79,43 +79,44 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class GenericTopicDAO extends AutoKeys implements TopicDAO
 {
+	private static final String USER_ID = "user_id";
 	/**
 	 * @see net.jforum.dao.TopicDAO#findTopicsByDateRange(net.jforum.search.SearchArgs)
 	 */
-	public SearchResult findTopicsByDateRange(SearchArgs args) 
+	public SearchResult findTopicsByDateRange(final SearchArgs args) 
 	{
 		SearchResult result = null;
 		
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("TopicModel.findTopicsByDateRange"));
 			
-			p.setTimestamp(1, new Timestamp(args.getFromDate().getTime()));
-			p.setTimestamp(2, new Timestamp(args.getToDate().getTime()));
+			pstmt.setTimestamp(1, new Timestamp(args.getFromDate().getTime()));
+			pstmt.setTimestamp(2, new Timestamp(args.getToDate().getTime()));
 			
-			rs = p.executeQuery();
-			List<Integer> l = new ArrayList<Integer>();
+			resultSet = pstmt.executeQuery();
+			final List<Integer> list = new ArrayList<Integer>();
 			
 			int counter = 0;
 			
-			while (rs.next()) {
+			while (resultSet.next()) {
 				if (counter >= args.startFrom() && counter < args.startFrom() + args.fetchCount()) {
-					l.add(Integer.valueOf(rs.getInt(1)));
+					list.add(Integer.valueOf(resultSet.getInt(1)));
 				}
 				
 				counter++;
 			}
 			
-			result = new SearchResult(this.newMessages(l), counter);
+			result = new SearchResult(this.newMessages(list), counter);
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 		
 		return result;
@@ -124,43 +125,43 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#fixFirstLastPostId(int)
 	 */
-	public void fixFirstLastPostId(int topicId)
+	public void fixFirstLastPostId(final int topicId)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("TopicModel.getFirstLastPostId"));
-			p.setInt(1, topicId);
+			pstmt.setInt(1, topicId);
 
-			rs = p.executeQuery();
-			if (rs.next()) {
-				int first = rs.getInt("first_post_id");
-				int last = rs.getInt("last_post_id");
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next()) {
+				final int first = resultSet.getInt("first_post_id");
+				final int last = resultSet.getInt("last_post_id");
 
-				rs.close();
-				p.close();
+				resultSet.close();
+				pstmt.close();
 
-				p = JForumExecutionContext.getConnection().prepareStatement(
+				pstmt = JForumExecutionContext.getConnection().prepareStatement(
 						SystemGlobals.getSql("TopicModel.fixFirstLastPostId"));
-				p.setInt(1, first);
-				p.setInt(2, last);
-				p.setInt(3, topicId);
-				p.executeUpdate();
+				pstmt.setInt(1, first);
+				pstmt.setInt(2, last);
+				pstmt.setInt(3, topicId);
+				pstmt.executeUpdate();
 			}
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectById(int)
 	 */
-	public Topic selectById(int topicId)
+	public Topic selectById(final int topicId)
 	{
 		PreparedStatement p = null;
 		try {
@@ -168,7 +169,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			p.setInt(1, topicId);
 
 			Topic topic = new Topic();
-			List<Topic> list = this.fillTopicsData(p);
+			final List<Topic> list = this.fillTopicsData(p);
 
 			if (!list.isEmpty()) {
 				topic = (Topic) list.get(0);
@@ -187,7 +188,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectRaw(int)
 	 */
-	public Topic selectRaw(int topicId)
+	public Topic selectRaw(final int topicId)
 	{
 		PreparedStatement p = null;
 		ResultSet rs = null;
@@ -214,11 +215,11 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#delete(net.jforum.entities.Topic, boolean)
 	 */
-	public void delete(Topic topic, boolean fromModeration)
+	public void delete(final Topic topic, final boolean fromModeration)
 	{
-		List<Topic> l = new ArrayList<Topic>();
-		l.add(topic);
-		this.deleteTopics(l, fromModeration);
+		final List<Topic> list = new ArrayList<Topic>();
+		list.add(topic);
+		this.deleteTopics(list, fromModeration);
 	}
 
 	public void deleteTopics(List<Topic> topics, boolean fromModeration)
@@ -506,18 +507,18 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	{
 		int total = 0;
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("TopicModel.countUserTopics").replaceAll(":fids:",
 							ForumRepository.getListAllowedForums()));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
-			if (rs.next()) {
-				total = rs.getInt(1);
+			if (resultSet.next()) {
+				total = resultSet.getInt(1);
 			}
 
 			return total;
@@ -526,7 +527,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
@@ -549,7 +550,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		topic.setMovedId(rs.getInt("topic_moved_id"));
 		
 		User user = new User();
-		user.setId(rs.getInt("user_id"));
+		user.setId(rs.getInt(USER_ID));
 		
 		topic.setPostedBy(user);
 
@@ -640,7 +641,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			while (rs.next()) {
 				User user = new User();
 
-				user.setId(rs.getInt("user_id"));
+				user.setId(rs.getInt(USER_ID));
 				user.setEmail(rs.getString("user_email"));
 				user.setUsername(rs.getString("username"));
 				user.setLang(rs.getString("user_lang"));
@@ -891,7 +892,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 				// Posted by
 				User user = new User();
-				user.setId(rs.getInt("user_id"));
+				user.setId(rs.getInt(USER_ID));
 				topic.setPostedBy(user);
 
 				// Last post by
@@ -906,7 +907,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 				l.add(topic);
 
-				sbFirst.append(rs.getInt("user_id")).append(',');
+				sbFirst.append(rs.getInt(USER_ID)).append(',');
 				sbLast.append(rs.getInt("last_user_id")).append(',');
 			}
 
@@ -926,7 +927,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				rs = p.executeQuery();
 
 				while (rs.next()) {
-					users.put(Integer.valueOf(rs.getInt("user_id")), rs.getString("username"));
+					users.put(Integer.valueOf(rs.getInt(USER_ID)), rs.getString("username"));
 				}
 
 				rs.close();
@@ -1142,7 +1143,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			StringBuffer sb = new StringBuffer();
 
 			while (rs.next()) {
-				sb.append(rs.getInt("user_id")).append(',');
+				sb.append(rs.getInt(USER_ID)).append(',');
 			}
 
 			rs.close();
@@ -1159,7 +1160,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			while (rs.next()) {
 				User user = new User();
 
-				user.setId(rs.getInt("user_id"));
+				user.setId(rs.getInt(USER_ID));
 				user.setUsername(rs.getString("username"));
 				user.setKarma(new KarmaStatus(user.getId(), rs.getDouble("user_karma")));
 				user.setAvatar(rs.getString("user_avatar"));

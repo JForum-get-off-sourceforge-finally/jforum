@@ -50,13 +50,13 @@ import net.jforum.entities.Post;
  */
 public interface SearchManager
 {
-	public void init();
+	void init();
 	
-	public void create(Post post);
+	void create(Post post);
 	
-	public void update(Post post);
+	void update(Post post);
 	
-	public SearchResult search(SearchArgs args);
+	SearchResult search(SearchArgs args);
 
-	public void delete(Post post);
+	void delete(Post post);
 }

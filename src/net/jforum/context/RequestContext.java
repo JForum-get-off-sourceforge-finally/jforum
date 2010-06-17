@@ -86,7 +86,7 @@ public interface RequestContext
 	 * 
 	 * @see javax.servlet.http.HttpUtils#getRequestURL
 	 */
-	public String getRequestURI();
+	String getRequestURI();
 
 	/**
 	 * Returns the query string that is contained in the request URL after the path. This method
@@ -96,7 +96,7 @@ public interface RequestContext
 	 * @return a <code>String</code> containing the query string or <code>null</code> if the URL
 	 *         contains no query string. The value is not decoded by the container.
 	 */
-	public String getQueryString();
+	String getQueryString();
 
 	/**
 	 * Returns the value of the specified request header as a <code>String</code>. If the request
@@ -111,7 +111,7 @@ public interface RequestContext
 	 * @return a <code>String</code> containing the value of the requested header, or
 	 *         <code>null</code> if the request does not have a header of that name
 	 */
-	public String getHeader(String name);
+	String getHeader(String name);
 
 	/**
 	 * Returns an array containing all of the <code>Cookie</code> objects the client sent with
@@ -120,7 +120,7 @@ public interface RequestContext
 	 * @return an array of all the <code>Cookies</code> included with this request, or
 	 *         <code>null</code> if the request has no cookies
 	 */
-	public Cookie[] getCookies();
+	Cookie[] getCookies();
 
 	/**
 	 * Returns the Internet Protocol (IP) address of the client or last proxy that sent the request.
@@ -128,7 +128,7 @@ public interface RequestContext
 	 * 
 	 * @return a <code>String</code> containing the IP address of the client that sent the request
 	 */
-	public String getRemoteAddr();
+	String getRemoteAddr();
 
 	/**
 	 * Returns the port number to which the request was sent. It is the value of the part after ":"
@@ -137,7 +137,7 @@ public interface RequestContext
 	 * 
 	 * @return an integer specifying the port number
 	 */
-	public int getServerPort();
+	int getServerPort();
 
 	/**
 	 * Returns the name of the scheme used to make this request, for example, <code>http</code>,
@@ -146,7 +146,7 @@ public interface RequestContext
 	 * 
 	 * @return a <code>String</code> containing the name of the scheme used to make this request
 	 */
-	public String getScheme();
+	String getScheme();
 
 	/**
 	 * Returns the host name of the server to which the request was sent. It is the value of the
@@ -155,7 +155,7 @@ public interface RequestContext
 	 * 
 	 * @return a <code>String</code> containing the name of the server
 	 */
-	public String getServerName();
+	String getServerName();
 
 	/**
 	 * Removes an attribute from this request. This method is not generally needed as attributes
@@ -168,7 +168,7 @@ public interface RequestContext
 	 * 
 	 * @param name a <code>String</code> specifying the name of the attribute to remove
 	 */
-	public void removeAttribute(String name);
+	void removeAttribute(String name);
 
 	/**
 	 * Stores an attribute in this request. Attributes are reset between requests. This method is
@@ -185,9 +185,9 @@ public interface RequestContext
 	 * correctly retrieved in the caller servlet.
 	 * 
 	 * @param name a <code>String</code> specifying the name of the attribute
-	 * @param o the <code>Object</code> to be stored
+	 * @param obj the <code>Object</code> to be stored
 	 */
-	public void setAttribute(String name, Object o);
+	void setAttribute(String name, Object obj);
 
 	/**
 	 * Returns the value of the named attribute as an <code>Object</code>, or <code>null</code>
@@ -211,7 +211,7 @@ public interface RequestContext
 	 * or <code>null</code> if the attribute does not exist
 	 */
 
-	public Object getAttribute(String name);
+	Object getAttribute(String name);
 
 	/**
 	 * Overrides the name of the character encoding used in the body of this request. This method
@@ -221,7 +221,7 @@ public interface RequestContext
 	 * @throws java.io.UnsupportedEncodingException if this is not a valid encoding
 	 */
 
-	public void setCharacterEncoding(String env) throws UnsupportedEncodingException;
+	void setCharacterEncoding(String env) throws UnsupportedEncodingException;
 
 	/**
 	 * Returns the current <code>HttpSession</code> associated with this request or, if there is
@@ -245,7 +245,7 @@ public interface RequestContext
 	 * @see #getSessionContext()
 	 */
 
-	public SessionContext getSessionContext(boolean create);
+	SessionContext getSessionContext(boolean create);
 
 	/**
 	 * Returns the current session associated with this request, or if the request does not have a
@@ -255,7 +255,7 @@ public interface RequestContext
 	 * @see #getSessionContext(boolean)
 	 */
 
-	public SessionContext getSessionContext();
+	SessionContext getSessionContext();
 
 	/**
 	 * Returns the portion of the request URI that indicates the context of the request. The context
@@ -267,7 +267,7 @@ public interface RequestContext
 	 * context of the request
 	 */
 
-	public String getContextPath();
+	String getContextPath();
 
 	/**
 	 * Returns the login of the user making this request, if the user has been authenticated, or
@@ -279,7 +279,7 @@ public interface RequestContext
 	 * <code>null</code> if the user login is not known
 	 */
 
-	public String getRemoteUser();
+	String getRemoteUser();
 
 	/**
 	 * Gets a parameter that is a number. A call to <code>Integer#parseInt(String)</code> is made
@@ -288,7 +288,7 @@ public interface RequestContext
 	 * @param parameter The parameter name to get the value
 	 * @return int
 	 */
-	public int getIntParameter(String parameter);
+	int getIntParameter(String parameter);
 
 	/**
 	 * Returns an array of <code>String</code> objects containing all of the values the given
@@ -303,7 +303,7 @@ public interface RequestContext
 	 * @return an array of <code>String</code> objects containing the parameter's values
 	 * @see #getParameter
 	 */
-	public String[] getParameterValues(String name);
+	String[] getParameterValues(String name);
 
 	/**
 	 * Returns the value of a request parameter as a <code>String</code>, or <code>null</code>
@@ -327,7 +327,7 @@ public interface RequestContext
 	 * @return a <code>String</code> representing the single value of the parameter
 	 * @see #getParameterValues
 	 */
-	public String getParameter(String name);
+	String getParameter(String name);
 
 	/**
 	 * Returns an <code>Enumeration</code> of <code>String</code> objects containing the names
@@ -338,7 +338,7 @@ public interface RequestContext
 	 * <code>String</code> containing the name of a request parameter; or an empty
 	 * <code>Enumeration</code> if the request has no parameters
 	 */
-	public Enumeration<Object> getParameterNames();
+	Enumeration<Object> getParameterNames();
 
 	/**
 	 * Gets the <i>action</i> of the current request.
@@ -362,7 +362,7 @@ public interface RequestContext
 	 * 
 	 * @return String representing the action name
 	 */
-	public String getAction();
+	String getAction();
 
 	/**
 	 * Gets the <i>module</i> of the current request.
@@ -386,7 +386,7 @@ public interface RequestContext
 	 * 
 	 * @return String representing the module name
 	 */
-	public String getModule();
+	String getModule();
 
 	/**
 	 * Adds a new parameter to the request.
@@ -401,7 +401,7 @@ public interface RequestContext
 	 * @param name Parameter name
 	 * @param value Parameter value
 	 */
-	public void addParameter(String name, Object value);
+	void addParameter(String name, Object value);
 	
 	/**
 	 * Replace or add a parameter. If it does not exist, it is added to the list, 
@@ -410,7 +410,7 @@ public interface RequestContext
 	 * @param name
 	 * @param value
 	 */
-	public void addOrReplaceParameter(String name, Object value);
+	void addOrReplaceParameter(String name, Object value);
 
 	/**
 	 * Gets some request parameter as <code>Object</code>. This method may be used when you have
@@ -419,7 +419,7 @@ public interface RequestContext
 	 * @param parameter String
 	 * @return Object
 	 */
-	public Object getObjectParameter(String parameter);
+	Object getObjectParameter(String parameter);
 	
 	/**
 	 * Gets user browser's locale. This method may be used during first installation to
@@ -427,5 +427,5 @@ public interface RequestContext
 	 * 
 	 * @return Locale
 	 */
-	public Locale getLocale();
+	Locale getLocale();
 }

@@ -157,7 +157,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 		mi.setPopPassword(rs.getString("pop_password"));
 		mi.setPopPort(rs.getInt("pop_port"));
 		mi.setPopUsername(rs.getString("pop_username"));
-		mi.setSSL(rs.getInt("pop_ssl") == 1);
+		mi.setSsl(rs.getInt("pop_ssl") == 1);
 		
 		return mi;
 	}
@@ -176,6 +176,6 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 		p.setString(4, integration.getPopUsername());
 		p.setString(5, integration.getPopPassword());
 		p.setInt(6, integration.getPopPort());
-		p.setInt(7, integration.isSSL() ? 1 : 0);
+		p.setInt(7, integration.isSsl() ? 1 : 0);
 	}
 }

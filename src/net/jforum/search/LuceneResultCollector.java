@@ -56,5 +56,5 @@ import org.apache.lucene.search.TopDocs;
  */
 public interface LuceneResultCollector
 {	
-	public List<Post> collect(SearchArgs args, TopDocs results, Query query);
+	List<Post> collect(SearchArgs args, TopDocs results, Query query);
 }

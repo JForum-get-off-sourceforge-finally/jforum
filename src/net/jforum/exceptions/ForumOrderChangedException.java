@@ -53,7 +53,7 @@ public class ForumOrderChangedException extends RuntimeException
 {
 	private static final long serialVersionUID = -9153628843293331164L;
 
-	public ForumOrderChangedException(String message) {
+	public ForumOrderChangedException(final String message) {
 		super(message);
 	}
 }

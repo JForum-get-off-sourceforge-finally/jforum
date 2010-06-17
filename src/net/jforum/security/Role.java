@@ -53,14 +53,14 @@ public class Role implements Serializable
 	private static final long serialVersionUID = 6022402482301273719L;
 	private int id;
 	private String name;
-	private RoleValueCollection roleValues = new RoleValueCollection();
+	private final RoleValueCollection roleValues = new RoleValueCollection();
 	
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
 	
-	public void setName(String name)
+	public void setName(final String name)
 	{
 		this.name = name;
 	}
@@ -83,17 +83,17 @@ public class Role implements Serializable
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) 
+	public boolean equals(final Object obj) 
 	{
-		if (o == this) {
+		if (obj == this) {
 			return true;
 		}
 		
-		if (!(o instanceof Role)) {
+		if (!(obj instanceof Role)) {
 			return false;
 		}
 		
-		return (((Role)o).getId() == this.id);
+		return (((Role)obj).getId() == this.id);
 	}
 
 	/** 

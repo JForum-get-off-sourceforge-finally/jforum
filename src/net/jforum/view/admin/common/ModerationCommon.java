@@ -54,10 +54,10 @@ import net.jforum.entities.Forum;
  */
 public class ModerationCommon
 {
-	public void setForumsModerationStatus(Category category, boolean status)
+	public void setForumsModerationStatus(final Category category, final boolean status)
 	{
-		for (Iterator<Forum> iter = category.getForums().iterator(); iter.hasNext(); ) {
-			Forum forum = iter.next();
+		for (final Iterator<Forum> iter = category.getForums().iterator(); iter.hasNext(); ) {
+			final Forum forum = iter.next();
 			if (forum.isModerated() != category.isModerated()) {
 				forum.setModerated(category.isModerated());
 				this.setTopicModerationStatus(forum.getId(), category.isModerated());
@@ -67,7 +67,7 @@ public class ModerationCommon
 		DataAccessDriver.getInstance().newForumDAO().setModerated(category.getId(), status);
 	}
 	
-	public void setTopicModerationStatus(int forumId, boolean status) 
+	public void setTopicModerationStatus(final int forumId, final boolean status) 
 	{
 		DataAccessDriver.getInstance().newTopicDAO().setModerationStatus(forumId, status);
 	}

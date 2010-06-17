@@ -22,22 +22,22 @@ public class POPListener implements Job
 {
 	private static final Logger LOGGER = Logger.getLogger(POPListener.class);
 	private static boolean working = false;
-	protected POPConnector connector = new POPConnector();
+	protected transient POPConnector connector = new POPConnector();
 	
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
-	public void execute(JobExecutionContext jobContext) throws JobExecutionException
+	public void execute(final JobExecutionContext jobContext) throws JobExecutionException
 	{
 		if (!working) {
 			try {
 				working = true;
 
-				List<MailIntegration> integrationList = DataAccessDriver.getInstance().newMailIntegrationDAO().findAll();
-				POPParser parser = new POPParser();
+				final List<MailIntegration> integrationList = DataAccessDriver.getInstance().newMailIntegrationDAO().findAll();
+				final POPParser parser = new POPParser();
 				
-				for (Iterator<MailIntegration> iter = integrationList.iterator(); iter.hasNext(); ) {
-					MailIntegration integration = iter.next();
+				for (final Iterator<MailIntegration> iter = integrationList.iterator(); iter.hasNext(); ) {
+					final MailIntegration integration = iter.next();
 					
 					connector.setMailIntegration(integration);
 					
@@ -47,7 +47,7 @@ public class POPListener implements Job
 						connector.openConnection();
 						parser.parseMessages(connector);
 						
-						POPPostAction postAction = new POPPostAction();
+						final POPPostAction postAction = new POPPostAction();
 						postAction.insertMessages(parser);
 					}
 					finally {

@@ -53,14 +53,14 @@ public class ModerationPendingInfo
 {
 	private int categoryId;
 	private String categoryName;
-	private List<ForumModerationInfo> infoList = new ArrayList<ForumModerationInfo>();
+	private transient final List<ForumModerationInfo> infoList = new ArrayList<ForumModerationInfo>();
 	
-	public void setCategoryId(int categoryId)
+	public void setCategoryId(final int categoryId)
 	{
 		this.categoryId = categoryId;
 	}
 	
-	public void setCategoryName(String name)
+	public void setCategoryName(final String name)
 	{
 		this.categoryName = name;
 	}
@@ -75,7 +75,7 @@ public class ModerationPendingInfo
 		return this.categoryId;
 	}
 	
-	public void addInfo(String forumName, int forumId, int postsToModerate)
+	public void addInfo(final String forumName, final int forumId, final int postsToModerate)
 	{
 		this.infoList.add(new ForumModerationInfo(forumName, forumId, postsToModerate));
 	}

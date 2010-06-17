@@ -92,7 +92,7 @@ public class Post implements Serializable
 	public Post(Post post)
 	{
 		this.setBbCodeEnabled(post.isBbCodeEnabled());
-		this.setCanEdit(post.getCanEdit());
+		this.setCanEdit(post.isCanEdit());
 		this.setEditCount(post.getEditCount());
 		this.setEditTime(post.getEditTime());
 		this.setFormattedTime(post.getFormattedTime());
@@ -420,7 +420,7 @@ public class Post implements Serializable
 	public void setUserIp(String userIp) {
 		this.userIp = userIp;
 	}
-	public boolean getCanEdit() {
+	public boolean isCanEdit() {
 		return this.canEdit;
 	}
 	

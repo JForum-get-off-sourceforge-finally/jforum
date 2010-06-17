@@ -50,7 +50,7 @@ public class SearchInstantiationException extends RuntimeException
 {
 	private static final long serialVersionUID = -6592263829692943078L;
 
-	public SearchInstantiationException(String message)
+	public SearchInstantiationException(final String message)
 	{
 		super(message);
 	}

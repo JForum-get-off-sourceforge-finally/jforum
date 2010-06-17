@@ -58,9 +58,9 @@ public class CookieUserSSO implements SSO {
 	/* (non-Javadoc)
 	 * @see net.jforum.sso.SSO#authenticateUser(net.jforum.context.RequestContext)
 	 */
-	public String authenticateUser(RequestContext request) {
+	public String authenticateUser(final RequestContext request) {
 		// myapp login cookie, contain logged username
-		Cookie myCookie = ControllerUtils.getCookie(
+		final Cookie myCookie = ControllerUtils.getCookie(
 				SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_USER));		
 		String username = null;
 		
@@ -73,10 +73,10 @@ public class CookieUserSSO implements SSO {
 	/* (non-Javadoc)
 	 * @see net.jforum.sso.SSO#isSessionValid(net.jforum.entities.UserSession, net.jforum.context.RequestContext)
 	 */
-	public boolean isSessionValid(UserSession userSession,
-			RequestContext request) {
+	public boolean isSessionValid(final UserSession userSession,
+			final RequestContext request) {
 		String remoteUser = null;
-		Cookie SSOCookie = ControllerUtils.getCookie(
+		final Cookie SSOCookie = ControllerUtils.getCookie(
 				SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_USER)); // myapp login cookie			
 		if (SSOCookie != null) {
 			remoteUser = SSOCookie.getValue(); //  jforum username

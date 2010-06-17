@@ -79,13 +79,13 @@ public class SummaryScheduler
 	 */
 	public static void startJob() throws SchedulerException
 	{
-		boolean isEnabled = SystemGlobals.getBoolValue(ConfigKeys.SUMMARY_IS_ENABLED);
+		final boolean isEnabled = SystemGlobals.getBoolValue(ConfigKeys.SUMMARY_IS_ENABLED);
 		
 		synchronized(MUTEX) {
 			if (!isStarted && isEnabled) {
-				String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
+				final String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
 	
-				String cronExpression = SystemGlobals.getValue("org.quartz.context.summary.cron.expression");
+				final String cronExpression = SystemGlobals.getValue("org.quartz.context.summary.cron.expression");
 				scheduler = new StdSchedulerFactory(filename).getScheduler();
 				
 				Trigger trigger = null;
@@ -105,4 +105,6 @@ public class SummaryScheduler
 			isStarted = true;
 		}
 	}
+	
+	private SummaryScheduler() {}
 }

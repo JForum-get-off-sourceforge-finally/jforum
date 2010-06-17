@@ -48,15 +48,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
  * @version $Id: ParseDBDumpFile.java,v 1.6 2007/10/08 17:34:40 rafaelsteil Exp $
  */
 public class ParseDBDumpFile
 {
-	public static List<String> parse(String filename) throws IOException
+	private static final Logger LOGGER = Logger.getLogger(ParseDBDumpFile.class);
+	
+	public static List<String> parse(final String filename) throws IOException
 	{
-		List<String> statements = new ArrayList<String>();
+		final List<String> statements = new ArrayList<String>();
 		
 		BufferedReader reader = null;
 		
@@ -71,7 +75,7 @@ public class ParseDBDumpFile
 					continue;
 				}
 				
-				char firstChar = line.charAt(0);
+				final char firstChar = line.charAt(0);
 				
 				if (firstChar == '-' || firstChar == '#') {
 					continue;
@@ -86,10 +90,16 @@ public class ParseDBDumpFile
 		}
 		finally {
 			if (reader != null) {
-				try { reader.close(); } catch (Exception e) { e.printStackTrace(); }
+				try { 
+					reader.close(); 
+				} catch (Exception e) { 
+					LOGGER.error(e); 
+				}
 			}
 		}
 		
 		return statements;
 	}
+	
+	private ParseDBDumpFile() {}
 }

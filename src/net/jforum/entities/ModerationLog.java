@@ -110,7 +110,7 @@ public class ModerationLog
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -118,7 +118,7 @@ public class ModerationLog
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(User user)
+	public void setUser(final User user)
 	{
 		this.user = user;
 	}
@@ -126,7 +126,7 @@ public class ModerationLog
 	/**
 	 * @param description the description to set
 	 */
-	public void setDescription(String description)
+	public void setDescription(final String description)
 	{
 		this.description = description;
 	}
@@ -134,7 +134,7 @@ public class ModerationLog
 	/**
 	 * @param originalMessage the originalMessage to set
 	 */
-	public void setOriginalMessage(String originalMessage)
+	public void setOriginalMessage(final String originalMessage)
 	{
 		this.originalMessage = originalMessage;
 	}
@@ -142,7 +142,7 @@ public class ModerationLog
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date)
+	public void setDate(final Date date)
 	{
 		this.date = date;
 	}
@@ -150,7 +150,7 @@ public class ModerationLog
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(int type)
+	public void setType(final int type)
 	{
 		this.type = type;
 	}
@@ -174,7 +174,7 @@ public class ModerationLog
 	/**
 	 * @param postId the postId to set
 	 */
-	public void setPostId(int postId)
+	public void setPostId(final int postId)
 	{
 		this.postId = postId;
 	}
@@ -182,7 +182,7 @@ public class ModerationLog
 	/**
 	 * @param topicId the topicId to set
 	 */
-	public void setTopicId(int topicId)
+	public void setTopicId(final int topicId)
 	{
 		this.topicId = topicId;
 	}
@@ -198,7 +198,7 @@ public class ModerationLog
 	/**
 	 * @param posterUser the posterUser to set
 	 */
-	public void setPosterUser(User posterUser)
+	public void setPosterUser(final User posterUser)
 	{
 		this.posterUser = posterUser;
 	}

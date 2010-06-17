@@ -57,9 +57,9 @@ import freemarker.template.Template;
  */
 public class GenericRSS implements RSSAware 
 {
-	private RSS rss;
+	private transient RSS rss;
 	
-	protected void setRSS(RSS rss) 
+	protected void setRSS(final RSS rss) 
 	{
 		this.rss = rss;
 	}
@@ -68,17 +68,17 @@ public class GenericRSS implements RSSAware
 	{
 		try
 		{
-			Template t = JForumExecutionContext.templateConfig().getTemplate(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)
+			final Template template = JForumExecutionContext.templateConfig().getTemplate(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)
 					+ "/rss_template.htm");
-			StringWriter sw = new StringWriter();
+			final StringWriter stringWriter = new StringWriter();
 
-			SimpleHash templateContext = JForumExecutionContext.getTemplateContext();
+			final SimpleHash templateContext = JForumExecutionContext.getTemplateContext();
 
 			templateContext.put("encoding", SystemGlobals.getValue(ConfigKeys.ENCODING));
 			templateContext.put("rss", this.rss);
-			t.process(templateContext, sw);
+			template.process(templateContext, stringWriter);
 
-			return sw.toString();
+			return stringWriter.toString();
 		}
 		catch (Exception e)
 		{

@@ -68,13 +68,15 @@ public class Forum implements Serializable
 	private boolean unread;
 	private LastPostInfo lpi;
 
-	public Forum() { }
+	public Forum() { 
+		// Empty Constructor
+	}
 	
-	public Forum(int forumId) {
+	public Forum(final int forumId) {
 		this.id = forumId;
 	}
 	
-	public Forum(Forum forum)
+	public Forum(final Forum forum)
 	{
 		this.description = forum.getDescription();
 		this.id = forum.getId();
@@ -89,7 +91,7 @@ public class Forum implements Serializable
 		this.lpi = forum.getLastPostInfo();
 	}
 	
-	public void setLastPostInfo(LastPostInfo lpi) {
+	public void setLastPostInfo(final LastPostInfo lpi) {
 		this.lpi = lpi;
 	}
 	
@@ -183,7 +185,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param description The description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -192,7 +194,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param id The id to set
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -265,9 +267,9 @@ public class Forum implements Serializable
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) 
+	public boolean equals(final Object obj) 
 	{
-		return ((o instanceof Forum) && (((Forum)o).getId() == this.id));
+		return ((obj instanceof Forum) && (((Forum)obj).getId() == this.id));
 	}
 
 	/** 

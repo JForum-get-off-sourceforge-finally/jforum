@@ -86,14 +86,14 @@ public class JForumExecutionContext
 	 */
 	public static JForumExecutionContext get()
 	{
-		JForumExecutionContext ex = (JForumExecutionContext)userData.get();
+		JForumExecutionContext executionContext = (JForumExecutionContext)userData.get();
 
-		if (ex == null) {
-			ex = new JForumExecutionContext();
-			userData.set(ex);
+		if (executionContext == null) {
+			executionContext = new JForumExecutionContext();
+			userData.set(executionContext);
 		}
 		
-		return ex;
+		return executionContext;
 	}
 	
 	/**
@@ -126,18 +126,18 @@ public class JForumExecutionContext
 	
 	/**
 	 * Sets the execution context
-	 * @param ex JForumExecutionContext
+	 * @param executionContext JForumExecutionContext
 	 */
-	public static void set(JForumExecutionContext ex)
+	public static void set(JForumExecutionContext executionContext)
 	{
-		userData.set(ex);
+		userData.set(executionContext);
 	}
 	
 	/**
 	 * Sets a connection
 	 * @param conn The connection to use
 	 */
-	public void setConnection(Connection conn)
+	public void setConnection(final Connection conn)
 	{
 		this.conn = conn;
 	}
@@ -151,26 +151,26 @@ public class JForumExecutionContext
 		return getConnection(true);
 	}
 	
-	public static Connection getConnection(boolean validate)
+	public static Connection getConnection(final boolean validate)
 	{
-		JForumExecutionContext ex = get();
-		Connection c =  ex.conn;
+		JForumExecutionContext executionContext = get();
+		Connection conn =  executionContext.conn;
 		
-		if (validate && c == null) {
-			c = DBConnection.getImplementation().getConnection();
+		if (validate && conn == null) {
+			conn = DBConnection.getImplementation().getConnection();
 			
 			try {
-				c.setAutoCommit(!SystemGlobals.getBoolValue(ConfigKeys.DATABASE_USE_TRANSACTIONS));
+				conn.setAutoCommit(!SystemGlobals.getBoolValue(ConfigKeys.DATABASE_USE_TRANSACTIONS));
 			}
 			catch (Exception e) {
                 //catch error autocommit
             }
 			
-			ex.setConnection(c);
-			set(ex);
+			executionContext.setConnection(conn);
+			set(executionContext);
 		}
 	    
-		return c; 
+		return conn; 
 	}
 
     public static ForumContext getForumContext()
@@ -178,7 +178,7 @@ public class JForumExecutionContext
         return ((JForumExecutionContext)userData.get()).forumContext;
     }
 
-    public void setForumContext(ForumContext forumContext)
+    public void setForumContext(final ForumContext forumContext)
     {
         this.forumContext = forumContext;
     }
@@ -211,7 +211,7 @@ public class JForumExecutionContext
 	 * Gets the current thread's <code>DataHolder</code> instance
      * @param redirect String
      */
-	public static void setRedirect(String redirect) {
+	public static void setRedirect(final String redirect) {
 		((JForumExecutionContext)userData.get()).redirectTo = redirect;
 	}
 
@@ -219,7 +219,7 @@ public class JForumExecutionContext
 	 * Sets the content type for the current http response.
 	 * @param contentType String
 	 */
-	public static void setContentType(String contentType) {
+	public static void setContentType(final String contentType) {
 		((JForumExecutionContext)userData.get()).contentType = contentType;
 	}
 	
@@ -246,7 +246,7 @@ public class JForumExecutionContext
 	 * Marks the request to use a binary content-type.
 	 * @param enable boolean
 	 */
-	public static void enableCustomContent(boolean enable) {
+	public static void enableCustomContent(final boolean enable) {
 		((JForumExecutionContext)userData.get()).isCustomContent = enable;
 	}
 	

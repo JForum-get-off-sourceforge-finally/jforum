@@ -54,24 +54,24 @@ import net.jforum.context.SessionContext;
  */
 public class WebSessionContext implements SessionContext
 {
-	private final HttpSession httpSession;
+	private transient final HttpSession httpSession;
 
-	public WebSessionContext(HttpSession httpSession)
+	public WebSessionContext(final HttpSession httpSession)
 	{
 		this.httpSession = httpSession;
 	}
 
-	public void setAttribute(String name, Object value)
+	public void setAttribute(final String name, final Object value)
 	{
 		httpSession.setAttribute(name, value);
 	}
 
-	public void removeAttribute(String name)
+	public void removeAttribute(final String name)
 	{
 		httpSession.removeAttribute(name);
 	}
 
-	public Object getAttribute(String name)
+	public Object getAttribute(final String name)
 	{
 		return httpSession.getAttribute(name);
 	}

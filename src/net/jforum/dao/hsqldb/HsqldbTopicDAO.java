@@ -62,33 +62,33 @@ public class HsqldbTopicDAO extends GenericTopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
 	 */
-	public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count)
+	public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
 	{
-		String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
+		final String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			p.setInt(1, startFrom);
-			p.setInt(2, count);
-			p.setInt(3, forumId);
-			p.setInt(4, forumId);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, startFrom);
+			pstmt.setInt(2, count);
+			pstmt.setInt(3, forumId);
+			pstmt.setInt(4, forumId);
 
-			return this.fillTopicsData(p);
+			return this.fillTopicsData(pstmt);
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 	
 	/**
 	 * @see net.jforum.dao.generic.GenericTopicDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Topic> selectByUserByLimit(int userId, int startFrom, int count) 
+	public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count) 
 	{
 		return super.selectByUserByLimit(count, startFrom, userId);
 	}

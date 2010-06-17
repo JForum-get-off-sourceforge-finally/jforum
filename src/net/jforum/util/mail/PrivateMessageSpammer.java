@@ -57,23 +57,23 @@ import freemarker.template.SimpleHash;
  */
 public class PrivateMessageSpammer extends Spammer
 {
-	public PrivateMessageSpammer(User user)
+	public PrivateMessageSpammer(final User user)
 	{
 		if (user.getEmail() == null || user.getEmail().trim().equals("")) {
 			return;
 		}
 		
-		String forumLink = new StringBuffer()
+		final String forumLink = new StringBuffer()
 			.append(ViewCommon.getForumLink())
 			.append("pm/inbox")
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
 		
-		SimpleHash params = new SimpleHash();
+		final SimpleHash params = new SimpleHash();
 		params.put("path", forumLink);
 		params.put("user", user);
 		
-		List<User> recipients = new ArrayList<User>();
+		final List<User> recipients = new ArrayList<User>();
 		recipients.add(user);
 		
 		this.setUsers(recipients);

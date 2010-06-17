@@ -50,7 +50,7 @@ public class MultipartHandlingException extends RuntimeException
 {
 	private static final long serialVersionUID = -4790400563393709170L;
 
-	public MultipartHandlingException(String message)
+	public MultipartHandlingException(final String message)
 	{
 		super(message);
 	}

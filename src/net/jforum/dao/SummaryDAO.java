@@ -56,7 +56,7 @@ import net.jforum.entities.Post;
  */
 public interface SummaryDAO
 {
-	public List<Post> selectLastPosts(Date firstDate, Date lastDate) ;
+	List<Post> selectLastPosts(Date firstDate, Date lastDate) ;
 
-	public List<String> listRecipients() ;
+	List<String> listRecipients() ;
 }

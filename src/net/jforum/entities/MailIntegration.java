@@ -60,7 +60,7 @@ public class MailIntegration
 	/**
 	 * @param forumId the forumId to set
 	 */
-	public void setForumId(int forumId)
+	public void setForumId(final int forumId)
 	{
 		this.forumId = forumId;
 	}
@@ -68,7 +68,7 @@ public class MailIntegration
 	/**
 	 * @param popHost the popHost to set
 	 */
-	public void setPopHost(String popHost)
+	public void setPopHost(final String popHost)
 	{
 		this.popHost = popHost;
 	}
@@ -76,7 +76,7 @@ public class MailIntegration
 	/**
 	 * @param popPassword the popPassword to set
 	 */
-	public void setPopPassword(String popPassword)
+	public void setPopPassword(final String popPassword)
 	{
 		this.popPassword = popPassword;
 	}
@@ -84,7 +84,7 @@ public class MailIntegration
 	/**
 	 * @param popPort the popPort to set
 	 */
-	public void setPopPort(int popPort)
+	public void setPopPort(final int popPort)
 	{
 		this.popPort = popPort;
 	}
@@ -92,7 +92,7 @@ public class MailIntegration
 	/**
 	 * @param popUsername the popUsername to set
 	 */
-	public void setPopUsername(String popUsername)
+	public void setPopUsername(final String popUsername)
 	{
 		this.popUsername = popUsername;
 	}
@@ -108,17 +108,17 @@ public class MailIntegration
 	/**
 	 * @param forumEmail the forumEmail to set
 	 */
-	public void setForumEmail(String forumEmail)
+	public void setForumEmail(final String forumEmail)
 	{
 		this.forumEmail = forumEmail;
 	}
 	
-	public void setSSL(boolean ssl)
+	public void setSsl(final boolean ssl)
 	{
 		this.ssl = ssl;
 	}
 	
-	public boolean isSSL()
+	public boolean isSsl()
 	{
 		return this.ssl;
 	}

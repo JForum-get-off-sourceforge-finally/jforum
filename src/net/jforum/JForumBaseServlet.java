@@ -76,14 +76,14 @@ public class JForumBaseServlet extends HttpServlet
 
 	private static final Logger LOGGER = Logger.getLogger(JForumBaseServlet.class);
 
-	protected boolean debug;
+	protected transient boolean debug;
 
-	public void init(ServletConfig config) throws ServletException
+	public void init(final ServletConfig config) throws ServletException
 	{
 		super.init(config);
 
 		try {
-			String appPath = config.getServletContext().getRealPath("");
+			final String appPath = config.getServletContext().getRealPath("");
 			debug = "true".equals(config.getInitParameter("development"));
 
 			DOMConfigurator.configure(appPath + "/WEB-INF/log4j.xml");
@@ -94,22 +94,22 @@ public class JForumBaseServlet extends HttpServlet
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
-			Configuration templateCfg = new Configuration();
+			final Configuration templateCfg = new Configuration();
 			templateCfg.setTemplateUpdateDelay(2);
 			templateCfg.setSetting("number_format", "#");
 			templateCfg.setSharedVariable("startupTime", Long.valueOf(System.currentTimeMillis()));
 
 			// Create the default template loader
-			String defaultPath = SystemGlobals.getApplicationPath() + "/templates";
-			FileTemplateLoader defaultLoader = new FileTemplateLoader(new File(defaultPath));
+			final String defaultPath = SystemGlobals.getApplicationPath() + "/templates";
+			final FileTemplateLoader defaultLoader = new FileTemplateLoader(new File(defaultPath));
 
-			String extraTemplatePath = SystemGlobals.getValue(ConfigKeys.FREEMARKER_EXTRA_TEMPLATE_PATH);
+			final String extraTemplatePath = SystemGlobals.getValue(ConfigKeys.FREEMARKER_EXTRA_TEMPLATE_PATH);
 			
 			if (StringUtils.isNotBlank(extraTemplatePath)) {
 				// An extra template path is configured, we need a MultiTemplateLoader
-				FileTemplateLoader extraLoader = new FileTemplateLoader(new File(extraTemplatePath));
-				TemplateLoader[] loaders = new TemplateLoader[] { extraLoader, defaultLoader };
-				MultiTemplateLoader multiLoader = new MultiTemplateLoader(loaders);
+				final FileTemplateLoader extraLoader = new FileTemplateLoader(new File(extraTemplatePath));
+				final TemplateLoader[] loaders = new TemplateLoader[] { extraLoader, defaultLoader };
+				final MultiTemplateLoader multiLoader = new MultiTemplateLoader(loaders);
 				templateCfg.setTemplateLoader(multiLoader);
 			} 
 			else {
@@ -148,7 +148,7 @@ public class JForumBaseServlet extends HttpServlet
 			SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC));
 			SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
 			
-			String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
+			final String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
 			SystemGlobals.loadAdditionalDefaults(filename);
 
 			ConfigLoader.createLoginAuthenticator();

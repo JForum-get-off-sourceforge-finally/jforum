@@ -55,7 +55,7 @@ public class OracleUserDAO extends net.jforum.dao.generic.GenericUserDAO
 	/** 
 	 * @see net.jforum.dao.UserDAO#selectAll(int, int)
 	 */
-	public List<User> selectAll(int startFrom, int count) 
+	public List<User> selectAll(final int startFrom, final int count) 
 	{
 		return super.selectAll(startFrom, (count > 0 ? startFrom + count : 0));
 	}

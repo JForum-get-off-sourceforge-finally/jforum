@@ -60,21 +60,21 @@ public interface ConfigDAO
 	 * 
 	 * @param config The data to store.
 	 */
-	public void insert(Config config);
+	void insert(Config config);
 	
 	/**
 	 * Updates some config entry
 	 * 
 	 * @param config The entry to update
 	 */
-	public void update(Config config);
+	void update(Config config);
 
 	/**
 	 * Deletes some specific configuration
 	 * 
 	 * @param config The config to delete
 	 */
-	public void delete(Config config) ;
+	void delete(Config config) ;
 	
 	/**
 	 * Gets all existing configuration entries
@@ -82,7 +82,7 @@ public interface ConfigDAO
 	 * @return <code>java.util.List</code> with all records found. 
 	 * Each entry is a <code>net.jforum.entities.Config</code> instance.
 	 */
-	public List<Config> selectAll() ;
+	List<Config> selectAll() ;
 	
 	/**
 	 * Gets a config by its name
@@ -90,5 +90,5 @@ public interface ConfigDAO
 	 * @param name The name to search for.
 	 * @return Config
 	 */
-	public Config selectByName(String name) ;
+	Config selectByName(String name) ;
 }

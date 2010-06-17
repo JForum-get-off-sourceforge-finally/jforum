@@ -49,7 +49,7 @@ public class InvalidURLPatternException extends RuntimeException
 {
 	private static final long serialVersionUID = 8062174817334751677L;
 
-	public InvalidURLPatternException(String message)
+	public InvalidURLPatternException(final String message)
 	{
 		super(message);
 	}

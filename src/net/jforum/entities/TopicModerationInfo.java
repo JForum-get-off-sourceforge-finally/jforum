@@ -54,19 +54,19 @@ public class TopicModerationInfo
 	private int topicId;
 	private int topicReplies;
 	private String topicTitle;
-	private List<Post> posts = new ArrayList<Post>();
+	private transient final List<Post> posts = new ArrayList<Post>();
 	
-	public void setTopicId(int topicId)
+	public void setTopicId(final int topicId)
 	{
 		this.topicId = topicId;
 	}
 	
-	public void setTopicReplies(int replies)
+	public void setTopicReplies(final int replies)
 	{
 		this.topicReplies = replies;
 	}
 	
-	public void setTopicTitle(String title)
+	public void setTopicTitle(final String title)
 	{
 		this.topicTitle = title;
 	}
@@ -81,7 +81,7 @@ public class TopicModerationInfo
 		return this.topicTitle;
 	}
 	
-	public void addPost(Post post)
+	public void addPost(final Post post)
 	{
 		this.posts.add(post);
 	}

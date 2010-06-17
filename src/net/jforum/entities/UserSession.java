@@ -47,6 +47,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import net.jforum.ControllerUtils;
+import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.PermissionControl;
@@ -429,6 +430,18 @@ public class UserSession implements Serializable
 	{
 		this.imageCaptcha = null;
 	}
+	
+	/**
+     * use JForumExecutionContext.getForumContext().isBot() instead
+     *
+     *
+	 * Checks if it's a bot
+	 * @return <code>true</code> if this user session is from any robot
+	 */
+	public boolean isBot()
+	{
+        return JForumExecutionContext.getForumContext().isBot();
+    }
 	
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)

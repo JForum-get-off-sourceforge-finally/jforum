@@ -50,9 +50,9 @@ public class ForumStartupException extends ForumException
 {
 	private static final long serialVersionUID = 293914178692318345L;
 
-	public ForumStartupException(String message, Throwable t)
+	public ForumStartupException(final String message, final Throwable throwable)
 	{
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

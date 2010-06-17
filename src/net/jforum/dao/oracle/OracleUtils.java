@@ -61,30 +61,30 @@ import oracle.sql.BLOB;
  */
 public class OracleUtils
 {
-	public static String readBlobUTF16BinaryStream(ResultSet rs, String fieldName) throws SQLException
+	public static String readBlobUTF16BinaryStream(final ResultSet resultSet, final String fieldName) throws SQLException
 	{
 		try {
-			Blob clob = rs.getBlob(fieldName);
+			final Blob clob = resultSet.getBlob(fieldName);
 
-			InputStream is = clob.getBinaryStream();
-			StringBuffer sb = new StringBuffer();
+			final InputStream inputStream = clob.getBinaryStream();
+			final StringBuffer stringBuffer = new StringBuffer();
 			
 			int readedBytes;
-			int bufferSize = 4096;
+			final int bufferSize = 4096;
 			
 			do {
-				byte[] bytes = new byte[bufferSize];
+				final byte[] bytes = new byte[bufferSize];
 				
-				readedBytes = is.read(bytes);
+				readedBytes = inputStream.read(bytes);
 				
 				if (readedBytes > 0) {
-					String readed = new String(bytes, 0, readedBytes, "UTF-16");
-					sb.append(readed);
+					final String read = new String(bytes, 0, readedBytes, "UTF-16");
+					stringBuffer.append(read);
 				}
 			} while (readedBytes == bufferSize);
 
-			is.close();
-			return sb.toString();
+			inputStream.close();
+			return stringBuffer.toString();
 		}
 		catch (IOException e) {
 			throw new DatabaseException(e);
@@ -104,22 +104,23 @@ public class OracleUtils
 	 * 
 	 * @param query String
 	 * @param idForQuery int
-	 * @param value String
+	 * @param value String 
 	 * @throws SQLException
+	 * @throws IOException 
 	 */
-	public static void writeBlobUTF16BinaryStream(String query, int idForQuery, String value) throws Exception
+	public static void writeBlobUTF16BinaryStream(final String query, final int idForQuery, final String value) throws SQLException, IOException
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		OutputStream blobWriter = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(query);
-			p.setInt(1, idForQuery);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
+			pstmt.setInt(1, idForQuery);
 
-			rs = p.executeQuery();
-			rs.next();
-			Blob text = rs.getBlob(1);
+			resultSet = pstmt.executeQuery();
+			resultSet.next();
+			final Blob text = resultSet.getBlob(1);
 
 			if (text instanceof BLOB) {
 				blobWriter = ((BLOB) text).setBinaryStream(0L);
@@ -140,7 +141,9 @@ public class OracleUtils
 				blobWriter.close();
 			}
 			
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
+	
+	private OracleUtils() {}
 }

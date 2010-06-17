@@ -85,6 +85,7 @@ import org.apache.log4j.Logger;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * Front Controller.
@@ -102,14 +103,14 @@ public class JForum extends JForumBaseServlet
 	/**
 	 * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
 	 */
-	public void init(ServletConfig config) throws ServletException
+	public void init(final ServletConfig config) throws ServletException
 	{
 		super.init(config);
 		super.startApplication();
 		
-		String containerInfo = config.getServletContext().getServerInfo();		
+		final String containerInfo = config.getServletContext().getServerInfo();		
 		LOGGER.info("Container: " + containerInfo);
-		String[] info = containerInfo.split("/");
+		final String[] info = containerInfo.split("/");
 		SystemGlobals.setValue("container.app", info[0]);
 		SystemGlobals.setValue("container.version", String.valueOf(info[1].charAt(0)));		
 		
@@ -117,25 +118,25 @@ public class JForum extends JForumBaseServlet
 		JForum.setDatabaseUp(ForumStartup.startDatabase());
 		
 		try {
-			Connection conn = DBConnection.getImplementation().getConnection();
+			final Connection conn = DBConnection.getImplementation().getConnection();
 			conn.setAutoCommit(!SystemGlobals.getBoolValue(ConfigKeys.DATABASE_USE_TRANSACTIONS));
 			
 			// Try to fix some MySQL problems
 	    	if ("mysql".equals(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_NAME))) {
-	    		MySQLVersionWorkarounder dw = new MySQLVersionWorkarounder();
-				dw.handleWorkarounds(conn);	
+	    		final MySQLVersionWorkarounder dbWorkarounder = new MySQLVersionWorkarounder();
+				dbWorkarounder.handleWorkarounds(conn);	
 	    	}			
 			
 			// Try to fix some SQL Server problems
 	    	if ("sqlserver".equals(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_NAME))) {
-	    		SqlServerVersionWorkarounder dw2 = new SqlServerVersionWorkarounder();
-				dw2.handleWorkarounds(conn);
+	    		final SqlServerVersionWorkarounder dbWorkarounder2 = new SqlServerVersionWorkarounder();
+				dbWorkarounder2.handleWorkarounds(conn);
 	    	}
 	    	
 			// Continues loading the forum
-			JForumExecutionContext ex = JForumExecutionContext.get();
-			ex.setConnection(conn);
-			JForumExecutionContext.set(ex);
+			JForumExecutionContext executionContext = JForumExecutionContext.get();
+			executionContext.setConnection(conn);
+			JForumExecutionContext.set(executionContext);
 			
 			// Init general forum stuff
 			ForumStartup.startForumRepository();
@@ -155,7 +156,7 @@ public class JForum extends JForumBaseServlet
 	/**
 	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
-	public void service(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException
+	public void service(final HttpServletRequest req, final HttpServletResponse res) throws IOException, ServletException
 	{
 		Writer out = null;
 		JForumContext forumContext = null;
@@ -165,7 +166,7 @@ public class JForum extends JForumBaseServlet
 
 		try {
 			// Initializes the execution context
-			JForumExecutionContext ex = JForumExecutionContext.get();
+			JForumExecutionContext executionContext = JForumExecutionContext.get();
 
 			request = new WebRequestContext(req);
             response = new WebResponseContext(res);
@@ -177,9 +178,9 @@ public class JForum extends JForumBaseServlet
                 request,
                 response
             );
-            ex.setForumContext(forumContext);
+            executionContext.setForumContext(forumContext);
 
-            JForumExecutionContext.set(ex);
+            JForumExecutionContext.set(executionContext);
 
             // Setup stuff
 			SimpleHash context = JForumExecutionContext.getTemplateContext();
@@ -240,12 +241,12 @@ public class JForum extends JForumBaseServlet
 		}		
 	}
 
-	private Writer processCommand(Writer out, RequestContext request, ResponseContext response, 
-			String encoding, SimpleHash context, String moduleClass) throws Exception
+	private Writer processCommand(Writer out, final RequestContext request, final ResponseContext response, 
+			final String encoding, final SimpleHash context, final String moduleClass) throws IOException, TemplateException, InstantiationException, IllegalAccessException, ClassNotFoundException 
 	{
 		// Here we go, baby
-		Command c = this.retrieveCommand(moduleClass);
-		Template template = c.process(request, response, context);
+		Command command = this.retrieveCommand(moduleClass);
+		Template template = command.process(request, response, context);
 
 		if (JForumExecutionContext.getRedirectTo() == null) {
 			String contentType = JForumExecutionContext.getContentType();
@@ -303,17 +304,17 @@ public class JForum extends JForumBaseServlet
 	}
 
 	private void handleException(Writer out, ResponseContext response, String encoding, 
-		Exception e, RequestContext request) throws IOException
+		Exception exception, RequestContext request) throws IOException
 	{
 		JForumExecutionContext.enableRollback();
 		
-		if (e.toString().indexOf("ClientAbortException") == -1) {
+		if (exception.toString().indexOf("ClientAbortException") == -1) {
 			response.setContentType("text/html; charset=" + encoding);
 			if (out != null) {
-				new ExceptionWriter().handleExceptionData(e, out, request);
+				new ExceptionWriter().handleExceptionData(exception, out, request);
 			}
 			else {
-				new ExceptionWriter().handleExceptionData(e, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);
+				new ExceptionWriter().handleExceptionData(exception, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);
 			}
 		}
 	}
@@ -331,7 +332,7 @@ public class JForum extends JForumBaseServlet
 		return BanlistRepository.shouldBan(b);
 	}
 
-	private Command retrieveCommand(String moduleClass) throws Exception
+	private Command retrieveCommand(String moduleClass) throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		return (Command)Class.forName(moduleClass).newInstance();
 	}

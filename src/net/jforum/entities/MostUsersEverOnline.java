@@ -72,21 +72,21 @@ public class MostUsersEverOnline implements Serializable
 		return this.timeInMillis;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(final int total) {
 		this.total = total;
 	}
 	
-	public void setDate(String date) {
+	public void setDate(final String date) {
 		this.date = date;
 	}
 	
-	public void setTimeInMillis(long time) {
+	public void setTimeInMillis(final long time) {
 		this.timeInMillis = time;
 		
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.setTimeInMillis(time);
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		final GregorianCalendar gcal = new GregorianCalendar();
+		gcal.setTimeInMillis(time);
 		
-		this.setDate(df.format(gc.getTime()));
+		this.setDate(sdf.format(gcal.getTime()));
 	}
 }

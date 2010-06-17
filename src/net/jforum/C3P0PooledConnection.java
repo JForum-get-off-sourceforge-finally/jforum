@@ -42,8 +42,10 @@
  */
 package net.jforum;
 
+import java.beans.PropertyVetoException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -63,37 +65,37 @@ public class C3P0PooledConnection extends DBConnection
 {
 	private static final Logger LOGGER = Logger.getLogger(C3P0PooledConnection.class);
 	
-	private ComboPooledDataSource ds;
+	private transient ComboPooledDataSource dataSource;
 	
 	/**
 	 * 
 	 * @see net.jforum.DBConnection#init()
 	 */
-	public void init() throws Exception
+	public void init() throws PropertyVetoException
 	{
-		this.ds = new ComboPooledDataSource();
+		this.dataSource = new ComboPooledDataSource();
 		
-		this.ds.setDriverClass(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
-		this.ds.setJdbcUrl(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_STRING));
-		this.ds.setMinPoolSize(SystemGlobals.getIntValue(ConfigKeys.DATABASE_POOL_MIN));
-		this.ds.setMaxPoolSize(SystemGlobals.getIntValue(ConfigKeys.DATABASE_POOL_MAX));
-		this.ds.setIdleConnectionTestPeriod(SystemGlobals.getIntValue(ConfigKeys.DATABASE_PING_DELAY));
+		this.dataSource.setDriverClass(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
+		this.dataSource.setJdbcUrl(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_STRING));
+		this.dataSource.setMinPoolSize(SystemGlobals.getIntValue(ConfigKeys.DATABASE_POOL_MIN));
+		this.dataSource.setMaxPoolSize(SystemGlobals.getIntValue(ConfigKeys.DATABASE_POOL_MAX));
+		this.dataSource.setIdleConnectionTestPeriod(SystemGlobals.getIntValue(ConfigKeys.DATABASE_PING_DELAY));
 		
 		this.extraParams();
 	}
 	
 	private void extraParams()
 	{
-		String extra = SystemGlobals.getValue(ConfigKeys.C3P0_EXTRA_PARAMS);
+		final String extra = SystemGlobals.getValue(ConfigKeys.C3P0_EXTRA_PARAMS);
 		
 		if (StringUtils.isNotBlank(extra)) {
-			String[] p = extra.split(";");
+			final String[] param = extra.split(";");
 			
-			for (int i = 0; i < p.length; i++) {
-				String[] kv = p[i].trim().split("=");
+			for (int i = 0; i < param.length; i++) {
+				final String[] keyvalue = param[i].trim().split("=");
 				
-				if (kv.length == 2) {
-					this.invokeSetter(kv[0], kv[1]);
+				if (keyvalue.length == 2) {
+					this.invokeSetter(keyvalue[0], keyvalue[1]);
 				}
 			}
 		}
@@ -103,27 +105,27 @@ public class C3P0PooledConnection extends DBConnection
 	 * Huge hack to invoke methods without the need of an external configuration file
 	 * and without knowing the argument's type
 	 */
-	private void invokeSetter(String propertyName, String value)
+	private void invokeSetter(final String propertyName, final String value)
 	{
 		try {
-			String setter = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+			final String setter = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
 			
-			Method[] methods = this.ds.getClass().getMethods();
+			final Method[] methods = this.dataSource.getClass().getMethods();
 			
 			for (int i = 0; i < methods.length; i++) {
-				Method method = methods[i];
+				final Method method = methods[i];
 				
 				if (method.getName().equals(setter)) {
-					Class<?>[] paramTypes = method.getParameterTypes();
+					final Class<?>[] paramTypes = method.getParameterTypes();
 					
 					if (paramTypes[0] == String.class) {
-						method.invoke(this.ds, new Object[] { value });
+						method.invoke(this.dataSource, new Object[] { value });
 					}
 					else if (paramTypes[0] == int.class) {
-						method.invoke(this.ds, new Object[] { Integer.valueOf(value) });
+						method.invoke(this.dataSource, new Object[] { Integer.valueOf(value) });
 					}
 					else if (paramTypes[0] == boolean.class) {
-						method.invoke(this.ds, new Object[] { Boolean.valueOf(value) });
+						method.invoke(this.dataSource, new Object[] { Boolean.valueOf(value) });
 					}
 				}
 			}
@@ -139,7 +141,7 @@ public class C3P0PooledConnection extends DBConnection
 	public Connection getConnection()
 	{
 		try {
-			return this.ds.getConnection();
+			return this.dataSource.getConnection();
 		}
 		catch (Exception e) {
 			throw new DatabaseException(e);
@@ -149,9 +151,9 @@ public class C3P0PooledConnection extends DBConnection
 	/**
 	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
 	 */
-	public void releaseConnection(Connection conn)
+	public void releaseConnection(final Connection conn)
 	{
-        if (conn==null) {
+        if (conn == null) {
             return;
         }
 
@@ -166,8 +168,8 @@ public class C3P0PooledConnection extends DBConnection
 	/**
 	 * @see net.jforum.DBConnection#realReleaseAllConnections()
 	 */
-	public void realReleaseAllConnections() throws Exception
+	public void realReleaseAllConnections() throws SQLException
 	{
-		DataSources.destroy(this.ds);
+		DataSources.destroy(this.dataSource);
 	}
 }

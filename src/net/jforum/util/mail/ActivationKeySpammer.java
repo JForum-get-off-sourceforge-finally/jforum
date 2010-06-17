@@ -56,12 +56,12 @@ import freemarker.template.SimpleHash;
  */
 public class ActivationKeySpammer extends Spammer
 {
-	public ActivationKeySpammer(User user)
+	public ActivationKeySpammer(final User user)
 	{
 		//gets the url to the forum.
-		String forumLink = ViewCommon.getForumLink();
+		final String forumLink = ViewCommon.getForumLink();
 
-		String url = new StringBuffer()
+		final String url = new StringBuffer()
 			.append(forumLink) 
 			.append("user/activateAccount/") 
 			.append(user.getActivationKey()) 
@@ -70,18 +70,18 @@ public class ActivationKeySpammer extends Spammer
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
 		
-		String manualUrl = new StringBuffer()
+		final String manualUrl = new StringBuffer()
 			.append(forumLink)
 			.append("user/activateManual") 
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
 		
-		SimpleHash params = new SimpleHash();
+		final SimpleHash params = new SimpleHash();
 		params.put("url", url);
 		params.put("user", user);
 		params.put("manualUrl", manualUrl);
 		
-		List<User> recipients = new ArrayList<User>();
+		final List<User> recipients = new ArrayList<User>();
 		recipients.add(user);
 		
 		this.setUsers(recipients);

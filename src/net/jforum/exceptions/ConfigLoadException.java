@@ -50,7 +50,7 @@ public class ConfigLoadException extends RuntimeException
 {
 	private static final long serialVersionUID = -14168976750213340L;
 
-	public ConfigLoadException(String message)
+	public ConfigLoadException(final String message)
 	{
 		super(message);
 	}

@@ -46,6 +46,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 /**
  * General utility methods to close statements and resultsets
  * 
@@ -54,29 +56,37 @@ import java.sql.Statement;
  */
 public class DbUtils
 {
-	public static void close(ResultSet rs, Statement st)
+	private static final Logger LOGGER = Logger.getLogger(DbUtils.class);
+	
+	public static void close(final ResultSet resultSet, final Statement stmt)
 	{
-		close(rs);
-		close(st);
+		close(resultSet);
+		close(stmt);
 	}
 
-	public static void close(ResultSet rs)
+	public static void close(final ResultSet resultSet)
 	{
-		if (rs != null) {
+		if (resultSet != null) {
 			try {
-				rs.close();
+				resultSet.close();
 			}
-			catch (Exception e) { e.printStackTrace(); }
+			catch (Exception e) {				
+				LOGGER.error(e.getMessage(), e);
+			}
 		}
 	}
 
-	public static void close(Statement st)
+	public static void close(final Statement stmt)
 	{
-		if (st != null) {
+		if (stmt != null) {
 			try {
-				st.close();
+				stmt.close();
 			}
-			catch (SQLException e) { e.printStackTrace(); }
+			catch (SQLException e) { 
+				LOGGER.error(e.getMessage(), e); 
+			}
 		}
 	}
+	
+	private DbUtils() {}
 }

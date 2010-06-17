@@ -62,18 +62,18 @@ public class MD5
 	 * @return Encoded String
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static String crypt(String str)
+	public static String crypt(final String str)
 	{
 		if (str == null || str.length() == 0) {
 			throw new IllegalArgumentException("String to encript cannot be null or zero length");
 		}
 		
-		StringBuffer hexString = new StringBuffer();
+		final StringBuffer hexString = new StringBuffer();
 		
 		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(str.getBytes());
-			byte[] hash = md.digest();
+			final MessageDigest msgDigest = MessageDigest.getInstance("MD5");
+			msgDigest.update(str.getBytes());
+			final byte[] hash = msgDigest.digest();
 			
 			for (int i = 0; i < hash.length; i++) {
 				if ((0xff & hash[i]) < 0x10) {
@@ -90,4 +90,6 @@ public class MD5
 		
 		return hexString.toString();
 	}
+	
+	private MD5() {}
 }

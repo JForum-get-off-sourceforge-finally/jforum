@@ -55,19 +55,16 @@ public class ForumOrderComparator implements Comparator<Forum>, Serializable
 {
 	private static final long serialVersionUID = 2955347143299797587L;
 
-	public final int compare (Forum a, Forum b)
-	{
-		Forum f1 = (Forum)a;
-		Forum f2 = (Forum)b;
-		
-		if (f1.getOrder() > f2.getOrder()) {
+	public final int compare(Forum forum1, Forum forum2)
+	{		
+		if (forum1.getOrder() > forum2.getOrder()) {
 			return 1;
 		}
-		else if (f1.getOrder() < f2.getOrder() ) {
+		else if (forum1.getOrder() < forum2.getOrder() ) {
 			return -1;
 		}
 		else {
-			return f1.getName().compareTo(f2.getName());
+			return forum1.getName().compareTo(forum2.getName());
 		}
 	}
 }

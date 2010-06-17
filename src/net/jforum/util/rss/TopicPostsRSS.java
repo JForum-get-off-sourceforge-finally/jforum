@@ -57,7 +57,7 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class TopicPostsRSS extends TopicRSS 
 {
-	public TopicPostsRSS(String title, String description, int topicId, List<Post> posts)
+	public TopicPostsRSS(final String title, final String description, final int topicId, final List<Post> posts)
 	{
 		this.forumLink = ViewCommon.getForumLink();
 		

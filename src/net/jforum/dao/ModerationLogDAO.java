@@ -48,7 +48,7 @@ import net.jforum.entities.ModerationLog;
 
 public interface ModerationLogDAO
 {
-	public void add(ModerationLog log);
-	public List<ModerationLog> selectAll(int start, int count);
-	public int totalRecords();
+	void add(ModerationLog log);
+	List<ModerationLog> selectAll(int start, int count);
+	int totalRecords();
 }

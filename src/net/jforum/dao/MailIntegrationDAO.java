@@ -17,31 +17,31 @@ public interface MailIntegrationDAO
 	 * Adds a new mail integration
 	 * @param integration the information to add
 	 */
-	public void add(MailIntegration integration);
+	void add(MailIntegration integration);
 	
 	/**
 	 * Updates an existing mail integration data
 	 * @param integration
 	 */
-	public void update(MailIntegration integration);
+	void update(MailIntegration integration);
 	
 	/**
 	 * Deletes a mail integration by its forumId
 	 * @param forumId the forumId of the underlying mailintegration 
 	 * to be deleted
 	 */
-	public void delete(int forumId);
+	void delete(int forumId);
 	
 	/**
 	 * Search for a mail integration instance
 	 * @param forumId the forumId of the desired object. 
 	 * @return the requested information, or null if not found
 	 */
-	public MailIntegration find(int forumId);
+	MailIntegration find(int forumId);
 	
 	/**
 	 * Returns all MailIntegration objects currently registered
 	 * @return a list with all data found. Each entry is a MailIntegration instance
 	 */
-	public List<MailIntegration> findAll();
+	List<MailIntegration> findAll();
 }

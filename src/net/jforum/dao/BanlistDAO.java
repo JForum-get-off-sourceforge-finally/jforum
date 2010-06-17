@@ -52,7 +52,7 @@ import net.jforum.entities.Banlist;
  */
 public interface BanlistDAO
 {
-	public void insert(Banlist b);
-	public void delete(int banlistId);
-	public List<Banlist> selectAll();
+	void insert(Banlist banlist);
+	void delete(int banlistId);
+	List<Banlist> selectAll();
 }

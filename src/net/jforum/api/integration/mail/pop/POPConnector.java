@@ -28,16 +28,16 @@ public class POPConnector
 {
 	private static final Logger LOGGER = Logger.getLogger(POPConnector.class);
 	
-	private Store store;
-	private Folder folder;
-	private MailIntegration mailIntegration;
-	private Message[] messages;
+	private transient Store store;
+	private transient Folder folder;
+	private transient MailIntegration mailIntegration;
+	private transient Message[] messages;
 	
 	/**
 	 * @param mailIntegration the {@link MailIntegration} instance with 
 	 * all the information necessary to connect to the pop server
 	 */
-	public void setMailIntegration(MailIntegration mailIntegration)
+	public void setMailIntegration(final MailIntegration mailIntegration)
 	{
 		this.mailIntegration = mailIntegration;
 	}
@@ -65,9 +65,9 @@ public class POPConnector
 	public void openConnection()
 	{
 		try {
-			Session session = Session.getDefaultInstance(new Properties());
+			final Session session = Session.getDefaultInstance(new Properties());
 			
-			this.store = session.getStore(this.mailIntegration.isSSL() ? "pop3s" : "pop3");
+			this.store = session.getStore(this.mailIntegration.isSsl() ? "pop3s" : "pop3");
 
 			this.store.connect(this.mailIntegration.getPopHost(), 
 					this.mailIntegration.getPopPort(), 
@@ -94,7 +94,7 @@ public class POPConnector
 	 */
 	public void closeConnection()
 	{
-		boolean deleteMessages = !SystemGlobals.getBoolValue(ConfigKeys.MAIL_POP3_DEBUG_KEEP_MESSAGES);
+		final boolean deleteMessages = !SystemGlobals.getBoolValue(ConfigKeys.MAIL_POP3_DEBUG_KEEP_MESSAGES);
 		this.closeConnection(deleteMessages);
 	}
 	
@@ -102,7 +102,7 @@ public class POPConnector
 	 * Closes the connection to the pop server.
 	 * @param deleteAll If true, all messages are flagged for deletion
 	 */
-	public void closeConnection(boolean deleteAll)
+	public void closeConnection(final boolean deleteAll)
 	{
 		if (deleteAll) {
 			this.markAllMessagesAsDeleted();

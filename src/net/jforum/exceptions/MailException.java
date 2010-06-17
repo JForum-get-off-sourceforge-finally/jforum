@@ -50,15 +50,15 @@ public class MailException extends RuntimeException
 {
 	private static final long serialVersionUID = -901628985758272393L;
 
-	public MailException(Throwable t)
+	public MailException(final Throwable throwable)
 	{
-		super(t);
-		this.setStackTrace(t.getStackTrace());
+		super(throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 	
-	public MailException(String message, Throwable t)
+	public MailException(final String message, final Throwable throwable)
 	{
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

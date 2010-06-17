@@ -104,9 +104,9 @@ public class UserAction extends Command
 	public void edit()
 	{
 		if (this.canEdit()) {
-			int userId = this.request.getIntParameter("user_id");
-			UserDAO um = DataAccessDriver.getInstance().newUserDAO();
-			User user = um.selectById(userId);
+			final int userId = this.request.getIntParameter("user_id");
+			final UserDAO um = DataAccessDriver.getInstance().newUserDAO();
+			final User user = um.selectById(userId);
 
 			this.context.put("u", user);
 			this.context.put("action", "editSave");
@@ -326,7 +326,7 @@ public class UserAction extends Command
 	public void activateAccount()
 	{
 		String hash = this.request.getParameter("hash");
-		int userId = Integer.valueOf(this.request.getParameter("user_id")).intValue();
+		int userId = Integer.parseInt(this.request.getParameter("user_id"));
 
 		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
 		User user = um.selectById(userId);
@@ -355,7 +355,7 @@ public class UserAction extends Command
 		this.setTemplateName(TemplateKeys.ACTIVATE_ACCOUNT_MANUAL);
 	}
 
-	private void logNewRegisteredUserIn(int userId, User user) 
+	private void logNewRegisteredUserIn(final int userId, final User user) 
 	{
 		SessionFacade.makeLogged();
 

@@ -48,9 +48,9 @@ package net.jforum.util.mail;
  */
 public class EmailSenderTask implements Runnable
 {
-	private final Spammer spammer;
+	private final transient Spammer spammer;
 
-	public EmailSenderTask(Spammer spammer)
+	public EmailSenderTask(final Spammer spammer)
 	{
 		this.spammer = spammer;
 	}

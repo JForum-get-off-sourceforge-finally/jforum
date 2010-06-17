@@ -55,19 +55,19 @@ public interface PrivateMessageDAO
 	/**
 	 * Send a new <code>PrivateMessage</code>
 	 * 
-	 * @param pm The pm to add
+	 * @param privMsg The PrivateMessage to add
 	 */
-	public void send(PrivateMessage pm) ;
+	void send(PrivateMessage privMsg) ;
 	
 	/**
 	 * Deletes a collection of private messages.
 	 * Each instance should at least have the private message
 	 * id and the owner user id.
 	 * 
-	 * @param pm PrivateMessage[]
+	 * @param privMsg PrivateMessage[]
 	 * @param userId
 	 */
-	public void delete(PrivateMessage[] pm, int userId) ;
+	void delete(PrivateMessage[] privMsg, int userId) ;
 	
 	/**
 	 * Update the type of some private message.
@@ -75,9 +75,9 @@ public interface PrivateMessageDAO
 	 * with the pm's id and the new message status. There is no need to
 	 * fill the other members.
 	 * 
-	 * @param pm The instance to update 
+	 * @param privMsg The instance to update 
 	 */
-	public void updateType(PrivateMessage pm) ;
+	void updateType(PrivateMessage privMsg) ;
 	
 	/**
 	 * Selects all messages from the user's inbox. 
@@ -86,7 +86,7 @@ public interface PrivateMessageDAO
 	 * @return A <code>List</code> with all messages found. Each 
 	 * entry is a <code>PrivateMessage</code> entry.
 	 */
-	public List<PrivateMessage> selectFromInbox(User user) ;
+	List<PrivateMessage> selectFromInbox(User user) ;
 	
 	/**
 	 * Selects all messages from the user's sent box. 
@@ -95,14 +95,14 @@ public interface PrivateMessageDAO
 	 * @return A <code>List</code> with all messages found. Each 
 	 * entry is a <code>PrivateMessage</code> entry.
 	 */
-	public List<PrivateMessage> selectFromSent(User user) ;
+	List<PrivateMessage> selectFromSent(User user) ;
 	
 	/**
 	 * Gets a <code>PrivateMessage</code> by its id.
 	 * 
-	 * @param pm A <code>PrivateMessage</code> instance containing the pm's id
+	 * @param privMsg A <code>PrivateMessage</code> instance containing the pm's id
 	 * to retrieve
-	 * @return The pm contents
+	 * @return The privMsg contents
 	 */
-	public PrivateMessage selectById(PrivateMessage pm) ;
+	PrivateMessage selectById(PrivateMessage privMsg) ;
 }

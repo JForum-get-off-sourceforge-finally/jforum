@@ -63,40 +63,40 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#addNewPostText(net.jforum.entities.Post)
 	 */
-	protected void addNewPostText(Post post) throws Exception
+	protected void addNewPostText(final Post post) throws Exception
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.addNewPostText"));
-			p.setInt(1, post.getId());
-			p.setString(2, post.getSubject());
-			p.executeUpdate();
-			p.close();
+			pstmt.setInt(1, post.getId());
+			pstmt.setString(2, post.getSubject());
+			pstmt.executeUpdate();
+			pstmt.close();
 
 			OracleUtils.writeBlobUTF16BinaryStream(SystemGlobals.getSql("PostModel.addNewPostTextField"), 
 				post.getId(), post.getText());
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#updatePostsTextTable(net.jforum.entities.Post)
 	 */
-	protected void updatePostsTextTable(Post post)
+	protected void updatePostsTextTable(final Post post)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("PostModel.updatePostText"));
-			p.setString(1, post.getSubject());
-			p.setInt(2, post.getId());
+			pstmt.setString(1, post.getSubject());
+			pstmt.setInt(2, post.getId());
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 
 			OracleUtils.writeBlobUTF16BinaryStream(SystemGlobals.getSql("PostModel.addNewPostTextField"), 
 				post.getId(), post.getText());
@@ -105,22 +105,22 @@ public class OraclePostDAO extends GenericPostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#getPostTextFromResultSet(java.sql.ResultSet)
 	 */
-	protected String getPostTextFromResultSet(ResultSet rs) throws SQLException
+	protected String getPostTextFromResultSet(final ResultSet resultSet) throws SQLException
 	{
-		return OracleUtils.readBlobUTF16BinaryStream(rs, "post_text");
+		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "post_text");
 	}
 
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 */
-	public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
+	public List<Post> selectAllByTopicByLimit(final int topicId, final int startFrom, final int count)
 	{
 		return super.selectAllByTopicByLimit(topicId, startFrom, startFrom + count);
 	}
@@ -128,7 +128,7 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Post> selectByUserByLimit(int userId, int startFrom, int count)
+	public List<Post> selectByUserByLimit(final int userId, final int startFrom, final int count)
 	{
 		return super.selectByUserByLimit(userId, startFrom, startFrom + count);
 	}

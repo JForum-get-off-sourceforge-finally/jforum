@@ -23,7 +23,7 @@ public class JSAction extends Command
 	{
 		JForumExecutionContext.setContentType("text/javascript");
 		
-		String filename = this.request.getParameter("js");
+		final String filename = this.request.getParameter("js");
 		
 		this.templateName = "js/" + filename + ".js";
 	}

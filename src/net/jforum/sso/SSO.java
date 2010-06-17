@@ -60,7 +60,7 @@ public interface SSO
 	 * @return The username, if authentication succeed, or <code>null</code> 
 	 * otherwise. 
 	 */
-	public String authenticateUser(RequestContext request);
+	String authenticateUser(RequestContext request);
    
    
     /**
@@ -70,5 +70,5 @@ public interface SSO
      * @param request the current request
      * @return if the UserSession is valid
      */
-    public boolean isSessionValid(UserSession userSession, RequestContext request);
+    boolean isSessionValid(UserSession userSession, RequestContext request);
 }

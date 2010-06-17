@@ -63,7 +63,7 @@ public interface KarmaDAO
 	 * least have set the karma status, the user who is receiving
 	 * the karma and the user which is setting the karme.
 	 */
-	public void addKarma(Karma karma) ;
+	void addKarma(Karma karma) ;
 	
 	/**
 	 * Gets the karma status of some user.
@@ -71,7 +71,7 @@ public interface KarmaDAO
 	 * @param userId The user id to get the karma status
 	 * @return A <code>net.jforum.entities.KarmaStatus</code> instance
 	 */
-	public KarmaStatus getUserKarma(int userId) ;
+	KarmaStatus getUserKarma(int userId) ;
 	
 	/**
 	 * Updates the karma status for some user. 
@@ -80,7 +80,7 @@ public interface KarmaDAO
 	 * 
 	 * @param userId The id of the user to update
 	 */
-	public void updateUserKarma(int userId) ;
+	void updateUserKarma(int userId) ;
 	
 	/**
 	 * Checks if the user can add the karma.
@@ -95,7 +95,7 @@ public interface KarmaDAO
 	 * @return <code>true</code> if the user hasn't voted on the
 	 * post yet, or <code>false</code> otherwise. 
 	 */
-	public boolean userCanAddKarma(int userId, int postId) ;
+	boolean userCanAddKarma(int userId, int postId) ;
 	
 	/**
 	 * Gets the karma status of some post.
@@ -103,7 +103,7 @@ public interface KarmaDAO
 	 * @param postId The post id to get the karma status
 	 * @return A <code>net.jforum.entities.KarmaStatus</code> instance
 	 */
-	public KarmaStatus getPostKarma(int postId) ;
+	KarmaStatus getPostKarma(int postId) ;
 	
 	/**
      * Deletes the karma belonging to some post.
@@ -112,13 +112,13 @@ public interface KarmaDAO
      *
      * @param postId The id of the post to delete
      */
-	public void deletePostKarma(int postId) ;
+	void deletePostKarma(int postId) ;
 	
 	/**
 	 * Updates a karma
 	 * @param karma The karma instance to update
 	 */
-	public void update(Karma karma) ;
+	void update(Karma karma) ;
 	
 	/**
 	 * Gets the votes the user made on some topic.
@@ -128,12 +128,12 @@ public interface KarmaDAO
 	 * @return A <code>java.util.Map</code>, where the key is the post id and the
 	 * value id the rate made by the user.
 	 */
-	public Map<Integer, Integer> getUserVotes(int topicId, int userId) ;
+	Map<Integer, Integer> getUserVotes(int topicId, int userId) ;
 	
 	/**
 	 * @param user User
 	 */
-	public void getUserTotalKarma(User user) ;
+	void getUserTotalKarma(User user) ;
 	
 	
 	/**
@@ -145,5 +145,5 @@ public interface KarmaDAO
      * @param orderField orderField
 	 * @return Returns a List of users ant your total votes.
 	 */
-	public List<User> getMostRatedUserByPeriod(int start, Date firstPeriod, Date lastPeriod, String orderField) ;
+	List<User> getMostRatedUserByPeriod(int start, Date firstPeriod, Date lastPeriod, String orderField) ;
 }

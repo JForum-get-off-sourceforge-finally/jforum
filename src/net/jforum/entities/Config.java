@@ -77,7 +77,7 @@ public class Config
 	 * 
 	 * @param string The entry name to set
 	 */
-	public void setName(String string) {
+	public void setName(final String string) {
 		this.name = string;
 	}
 
@@ -86,11 +86,11 @@ public class Config
 	 * 
 	 * @param string The entry value to set
 	 */
-	public void setValue(String string) {
+	public void setValue(final String string) {
 		this.value = string;
 	}
 	
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 }

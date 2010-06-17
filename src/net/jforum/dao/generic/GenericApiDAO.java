@@ -22,26 +22,26 @@ public class GenericApiDAO implements ApiDAO
 	/**
 	 * @see net.jforum.dao.ApiDAO#isValid(java.lang.String)
 	 */
-	public boolean isValid(String apiKey)
+	public boolean isValid(final String apiKey)
 	{
 		boolean status = false;
 		
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("ApiModel.isValid"));
-			p.setString(1, apiKey);
+			pstmt.setString(1, apiKey);
 			
-			rs = p.executeQuery();
-			status = rs.next();
+			resultSet = pstmt.executeQuery();
+			status = resultSet.next();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 		
 		return status;

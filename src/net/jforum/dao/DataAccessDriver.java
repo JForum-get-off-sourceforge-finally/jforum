@@ -62,7 +62,13 @@ public abstract class DataAccessDriver
 {
 	private static DataAccessDriver driver;
 	
-	protected DataAccessDriver() {}
+	/**
+	 * Empty constructor
+	 */
+	protected DataAccessDriver() 
+	{
+		// Empty constructor
+	}
 	
 	/**
 	 * Starts the engine.
@@ -71,7 +77,7 @@ public abstract class DataAccessDriver
 	 * 
 	 * @param implementation The dao.driver implementation
 	 */
-	public static void init(DataAccessDriver implementation)
+	public static void init(final DataAccessDriver implementation)
 	{
 		driver = implementation;
 	}
@@ -242,9 +248,24 @@ public abstract class DataAccessDriver
      */
 	public abstract ApiDAO newApiDAO();
 
+    /**
+     * Gets a {@link net.jforum.dao.BanlistDAO} instance.
+     *
+     * @return <code>net.jforum.dao.BanlistDAO</code> instance.
+     */
 	public abstract BanlistDAO newBanlistDAO();
-	
+
+    /**
+     * Gets a {@link net.jforum.dao.ModerationLogDAO} instance.
+     *
+     * @return <code>net.jforum.dao.ModerationLogDAO</code> instance.
+     */
 	public abstract ModerationLogDAO newModerationLogDAO();
 	
+	/**
+     * Gets a {@link net.jforum.dao.LuceneDAO} instance.
+     *
+     * @return <code>net.jforum.dao.LuceneDAO</code> instance.
+     */
 	public abstract LuceneDAO newLuceneDAO();
 }

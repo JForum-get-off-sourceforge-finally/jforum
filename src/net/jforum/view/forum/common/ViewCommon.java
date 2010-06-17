@@ -85,9 +85,9 @@ public final class ViewCommon
 	 * @param totalRecords  int
 	 * @param recordsPerPage int
 	 */
-	public static void contextToPagination(int start, int totalRecords, int recordsPerPage)
+	public static void contextToPagination(final int start, final int totalRecords, final int recordsPerPage)
 	{
-		SimpleHash context = JForumExecutionContext.getTemplateContext();
+		final SimpleHash context = JForumExecutionContext.getTemplateContext();
 		
 		context.put("totalPages", new Double(Math.ceil((double) totalRecords / (double) recordsPerPage)));
 		context.put("recordsPerPage", Integer.valueOf(recordsPerPage));
@@ -102,17 +102,17 @@ public final class ViewCommon
 	 */
 	public static String contextToLogin() 
 	{
-		RequestContext request = JForumExecutionContext.getRequest();
+		final RequestContext request = JForumExecutionContext.getRequest();
 		
 		String uri = request.getRequestURI();
-        String ctxPath = request.getContextPath() + "/";
+        final String ctxPath = request.getContextPath() + "/";
         
         if (uri != null && uri.startsWith(ctxPath)) {
             uri = uri.substring(ctxPath.length());
         }
         
-		String query = request.getQueryString();
-		String returnPath = query == null ? uri : uri + "?" + query;
+		final String query = request.getQueryString();
+		final String returnPath = query == null ? uri : uri + "?" + query;
 		
 		return contextToLogin(returnPath);
 	}
@@ -197,41 +197,41 @@ public final class ViewCommon
 		return forumLink;
 	}
 	
-	public static String toUtf8String(String s)
+	public static String toUtf8String(final String str)
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuffer stringBuffer = new StringBuffer();
 	
-		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+			char chr = str.charAt(i);
 	
-			if ((c >= 0) && (c <= 255)) {
-				sb.append(c);
+			if ((chr >= 0) && (chr <= 255)) {
+				stringBuffer.append(chr);
 			}
 			else {
-				byte[] b;
+				byte[] byt;
 	
 				try {
-					b = Character.toString(c).getBytes("utf-8");
+					byt = Character.toString(chr).getBytes("utf-8");
 				}
 				catch (Exception ex) {
 					LOGGER.error(ex.getMessage(), ex);
 					
-					b = new byte[0];
+					byt = new byte[0];
 				}
 	
-				for (int j = 0; j < b.length; j++) {
-					int k = b[j];
+				for (int j = 0; j < byt.length; j++) {
+					int k = byt[j];
 	
 					if (k < 0) {
 						k += 256;
 					}
 	
-					sb.append('%').append(Integer.toHexString(k).toUpperCase());
+					stringBuffer.append('%').append(Integer.toHexString(k).toUpperCase());
 				}
 			}
 		}
 	
-		return sb.toString();
+		return stringBuffer.toString();
 	}
 	
 	/**
@@ -240,7 +240,7 @@ public final class ViewCommon
 	 * @param date the date to format
 	 * @return the string with the formatted date
 	 */
-	public static String formatDate(Date date) 
+	public static String formatDate(final Date date) 
 	{
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
 		return df.format(date);

@@ -52,7 +52,7 @@ import net.jforum.search.SearchArgs;
 import net.jforum.search.SearchResult;
 
 /**
-* Model interface for {@link net.jforum.entities.Topic}.
+ * Model interface for {@link net.jforum.entities.Topic}.
  * This interface defines methods which are expected to be
  * implemented by a specific data access driver. The intention is
  * to provide all functionality needed to update, insert, delete and
@@ -69,7 +69,7 @@ public interface TopicDAO
 	 * 
 	 * @param topicId The topic id to fix
 	 */
-	public void fixFirstLastPostId(int topicId) ;
+	void fixFirstLastPostId(int topicId) ;
 	
 	/**
 	 * Gets a specific <code>Topic</code>.
@@ -78,7 +78,7 @@ public interface TopicDAO
 	 * @return <code>Topic</code>object containing all the information
 	 * @see #selectAllByForum(int forumId)
 	 */
-	public Topic selectById(int topicId) ;
+	Topic selectById(int topicId) ;
 	
 	/**
 	 * Gets a topic's information from the topics table only.
@@ -87,7 +87,7 @@ public interface TopicDAO
 	 * @param topicId The topic id to get
 	 * @return A topic instance
 	 */
-	public Topic selectRaw(int topicId) ;
+	Topic selectRaw(int topicId) ;
 	
 	/**
 	 * Selects all topics associated to a specific forum
@@ -95,9 +95,9 @@ public interface TopicDAO
 	 * @param forumId The forum id to select the topics
 	 * @return <code>ArrayList</code> with all topics found. Each entry is a <code>net.jforum.Topic</code> object
 	 */
-	public List<Topic> selectAllByForum(int forumId) ;
+	List<Topic> selectAllByForum(int forumId) ;
 	
-	public List<Map<String, Object>> selectTopicTitlesByIds(Collection<?> idList) ;
+	List<Map<String, Object>> selectTopicTitlesByIds(Collection<?> idList) ;
 	
 	/**
 	 * Selects all topics associated to a specific forum, limiting the total number
@@ -108,7 +108,7 @@ public interface TopicDAO
      * @param startFrom int
      * @param count int
 	 */
-	public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count) ;
+	List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count) ;
 
     /**
      * Selects all topics associated to a specific user and belonging to
@@ -118,14 +118,14 @@ public interface TopicDAO
      * @param count int
      * @return  List
      */
-	public List<Topic> selectByUserByLimit(int userId,int startFrom, int count) ;
+	List<Topic> selectByUserByLimit(int userId,int startFrom, int count) ;
 
 	/**
 	 * How many topics were created by a given user
 	 * @param userId the user id to check
 	 * @return the number of topics created by the user
 	 */
-	public int countUserTopics(int userId) ;
+	int countUserTopics(int userId) ;
 	
 	/**
 	 * Delete a Topic.
@@ -133,7 +133,7 @@ public interface TopicDAO
 	 * @param topic The Topic ID to delete
 	 * @param fromModeration boolean
 	 */
-	public void delete(Topic topic, boolean fromModeration) ;
+	void delete(Topic topic, boolean fromModeration) ;
 	
 	/**
 	 * Deletes a set of topics
@@ -141,20 +141,20 @@ public interface TopicDAO
 	 * an instance of net.jforum.entities.Topic
 	 * @param fromModeration boolean
 	 */
-	public void deleteTopics(List<Topic> topics, boolean fromModeration) ;
+	void deleteTopics(List<Topic> topics, boolean fromModeration) ;
 	
 	/**
 	 * Deletes all topics from a forum
 	 * @param forumId int
 	 */
-	public void deleteByForum(int forumId) ;
+	void deleteByForum(int forumId) ;
 	
 	/**
 	 * Updates a Topic.
 	 * 
 	 * @param topic Reference to a <code>Topic</code> object to update
 	 */
-	public void update(Topic topic) ;
+	void update(Topic topic) ;
 	
 	/**
 	 * Adds a new Topic.
@@ -162,28 +162,28 @@ public interface TopicDAO
 	 * @param topic Reference to a valid and configured <code>Topic</code> object
 	 * @return The new ID
 	 */
-	public int addNew(Topic topic) ;
+	int addNew(Topic topic) ;
 	
 	/**
 	 * Increments the number of times the topic was saw
 	 * 
 	 * @param topicId The topic ID to increment the total number of views
 	 */
-	public void incrementTotalViews(int topicId) ;
+	void incrementTotalViews(int topicId) ;
 	
 	/**
 	 * Increments the number of replies the topic has
 	 * 
 	 * @param topicId The topic ID to increment the total number of replies
 	 */
-	public void incrementTotalReplies(int topicId) ;
+	void incrementTotalReplies(int topicId) ;
 
 	/**
 	 * Decrements the number of replies the topic has
 	 * 
 	 * @param topicId The topic ID to decrement the total number of replies
 	 */
-	public void decrementTotalReplies(int topicId) ;
+	void decrementTotalReplies(int topicId) ;
 	
 	/**
 	 * Sets the ID of the last post of the topic
@@ -191,7 +191,7 @@ public interface TopicDAO
 	 * @param topicId Topic ID
 	 * @param postId Post ID
 	 */
-	public void setLastPostId(int topicId, int postId) ;
+	void setLastPostId(int topicId, int postId) ;
 	
 	/**
 	 * Gets the last post id associated to the topic
@@ -199,7 +199,7 @@ public interface TopicDAO
 	 * @param topicId The topic id
      * @return int
 	 */
-	public int getMaxPostId(int topicId) ;
+	int getMaxPostId(int topicId) ;
 	
 	/**
 	 * Gets the number of posts the topic has.
@@ -207,7 +207,7 @@ public interface TopicDAO
 	 * @param topicId The topic id
 	 * @return The number of posts
 	 */
-	public int getTotalPosts(int topicId) ;
+	int getTotalPosts(int topicId) ;
 	
 	/**
 	 * Get the users to notify
@@ -216,14 +216,14 @@ public interface TopicDAO
 	 * @return <code>ArrayList</code> of <code>User</code> objects. Each
 	 * entry is a user who will receive the topic answer notification
 	 * */
-	public List<User> notifyUsers(Topic topic) ;
+	List<User> notifyUsers(Topic topic) ;
 	
 	/**
 	 * Subscribe a set of users for notification of new post in the topic
 	 * @param topicId the topic id
 	 * @param users the relation of {@link User} instances to subscribe
 	 */
-	public void subscribeUsers(int topicId, List<User> users);
+	void subscribeUsers(int topicId, List<User> users);
 	
 	/**
 	 * Subscribe the user for notification of new post in the topic
@@ -231,7 +231,7 @@ public interface TopicDAO
 	 * @param topicId The topic id
 	 * @param userId The user id
 	 */
-	public void subscribeUser(int topicId, int userId) ;
+	void subscribeUser(int topicId, int userId) ;
 	
 	/**
 	 * Return the subscription status of the user on the topic.
@@ -240,7 +240,7 @@ public interface TopicDAO
 	 * @param userId The user id
 	 * @return true if the user is waiting notification on the topic
 	 */
-	public boolean isUserSubscribed(int topicId, int userId) ;
+	boolean isUserSubscribed(int topicId, int userId) ;
 	
 	/**
 	 * Remove the user's subscription of the topic
@@ -248,14 +248,14 @@ public interface TopicDAO
 	 * @param topicId The topic id
 	 * @param userId the User id
 	 */
-	public void removeSubscription(int topicId, int userId) ;
+	void removeSubscription(int topicId, int userId) ;
 	
 	/**
 	 * Clean all subscriptions of some topic
 	 * 
 	 * @param topicId The topic id
 	 */
-	public void removeSubscriptionByTopic(int topicId) ;
+	void removeSubscriptionByTopic(int topicId) ;
 	
 	/**
 	 * Change the topic read status 
@@ -264,7 +264,7 @@ public interface TopicDAO
 	 * @param userId The user id
 	 * @param read <code>true</code> or <code>false</code>
 	 */
-	public void updateReadStatus(int topicId, int userId, boolean read) ;
+	void updateReadStatus(int topicId, int userId, boolean read) ;
 	
 	/**
 	 * Lock or unlock a topic. 
@@ -273,7 +273,7 @@ public interface TopicDAO
 	 * @param status Use <code>Topic.STATUS_LOCKED</code> to lock the topic, or
 	 * <code>Topic.STATUS_UNLOCKED</code> to unlock. 
 	 */
-	public void lockUnlock(int[] topicId, int status) ;
+	void lockUnlock(int[] topicId, int status) ;
 
 	/**
 	 * Selects recent topics 
@@ -281,7 +281,7 @@ public interface TopicDAO
 	 * @param limit The number of topics to retrieve
      * @return List
 	 */
-	public List<Topic> selectRecentTopics (int limit) ;
+	List<Topic> selectRecentTopics (int limit) ;
 
 	/**
 	 * Selects hottest topics
@@ -289,7 +289,7 @@ public interface TopicDAO
 	 * @param limit The number of topics to retrieve
 	    * @return List
 	 */
-	public List<Topic> selectHottestTopics (int limit) ;
+	List<Topic> selectHottestTopics (int limit) ;
 	
 	/**
 	 * Sets the ID of the first post of the topic
@@ -297,7 +297,7 @@ public interface TopicDAO
 	 * @param topicId Topic ID
 	 * @param postId Post ID
 	 */
-	public void setFirstPostId(int topicId, int postId) ;
+	void setFirstPostId(int topicId, int postId) ;
 
 	/**
 	 * Gets the first post id associated to the topic
@@ -305,7 +305,7 @@ public interface TopicDAO
 	 * @param topicId The topic id
      * @return int
 	 */
-	public int getMinPostId(int topicId) ;
+	int getMinPostId(int topicId) ;
 	
 	/**
 	 * Sets the moderation flag for all topics of a given forum.
@@ -313,7 +313,7 @@ public interface TopicDAO
 	 * @param forumId The forum id
 	 * @param status boolean
 	 */
-	public void setModerationStatus(int forumId, boolean status) ;
+	void setModerationStatus(int forumId, boolean status) ;
 
 	/**
 	 * Sets the moderation flag for a given topic.
@@ -321,7 +321,7 @@ public interface TopicDAO
 	 * @param topicId The topic id
 	 * @param status boolean
 	 */
-	public void setModerationStatusByTopic(int topicId, boolean status) ;
+	void setModerationStatusByTopic(int topicId, boolean status) ;
 
 	/**
 	 * Get all unique posters of some topic
@@ -330,11 +330,11 @@ public interface TopicDAO
 	 * value is a {@link net.jforum.entities.User} instance with minimum
 	 * data filled
 	 */
-	public Map<Integer, User> topicPosters(int topicId) ;
+	Map<Integer, User> topicPosters(int topicId) ;
 	
 	/**
 	 * @param args
 	 * @return SearchResult
 	 */
-	public SearchResult findTopicsByDateRange(SearchArgs args);
+	SearchResult findTopicsByDateRange(SearchArgs args) ;
 }

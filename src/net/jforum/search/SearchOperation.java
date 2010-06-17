@@ -61,24 +61,24 @@ public abstract class SearchOperation
 	public abstract SearchResult performSearch(SearchArgs args);
 	public abstract int totalRecords();
 	public abstract void prepareForDisplay();
-	public abstract List<?> results();
+	public abstract List<?> getResults();
 	public abstract String viewTemplate();
 	protected abstract int extractForumId(Object value);
 	
-	public final List<Object> filterResults(List<?> results)
+	public final List<Object> filterResults(final List<?> results)
 	{
-		List<Object> list = new ArrayList<Object>();
+		final List<Object> list = new ArrayList<Object>();
 		
-		Map<Integer, ForumFilterResult> forums = new HashMap<Integer, ForumFilterResult>();
+		final Map<Integer, ForumFilterResult> forums = new HashMap<Integer, ForumFilterResult>();
 		
-		for (Iterator<?> iter = results.iterator(); iter.hasNext(); ) {
-			Object currentObject = iter.next();
+		for (final Iterator<?> iter = results.iterator(); iter.hasNext(); ) {
+			final Object currentObject = iter.next();
 			
-			Integer forumId = Integer.valueOf(this.extractForumId(currentObject));
+			final Integer forumId = Integer.valueOf(this.extractForumId(currentObject));
 			ForumFilterResult status = forums.get(forumId);
 			
 			if (status == null) {
-				Forum forum = ForumRepository.getForum(forumId.intValue());
+				final Forum forum = ForumRepository.getForum(forumId.intValue());
 				status = new ForumFilterResult(forum);
 				forums.put(forumId, status);
 			}
@@ -98,9 +98,9 @@ public abstract class SearchOperation
 	
 	private static class ForumFilterResult
 	{
-		private Forum forum;
+		private transient final Forum forum;
 		
-		public ForumFilterResult(Forum forum)
+		public ForumFilterResult(final Forum forum)
 		{
 			this.forum = forum;
 		}

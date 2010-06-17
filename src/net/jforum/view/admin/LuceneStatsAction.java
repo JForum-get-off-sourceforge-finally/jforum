@@ -150,7 +150,7 @@ public class LuceneStatsAction extends AdminCommand
 	public Template process(RequestContext request, ResponseContext response, SimpleHash context)
 	{
 		if (!this.isSearchEngineLucene()) {
-			this.ignoreAction();
+			this.enableIgnoreAction();
 			this.luceneNotEnabled();
 		}
 		

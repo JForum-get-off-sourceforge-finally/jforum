@@ -66,29 +66,29 @@ public class BanlistAction extends AdminCommand
 	
 	public void insertSave()
 	{
-		String type = this.request.getParameter("type");
-		String value = this.request.getParameter("value");
+		final String type = this.request.getParameter("type");
+		final String value = this.request.getParameter("value");
 		
 		if (StringUtils.isNotEmpty(type) && StringUtils.isNotEmpty(value)) {
-			Banlist b = new Banlist();
+			final Banlist banlist = new Banlist();
 			
 			if ("email".equals(type)) {
-				b.setEmail(value);
+				banlist.setEmail(value);
 			}
 			else if ("user".equals(type)) {
-				b.setUserId(Integer.parseInt(value));
+				banlist.setUserId(Integer.parseInt(value));
 			}
 			else if ("ip".equals(type)) {
-				b.setIp(value);
+				banlist.setIp(value);
 			}
 			else {
 				throw new ForumException("Unknown banlist type");
 			}
 			
-			BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
-			dao.insert(b);
+			final BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
+			dao.insert(banlist);
 			
-			BanlistRepository.add(b);
+			BanlistRepository.add(banlist);
 		}
 		
 		this.list();
@@ -96,13 +96,13 @@ public class BanlistAction extends AdminCommand
 	
 	public void delete() 
 	{
-		String[] banlist = this.request.getParameterValues("banlist_id");
+		final String[] banlist = this.request.getParameterValues("banlist_id");
 		
 		if (banlist != null && banlist.length > 0) {
-			BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
+			final BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
 			
 			for (int i = 0; i < banlist.length; i++) {
-				int current = Integer.parseInt(banlist[i]);
+				final int current = Integer.parseInt(banlist[i]);
 				dao.delete(current);
 				
 				BanlistRepository.remove(current);
@@ -119,7 +119,7 @@ public class BanlistAction extends AdminCommand
 	{
 		this.setTemplateName(TemplateKeys.BANLIST_LIST);
 		
-		List<Banlist> l = DataAccessDriver.getInstance().newBanlistDAO().selectAll();
-		this.context.put("banlist", l);
+		final List<Banlist> list = DataAccessDriver.getInstance().newBanlistDAO().selectAll();
+		this.context.put("banlist", list);
 	}
 }

@@ -66,7 +66,7 @@ public class ForumStats
 	/**
 	 * @param posts The posts to set.
 	 */
-	public void setPosts(int posts)
+	public void setPosts(final int posts)
 	{
 		this.posts = posts;
 	}
@@ -82,7 +82,7 @@ public class ForumStats
 	/**
 	 * @param postsPerDay The postsPerDay to set.
 	 */
-	public void setPostsPerDay(double postsPerDay)
+	public void setPostsPerDay(final double postsPerDay)
 	{
 		this.postsPerDay = postsPerDay;
 	}
@@ -98,7 +98,7 @@ public class ForumStats
 	/**
 	 * @param topics The topics to set.
 	 */
-	public void setTopics(int topics)
+	public void setTopics(final int topics)
 	{
 		this.topics = topics;
 	}
@@ -114,7 +114,7 @@ public class ForumStats
 	/**
 	 * @param topicsPerDay The topicsPerDay to set.
 	 */
-	public void setTopicsPerDay(double topicsPerDay)
+	public void setTopicsPerDay(final double topicsPerDay)
 	{
 		this.topicsPerDay = topicsPerDay;
 	}
@@ -130,7 +130,7 @@ public class ForumStats
 	/**
 	 * @param users The users to set.
 	 */
-	public void setUsers(int users)
+	public void setUsers(final int users)
 	{
 		this.users = users;
 	}
@@ -146,7 +146,7 @@ public class ForumStats
 	/**
 	 * @param usersPerDay The usersPerDay to set.
 	 */
-	public void setUsersPerDay(double usersPerDay)
+	public void setUsersPerDay(final double usersPerDay)
 	{
 		this.usersPerDay = usersPerDay;
 	}

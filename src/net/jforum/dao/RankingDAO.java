@@ -65,7 +65,7 @@ public interface RankingDAO
 	 * @return <code>Ranking</code>object containing all the information
 	 * @see #selectAll
 	 */
-	public Ranking selectById(int rankingId) ;
+	Ranking selectById(int rankingId) ;
 	
 	/**
 	 * Selects all ranking data from the database.
@@ -73,7 +73,7 @@ public interface RankingDAO
 	 * @return ArrayList with the rankings. Each entry is a <code>Ranking</code> object 
 	 * @see #selectById
 	 */
-	public List<Ranking> selectAll() ;
+	List<Ranking> selectAll() ;
 	
 
 	/**
@@ -81,7 +81,7 @@ public interface RankingDAO
 	 * 
 	 * @param rankingId The ranking ID to delete
 	 */
-	public void delete(int rankingId) ;
+	void delete(int rankingId) ;
 	
 
 	/**
@@ -89,18 +89,18 @@ public interface RankingDAO
 	 * 
 	 * @param ranking Reference to a <code>Ranking</code> object to update
 	 */
-	public void update(Ranking ranking) ;
+	void update(Ranking ranking) ;
 	
 	/**
 	 * Adds a new ranking.
 	 * 
 	 * @param ranking Reference to a valid and configured <code>Ranking</code> object
 	 */
-	public void addNew(Ranking ranking) ;
+	void addNew(Ranking ranking) ;
 
 	/**
 	 * Return all special rankings
 	 * @return ArrayList of all special rankings
 	 */
-	public List<Ranking> selectSpecials();
+	List<Ranking> selectSpecials();
 }

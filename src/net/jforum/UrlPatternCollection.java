@@ -61,7 +61,7 @@ public class UrlPatternCollection
      * @param name The pattern name
      * @return The <code>UrlPattern</code> object if a match was found, or <code>null</code> if not
      */
-    public static UrlPattern findPattern(String name)
+    public static UrlPattern findPattern(final String name)
     {
         return UrlPatternCollection.patternsMap.get(name);
     }
@@ -72,8 +72,10 @@ public class UrlPatternCollection
      * @param name The pattern name
      * @param value The pattern value
      */
-    public static void addPattern(String name, String value)
+    public static void addPattern(final String name, final String value)
     {
         UrlPatternCollection.patternsMap.put(name, new UrlPattern(name, value));
     }
+    
+    private UrlPatternCollection() {}
 }

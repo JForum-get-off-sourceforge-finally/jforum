@@ -54,11 +54,11 @@ import net.jforum.entities.Post;
  */
 public interface LuceneDAO
 {
-	public List<Post> getPostsToIndex(int fromPostId, int toPostId);
+	List<Post> getPostsToIndex(int fromPostId, int toPostId);
 	
-	public List<Post> getPostsData(int[] postIds);
+	List<Post> getPostsData(int[] postIds);
 	
-	public int firstPostIdByDate(Date date);
+	int firstPostIdByDate(Date date);
 	
-	public int lastPostIdByDate(Date date);
+	int lastPostIdByDate(Date date);
 }

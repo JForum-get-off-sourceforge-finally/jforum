@@ -27,7 +27,7 @@ public class ConfigLoader
 {
 	private static final Logger LOGGER = Logger.getLogger(ConfigLoader.class);
 
-	private ClickstreamConfig config;
+	private transient ClickstreamConfig config;
 
 	private static ConfigLoader instance = new ConfigLoader();;
 
@@ -48,16 +48,16 @@ public class ConfigLoader
 			this.config = new ClickstreamConfig();
 	
 			try {
-				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+				final SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 	
-				String path = SystemGlobals.getValue(ConfigKeys.CLICKSTREAM_CONFIG);
+				final String path = SystemGlobals.getValue(ConfigKeys.CLICKSTREAM_CONFIG);
 				
 				if (path != null) {
 					if (LOGGER.isInfoEnabled()) {
 						LOGGER.info("Loading clickstream config from " + path);
 					}
 					
-					File fileInput = new File(path);
+					final File fileInput = new File(path);
 					
 					if (fileInput.exists()) {
 						parser.parse(fileInput, new ConfigHandler());
@@ -70,15 +70,15 @@ public class ConfigLoader
 			}
 			catch (SAXException e) {
 				LOGGER.error("Could not parse clickstream XML", e);
-				throw new RuntimeException(e.getMessage());
+				throw new RuntimeException(e.getMessage());				
 			}
 			catch (IOException e) {
 				LOGGER.error("Could not read clickstream config from stream", e);
-				throw new RuntimeException(e.getMessage());
+				throw new RuntimeException(e.getMessage());				
 			}
 			catch (ParserConfigurationException e) {
 				LOGGER.fatal("Could not obtain SAX parser", e);
-				throw new RuntimeException(e.getMessage());
+				throw new RuntimeException(e.getMessage());				
 			}
 			catch (RuntimeException e) {
 				LOGGER.fatal("RuntimeException", e);
@@ -92,7 +92,7 @@ public class ConfigLoader
 	 */
 	private class ConfigHandler extends DefaultHandler
 	{
-		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+		public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException
 		{
 			if ("bot-host".equals(qName)) {
 				config.addBotHost(attributes.getValue("name"));

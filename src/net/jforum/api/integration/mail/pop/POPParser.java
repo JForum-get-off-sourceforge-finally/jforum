@@ -18,14 +18,14 @@ public class POPParser
 {
 	private static final Logger LOGGER = Logger.getLogger(POPParser.class);
 	
-	private final List<POPMessage> messages = new ArrayList<POPMessage>();
+	private transient final List<POPMessage> messages = new ArrayList<POPMessage>();
 	
-	public void parseMessages(POPConnector connector)
+	public void parseMessages(final POPConnector connector)
 	{
-		Message[] connectorMessages = connector.listMessages();
+		final Message[] connectorMessages = connector.listMessages();
 		
 		for (int i = 0; i < connectorMessages.length; i++) {
-			POPMessage message = new POPMessage(connectorMessages[i]);
+			final POPMessage message = new POPMessage(connectorMessages[i]);
 			this.messages.add(message);
 			
 			LOGGER.debug("Retrieved message " + message);

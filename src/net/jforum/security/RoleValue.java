@@ -54,19 +54,21 @@ public class RoleValue implements Serializable
 	private int roleId;
 	private String value;
 	
-	public RoleValue() {}
+	public RoleValue() {
+		// Empty Constructor
+	}
 	
-	public RoleValue(String value)
+	public RoleValue(final String value)
 	{
 		this.value = value;
 	}
 	
-	public void setRoleId(int roleId)
+	public void setRoleId(final int roleId)
 	{
 		this.roleId = roleId;
 	}
 	
-	public void setValue(String value)
+	public void setValue(final String value)
 	{
 		this.value = value;
 	}
@@ -84,17 +86,17 @@ public class RoleValue implements Serializable
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) 
+	public boolean equals(final Object obj) 
 	{
-		if (o == this) {
+		if (obj == this) {
 			return true;
 		}
 		
-		if (!(o instanceof RoleValue)) {
+		if (!(obj instanceof RoleValue)) {
 			return false;
 		}
 		
-		return ((RoleValue)o).getValue().equals(this.value);
+		return ((RoleValue)obj).getValue().equals(this.value);
 	}
 
 	/** 

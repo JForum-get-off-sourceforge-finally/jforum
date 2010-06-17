@@ -49,5 +49,5 @@ package net.jforum.search;
  */
 public interface NewDocumentAdded
 {
-	public void newDocumentAdded();
+	void newDocumentAdded();
 }

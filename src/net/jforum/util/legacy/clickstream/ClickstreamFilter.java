@@ -39,14 +39,14 @@ public class ClickstreamFilter implements Filter
 	 * @throws IOException If an error occurs
 	 * @throws ServletException If an error occurs
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException,
 			ServletException
 	{
 		// Ensure that filter is only applied once per request.
 		if (request.getAttribute(FILTER_APPLIED) == null) {
 			request.setAttribute(FILTER_APPLIED, Boolean.TRUE);
 			
-			String bot = BotChecker.isBot((HttpServletRequest)request);
+			final String bot = BotChecker.isBot((HttpServletRequest)request);
 			
 			if (bot != null && LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Found a bot: " + bot);
@@ -65,10 +65,14 @@ public class ClickstreamFilter implements Filter
 	 * @param filterConfig The filter configuration
 	 * @throws ServletException If an error occurs
 	 */
-	public void init(FilterConfig filterConfig) throws ServletException {}
+	public void init(final FilterConfig filterConfig) throws ServletException {
+		// Do nothing
+	}
 
 	/**
 	 * Destroys this filter.
 	 */
-	public void destroy() {}
+	public void destroy() {
+		// Do nothing
+	}
 }

@@ -68,7 +68,7 @@ public class AttachmentExtensionGroup
 	/**
 	 * @param downloadMode The downloadMode to set.
 	 */
-	public void setDownloadMode(int downloadMode)
+	public void setDownloadMode(final int downloadMode)
 	{
 		this.downloadMode = downloadMode;
 	}
@@ -84,7 +84,7 @@ public class AttachmentExtensionGroup
 	/**
 	 * @param allow The allow to set.
 	 */
-	public void setAllow(boolean allow)
+	public void setAllow(final boolean allow)
 	{
 		this.allow = allow;
 	}
@@ -100,7 +100,7 @@ public class AttachmentExtensionGroup
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -116,7 +116,7 @@ public class AttachmentExtensionGroup
 	/**
 	 * @param name The name to set.
 	 */
-	public void setName(String name)
+	public void setName(final String name)
 	{
 		this.name = name;
 	}
@@ -132,7 +132,7 @@ public class AttachmentExtensionGroup
 	/**
 	 * @param uploadIcon The uploadIcon to set.
 	 */
-	public void setUploadIcon(String uploadIcon)
+	public void setUploadIcon(final String uploadIcon)
 	{
 		this.uploadIcon = uploadIcon;
 	}

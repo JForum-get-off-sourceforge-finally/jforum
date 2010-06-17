@@ -56,7 +56,7 @@ public interface BookmarkDAO
 	 * 
 	 * @param bookmark The bookmark to add
 	 */
-	public void add(Bookmark bookmark);
+	void add(Bookmark bookmark);
 	
 	/**
 	 * Updates a bookmark.
@@ -66,14 +66,14 @@ public interface BookmarkDAO
 	 * 
 	 * @param bookmark The bookmark to update
 	 */
-	public void update(Bookmark bookmark);
+	void update(Bookmark bookmark);
 	
 	/**
 	 * Removes a bookmark.
 	 * 
 	 * @param bookmarkId The bookmark's id to remove
 	 */
-	public void remove(int bookmarkId);
+	void remove(int bookmarkId);
 	
 	/**
 	 * Gets all bookmarks of a given type.
@@ -84,7 +84,7 @@ public interface BookmarkDAO
 	 * @return A list with all results found. Each entry is
 	 * a {@link net.jforum.entities.Bookmark} instance.
 	 */
-	public List<Bookmark> selectByUser(int userId, int relationType);
+	List<Bookmark> selectByUser(int userId, int relationType);
 	
 	/**
 	 * Gets all bookmarks from some user.
@@ -94,7 +94,7 @@ public interface BookmarkDAO
 	 * @return A list with all results found. Each entry is
 	 * a {@link net.jforum.entities.Bookmark} instance.
 	 */
-	public List<Bookmark> selectByUser(int userId);
+	List<Bookmark> selectByUser(int userId);
 	
 	/**
 	 * Gets a bookmark.
@@ -102,7 +102,7 @@ public interface BookmarkDAO
 	 * @param bookmarkId The bookmark id
 	 * @return A Bookmark instance or null if no entry found
 	 */
-	public Bookmark selectById(int bookmarkId);
+	Bookmark selectById(int bookmarkId);
 	
 	/**
 	 * Gets a bookmark for edition.
@@ -113,5 +113,5 @@ public interface BookmarkDAO
 	 * @return A bookmark instance of <code>null</code> if 
 	 * the record cannot be found
 	 */
-	public Bookmark selectForUpdate(int relationId, int relationType, int userId);
+	Bookmark selectForUpdate(int relationId, int relationType, int userId);
 }

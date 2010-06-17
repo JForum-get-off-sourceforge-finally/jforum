@@ -12,9 +12,9 @@ import net.jforum.dao.DataAccessDriver;
  */
 public class RESTAuthentication
 {
-	public boolean validateApiKey(String apiKey)
+	public boolean validateApiKey(final String apiKey)
 	{
-		ApiDAO dao = DataAccessDriver.getInstance().newApiDAO();
+		final ApiDAO dao = DataAccessDriver.getInstance().newApiDAO();
 		return dao.isValid(apiKey);
 	}
 }

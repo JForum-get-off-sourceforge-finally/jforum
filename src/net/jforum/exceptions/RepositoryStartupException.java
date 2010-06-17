@@ -50,12 +50,12 @@ public class RepositoryStartupException extends RuntimeException
 {
 	private static final long serialVersionUID = -4934993468672541051L;
 
-	public RepositoryStartupException(String message) {
+	public RepositoryStartupException(final String message) {
 		super(message);
 	}
 	
-	public RepositoryStartupException(String message, Throwable t) {
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+	public RepositoryStartupException(final String message, final Throwable throwable) {
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

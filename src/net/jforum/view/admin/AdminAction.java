@@ -252,7 +252,7 @@ public class AdminAction extends Command {
 			+ "/admBase/login"
 			+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 		
-		super.ignoreAction();
+		super.enableIgnoreAction();
 
 		return false;
 	}

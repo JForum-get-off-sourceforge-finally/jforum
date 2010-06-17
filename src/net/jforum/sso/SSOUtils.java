@@ -55,10 +55,10 @@ import net.jforum.repository.ForumRepository;
  */
 public class SSOUtils
 {
-	private String username;
-	private boolean exists = true;
-	private User user;
-	private UserDAO dao;
+	private transient String username;
+	private transient boolean exists = true;
+	private transient User user;
+	private transient UserDAO dao;
 	
 	/**
 	 * Checks if a user exists in the database
@@ -69,7 +69,7 @@ public class SSOUtils
 	 * @see #register(String, String)
 	 * @see #getUser()
 	 */
-	public boolean userExists(String username)
+	public boolean userExists(final String username)
 	{
 		this.username = username;
 		this.dao = DataAccessDriver.getInstance().newUserDAO();
@@ -90,7 +90,7 @@ public class SSOUtils
 	 * @param email the user's email
 	 * @see #getUser()
 	 */
-    public void register(String password, String email) 
+    public void register(final String password, final String email) 
     {
         if (this.exists) {
             return;

@@ -50,13 +50,13 @@ public class SecurityLoadException extends RuntimeException
 {
 	private static final long serialVersionUID = 8044265812128805726L;
 
-	public SecurityLoadException(String message)
+	public SecurityLoadException(final String message)
 	{
 		super(message);
 	}
 	
-	public SecurityLoadException(Exception e)
+	public SecurityLoadException(final Exception exception)
 	{
-		super(e);
+		super(exception);
 	}
 }

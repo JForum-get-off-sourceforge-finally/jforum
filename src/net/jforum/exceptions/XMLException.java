@@ -50,9 +50,9 @@ public class XMLException extends RuntimeException
 {
 	private static final long serialVersionUID = -1537341110560227140L;
 
-	public XMLException(Throwable t)
+	public XMLException(final Throwable throwable)
 	{
-		super(t);
-		this.setStackTrace(t.getStackTrace());
+		super(throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

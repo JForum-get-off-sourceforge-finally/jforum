@@ -59,7 +59,7 @@ public class RSSItem
 	private String description;
 	private String contentType;
 	private String publishDate;
-	private List<String> categories;
+	private transient final List<String> categories;
 	
 	public RSSItem() 
 	{
@@ -79,7 +79,7 @@ public class RSSItem
 	 * Sets the item's author
 	 * @param author 
 	 */
-	public void setAuthor(String author) 
+	public void setAuthor(final String author) 
 	{
 		this.author = author;
 	}
@@ -98,7 +98,7 @@ public class RSSItem
 	 * Sets the document's description content-type
 	 * @param contentType <code>text/html</code> or <code>text/plain</code>
 	 */
-	public void setContentType(String contentType) 
+	public void setContentType(final String contentType) 
 	{
 		this.contentType = contentType;
 	}
@@ -116,7 +116,7 @@ public class RSSItem
 	 * Sets the document description
 	 * @param description
 	 */
-	public void setDescription(String description) 
+	public void setDescription(final String description) 
 	{
 		this.description = description;
 	}
@@ -134,7 +134,7 @@ public class RSSItem
 	 * Sets the document's link
 	 * @param link
 	 */
-	public void setLink(String link) 
+	public void setLink(final String link) 
 	{
 		this.link = link;
 	}
@@ -152,7 +152,7 @@ public class RSSItem
 	 * Sets the document's the title
 	 * @param title
 	 */
-	public void setTitle(String title) 
+	public void setTitle(final String title) 
 	{
 		this.title = title;
 	}
@@ -161,7 +161,7 @@ public class RSSItem
 	 * Sets the content publication date and time
 	 * @param date
 	 */
-	public void setPublishDate(String date)
+	public void setPublishDate(final String date)
 	{
 		this.publishDate = date;
 	}
@@ -181,7 +181,7 @@ public class RSSItem
 	 * each item 
 	 * @param category The category name
 	 */
-	public void addCategory(String category)
+	public void addCategory(final String category)
 	{
 		this.categories.add(category);
 	}

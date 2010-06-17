@@ -125,12 +125,14 @@ public class ExceptionWriter
 	
 	private String extractCurrentUrl(RequestContext request)
 	{
-		return request == null 
-			? ""
-			: new StringBuffer().append("\nURL is: ")
-			.append(request.getRequestURI())
-			.append('?')
-			.append(request.getQueryString())
-			.toString();
+		String url = null;
+		if (request != null) {
+			StringBuffer sb = new StringBuffer().append("\nURL is: ").append(request.getRequestURI()); 
+			if (request.getQueryString() != null) {
+				sb.append('?').append(request.getQueryString());				
+			}
+			url = sb.toString();
+		}
+		return url;
 	}
 }

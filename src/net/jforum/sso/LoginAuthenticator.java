@@ -71,12 +71,12 @@ public interface LoginAuthenticator
 	 * @param extraParams Extra parameters, if any. 
 	 * @return An instance of a {@link net.jforum.entities.User} or <code>null</code>
 	 */
-	public User validateLogin(String username, String password, Map<?, ?> extraParams) ;
+	User validateLogin(String username, String password, Map<?, ?> extraParams) ;
 	
 	/**
 	 * Sets the user model for the instance.
 	 * 
 	 * @param dao UserDAOThe user model to set
 	 */
-	public void setUserModel(UserDAO dao);
+	void setUserModel(UserDAO dao);
 }

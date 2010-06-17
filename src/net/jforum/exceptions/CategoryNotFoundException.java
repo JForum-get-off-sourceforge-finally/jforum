@@ -50,17 +50,17 @@ public class CategoryNotFoundException extends RuntimeException
 {
 	private static final long serialVersionUID = 656734409768262085L;
 
-	public CategoryNotFoundException(String message) {
+	public CategoryNotFoundException(final String message) {
 		super(message);
 	}
 	
-	public CategoryNotFoundException(Throwable t) {
-		super(t);
-		this.setStackTrace(t.getStackTrace());
+	public CategoryNotFoundException(final Throwable throwable) {
+		super(throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 	
-	public CategoryNotFoundException(String message, Throwable t) {
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+	public CategoryNotFoundException(final String message, final Throwable throwable) {
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

@@ -58,14 +58,14 @@ import net.jforum.view.forum.common.TopicsCommon;
  */
 public class NewMessagesSearchOperation extends SearchOperation
 {
-	private List results = new ArrayList();
+	private transient List results = new ArrayList();
 	
-	public SearchResult performSearch(SearchArgs args)
+	public SearchResult performSearch(final SearchArgs args)
 	{
-		TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
-		SearchResult searchResult = dao.findTopicsByDateRange(args);
+		final TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
+		final SearchResult searchResult = dao.findTopicsByDateRange(args);
 		
-		this.results = searchResult.records();
+		this.results = searchResult.getRecords();
 		
 		return searchResult;
 	}
@@ -75,7 +75,7 @@ public class NewMessagesSearchOperation extends SearchOperation
 		this.results = TopicsCommon.prepareTopics(this.results);
 	}
 
-	public List results()
+	public List getResults()
 	{
 		return this.results;
 	}
@@ -90,7 +90,7 @@ public class NewMessagesSearchOperation extends SearchOperation
 		return TemplateKeys.SEARCH_NEW_MESSAGES;
 	}
 	
-	public int extractForumId(Object value)
+	public int extractForumId(final Object value)
 	{
 		return ((Topic)value).getForumId();
 	}

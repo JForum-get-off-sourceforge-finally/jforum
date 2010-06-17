@@ -89,18 +89,18 @@ public class RankingAction extends AdminCommand
 	 */
 	public void editSave()
 	{
-		Ranking r = new Ranking();
-		r.setTitle(this.request.getParameter("rank_title"));
-		r.setId(this.request.getIntParameter("rank_id"));
+		final Ranking ranking = new Ranking();
+		ranking.setTitle(this.request.getParameter("rank_title"));
+		ranking.setId(this.request.getIntParameter("rank_id"));
 		
 		boolean special = "1".equals(this.request.getParameter("rank_special"));
-		r.setSpecial(special);
+		ranking.setSpecial(special);
 		
 		if (!special) {
-			r.setMin(this.request.getIntParameter("rank_min"));
+			ranking.setMin(this.request.getIntParameter("rank_min"));
 		}
 		
-		DataAccessDriver.getInstance().newRankingDAO().update(r);
+		DataAccessDriver.getInstance().newRankingDAO().update(ranking);
 		RankingRepository.loadRanks();	
 		this.list();
 	}
@@ -110,13 +110,13 @@ public class RankingAction extends AdminCommand
 	 */
 	public void delete()
 	{
-		String ids[] = this.request.getParameterValues("rank_id");
+		final String ids[] = this.request.getParameterValues("rank_id");
 		
-		RankingDAO rm = DataAccessDriver.getInstance().newRankingDAO();
+		final RankingDAO rankingDao = DataAccessDriver.getInstance().newRankingDAO();
 		
 		if (ids != null) {
 			for (int i = 0; i < ids.length; i++) {
-				rm.delete(Integer.parseInt(ids[i]));
+				rankingDao.delete(Integer.parseInt(ids[i]));
 			}
 		}
 			
@@ -128,17 +128,17 @@ public class RankingAction extends AdminCommand
 	 */
 	public void insertSave() 
 	{
-		Ranking r = new Ranking();
-		r.setTitle(this.request.getParameter("rank_title"));
+		final Ranking ranking = new Ranking();
+		ranking.setTitle(this.request.getParameter("rank_title"));
 		
 		boolean special = "1".equals(this.request.getParameter("rank_special"));
-		r.setSpecial(special);
+		ranking.setSpecial(special);
 		
 		if (!special) {
-			r.setMin(this.request.getIntParameter("rank_min"));			
+			ranking.setMin(this.request.getIntParameter("rank_min"));			
 		}
 		
-		DataAccessDriver.getInstance().newRankingDAO().addNew(r);
+		DataAccessDriver.getInstance().newRankingDAO().addNew(ranking);
 		
 		RankingRepository.loadRanks();
 		

@@ -57,27 +57,27 @@ import net.jforum.view.forum.common.PostCommon;
  */
 public class ContentSearchOperation extends SearchOperation
 {
-    private List<?> results = new ArrayList<Object>();
+    private transient List<?> results = new ArrayList<Object>();
 	
-	public SearchResult performSearch(SearchArgs args)
+	public SearchResult performSearch(final SearchArgs args)
 	{
-		SearchResult searchResult = args.getKeywords().length > 0
+		final SearchResult searchResult = args.getKeywords().length > 0
 			? SearchFacade.search(args)
 			: new SearchResult(new ArrayList<Post>(), 0);
 		
-		this.results = searchResult.records();
+		this.results = searchResult.getRecords();
 		
 		return searchResult;
 	}
 	
 	public void prepareForDisplay()
 	{
-		for (Iterator<?> iter = this.results.iterator(); iter.hasNext(); ) {
+		for (final Iterator<?> iter = this.results.iterator(); iter.hasNext(); ) {
 			PostCommon.preparePostForDisplay((Post)iter.next());
 		}
 	}
 
-	public List<?> results()
+	public List<?> getResults()
 	{
 		return this.results;
 	}
@@ -92,7 +92,7 @@ public class ContentSearchOperation extends SearchOperation
 		return TemplateKeys.SEARCH_SEARCH;
 	}
 	
-	public int extractForumId(Object value)
+	public int extractForumId(final Object value)
 	{
 		return ((Post)value).getForumId();
 	}

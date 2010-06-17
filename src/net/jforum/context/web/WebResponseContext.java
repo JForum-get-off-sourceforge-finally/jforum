@@ -60,34 +60,34 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class WebResponseContext implements ResponseContext
 {
-	private HttpServletResponse response = null;
+	private transient HttpServletResponse response = null;
 
-	public WebResponseContext(HttpServletResponse response)
+	public WebResponseContext(final HttpServletResponse response)
 	{
 		this.response = response;
 	}
 
-	public void setContentLength(int len)
+	public void setContentLength(final int len)
 	{
 		response.setContentLength(len);
 	}
 
-	public boolean containsHeader(String name)
+	public boolean containsHeader(final String name)
 	{
 		return response.containsHeader(name);
 	}
 
-	public void setHeader(String name, String value)
+	public void setHeader(final String name, final String value)
 	{
 		response.setHeader(name, value);
 	}
 
-	public void addCookie(Cookie cookie)
+	public void addCookie(final Cookie cookie)
 	{
 		response.addCookie(cookie);
 	}
 
-	public String encodeRedirectURL(String url)
+	public String encodeRedirectURL(final String url)
 	{
 		return response.encodeRedirectURL(url);
 	}
@@ -95,7 +95,7 @@ public class WebResponseContext implements ResponseContext
 	public void sendRedirect(String location) throws IOException
 	{
 		if (SystemGlobals.getBoolValue(ConfigKeys.REDIRECT_ABSOLUTE_PATHS)) {
-			URI uri = URI.create(location);
+			final URI uri = URI.create(location);
 			
 			if (!uri.isAbsolute()) {
 				location = SystemGlobals.getValue(ConfigKeys.REDIRECT_BASE_URL) + location;
@@ -110,7 +110,7 @@ public class WebResponseContext implements ResponseContext
 		return response.getCharacterEncoding();
 	}
 
-	public void setContentType(String type)
+	public void setContentType(final String type)
 	{
 		response.setContentType(type);
 	}
@@ -125,17 +125,17 @@ public class WebResponseContext implements ResponseContext
 		return response.getWriter();
 	}
 
-	public String encodeURL(String url)
+	public String encodeURL(final String url)
 	{
 		return response.encodeURL(url);
 	}
 
-	public void sendError(int sc) throws IOException
+	public void sendError(final int statusCode) throws IOException
 	{
-		response.sendError(sc);
+		response.sendError(statusCode);
 	}
 
-	public void addHeader(String name, String value)
+	public void addHeader(final String name, final String value)
 	{
 		response.addHeader(name, value);
 	}

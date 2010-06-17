@@ -50,19 +50,19 @@ public class SearchException extends RuntimeException
 {
 	private static final long serialVersionUID = -4134125670913653144L;
 
-	public SearchException(String message)
+	public SearchException(final String message)
 	{
 		super(message);
 	}
 	
-	public SearchException(Throwable t)
+	public SearchException(final Throwable throwable)
 	{
-		this(t.toString(), t);
+		this(throwable.toString(), throwable);
 	}
 	
-	public SearchException(String message, Throwable t)
+	public SearchException(final String message, final Throwable throwable)
 	{
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

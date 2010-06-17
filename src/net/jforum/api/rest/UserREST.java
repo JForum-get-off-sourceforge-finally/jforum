@@ -36,8 +36,8 @@ public class UserREST extends Command
 		try {
 			this.authenticate();
 			
-			UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
-			List<User> users = dao.selectAll();
+			final UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
+			final List<User> users = dao.selectAll();
 		
 			this.setTemplateName(TemplateKeys.API_USER_LIST);
 			this.context.put("users", users);
@@ -57,9 +57,9 @@ public class UserREST extends Command
 		try {
 			this.authenticate();
 			
-			String username = this.requiredRequestParameter("username");
-			String email = this.requiredRequestParameter("email");
-			String password = this.requiredRequestParameter("password");
+			final String username = this.requiredRequestParameter("username");
+			final String email = this.requiredRequestParameter("email");
+			final String password = this.requiredRequestParameter("password");
 			
 			if (username.length() > SystemGlobals.getIntValue(ConfigKeys.USERNAME_MAX_LENGTH)) {
 				throw new APIException(I18n.getMessage("User.usernameTooBig"));
@@ -102,7 +102,7 @@ public class UserREST extends Command
 	 * @return the parameter value
 	 * @throws APIException if the parameter is not found or its value is empty
 	 */
-	private String requiredRequestParameter(String paramName)
+	private String requiredRequestParameter(final String paramName)
 	{
 		String value = this.request.getParameter(paramName);
 		
@@ -128,7 +128,7 @@ public class UserREST extends Command
 		}
 	}
 	
-	public Template process(RequestContext request, ResponseContext response, SimpleHash context)
+	public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
 	{
 		JForumExecutionContext.setContentType("text/xml");
 		return super.process(request, response, context);

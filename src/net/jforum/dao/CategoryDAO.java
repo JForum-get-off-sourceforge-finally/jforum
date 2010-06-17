@@ -65,7 +65,7 @@ public interface CategoryDAO
 	 * @return <code>Category</code>object containing all the information
 	 * @see #selectAll
 	 */
-	public Category selectById(int categoryId);
+	Category selectById(int categoryId);
 	
 	/**
 	 * Selects all categories data from the database.
@@ -73,7 +73,7 @@ public interface CategoryDAO
 	 * @return ArrayList with the categories found 
 	 * @see #selectById
 	 */
-	public List<Category> selectAll();
+	List<Category> selectAll();
 	
 	/**
 	 * Checks if is possible to delete a specific category.
@@ -82,7 +82,7 @@ public interface CategoryDAO
 	 * @return <code>true</code> if is possible to delete, <code>false</code> if not
 	 * @see #delete(int)
 	 */
-	public boolean canDelete(int categoryId);
+	boolean canDelete(int categoryId);
 	
 	/**
 	 * Delete a category.
@@ -90,14 +90,14 @@ public interface CategoryDAO
 	 * @param categoryId The category ID to delete
 	 * @see #canDelete(int)
 	 */
-	public void delete(int categoryId);
+	void delete(int categoryId);
 	
 	/**
 	 * Updates a category.
 	 * 
 	 * @param category Reference to a <code>Category</code> object to update
 	 */
-	public void update(Category category);
+	void update(Category category);
 	
 	/**
 	 * Adds a new category.
@@ -105,7 +105,7 @@ public interface CategoryDAO
 	 * @param category Reference to a valid and configured <code>Category</code> object
      * @return int
 	 */
-	public int addNew(Category category);
+	int addNew(Category category);
 
 	/**
 	 * Changes the display order of some category.
@@ -114,7 +114,7 @@ public interface CategoryDAO
 	 * @see #setOrderDown(net.jforum.entities.Category, net.jforum.entities.Category)
      * @param otherCategory Category
 	 */
-	public void setOrderUp(Category category, Category otherCategory);
+	void setOrderUp(Category category, Category otherCategory);
 	
 	/**
 	 * Changes the display order of some category.
@@ -124,5 +124,5 @@ public interface CategoryDAO
 	 * @see #setOrderUp(net.jforum.entities.Category, net.jforum.entities.Category)
      * @param otherCategory Category
 	 */
-	public void setOrderDown(Category category, Category otherCategory);
+	void setOrderDown(Category category, Category otherCategory);
 }

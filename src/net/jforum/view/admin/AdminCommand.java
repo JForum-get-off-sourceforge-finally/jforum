@@ -54,11 +54,11 @@ import freemarker.template.Template;
  */
 public abstract class AdminCommand extends Command
 {
-	public Template process(RequestContext request, ResponseContext response,
-			SimpleHash context)
+	public Template process(final RequestContext request, final ResponseContext response,
+			final SimpleHash context)
 	{
 		if (!new AdminAction().checkAdmin()) {
-			this.ignoreAction();
+			this.enableIgnoreAction();
 		}
 
 		return super.process(request, response, context);

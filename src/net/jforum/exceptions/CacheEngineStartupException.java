@@ -50,9 +50,9 @@ public class CacheEngineStartupException extends RuntimeException
 {
 	private static final long serialVersionUID = -2605724673346486481L;
 
-	public CacheEngineStartupException(String message, Throwable t)
+	public CacheEngineStartupException(final String message, final Throwable throwable)
 	{
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

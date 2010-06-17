@@ -54,7 +54,7 @@ public class RoleCollection extends LinkedHashMap<Object, Object> implements Ser
 {
 	private static final long serialVersionUID = 5785913253137782980L;
 
-	public void add(Role role) 
+	public void add(final Role role) 
 	{
 		super.put(role.getName(), role);
 	}
@@ -66,7 +66,7 @@ public class RoleCollection extends LinkedHashMap<Object, Object> implements Ser
 	 * @return <code>Role</code> object if a role with a name equals to the name passed
 	 * as argument is found, or <code>null</code> otherwise.
 	 */
-	public Role get(String name)
+	public Role get(final String name)
 	{
 		return (Role)super.get(name);
 	}
@@ -76,12 +76,12 @@ public class RoleCollection extends LinkedHashMap<Object, Object> implements Ser
 	 */
 	public String toString() 
 	{
-		StringBuffer sb = new StringBuffer(512);
+		final StringBuffer stringBuffer = new StringBuffer(512);
 		
-		for (Iterator<Object> iter = this.values().iterator(); iter.hasNext(); ) {
-			sb.append(iter.next()).append('\n');
+		for (final Iterator<Object> iter = this.values().iterator(); iter.hasNext(); ) {
+			stringBuffer.append(iter.next()).append('\n');
 		}
 		
-		return sb.toString();
+		return stringBuffer.toString();
 	}
 }

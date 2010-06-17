@@ -51,19 +51,19 @@ public class ForumException extends RuntimeException
 {
 	private static final long serialVersionUID = 8943655855892360677L;
 
-	public ForumException(String message)
+	public ForumException(final String message)
 	{
 		super(message);
 	}
 	
-	public ForumException(Throwable t)
+	public ForumException(final Throwable throwable)
 	{
-		this(t.toString(), t);
+		this(throwable.toString(), throwable);
 	}
 	
-	public ForumException(String message, Throwable t)
+	public ForumException(final String message, final Throwable throwable)
 	{
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

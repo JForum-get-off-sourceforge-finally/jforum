@@ -60,7 +60,7 @@ public class LastPostInfo implements Serializable
 	private String postDate;
 	private boolean hasInfo;
 	
-	public void setHasInfo(boolean value) {
+	public void setHasInfo(final boolean value) {
 		this.hasInfo = value;
 	}
 	
@@ -78,7 +78,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param postDate The postDate to set.
 	 */
-	public void setPostDate(String postDate) {
+	public void setPostDate(final String postDate) {
 		this.postDate = postDate;
 	}
 	/**
@@ -90,7 +90,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param postId The postId to set.
 	 */
-	public void setPostId(int postId) {
+	public void setPostId(final int postId) {
 		this.postId = postId;
 	}
 	/**
@@ -102,7 +102,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param postTimeMillis The postTimeMillis to set.
 	 */
-	public void setPostTimeMillis(long postTimeMillis) {
+	public void setPostTimeMillis(final long postTimeMillis) {
 		this.postTimeMillis = postTimeMillis;
 	}
 	/**
@@ -114,7 +114,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param topicId The topicId to set.
 	 */
-	public void setTopicId(int topicId) {
+	public void setTopicId(final int topicId) {
 		this.topicId = topicId;
 	}
 	/**
@@ -126,7 +126,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param topicReplies The topicReplies to set.
 	 */
-	public void setTopicReplies(int topicReplies) {
+	public void setTopicReplies(final int topicReplies) {
 		this.topicReplies = topicReplies;
 	}
 	/**
@@ -138,7 +138,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param userId The userId to set.
 	 */
-	public void setUserId(int userId) {
+	public void setUserId(final int userId) {
 		this.userId = userId;
 	}
 	/**
@@ -150,7 +150,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param username The username to set.
 	 */
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 }

@@ -65,7 +65,7 @@ public interface GroupDAO
 	 * @return <code>Group</code>object containing all the information
 	 * @see #selectAll
 	 */
-	public Group selectById(int groupId) ;
+	Group selectById(int groupId) ;
 	
 	/**
 	 * Get all groups
@@ -73,7 +73,7 @@ public interface GroupDAO
 	 * @return an <code>ArrayList</code> containing the groups. Each entry
 	 * is a <code>Group</code> object.
 	 */
-	public List<Group> selectAll() ;
+	List<Group> selectAll() ;
 	
 	/**
 	 * Checks if is possible to delete a specific group.
@@ -82,7 +82,7 @@ public interface GroupDAO
 	 * @return <code>true</code> if is possible to delete, <code>false</code> if not
 	 * @see #delete(int)
 	 */
-	public boolean canDelete(int groupId) ;
+	boolean canDelete(int groupId) ;
 	
 	/**
 	 * Deletes a group.
@@ -90,7 +90,7 @@ public interface GroupDAO
 	 * @param groupId The group ID to delete
 	 * @see #canDelete(int)
 	 */
-	public void delete(int groupId) ;
+	void delete(int groupId) ;
 	
 	
 	/**
@@ -98,14 +98,14 @@ public interface GroupDAO
 	 * 
 	 * @param group Reference to a <code>Group</code> object to update
 	 */
-	public void update(Group group) ;
+	void update(Group group) ;
 	
 	/**
 	 * Adds a new group.
 	 * 
 	 * @param group Reference to a valid and configured <code>Group</code> object
 	 */
-	public void addNew(Group group) ;
+	void addNew(Group group) ;
 
 	/**
 	 * Select the users associated to some group; 
@@ -113,5 +113,5 @@ public interface GroupDAO
 	 * @return <code>ArrayList</code> with the user ids
      * @param groupId int
 	 */
-	public List<Integer> selectUsersIds(int groupId) ;
+	List<Integer> selectUsersIds(int groupId) ;
 }

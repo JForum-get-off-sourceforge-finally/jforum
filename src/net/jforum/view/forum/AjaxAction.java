@@ -137,7 +137,7 @@ public class AjaxAction extends Command
 				this.prepareMessage("JForum Test Mail", null);
 			}
 			
-			protected String processTemplate() throws Exception {
+			protected String processTemplate() {
 				return ("Test mail from JForum Admin Panel. Sent at " + new Date());
 			}
 			
@@ -259,6 +259,6 @@ public class AjaxAction extends Command
 	 */
 	public void list()
 	{
-		this.ignoreAction();
+		this.enableIgnoreAction();
 	}
 }

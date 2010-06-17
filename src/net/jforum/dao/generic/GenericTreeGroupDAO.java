@@ -63,24 +63,24 @@ public class GenericTreeGroupDAO implements net.jforum.dao.TreeGroupDAO
 	/**
 	 * @see net.jforum.dao.TreeGroupDAO#selectGroups(int)
 	 */
-	public List<GroupNode> selectGroups(int parentId)
+	public List<GroupNode> selectGroups(final int parentId)
 	{
-		List<GroupNode> list = new ArrayList<GroupNode>();
+		final List<GroupNode> list = new ArrayList<GroupNode>();
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("TreeGroup.selectGroup"));
-			p.setInt(1, parentId);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("TreeGroup.selectGroup"));
+			pstmt.setInt(1, parentId);
 
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
-			while (rs.next()) {
-				GroupNode n = new GroupNode();
-				n.setName(rs.getString("group_name"));
-				n.setId(rs.getInt("group_id"));
+			while (resultSet.next()) {
+				final GroupNode groupNode = new GroupNode();
+				groupNode.setName(resultSet.getString("group_name"));
+				groupNode.setId(resultSet.getInt("group_id"));
 
-				list.add(n);
+				list.add(groupNode);
 			}
 
 			return list;
@@ -89,7 +89,7 @@ public class GenericTreeGroupDAO implements net.jforum.dao.TreeGroupDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 }

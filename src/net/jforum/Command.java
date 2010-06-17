@@ -68,19 +68,19 @@ public abstract class Command
 	private static final Class<?>[] NO_ARGS_CLASS = new Class[0];
 	private static final Object[] NO_ARGS_OBJECT = new Object[0];
 	
-	private boolean ignoreAction;
+	private transient boolean ignoreAction;
 	
-	protected String templateName;
-	protected RequestContext request;
-	protected ResponseContext response;
-	protected SimpleHash context;
+	protected transient String templateName;
+	protected transient RequestContext request;
+	protected transient ResponseContext response;
+	protected transient SimpleHash context;
 	
-	protected void setTemplateName(String templateName)
+	protected void setTemplateName(final String templateName)
 	{
 		this.templateName = Tpl.name(templateName);
 	}
 	
-	protected void ignoreAction()
+	protected void enableIgnoreAction()
 	{
 		this.ignoreAction = true;
 	}
@@ -101,13 +101,13 @@ public abstract class Command
      * @param request WebContextRequest
      * @param response WebContextResponse
 	 */
-	public Template process(RequestContext request, ResponseContext response, SimpleHash context)
+	public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
 	{
 		this.request = request;
 		this.response = response;
 		this.context = context;
 		
-		String action = this.request.getAction();
+		final String action = this.request.getAction();
 
 		if (!this.ignoreAction) {
 			try {

@@ -50,7 +50,7 @@ public class SmiliesLoadException extends RuntimeException
 {
 	private static final long serialVersionUID = 8776363940808371371L;
 
-	public SmiliesLoadException(String message)
+	public SmiliesLoadException(final String message)
 	{
 		super(message);
 	}

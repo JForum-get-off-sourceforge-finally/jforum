@@ -59,12 +59,12 @@ public class RolesRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	public void setCacheEngine(final CacheEngine engine)
 	{
 		RolesRepository.setEngine(engine);
 	}
 	
-	private static void setEngine(CacheEngine engine) 
+	private static void setEngine(final CacheEngine engine) 
 	{
 		cache = engine;
 	}
@@ -75,7 +75,7 @@ public class RolesRepository implements Cacheable
 	 * @param groupId The group id
 	 * @return The roles, if found, or <code>null</code> otherwise. 
 	 */
-	public static RoleCollection getGroupRoles(int groupId)
+	public static RoleCollection getGroupRoles(final int groupId)
 	{
 		return (RoleCollection)cache.get(FQN, Integer.toString(groupId));
 	}
@@ -93,7 +93,7 @@ public class RolesRepository implements Cacheable
 	 * @param ids The group ids
 	 * @return The roles, if found, or <code>null</code> otherwise. 
 	 */
-	public static RoleCollection getGroupRoles(int[] ids)
+	public static RoleCollection getGroupRoles(final int[] ids)
 	{
 		return (RoleCollection)cache.get(FQN, SecurityCommon.groupIdAsString(ids));
 	}
@@ -104,7 +104,7 @@ public class RolesRepository implements Cacheable
 	 * @param groupIds The ids of the groups 
 	 * @param roles The merges roles to add 
 	 */
-	public static void addGroupRoles(int[] groupIds, RoleCollection roles)
+	public static void addGroupRoles(final int[] groupIds, final RoleCollection roles)
 	{
 		cache.add(FQN, SecurityCommon.groupIdAsString(groupIds), roles);
 	}

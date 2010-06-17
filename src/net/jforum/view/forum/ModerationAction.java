@@ -70,6 +70,8 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class ModerationAction extends Command
 {
+	private static final String RETURN_URL = "returnUrl";
+	
 	/**
 	 * @throws UnsupportedOperationException always
 	 * @see net.jforum.Command#list()
@@ -86,13 +88,13 @@ public class ModerationAction extends Command
 			return;
 		}
 		
-		ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
+		final ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
 		
-		int start = ViewCommon.getStartPage();
-		int recordsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
+		final int start = ViewCommon.getStartPage();
+		final int recordsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		
-		List<ModerationLog> list = dao.selectAll(start, recordsPerPage);
-		boolean canAccessFullModerationLog = SecurityRepository.canAccess(SecurityConstants.PERM_FULL_MODERATION_LOG);
+		final List<ModerationLog> list = dao.selectAll(start, recordsPerPage);
+		final boolean canAccessFullModerationLog = SecurityRepository.canAccess(SecurityConstants.PERM_FULL_MODERATION_LOG);
 		
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
@@ -141,11 +143,11 @@ public class ModerationAction extends Command
 	
 	public void doModeration()
 	{
-		String returnUrl = this.request.getParameter("returnUrl");
+		String returnUrl = this.request.getParameter(RETURN_URL);
 		
 		new ModerationHelper().doModeration(returnUrl);
 		
-		this.context.put("returnUrl", returnUrl);
+		this.context.put(RETURN_URL, returnUrl);
 		
 		if (JForumExecutionContext.getRequest().getParameter("topicMove") != null) {
 			this.setTemplateName(TemplateKeys.MODERATION_MOVE_TOPICS);
@@ -154,11 +156,11 @@ public class ModerationAction extends Command
 	
 	public void moveTopic()
 	{
-		new ModerationHelper().moveTopicsSave(this.request.getParameter("returnUrl"));
+		new ModerationHelper().moveTopicsSave(this.request.getParameter(RETURN_URL));
 	}
 	
 	public void moderationDone()
 	{
-		this.setTemplateName(new ModerationHelper().moderationDone(this.request.getParameter("returnUrl")));
+		this.setTemplateName(new ModerationHelper().moderationDone(this.request.getParameter(RETURN_URL)));
 	}
 }

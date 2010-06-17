@@ -67,7 +67,7 @@ public class Bookmark
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -83,7 +83,7 @@ public class Bookmark
 	/**
 	 * @param publicVisible The publicVisible to set.
 	 */
-	public void setPublicVisible(boolean publicVisible)
+	public void setPublicVisible(final boolean publicVisible)
 	{
 		this.publicVisible = publicVisible;
 	}
@@ -99,7 +99,7 @@ public class Bookmark
 	/**
 	 * @param relationId The relationId to set.
 	 */
-	public void setRelationId(int relationId)
+	public void setRelationId(final int relationId)
 	{
 		this.relationId = relationId;
 	}
@@ -115,7 +115,7 @@ public class Bookmark
 	/**
 	 * @param relationType The relationType to set.
 	 */
-	public void setRelationType(int relationType)
+	public void setRelationType(final int relationType)
 	{
 		this.relationType = relationType;
 	}
@@ -131,7 +131,7 @@ public class Bookmark
 	/**
 	 * @param userId The userId to set.
 	 */
-	public void setUserId(int userId)
+	public void setUserId(final int userId)
 	{
 		this.userId = userId;
 	}
@@ -147,7 +147,7 @@ public class Bookmark
 	/**
 	 * @param description The description to set.
 	 */
-	public void setDescription(String description)
+	public void setDescription(final String description)
 	{
 		this.description = description;
 	}
@@ -163,7 +163,7 @@ public class Bookmark
 	/**
 	 * @param title The title to set.
 	 */
-	public void setTitle(String title)
+	public void setTitle(final String title)
 	{
 		this.title = title;
 	}

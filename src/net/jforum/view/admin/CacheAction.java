@@ -127,7 +127,7 @@ public class CacheAction extends AdminCommand
 	
 	public void topicsClear()
 	{
-		int forumId = this.request.getIntParameter("forum_id");
+		final int forumId = this.request.getIntParameter("forum_id");
 		TopicRepository.clearCache(forumId);
 		this.topicsMoreInfo();
 	}
@@ -139,7 +139,7 @@ public class CacheAction extends AdminCommand
 			return;
 		}
 		
-		Collection<String> topics = PostRepository.cachedTopics();
+		final Collection<String> topics = PostRepository.cachedTopics();
 		
 		this.context.put("topics", DataAccessDriver.getInstance().newTopicDAO().selectTopicTitlesByIds(topics));
 		this.context.put("repository", new PostRepository());
@@ -148,7 +148,7 @@ public class CacheAction extends AdminCommand
 	
 	public void postsClear() 
 	{
-		int topicId = this.request.getIntParameter("topic_id");
+		final int topicId = this.request.getIntParameter("topic_id");
 		PostRepository.clearCache(topicId);
 		this.postsMoreInfo();
 	}

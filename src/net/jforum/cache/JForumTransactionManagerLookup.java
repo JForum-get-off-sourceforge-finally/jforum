@@ -8,7 +8,7 @@ import org.jboss.cache.transaction.TransactionManagerLookup;
 public class JForumTransactionManagerLookup implements TransactionManagerLookup {
 
 	@Override
-	public TransactionManager getTransactionManager() throws Exception {
+	public TransactionManager getTransactionManager() {
 		// Don't call BatchModeTransactionManager.getInstance(), which tries
 		// to bind a singleton in JNDI -- just create one for our use
 		return new BatchModeTransactionManager();

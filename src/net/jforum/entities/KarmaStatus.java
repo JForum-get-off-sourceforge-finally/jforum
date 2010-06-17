@@ -75,9 +75,11 @@ public class KarmaStatus implements Serializable
 	private int votesGiven;
 	
 	
-	public KarmaStatus() {}
+	public KarmaStatus() {
+		// Empty Constructor
+	}
 	
-	public KarmaStatus(KarmaStatus karma)
+	public KarmaStatus(final KarmaStatus karma)
 	{
 		if (karma != null) {
 			this.id = karma.getId();
@@ -85,7 +87,7 @@ public class KarmaStatus implements Serializable
 		}
 	}
 	
-	public KarmaStatus(int id, double points)
+	public KarmaStatus(final int id, final double points)
 	{
 		this.id = id;
 		this.karmaPoints = points;
@@ -99,7 +101,7 @@ public class KarmaStatus implements Serializable
 		return this.karmaPoints;
 	}
 	
-	public void setKarmaPoints(double points)
+	public void setKarmaPoints(final double points)
 	{
 		this.karmaPoints = points;
 	}
@@ -115,7 +117,7 @@ public class KarmaStatus implements Serializable
 	/**
 	 * @param userId The userId to set.
 	 */
-	public void setId(int userId)
+	public void setId(final int userId)
 	{
 		this.id = userId;
 	}
@@ -125,7 +127,7 @@ public class KarmaStatus implements Serializable
         return votesReceived;
     }
     
-    public void setVotesReceived(int votesReceived)
+    public void setVotesReceived(final int votesReceived)
     {
         this.votesReceived = votesReceived;
     }
@@ -135,7 +137,7 @@ public class KarmaStatus implements Serializable
         return totalPoints;
     }
     
-    public void setTotalPoints(int totalPoints)
+    public void setTotalPoints(final int totalPoints)
     {
         this.totalPoints = totalPoints;
     }
@@ -144,7 +146,7 @@ public class KarmaStatus implements Serializable
     {
         return votesGiven;
     }
-    public void setVotesGiven(int votesGiven)
+    public void setVotesGiven(final int votesGiven)
     {
         this.votesGiven = votesGiven;
     }

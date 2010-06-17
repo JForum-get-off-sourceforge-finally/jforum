@@ -52,28 +52,28 @@ public interface PollDAO {
 	 * @param pollId The Poll ID to search
 	 * @return <code>Poll</code>object containing all the information
 	 */
-	public Poll selectById(int pollId) ;
+	Poll selectById(int pollId) ;
 		
 	/**
 	 * Delete a Poll.
 	 * 
 	 * @param pollId The Poll to delete
 	 */
-	public void delete(int pollId) ;
+	void delete(int pollId) ;
 		
 	/**
 	 * Delete a Poll.
 	 * 
 	 * @param topicId The topic id for the poll to delete
 	 */
-	public void deleteByTopicId(int topicId) ;
+	void deleteByTopicId(int topicId) ;
 	
 	/**
 	 * Updates a Poll.
 	 * 
 	 * @param poll Reference to a <code>Poll</code> object to update
 	 */
-	public void update(Poll poll) ;
+	void update(Poll poll) ;
 	
 	/**
 	 * Adds a new Poll.
@@ -81,7 +81,7 @@ public interface PollDAO {
 	 * @param poll Poll Reference to a valid and configured <code>Poll</code> object
 	 * @return The new ID
 	 */
-	public int addNew(Poll poll) ;
+	int addNew(Poll poll) ;
 
 	/**
 	 * Increments the vote count on the poll for the given poll id and option id
@@ -90,7 +90,7 @@ public interface PollDAO {
 	 * @param userId int 
 	 * @param ipAddress String 
 	 */
-	public void voteOnPoll(int pollId, int optionId, int userId, String ipAddress);
+	void voteOnPoll(int pollId, int optionId, int userId, String ipAddress);
 	
 	/**
 	 * Tells if the user has already voted on the given poll
@@ -98,7 +98,7 @@ public interface PollDAO {
 	 * @param userId the user id to check the vote for
 	 * @return true if the user has already voted on the given poll
 	 */
-	public boolean hasUserVotedOnPoll(int pollId, int userId) ;
+	boolean hasUserVotedOnPoll(int pollId, int userId) ;
 	
 	/**
 	 * Tells if any user has already voted on the given poll from the given IP
@@ -106,5 +106,5 @@ public interface PollDAO {
 	 * @param ipAddress the IP address of the user to check the vote for
 	 * @return true if the user has already voted on the given poll
 	 */
-	public boolean hasUserVotedOnPoll(int pollId, String ipAddress) ;
+	boolean hasUserVotedOnPoll(int pollId, String ipAddress) ;
 }

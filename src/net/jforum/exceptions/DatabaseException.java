@@ -50,17 +50,17 @@ public class DatabaseException extends RuntimeException
 {
 	private static final long serialVersionUID = -2960230625596900302L;
 
-	public DatabaseException(String message) {
+	public DatabaseException(final String message) {
 		super(message);
 	}
 	
-	public DatabaseException(String message, Throwable t) {
-		super(message, t);
-		this.setStackTrace(t.getStackTrace());
+	public DatabaseException(final String message, final Throwable throwable) {
+		super(message, throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 	
-	public DatabaseException(Throwable t) {
-		super(t);
-		this.setStackTrace(t.getStackTrace());
+	public DatabaseException(final Throwable throwable) {
+		super(throwable);
+		this.setStackTrace(throwable.getStackTrace());
 	}
 }

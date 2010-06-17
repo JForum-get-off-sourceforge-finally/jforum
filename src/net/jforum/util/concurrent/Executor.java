@@ -48,7 +48,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import org.apache.log4j.Logger;
 
-//import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
 /**
  * @author Rafael Steil, Andowson Chang
@@ -57,20 +56,16 @@ import org.apache.log4j.Logger;
 public class Executor
 {
 	private static final Logger LOGGER = Logger.getLogger(Executor.class);
-	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 10, 1000 * 60 * 10, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(5));
+	private static ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(2, 10, 1000 * 60 * 10, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(5));
 	
-	/*static {
-		executor.setMinimumPoolSize(2);
-		executor.setMaximumPoolSize(10);
-		executor.setKeepAliveTime(1000 * 60 * 10);
-	}*/
-	
-	public static void execute(Runnable runnable) {
+	public static void execute(final Runnable runnable) {
 		try {
-			executor.execute(runnable);
+			poolExecutor.execute(runnable);
 		}
 		catch (Exception e) {
 			LOGGER.error("Exception while running task: " + e, e);
 		}
 	}
+	
+	private Executor() {}
 }

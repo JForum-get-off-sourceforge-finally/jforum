@@ -53,12 +53,12 @@ import java.util.Map;
  */
 public class DefaultCacheEngine implements CacheEngine
 {
-	private Map<String, Object> cache = new HashMap<String, Object>();
+	private transient Map<String, Object> cache = new HashMap<String, Object>();
 	
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.Object)
 	 */
-	public void add(String key, Object value)
+	public void add(final String key, final Object value)
 	{
 		this.cache.put(key, value);
 	}
@@ -66,34 +66,34 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.String, java.lang.Object)
 	 */
-	public void add(String fqn, String key, Object value)
+	public void add(final String fqn, final String key, final Object value)
 	{
-		Map<String, Object> m = (Map<String, Object>)this.cache.get(fqn);
-		if (m == null) {
-			m = new HashMap<String, Object>();
+		Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
+		if (map == null) {
+			map = new HashMap<String, Object>();
 		}
 
-		m.put(key, value);
-		this.cache.put(fqn, m);
+		map.put(key, value);
+		this.cache.put(fqn, map);
 	}
 	
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String, java.lang.String)
 	 */
-	public Object get(String fqn, String key)
+	public Object get(final String fqn, final String key)
 	{
-		Map<String, Object> m = (Map<String, Object>)this.cache.get(fqn);
-		if (m == null) {
+		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
+		if (map == null) {
 			return null;
 		}
 		
-		return m.get(key);
+		return map.get(key);
 	}
 	
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String)
 	 */
-	public Object get(String fqn)
+	public Object get(final String fqn)
 	{
 		return this.cache.get(fqn);
 	}
@@ -101,14 +101,14 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#getValues(java.lang.String)
 	 */
-	public Collection<Object> getValues(String fqn)
+	public Collection<Object> getValues(final String fqn)
 	{
-		Map<String, Object> m = (Map<String, Object>)this.cache.get(fqn);
-		if (m == null) {
+		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
+		if (map == null) {
 			return new ArrayList<Object>();
 		}
 		
-		return m.values();
+		return map.values();
 	}
 	
 	/**
@@ -122,23 +122,25 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#stop()
 	 */
-	public void stop() {}
+	public void stop() {
+		// Do nothing
+	}
 	
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String, java.lang.String)
 	 */
-	public void remove(String fqn, String key)
+	public void remove(final String fqn, final String key)
 	{
-		Map<String, Object> m = (Map<String, Object>)this.cache.get(fqn);
-		if (m != null) {
-			m.remove(key);
+		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
+		if (map != null) {
+			map.remove(key);
 		}
 	}
 	
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String)
 	 */
-	public void remove(String fqn)
+	public void remove(final String fqn)
 	{
 		this.cache.remove(fqn);
 	}

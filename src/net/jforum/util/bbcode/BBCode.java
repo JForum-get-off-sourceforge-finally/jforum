@@ -56,10 +56,12 @@ public class BBCode implements Serializable
 	private String tagName = "";
 	private String regex;
 	private String replace;
-	private boolean removQuotes;
-	private boolean alwaysProcess;
+	private transient boolean removQuotes;
+	private transient boolean alwaysProcess;
 	
-	public BBCode() {}
+	public BBCode() {
+		// Empty Constructor
+	}
 
 	/**
 	 * BBCode class constructor
@@ -67,7 +69,7 @@ public class BBCode implements Serializable
 	 * @param regex Regular expression related to the tag
 	 * @param replace The replacement string
 	 */
-	public BBCode(String tagName, String regex, String replace)
+	public BBCode(final String tagName, final String regex, final String replace)
 	{
 		this.tagName = tagName;
 		this.regex = regex;
@@ -110,7 +112,7 @@ public class BBCode implements Serializable
 	 * Sets the regular expression associated to the tag
 	 * @param regex Regular expression string
 	 */
-	public void setRegex(String regex) 
+	public void setRegex(final String regex) 
 	{
 		this.regex = regex;
 	}
@@ -119,7 +121,7 @@ public class BBCode implements Serializable
 	 * Sets the replacement string, to be applied when matching the code
 	 * @param replace The replacement string data
 	 */
-	public void setReplace(String replace) 
+	public void setReplace(final String replace) 
 	{
 		this.replace = replace;
 	}
@@ -128,7 +130,7 @@ public class BBCode implements Serializable
 	 * Sets the tag name
 	 * @param tagName The tag name
 	 */
-	public void setTagName(String tagName) 
+	public void setTagName(final String tagName) 
 	{
 		this.tagName = tagName;
 	}

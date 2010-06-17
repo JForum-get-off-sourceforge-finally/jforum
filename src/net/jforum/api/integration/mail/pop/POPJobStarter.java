@@ -29,13 +29,13 @@ public class POPJobStarter
 	
 	public static void startJob() throws SchedulerException
 	{
-		boolean isEnabled = SystemGlobals.getBoolValue(ConfigKeys.MAIL_POP3_INTEGRATION_ENABLED);
+		final boolean isEnabled = SystemGlobals.getBoolValue(ConfigKeys.MAIL_POP3_INTEGRATION_ENABLED);
 		
 		synchronized(MUTEX) {
 			if (!isStarted && isEnabled) {
-				String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
+				final String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
 	
-				String cronExpression = SystemGlobals.getValue("org.quartz.context.mailintegration.cron.expression");
+				final String cronExpression = SystemGlobals.getValue("org.quartz.context.mailintegration.cron.expression");
 				scheduler = new StdSchedulerFactory(filename).getScheduler();
 				
 				Trigger trigger = null;
@@ -55,4 +55,6 @@ public class POPJobStarter
 			isStarted = true;
 		}
 	}
+	
+	private POPJobStarter() {}
 }

@@ -57,22 +57,22 @@ import freemarker.template.SimpleHash;
  */
 public class LostPasswordSpammer extends Spammer
 {
-	public LostPasswordSpammer(User user, String mailTitle) 
+	public LostPasswordSpammer(final User user, final String mailTitle) 
 	{
-		String forumLink = ViewCommon.getForumLink();
+		final String forumLink = ViewCommon.getForumLink();
 
-		String url = new StringBuffer()
+		final String url = new StringBuffer()
 			.append(forumLink)
 			.append("user/recoverPassword/")
 			.append(user.getActivationKey()) 
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
 		
-		SimpleHash params = new SimpleHash();
+		final SimpleHash params = new SimpleHash();
 		params.put("url", url);
 		params.put("user", user);
 
-		List<User> recipients = new ArrayList<User>();
+		final List<User> recipients = new ArrayList<User>();
 		recipients.add(user);
 		
 		this.setUsers(recipients);

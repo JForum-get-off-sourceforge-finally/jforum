@@ -69,7 +69,7 @@ public class ModulesRepository
 	 * is placed.
 	 * @throws IOException
 	 */
-	public static void init(String baseDir)
+	public static void init(final String baseDir)
 	{
 		cache.put(ENTRIES, ConfigLoader.loadModulesMapping(baseDir));
 	}
@@ -86,15 +86,15 @@ public class ModulesRepository
 	 * @return The class name associated to the module name passed
 	 * as argument, or <code>null</code> if not found.
 	 */
-	public static String getModuleClass(String moduleName) {
-		Properties p = cache.get(ENTRIES);
+	public static String getModuleClass(final String moduleName) {
+		final Properties properties = cache.get(ENTRIES);
 		
-		if (p == null) {
+		if (properties == null) {
 			LOGGER.error("Null modules. Askes moduleName: " + moduleName
 					+ ", url=" + JForumExecutionContext.getRequest().getQueryString());
 			return null;
 		}
 		
-		return p.getProperty(moduleName);
+		return properties.getProperty(moduleName);
 	}
 }

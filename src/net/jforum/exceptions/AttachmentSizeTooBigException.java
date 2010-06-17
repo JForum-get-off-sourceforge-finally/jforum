@@ -50,7 +50,7 @@ public class AttachmentSizeTooBigException extends AttachmentException
 {
 	private static final long serialVersionUID = 5564323789449065935L;
 
-	public AttachmentSizeTooBigException(String message)
+	public AttachmentSizeTooBigException(final String message)
 	{
 		super(message);
 	}

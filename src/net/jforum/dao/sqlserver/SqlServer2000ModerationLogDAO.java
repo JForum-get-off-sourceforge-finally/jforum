@@ -64,32 +64,32 @@ public class SqlServer2000ModerationLogDAO extends GenericModerationLogDAO {
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#selectAll(int, int)
 	 */
-	public List<ModerationLog> selectAll(int startFrom, int count) 
+	public List<ModerationLog> selectAll(final int startFrom, final int count) 
 	{
-		List<ModerationLog> l = new ArrayList<ModerationLog>();
+		final List<ModerationLog> list = new ArrayList<ModerationLog>();
 
 		String sql = SystemGlobals.getSql("ModerationLog.selectAll");
 		sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
 		
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);	
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);	
 
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
-			while (rs.next()) {
-				l.add(this.makeLog(rs));
+			while (resultSet.next()) {
+				list.add(this.makeLog(resultSet));
 			}
 
-			return l;
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 }

@@ -72,6 +72,7 @@ import net.jforum.view.admin.common.ModerationCommon;
  */
 public class ForumAction extends AdminCommand 
 {
+	private static final String FORUM_ID = "forum_id";
 	/**
 	 * Listing
 	 */
@@ -87,12 +88,12 @@ public class ForumAction extends AdminCommand
 	 */
 	public void insert()
 	{
-		CategoryDAO cm = DataAccessDriver.getInstance().newCategoryDAO();
+		final CategoryDAO categoryDao = DataAccessDriver.getInstance().newCategoryDAO();
 		
 		this.context.put("groups", new TreeGroup().getNodes());
 		this.context.put("selectedList", new ArrayList<Forum>());
 		this.setTemplateName(TemplateKeys.FORUM_ADMIN_INSERT);
-		this.context.put("categories",cm.selectAll());
+		this.context.put("categories",categoryDao.selectAll());
 		this.context.put("action", "insertSave");		
 	}
 	
@@ -101,25 +102,25 @@ public class ForumAction extends AdminCommand
 	 */
 	public void edit()
 	{
-		int forumId = this.request.getIntParameter("forum_id");
-		ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
+		final int forumId = this.request.getIntParameter(FORUM_ID);
+		final ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
 		
-		CategoryDAO cm = DataAccessDriver.getInstance().newCategoryDAO();
+		final CategoryDAO categoryDao = DataAccessDriver.getInstance().newCategoryDAO();
 		
 		this.setTemplateName(TemplateKeys.FORUM_ADMIN_EDIT);
-		this.context.put("categories", cm.selectAll());
+		this.context.put("categories", categoryDao.selectAll());
 		this.context.put("action", "editSave");
 		this.context.put("forum", forumDao.selectById(forumId));
 		
 		// Mail Integration
-		MailIntegrationDAO integrationDao = DataAccessDriver.getInstance().newMailIntegrationDAO();
+		final MailIntegrationDAO integrationDao = DataAccessDriver.getInstance().newMailIntegrationDAO();
 		this.context.put("mailIntegration", integrationDao.find(forumId));
 	}
 	
 	public void editSave()
 	{
 		ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
-		Forum forum = forumDao.selectById(this.request.getIntParameter("forum_id"));
+		Forum forum = forumDao.selectById(this.request.getIntParameter(FORUM_ID));
 		
 		boolean moderated = forum.isModerated();
 		int categoryId = forum.getCategoryId();
@@ -153,7 +154,7 @@ public class ForumAction extends AdminCommand
 	
 	private void handleMailIntegration()
 	{
-		int forumId = this.request.getIntParameter("forum_id");
+		int forumId = this.request.getIntParameter(FORUM_ID);
 		MailIntegrationDAO dao = DataAccessDriver.getInstance().newMailIntegrationDAO();
 		
 		if (!"1".equals(this.request.getParameter("mail_integration"))) {
@@ -162,30 +163,30 @@ public class ForumAction extends AdminCommand
 		else {
 			boolean exists = dao.find(forumId) != null;
 			
-			MailIntegration m = this.fillMailIntegrationFromRequest();
+			MailIntegration mailIntegration = this.fillMailIntegrationFromRequest();
 			
 			if (exists) {
-				dao.update(m);
+				dao.update(mailIntegration);
 			}
 			else {
-				dao.add(m);
+				dao.add(mailIntegration);
 			}
 		}
 	}
 	
 	private MailIntegration fillMailIntegrationFromRequest()
 	{
-		MailIntegration m = new MailIntegration();
+		MailIntegration mailIntegration = new MailIntegration();
 		
-		m.setForumId(this.request.getIntParameter("forum_id"));
-		m.setForumEmail(this.request.getParameter("forum_email"));
-		m.setPopHost(this.request.getParameter("pop_host"));
-		m.setPopUsername(this.request.getParameter("pop_username"));
-		m.setPopPassword(this.request.getParameter("pop_password"));
-		m.setPopPort(this.request.getIntParameter("pop_port"));
-		m.setSSL("1".equals(this.request.getParameter("requires_ssl")));
+		mailIntegration.setForumId(this.request.getIntParameter(FORUM_ID));
+		mailIntegration.setForumEmail(this.request.getParameter("forum_email"));
+		mailIntegration.setPopHost(this.request.getParameter("pop_host"));
+		mailIntegration.setPopUsername(this.request.getParameter("pop_username"));
+		mailIntegration.setPopPassword(this.request.getParameter("pop_password"));
+		mailIntegration.setPopPort(this.request.getIntParameter("pop_port"));
+		mailIntegration.setSsl("1".equals(this.request.getParameter("requires_ssl")));
 		
-		return m;
+		return mailIntegration;
 	}
 	
 	public void up()
@@ -198,23 +199,23 @@ public class ForumAction extends AdminCommand
 		this.processOrdering(false);
 	}
 	
-	private void processOrdering(boolean up)
+	private void processOrdering(final boolean isUp)
 	{
 		Forum toChange = new Forum(ForumRepository.getForum(Integer.parseInt(
-				this.request.getParameter("forum_id"))));
+				this.request.getParameter(FORUM_ID))));
 		
 		Category category = ForumRepository.getCategory(toChange.getCategoryId());
 		List<Forum> forums = new ArrayList<Forum>(category.getForums());
 		int index = forums.indexOf(toChange);
 		
-		if (index == -1 || (up && index == 0) || (!up && index + 1 == forums.size())) {
+		if (index == -1 || (isUp && index == 0) || (!isUp && index + 1 == forums.size())) {
 			this.list();
 			return;
 		}
 		
 		ForumDAO fm = DataAccessDriver.getInstance().newForumDAO();
 		
-		if (up) {
+		if (isUp) {
 			// Get the forum which comes *before* the forum we're changing
 			Forum otherForum = new Forum(forums.get(index - 1));
 			fm.setOrderUp(toChange, otherForum);
@@ -236,7 +237,7 @@ public class ForumAction extends AdminCommand
 	 */
 	public void delete()
 	{
-		String ids[] = this.request.getParameterValues("forum_id");
+		String ids[] = this.request.getParameterValues(FORUM_ID);
 		
 		ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
 		TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
@@ -324,13 +325,13 @@ public class ForumAction extends AdminCommand
 		SecurityRepository.clean();
 		RolesRepository.clear();
 		
-		this.request.addParameter("forum_id", String.valueOf(forumId));
+		this.request.addParameter(FORUM_ID, String.valueOf(forumId));
 		this.handleMailIntegration();
 
 		this.list();
 	}
 	
-	private void addRole(PermissionControl pc, String roleName, int forumId, String[] groups) 
+	private void addRole(final PermissionControl permissionControl, final String roleName, final int forumId, final String[] groups) 
 	{
 		Role role = new Role();
 		role.setName(roleName);		
@@ -339,11 +340,11 @@ public class ForumAction extends AdminCommand
 			int groupId = Integer.parseInt(groups[i]);
 			RoleValueCollection roleValues = new RoleValueCollection();
 			
-			RoleValue rv = new RoleValue();
-			rv.setValue(Integer.toString(forumId));
-			roleValues.add(rv);
+			RoleValue roleValue = new RoleValue();
+			roleValue.setValue(Integer.toString(forumId));
+			roleValues.add(roleValue);
 			
-			pc.addRoleValue(groupId, role, roleValues);
+			permissionControl.addRoleValue(groupId, role, roleValues);
 		}
 	}
 }

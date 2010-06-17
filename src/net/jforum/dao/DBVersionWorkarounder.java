@@ -58,7 +58,7 @@ public class DBVersionWorkarounder {
 
 	private static final Logger LOGGER = Logger.getLogger(DBVersionWorkarounder.class);
 
-	protected void ensureDaoClassIsCorrect(String shouldBe) throws Exception {
+	protected void ensureDaoClassIsCorrect(final String shouldBe) throws IOException {
 		if (!shouldBe.equals(SystemGlobals.getValue(ConfigKeys.DAO_DRIVER))) {
 			LOGGER.info("MySQL DAO class is incorrect. Setting it to " + shouldBe);
 			
@@ -69,21 +69,21 @@ public class DBVersionWorkarounder {
 		}
 	}
 
-	protected Properties loadSqlQueries() throws Exception {
+	protected Properties loadSqlQueries() throws IOException {
 		// First, check if we really have a problem
-		String sqlQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
+		final String sqlQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
 		
-		File f = new File(sqlQueries);
+		final File file = new File(sqlQueries);
 		
-		Properties p = new Properties();
+		final Properties properties = new Properties();
 		
-		FileInputStream fis = new FileInputStream(f);
+		final FileInputStream fis = new FileInputStream(file);
 		
 		try {
-			p.load(fis);
+			properties.load(fis);
 			
-			if (f.canWrite()) {
-				return p;
+			if (file.canWrite()) {
+				return properties;
 			}
 		}
 		finally {
@@ -98,11 +98,11 @@ public class DBVersionWorkarounder {
 		return null;
 	}
 
-	protected void saveSqlQueries(Properties p) throws Exception {
-		FileOutputStream fos = new FileOutputStream(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
+	protected void saveSqlQueries(final Properties properties) throws IOException {
+		final FileOutputStream fos = new FileOutputStream(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
 		
 		try {
-			p.store(fos, null);
+			properties.store(fos, null);
 		}
 		finally {
 			fos.close();
@@ -111,24 +111,24 @@ public class DBVersionWorkarounder {
 		SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
 	}
 
-	private void fixDAODriver(String daoClassName) throws Exception {
-		String driverConfigPath = SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG);
+	private void fixDAODriver(final String daoClassName) throws IOException {
+		final String driverConfigPath = SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG);
 		
-		File f = new File(driverConfigPath);
+		final File file = new File(driverConfigPath);
 		
-		if (f.canWrite()) {
+		if (file.canWrite()) {
 			// Fix the DAO class
-			Properties p = new Properties();
+			final Properties properties = new Properties();
 			
-			FileInputStream fis = new FileInputStream(driverConfigPath);
+			final FileInputStream fis = new FileInputStream(driverConfigPath);
 			FileOutputStream fos = null;
 			
 			try {
-				p.load(fis);
-				p.setProperty(ConfigKeys.DAO_DRIVER, daoClassName);
+				properties.load(fis);
+				properties.setProperty(ConfigKeys.DAO_DRIVER, daoClassName);
 				
 				fos = new FileOutputStream(driverConfigPath);
-				p.store(fos, null);
+				properties.store(fos, null);
 			}
 			finally {
 				if (fos != null) {

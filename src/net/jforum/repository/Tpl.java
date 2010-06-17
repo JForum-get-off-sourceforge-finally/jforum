@@ -67,12 +67,12 @@ public class Tpl implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	public void setCacheEngine(final CacheEngine engine)
 	{
 		Tpl.setEngine(engine);
 	}
 	
-	private static void setEngine(CacheEngine engine) 
+	private static void setEngine(final CacheEngine engine) 
 	{
 		cache = engine;
 	}
@@ -84,19 +84,19 @@ public class Tpl implements Cacheable
 	 * @throws ConfigLoadException if the file is not found or
 	 * some other error occurs when loading the file.
 	 */
-	public static void load(String filename)
+	public static void load(final String filename)
 	{
 		FileInputStream fis = null;
 		
 		try {
-			Properties p = new Properties();
+			final Properties properties = new Properties();
 			fis = new FileInputStream(filename);
-			p.load(fis);
+			properties.load(fis);
 			
-			for (Iterator<Object> iter = p.keySet().iterator(); iter.hasNext(); ) {
-				String key = (String)iter.next();
+			for (final Iterator<Object> iter = properties.keySet().iterator(); iter.hasNext(); ) {
+				final String key = (String)iter.next();
 				
-				cache.add(FQN, key, p.getProperty(key));
+				cache.add(FQN, key, properties.getProperty(key));
 			}
 		}
 		catch (Exception e) {
@@ -120,7 +120,7 @@ public class Tpl implements Cacheable
 	 * @param key The Key to load.
 	 * @return The html template filename
 	 */
-	public static String name(String key)
+	public static String name(final String key)
 	{
 		return (String)cache.get(FQN, key);
 	}

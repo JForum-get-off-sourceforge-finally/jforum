@@ -50,15 +50,15 @@ import java.util.Enumeration;
  */
 public interface SessionContext
 {
-	public void setAttribute(String name, Object value);
+	void setAttribute(String name, Object value);
 
-	public void removeAttribute(String name);
+	void removeAttribute(String name);
 
-	public Object getAttribute(String name);
+	Object getAttribute(String name);
 
-	public String getId();
+	String getId();
 
-	public Enumeration<?> getAttributeNames();
+	Enumeration<?> getAttributeNames();
 
-	public void invalidate();
+	void invalidate();
 }

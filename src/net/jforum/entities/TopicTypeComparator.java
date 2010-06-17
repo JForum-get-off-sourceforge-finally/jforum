@@ -53,16 +53,16 @@ public class TopicTypeComparator implements Comparator<Topic>, Serializable
 {
 	private static final long serialVersionUID = 4774281835148485281L;
 
-	public int compare(Topic o1, Topic o2)
+	public int compare(final Topic obj1, final Topic obj2)
 	{
-		Topic t1 = (Topic)o1;
-		Topic t2 = (Topic)o2;
+		final Topic topic1 = (Topic)obj1;
+		final Topic topic2 = (Topic)obj2;
 		
-		if (t1.getType() < t2.getType()) {
+		if (topic1.getType() < topic2.getType()) {
 			return 1;
 		}
-		else if (t1.getType() == t2.getType()) {
-			return t2.getLastPostDate().compareTo(t1.getLastPostDate());
+		else if (topic1.getType() == topic2.getType()) {
+			return topic2.getLastPostDate().compareTo(topic1.getLastPostDate());
 		}
 		
 		return -1;

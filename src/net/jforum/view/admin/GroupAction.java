@@ -69,6 +69,8 @@ import net.jforum.util.preferences.TemplateKeys;
  */
 public class GroupAction extends AdminCommand 
 {
+	private static final String GROUP_ID = "group_id";
+	
 	/**
 	 * Listing
 	 */
@@ -94,22 +96,22 @@ public class GroupAction extends AdminCommand
 	 */
 	public void editSave()
 	{
-		int groupId = this.request.getIntParameter("group_id");
+		final int groupId = this.request.getIntParameter(GROUP_ID);
 			
-		Group g = new Group();
-		g.setDescription(this.request.getParameter("group_description"));
-		g.setId(groupId);
+		final Group group = new Group();
+		group.setDescription(this.request.getParameter("group_description"));
+		group.setId(groupId);
 		
 		int parentId = this.request.getIntParameter("parent_id");
 		
-		if (parentId == g.getId()) {
+		if (parentId == group.getId()) {
 			parentId = 0;
 		}
 		
-		g.setParentId(parentId);
-		g.setName(this.request.getParameter("group_name"));
+		group.setParentId(parentId);
+		group.setName(this.request.getParameter("group_name"));
 
-		DataAccessDriver.getInstance().newGroupDAO().update(g);
+		DataAccessDriver.getInstance().newGroupDAO().update(group);
 			
 		this.list();
 	}
@@ -119,12 +121,12 @@ public class GroupAction extends AdminCommand
 	 */
 	public void edit()
 	{
-		int groupId = this.request.getIntParameter("group_id");
-		GroupDAO gm = DataAccessDriver.getInstance().newGroupDAO();
+		final int groupId = this.request.getIntParameter(GROUP_ID);
+		final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
 		
 		this.setTemplateName(TemplateKeys.GROUP_EDIT);
 					
-		this.context.put("group", gm.selectById(groupId));
+		this.context.put("group", groupDao.selectById(groupId));
 		this.context.put("groups", new TreeGroup().getNodes());
 		this.context.put("selectedList", new ArrayList<Group>());
 		this.context.put("action", "editSave");	
@@ -135,7 +137,7 @@ public class GroupAction extends AdminCommand
 	 */
 	public void delete() 
 	{		
-		String groupId[] = this.request.getParameterValues("group_id");
+		final String groupId[] = this.request.getParameterValues(GROUP_ID);
 		
 		if (groupId == null) {
 			this.list();
@@ -143,14 +145,14 @@ public class GroupAction extends AdminCommand
 			return;
 		}
 		
-		List<String> errors = new ArrayList<String>();
-		GroupDAO gm = DataAccessDriver.getInstance().newGroupDAO();
+		final List<String> errors = new ArrayList<String>();
+		final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
 			
 		for (int i = 0; i < groupId.length; i++) {
-			int id = Integer.parseInt(groupId[i]);
+			final int id = Integer.parseInt(groupId[i]);
 			
-			if (gm.canDelete(id)) {
-				gm.delete(id);
+			if (groupDao.canDelete(id)) {
+				groupDao.delete(id);
 			}
 			else {
 				errors.add(I18n.getMessage(I18n.CANNOT_DELETE_GROUP, new Object[] { Integer.valueOf(id) }));
@@ -169,14 +171,14 @@ public class GroupAction extends AdminCommand
 	 */
 	public void insertSave()
 	{
-		GroupDAO gm = DataAccessDriver.getInstance().newGroupDAO();
+		final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
 		
-		Group g = new Group();
-		g.setDescription(this.request.getParameter("group_description"));
-		g.setParentId(this.request.getIntParameter("parent_id"));
-		g.setName(this.request.getParameter("group_name"));
+		final Group group = new Group();
+		group.setDescription(this.request.getParameter("group_description"));
+		group.setParentId(this.request.getIntParameter("parent_id"));
+		group.setName(this.request.getParameter("group_name"));
 			
-		gm.addNew(g);			
+		groupDao.addNew(group);			
 			
 		this.list();
 	}
@@ -186,28 +188,28 @@ public class GroupAction extends AdminCommand
 	 */
 	public void permissions()
 	{
-		int id = this.request.getIntParameter("group_id");
+		final int id = this.request.getIntParameter(GROUP_ID);
 		
-		PermissionControl pc = new PermissionControl();
-		pc.setRoles(DataAccessDriver.getInstance().newGroupSecurityDAO().loadRoles(id));
+		final PermissionControl permissionControl = new PermissionControl();
+		permissionControl.setRoles(DataAccessDriver.getInstance().newGroupSecurityDAO().loadRoles(id));
 		
-		String xmlconfig = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/permissions.xml"; 
-		List<PermissionSection> sections = new XMLPermissionControl(pc).loadConfigurations(xmlconfig); 
+		final String xmlconfig = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/permissions.xml"; 
+		final List<PermissionSection> sections = new XMLPermissionControl(permissionControl).loadConfigurations(xmlconfig); 
 		
-		GroupDAO gm = DataAccessDriver.getInstance().newGroupDAO();
+		final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
 
 		this.context.put("sections", sections);
-		this.context.put("group", gm.selectById(id));
+		this.context.put("group", groupDao.selectById(id));
 		this.setTemplateName(TemplateKeys.GROUP_PERMISSIONS);
 	}
 	
 	public void permissionsSave()
 	{
-		int id = this.request.getIntParameter("id");
+		final int id = this.request.getIntParameter("id");
 		
-		GroupSecurityDAO gmodel = DataAccessDriver.getInstance().newGroupSecurityDAO();
+		final GroupSecurityDAO gmodel = DataAccessDriver.getInstance().newGroupSecurityDAO();
 		
-		PermissionControl pc = new PermissionControl();
+		final PermissionControl pc = new PermissionControl();
 		pc.setSecurityModel(gmodel);
 		
 		new PermissionProcessHelper(pc, id).processData();

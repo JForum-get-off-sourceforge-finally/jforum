@@ -77,30 +77,32 @@ import freemarker.template.Template;
  */
 public class RSSAction extends Command 
 {
+	private static final String RSS_CONTENTS = "rssContents";
+	
 	/**
 	 * RSS for all N first topics for some given forum
 	 */
 	public void forumTopics()
 	{
-		int forumId = this.request.getIntParameter("forum_id"); 
+		final int forumId = this.request.getIntParameter("forum_id"); 
 		
 		if (!TopicsCommon.isTopicAccessible(forumId)) {
 			JForumExecutionContext.requestBasicAuthentication();
             return;
 		}
 		
-		List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestByForumForRSS(
+		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestByForumForRSS(
 			forumId, SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE));
 		
-		Forum forum = ForumRepository.getForum(forumId);
-		String[] p = { forum.getName() };
+		final Forum forum = ForumRepository.getForum(forumId);
+		final String[] param = { forum.getName() };
 		
-		RSSAware rss = new TopicRSS(I18n.getMessage("RSS.ForumTopics.title", p),
-			I18n.getMessage("RSS.ForumTopics.description", p),
+		final RSSAware rss = new TopicRSS(I18n.getMessage("RSS.ForumTopics.title", param),
+			I18n.getMessage("RSS.ForumTopics.description", param),
 			forumId, 
 			posts);
 		
-		this.context.put("rssContents", rss.createRSS());
+		this.context.put(RSS_CONTENTS, rss.createRSS());
 	}
 	
 	/**
@@ -108,29 +110,29 @@ public class RSSAction extends Command
 	 */
 	public void topicPosts()
 	{
-		int topicId = this.request.getIntParameter("topic_id");
+		final int topicId = this.request.getIntParameter("topic_id");
 
-		PostDAO pm = DataAccessDriver.getInstance().newPostDAO();
-		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
+		final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
+		final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 		
-		Topic topic = tm.selectById(topicId);
+		final Topic topic = topicDao.selectById(topicId);
 		
 		if (!TopicsCommon.isTopicAccessible(topic.getForumId()) || topic.getId() == 0) {
 			JForumExecutionContext.requestBasicAuthentication(); 
             return;
 		}
 		
-		tm.incrementTotalViews(topic.getId());
+		topicDao.incrementTotalViews(topic.getId());
 		
-		List<Post> posts = pm.selectAllByTopic(topicId);
+		List<Post> posts = postDao.selectAllByTopic(topicId);
 		
-		String[] p = { topic.getTitle() };
+		String[] param = { topic.getTitle() };
 		
-		String title = I18n.getMessage("RSS.TopicPosts.title", p);
-		String description = I18n.getMessage("RSS.TopicPosts.description", p);
+		String title = I18n.getMessage("RSS.TopicPosts.title", param);
+		String description = I18n.getMessage("RSS.TopicPosts.description", param);
 
 		RSSAware rss = new TopicPostsRSS(title, description, topic.getForumId(), posts);
-		this.context.put("rssContents", rss.createRSS());
+		this.context.put(RSS_CONTENTS, rss.createRSS());
 	}
 	
 	public void recentTopics()
@@ -143,15 +145,15 @@ public class RSSAction extends Command
 			SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS));
 
 		List<Post> authPosts = new ArrayList<Post>();  
-		Iterator<Post> it = posts.iterator();  
-		while ( it.hasNext() ) {  
-		     Post post = it.next();  
+		Iterator<Post> iter = posts.iterator();  
+		while ( iter.hasNext() ) {  
+		     Post post = iter.next();  
 		     if ( TopicsCommon.isTopicAccessible(post.getForumId(), false) ) {  
 		         authPosts.add(post);  
 		     }  
 		 }  
 		RSSAware rss = new RecentTopicsRSS(title, description, authPosts);
-		this.context.put("rssContents", rss.createRSS());
+		this.context.put(RSS_CONTENTS, rss.createRSS());
 	}
 
 	public void hottestTopics()
@@ -164,31 +166,33 @@ public class RSSAction extends Command
 			SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS));
 
 		List<Post> authPosts = new ArrayList<Post>();  
-		Iterator<Post> it = posts.iterator();  
-		while ( it.hasNext() ) {  
-		     Post post = it.next();  
+		Iterator<Post> iter = posts.iterator();  
+		while ( iter.hasNext() ) {  
+		     Post post = iter.next();  
 		     if ( TopicsCommon.isTopicAccessible(post.getForumId(), false) ) {  
 		         authPosts.add(post);  
 		     }  
 		 }  
 		RSSAware rss = new HottestTopicsRSS(title, description, authPosts);
-		this.context.put("rssContents", rss.createRSS());
+		this.context.put(RSS_CONTENTS, rss.createRSS());
 	}
 	
-	/** 
+	/**
+	 * Empty method, do nothing
+	 *  
 	 * @see net.jforum.Command#list()
 	 */
 	public void list()
 	{
-		
+		// Empty method
 	}
 	
 	/** 
 	 * @see net.jforum.Command#process(net.jforum.context.RequestContext, net.jforum.context.ResponseContext, freemarker.template.SimpleHash) 
 	 */
-	public Template process(RequestContext request,
-			ResponseContext response,
-			SimpleHash context)
+	public Template process(final RequestContext request,
+			final ResponseContext response,
+			final SimpleHash context)
 	{
         if (!SessionFacade.isLogged() && UserAction.hasBasicAuthentication(request)) {
             new UserAction().validateLogin(request);

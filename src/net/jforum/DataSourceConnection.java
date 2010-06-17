@@ -66,15 +66,15 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class DataSourceConnection extends DBConnection
 {
-	private DataSource ds;
+	private transient DataSource dataSource;
 	
 	/**
 	 * @see net.jforum.DBConnection#init()
 	 */
 	public void init() throws NamingException 
 	{
-		Context context = new InitialContext();
-		this.ds = (DataSource)context.lookup(SystemGlobals.getValue(
+		final Context context = new InitialContext();
+		this.dataSource = (DataSource)context.lookup(SystemGlobals.getValue(
 				ConfigKeys.DATABASE_DATASOURCE_NAME));
 	}
 	/**
@@ -83,7 +83,7 @@ public class DataSourceConnection extends DBConnection
 	public Connection getConnection()
 	{
 		try {
-			return this.ds.getConnection();
+			return this.dataSource.getConnection();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
@@ -93,7 +93,7 @@ public class DataSourceConnection extends DBConnection
 	/**
 	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
 	 */
-	public void releaseConnection(Connection conn)
+	public void releaseConnection(final Connection conn)
 	{
         if (conn == null) {
             return;
@@ -103,11 +103,14 @@ public class DataSourceConnection extends DBConnection
 		}
 		catch (SQLException e) {
             // catch error of close of connection
+			throw new DatabaseException(e);
         }
 	}
 
 	/**
 	 * @see net.jforum.DBConnection#realReleaseAllConnections()
 	 */
-	public void realReleaseAllConnections() throws DatabaseException {}
+	public void realReleaseAllConnections() throws DatabaseException {
+		// Do nothing
+	}
 }

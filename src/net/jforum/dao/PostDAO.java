@@ -47,7 +47,7 @@ import java.util.List;
 import net.jforum.entities.Post;
 
 /**
-  * Model interface for {@link net.jforum.entities.Post}.
+ * Model interface for {@link net.jforum.entities.Post}.
  * This interface defines methods which are expected to be
  * implemented by a specific data access driver. The intention is
  * to provide all functionality needed to update, insert, delete and
@@ -64,21 +64,21 @@ public interface PostDAO
 	 * @param postId The Post ID to search
 	 * @return <code>Post</code>object containing all the information
 	 */
-	public Post selectById(int postId) ;
+	Post selectById(int postId) ;
 		
 	/**
 	 * Delete a Post.
 	 * 
 	 * @param post Post The Post to delete
 	 */
-	public void delete(Post post) ;
+	void delete(Post post) ;
 	
 	/**
 	 * Updates a Post.
 	 * 
 	 * @param post Reference to a <code>Post</code> object to update
 	 */
-	public void update(Post post) ;
+	void update(Post post) ;
 	
 	/**
 	 * Adds a new Post.
@@ -86,7 +86,7 @@ public interface PostDAO
 	 * @param post Post Reference to a valid and configured <code>Post</code> object
 	 * @return The new ID
 	 */
-	public int addNew(Post post) ;
+	int addNew(Post post) ;
 	
 	/**
 	 * Selects all messages related to a specific topic. 
@@ -96,10 +96,9 @@ public interface PostDAO
 	 * @param count The total number of records to retrieve
 	 * @return <code>ArrayList</code> containing all records found. Each entry of the <code>ArrayList</code> is a {@link net.jforum.entities.Post} object
 	 */
-	public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count) ;
+	List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count) ;
 
-
-       /**
+    /**
 	 * Selects all posts associated to a specific user and belonging to 
 	 * given forums
 	 * @param userId int User ID.
@@ -107,14 +106,14 @@ public interface PostDAO
 	 * @param count int
 	 * @return  List
 	 */
-	public List<Post> selectByUserByLimit(int userId,int startFrom, int count) ;
+	List<Post> selectByUserByLimit(int userId,int startFrom, int count) ;
 
     /**
      * Count user posts.
      * @param userId int
      * @return int
      */
-	public int countUserPosts(int userId) ;
+	int countUserPosts(int userId) ;
 
 	/**
 	 * Selects all messages related to a specific topic. 
@@ -122,25 +121,25 @@ public interface PostDAO
 	 * @param topicId The topic ID 
 	 * @return <code>ArrayList</code> containing all records found. Each entry of the <code>ArrayList</code> is a {@link net.jforum.entities.Post} object
 	 */
-	public List<Post> selectAllByTopic(int topicId) ;
+	List<Post> selectAllByTopic(int topicId) ;
 	
 	/**
 	 * Delete all posts related to the given topic
 	 * 
 	 * @param topicId int
 	 */
-	public void deleteByTopic(int topicId) ;
+	void deleteByTopic(int topicId) ;
 
 	/**
 	 * Count how many previous posts there are before the given post id
 	 * @param postId int
 	 * @return int
 	 */
-	public int countPreviousPosts(int postId) ;
+	int countPreviousPosts(int postId) ;
 	
-	public List<Post> selectLatestByForumForRSS(int forumId, int limit);
+	List<Post> selectLatestByForumForRSS(int forumId, int limit) ;
 	
-	public List<Post> selectLatestForRSS(int limit);
+	List<Post> selectLatestForRSS(int limit) ;
 	
-	public List<Post> selectHotForRSS(int limit);
+	List<Post> selectHotForRSS(int limit) ;
 }

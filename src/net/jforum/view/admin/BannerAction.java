@@ -80,7 +80,7 @@ public class BannerAction extends AdminCommand
 	 */
 	public void insertSave()
 	{
-		BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
+		final BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
 
 		dao.addNew(getBanner());
 
@@ -92,8 +92,8 @@ public class BannerAction extends AdminCommand
 	 */
 	public void edit()
 	{
-		int bannerId = this.request.getIntParameter("banner_id");
-		BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
+		final int bannerId = this.request.getIntParameter("banner_id");
+		final BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
 
 		this.context.put("banner", dao.selectById(bannerId));
 		this.setTemplateName(TemplateKeys.BANNER_EDIT);
@@ -105,9 +105,9 @@ public class BannerAction extends AdminCommand
 	 */
 	public void editSave() 
 	{
-		int bannerId = this.request.getIntParameter("banner_id");
+		final int bannerId = this.request.getIntParameter("banner_id");
 
-		Banner banner = getBanner();
+		final Banner banner = getBanner();
 		banner.setId(bannerId);
 
 		DataAccessDriver.getInstance().newBannerDAO().update(banner);
@@ -120,16 +120,16 @@ public class BannerAction extends AdminCommand
 	 */
 	public void delete() 
 	{
-		String bannerId = this.request.getParameter("banner_id");
+		final String bannerId = this.request.getParameter("banner_id");
 		if(bannerId == null)
 		{
 			this.list();
 			return;
 		}
 
-		BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
+		final BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
 
-		int id = Integer.parseInt(bannerId);
+		final int id = Integer.parseInt(bannerId);
 		if(dao.canDelete(id))
 		{
 			dao.delete(id);
@@ -145,21 +145,21 @@ public class BannerAction extends AdminCommand
 
 	protected Banner getBanner()
 	{
-		Banner b = new Banner();
-		b.setComment(request.getParameter("comment"));
-		b.setActive(request.getIntParameter("active") == 1);
-		b.setType(Integer.parseInt(request.getParameter("type")));
-		b.setName(request.getParameter("name"));
-		b.setDescription(request.getParameter("description"));
-		b.setWidth(Integer.parseInt(request.getParameter("width")));
-		b.setHeight(Integer.parseInt(request.getParameter("height")));
-		b.setUrl(request.getParameter("url"));
-		b.setPlacement(Integer.parseInt(request.getParameter(
+		final Banner banner = new Banner();
+		banner.setComment(request.getParameter("comment"));
+		banner.setActive(request.getIntParameter("active") == 1);
+		banner.setType(Integer.parseInt(request.getParameter("type")));
+		banner.setName(request.getParameter("name"));
+		banner.setDescription(request.getParameter("description"));
+		banner.setWidth(Integer.parseInt(request.getParameter("width")));
+		banner.setHeight(Integer.parseInt(request.getParameter("height")));
+		banner.setUrl(request.getParameter("url"));
+		banner.setPlacement(Integer.parseInt(request.getParameter(
 			"placement")));
-		b.setWeight(Integer.parseInt(request.getParameter("weight")));
-		b.setViews(Integer.parseInt(request.getParameter("views")));
-		b.setClicks(Integer.parseInt(request.getParameter("clicks")));
+		banner.setWeight(Integer.parseInt(request.getParameter("weight")));
+		banner.setViews(Integer.parseInt(request.getParameter("views")));
+		banner.setClicks(Integer.parseInt(request.getParameter("clicks")));
 
-		return b;
+		return banner;
 	}
 }

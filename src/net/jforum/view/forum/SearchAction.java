@@ -103,7 +103,7 @@ public class SearchAction extends Command
 		//SearchResult searchResult = operation.performSearch(args);
 		operation.performSearch(args);
 		operation.prepareForDisplay();
-		List<Object> results = operation.filterResults(operation.results());
+		List<Object> results = operation.filterResults(operation.getResults());
 		this.setTemplateName(operation.viewTemplate());
 		
 		this.context.put("results", results);

@@ -53,5 +53,5 @@ public interface FileChangeListener
 	 * 
 	 * @param filename Name of the changed file
 	 */
-	public void fileChanged(String filename);
+	void fileChanged(String filename);
 }

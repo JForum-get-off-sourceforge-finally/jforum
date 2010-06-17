@@ -14,5 +14,5 @@ public interface ApiDAO
 	 * @param apiKey the api key
 	 * @return <code>true</code> if the information is correct
 	 */
-	public boolean isValid(String apiKey);
+	boolean isValid(String apiKey);
 }

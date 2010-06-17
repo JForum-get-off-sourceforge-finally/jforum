@@ -73,11 +73,11 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class RecentTopicsAction extends Command 
 {
-	private List<Forum> forums;
+	private transient List<Forum> forums;
 
 	public void list()
 	{
-		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 
 		this.setTemplateName(TemplateKeys.RECENT_LIST);
 		
@@ -92,16 +92,16 @@ public class RecentTopicsAction extends Command
 	
 	private List<Topic> topics()
 	{
-		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		List<Topic> topics = TopicRepository.getRecentTopics();
+		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+		final List<Topic> topics = TopicRepository.getRecentTopics();
 		
 		this.forums = new ArrayList<Forum>(postsPerPage);
 
-		for (Iterator<Topic> iter = topics.iterator(); iter.hasNext(); ) {
-			Topic topic = (Topic)iter.next();
+		for (final Iterator<Topic> iter = topics.iterator(); iter.hasNext(); ) {
+			final Topic topic = (Topic)iter.next();
 			
 			if (TopicsCommon.isTopicAccessible(topic.getForumId())) {
-				Forum forum = ForumRepository.getForum(topic.getForumId());
+				final Forum forum = ForumRepository.getForum(topic.getForumId());
 				forums.add(forum);
 			}
 			else {
@@ -116,10 +116,10 @@ public class RecentTopicsAction extends Command
 
 	public void showTopicsByUser() 
 	{
-		DataAccessDriver da = DataAccessDriver.getInstance();
+		final DataAccessDriver dad = DataAccessDriver.getInstance();
 		
-		UserDAO udao = da.newUserDAO();
-		User user = udao.selectById(this.request.getIntParameter("user_id"));
+		final UserDAO udao = dad.newUserDAO();
+		final User user = udao.selectById(this.request.getIntParameter("user_id"));
 		
 		if (user.getId() == 0) {
 			this.context.put("message", I18n.getMessage("User.notFound"));
@@ -129,28 +129,28 @@ public class RecentTopicsAction extends Command
 			
 		TopicsCommon.topicListingBase();
 		
-		int start = ViewCommon.getStartPage();
-		int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+		final int start = ViewCommon.getStartPage();
+		final int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
+		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		
 		this.setTemplateName(TemplateKeys.RECENT_USER_TOPICS_SHOW);
 		
-		int totalTopics = da.newTopicDAO().countUserTopics(user.getId());
+		int totalTopics = dad.newTopicDAO().countUserTopics(user.getId());
 		
 		this.context.put("u", user);
 		this.context.put("pageTitle", I18n.getMessage("ForumListing.userTopics") + " " + user.getUsername());
 		
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 		
-		List<Topic> topics = da.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
+		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
 		
-		List<Topic> list = TopicsCommon.prepareTopics(topics);
-		Map<Integer, Forum> forums = new HashMap<Integer, Forum>();
+		final List<Topic> list = TopicsCommon.prepareTopics(topics);
+		final Map<Integer, Forum> forums = new HashMap<Integer, Forum>();
 		
-		for (Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
-			Topic topic = (Topic)iter.next();
+		for (final Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
+			final Topic topic = (Topic)iter.next();
 			
-			Forum forum = ForumRepository.getForum(topic.getForumId());
+			final Forum forum = ForumRepository.getForum(topic.getForumId());
 			
 			if (forum == null) {
 				iter.remove();

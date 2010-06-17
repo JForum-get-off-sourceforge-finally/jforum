@@ -49,7 +49,7 @@ public class InvalidBookmarkTypeException extends RuntimeException
 {
 	private static final long serialVersionUID = -8228566337057957022L;
 
-	public InvalidBookmarkTypeException(String message)
+	public InvalidBookmarkTypeException(final String message)
 	{
 		super(message);
 	}

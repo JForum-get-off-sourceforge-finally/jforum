@@ -65,7 +65,7 @@ public class ModeratorInfo implements Serializable
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -79,7 +79,7 @@ public class ModeratorInfo implements Serializable
 	/**
 	 * @param name The name to set.
 	 */
-	public void setName(String name)
+	public void setName(final String name)
 	{
 		this.name = name;
 	}

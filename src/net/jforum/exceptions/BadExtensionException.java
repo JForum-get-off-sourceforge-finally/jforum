@@ -50,7 +50,7 @@ public class BadExtensionException extends AttachmentException
 {
 	private static final long serialVersionUID = 6988357963615278491L;
 
-	public BadExtensionException(String message) 
+	public BadExtensionException(final String message) 
 	{
 		super(message);
 	}

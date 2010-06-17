@@ -42,6 +42,8 @@
  */
 package net.jforum.entities;
 
+import java.util.Locale;
+
 /**
  * @author Rafael Steil
  * @version $Id: AttachmentExtension.java,v 1.7 2006/08/20 22:47:35 rafaelsteil Exp $
@@ -69,7 +71,7 @@ public class AttachmentExtension
 	/**
 	 * @param allow The allow to set.
 	 */
-	public void setAllow(boolean allow)
+	public void setAllow(final boolean allow)
 	{
 		this.allow = allow;
 	}
@@ -85,7 +87,7 @@ public class AttachmentExtension
 	/**
 	 * @param comment The comment to set.
 	 */
-	public void setComment(String comment)
+	public void setComment(final String comment)
 	{
 		this.comment = comment;
 	}
@@ -101,10 +103,10 @@ public class AttachmentExtension
 	/**
 	 * @param extension The extension to set.
 	 */
-	public void setExtension(String extension)
+	public void setExtension(final String extension)
 	{
 		if (extension != null) {
-			this.extension = extension.toLowerCase();
+			this.extension = extension.toLowerCase(Locale.US);
 		}
 	}
 	
@@ -119,7 +121,7 @@ public class AttachmentExtension
 	/**
 	 * @param extensionGroupId The extensionGroupId to set.
 	 */
-	public void setExtensionGroupId(int extensionGroupId)
+	public void setExtensionGroupId(final int extensionGroupId)
 	{
 		this.extensionGroupId = extensionGroupId;
 	}
@@ -134,7 +136,7 @@ public class AttachmentExtension
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -150,7 +152,7 @@ public class AttachmentExtension
 	/**
 	 * @param uploadIcon The upload_icon to set.
 	 */
-	public void setUploadIcon(String uploadIcon)
+	public void setUploadIcon(final String uploadIcon)
 	{
 		this.uploadIcon = uploadIcon;
 	}
@@ -166,7 +168,7 @@ public class AttachmentExtension
 	/**
 	 * @param unknown The unknown to set.
 	 */
-	public void setUnknown(boolean unknown)
+	public void setUnknown(final boolean unknown)
 	{
 		this.unknown = unknown;
 	}

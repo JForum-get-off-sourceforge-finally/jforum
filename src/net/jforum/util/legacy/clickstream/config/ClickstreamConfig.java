@@ -11,14 +11,14 @@ import java.util.List;
  * @version $Id: ClickstreamConfig.java,v 1.4 2005/07/26 04:01:16 diegopires Exp $
  */
 public class ClickstreamConfig {
-    private List<String> botAgents = new ArrayList<String>();
-    private List<String> botHosts = new ArrayList<String>();
+    private transient final List<String> botAgents = new ArrayList<String>();
+    private transient final List<String> botHosts = new ArrayList<String>();
 
-    public void addBotAgent(String agent) {
+    public void addBotAgent(final String agent) {
         botAgents.add(agent);
     }
 
-    public void addBotHost(String host) {
+    public void addBotHost(final String host) {
         botHosts.add(host);
     }
 

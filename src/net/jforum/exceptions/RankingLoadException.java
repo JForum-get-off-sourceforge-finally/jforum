@@ -50,7 +50,7 @@ public class RankingLoadException extends RuntimeException
 {
 	private static final long serialVersionUID = -6339155597772011861L;
 
-	public RankingLoadException(String message)
+	public RankingLoadException(final String message)
 	{
 		super(message);
 	}

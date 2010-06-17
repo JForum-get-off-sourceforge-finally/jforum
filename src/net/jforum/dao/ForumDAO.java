@@ -52,7 +52,7 @@ import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 
 /**
-* Model interface for {@link net.jforum.entities.Forum}.
+ * Model interface for {@link net.jforum.entities.Forum}.
  * This interface defines methods which are expected to be
  * implemented by a specific data access driver. The intention is
  * to provide all functionality needed to update, insert, delete and
@@ -70,7 +70,7 @@ public interface ForumDAO
 	 * @return <code>Forum</code>object containing all the information
 	 * @see #selectAll
 	 */
-	public Forum selectById(int forumId) ;
+	Forum selectById(int forumId) ;
 	
 	/**
 	 * Selects all forums data from the database.
@@ -78,7 +78,7 @@ public interface ForumDAO
 	 * @return ArrayList with the forums found 
 	 * @see #selectById
 	 */
-	public List<Forum> selectAll() ;
+	List<Forum> selectAll() ;
 	
 	/**
 	 * Sets the forum's order one level up.
@@ -91,7 +91,7 @@ public interface ForumDAO
 	 * @param related The forum which comes before the forum we want to change
 	 * @return The changed forum, with the new order set
 	 */
-	public Forum setOrderUp(Forum forum, Forum related) ;
+	Forum setOrderUp(Forum forum, Forum related) ;
 	
 	/**
 	 * Sets the forum's order one level down.
@@ -103,21 +103,21 @@ public interface ForumDAO
 	 * @param related The forum which comes after the forum we want to change
 	 * @return The changed forum, with the new order set
 	 */
-	public Forum setOrderDown(Forum forum, Forum related) ;
+	Forum setOrderDown(Forum forum, Forum related) ;
 	
 	/**
 	 * Delete a forum.
 	 * 
 	 * @param forumId The forum ID to delete
 	 */
-	public void delete(int forumId) ;
+	void delete(int forumId) ;
 		
 	/**
 	 * Updates a Forum.
 	 * 
 	 * @param forum Reference to a <code>Forum</code> object to update
 	 */
-	public void update(Forum forum) ;
+	void update(Forum forum) ;
 	
 	/**
 	 * Adds a new Forum.
@@ -125,7 +125,7 @@ public interface ForumDAO
 	 * @param forum Reference to a valid and configured <code>Forum</code> object
 	 * @return The forum's ID
 	 */
-	public int addNew(Forum forum) ;
+	int addNew(Forum forum) ;
 	
 	/**
 	 * Sets the last topic of a forum
@@ -133,7 +133,7 @@ public interface ForumDAO
 	 * @param forumId The forum ID to update
 	 * @param postId Last post ID
 	 */
-	public void setLastPost(int forumId, int postId) ;
+	void setLastPost(int forumId, int postId) ;
 
 	/**
 	 * Increments the total number of topics of a forum
@@ -141,7 +141,7 @@ public interface ForumDAO
 	 * @param forumId The forum ID to update
 	 * @param count Increment a total of <code>count</code> elements
 	 */
-	public void incrementTotalTopics(int forumId, int count) ;
+	void incrementTotalTopics(int forumId, int count) ;
 	
 	/**
 	 * Decrements the total number of topics of a forum
@@ -149,7 +149,7 @@ public interface ForumDAO
 	 * @param forumId The forum ID to update
 	 * @param count Decrement a total of <code>count</code> elements 
 	 */
-	public void decrementTotalTopics(int forumId, int count) ;
+	void decrementTotalTopics(int forumId, int count) ;
 
 	/**
 	 * Gets information about the latest message posted in some forum.
@@ -157,7 +157,7 @@ public interface ForumDAO
 	 * @param forumId the forum's id to inspect
 	 * @return A {@link LastPostInfo} instance
 	 */
-	public LastPostInfo getLastPostInfo(int forumId) ;
+	LastPostInfo getLastPostInfo(int forumId) ;
 
 	/**
 	 * Get all moderators of some forum
@@ -165,13 +165,13 @@ public interface ForumDAO
 	 * @return a list with all moderators. Each entry is an instance of
 	 * {@link net.jforum.entities.ModeratorInfo}
 	 */
-	public List<ModeratorInfo> getModeratorList(int forumId) ;
+	List<ModeratorInfo> getModeratorList(int forumId) ;
 	
 	/**
 	 * Gets the total number of messages of a forum
      * @return int
      */
-	public int getTotalMessages() ;
+	int getTotalMessages() ;
 	
 	/**
 	 * Gets the total number os topics of some forum
@@ -179,7 +179,7 @@ public interface ForumDAO
 	 * @return Total of topics
      * @param forumId int
 	 */
-	public int getTotalTopics(int forumId) ;
+	int getTotalTopics(int forumId) ;
 
 	
 	/**
@@ -188,7 +188,7 @@ public interface ForumDAO
 	 * @param forumId The forum id
      * @return int
 	 */
-	public int getMaxPostId(int forumId) ;
+	int getMaxPostId(int forumId) ;
 	
 	/**
 	 * Move the topics to a new forum
@@ -197,7 +197,7 @@ public interface ForumDAO
 	 * @param fromForumId The original forum id
 	 * @param toForumId The destination forum id
 	 */
-	public void moveTopics(String[] topics, int fromForumId, int toForumId) ;
+	void moveTopics(String[] topics, int fromForumId, int toForumId) ;
 	
 	/**
 	 * Check if the forum has unread topics.
@@ -207,7 +207,7 @@ public interface ForumDAO
 	 * @return a <code>java.util.List</code> instance, where each entry is a
 	 * <code>net.jforum.entities.Topic</code> instance. 
 	 */
-	public List<Topic> checkUnreadTopics(int forumId, long lastVisit) ;
+	List<Topic> checkUnreadTopics(int forumId, long lastVisit) ;
 	
 	/**
 	 * Enable or disabled moderation for the forum.
@@ -215,13 +215,13 @@ public interface ForumDAO
 	 * @param categoryId The main category for the forum
 	 * @param status a boolean value representing the desired status
 	 */
-	public void setModerated(int categoryId, boolean status) ;
+	void setModerated(int categoryId, boolean status) ;
 	
 	/**
 	 * Gets general statistics from the board
 	 * @return ForumStats
 	 */
-	public ForumStats getBoardStatus() ;
+	ForumStats getBoardStatus() ;
 	
 	
 	//codes below are added by socialnework@gmail.com for "watching forum" purpose
@@ -232,7 +232,7 @@ public interface ForumDAO
 	 * @return <code>ArrayList</code> of <code>User</code> objects. Each
 	 * entry is a user who will receive the new topic in the forum notification
 	 * */
-	public List<User> notifyUsers(Forum forum) ;
+	List<User> notifyUsers(Forum forum) ;
 	
 	
 	/**
@@ -242,7 +242,7 @@ public interface ForumDAO
 	 * @param forumId int
 	 * @param userId int
 	 */
-	public void subscribeUser(int forumId, int userId) ;
+	void subscribeUser(int forumId, int userId) ;
 	
 	/**
 	 * Return the subscription status of the user on the forum.
@@ -252,7 +252,7 @@ public interface ForumDAO
 	 * @param userId int
 	 * @return boolean
 	 */
-	public boolean isUserSubscribed(int forumId, int userId) ;
+	boolean isUserSubscribed(int forumId, int userId) ;
 	
 	/**
 	 * Remove the user's subscription of the forum
@@ -260,19 +260,19 @@ public interface ForumDAO
 	 * @param forumId The forum id
 	 * @param userId the User id
 	 */
-	public void removeSubscription(int forumId, int userId) ;
+	void removeSubscription(int forumId, int userId) ;
 	
 	/**
 	 * Clean all subscriptions of some forum
 	 * 
 	 * @param forumId The forum id
 	 */
-	public void removeSubscriptionByForum(int forumId) ;
+	void removeSubscriptionByForum(int forumId) ;
 
 	/**
 	 * Given an email address, finds the forum Id
 	 * @param listEmail the email of the forum
 	 * @return the forum id of the given email, or 0 if not found
 	 */
-	public int discoverForumId(String listEmail);
+	int discoverForumId(String listEmail) ;
 }
