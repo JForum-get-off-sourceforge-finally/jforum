@@ -52,14 +52,14 @@ import java.util.Map;
  */
 public class VariableExpander
 {
-	private VariableStore variables;
+	private transient final VariableStore variables;
 
-	private String pre;
-	private String post;
+	private transient final String pre;
+	private transient final String post;
 
-	private Map<String, String> cache;
+	private transient final Map<String, String> cache;
 
-	public VariableExpander(VariableStore variables, String pre, String post)
+	public VariableExpander(final VariableStore variables, final String pre, final String post)
 	{
 		this.variables = variables;
 		this.pre = pre;
@@ -72,7 +72,7 @@ public class VariableExpander
 		cache.clear();
 	}
 	
-	public String expandVariables(String source)
+	public String expandVariables(final String source)
 	{
 		String result = (String)this.cache.get(source);
 		
@@ -86,26 +86,26 @@ public class VariableExpander
 			return source;
 		}
 		
-		StringBuffer sb = new StringBuffer(source);
+		final StringBuffer stringBuffer = new StringBuffer(source);
 		
 		while (fIndex > -1) {
-			int lIndex = sb.indexOf(this.post);
+			final int lIndex = stringBuffer.indexOf(this.post);
 			
-			int start = fIndex + this.pre.length();
+			final int start = fIndex + this.pre.length();
 			
 			if (fIndex == 0) {
-				String varName = sb.substring(start, start + lIndex - this.pre.length());
-				sb.replace(fIndex, fIndex + lIndex + 1, this.variables.getVariableValue(varName));
+				final String varName = stringBuffer.substring(start, start + lIndex - this.pre.length());
+				stringBuffer.replace(fIndex, fIndex + lIndex + 1, this.variables.getVariableValue(varName));
 			}
 			else {
-				String varName = sb.substring(start, lIndex);
-				sb.replace(fIndex, lIndex + 1, this.variables.getVariableValue(varName));
+				final String varName = stringBuffer.substring(start, lIndex);
+				stringBuffer.replace(fIndex, lIndex + 1, this.variables.getVariableValue(varName));
 			}
 			
-			fIndex = sb.indexOf(this.pre);
+			fIndex = stringBuffer.indexOf(this.pre);
 		}
 		
-		result = sb.toString();
+		result = stringBuffer.toString();
 		
 		this.cache.put(source, result);
 		

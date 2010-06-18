@@ -79,7 +79,7 @@ public class BannerCommon
 	 * @param placement int
 	 * @return boolean
 	 */
-	public boolean isActiveBannerExist(int placement) 
+	public boolean isActiveBannerExist(final int placement) 
 	{
 		banners = dao.selectActiveBannerByPlacement(placement);
 		if (banners == null || banners.isEmpty())

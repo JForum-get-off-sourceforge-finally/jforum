@@ -79,18 +79,18 @@ public class ForumCommon
 	 * @param tracking Tracking of the topics read by the user
 	 * @param lastVisit The last visit time of the current user
 	 */
-	public static void checkUnreadPosts(Forum forum, Map<Integer, Long> tracking, long lastVisit) 
+	public static void checkUnreadPosts(final Forum forum, final Map<Integer, Long> tracking, final long lastVisit) 
 	{
-		LastPostInfo lpi = forum.getLastPostInfo();
+		final LastPostInfo lpi = forum.getLastPostInfo();
 		
 		if (lpi == null) {
 			return;
 		}
 
-		Integer topicId = Integer.valueOf(lpi.getTopicId());
+		final Integer topicId = Integer.valueOf(lpi.getTopicId());
 		
 		if (tracking != null && tracking.containsKey(topicId)) {
-			long readTime = tracking.get(topicId).longValue();
+			final long readTime = tracking.get(topicId).longValue();
 		
 			forum.setUnread(readTime > 0 && lpi.getPostTimeMillis() > readTime);
 		}
@@ -102,7 +102,7 @@ public class ForumCommon
 	/**
 	 * Gets all forums available to the user.
 	 * 
-	 * @param us A <code>UserSession</code> instance with user information
+	 * @param userSession A <code>UserSession</code> instance with user information
 	 * @param anonymousUserId The id which represents the anonymous user
 	 * @param tracking <code>Map</code> instance with information 
 	 * about the topics read by the user
@@ -111,27 +111,27 @@ public class ForumCommon
 	 * @return A <code>List</code> instance where each record is an instance of a <code>Category</code>
 	 * object
 	 */
-	public static List<Category> getAllCategoriesAndForums(UserSession us, int anonymousUserId, 
-			Map<Integer, Long> tracking, boolean checkUnreadPosts)
+	public static List<Category> getAllCategoriesAndForums(final UserSession userSession, final int anonymousUserId, 
+			final Map<Integer, Long> tracking, boolean checkUnreadPosts)
 	{
 		long lastVisit = 0;
 		int userId = anonymousUserId;
 		
-		if (us != null) {
-			lastVisit = us.getLastVisit().getTime();
-			userId = us.getUserId();
+		if (userSession != null) {
+			lastVisit = userSession.getLastVisit().getTime();
+			userId = userSession.getUserId();
 		}
 
         // Do not check for unread posts if the user is not logged in
 		checkUnreadPosts = checkUnreadPosts && (userId != anonymousUserId);
 
-		List<Category> categories = ForumRepository.getAllCategories(userId);
+		final List<Category> categories = ForumRepository.getAllCategories(userId);
 		
 		if (!checkUnreadPosts) {
 			return categories;
 		}
 
-		List<Category> returnCategories = new ArrayList<Category>();
+		final List<Category> returnCategories = new ArrayList<Category>();
 		for (Iterator<Category> iter = categories.iterator(); iter.hasNext(); ) {
 			Category category = new Category(iter.next());
 			
@@ -165,8 +165,8 @@ public class ForumCommon
 	 */
 	public static List<Category> getAllCategoriesAndForums()
 	{
-		UserSession us = SessionFacade.getUserSession();
-		boolean checkUnread = (us != null && us.getUserId() 
+		UserSession userSession = SessionFacade.getUserSession();
+		boolean checkUnread = (userSession != null && userSession.getUserId() 
 			!= SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID));
 		return getAllCategoriesAndForums(checkUnread);
 	}
@@ -198,4 +198,6 @@ public class ForumCommon
 			}
 		}
 	}
+	
+	private ForumCommon() {}
 }

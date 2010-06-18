@@ -82,7 +82,7 @@ public final class PollCommon
 			option = option.trim();
 			
 			if (option.length() > 0) {
-				PollOption pollOption = new PollOption();
+				final PollOption pollOption = new PollOption();
 				pollOption.setId(i);
 				pollOption.setText(option);
 				poll.addOption(pollOption);

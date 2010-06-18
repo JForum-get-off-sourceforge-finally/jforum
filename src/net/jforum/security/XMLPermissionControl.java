@@ -76,11 +76,11 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XMLPermissionControl extends DefaultHandler 
 {
-    private PermissionSection section;
-	private PermissionControl pc;
-	private List<PermissionSection> listSections;
-	private List<FormSelectedData> permissionData;
-	private Map<String, List<SelectData>> queries;
+    private transient PermissionSection section;
+	private transient final PermissionControl permissionControl;
+	private transient final List<PermissionSection> listSections;
+	private transient List<FormSelectedData> permissionData;
+	private transient final Map<String, List<SelectData>> queries;
 	private String permissionName;
 	private String permissionId;
 	private String permissionType;
@@ -89,10 +89,10 @@ public class XMLPermissionControl extends DefaultHandler
 	
 	private static class SelectData
 	{
-		private int id;
-		private String name;
+		final private int id;
+		final private String name;
 		
-		public SelectData(int id, String name)
+		public SelectData(final int id, final String name)
 		{
 			this.id = id;
 			this.name = name;
@@ -109,12 +109,12 @@ public class XMLPermissionControl extends DefaultHandler
 		}
 	}
 	
-	public XMLPermissionControl(PermissionControl pc)
+	public XMLPermissionControl(final PermissionControl permissionControl)
 	{
 		this.listSections = new ArrayList<PermissionSection>();
 		this.permissionData = new ArrayList<FormSelectedData>();
 		this.queries = new HashMap<String, List<SelectData>>();
-		this.pc = pc;
+		this.permissionControl = permissionControl;
 	}
 
 	/**
@@ -126,21 +126,21 @@ public class XMLPermissionControl extends DefaultHandler
 	 * are checked and which not.
      * @param xmlFile String
 	 */
-	public List<PermissionSection> loadConfigurations(String xmlFile)
+	public List<PermissionSection> loadConfigurations(final String xmlFile)
 	{
         try
         {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+            final SAXParserFactory factory = SAXParserFactory.newInstance();
             factory.setValidating(false);
 
-            SAXParser parser = factory.newSAXParser();
-            File fileInput = new File(xmlFile);
+            final SAXParser parser = factory.newSAXParser();
+            final File fileInput = new File(xmlFile);
 
             if (fileInput.exists()) {
                 parser.parse(fileInput, this);
             }
             else {
-                InputSource inputSource = new InputSource(xmlFile);
+                final InputSource inputSource = new InputSource(xmlFile);
                 parser.parse(inputSource, this);
             }
 
@@ -155,7 +155,7 @@ public class XMLPermissionControl extends DefaultHandler
 	/**
 	 * @see org.xml.sax.ContentHandler#endElement(String, String, String)
 	 */
-	public void endElement(String namespaceURI, String localName, String tag)
+	public void endElement(final String namespaceURI, final String localName, final String tag)
 		throws SAXException 
 	{
 		if ("section".equals(tag)) {
@@ -171,7 +171,7 @@ public class XMLPermissionControl extends DefaultHandler
 	/**
 	 * @see org.xml.sax.ErrorHandler#error(SAXParseException)
 	 */
-	public void error(SAXParseException exception) throws SAXException 
+	public void error(final SAXParseException exception) throws SAXException 
 	{
 		throw exception;
 	}
@@ -180,18 +180,18 @@ public class XMLPermissionControl extends DefaultHandler
 	 * @see org.xml.sax.ContentHandler#startElement(String, String, String, Attributes)
 	 */
 	public void startElement(
-		String namespaceURI,
-		String localName,
-		String tag,
-		Attributes atts)
+		final String namespaceURI,
+		final String localName,
+		final String tag,
+		final Attributes atts)
 		throws SAXException 
 	{
 		if ("section".equals(tag)) {
-			String title = I18n.getMessage(atts.getValue("title"));
+			final String title = I18n.getMessage(atts.getValue("title"));
 			this.section = new PermissionSection(title, atts.getValue("id"));
 		}
 		else if ("permission".equals(tag)) {
-			String title = I18n.getMessage(atts.getValue("title"));
+			final String title = I18n.getMessage(atts.getValue("title"));
 			
 			this.permissionName = title;
 			this.permissionId = atts.getValue("id");
@@ -199,62 +199,62 @@ public class XMLPermissionControl extends DefaultHandler
 			this.alreadySelected = false;
 		}
 		else if ("sql".equals(tag)) {
-			String refName = atts.getValue("refName");
+			final String refName = atts.getValue("refName");
 			
 			// If refName is present, then we have a template query
 			if (refName != null) {
-                ResultSet rs = null;
-                PreparedStatement p = null;
+                ResultSet resultSet = null;
+                PreparedStatement pstmt = null;
                 
 				try {
-					p = JForumExecutionContext.getConnection().prepareStatement(
+					pstmt = JForumExecutionContext.getConnection().prepareStatement(
 						SystemGlobals.getSql(atts.getValue("queryName")));
-					rs = p.executeQuery();
+					resultSet = pstmt.executeQuery();
 					
-					String valueField = atts.getValue("valueField");
-					String captionField = atts.getValue("captionField");
+					final String valueField = atts.getValue("valueField");
+					final String captionField = atts.getValue("captionField");
 					
-					List<SelectData> l = new ArrayList<SelectData>();
+					final List<SelectData> list = new ArrayList<SelectData>();
 					
-					while (rs.next()) {
-						l.add(new SelectData(rs.getInt(valueField), rs.getString(captionField)));
+					while (resultSet.next()) {
+						list.add(new SelectData(resultSet.getInt(valueField), resultSet.getString(captionField)));
 					}
 					
-					this.queries.put(refName, l);
+					this.queries.put(refName, list);
 				}
 				catch (Exception e) {
                     throw new DatabaseException(e);
 				}
 				finally {
-                    DbUtils.close(rs, p);
+                    DbUtils.close(resultSet, pstmt);
 				}
 			}
 			else {
 				// If it gets here, then it should be a <sql ref="xxxx"> section
 				RoleValueCollection roleValues = new RoleValueCollection();
-				Role role = this.pc.getRole(this.permissionId);
+				Role role = this.permissionControl.getRole(this.permissionId);
 				
 				if (role != null) {
 					roleValues = role.getValues();
 				}
 				
-				List<SelectData> l = this.queries.get(atts.getValue("ref"));
+				List<SelectData> list = this.queries.get(atts.getValue("ref"));
 				
-				for (Iterator<SelectData> iter = l.iterator(); iter.hasNext(); ) {
+				for (Iterator<SelectData> iter = list.iterator(); iter.hasNext(); ) {
 					SelectData data = iter.next();
 					
 					String id = Integer.toString(data.getId());
-					RoleValue rv = roleValues.get(id);
+					RoleValue roleValue = roleValues.get(id);
 
-					this.permissionData.add(new FormSelectedData(data.getName(), id, rv == null));
+					this.permissionData.add(new FormSelectedData(data.getName(), id, roleValue == null));
 				}
 			}
 		}
-		else if (tag.equals("option")) {
+		else if ("option".equals(tag)) {
 			boolean selected = false;
 			
 			if (this.permissionType.equals("single")) {
-				if (this.pc.canAccess(this.permissionId) && atts.getValue("value").equals("allow") && !this.alreadySelected) {
+				if (this.permissionControl.canAccess(this.permissionId) && atts.getValue("value").equals("allow") && !this.alreadySelected) {
 					selected = true;
 					this.alreadySelected = true;
 				}

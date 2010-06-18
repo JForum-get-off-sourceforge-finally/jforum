@@ -45,6 +45,7 @@ package net.jforum.entities;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 
 import net.jforum.ControllerUtils;
 import net.jforum.JForumExecutionContext;
@@ -84,29 +85,31 @@ public class UserSession implements Serializable
 	
 	private boolean autoLogin;
 	
-	private ImageCaptcha imageCaptcha = null;
+	private transient ImageCaptcha imageCaptcha = null;
 
-	public UserSession() {}
+	public UserSession() {
+		// Empty Constructor
+	}
 
-	public UserSession(UserSession us)
+	public UserSession(final UserSession userSession)
 	{
-		if (us.getStartTime() != null) {
-			this.startTime = new Date(us.getStartTime().getTime());
+		if (userSession.getStartTime() != null) {
+			this.startTime = new Date(userSession.getStartTime().getTime());
 		}
 
-		if (us.getLastVisit() != null) {
-			this.lastVisit = new Date(us.getLastVisit().getTime());
+		if (userSession.getLastVisit() != null) {
+			this.lastVisit = new Date(userSession.getLastVisit().getTime());
 		}
 		
-		this.sessionTime = us.getSessionTime();
-		this.userId = us.getUserId();
-		this.sessionId = us.getSessionId();
-		this.username = us.getUsername();
-		this.autoLogin = us.isAutoLogin();
-		this.lang = us.getLang();
-		this.privateMessages = us.getPrivateMessages();
-		this.imageCaptcha = us.imageCaptcha;
-		this.ip = us.getIp();
+		this.sessionTime = userSession.getSessionTime();
+		this.userId = userSession.getUserId();
+		this.sessionId = userSession.getSessionId();
+		this.username = userSession.getUsername();
+		this.autoLogin = userSession.isAutoLogin();
+		this.lang = userSession.getLang();
+		this.privateMessages = userSession.getPrivateMessages();
+		this.imageCaptcha = userSession.imageCaptcha;
+		this.ip = userSession.getIp();
 	}
 	
 	public Date sessionLastUpdate()
@@ -114,7 +117,7 @@ public class UserSession implements Serializable
 		return new Date(this.startTime.getTime() + this.sessionTime);
 	}
 	
-	public void setIp(String ip)
+	public void setIp(final String ip)
 	{
 		this.ip = ip;
 	}
@@ -129,7 +132,7 @@ public class UserSession implements Serializable
 	 * 
 	 * @param startTime  Start time in milliseconds
 	 */
-	public void setStartTime(Date startTime)
+	public void setStartTime(final Date startTime)
 	{
 		this.startTime = startTime;
 	}
@@ -145,7 +148,7 @@ public class UserSession implements Serializable
 	/**
 	 * @param privateMessages The privateMessages to set.
 	 */
-	public void setPrivateMessages(int privateMessages)
+	public void setPrivateMessages(final int privateMessages)
 	{
 		this.privateMessages = privateMessages;
 	}
@@ -155,7 +158,7 @@ public class UserSession implements Serializable
 	 * 
 	 * @param lastVisit Time in milliseconds
 	 */
-	public void setLastVisit(Date lastVisit)
+	public void setLastVisit(final Date lastVisit)
 	{
 		this.lastVisit = lastVisit;
 	}
@@ -165,7 +168,7 @@ public class UserSession implements Serializable
 	 * 
 	 * @param userId The user id
 	 */
-	public void setUserId(int userId)
+	public void setUserId(final int userId)
 	{
 		this.userId = userId;
 	}
@@ -175,22 +178,22 @@ public class UserSession implements Serializable
 	 * 
 	 * @param username The username
 	 */
-	public void setUsername(String username)
+	public void setUsername(final String username)
 	{
 		this.username = username;
 	}
 
-	public void setSessionId(String sessionId)
+	public void setSessionId(final String sessionId)
 	{
 		this.sessionId = sessionId;
 	}
 
-	public void setSessionTime(long sessionTime)
+	public void setSessionTime(final long sessionTime)
 	{
 		this.sessionTime = sessionTime;
 	}
 
-	public void setLang(String lang)
+	public void setLang(final String lang)
 	{
 		this.lang = lang;
 	}
@@ -321,10 +324,10 @@ public class UserSession implements Serializable
 	 */
 	public boolean isModerator(int forumId)
 	{
-		PermissionControl pc = SecurityRepository.get(this.userId);
+		final PermissionControl permissionControl = SecurityRepository.get(this.userId);
 		
-		return (pc.canAccess(SecurityConstants.PERM_MODERATION))
-			&& (pc.canAccess(SecurityConstants.PERM_MODERATION_FORUMS, 
+		return (permissionControl.canAccess(SecurityConstants.PERM_MODERATION))
+			&& (permissionControl.canAccess(SecurityConstants.PERM_MODERATION_FORUMS, 
 				Integer.toString(forumId)));
 	}
 
@@ -401,10 +404,10 @@ public class UserSession implements Serializable
 				&& this.imageCaptcha != null) {
 			
 			if (SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_IGNORE_CASE)) {
-				userResponse = userResponse.toLowerCase();
+				userResponse = userResponse.toLowerCase(Locale.US);
 			}
 			
-			boolean result =  this.imageCaptcha.validateResponse(userResponse).booleanValue();
+			final boolean result =  this.imageCaptcha.validateResponse(userResponse).booleanValue();
 			this.destroyCaptcha();
 			return result;
 		}
@@ -446,13 +449,13 @@ public class UserSession implements Serializable
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o)
+	public boolean equals(final Object obj)
 	{
-		if (!(o instanceof UserSession)) {
+		if (!(obj instanceof UserSession)) {
 			return false;
 		}
 		
-		return this.sessionId.equals(((UserSession)o).getSessionId());
+		return this.sessionId.equals(((UserSession)obj).getSessionId());
 	}
 	
 	/**

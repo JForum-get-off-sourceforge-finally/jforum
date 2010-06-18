@@ -67,44 +67,47 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class UserAction extends AdminCommand 
 {
+	private static final String USERS = "users";
+	private static final String USER_ID = "user_id";	
+	
+	private final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+	private final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
+	
 	public void list()
 	{
-		int start = this.preparePagination(DataAccessDriver.getInstance().newUserDAO().getTotalUsers());
-		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+		final int start = this.preparePagination(userDao.getTotalUsers());
+		final int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
 		
-		this.context.put("users", DataAccessDriver.getInstance().newUserDAO().selectAll(start ,usersPerPage));
+		this.context.put(USERS, userDao.selectAll(start ,usersPerPage));
 		this.commonData();
 	}
 	
 	public void pendingActivations()
 	{
-		UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
-		List<User> users = dao.pendingActivations();
+		final List<User> users = userDao.pendingActivations();
 		
 		this.setTemplateName(TemplateKeys.USER_ADMIN_PENDING_ACTIVATIONS);
-		this.context.put("users", users);
+		this.context.put(USERS, users);
 	}
 	
 	public void activateAccount()
 	{
-		String[] ids = this.request.getParameterValues("user_id");
+		final String[] ids = this.request.getParameterValues(USER_ID);
 		
-		if (ids != null) {
-			UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
-			
+		if (ids != null) {			
 			for (int i = 0; i < ids.length; i++) {
-				int userId = Integer.parseInt(ids[i]);
-				dao.writeUserActive(userId);
+				final int userId = Integer.parseInt(ids[i]);
+				userDao.writeUserActive(userId);
 			}
 		}
 		
 		this.pendingActivations();
 	}
 	
-	private int preparePagination(int totalUsers)
+	private int preparePagination(final int totalUsers)
 	{
-		int start = ViewCommon.getStartPage();
-		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+		final int start = ViewCommon.getStartPage();
+		final int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
 		
 		ViewCommon.contextToPagination(start, totalUsers, usersPerPage);
 		
@@ -128,20 +131,18 @@ public class UserAction extends AdminCommand
 			this.list();
 			return;
 		}
-		
-		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
-		
-		int start = this.preparePagination(um.getTotalUsersByGroup(groupId));
-		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+	
+		final int start = this.preparePagination(userDao.getTotalUsersByGroup(groupId));
+		final int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
 		
 		this.commonData();
 		
-		List<Integer> l = new ArrayList<Integer>();
-		l.add(Integer.valueOf(groupId));
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(Integer.valueOf(groupId));
 		
-		this.context.put("selectedList", l);
+		this.context.put("selectedList", list);
 		this.context.put("searchAction", "groupSearch");
-		this.context.put("users", um.selectAllByGroup(groupId, start, usersPerPage));
+		this.context.put(USERS, userDao.selectAllByGroup(groupId, start, usersPerPage));
 		this.context.put("searchId", Integer.valueOf(groupId));
 		this.context.put("action", "groupSearch");
 	}
@@ -152,27 +153,26 @@ public class UserAction extends AdminCommand
 		String group = this.request.getParameter("group_id");
 		
 		if (search != null && !"".equals(search)) {
-			List<User> users = DataAccessDriver.getInstance().newUserDAO().findByName(search, false);
+			List<User> users = userDao.findByName(search, false);
 			
 			this.commonData();
 			
-			this.context.put("users", users);
+			this.context.put(USERS, users);
 			this.context.put("search", search);
 			this.context.put("start", Integer.valueOf(1));
 		}
-		else if (!"0".equals(group)) {
-			this.groupSearch();
-		}
-		else {
+		else if ("0".equals(group)) {
 			this.list();
+		}
+		else {			
+			this.groupSearch();
 		}
 	}
 	
 	public void edit()
 	{
 		int userId = this.request.getIntParameter("id");	
-		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
-		User user = um.selectById(userId);
+		User user = userDao.selectById(userId);
 		
 		this.setTemplateName(TemplateKeys.USER_ADMIN_EDIT);
 		this.context.put("u", user);
@@ -184,7 +184,7 @@ public class UserAction extends AdminCommand
 	
 	public void editSave() 
 	{
-		int userId = this.request.getIntParameter("user_id");
+		int userId = this.request.getIntParameter(USER_ID);
 		UserCommon.saveUser(userId);
 
 		this.list();
@@ -193,16 +193,15 @@ public class UserAction extends AdminCommand
 	// Delete
 	public void delete()
 	{
-		String ids[] = this.request.getParameterValues("user_id");
-		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
+		String ids[] = this.request.getParameterValues(USER_ID);
 		
 		if (ids != null) {
 			for (int i = 0; i < ids.length; i++) {
 				
 				int user = Integer.parseInt(ids[i]);
 				
-				if (um.isDeleted(user)){
-					um.undelete(user);
+				if (userDao.isDeleted(user)){
+					userDao.undelete(user);
 				} 
 				else {
 					String sessionId = SessionFacade.isUserInSession(user);
@@ -211,7 +210,7 @@ public class UserAction extends AdminCommand
 						SessionFacade.remove(sessionId);
 					}
 					
-					um.delete(user);
+					userDao.delete(user);
 				}
 			}
 		}
@@ -224,8 +223,7 @@ public class UserAction extends AdminCommand
 	{
 		int userId = this.request.getIntParameter("id");
 		
-		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
-		User user = um.selectById(userId);
+		User user = userDao.selectById(userId);
 		
 		List<Integer> selectedList = new ArrayList<Integer>();
 		for (Iterator<Group> iter = user.getGroupsList().iterator(); iter.hasNext(); ) {
@@ -243,23 +241,20 @@ public class UserAction extends AdminCommand
 	// Groups Save
 	public void groupsSave()
 	{
-		int userId = this.request.getIntParameter("user_id");
-		
-		UserDAO um = DataAccessDriver.getInstance().newUserDAO();
-		GroupDAO gm = DataAccessDriver.getInstance().newGroupDAO();
+		int userId = this.request.getIntParameter(USER_ID);
 		
 		// Remove the old groups
-		List<Group> allGroupsList = gm.selectAll();
+		List<Group> allGroupsList = groupDao.selectAll();
 		int[] allGroups = new int[allGroupsList.size()];
 		
 		int counter = 0;
 		for (Iterator<Group> iter = allGroupsList.iterator(); iter.hasNext(); counter++) {
-			Group g = iter.next();
+			Group group = iter.next();
 			
-			allGroups[counter] = g.getId();
+			allGroups[counter] = group.getId();
 		}
 		
-		um.removeFromGroup(userId, allGroups);
+		userDao.removeFromGroup(userId, allGroups);
 		
 		// Associate the user to the selected groups
 		String[] selectedGroups = this.request.getParameterValues("groups");
@@ -274,7 +269,7 @@ public class UserAction extends AdminCommand
 			newGroups[i] = Integer.parseInt(selectedGroups[i]);
 		}
 		
-		um.addToGroup(userId, newGroups);
+		userDao.addToGroup(userId, newGroups);
 		SecurityRepository.remove(userId);
 		
 		this.list();

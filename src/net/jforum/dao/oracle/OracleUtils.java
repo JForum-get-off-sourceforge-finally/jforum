@@ -61,6 +61,8 @@ import oracle.sql.BLOB;
  */
 public class OracleUtils
 {
+	private static final int BUFFER_SIZE = 4096;
+	
 	public static String readBlobUTF16BinaryStream(final ResultSet resultSet, final String fieldName) throws SQLException
 	{
 		try {
@@ -70,10 +72,9 @@ public class OracleUtils
 			final StringBuffer stringBuffer = new StringBuffer();
 			
 			int readedBytes;
-			final int bufferSize = 4096;
 			
 			do {
-				final byte[] bytes = new byte[bufferSize];
+				final byte[] bytes = new byte[BUFFER_SIZE];
 				
 				readedBytes = inputStream.read(bytes);
 				
@@ -81,7 +82,7 @@ public class OracleUtils
 					final String read = new String(bytes, 0, readedBytes, "UTF-16");
 					stringBuffer.append(read);
 				}
-			} while (readedBytes == bufferSize);
+			} while (readedBytes == BUFFER_SIZE);
 
 			inputStream.close();
 			return stringBuffer.toString();

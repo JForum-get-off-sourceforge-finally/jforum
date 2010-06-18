@@ -90,15 +90,15 @@ public class AttachmentCommon
 	private static final Logger LOGGER = Logger.getLogger(AttachmentCommon.class);
 	private static final String DENY_ALL = "*";
 	
-	private RequestContext request;
-	private AttachmentDAO am;
-	private boolean canProceed;
-	private Map<UploadUtils, Attachment> filesToSave = new HashMap<UploadUtils, Attachment>();
+	private final RequestContext request;
+	private AttachmentDAO attachmentDao;
+	private final boolean canProceed;
+	private final Map<UploadUtils, Attachment> filesToSave = new HashMap<UploadUtils, Attachment>();
 	
-	public AttachmentCommon(RequestContext request, int forumId)
+	public AttachmentCommon(final RequestContext request, final int forumId)
 	{
 		this.request = request;
-		this.am = DataAccessDriver.getInstance().newAttachmentDAO();
+		this.attachmentDao = DataAccessDriver.getInstance().newAttachmentDAO();
 		
 		this.canProceed = SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_ENABLED, 
 			Integer.toString(forumId));
@@ -110,13 +110,13 @@ public class AttachmentCommon
 			return;
 		}
 		
-		String t = this.request.getParameter("total_files");
+		final String totalFiles = this.request.getParameter("total_files");
 		
-		if (t == null || "".equals(t)) {
+		if (totalFiles == null || "".equals(totalFiles)) {
 			return;
 		}
 		
-		int total = Integer.parseInt(t);
+		int total = Integer.parseInt(totalFiles);
 		
 		if (total < 1) {
 			return;
@@ -127,11 +127,11 @@ public class AttachmentCommon
 		}
 
 		long totalSize = 0;
-		int userId = SessionFacade.getUserSession().getUserId();
-		Map<String, Boolean> extensions = this.am.extensionsForSecurity();
+		final int userId = SessionFacade.getUserSession().getUserId();
+		final Map<String, Boolean> extensions = this.attachmentDao.extensionsForSecurity();
 		
 		for (int i = 0; i < total; i++) {
-			FileItem item = (FileItem)this.request.getObjectParameter("file_" + i);
+			final FileItem item = (FileItem)this.request.getObjectParameter("file_" + i);
 			
 			if (item == null) {
 				continue;
@@ -143,7 +143,7 @@ public class AttachmentCommon
 				continue;
 			}
 			
-			UploadUtils uploadUtils = new UploadUtils(item);
+			final UploadUtils uploadUtils = new UploadUtils(item);
 
 			// Check if the extension is allowed
 			boolean containsExtension = extensions.containsKey(uploadUtils.getExtension());
@@ -163,8 +163,8 @@ public class AttachmentCommon
 				throw new AttachmentException("Comment too long.");
 			}
 			
-			Attachment a = new Attachment();
-			a.setUserId(userId);
+			Attachment attachment = new Attachment();
+			attachment.setUserId(userId);
 			
 			AttachmentInfo info = new AttachmentInfo();
 			info.setFilesize(item.getSize());
@@ -177,7 +177,7 @@ public class AttachmentCommon
 			info.setRealFilename(realName);
 			info.setUploadTimeInMillis(System.currentTimeMillis());
 			
-			AttachmentExtension ext = this.am.selectExtension(uploadUtils.getExtension().toLowerCase());
+			AttachmentExtension ext = this.attachmentDao.selectExtension(uploadUtils.getExtension().toLowerCase());
 			if (ext.isUnknown()) {
 				ext.setExtension(uploadUtils.getExtension());
 			}
@@ -186,17 +186,17 @@ public class AttachmentCommon
 			String savePath = this.makeStoreFilename(info);
 			info.setPhysicalFilename(savePath);
 			
-			a.setInfo(info);
-			filesToSave.put(uploadUtils, a);
+			attachment.setInfo(info);
+			filesToSave.put(uploadUtils, attachment);
 			
 			totalSize += item.getSize();
 		}
 		
 		// Check upload limits
-		QuotaLimit ql = this.getQuotaLimit(userId);
-		if ((ql != null) && ql.exceedsQuota(totalSize)) {
+		QuotaLimit quotaLimit = this.getQuotaLimit(userId);
+		if ((quotaLimit != null) && quotaLimit.exceedsQuota(totalSize)) {
 			throw new AttachmentSizeTooBigException(I18n.getMessage("Attachments.tooBig", 
-					new Integer[] { Integer.valueOf(ql.getSizeInBytes() / 1024), 
+					new Integer[] { Integer.valueOf(quotaLimit.getSizeInBytes() / 1024), 
 					Integer.valueOf((int)totalSize / 1024) }));			
 		}
 	}
@@ -222,7 +222,7 @@ public class AttachmentCommon
 		return realName;
 	}
 	
-	public void insertAttachments(Post post)
+	public void insertAttachments(final Post post)
 	{
 		if (!this.canProceed) {
 			return;
@@ -232,29 +232,29 @@ public class AttachmentCommon
 		
 		for (Iterator<Map.Entry<UploadUtils, Attachment>>  iter = this.filesToSave.entrySet().iterator(); iter.hasNext(); ) {
 			Map.Entry<UploadUtils, Attachment> entry = iter.next();
-			Attachment a = entry.getValue();
-			a.setPostId(post.getId());
+			Attachment attachment = entry.getValue();
+			attachment.setPostId(post.getId());
 			
 			String path = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) 
 				+ "/" 
-				+ a.getInfo().getPhysicalFilename();
+				+ attachment.getInfo().getPhysicalFilename();
 			
-			this.am.addAttachment(a);
+			this.attachmentDao.addAttachment(attachment);
 			entry.getKey().saveUploadedFile(path);
 			
-			if (this.shouldCreateThumb(a)) {
+			if (this.shouldCreateThumb(attachment)) {
 				this.createSaveThumb(path);
 			}
 		}
 	}
 	
-	private boolean shouldCreateThumb(Attachment a) {
-		String extension = a.getInfo().getExtension().getExtension().toLowerCase();
+	private boolean shouldCreateThumb(final Attachment attachment) {
+		String extension = attachment.getInfo().getExtension().getExtension().toLowerCase();
 		if (SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_CREATE_THUMB)
             && Attachment.isPicture(extension)) {
             String path = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR)
 			     + "/" 
-			     + a.getInfo().getPhysicalFilename();
+			     + attachment.getInfo().getPhysicalFilename();
 		    File imageFile = new File(path);
 		    BufferedImage image = null;
 		    try {
@@ -270,7 +270,7 @@ public class AttachmentCommon
         return false;
 	}
 	
-	private void createSaveThumb(String path) {
+	private void createSaveThumb(final String path) {
 		try {
 			BufferedImage image = ImageUtils.resizeImage(path, ImageUtils.IMAGE_JPEG, 
 				SystemGlobals.getIntValue(ConfigKeys.ATTACHMENTS_IMAGES_MAX_THUMB_W),
@@ -282,13 +282,13 @@ public class AttachmentCommon
 		}
 	}
 	
-	public QuotaLimit getQuotaLimit(int userId)
+	public QuotaLimit getQuotaLimit(final int userId)
 	{
 		QuotaLimit ql = new QuotaLimit();
 		User user = DataAccessDriver.getInstance().newUserDAO().selectById(userId);
 		
 		for (Iterator<Group> iter = user.getGroupsList().iterator(); iter.hasNext();) {
-			QuotaLimit l = this.am.selectQuotaLimitByGroup(iter.next().getId());
+			QuotaLimit l = this.attachmentDao.selectQuotaLimitByGroup(iter.next().getId());
 			if (l == null) {
 				continue;
 			}
@@ -305,7 +305,7 @@ public class AttachmentCommon
 		return ql;
 	}
 	
-	public void editAttachments(int postId, int forumId)
+	public void editAttachments(final int postId, final int forumId)
 	{
 		// Allow removing the attachments at least
 		AttachmentDAO am = DataAccessDriver.getInstance().newAttachmentDAO();
@@ -383,11 +383,11 @@ public class AttachmentCommon
 		}
 	}
 	
-	private String makeStoreFilename(AttachmentInfo a)
+	private String makeStoreFilename(AttachmentInfo attInfo)
 	{
-		Calendar c = new GregorianCalendar();
-		c.setTimeInMillis(System.currentTimeMillis());
-		c.get(Calendar.YEAR);
+		Calendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(System.currentTimeMillis());
+		cal.get(Calendar.YEAR);
 		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -397,21 +397,21 @@ public class AttachmentCommon
 		dir.append(year).append('/').append(month).append('/').append(day).append('/');
 		
 		boolean result = new File(SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir).mkdirs();
-		if (result != true) {
+		if (!result) {
 			LOGGER.error("Create directory failed: " + SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir);
 		}
 		
 		return dir
-			.append(MD5.crypt(a.getRealFilename() + System.currentTimeMillis()))
+			.append(MD5.crypt(attInfo.getRealFilename() + System.currentTimeMillis()))
 			.append('_')
 			.append(SessionFacade.getUserSession().getUserId())
 			.append('.')
-			.append(a.getExtension().getExtension())
+			.append(attInfo.getExtension().getExtension())
 			.append('_')
 			.toString();
 	}
 	
-	public List<Attachment> getAttachments(int postId, int forumId)
+	public List<Attachment> getAttachments(final int postId, final int forumId)
 	{
 		if (!SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD)
 				&& !SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_ENABLED, 
@@ -419,15 +419,15 @@ public class AttachmentCommon
 			return new ArrayList<Attachment>();
 		}
 		
-		return this.am.selectAttachments(postId);
+		return this.attachmentDao.selectAttachments(postId);
 	}
 	
-	public boolean isPhysicalDownloadMode(int extensionGroupId) 
+	public boolean isPhysicalDownloadMode(final int extensionGroupId) 
 	{
-		return this.am.isPhysicalDownloadMode(extensionGroupId);
+		return this.attachmentDao.isPhysicalDownloadMode(extensionGroupId);
 	}
 
-	public void deleteAttachments(int postId, int forumId) 
+	public void deleteAttachments(final int postId, final int forumId) 
 	{
 		// Attachments
 		List<Attachment> attachments = DataAccessDriver.getInstance().newAttachmentDAO().selectAttachments(postId);

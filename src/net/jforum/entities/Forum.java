@@ -203,7 +203,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param idCategories The ID of the category  to set to the forum
 	 */
-	public void setIdCategories(int idCategories) {
+	public void setIdCategories(final int idCategories) {
 		this.idCategories = idCategories;
 	}
 
@@ -212,7 +212,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param lastPostId The post id
 	 */
-	public void setLastPostId(int lastPostId) {
+	public void setLastPostId(final int lastPostId) {
 		this.lastPostId = lastPostId;
 	}
 
@@ -230,7 +230,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param name The name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -239,11 +239,11 @@ public class Forum implements Serializable
 	 * 
 	 * @param order The order to set
 	 */
-	public void setOrder(int order) {
+	public void setOrder(final int order) {
 		this.order = order;
 	}
 	
-	public void setUnread(boolean status) {
+	public void setUnread(final boolean status) {
 		this.unread = status;
 	}
 
@@ -252,7 +252,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param totalTopics int value with the total number of topics
 	 */
-	public void setTotalTopics(int totalTopics) {
+	public void setTotalTopics(final int totalTopics) {
 		this.totalTopics = totalTopics;
 	}
 	
@@ -260,7 +260,7 @@ public class Forum implements Serializable
 		return this.totalPosts;
 	}
 	
-	public void setTotalPosts(int totalPosts) {
+	public void setTotalPosts(final int totalPosts) {
 		this.totalPosts = totalPosts;
 	}
 	

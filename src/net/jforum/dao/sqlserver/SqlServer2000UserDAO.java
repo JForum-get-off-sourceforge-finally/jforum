@@ -66,61 +66,61 @@ public class SqlServer2000UserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAll(int, int)
 	 */
-	public List<User> selectAll(int startFrom, int count)
+	public List<User> selectAll(final int startFrom, final int count)
 	{
         String sql = SystemGlobals.getSql("UserModel.selectAllByLimit");
         sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
         
-        PreparedStatement p = null;
-        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
 
         try {
             if (count > 0) {
-                p = JForumExecutionContext.getConnection().prepareStatement(sql, 
+                pstmt = JForumExecutionContext.getConnection().prepareStatement(sql, 
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-                rs = p.executeQuery();
-                rs.absolute(startFrom);
+                resultSet = pstmt.executeQuery();
+                resultSet.absolute(startFrom);
             }
             else {
-                p = JForumExecutionContext.getConnection()
+                pstmt = JForumExecutionContext.getConnection()
                         .prepareStatement(SystemGlobals.getSql("UserModel.selectAll"));
-                rs = p.executeQuery();
+                resultSet = pstmt.executeQuery();
             }           
 
-            return this.processSelectAll(rs);
+            return this.processSelectAll(resultSet);
         }
         catch (SQLException e) {
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(rs, p);
+            DbUtils.close(resultSet, pstmt);
         }
     }
 
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllByGroup(int, int, int)
 	 */
-	public List<User> selectAllByGroup(int groupId, int startFrom, int count)
+	public List<User> selectAllByGroup(final int groupId, final int startFrom, final int count)
 	{
 	    String sql = SystemGlobals.getSql("UserModel.selectAllByGroup");
         sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
         
-	    PreparedStatement p = null;
-		ResultSet rs = null;
+	    PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			p.setInt(1, groupId);			
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, groupId);			
 
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
-			return this.processSelectAll(rs);
+			return this.processSelectAll(resultSet);
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 		

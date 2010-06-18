@@ -137,18 +137,18 @@ public class TreeGroup
 	 * */
 	public List<GroupNode> getNodes()
 	{
-		List<GroupNode> nodes = new ArrayList<GroupNode>();
+		final List<GroupNode> nodes = new ArrayList<GroupNode>();
 		
-		TreeGroupDAO tgm = DataAccessDriver.getInstance().newTreeGroupDAO();
+		final TreeGroupDAO tgm = DataAccessDriver.getInstance().newTreeGroupDAO();
 
-		List<GroupNode> rootGroups = tgm.selectGroups(0);	
+		final List<GroupNode> rootGroups = tgm.selectGroups(0);	
 				
-		for (Iterator<GroupNode> iter = rootGroups.iterator(); iter.hasNext();) {
-			GroupNode n = iter.next();
+		for (final Iterator<GroupNode> iter = rootGroups.iterator(); iter.hasNext();) {
+			GroupNode groupNode = iter.next();
 						
-			this.checkExtraNodes(n);
+			this.checkExtraNodes(groupNode);
 			
-			nodes.add(n);
+			nodes.add(groupNode);
 		}
 		
 		return nodes;
@@ -157,20 +157,20 @@ public class TreeGroup
 	/**
 	 * Searches for subgroups of a determined group
 	 *
-     * @param n  GroupNode
+     * @param groupNode  GroupNode
      */
-	private void checkExtraNodes(GroupNode n)
+	private void checkExtraNodes(final GroupNode groupNode)
 	{
 		TreeGroupDAO tgm = DataAccessDriver.getInstance().newTreeGroupDAO();
 
-		List<GroupNode> childGroups = tgm.selectGroups(n.getId());	
+		List<GroupNode> childGroups = tgm.selectGroups(groupNode.getId());	
 				
 		for (Iterator<GroupNode> iter = childGroups.iterator(); iter.hasNext();) {
-			GroupNode f = iter.next();
+			GroupNode foundNode = iter.next();
 			
-			this.checkExtraNodes(f);
+			this.checkExtraNodes(foundNode);
 			
-			n.addNode(f);
+			groupNode.addNode(foundNode);
 		}
 	}
 }

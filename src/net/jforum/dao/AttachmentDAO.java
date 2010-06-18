@@ -173,9 +173,9 @@ public interface AttachmentDAO
 	/**
 	 * Updates some extension group.
 	 * 
-	 * @param g The data to update
+	 * @param aeg The data to update
 	 */
-	void updateExtensionGroup(AttachmentExtensionGroup g);
+	void updateExtensionGroup(AttachmentExtensionGroup aeg);
 	
 	/**
 	 * Removes a set of extension groups.
@@ -206,16 +206,16 @@ public interface AttachmentDAO
 	/**
 	 * Adds a new extension
 	 * 
-	 * @param e The extension to add
+	 * @param attext The extension to add
 	 */
-	void addExtension(AttachmentExtension e);
+	void addExtension(AttachmentExtension attext);
 	
 	/**
 	 * Updates an extension
 	 * 
-	 * @param e The extension to update
+	 * @param attext The extension to update
 	 */
-	void updateExtension(AttachmentExtension e);
+	void updateExtension(AttachmentExtension attext);
 	
 	/**
 	 * Removes a set of extensions

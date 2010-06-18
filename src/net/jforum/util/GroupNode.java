@@ -83,7 +83,7 @@ public class GroupNode
 	 * @param pos Node position to retrieve
 	 * @return <code>GroupNode</code>
 	 * */
-	public GroupNode getNode(int pos)
+	public GroupNode getNode(final int pos)
 	{
 		return this.extraNodes.get(pos);
 	}
@@ -91,11 +91,11 @@ public class GroupNode
 	/**
 	 * Adds a new node.
 	 * 
-	 * @param n Node to add
+	 * @param groupNode Node to add
 	 * */
-	public void addNode(GroupNode n)
+	public void addNode(final GroupNode groupNode)
 	{
-		this.extraNodes.add(n);
+		this.extraNodes.add(groupNode);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class GroupNode
 	 * 
 	 * @param name Node name
 	 * */
-	public void setName(String name)
+	public void setName(final String name)
 	{
 		this.name = name;
 	}

@@ -157,7 +157,7 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
 			 (properties.size() == 0 || properties.getProperty("PermissionControl.deleteAllRoleValues") == null)) {
 			final String path = this.buildPath("mysql_40.sql");
 
-			FileInputStream fis = new FileInputStream(path);
+			final FileInputStream fis = new FileInputStream(path);
 
 			try {
 				properties.load(fis);
@@ -173,7 +173,7 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
 	{
 		this.ensureDaoClassIsCorrect(MYSQL_DATA_ACCESS_DRIVER);
 		
-		Properties properties = this.loadSqlQueries();
+		final Properties properties = this.loadSqlQueries();
 		
 		if (properties != null && properties.size() > 0) {
 			this.saveSqlQueries(new Properties());
@@ -188,9 +188,9 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
 		OutputStream outputStream = null;
 		
 		try {
-			Properties properties = new Properties();
+			final Properties properties = new Properties();
 			
-			File file = new File(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
+			final File file = new File(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
 			
 			if (file.canWrite()) {
 				fis = new FileInputStream(file);

@@ -77,7 +77,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
 {
-	private Map<String, Object> query;
+	private static final String ACTION = "action";
+	
+	private transient final Map<String, Object> query;
 	
 	/**
 	 * Default constructor.
@@ -85,23 +87,23 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param superRequest Original <code>HttpServletRequest</code> instance
 	 * @throws IOException
 	 */
-	public WebRequestContext(HttpServletRequest superRequest) throws IOException
+	public WebRequestContext(final HttpServletRequest superRequest) throws IOException
 	{
 		super(superRequest);
 
 		this.query = new HashMap<String, Object>();
 		boolean isMultipart = false;
 		
-		String requestType = superRequest.getMethod().toUpperCase();
-		String contextPath = superRequest.getContextPath();
+		final String requestType = superRequest.getMethod().toUpperCase();
+		final String contextPath = superRequest.getContextPath();
 		String requestUri = this.extractRequestUri(superRequest.getRequestURI(), contextPath);
-		String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
-		String servletExtension = SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION);
+		final String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
+		final String servletExtension = SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION);
 		
-		boolean isPost = "POST".equals(requestType);
-		boolean isGet = !isPost;		
+		final boolean isPost = "POST".equals(requestType);
+		final boolean isGet = !isPost;		
 
-		boolean isQueryStringEmpty = (superRequest.getQueryString() == null 
+		final boolean isQueryStringEmpty = (superRequest.getQueryString() == null 
 			|| superRequest.getQueryString().length() == 0);
 		
 		if (isGet && isQueryStringEmpty && requestUri.endsWith(servletExtension)) {
@@ -117,7 +119,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 		
 		if (!isMultipart) {
-			boolean isAjax = "XMLHttpRequest".equals(superRequest.getHeader("X-Requested-With"));
+			final boolean isAjax = "XMLHttpRequest".equals(superRequest.getHeader("X-Requested-With"));
 			
 			if (isAjax) {
 				// Ajax requests are *usually* sent using application/x-www-form-urlencoded; charset=UTF-8.
@@ -133,8 +135,8 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			if (isPost) { 
 				containerEncoding = encoding;
 			}
-			for (Enumeration<?> e = superRequest.getParameterNames(); e.hasMoreElements(); ) {
-				String name = (String)e.nextElement();
+			for (final Enumeration<?> enumeration = superRequest.getParameterNames(); enumeration.hasMoreElements(); ) {
+				String name = (String)enumeration.nextElement();
 				
 				String[] values = superRequest.getParameterValues(name);
 				
@@ -171,7 +173,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param requestUri
 	 * @param servletExtension
 	 */
-	private void parseFriendlyURL(String requestUri, String servletExtension) 
+	private void parseFriendlyURL(String requestUri, final String servletExtension) 
 	{
 		if (requestUri.length() < servletExtension.length()) {
 			return;
@@ -187,14 +189,14 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		
 		if (urlModel.length >= baseLen) {
 			// <moduleName>.<actionName>.<numberOfParameters>
-			StringBuffer sb = new StringBuffer(64)
+			StringBuffer stringBuffer = new StringBuffer(64)
 				.append(urlModel[moduleIndex])
 				.append('.')
 				.append(urlModel[actionIndex])
 				.append('.')
 				.append(urlModel.length - baseLen);
 			
-			url = UrlPatternCollection.findPattern(sb.toString());
+			url = UrlPatternCollection.findPattern(stringBuffer.toString());
 		}
 
 		if (url != null) {
@@ -205,15 +207,15 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			}
 			
 			this.addOrReplaceParameter("module", urlModel[moduleIndex]);
-			this.addOrReplaceParameter("action", urlModel[actionIndex]);
+			this.addOrReplaceParameter(ACTION, urlModel[actionIndex]);
 		}
 		else {
 			this.addOrReplaceParameter("module", null);
-			this.addOrReplaceParameter("action", null);
+			this.addOrReplaceParameter(ACTION, null);
 		}
 	}
 
-    public SessionContext getSessionContext(boolean create) {
+    public SessionContext getSessionContext(final boolean create) {
         return new WebSessionContext(this.getSession(true));
     }
 
@@ -226,7 +228,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param encoding String
 	 * @throws UnsupportedEncodingException
 	 */
-	private void handleMultipart(HttpServletRequest superRequest, String encoding) throws UnsupportedEncodingException
+	private void handleMultipart(final HttpServletRequest superRequest, final String encoding) throws UnsupportedEncodingException
 	{
 		String tmpPath = new StringBuffer(256)
 		    .append(SystemGlobals.getApplicationPath())
@@ -284,7 +286,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	/**
 	 * @see javax.servlet.ServletRequestWrapper#getParameterValues(java.lang.String)
 	 */
-	public String[] getParameterValues(String name) 
+	public String[] getParameterValues(final String name) 
 	{
 		Object value = this.getObjectParameter(name);
 		
@@ -299,7 +301,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			: list.toArray(new String[list.size()]);
 	}
 	
-	private String extractRequestUri(String requestUri, String contextPath)
+	private String extractRequestUri(String requestUri, final String contextPath)
 	{
 		// First, remove the context path from the requestUri, 
 		// so we can work only with the important stuff
@@ -334,7 +336,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	/**
 	 * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
 	 */
-	public String getParameter(String parameter) 
+	public String getParameter(final String parameter) 
 	{
 		return (String)this.query.get(parameter);
 	}
@@ -346,7 +348,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param parameter The parameter name to get the value
 	 * @return int
 	 */
-	public int getIntParameter(String parameter)
+	public int getIntParameter(final String parameter)
 	{
 		return Integer.parseInt(this.getParameter(parameter));
 	}
@@ -360,30 +362,30 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param parameter String
 	 * @return Object
 	 */
-	public Object getObjectParameter(String parameter)
+	public Object getObjectParameter(final String parameter)
 	{
 		return this.query.get(parameter);
 	}
 	
-	public void addParameter(String name, Object value)
+	public void addParameter(final String name, final Object value)
 	{
 		if (!this.query.containsKey(name)) {
 			this.query.put(name, value);
 		}
 		else {
 			Object currentValue = this.getObjectParameter(name);
-			List<Object> l;
+			List<Object> list;
 			
 			if (!(currentValue instanceof List<?>)) {
-				l = new ArrayList<Object>();
-				l.add(currentValue);
+				list = new ArrayList<Object>();
+				list.add(currentValue);
 			}
 			else {
-				l = (List<Object>)currentValue;
+				list = (List<Object>)currentValue;
 			}
 			
-			l.add(value);
-			this.query.put(name, l);
+			list.add(value);
+			this.query.put(name, list);
 		}
 	}
 	
@@ -420,12 +422,12 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 */
 	public String getAction()
 	{
-		return this.getParameter("action");
+		return this.getParameter(ACTION);
 	}
 	
 	public void changeAction(String newAction)
 	{	
-		this.addOrReplaceParameter("action", newAction);
+		this.addOrReplaceParameter(ACTION, newAction);
 	}
 	
 	/**

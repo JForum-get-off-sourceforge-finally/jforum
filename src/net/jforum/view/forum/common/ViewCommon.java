@@ -130,7 +130,7 @@ public final class ViewCommon
 			String redirect = SystemGlobals.getValue(ConfigKeys.SSO_REDIRECT);
 			
 			if (StringUtils.isNotEmpty(redirect)) {
-				URI redirectUri = URI.create(redirect);
+				final URI redirectUri = URI.create(redirect);
 				
 				if (!redirectUri.isAbsolute()) {
 					throw new ForumException("SSO redirect URL should start with a scheme");
@@ -139,7 +139,9 @@ public final class ViewCommon
 				try {
 					returnPath = URLEncoder.encode( ViewCommon.getForumLink() + returnPath, "UTF-8");
 				}
-				catch (UnsupportedEncodingException e) {}
+				catch (UnsupportedEncodingException e) {
+					LOGGER.error(e);
+				}
 				
 				if (redirect.indexOf('?') == -1) {					
 					redirect = new StringBuffer(redirect).append('?').toString();
@@ -164,14 +166,14 @@ public final class ViewCommon
 	 */
 	public static int getStartPage()
 	{
-		String s = JForumExecutionContext.getRequest().getParameter("start");
+		final String str = JForumExecutionContext.getRequest().getParameter("start");
 		int start;
 		
-		if (StringUtils.isEmpty(s)) {
+		if (StringUtils.isEmpty(str)) {
 			start = 0;
 		}
 		else {
-			start = Integer.parseInt(s);
+			start = Integer.parseInt(str);
 			
 			if (start < 0) {
 				start = 0;
@@ -199,10 +201,10 @@ public final class ViewCommon
 	
 	public static String toUtf8String(final String str)
 	{
-		StringBuffer stringBuffer = new StringBuffer();
+		final StringBuffer stringBuffer = new StringBuffer();
 	
 		for (int i = 0; i < str.length(); i++) {
-			char chr = str.charAt(i);
+			final char chr = str.charAt(i);
 	
 			if ((chr >= 0) && (chr <= 255)) {
 				stringBuffer.append(chr);
@@ -220,13 +222,13 @@ public final class ViewCommon
 				}
 	
 				for (int j = 0; j < byt.length; j++) {
-					int k = byt[j];
+					int key = byt[j];
 	
-					if (k < 0) {
-						k += 256;
+					if (key < 0) {
+						key += 256;
 					}
 	
-					stringBuffer.append('%').append(Integer.toHexString(k).toUpperCase());
+					stringBuffer.append('%').append(Integer.toHexString(key).toUpperCase());
 				}
 			}
 		}
@@ -242,8 +244,8 @@ public final class ViewCommon
 	 */
 	public static String formatDate(final Date date) 
 	{
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
-		return df.format(date);
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		return sdf.format(date);
 	}
 	
 	/**
@@ -251,33 +253,33 @@ public final class ViewCommon
 	 * @param contents the string to parse
 	 * @return the new string
 	 */
-	public static String espaceHtml(String contents)
+	public static String espaceHtml(final String contents)
 	{
-		StringBuffer sb = new StringBuffer(contents);
+		StringBuffer stringBuffer = new StringBuffer(contents);
 		
-		replaceAll(sb, "<", "&lt");
-		replaceAll(sb, ">", "&gt;");
+		replaceAll(stringBuffer, "<", "&lt");
+		replaceAll(stringBuffer, ">", "&gt;");
 		
-		return sb.toString();
+		return stringBuffer.toString();
 	}
 	
 	/**
 	 * Replaces some string with another value
-	 * @param sb the StrinbBuilder with the contents to work on
+	 * @param stringBuffer the StrinbBuilder with the contents to work on
 	 * @param what the string to be replaced
 	 * @param with the new value
 	 * @return the new string
 	 */
-	public static String replaceAll(StringBuffer sb, String what, String with)
+	public static String replaceAll(final StringBuffer stringBuffer, final String what, final String with)
 	{
-		int pos = sb.indexOf(what);
+		int pos = stringBuffer.indexOf(what);
 		
 		while (pos > -1) {
-			sb.replace(pos, pos + what.length(), with);
-			pos = sb.indexOf(what);
+			stringBuffer.replace(pos, pos + what.length(), with);
+			pos = stringBuffer.indexOf(what);
 		}
 		
-		return sb.toString();
+		return stringBuffer.toString();
 	}
 	
 	/**
@@ -287,7 +289,7 @@ public final class ViewCommon
      * @param with String
      * @return String
 	 */
-	public static String replaceAll(String contents, String what, String with)
+	public static String replaceAll(final String contents, final String what, final String with)
 	{
 		return replaceAll(new StringBuffer(contents), what, with);
 	}
@@ -296,15 +298,17 @@ public final class ViewCommon
 	 * Parse the user's signature, to make it proper to visualization
 	 * @param user the user instance
 	 */
-	public static void prepareUserSignature(User user)
+	public static void prepareUserSignature(final User user)
 	{
 		if (user.getSignature() != null) {
-			StringBuffer sb = new StringBuffer(user.getSignature());
+			final StringBuffer stringBuffer = new StringBuffer(user.getSignature());
 			
-			replaceAll(sb, "\n", "<br />");
+			replaceAll(stringBuffer, "\n", "<br />");
 			
-			user.setSignature(sb.toString());
+			user.setSignature(stringBuffer.toString());
 			user.setSignature(PostCommon.prepareTextForDisplayExceptCodeTag(user.getSignature(), true, true));
 		}
 	}
+	
+	private ViewCommon() {}
 }

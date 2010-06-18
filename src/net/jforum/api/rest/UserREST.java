@@ -69,7 +69,7 @@ public class UserREST extends Command
 				throw new APIException(I18n.getMessage("User.usernameInvalidChars"));
 			}
 			
-			UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
+			final UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
 
 			if (dao.isUsernameRegistered(username)) {
 				throw new APIException(I18n.getMessage("UsernameExists"));
@@ -80,12 +80,12 @@ public class UserREST extends Command
 			}
 			
 			// OK, time to insert the user
-			User user = new User();
+			final User user = new User();
 			user.setUsername(username);
 			user.setEmail(email);
 			user.setPassword(password);
 			
-			int userId = dao.addNew(user);
+			final int userId = dao.addNew(user);
 			
 			this.setTemplateName(TemplateKeys.API_USER_INSERT);
 			this.context.put("userId", Integer.valueOf(userId));
@@ -104,7 +104,7 @@ public class UserREST extends Command
 	 */
 	private String requiredRequestParameter(final String paramName)
 	{
-		String value = this.request.getParameter(paramName);
+		final String value = this.request.getParameter(paramName);
 		
 		if (StringUtils.isBlank(value)) {
 			throw new APIException("The parameter '" + paramName + "' was not found");
@@ -119,9 +119,9 @@ public class UserREST extends Command
 	 */
 	private void authenticate()
 	{
-		String apiKey = this.requiredRequestParameter("api_key");
+		final String apiKey = this.requiredRequestParameter("api_key");
 		
-		RESTAuthentication auth = new RESTAuthentication();
+		final RESTAuthentication auth = new RESTAuthentication();
 		
 		if (!auth.validateApiKey(apiKey)) {
 			throw new APIException("The provided API authentication information is not valid");

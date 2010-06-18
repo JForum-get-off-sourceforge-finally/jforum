@@ -123,7 +123,7 @@ public class Captcha extends ListImageCaptchaEngine
 		final int minFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MIN_FONT_SIZE);
 		final int maxFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MAX_FONT_SIZE);
 
-		RandomListColorGenerator colorGenerator = new RandomListColorGenerator(new Color[] {
+		final RandomListColorGenerator colorGenerator = new RandomListColorGenerator(new Color[] {
 				Color.PINK, Color.RED, Color.LIGHT_GRAY, Color.ORANGE, Color.MAGENTA});	
 		/*this.backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
 				Integer.valueOf(height), Color.PINK, Color.LIGHT_GRAY));
@@ -153,13 +153,13 @@ public class Captcha extends ListImageCaptchaEngine
 		// Create a random word generator
 		final WordGenerator words = new RandomWordGenerator(charsInUse);
 
-		for (Iterator<FontGenerator> fontIter = fontGeneratorList.iterator(); fontIter.hasNext();) {
-			FontGenerator fontGeny = fontIter.next();
+		for (final Iterator<FontGenerator> fontIter = fontGeneratorList.iterator(); fontIter.hasNext();) {
+			final FontGenerator fontGeny = fontIter.next();
 
 			for (Iterator<BackgroundGenerator> backIter = backgroundGeneratorList.iterator(); backIter.hasNext();) {
-				BackgroundGenerator bkgdGeny = backIter.next();
+				final BackgroundGenerator bkgdGeny = backIter.next();
 
-				for (Iterator<TextPaster> textIter = textPasterList.iterator(); textIter.hasNext();) {
+				for (final Iterator<TextPaster> textIter = textPasterList.iterator(); textIter.hasNext();) {
 					TextPaster textPaster = textIter.next();
 
 					WordToImage word2image = new ComposedWordToImage(fontGeny, bkgdGeny, textPaster);

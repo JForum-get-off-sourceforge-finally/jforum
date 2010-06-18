@@ -68,15 +68,16 @@ public class SimpleConnection extends DBConnection
 	private static final Logger LOGGER = Logger.getLogger(SimpleConnection.class);
 	
 	/** 
+	 * @throws Exception 
 	 * @see net.jforum.DBConnection#init()
 	 */
-	public void init() throws Exception 
+	public void init() throws Exception
 	{
 		try {
 			Class.forName(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
 			
 			// Try to validate the connection url
-			Connection conn = this.getConnection();
+			final Connection conn = this.getConnection();
 		
 			if (conn != null) {
 				this.releaseConnection(conn);
@@ -107,13 +108,15 @@ public class SimpleConnection extends DBConnection
 	/** 
 	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
 	 */
-	public void releaseConnection(Connection conn)
+	public void releaseConnection(final Connection conn)
 	{
 		if (conn != null) {
 			try {
 				conn.close();
 			}
-			catch (SQLException e) { }
+			catch (SQLException e) { 
+				LOGGER.error(e);
+			}
 		}
 	}
 	

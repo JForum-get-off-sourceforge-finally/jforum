@@ -29,14 +29,16 @@ public class JBossCacheListener {
 	
 	@CacheStarted
 	@CacheStopped
-	public void cacheStartStopEvent(Event e) {
-		switch (e.getType())
+	public void cacheStartStopEvent(final Event event) {
+		switch (event.getType())
 		{
 		case CACHE_STARTED:
 			LOGGER.info("Cache has started");
 			break;
 		case CACHE_STOPPED:
 			LOGGER.info("Cache has stopped");
+			break;
+		default:
 			break;
 		}
 	}
@@ -46,39 +48,39 @@ public class JBossCacheListener {
 	@NodeVisited
 	@NodeModified
 	@NodeMoved
-	public void logNodeEvent(NodeEvent ne)
+	public void logNodeEvent(final NodeEvent nodeEvent)
 	{
-		LOGGER.info("An event on node " + ne.getFqn() + " has occured: " + ne.getType());
+		LOGGER.info("An event on node " + nodeEvent.getFqn() + " has occured: " + nodeEvent.getType());
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeCreated(org.jboss.cache.Fqn)
 	 */
-	public void nodeCreated(Fqn<?> fqn) {
+	public void nodeCreated(final Fqn<?> fqn) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeRemoved(org.jboss.cache.Fqn)
 	 */
-	public void nodeRemoved(Fqn<?> fqn) {
+	public void nodeRemoved(final Fqn<?> fqn) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeLoaded(org.jboss.cache.Fqn)
 	 */
-	public void nodeLoaded(Fqn<?> fqn) {
+	public void nodeLoaded(final Fqn<?> fqn) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeEvicted(org.jboss.cache.Fqn)
 	 */
-	public void nodeEvicted(Fqn<?> fqn) {
+	public void nodeEvicted(final Fqn<?> fqn) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeModified(org.jboss.cache.Fqn)
 	 */
-	public void nodeModified(Fqn<?> fqn) {
+	public void nodeModified(final Fqn<?> fqn) {
 		// if (CacheEngine.NOTIFICATION.startsWith((String)fqn.get(0))) {
 		// }
 	}
@@ -86,24 +88,24 @@ public class JBossCacheListener {
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeVisited(org.jboss.cache.Fqn)
 	 */
-	public void nodeVisited(Fqn<?> fqn) {
+	public void nodeVisited(final Fqn<?> fqn) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#cacheStarted(org.jboss.cache.TreeCache)
 	 */
-	public void cacheStarted(Cache<?, ?> cache) {
+	public void cacheStarted(final Cache<?, ?> cache) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#cacheStopped(org.jboss.cache.TreeCache)
 	 */
-	public void cacheStopped(Cache<?, ?> cache) {
+	public void cacheStopped(final Cache<?, ?> cache) {
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#viewChange(org.jgroups.View)
 	 */
-	public void viewChange(View view) {
+	public void viewChange(final View view) {
 	}
 }

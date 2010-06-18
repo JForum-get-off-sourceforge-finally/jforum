@@ -94,7 +94,7 @@ public class UserCommon
 		final boolean isAdmin = SessionFacade.getUserSession().isAdmin();
 
 		if (isAdmin) {
-			String username = request.getParameter("username");
+			final String username = request.getParameter("username");
 		
 			if (username != null) {
 				user.setUsername(username.trim());
@@ -105,7 +105,7 @@ public class UserCommon
 			}
 		}
 		
-		SafeHtml safeHtml = new SafeHtml();
+		final SafeHtml safeHtml = new SafeHtml();
 		
 		user.setId(userId);
 		user.setIcq(safeHtml.makeSafe(request.getParameter("icq")));
@@ -137,7 +137,7 @@ public class UserCommon
 		user.setWebSite(website);
 		
 		String currentPassword = request.getParameter("current_password");
-		boolean isCurrentPasswordEmpty = currentPassword == null || "".equals(currentPassword.trim());
+		final boolean isCurrentPasswordEmpty = currentPassword == null || "".equals(currentPassword.trim());
 		
 		if (isAdmin || !isCurrentPasswordEmpty) {
 			if (!isCurrentPasswordEmpty) {
@@ -147,7 +147,7 @@ public class UserCommon
 			if (isAdmin || user.getPassword().equals(currentPassword)) {
 				user.setEmail(safeHtml.makeSafe(request.getParameter("email")));
 				
-				String newPassword = request.getParameter("new_password");
+				final String newPassword = request.getParameter("new_password");
 
 				if (newPassword != null && newPassword.length() > 0) {
 					user.setPassword(MD5.crypt(newPassword));
@@ -159,9 +159,9 @@ public class UserCommon
 		}
 		
 		if (request.getParameter("avatardel") != null) {
-			File file = new File(SystemGlobals.getApplicationPath() + IMAGE_AVATAR+ user.getAvatar());
-			boolean result = file.delete();
-			if (result != true) {
+			final File file = new File(SystemGlobals.getApplicationPath() + IMAGE_AVATAR+ user.getAvatar());
+			final boolean result = file.delete();
+			if (!result) {
 				LOGGER.error("Delete file failed: " + file.getName());
 			}
 			
@@ -178,7 +178,7 @@ public class UserCommon
 			}
 		} 
 		else if (SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL)) {
-			String avatarUrl = request.getParameter("avatarUrl");
+			final String avatarUrl = request.getParameter("avatarUrl");
 			if (StringUtils.isNotEmpty(avatarUrl)) {
 				if (avatarUrl.toLowerCase(Locale.US).startsWith("http://")) {
 					user.setAvatar(avatarUrl);
@@ -207,21 +207,21 @@ public class UserCommon
 		boolean result = false;
 		// Delete old avatar file
 		if (user.getAvatar() != null) {
-			File avatarFile = new File(user.getAvatar());
+			final File avatarFile = new File(user.getAvatar());
 			
-			File fileToDelete = new File(SystemGlobals.getApplicationPath() 
+			final File fileToDelete = new File(SystemGlobals.getApplicationPath() 
 				+ IMAGE_AVATAR
 				+ avatarFile.getName());
 			
 			if (fileToDelete.exists()) {
 				result = fileToDelete.delete();
-				if (result != true) {
+				if (!result) {
 					LOGGER.error("Delete file failed: " + fileToDelete.getName());
 				}
 			}
 		}
 		
-		String fileName = MD5.crypt(Integer.toString(user.getId()));
+		final String fileName = MD5.crypt(Integer.toString(user.getId()));
 		FileItem item = (FileItem)JForumExecutionContext.getRequest().getObjectParameter("avatar");
 		UploadUtils uploadUtils = new UploadUtils(item);
 		
@@ -278,18 +278,20 @@ public class UserCommon
 				ImageUtils.saveImage(image, avatarFinalFileName, type);
 				// Delete the temporary file
 				result = avatar.delete();
-				if (result != true) {
+				if (!result) {
 					LOGGER.error("Delete file failed: " + avatar.getName());
 				}
 			} 
 			else {
 				result = avatar.renameTo(new File(avatarFinalFileName));
-				if (result != true) {
+				if (!result) {
 					LOGGER.error("Rename file failed: " + avatar.getName());
 				}
 			}
 			user.setAvatar(fileName + "." + extension);
 		}
 	}
+	
+	private UserCommon() {}
 
 }

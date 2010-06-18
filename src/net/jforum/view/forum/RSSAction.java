@@ -124,14 +124,14 @@ public class RSSAction extends Command
 		
 		topicDao.incrementTotalViews(topic.getId());
 		
-		List<Post> posts = postDao.selectAllByTopic(topicId);
+		final List<Post> posts = postDao.selectAllByTopic(topicId);
 		
-		String[] param = { topic.getTitle() };
+		final String[] param = { topic.getTitle() };
 		
-		String title = I18n.getMessage("RSS.TopicPosts.title", param);
-		String description = I18n.getMessage("RSS.TopicPosts.description", param);
+		final String title = I18n.getMessage("RSS.TopicPosts.title", param);
+		final String description = I18n.getMessage("RSS.TopicPosts.description", param);
 
-		RSSAware rss = new TopicPostsRSS(title, description, topic.getForumId(), posts);
+		final RSSAware rss = new TopicPostsRSS(title, description, topic.getForumId(), posts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
 	}
 	
