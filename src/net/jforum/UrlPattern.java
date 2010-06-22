@@ -42,6 +42,8 @@
  */
 package net.jforum;
 
+import java.util.Arrays;
+
 /**
  * URL Patterns keeper.
  * Represents a single URL pattern. Each pattern is composed
@@ -90,12 +92,12 @@ package net.jforum;
  */
 public class UrlPattern
 {
-    private String name;
-    private String value;
-    private int size;
-    private String[] vars;
+    private transient final String name;
+    private transient final String value;
+    private transient int size;
+    private transient String[] vars;
 
-    public UrlPattern(String name, String value)
+    public UrlPattern(final String name, final String value)
     {
         this.name = name;
         this.value = value;
@@ -105,13 +107,13 @@ public class UrlPattern
 
     private void processPattern()
     {
-        String[] p = this.value.split(",");
+        final String[] patterns = this.value.split(",");
 
-        this.vars = new String[p.length];
-        this.size = p[0].trim().equals("") ? 0 : p.length;
+        this.vars = new String[patterns.length];
+        this.size = patterns[0].trim().equals("") ? 0 : patterns.length;
 
         for (int i = 0; i < this.size; i++) {
-            this.vars[i] = p[i].trim();
+            this.vars[i] = patterns[i].trim();
         }
     }
 
@@ -132,7 +134,7 @@ public class UrlPattern
      */
     public int getSize()
     {
-        return this.size;
+        return this.size;        
     }
 
     /**
@@ -146,6 +148,6 @@ public class UrlPattern
      */
     public String[] getVars()
     {
-        return this.vars;
+        return Arrays.copyOf(this.vars, this.vars.length);
     }
 }

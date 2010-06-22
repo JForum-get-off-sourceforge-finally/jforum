@@ -88,8 +88,8 @@ public class PostRepository implements Cacheable
 	
 	public static int size()
 	{
-		Map<String, List<Post>> m = (Map<String, List<Post>>)cache.get(FQN);
-		return (m != null ? m.size() : 0);
+		Map<String, List<Post>> map = (Map<String, List<Post>>)cache.get(FQN);
+		return (map != null ? map.size() : 0);
 	}
 	
 	public static int size(int topicId)
@@ -100,12 +100,12 @@ public class PostRepository implements Cacheable
 	
 	public static Collection<String> cachedTopics()
 	{
-		Map<String, List<Post>> m = (Map<String, List<Post>>)cache.get(FQN);
-		if (m == null) {
+		Map<String, List<Post>> map = (Map<String, List<Post>>)cache.get(FQN);
+		if (map == null) {
 			return new ArrayList<String>();
 		}
 		
-		return m.keySet();
+		return map.keySet();
 	}
 		
 	public static List<Post> selectAllByTopicByLimit(int topicId, int start, int count)  

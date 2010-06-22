@@ -36,7 +36,7 @@ public class EhCacheEngine implements CacheEngine {
 
 	private static final Logger LOGGER = Logger.getLogger(EhCacheEngine.class);
 	
-	private CacheManager manager;
+	private transient CacheManager manager;
 	
 	public void init() {
 		try {
@@ -52,7 +52,7 @@ public class EhCacheEngine implements CacheEngine {
 		manager.shutdown();
 	}
 
-	public void add(String key, Object value) {
+	public void add(final String key, final Object value) {
 		LOGGER.info("add("+key+", " + value +")");
 		//if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Caching " + value + " with key " + key);
@@ -60,11 +60,11 @@ public class EhCacheEngine implements CacheEngine {
 		add(DUMMY_FQN, key, value);
 	}
 
-	public void add(String fullyQualifiedName, String key, Object value) {
-		LOGGER.info("add("+fullyQualifiedName+", " + key +", " + value+")");
-		/*if (!manager.cacheExists(fullyQualifiedName)) {
+	public void add(final String fqn, final String key, final Object value) {
+		LOGGER.info("add("+fqn+", " + key +", " + value+")");
+		/*if (!manager.cacheExists(fqn)) {
 			try {
-				manager.addCache(fullyQualifiedName);
+				manager.addCache(fqn);
 			} catch (CacheException ce) {
 				LOGGER.error(ce, ce);
 				ce.printStackTrace();
@@ -72,53 +72,51 @@ public class EhCacheEngine implements CacheEngine {
 			}
 		}*/
 		try {
-			if (!manager.cacheExists(fullyQualifiedName)) {
-				LOGGER.info("cache "+ fullyQualifiedName +" doesn't exist, add one");
-				manager.addCache(fullyQualifiedName);
+			if (!manager.cacheExists(fqn)) {
+				LOGGER.info("cache "+ fqn +" doesn't exist, add one");
+				manager.addCache(fqn);
 			}
-			Cache cache = manager.getCache(fullyQualifiedName);
-			Element element = new Element(key, (Serializable)value);
+			final Cache cache = manager.getCache(fqn);
+			final Element element = new Element(key, value);
 			cache.put(element);
 		} catch (Exception ce) {
-			LOGGER.error(ce.getMessage(), ce);
-			ce.printStackTrace();
+			LOGGER.error(ce);
 			throw new RuntimeException(ce);
 		}
 	}
 
-	public Object get(String fullyQualifiedName, String key) {
-		LOGGER.info("get("+fullyQualifiedName+", " + key +")");
+	public Object get(final String fqn, final String key) {
+		LOGGER.info("get("+fqn+", " + key +")");
 		try {
-			if (!manager.cacheExists(fullyQualifiedName)) {
-				//manager.addCache(fullyQualifiedName);
-				LOGGER.info("cache "+fullyQualifiedName+" doesn't exist and returns null");
+			if (!manager.cacheExists(fqn)) {
+				//manager.addCache(fqn);
+				LOGGER.info("cache "+fqn+" doesn't exist and returns null");
 				return null;
 			}
-			Cache cache = manager.getCache(fullyQualifiedName);
-			Element element = cache.get(key);
+			final Cache cache = manager.getCache(fqn);
+			final Element element = cache.get(key);
 			if (element != null) {
 				LOGGER.info(key + "=" + element.getValue());
 				return element.getValue();
 			} 
-			LOGGER.info("cache "+fullyQualifiedName+" exists but " + key + " returns null");
+			LOGGER.info("cache " + fqn + " exists but " + key + " returns null");
 			return null;
-		} catch (Exception ce) {			
-			LOGGER.error(ce.getMessage(), ce);
-			ce.printStackTrace();
+		} catch (Exception ce) {
+			LOGGER.error(ce);
 			throw new RuntimeException(ce);
 		}
 	}
 
-	public Object get(String fullyQualifiedName) {
-		LOGGER.info("get("+fullyQualifiedName+")");
+	public Object get(final String fqn) {
+		LOGGER.info("get("+fqn+")");
 		
 		try {
-			if (!manager.cacheExists(fullyQualifiedName)) {
-				//manager.addCache(fullyQualifiedName);
-				LOGGER.info("cache not exists and return: null");
+			if (!manager.cacheExists(fqn)) {
+				//manager.addCache(fqn);
+				LOGGER.info("cache " + fqn + "not exists and return: null");
 				return null;
 			}
-			Cache cache = manager.getCache(fullyQualifiedName);
+			final Cache cache = manager.getCache(fqn);
 			return cache.getAllWithLoader(cache.getKeys(), null);
 		} catch (Exception ce) {
 			LOGGER.error("EhCache could not be shutdown", ce);
@@ -127,24 +125,24 @@ public class EhCacheEngine implements CacheEngine {
 				
 	}
 
-	public Collection<Object> getValues(String fullyQualifiedName) {
-		LOGGER.info("getValues("+fullyQualifiedName+")");
+	public Collection<Object> getValues(final String fqn) {
+		LOGGER.info("getValues("+fqn+")");
 		try {
-			if (!manager.cacheExists(fullyQualifiedName)) {
-				//manager.addCache(fullyQualifiedName);
-				LOGGER.info("cache not exists and return: empty collection");
+			if (!manager.cacheExists(fqn)) {
+				//manager.addCache(fqn);
+				LOGGER.info("cache  " + fqn + "not exists and returns empty collection");
 				return new ArrayList<Object>();
 			}
-			Cache cache = manager.getCache(fullyQualifiedName);
-			List<Object> values = new ArrayList<Object>();
-			List<?> keys = cache.getKeys();
+			final Cache cache = manager.getCache(fqn);
+			final List<Object> values = new ArrayList<Object>();
+			final List<?> keys = cache.getKeys();
 			
-			for (Iterator<?> iter = keys.iterator(); iter.hasNext(); ) {
-				Element element = cache.get((Serializable)iter.next());
-				if (element != null) {
-				    values.add(element.getValue());
-				} else {
+			for (final Iterator<?> iter = keys.iterator(); iter.hasNext(); ) {
+				final Element element = cache.get(iter.next());
+				if (element == null) {
 					LOGGER.info("element is null");
+				} else {					
+					values.add(element.getValue());
 				}
 			}
 			
@@ -153,33 +151,32 @@ public class EhCacheEngine implements CacheEngine {
 			return values;
 		} catch (Exception ce) {
 			LOGGER.error("EhCache could not be shutdown", ce);
-			ce.printStackTrace();
 			throw new RuntimeException(ce);
 		}
 	}
 
-	public void remove(String fullyQualifiedName, String key) {
-		LOGGER.info("remove("+fullyQualifiedName+", " + key +")");
+	public void remove(final String fqn, final String key) {
+		LOGGER.info("remove("+fqn+", " + key +")");
 		try {
-			Cache cache = manager.getCache(fullyQualifiedName);
+			final Cache cache = manager.getCache(fqn);
 
 			if (cache != null) {
 				cache.remove(key);
 			}
 		} catch (Exception ce) {
-			ce.printStackTrace();
+			LOGGER.error(ce);
 			throw new RuntimeException(ce);
 		}
 	}
 
-	public void remove(String fullyQualifiedName) {
-		LOGGER.info("remove("+fullyQualifiedName +")");
+	public void remove(final String fqn) {
+		LOGGER.info("remove("+fqn +")");
 		try {
-			if (manager.cacheExists(fullyQualifiedName)) {
-				manager.removeCache(fullyQualifiedName);
+			if (manager.cacheExists(fqn)) {
+				manager.removeCache(fqn);
 			}
 		} catch (Exception ce) {
-			ce.printStackTrace();
+			LOGGER.error(ce);
 			throw new RuntimeException(ce);
 		}
 	}

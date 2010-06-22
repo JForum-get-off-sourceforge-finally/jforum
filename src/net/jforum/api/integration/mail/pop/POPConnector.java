@@ -3,6 +3,7 @@
  */
 package net.jforum.api.integration.mail.pop;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.mail.Folder;
@@ -50,7 +51,7 @@ public class POPConnector
 	{
 		try {
 			this.messages = this.folder.getMessages();
-			return this.messages;
+			return Arrays.copyOf(this.messages, this.messages.length);
 		}
 		catch (Exception e) {
 			throw new MailException(e);

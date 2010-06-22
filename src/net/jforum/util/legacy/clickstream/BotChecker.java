@@ -1,14 +1,9 @@
 package net.jforum.util.legacy.clickstream;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import net.jforum.util.legacy.clickstream.config.ClickstreamConfig;
 import net.jforum.util.legacy.clickstream.config.ConfigLoader;
 

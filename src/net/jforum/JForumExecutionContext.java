@@ -72,13 +72,13 @@ public class JForumExecutionContext
 	private static final Logger LOGGER = Logger.getLogger(JForumExecutionContext.class);
 	private static Configuration templateConfig;
 	
-	private Connection conn;
+	private transient Connection conn;
     private ForumContext forumContext;
-    private final SimpleHash context = new SimpleHash(ObjectWrapper.BEANS_WRAPPER); 
-    private String redirectTo;
+    private transient final SimpleHash context = new SimpleHash(ObjectWrapper.BEANS_WRAPPER); 
+    private transient String redirectTo;
     private String contentType;
-    private boolean isCustomContent;
-    private boolean enableRollback;
+    private transient boolean isCustomContent;
+    private transient boolean enableRollback;
 	
 	/**
 	 * Gets the execution context.
@@ -110,7 +110,7 @@ public class JForumExecutionContext
 	 * Sets the default template configuration 
 	 * @param config The template configuration to set
 	 */
-	public static void setTemplateConfig(Configuration config)
+	public static void setTemplateConfig(final Configuration config)
 	{
 		templateConfig = config;
 	}
@@ -119,7 +119,7 @@ public class JForumExecutionContext
 	 * Gets a reference to the default template configuration settings.
 	 * @return The template configuration instance
 	 */
-	public static Configuration templateConfig()
+	public static Configuration getTemplateConfig()
 	{
 		return templateConfig;
 	}
@@ -128,7 +128,7 @@ public class JForumExecutionContext
 	 * Sets the execution context
 	 * @param executionContext JForumExecutionContext
 	 */
-	public static void set(JForumExecutionContext executionContext)
+	public static void set(final JForumExecutionContext executionContext)
 	{
 		userData.set(executionContext);
 	}
@@ -153,8 +153,8 @@ public class JForumExecutionContext
 	
 	public static Connection getConnection(final boolean validate)
 	{
-		JForumExecutionContext executionContext = get();
-		Connection conn =  executionContext.conn;
+		final JForumExecutionContext executionContext = get();
+		Connection conn = executionContext.conn;
 		
 		if (validate && conn == null) {
 			conn = DBConnection.getImplementation().getConnection();
@@ -164,6 +164,7 @@ public class JForumExecutionContext
 			}
 			catch (Exception e) {
                 //catch error autocommit
+				LOGGER.error(e);
             }
 			
 			executionContext.setConnection(conn);
@@ -238,8 +239,8 @@ public class JForumExecutionContext
 	 */
 	public static String getRedirectTo()
 	{
-		JForumExecutionContext ex = (JForumExecutionContext)userData.get();
-		return (ex != null ? ex.redirectTo : null);
+		final JForumExecutionContext executionContext = (JForumExecutionContext)userData.get();
+		return (executionContext == null ? null : executionContext.redirectTo);
 	}
 
 	/**
@@ -297,7 +298,7 @@ public class JForumExecutionContext
 	 */
 	public static void finish()
 	{
-		Connection conn = JForumExecutionContext.getConnection(false);
+		final Connection conn = JForumExecutionContext.getConnection(false);
 		
 		if (conn != null) {
 			if (SystemGlobals.getBoolValue(ConfigKeys.DATABASE_USE_TRANSACTIONS)) {

@@ -92,17 +92,18 @@ public class WebResponseContext implements ResponseContext
 		return response.encodeRedirectURL(url);
 	}
 
-	public void sendRedirect(String location) throws IOException
+	public void sendRedirect(final String location) throws IOException
 	{
+		String newLocation = location;
 		if (SystemGlobals.getBoolValue(ConfigKeys.REDIRECT_ABSOLUTE_PATHS)) {
 			final URI uri = URI.create(location);
 			
 			if (!uri.isAbsolute()) {
-				location = SystemGlobals.getValue(ConfigKeys.REDIRECT_BASE_URL) + location;
+				newLocation = SystemGlobals.getValue(ConfigKeys.REDIRECT_BASE_URL) + location;
 			}
 		}
 		
-		response.sendRedirect(location);
+		response.sendRedirect(newLocation);
 	}
 
 	public String getCharacterEncoding()

@@ -87,9 +87,9 @@ public class ControllerUtils
 	 * @param context SimpleHash The context to use
      * @param jforumContext JForumContext
 	 */
-	public void prepareTemplateContext(SimpleHash context, ForumContext jforumContext)
+	public void prepareTemplateContext(final SimpleHash context, final ForumContext jforumContext)
 	{
-		RequestContext request = JForumExecutionContext.getRequest();
+		final RequestContext request = JForumExecutionContext.getRequest();
 		
 		context.put("karmaEnabled", SecurityRepository.canAccess(SecurityConstants.PERM_KARMA_ENABLED));
 		context.put("dateTimeFormat", SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
@@ -123,37 +123,37 @@ public class ControllerUtils
 	 * logged in.
 	 * @throws DatabaseException
 	 */
-	protected boolean checkAutoLogin(UserSession userSession)
+	protected boolean checkAutoLogin(final UserSession userSession)
 	{
-		String cookieName = SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_DATA);
+		final String cookieName = SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_DATA);
 
-		Cookie cookie = this.getCookieTemplate(cookieName);
-		Cookie hashCookie = this.getCookieTemplate(SystemGlobals.getValue(ConfigKeys.COOKIE_USER_HASH));
-		Cookie autoLoginCookie = this.getCookieTemplate(SystemGlobals.getValue(ConfigKeys.COOKIE_AUTO_LOGIN));
+		final Cookie cookie = this.getCookieTemplate(cookieName);
+		final Cookie hashCookie = this.getCookieTemplate(SystemGlobals.getValue(ConfigKeys.COOKIE_USER_HASH));
+		final Cookie autoLoginCookie = this.getCookieTemplate(SystemGlobals.getValue(ConfigKeys.COOKIE_AUTO_LOGIN));
 
 		if (hashCookie != null && cookie != null
 				&& !cookie.getValue().equals(SystemGlobals.getValue(ConfigKeys.ANONYMOUS_USER_ID))
 				&& autoLoginCookie != null 
 				&& "1".equals(autoLoginCookie.getValue())) {
-			String uid = cookie.getValue();
-			String uidHash = hashCookie.getValue();
+			final String uid = cookie.getValue();
+			final String uidHash = hashCookie.getValue();
 
 			// Load the user-specific security hash from the database
 			try {
-				UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
-				String userHash = userDao.getUserAuthHash(Integer.parseInt(uid));
+				final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+				final String userHash = userDao.getUserAuthHash(Integer.parseInt(uid));
 				
 				if (StringUtils.isBlank(userHash)) {
 					return false;
 				}
 				
-				String securityHash = MD5.crypt(userHash);
+				final String securityHash = MD5.crypt(userHash);
 	
 				if (securityHash.equals(uidHash)) {
-					int userId = Integer.parseInt(uid);
+					final int userId = Integer.parseInt(uid);
 					userSession.setUserId(userId);
 					
-					User user = userDao.selectById(userId);
+					final User user = userDao.selectById(userId);
 	
 					if (user == null || user.getId() != userId || user.isDeleted()) {
 						userSession.makeAnonymous();
@@ -181,7 +181,7 @@ public class ControllerUtils
 	 * @param userSession The UserSession instance of the user
 	 * @param user The User instance of the authenticated user
 	 */
-	protected void configureUserSession(UserSession userSession, User user)
+	protected void configureUserSession(final UserSession userSession, final User user)
 	{
 		userSession.dataToUser(user);
 
@@ -189,17 +189,17 @@ public class ControllerUtils
 		// last visit's session expires, we should check for
 		// existent user information and then, if found, store
 		// it to the database before getting his information back.
-		String sessionId = SessionFacade.isUserInSession(user.getId());
+		final String sessionId = SessionFacade.isUserInSession(user.getId());
 
 		UserSession tmpUs;
-		if (sessionId != null) {
+		if (sessionId == null) {
+			final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
+			tmpUs = userSessionDao.selectById(userSession, JForumExecutionContext.getConnection());	
+		}
+		else {			
 			SessionFacade.storeSessionData(sessionId, JForumExecutionContext.getConnection());
 			tmpUs = SessionFacade.getUserSession(sessionId);
 			SessionFacade.remove(sessionId);
-		}
-		else {
-			UserSessionDAO sm = DataAccessDriver.getInstance().newUserSessionDAO();
-			tmpUs = sm.selectById(userSession, JForumExecutionContext.getConnection());
 		}
 
 		if (tmpUs == null) {
@@ -222,20 +222,20 @@ public class ControllerUtils
 	 * Checks for user authentication using some SSO implementation
      * @param userSession UserSession
      */
-	protected void checkSSO(UserSession userSession)
+	protected void checkSSO(final UserSession userSession)
 	{
 		try {
-			SSO sso = (SSO) Class.forName(SystemGlobals.getValue(ConfigKeys.SSO_IMPLEMENTATION)).newInstance();
-			String username = sso.authenticateUser(JForumExecutionContext.getRequest());
+			final SSO sso = (SSO) Class.forName(SystemGlobals.getValue(ConfigKeys.SSO_IMPLEMENTATION)).newInstance();
+			final String username = sso.authenticateUser(JForumExecutionContext.getRequest());
 
 			if (username == null || username.trim().equals("")) {
 				userSession.makeAnonymous();
 			}
 			else {
-				SSOUtils utils = new SSOUtils();
+				final SSOUtils utils = new SSOUtils();
 
 				if (!utils.userExists(username)) {
-					SessionContext session = JForumExecutionContext.getRequest().getSessionContext();
+					final SessionContext session = JForumExecutionContext.getRequest().getSessionContext();
 
 					String email = (String) session.getAttribute(SystemGlobals.getValue(ConfigKeys.SSO_EMAIL_ATTRIBUTE));
 					String password = (String) session.getAttribute(SystemGlobals.getValue(ConfigKeys.SSO_PASSWORD_ATTRIBUTE));
@@ -268,7 +268,7 @@ public class ControllerUtils
 	public void refreshSession()
 	{
 		UserSession userSession = SessionFacade.getUserSession();
-		RequestContext request = JForumExecutionContext.getRequest();
+		final RequestContext request = JForumExecutionContext.getRequest();
 
 		if (userSession == null) {
 			userSession = new UserSession();
@@ -279,16 +279,16 @@ public class ControllerUtils
 
 			if (!JForumExecutionContext.getForumContext().isBot()) {
 				// Non-SSO authentications can use auto login
-				if (!ConfigKeys.TYPE_SSO.equals(SystemGlobals.getValue(ConfigKeys.AUTHENTICATION_TYPE))) {
+				if (ConfigKeys.TYPE_SSO.equals(SystemGlobals.getValue(ConfigKeys.AUTHENTICATION_TYPE))) {
+					this.checkSSO(userSession);
+				}
+				else {					
 					if (SystemGlobals.getBoolValue(ConfigKeys.AUTO_LOGIN_ENABLED)) {
 						this.checkAutoLogin(userSession);
 					}
 					else {
 						userSession.makeAnonymous();
 					}
-				}
-				else {
-					this.checkSSO(userSession);
 				}
 			}
 
@@ -321,16 +321,16 @@ public class ControllerUtils
 	 * @param name The cookie name to retrieve
 	 * @return The <code>Cookie</code> object if found, or <code>null</code> otherwise
 	 */
-	public static Cookie getCookie(String name)
+	public static Cookie getCookie(final String name)
 	{
-		Cookie[] cookies = JForumExecutionContext.getRequest().getCookies();
+		final Cookie[] cookies = JForumExecutionContext.getRequest().getCookies();
 
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
-				Cookie c = cookies[i];
+				final Cookie cookie = cookies[i];
 
-				if (c.getName().equals(name)) {
-					return c;
+				if (cookie.getName().equals(name)) {
+					return cookie;
 				}
 			}
 		}
@@ -347,7 +347,7 @@ public class ControllerUtils
 	 * @return The Cookie object if found, or null otherwise
 	 * @see #getCookie(String)
 	 */
-	protected Cookie getCookieTemplate(String name)
+	protected Cookie getCookieTemplate(final String name)
 	{
 		return ControllerUtils.getCookie(name);
 	}
@@ -358,16 +358,17 @@ public class ControllerUtils
 	 * @param name The cookie name.
 	 * @param value The cookie value
 	 */
-	public static void addCookie(String name, String value)
+	public static void addCookie(final String name, final String value)
 	{
+		String tmpValue = value;
 		int maxAge = 3600 * 24 * 365;
 		
 		if (value == null) {
 			maxAge = 0;
-			value = "";
+			tmpValue = "";
 		}
 		
-		Cookie cookie = new Cookie(name, value);
+		final Cookie cookie = new Cookie(name, tmpValue);
 		cookie.setMaxAge(maxAge);
 		cookie.setPath("/");
 
@@ -383,7 +384,7 @@ public class ControllerUtils
 	 * @param value The cookie value
 	 * @see #addCookie(String, String)
 	 */
-	protected void addCookieTemplate(String name, String value)
+	protected void addCookieTemplate(final String name, final String value)
 	{
 		ControllerUtils.addCookie(name, value);
 	}

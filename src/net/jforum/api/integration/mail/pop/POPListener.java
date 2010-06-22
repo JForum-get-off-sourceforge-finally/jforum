@@ -29,7 +29,9 @@ public class POPListener implements Job
 	 */
 	public void execute(final JobExecutionContext jobContext) throws JobExecutionException
 	{
-		if (!working) {
+		if (working) {
+			LOGGER.debug("Already working. Leaving for now.");
+		} else {	
 			try {
 				working = true;
 
@@ -58,10 +60,7 @@ public class POPListener implements Job
 			finally {
 				working = false;
 			}
-		}
-		else {
-			LOGGER.debug("Already working. Leaving for now.");
-		}
+		}		
 	}
 	
 	public POPConnector getConnector()

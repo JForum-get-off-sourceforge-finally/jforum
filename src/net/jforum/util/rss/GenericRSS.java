@@ -68,7 +68,7 @@ public class GenericRSS implements RSSAware
 	{
 		try
 		{
-			final Template template = JForumExecutionContext.templateConfig().getTemplate(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)
+			final Template template = JForumExecutionContext.getTemplateConfig().getTemplate(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)
 					+ "/rss_template.htm");
 			final StringWriter stringWriter = new StringWriter();
 

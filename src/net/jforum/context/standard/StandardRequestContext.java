@@ -59,8 +59,8 @@ import net.jforum.context.SessionContext;
  */
 public class StandardRequestContext implements RequestContext
 {
-	private Hashtable<String, Object> data;
-	private SessionContext sessionContext;
+	private transient final Hashtable<String, Object> data;
+	private transient final SessionContext sessionContext;
 	
 	public StandardRequestContext()
 	{
@@ -71,7 +71,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#addParameter(java.lang.String, java.lang.Object)
 	 */
-	public void addParameter(String name, Object value)
+	public void addParameter(final String name, final Object value)
 	{
 		if (this.data.contains(name)) {
 			this.data.remove(name);
@@ -83,7 +83,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#addOrReplaceParameter(java.lang.String, java.lang.Object)
 	 */
-	public void addOrReplaceParameter(String name, Object value) 
+	public void addOrReplaceParameter(final String name, final Object value) 
 	{
 		this.addParameter(name, value);
 	}
@@ -100,7 +100,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute(String name)
+	public Object getAttribute(final String name)
 	{
 		return this.getParameter(name);
 	}
@@ -124,7 +124,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getHeader(String name)
+	public String getHeader(final String name)
 	{
 		return null;
 	}
@@ -132,7 +132,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getIntParameter(java.lang.String)
 	 */
-	public int getIntParameter(String parameter)
+	public int getIntParameter(final String parameter)
 	{
 		return Integer.parseInt(this.getParameter(parameter));
 	}
@@ -149,7 +149,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getObjectParameter(java.lang.String)
 	 */
-	public Object getObjectParameter(String parameter)
+	public Object getObjectParameter(final String parameter)
 	{
 		return this.data.get(parameter);
 	}
@@ -157,10 +157,10 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getParameter(java.lang.String)
 	 */
-	public String getParameter(String name)
+	public String getParameter(final String name)
 	{
-		Object value = this.data.get(name);
-		return value != null ? value.toString() : null;
+		final Object value = this.data.get(name);
+		return value == null ? null : value.toString();
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null;
 	 */
-	public String[] getParameterValues(String name)
+	public String[] getParameterValues(final String name)
 	{
 		return new String[0];
 	}
@@ -247,7 +247,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method is equal to {@link #getSessionContext()}
 	 */
-	public SessionContext getSessionContext(boolean create)
+	public SessionContext getSessionContext(final boolean create)
 	{
 		return this.getSessionContext();
 	}
@@ -255,7 +255,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#removeAttribute(java.lang.String)
 	 */
-	public void removeAttribute(String name)
+	public void removeAttribute(final String name)
 	{
 		this.data.remove(name);
 	}
@@ -263,15 +263,17 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method is equal to {@link #addParameter(String, Object)}
 	 */
-	public void setAttribute(String name, Object o)
+	public void setAttribute(final String name, final Object obj)
 	{
-		this.addParameter(name, o);
+		this.addParameter(name, obj);
 	}
 
 	/**
 	 * This method does nothing 
 	 */
-	public void setCharacterEncoding(String env) throws UnsupportedEncodingException {}
+	public void setCharacterEncoding(final String env) throws UnsupportedEncodingException {
+		// Empty method
+	}
 
 	public Locale getLocale() {
 		

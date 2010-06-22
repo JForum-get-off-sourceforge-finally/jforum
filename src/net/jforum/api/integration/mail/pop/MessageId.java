@@ -46,6 +46,8 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.entities.Topic;
 
 /**
@@ -56,8 +58,9 @@ import net.jforum.entities.Topic;
  */
 public class MessageId
 {
+	private static final Logger LOGGER = Logger.getLogger(MessageId.class);
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
-	private int topicId;
+	private transient int topicId;
 	
 	/**
 	 * Returns the topic id this header holds.
@@ -78,7 +81,7 @@ public class MessageId
 	 * @param forumId the forum id of this message
 	 * @return the Message-ID header
 	 */
-	public static String buildMessageId(int postId, int topicId, int forumId)
+	public static String buildMessageId(final int postId, final int topicId, final int forumId)
 	{
 		return new StringBuffer()
 			.append('<')
@@ -104,7 +107,7 @@ public class MessageId
 	 * 
 	 * @return the In-Reply-To header
 	 */
-	public static String buildInReplyTo(Topic topic)
+	public static String buildInReplyTo(final Topic topic)
 	{
 		return buildMessageId(topic.getFirstPostId(), topic.getId(), topic.getForumId());
 	}
@@ -114,21 +117,23 @@ public class MessageId
 	 * @param header the header's contents to parse
 	 * @return the header information parsed
 	 */
-	public static MessageId parse(String header)
+	public static MessageId parse(final String header)
 	{
-		MessageId messageId = new MessageId();
+		final MessageId messageId = new MessageId();
 		
 		if (header != null) {
 			// <postId.topicId.forumId.randomNumber@host>
-			Matcher matcher = Pattern.compile("<(.*?)\\.(.*?)\\.(.*?)\\.(.*?)@.*>").matcher(header);
+			final Matcher matcher = Pattern.compile("<(.*?)\\.(.*?)\\.(.*?)\\.(.*?)@.*>").matcher(header);
 			
 			if (matcher.matches()) {
-				String s = matcher.group(2);
+				final String str = matcher.group(2);
 				
 				try {
-					messageId.topicId = Integer.parseInt(s);
+					messageId.topicId = Integer.parseInt(str);
 				}
-				catch (Exception e) { }
+				catch (Exception e) { 
+					LOGGER.error(e); 
+				}
 			}
 		}
 		

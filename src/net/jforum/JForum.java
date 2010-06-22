@@ -98,7 +98,7 @@ public class JForum extends JForumBaseServlet
 	private static final Logger LOGGER = Logger.getLogger(JForum.class);
 	
 	private static final long serialVersionUID = 7160936607198716279L;
-	private static boolean isDatabaseUp;
+	private static boolean databaseUp;
 	
 	/**
 	 * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
@@ -134,7 +134,7 @@ public class JForum extends JForumBaseServlet
 	    	}
 	    	
 			// Continues loading the forum
-			JForumExecutionContext executionContext = JForumExecutionContext.get();
+			final JForumExecutionContext executionContext = JForumExecutionContext.get();
 			executionContext.setConnection(conn);
 			JForumExecutionContext.set(executionContext);
 			
@@ -162,11 +162,11 @@ public class JForum extends JForumBaseServlet
 		JForumContext forumContext = null;
 		RequestContext request = null;
 		ResponseContext response = null;
-		String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
+		final String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
 
 		try {
 			// Initializes the execution context
-			JForumExecutionContext executionContext = JForumExecutionContext.get();
+			final JForumExecutionContext executionContext = JForumExecutionContext.get();
 
 			request = new WebRequestContext(req);
             response = new WebResponseContext(res);
@@ -183,9 +183,9 @@ public class JForum extends JForumBaseServlet
             JForumExecutionContext.set(executionContext);
 
             // Setup stuff
-			SimpleHash context = JForumExecutionContext.getTemplateContext();
+			final SimpleHash context = JForumExecutionContext.getTemplateContext();
 			
-			ControllerUtils utils = new ControllerUtils();
+			final ControllerUtils utils = new ControllerUtils();
 			utils.refreshSession();
 			
 			context.put("logged", SessionFacade.isLogged());
@@ -195,12 +195,11 @@ public class JForum extends JForumBaseServlet
 
 			utils.prepareTemplateContext(context, forumContext);
 
-			String module = request.getModule();
+			final String module = request.getModule();
 			
 			// Gets the module class name
-			String moduleClass = module != null 
-				? ModulesRepository.getModuleClass(module) 
-				: null;
+			String moduleClass = module == null 
+				? null : ModulesRepository.getModuleClass(module);
 			
 			if (moduleClass == null) {
 				// Module not found, send 404 not found response
@@ -208,7 +207,7 @@ public class JForum extends JForumBaseServlet
 				response.sendRedirect(request.getContextPath());
 			}
 			else {
-				boolean shouldBan = this.shouldBan(request.getRemoteAddr());
+				final boolean shouldBan = this.shouldBan(request.getRemoteAddr());
 				
 				if (shouldBan) {
 					moduleClass = ModulesRepository.getModuleClass("forums");
@@ -233,7 +232,15 @@ public class JForum extends JForumBaseServlet
 				}
 			}
 		}
-		catch (Exception e) {
+		catch (IOException e) {
+			this.handleException(out, response, encoding, e, request);
+		} catch (TemplateException e) {
+			this.handleException(out, response, encoding, e, request);
+		} catch (InstantiationException e) {
+			this.handleException(out, response, encoding, e, request);
+		} catch (IllegalAccessException e) {
+			this.handleException(out, response, encoding, e, request);
+		} catch (ClassNotFoundException e) {
 			this.handleException(out, response, encoding, e, request);
 		}
 		finally {
@@ -241,12 +248,13 @@ public class JForum extends JForumBaseServlet
 		}		
 	}
 
-	private Writer processCommand(Writer out, final RequestContext request, final ResponseContext response, 
+	private Writer processCommand(final Writer out, final RequestContext request, final ResponseContext response, 
 			final String encoding, final SimpleHash context, final String moduleClass) throws IOException, TemplateException, InstantiationException, IllegalAccessException, ClassNotFoundException 
 	{
+		Writer outWriter = out;
 		// Here we go, baby
-		Command command = this.retrieveCommand(moduleClass);
-		Template template = command.process(request, response, context);
+		final Command command = this.retrieveCommand(moduleClass);
+		final Template template = command.process(request, response, context);
 
 		if (JForumExecutionContext.getRedirectTo() == null) {
 			String contentType = JForumExecutionContext.getContentType();
@@ -261,13 +269,13 @@ public class JForum extends JForumBaseServlet
 			// handled in the action, including outputstream
 			// manipulation
 			if (!JForumExecutionContext.isCustomContent()) {
-				out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
-				template.process(JForumExecutionContext.getTemplateContext(), out);
-				out.flush();
+				outWriter = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
+				template.process(JForumExecutionContext.getTemplateContext(), outWriter);
+				outWriter.flush();
 			}
 		}
 		
-		return out;
+		return outWriter;
 	}
 
 	private void checkDatabaseStatus()
@@ -281,16 +289,17 @@ public class JForum extends JForumBaseServlet
 		}
 	}
 
-	private void handleFinally(Writer out, JForumContext forumContext, ResponseContext response) throws IOException
+	private void handleFinally(final Writer out, final JForumContext forumContext, final ResponseContext response) throws IOException
 	{
 		try {
 			if (out != null) { out.close(); }
 		}
 		catch (Exception e) {
-		    // catch close error 
+		    // catch close error
+			LOGGER.error(e);
 		}
 		
-		String redirectTo = JForumExecutionContext.getRedirectTo();
+		final String redirectTo = JForumExecutionContext.getRedirectTo();
 		JForumExecutionContext.finish();
 		
 		if (redirectTo != null) {
@@ -303,36 +312,36 @@ public class JForum extends JForumBaseServlet
 		}
 	}
 
-	private void handleException(Writer out, ResponseContext response, String encoding, 
-		Exception exception, RequestContext request) throws IOException
+	private void handleException(final Writer out, final ResponseContext response, final String encoding, 
+		final Exception exception, final RequestContext request) throws IOException
 	{
 		JForumExecutionContext.enableRollback();
 		
 		if (exception.toString().indexOf("ClientAbortException") == -1) {
 			response.setContentType("text/html; charset=" + encoding);
-			if (out != null) {
-				new ExceptionWriter().handleExceptionData(exception, out, request);
+			if (out == null) {
+				new ExceptionWriter().handleExceptionData(exception, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);	
 			}
-			else {
-				new ExceptionWriter().handleExceptionData(exception, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);
+			else {				
+				new ExceptionWriter().handleExceptionData(exception, out, request);
 			}
 		}
 	}
 	
-	private boolean shouldBan(String ip)
+	private boolean shouldBan(final String ip)
 	{
-		Banlist b = new Banlist();
+		final Banlist banlist = new Banlist();
 		
-		UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
-		User user = dao.selectById(SessionFacade.getUserSession().getUserId());
-		b.setUserId(user.getId());
-		b.setEmail(user.getEmail());
-		b.setIp(ip);
+		final UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
+		final User user = dao.selectById(SessionFacade.getUserSession().getUserId());
+		banlist.setUserId(user.getId());
+		banlist.setEmail(user.getEmail());
+		banlist.setIp(ip);
 		
-		return BanlistRepository.shouldBan(b);
+		return BanlistRepository.shouldBan(banlist);
 	}
 
-	private Command retrieveCommand(String moduleClass) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+	private Command retrieveCommand(final String moduleClass) throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		return (Command)Class.forName(moduleClass).newInstance();
 	}
@@ -351,10 +360,10 @@ public class JForum extends JForumBaseServlet
 		
 		// invalidate all sessions to force SessionFacade.storeSessionData()		
 		LOGGER.debug("Current sessions: " + SessionFacade.size());
-		List<UserSession> sessions = SessionFacade.getAllSessions();
-		for (Iterator<UserSession> iter = sessions.iterator(); iter.hasNext(); ) {
-			UserSession us = (UserSession)iter.next();
-			HttpSession session = (HttpSession)getServletContext().getAttribute(us.getSessionId());
+		final List<UserSession> sessions = SessionFacade.getAllSessions();
+		for (final Iterator<UserSession> iter = sessions.iterator(); iter.hasNext(); ) {
+			final UserSession userSession = (UserSession)iter.next();
+			final HttpSession session = (HttpSession)getServletContext().getAttribute(userSession.getSessionId());
 			session.invalidate();
 			LOGGER.debug("Current sessions: " + SessionFacade.size());
 		}
@@ -368,12 +377,12 @@ public class JForum extends JForumBaseServlet
 
 	private static boolean isDatabaseUp() 
 	{
-		return isDatabaseUp;
+		return databaseUp;
 	}
 
-	private static void setDatabaseUp(boolean isDatabaseUp) 
+	private static void setDatabaseUp(final boolean isDatabaseUp) 
 	{
-		JForum.isDatabaseUp = isDatabaseUp;
+		JForum.databaseUp = isDatabaseUp;
 	}
 	
 	private void closeFileMonitor()
@@ -383,8 +392,8 @@ public class JForum extends JForumBaseServlet
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
-		String baseDir = I18n.getBaseDir();
-		Properties localeNames = I18n.getLocaleNames();
+		final String baseDir = I18n.getBaseDir();
+		final Properties localeNames = I18n.getLocaleNames();
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT)));
 	}

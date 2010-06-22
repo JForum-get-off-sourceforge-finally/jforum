@@ -62,7 +62,7 @@ import org.apache.log4j.Logger;
 public abstract class DBConnection 
 {
 	private static final Logger LOGGER = Logger.getLogger(DBConnection.class);
-	protected transient boolean isDatabaseUp;
+	protected transient boolean databaseUp;
 	
 	private static DBConnection instance;
 
@@ -74,6 +74,7 @@ public abstract class DBConnection
 	 */
 	public static boolean createInstance()
 	{
+		boolean succ = true;
 		try {
 			instance = (DBConnection)Class.forName(SystemGlobals.getValue(
 					ConfigKeys.DATABASE_CONNECTION_IMPLEMENTATION)).newInstance();
@@ -81,10 +82,10 @@ public abstract class DBConnection
 		catch (Exception e) {
 			 LOGGER.warn("Error creating the database connection implementation instance. " + e);
 			 LOGGER.error(e.getMessage(), e);
-			 return false;
+			 succ = false;
 		}
 		
-		return true;
+		return succ;
 	}
 	
 	/**
@@ -105,7 +106,7 @@ public abstract class DBConnection
 	 */
 	public boolean isDatabaseUp()
 	{
-		return this.isDatabaseUp;
+		return this.databaseUp;
 	}
 	
 	/**

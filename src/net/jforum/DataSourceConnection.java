@@ -94,12 +94,11 @@ public class DataSourceConnection extends DBConnection
 	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
 	 */
 	public void releaseConnection(final Connection conn)
-	{
-        if (conn == null) {
-            return;
-        }
+	{        
 		try {
-			conn.close();
+			if (conn != null) {
+				conn.close();
+	        }			
 		}
 		catch (SQLException e) {
             // catch error of close of connection

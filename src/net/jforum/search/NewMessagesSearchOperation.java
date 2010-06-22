@@ -75,7 +75,7 @@ public class NewMessagesSearchOperation extends SearchOperation
 		this.results = TopicsCommon.prepareTopics(this.results);
 	}
 
-	public List getResults()
+	public List<?> getResults()
 	{
 		return this.results;
 	}

@@ -20,7 +20,7 @@ import org.quartz.impl.StdSchedulerFactory;
  * @author Rafael Steil
  * @version $Id: POPJobStarter.java,v 1.1 2006/10/10 00:40:53 rafaelsteil Exp $
  */
-public class POPJobStarter
+public final class POPJobStarter
 {
 	private static boolean isStarted = false;
 	private static Scheduler scheduler;

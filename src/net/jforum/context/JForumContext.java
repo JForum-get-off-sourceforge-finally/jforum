@@ -54,7 +54,7 @@ public class JForumContext implements ForumContext
 	private transient final String servletExtension;
 	private transient final RequestContext request;
 	private transient final ResponseContext response;
-	private transient final boolean isEncodingDisabled;
+	private transient final boolean encodingDisabled;
 	private transient final boolean isBot;
 
 	public JForumContext(final String contextPath, final String servletExtension, 
@@ -68,17 +68,17 @@ public class JForumContext implements ForumContext
 		final Boolean isBotObject = (Boolean) request.getAttribute(ConfigKeys.IS_BOT);
 		this.isBot = (isBotObject != null && isBotObject.booleanValue());
 
-		this.isEncodingDisabled = isBot;
+		this.encodingDisabled = isBot;
 	}
 
 	public JForumContext(final String contextPath, final String servletExtension, 
-			final RequestContext request, final ResponseContext response, final boolean isEncodingDisabled)
+			final RequestContext request, final ResponseContext response, final boolean encodingDisabled)
 	{
 		this.contextPath = contextPath;
 		this.servletExtension = servletExtension;
 		this.request = request;
 		this.response = response;
-		this.isEncodingDisabled = isEncodingDisabled;
+		this.encodingDisabled = encodingDisabled;
 
 		final Boolean isBotObject = (Boolean) request.getAttribute(ConfigKeys.IS_BOT);
 		this.isBot = (isBotObject != null && isBotObject.booleanValue());
@@ -96,18 +96,18 @@ public class JForumContext implements ForumContext
 
 	public String encodeURL(final String url, final String extension)
 	{
-		final String ucomplete = contextPath + url + extension;
+		String ucomplete = contextPath + url + extension;
 
-		if (isEncodingDisabled()) {
-			return ucomplete;
+		if (!isEncodingDisabled()) {
+			ucomplete = response.encodeURL(ucomplete);			
 		}
 
-		return response.encodeURL(ucomplete);
+		return ucomplete;
 	}
 
 	public boolean isEncodingDisabled()
 	{
-		return this.isEncodingDisabled;
+		return this.encodingDisabled;
 	}
 
 	public RequestContext getRequest()

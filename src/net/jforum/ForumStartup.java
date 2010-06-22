@@ -58,7 +58,7 @@ import org.apache.log4j.Logger;
  * @author Rafael Steil
  * @version $Id: ForumStartup.java,v 1.16 2006/08/23 02:24:06 rafaelsteil Exp $
  */
-public class ForumStartup 
+public final class ForumStartup 
 {
 	private static final Logger LOGGER = Logger.getLogger(ForumStartup.class);
 	

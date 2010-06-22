@@ -64,133 +64,136 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#add(net.jforum.entities.Bookmark)
 	 */
-	public void add(Bookmark bookmark)
+	public void add(final Bookmark bookmark)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BookmarkModel.add"));
-			p.setInt(1, bookmark.getUserId());
-			p.setInt(2, bookmark.getRelationId());
-			p.setInt(3, bookmark.getRelationType());
-			p.setInt(4, bookmark.isPublicVisible() ? 1 : 0);
-			p.setString(5, bookmark.getTitle());
-			p.setString(6, bookmark.getDescription());
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BookmarkModel.add"));
+			pstmt.setInt(1, bookmark.getUserId());
+			pstmt.setInt(2, bookmark.getRelationId());
+			pstmt.setInt(3, bookmark.getRelationType());
+			pstmt.setInt(4, bookmark.isPublicVisible() ? 1 : 0);
+			pstmt.setString(5, bookmark.getTitle());
+			pstmt.setString(6, bookmark.getDescription());
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#update(net.jforum.entities.Bookmark)
 	 */
-	public void update(Bookmark bookmark)
+	public void update(final Bookmark bookmark)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BookmarkModel.update"));
-			p.setInt(1, bookmark.isPublicVisible() ? 1 : 0);
-			p.setString(2, bookmark.getTitle());
-			p.setString(3, bookmark.getDescription());
-			p.setInt(4, bookmark.getId());
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BookmarkModel.update"));
+			pstmt.setInt(1, bookmark.isPublicVisible() ? 1 : 0);
+			pstmt.setString(2, bookmark.getTitle());
+			pstmt.setString(3, bookmark.getDescription());
+			pstmt.setInt(4, bookmark.getId());
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#remove(int)
 	 */
-	public void remove(int bookmarkId)
+	public void remove(final int bookmarkId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BookmarkModel.remove"));
-			p.setInt(1, bookmarkId);
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BookmarkModel.remove"));
+			pstmt.setInt(1, bookmarkId);
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectByUser(int, int)
 	 */
-	public List<Bookmark> selectByUser(int userId, int relationType)
+	public List<Bookmark> selectByUser(final int userId, final int relationType)
 	{
+		List<Bookmark> list = null;
+		
 		if (relationType == BookmarkType.FORUM) {
-			return this.getForums(userId);
+			list = this.getForums(userId);
 		}
 		else if (relationType == BookmarkType.TOPIC) {
-			return this.getTopics(userId);
+			list = this.getTopics(userId);
 		}
 		else if (relationType == BookmarkType.USER) {
-			return this.getUsers(userId);
+			list = this.getUsers(userId);
 		}
 		else {
 			throw new InvalidBookmarkTypeException("The type " + relationType + " is not a valid bookmark type");
 		}
+		return list;
 	}
 
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectByUser(int)
 	 */
-	public List<Bookmark> selectByUser(int userId)
+	public List<Bookmark> selectByUser(final int userId)
 	{
-		List<Bookmark> l = new ArrayList<Bookmark>();
+		final List<Bookmark> list = new ArrayList<Bookmark>();
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectAllFromUser"));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
-			while (rs.next()) {
-				l.add(this.getBookmark(rs));
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				list.add(this.getBookmark(resultSet));
 			}
 
-			return l;
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectById(int)
 	 */
-	public Bookmark selectById(int bookmarkId)
+	public Bookmark selectById(final int bookmarkId)
 	{
 		Bookmark bookmark = null;
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectById"));
-			p.setInt(1, bookmarkId);
+			pstmt.setInt(1, bookmarkId);
 
-			rs = p.executeQuery();
-			if (rs.next()) {
-				bookmark = this.getBookmark(rs);
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next()) {
+				bookmark = this.getBookmark(resultSet);
 			}
 
 			return bookmark;
@@ -199,28 +202,28 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectForUpdate(int, int, int)
 	 */
-	public Bookmark selectForUpdate(int relationId, int relationType, int userId)
+	public Bookmark selectForUpdate(final int relationId, final int relationType, final int userId)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectForUpdate"));
-			p.setInt(1, relationId);
-			p.setInt(2, relationType);
-			p.setInt(3, userId);
+			pstmt.setInt(1, relationId);
+			pstmt.setInt(2, relationType);
+			pstmt.setInt(3, userId);
 
 			Bookmark bookmark = null;
-			rs = p.executeQuery();
-			if (rs.next()) {
-				bookmark = this.getBookmark(rs);
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next()) {
+				bookmark = this.getBookmark(resultSet);
 			}
 
 			return bookmark;
@@ -229,118 +232,118 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	protected List<Bookmark> getUsers(int userId)
+	protected List<Bookmark> getUsers(final int userId)
 	{
-		List<Bookmark> l = new ArrayList<Bookmark>();
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		final List<Bookmark> list = new ArrayList<Bookmark>();
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectUserBookmarks"));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
-			while (rs.next()) {
-				Bookmark bookmark = this.getBookmark(rs);
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				final Bookmark bookmark = this.getBookmark(resultSet);
 
 				if (bookmark.getTitle() == null || "".equals(bookmark.getTitle())) {
-					bookmark.setTitle(rs.getString("username"));
+					bookmark.setTitle(resultSet.getString("username"));
 				}
 
-				l.add(bookmark);
+				list.add(bookmark);
 			}
 
-			return l;
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	protected List<Bookmark> getTopics(int userId)
+	protected List<Bookmark> getTopics(final int userId)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			List<Bookmark> l = new ArrayList<Bookmark>();
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			final List<Bookmark> list = new ArrayList<Bookmark>();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectTopicBookmarks"));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
-			while (rs.next()) {
-				Bookmark bookmark = this.getBookmark(rs);
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				final Bookmark bookmark = this.getBookmark(resultSet);
 
 				if (bookmark.getTitle() == null || "".equals(bookmark.getTitle())) {
-					bookmark.setTitle(rs.getString("topic_title"));
+					bookmark.setTitle(resultSet.getString("topic_title"));
 				}
 
-				l.add(bookmark);
+				list.add(bookmark);
 			}
 
-			return l;
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	protected List<Bookmark> getForums(int userId)
+	protected List<Bookmark> getForums(final int userId)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			List<Bookmark> l = new ArrayList<Bookmark>();
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			final List<Bookmark> list = new ArrayList<Bookmark>();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectForumBookmarks"));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
-			while (rs.next()) {
-				Bookmark bookmark = this.getBookmark(rs);
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				final Bookmark bookmark = this.getBookmark(resultSet);
 
 				if (bookmark.getTitle() == null || "".equals(bookmark.getTitle())) {
-					bookmark.setTitle(rs.getString("forum_name"));
+					bookmark.setTitle(resultSet.getString("forum_name"));
 				}
 
 				if (bookmark.getDescription() == null || "".equals(bookmark.getDescription())) {
-					bookmark.setDescription(rs.getString("forum_desc"));
+					bookmark.setDescription(resultSet.getString("forum_desc"));
 				}
 
-				l.add(bookmark);
+				list.add(bookmark);
 			}
 
-			return l;
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	protected Bookmark getBookmark(ResultSet rs) throws SQLException
+	protected Bookmark getBookmark(final ResultSet resultSet) throws SQLException
 	{
-		Bookmark bookmark = new Bookmark();
-		bookmark.setId(rs.getInt("bookmark_id"));
-		bookmark.setDescription(rs.getString("description"));
-		bookmark.setPublicVisible(rs.getInt("public_visible") == 1);
-		bookmark.setRelationId(rs.getInt("relation_id"));
-		bookmark.setTitle(rs.getString("title"));
-		bookmark.setDescription(rs.getString("description"));
-		bookmark.setUserId(rs.getInt("user_id"));
-		bookmark.setRelationType(rs.getInt("relation_type"));
+		final Bookmark bookmark = new Bookmark();
+		bookmark.setId(resultSet.getInt("bookmark_id"));
+		bookmark.setDescription(resultSet.getString("description"));
+		bookmark.setPublicVisible(resultSet.getInt("public_visible") == 1);
+		bookmark.setRelationId(resultSet.getInt("relation_id"));
+		bookmark.setTitle(resultSet.getString("title"));
+		bookmark.setDescription(resultSet.getString("description"));
+		bookmark.setUserId(resultSet.getInt("user_id"));
+		bookmark.setRelationType(resultSet.getInt("relation_type"));
 
 		return bookmark;
 	}

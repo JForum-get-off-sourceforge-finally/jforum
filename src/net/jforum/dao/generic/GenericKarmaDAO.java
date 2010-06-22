@@ -69,18 +69,18 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#addKarma(net.jforum.entities.Karma)
 	 */
-	public void addKarma(Karma karma)
+	public void addKarma(final Karma karma)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("KarmaModel.add"));
-			p.setInt(1, karma.getPostId());
-			p.setInt(2, karma.getPostUserId());
-			p.setInt(3, karma.getFromUserId());
-			p.setInt(4, karma.getPoints());
-			p.setInt(5, karma.getTopicId());
-			p.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("KarmaModel.add"));
+			pstmt.setInt(1, karma.getPostId());
+			pstmt.setInt(2, karma.getPostUserId());
+			pstmt.setInt(3, karma.getFromUserId());
+			pstmt.setInt(4, karma.getPoints());
+			pstmt.setInt(5, karma.getTopicId());
+			pstmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+			pstmt.executeUpdate();
 
 			this.updateUserKarma(karma.getPostUserId());
 		}
@@ -88,27 +88,27 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.KarmaDAO#getUserKarma(int)
 	 */
-	public KarmaStatus getUserKarma(int userId)
+	public KarmaStatus getUserKarma(final int userId)
 	{
-		KarmaStatus status = new KarmaStatus();
+		final KarmaStatus status = new KarmaStatus();
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 					.prepareStatement(SystemGlobals.getSql("KarmaModel.getUserKarma"));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
-			if (rs.next()) {
-				status.setKarmaPoints(Math.round(rs.getDouble("user_karma")));
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next()) {
+				status.setKarmaPoints(Math.round(resultSet.getDouble("user_karma")));
 			}
 
 			return status;
@@ -117,38 +117,38 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.KarmaDAO#updateUserKarma(int)
 	 */
-	public void updateUserKarma(int userId)
+	public void updateUserKarma(final int userId)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("KarmaModel.getUserKarmaPoints"));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
 			int totalRecords = 0;
 			double totalPoints = 0;
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
-			while (rs.next()) {
-				int points = rs.getInt("points");
-				int votes = rs.getInt("votes");
+			while (resultSet.next()) {
+				final int points = resultSet.getInt("points");
+				final int votes = resultSet.getInt("votes");
 
 				totalPoints += ((double) points / votes);
 				totalRecords++;
 			}
 
-			rs.close();
-			p.close();
+			resultSet.close();
+			pstmt.close();
 
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("KarmaModel.updateUserKarma"));
 
 			double karmaPoints = totalPoints / totalRecords;
@@ -157,55 +157,55 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 				karmaPoints = 0;
 			}
 
-			p.setDouble(1, karmaPoints);
-			p.setInt(2, userId);
-			p.executeUpdate();
+			pstmt.setDouble(1, karmaPoints);
+			pstmt.setInt(2, userId);
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}	
 
 	/**
 	 * @see net.jforum.dao.KarmaDAO#update(net.jforum.entities.Karma)
 	 */
-	public void update(Karma karma)
+	public void update(final Karma karma)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("KarmaModel.update"));
-			p.setInt(1, karma.getPoints());
-			p.setInt(2, karma.getId());
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("KarmaModel.update"));
+			pstmt.setInt(1, karma.getPoints());
+			pstmt.setInt(2, karma.getId());
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.KarmaDAO#getPostKarma(int)
 	 */
-	public KarmaStatus getPostKarma(int postId)
+	public KarmaStatus getPostKarma(final int postId)
 	{
-		KarmaStatus karma = new KarmaStatus();
+		final KarmaStatus karma = new KarmaStatus();
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 					.prepareStatement(SystemGlobals.getSql("KarmaModel.getPostKarma"));
-			p.setInt(1, postId);
+			pstmt.setInt(1, postId);
 
-			rs = p.executeQuery();
-			if (rs.next()) {
-				karma.setKarmaPoints(Math.round(rs.getDouble(1)));
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next()) {
+				karma.setKarmaPoints(Math.round(resultSet.getDouble(1)));
 			}
 
 			return karma;
@@ -214,48 +214,48 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
     /**
      * @see net.jforum.dao.KarmaDAO#deletePostKarma(int)
      */
-    public void deletePostKarma(int postId)
+    public void deletePostKarma(final int postId)
     {
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         try {
-        	p = JForumExecutionContext.getConnection()
+        	pstmt = JForumExecutionContext.getConnection()
                     .prepareStatement(SystemGlobals.getSql("KarmaModel.deletePostKarma"));
-        	p.setInt(1, postId);
-        	p.executeUpdate();
+        	pstmt.setInt(1, postId);
+        	pstmt.executeUpdate();
         }
         catch (SQLException e) {
         	throw new DatabaseException(e);
         }
         finally {
-        	DbUtils.close(p);
+        	DbUtils.close(pstmt);
         }
     }
     
 	/**
 	 * @see net.jforum.dao.KarmaDAO#userCanAddKarma(int, int)
 	 */
-	public boolean userCanAddKarma(int userId, int postId)
+	public boolean userCanAddKarma(final int userId, final int postId)
 	{
 		boolean status = true;
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("KarmaModel.userCanAddKarma"));
-			p.setInt(1, postId);
-			p.setInt(2, userId);
+			pstmt.setInt(1, postId);
+			pstmt.setInt(2, userId);
 
-			rs = p.executeQuery();
-			if (rs.next()) {
-				status = rs.getInt(1) < 1;
+			resultSet = pstmt.executeQuery();
+			if (resultSet.next()) {
+				status = resultSet.getInt(1) < 1;
 			}
 
 			return status;
@@ -264,56 +264,56 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.KarmaDAO#getUserVotes(int, int)
 	 */
-	public Map<Integer, Integer> getUserVotes(int topicId, int userId)
+	public Map<Integer, Integer> getUserVotes(final int topicId, final int userId)
 	{
-		Map<Integer, Integer> m = new HashMap<Integer, Integer>();
+		final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 					.prepareStatement(SystemGlobals.getSql("KarmaModel.getUserVotes"));
-			p.setInt(1, topicId);
-			p.setInt(2, userId);
+			pstmt.setInt(1, topicId);
+			pstmt.setInt(2, userId);
 
-			rs = p.executeQuery();
-			while (rs.next()) {
-				m.put(Integer.valueOf(rs.getInt("post_id")), Integer.valueOf(rs.getInt("points")));
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				map.put(Integer.valueOf(resultSet.getInt("post_id")), Integer.valueOf(resultSet.getInt("points")));
 			}
 
-			return m;
+			return map;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	public void getUserTotalKarma(User user)
+	public void getUserTotalKarma(final User user)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("KarmaModel.getUserTotalVotes"));
-			p.setInt(1, user.getId());
+			pstmt.setInt(1, user.getId());
 
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
 			user.setKarma(new KarmaStatus());
 
-			if (rs.next()) {
-				user.getKarma().setTotalPoints(rs.getInt("points"));
-				user.getKarma().setVotesReceived(rs.getInt("votes"));
+			if (resultSet.next()) {
+				user.getKarma().setTotalPoints(resultSet.getInt("points"));
+				user.getKarma().setVotesReceived(resultSet.getInt("votes"));
 			}
 
 			if (user.getKarma().getVotesReceived() != 0) {
@@ -326,30 +326,30 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	private void getVotesGiven(User user)
+	private void getVotesGiven(final User user)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("KarmaModel.getUserGivenVotes"));
-			p.setInt(1, user.getId());
+			pstmt.setInt(1, user.getId());
 
-			rs = p.executeQuery();
+			resultSet = pstmt.executeQuery();
 
-			if (rs.next()) {
-				user.getKarma().setVotesGiven(rs.getInt("votes"));
+			if (resultSet.next()) {
+				user.getKarma().setVotesGiven(resultSet.getInt("votes"));
 			}
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
@@ -357,7 +357,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	 * @see net.jforum.dao.KarmaDAO#getMostRatedUserByPeriod(int, java.util.Date, java.util.Date,
 	 *      String)
 	 */
-	public List<User> getMostRatedUserByPeriod(int start, Date firstPeriod, Date lastPeriod, String orderField)
+	public List<User> getMostRatedUserByPeriod(final int start, final Date firstPeriod, final Date lastPeriod, final String orderField)
 	{
 		String sql = SystemGlobals.getSql("KarmaModel.getMostRatedUserByPeriod");
 		sql = new StringBuffer(sql).append(" ORDER BY ").append(orderField).append(" DESC").toString();
@@ -372,44 +372,44 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	 * @param lastPeriod Date
 	 * @return List
 	 */
-	protected List<User> getMostRatedUserByPeriod(String sql, Date firstPeriod, Date lastPeriod)
+	protected List<User> getMostRatedUserByPeriod(final String sql, final Date firstPeriod, final Date lastPeriod)
 	{
 		if (firstPeriod.after(lastPeriod)) {
 			throw new DatabaseException("First Date needs to be before the Last Date");
 		}
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			p.setTimestamp(1, new Timestamp(firstPeriod.getTime()));
-			p.setTimestamp(2, new Timestamp(lastPeriod.getTime()));
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+			pstmt.setTimestamp(1, new Timestamp(firstPeriod.getTime()));
+			pstmt.setTimestamp(2, new Timestamp(lastPeriod.getTime()));
 
-			rs = p.executeQuery();
-			return this.fillUser(rs);
+			resultSet = pstmt.executeQuery();
+			return this.fillUser(resultSet);
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	protected List<User> fillUser(ResultSet rs) throws SQLException
+	protected List<User> fillUser(final ResultSet resultSet) throws SQLException
 	{
-		List<User> usersAndPoints = new ArrayList<User>();
+		final List<User> usersAndPoints = new ArrayList<User>();
 		KarmaStatus karma = null;
-		while (rs.next()) {
-			User user = new User();
+		while (resultSet.next()) {
+			final User user = new User();
 			karma = new KarmaStatus();
-			karma.setTotalPoints(rs.getInt("total"));
-			karma.setVotesReceived(rs.getInt("votes_received"));
-			karma.setKarmaPoints(rs.getDouble("user_karma"));
-			karma.setVotesGiven(rs.getInt("votes_given"));
-			user.setUsername(rs.getString("username"));
-			user.setId(rs.getInt("user_id"));
+			karma.setTotalPoints(resultSet.getInt("total"));
+			karma.setVotesReceived(resultSet.getInt("votes_received"));
+			karma.setKarmaPoints(resultSet.getDouble("user_karma"));
+			karma.setVotesGiven(resultSet.getInt("votes_given"));
+			user.setUsername(resultSet.getString("username"));
+			user.setId(resultSet.getInt("user_id"));
 			user.setKarma(karma);
 			usersAndPoints.add(user);
 		}

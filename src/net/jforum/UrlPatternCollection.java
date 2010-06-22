@@ -51,7 +51,7 @@ import java.util.Map;
  * @author Rafael Steil
  * @version $Id: UrlPatternCollection.java,v 1.1 2006/08/23 02:13:49 rafaelsteil Exp $
  */
-public class UrlPatternCollection
+public final class UrlPatternCollection
 {
     private static Map<String, UrlPattern> patternsMap = new HashMap<String, UrlPattern>();
 

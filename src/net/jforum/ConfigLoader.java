@@ -73,7 +73,7 @@ import org.quartz.SchedulerException;
  * @author Rafael Steil
  * @version $Id: ConfigLoader.java,v 1.30 2007/07/27 15:42:56 rafaelsteil Exp $
  */
-public class ConfigLoader 
+public final class ConfigLoader 
 {
 	private static final Logger LOGGER = Logger.getLogger(ConfigLoader.class);
 	private static CacheEngine cache;
@@ -86,7 +86,7 @@ public class ConfigLoader
 	 * 
 	 * @param appPath The application root's directory
 	 */
-	public static void startSystemglobals(String appPath)
+	public static void startSystemglobals(final String appPath)
 	{
 		SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");
 		SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
@@ -102,12 +102,12 @@ public class ConfigLoader
 	 * @param baseConfigDir The directory where the file <i>modulesMapping.properties</i> is.
 	 * @return The <code>java.util.Properties</code> instance, with the loaded modules 
 	 */
-	public static Properties loadModulesMapping(String baseConfigDir)
+	public static Properties loadModulesMapping(final String baseConfigDir)
 	{
 		FileInputStream fis = null;
 		
 		try {
-			Properties modulesMapping = new Properties();
+			final Properties modulesMapping = new Properties();
 			fis = new FileInputStream(baseConfigDir + "/modulesMapping.properties");
 			modulesMapping.load(fis);
 
@@ -125,11 +125,11 @@ public class ConfigLoader
 	
 	public static void createLoginAuthenticator()
 	{
-		String className = SystemGlobals.getValue(ConfigKeys.LOGIN_AUTHENTICATOR);
+		final String className = SystemGlobals.getValue(ConfigKeys.LOGIN_AUTHENTICATOR);
 
 		try {
-			LoginAuthenticator loginAuthenticator = (LoginAuthenticator) Class.forName(className).newInstance();
-			SystemGlobals.setObjectValue(ConfigKeys.LOGIN_AUTHENTICATOR_INSTANCE, loginAuthenticator);
+			final LoginAuthenticator authenticator = (LoginAuthenticator) Class.forName(className).newInstance();
+			SystemGlobals.setObjectValue(ConfigKeys.LOGIN_AUTHENTICATOR_INSTANCE, authenticator);
 		}
 		catch (Exception e) {
 			throw new ForumException("Error while trying to create a login.authenticator instance ("
@@ -146,12 +146,12 @@ public class ConfigLoader
 		FileInputStream fis = null;
 		
 		try {
-			Properties p = new Properties();
+			final Properties properties = new Properties();
 			fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/urlPattern.properties");
-			p.load(fis);
+			properties.load(fis);
 
-			for (Iterator<Map.Entry<Object, Object>> iter = p.entrySet().iterator(); iter.hasNext(); ) {
-				Map.Entry<Object, Object> entry = iter.next();
+			for (final Iterator<Map.Entry<Object, Object>> iter = properties.entrySet().iterator(); iter.hasNext(); ) {
+				final Map.Entry<Object, Object> entry = iter.next();
 				UrlPatternCollection.addPattern((String)entry.getKey(), (String)entry.getValue());
 			}
 		}
@@ -173,7 +173,7 @@ public class ConfigLoader
 	 */
 	public static void listenForChanges()
 	{
-		int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
+		final int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
 		
 		if (fileChangesDelay > 0) {
 			// Queries
@@ -193,27 +193,26 @@ public class ConfigLoader
 	
 	public static void listenInstallationConfig()
 	{
-		int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
+		final int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
 		
-		if (fileChangesDelay > 0) {
-			if (new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
+		if (fileChangesDelay > 0 && 
+				new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
 				FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
 						SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG), fileChangesDelay);
-			}
 		}
 	}
 	
 	public static void loadDaoImplementation()
 	{
 		// Start the dao.driver implementation
-		String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
+		final String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
 
 		LOGGER.info("Loading JDBC driver " + driver);
 
 		try {
-			Class<?> c = Class.forName(driver);
-			DataAccessDriver d = (DataAccessDriver)c.newInstance();
-			DataAccessDriver.init(d);
+			final Class<?> clazz = Class.forName(driver);
+			final DataAccessDriver dad = (DataAccessDriver)clazz.newInstance();
+			DataAccessDriver.init(dad);
 		}
 		catch (Exception e) {
 			throw new ForumException(e);
@@ -223,25 +222,25 @@ public class ConfigLoader
 	public static void startCacheEngine()
 	{
 		try {
-			String cacheImplementation = SystemGlobals.getValue(ConfigKeys.CACHE_IMPLEMENTATION);
-			LOGGER.info("Using cache engine: " + cacheImplementation);
+			final String cacheImpl = SystemGlobals.getValue(ConfigKeys.CACHE_IMPLEMENTATION);
+			LOGGER.info("Using cache engine: " + cacheImpl);
 			
-			cache = (CacheEngine)Class.forName(cacheImplementation).newInstance();
+			cache = (CacheEngine)Class.forName(cacheImpl).newInstance();
 			cache.init();
 			
-			String s = SystemGlobals.getValue(ConfigKeys.CACHEABLE_OBJECTS);
-			if (s == null || s.trim().equals("")) {
+			final String str = SystemGlobals.getValue(ConfigKeys.CACHEABLE_OBJECTS);
+			if (str == null || str.trim().equals("")) {
 				LOGGER.warn("Cannot find Cacheable objects to associate the cache engine instance.");
 				return;
 			}
 			
-			String[] cacheableObjects = s.split(",");
+			final String[] cacheableObjects = str.split(",");
 			for (int i = 0; i < cacheableObjects.length; i++) {
 				LOGGER.info("Creating an instance of " + cacheableObjects[i].trim());
-				Object o = Class.forName(cacheableObjects[i].trim()).newInstance();
+				final Object obj = Class.forName(cacheableObjects[i].trim()).newInstance();
 				
-				if (o instanceof Cacheable) {
-					((Cacheable)o).setCacheEngine(cache);
+				if (obj instanceof Cacheable) {
+					((Cacheable)obj).setCacheEngine(cache);
 				}
 				else {
 					LOGGER.error(cacheableObjects[i] + " is not an instance of net.jforum.cache.Cacheable");
@@ -278,4 +277,6 @@ public class ConfigLoader
 	{
 		POPJobStarter.startJob();
 	}
+	
+	private ConfigLoader() {}
 }

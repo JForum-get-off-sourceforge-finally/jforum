@@ -63,59 +63,59 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#insert(net.jforum.entities.Config)
 	 */
-	public void insert(Config config)
+	public void insert(final Config config)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.insert"));
-			p.setString(1, config.getName());
-			p.setString(2, config.getValue());
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.insert"));
+			pstmt.setString(1, config.getName());
+			pstmt.setString(2, config.getValue());
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#update(net.jforum.entities.Config)
 	 */
-	public void update(Config config)
+	public void update(final Config config)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.update"));
-			p.setString(1, config.getValue());
-			p.setString(2, config.getName());
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.update"));
+			pstmt.setString(1, config.getValue());
+			pstmt.setString(2, config.getName());
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#delete(net.jforum.entities.Config)
 	 */
-	public void delete(Config config)
+	public void delete(final Config config)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.delete"));
-			p.setInt(1, config.getId());
-			p.executeUpdate();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.delete"));
+			pstmt.setInt(1, config.getId());
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -124,62 +124,62 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	 */
 	public List<Config> selectAll()
 	{
-		List<Config> l = new ArrayList<Config>();
+		final List<Config> list = new ArrayList<Config>();
 
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.selectAll"));
-			rs = p.executeQuery();
-			while (rs.next()) {
-				l.add(this.makeConfig(rs));
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.selectAll"));
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				list.add(this.makeConfig(resultSet));
 			}
 
-			return l;
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#selectByName(java.lang.String)
 	 */
-	public Config selectByName(String name)
+	public Config selectByName(final String name)
 	{
-		PreparedStatement p = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("ConfigModel.selectByName"));
-			p.setString(1, name);
-			rs = p.executeQuery();
-			Config c = null;
+			pstmt.setString(1, name);
+			resultSet = pstmt.executeQuery();
+			Config config = null;
 
-			if (rs.next()) {
-				c = this.makeConfig(rs);
+			if (resultSet.next()) {
+				config = this.makeConfig(resultSet);
 			}
 
-			return c;
+			return config;
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(resultSet, pstmt);
 		}
 	}
 
-	protected Config makeConfig(ResultSet rs) throws SQLException
+	protected Config makeConfig(final ResultSet resultSet) throws SQLException
 	{
-		Config c = new Config();
-		c.setId(rs.getInt("config_id"));
-		c.setName(rs.getString("config_name"));
-		c.setValue(rs.getString("config_value"));
+		final Config config = new Config();
+		config.setId(resultSet.getInt("config_id"));
+		config.setName(resultSet.getString("config_name"));
+		config.setValue(resultSet.getString("config_value"));
 
-		return c;
+		return config;
 	}
 }

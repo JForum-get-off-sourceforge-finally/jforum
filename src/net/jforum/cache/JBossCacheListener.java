@@ -57,30 +57,35 @@ public class JBossCacheListener {
 	 * @see org.jboss.cache.TreeCacheListener#nodeCreated(org.jboss.cache.Fqn)
 	 */
 	public void nodeCreated(final Fqn<?> fqn) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeRemoved(org.jboss.cache.Fqn)
 	 */
 	public void nodeRemoved(final Fqn<?> fqn) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeLoaded(org.jboss.cache.Fqn)
 	 */
 	public void nodeLoaded(final Fqn<?> fqn) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeEvicted(org.jboss.cache.Fqn)
 	 */
 	public void nodeEvicted(final Fqn<?> fqn) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#nodeModified(org.jboss.cache.Fqn)
 	 */
 	public void nodeModified(final Fqn<?> fqn) {
+		// Empty method
 		// if (CacheEngine.NOTIFICATION.startsWith((String)fqn.get(0))) {
 		// }
 	}
@@ -89,23 +94,27 @@ public class JBossCacheListener {
 	 * @see org.jboss.cache.TreeCacheListener#nodeVisited(org.jboss.cache.Fqn)
 	 */
 	public void nodeVisited(final Fqn<?> fqn) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#cacheStarted(org.jboss.cache.TreeCache)
 	 */
 	public void cacheStarted(final Cache<?, ?> cache) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#cacheStopped(org.jboss.cache.TreeCache)
 	 */
 	public void cacheStopped(final Cache<?, ?> cache) {
+		// Empty method
 	}
 
 	/**
 	 * @see org.jboss.cache.TreeCacheListener#viewChange(org.jgroups.View)
 	 */
 	public void viewChange(final View view) {
+		// Empty method
 	}
 }

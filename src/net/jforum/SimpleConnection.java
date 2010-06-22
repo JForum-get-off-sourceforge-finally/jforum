@@ -71,7 +71,7 @@ public class SimpleConnection extends DBConnection
 	 * @throws Exception 
 	 * @see net.jforum.DBConnection#init()
 	 */
-	public void init() throws Exception
+	public void init()
 	{
 		try {
 			Class.forName(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
@@ -83,11 +83,11 @@ public class SimpleConnection extends DBConnection
 				this.releaseConnection(conn);
 			}
 			
-			this.isDatabaseUp = true;
+			this.databaseUp = true;
 		}
-		catch (Exception e) {
-			this.isDatabaseUp = false;
-			throw e;
+		catch (ClassNotFoundException e) {
+			this.databaseUp = false;
+			//throw e;
 		}
 	}
 
@@ -123,5 +123,7 @@ public class SimpleConnection extends DBConnection
 	/** 
 	 * @see net.jforum.DBConnection#realReleaseAllConnections()
 	 */
-	public void realReleaseAllConnections() throws Exception {}
+	public void realReleaseAllConnections() {
+		// Empty method
+	}
 }

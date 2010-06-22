@@ -37,13 +37,13 @@ public class POPMessage
 	
 	private String subject;
 	private Object message;
-	private String messageContents;
+	private transient String messageContents;
 	private String sender;
 	private String replyTo;
 	private String references;
 	private String inReplyTo;
 	private String contentType;
-	private String listEmail;
+	private transient String listEmail;
 	private Date sendDate;
 	private Map<String, String> headers;
 	
@@ -51,7 +51,7 @@ public class POPMessage
 	 * Creates a new instance based on a {@link Message}
 	 * @param message the message to convert from.
 	 */
-	public POPMessage(Message message)
+	public POPMessage(final Message message)
 	{
 		this.extract(message);
 	}
@@ -60,7 +60,7 @@ public class POPMessage
 	 * Given a {@link Message}, converts it to our internal format
 	 * @param message the message to convert
 	 */
-	private void extract(Message message)
+	private void extract(final Message message)
 	{
 		try {
 			this.subject = message.getSubject();
@@ -80,8 +80,8 @@ public class POPMessage
 			
 			this.headers = new HashMap<String, String>();
 			
-			for (Enumeration<?> e = message.getAllHeaders(); e.hasMoreElements(); ) {
-				Header header = (Header)e.nextElement();
+			for (final Enumeration<?> enumeration = message.getAllHeaders(); enumeration.hasMoreElements(); ) {
+				final Header header = (Header)enumeration.nextElement();
 				this.headers.put(header.getName(), header.getValue());
 			}
 			
@@ -96,13 +96,13 @@ public class POPMessage
 			this.extractMessageContents(message);
 		}
 		catch (Exception e) {
-			
+			LOGGER.error(e);
 		}
 	}
 	
-	private void extractMessageContents(Message m) throws MessagingException
+	private void extractMessageContents(final Message message) throws MessagingException
 	{
-		Part messagePart = m;
+		Part messagePart = message;
 		
 		if (this.message instanceof Multipart) {
 			messagePart = ((Multipart)this.message).getBodyPart(0);
@@ -111,24 +111,24 @@ public class POPMessage
 		if (contentType.startsWith("text/html")
 			|| contentType.startsWith("text/plain")
 			|| contentType.startsWith("multipart")) {
-			InputStream is = null;
+			InputStream inputStream = null;
 			BufferedReader reader = null;
 			
 			try {
-				is = messagePart.getInputStream();
-				is.reset();
+				inputStream = messagePart.getInputStream();
+				inputStream.reset();
 				reader = new BufferedReader(
-					new InputStreamReader(is));
+					new InputStreamReader(inputStream));
 				
-				StringBuffer sb = new StringBuffer(512);
-				int c = 0;
-				char[] ch = new char[2048];
+				final StringBuffer stringBuffer = new StringBuffer(512);
+				int count = 0;
+				final char[] chr = new char[2048];
 				
-				while ((c = reader.read(ch)) != -1) {
-					sb.append(ch, 0, c);
+				while ((count = reader.read(chr)) != -1) {
+					stringBuffer.append(chr, 0, count);
 				}
 				
-				this.messageContents = sb.toString();
+				this.messageContents = stringBuffer.toString();
 			}
 			catch (IOException e) {
 				throw new MailException(e);
@@ -141,9 +141,9 @@ public class POPMessage
 						LOGGER.error(e.getMessage(), e);
 					}
 				}
-				if (is != null) {
+				if (inputStream != null) {
 					try {
-						is.close();
+						inputStream.close();
 					} catch (Exception e) {
 						LOGGER.error(e.getMessage(), e);
 					}
@@ -232,7 +232,7 @@ public class POPMessage
 	/**
 	 * @param contentType the contentType to set
 	 */
-	public void setContentType(String contentType)
+	public void setContentType(final String contentType)
 	{
 		this.contentType = contentType;
 	}
@@ -240,7 +240,7 @@ public class POPMessage
 	/**
 	 * @param headers the headers to set
 	 */
-	public void setHeaders(Map<String, String> headers)
+	public void setHeaders(final Map<String, String> headers)
 	{
 		this.headers = headers;
 	}
@@ -248,7 +248,7 @@ public class POPMessage
 	/**
 	 * @param inReplyTo the inReplyTo to set
 	 */
-	public void setInReplyTo(String inReplyTo)
+	public void setInReplyTo(final String inReplyTo)
 	{
 		this.inReplyTo = inReplyTo;
 	}
@@ -256,7 +256,7 @@ public class POPMessage
 	/**
 	 * @param message the message to set
 	 */
-	public void setMessage(Object message)
+	public void setMessage(final Object message)
 	{
 		this.message = message;
 	}
@@ -264,7 +264,7 @@ public class POPMessage
 	/**
 	 * @param references the references to set
 	 */
-	public void setReferences(String references)
+	public void setReferences(final String references)
 	{
 		this.references = references;
 	}
@@ -272,7 +272,7 @@ public class POPMessage
 	/**
 	 * @param replyTo the replyTo to set
 	 */
-	public void setReplyTo(String replyTo)
+	public void setReplyTo(final String replyTo)
 	{
 		this.replyTo = replyTo;
 	}
@@ -280,7 +280,7 @@ public class POPMessage
 	/**
 	 * @param sendDate the sendDate to set
 	 */
-	public void setSendDate(Date sendDate)
+	public void setSendDate(final Date sendDate)
 	{
 		this.sendDate = sendDate;
 	}
@@ -288,7 +288,7 @@ public class POPMessage
 	/**
 	 * @param sender the sender to set
 	 */
-	public void setSender(String sender)
+	public void setSender(final String sender)
 	{
 		this.sender = sender;
 	}
@@ -296,7 +296,7 @@ public class POPMessage
 	/**
 	 * @param subject the subject to set
 	 */
-	public void setSubject(String subject)
+	public void setSubject(final String subject)
 	{
 		this.subject = subject;
 	}

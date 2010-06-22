@@ -295,10 +295,10 @@ public class Spammer
 		String templateEncoding = SystemGlobals.getValue(ConfigKeys.MAIL_TEMPLATE_ENCODING);
 
 		if (StringUtils.isEmpty(templateEncoding)) {
-			this.template = JForumExecutionContext.templateConfig().getTemplate(messageFile);
+			this.template = JForumExecutionContext.getTemplateConfig().getTemplate(messageFile);
 		}
 		else {
-			this.template = JForumExecutionContext.templateConfig().getTemplate(messageFile, templateEncoding);
+			this.template = JForumExecutionContext.getTemplateConfig().getTemplate(messageFile, templateEncoding);
 		}
 	}
 

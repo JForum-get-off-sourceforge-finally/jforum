@@ -81,12 +81,12 @@ public class SessionFacade implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	public void setCacheEngine(final CacheEngine engine)
 	{
 		SessionFacade.setEngine(engine);
 	}
 	
-	private static void setEngine(CacheEngine engine) 
+	private static void setEngine(final CacheEngine engine) 
 	{
 		cache = engine;
 	}
@@ -96,12 +96,12 @@ public class SessionFacade implements Cacheable
 	 * This method will make a call to <code>JForum.getRequest.getSession().getId()</code>
 	 * to retrieve the session's id
 	 * 
-	 * @param us The user session object to add
+	 * @param userSession The user session object to add
 	 * @see #add(UserSession, String)
 	 */
-	public static void add(UserSession us)
+	public static void add(final UserSession userSession)
 	{
-		add(us, JForumExecutionContext.getRequest().getSessionContext().getId());
+		add(userSession, JForumExecutionContext.getRequest().getSessionContext().getId());
 	}
 
 	/**
@@ -118,33 +118,33 @@ public class SessionFacade implements Cacheable
 	 * again if the current session is currently represented as "guest". 
 	 * </p>
 	 *  
-	 * @param us the UserSession to add
+	 * @param userSession the UserSession to add
 	 * @param sessionId the user's session id
 	 */
-	public static void add(UserSession us, String sessionId)
+	public static void add(final UserSession userSession, final String sessionId)
 	{
-		if (us.getSessionId() == null || us.getSessionId().equals("")) {
-			us.setSessionId(sessionId);
+		if (userSession.getSessionId() == null || userSession.getSessionId().equals("")) {
+			userSession.setSessionId(sessionId);
 		}
 		
 		synchronized (MUTEX_FQN) {
-			cache.add(FQN, us.getSessionId(), us);
+			cache.add(FQN, userSession.getSessionId(), userSession);
 			
 			if (!JForumExecutionContext.getForumContext().isBot()) {
-				if (us.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+				if (userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
 					// TODO: check the anonymous IP constraint
 					changeUserCount(ANONYMOUS_COUNT, true);
 				}
 				else {
 					changeUserCount(LOGGED_COUNT, true);
-					cache.add(FQN_LOGGED, us.getSessionId(), us);
-					cache.add(FQN_USER_ID, Integer.toString(us.getUserId()), us.getSessionId());
+					cache.add(FQN_LOGGED, userSession.getSessionId(), userSession);
+					cache.add(FQN_USER_ID, Integer.toString(userSession.getUserId()), userSession.getSessionId());
 				}
 			}
 		}
 	}
 	
-	private static void changeUserCount(String cacheEntryName, boolean increment)
+	private static void changeUserCount(final String cacheEntryName, final boolean increment)
 	{
 		Integer count = (Integer)cache.get(FQN_COUNT, cacheEntryName);
 		
@@ -168,7 +168,7 @@ public class SessionFacade implements Cacheable
 	 * @param name The attribute name
 	 * @param value The attribute value
 	 */
-	public static void setAttribute(String name, Object value)
+	public static void setAttribute(final String name, final Object value)
 	{
 		JForumExecutionContext.getRequest().getSessionContext().setAttribute(name, value);
 	}
@@ -178,7 +178,7 @@ public class SessionFacade implements Cacheable
 	 * 
 	 * @param name The key associated to the the attribute to remove
 	 */
-	public static void removeAttribute(String name)
+	public static void removeAttribute(final String name)
 	{
 		JForumExecutionContext.getRequest().getSessionContext().removeAttribute(name);
 	}
@@ -189,7 +189,7 @@ public class SessionFacade implements Cacheable
 	 * @param name The attribute name to retrieve the value
 	 * @return The value as an Object, or null if no entry was found
 	 */
-	public static Object getAttribute(String name)
+	public static Object getAttribute(final String name)
 	{
 		return JForumExecutionContext.getRequest().getSessionContext().getAttribute(name);
 	}
@@ -199,7 +199,7 @@ public class SessionFacade implements Cacheable
 	 * 
 	 * @param sessionId The session id to remove
 	 */
-	public static void remove(String sessionId)
+	public static void remove(final String sessionId)
 	{
 		if (cache == null) {
 			LOGGER.warn("Got a null cache instance. #" + sessionId);
@@ -209,13 +209,13 @@ public class SessionFacade implements Cacheable
 		LOGGER.debug("Removing session " + sessionId);
 		
 		synchronized (MUTEX_FQN) {
-			UserSession us = getUserSession(sessionId);
+			final UserSession userSession = getUserSession(sessionId);
 			
-			if (us != null) {
+			if (userSession != null) {
 				cache.remove(FQN_LOGGED, sessionId);
-				cache.remove(FQN_USER_ID, Integer.toString(us.getUserId()));
+				cache.remove(FQN_USER_ID, Integer.toString(userSession.getUserId()));
 				
-				if (us.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+				if (userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
 					changeUserCount(ANONYMOUS_COUNT, false);
 				}
 				else {					
@@ -257,7 +257,7 @@ public class SessionFacade implements Cacheable
 	 */
 	public static int registeredSize()
 	{
-		Integer count = (Integer)cache.get(FQN_COUNT, LOGGED_COUNT);
+		final Integer count = (Integer)cache.get(FQN_COUNT, LOGGED_COUNT);
 
 		return (count == null ? 0 : count.intValue());
 	}
@@ -268,7 +268,7 @@ public class SessionFacade implements Cacheable
 	 */
 	public static int anonymousSize()
 	{
-		Integer count = (Integer)cache.get(FQN_COUNT, ANONYMOUS_COUNT);
+		final Integer count = (Integer)cache.get(FQN_COUNT, ANONYMOUS_COUNT);
 
 		return (count == null ? 0 : count.intValue());
 	}
@@ -300,14 +300,15 @@ public class SessionFacade implements Cacheable
 	 * @param sessionId the session's id
 	 * @return an <b>immutable</b> UserSession, or <code>null</code> if no entry found
 	 */
-	public static UserSession getUserSession(String sessionId)
+	public static UserSession getUserSession(final String sessionId)
 	{
-		if (cache != null) {
-			return (UserSession)cache.get(FQN, sessionId);
+		UserSession userSession = null;
+		if (cache == null) {
+			LOGGER.warn("Got a null cache in getUserSession. #" + sessionId);			
+		} else {
+			userSession = (UserSession)cache.get(FQN, sessionId);
 		}
-
-		LOGGER.warn("Got a null cache in getUserSession. #" + sessionId);
-		return null;
+		return userSession;
 	}
 
 	/**
@@ -327,26 +328,28 @@ public class SessionFacade implements Cacheable
 	 * @return The session id if the user is already registered into the session, 
 	 * or <code>null</code> if it is not.
 	 */
-	public static String isUserInSession(String username)
+	public static String isUserInSession(final String username)
 	{
-		int aid = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
+		String sessionId = null;
+		
+		final int aid = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
 		
 		synchronized (MUTEX_FQN) {
-			for (Iterator<UserSession> iter = cache.getValues(FQN).iterator(); iter.hasNext(); ) {
-				UserSession us = (UserSession)iter.next();
-				String thisUsername = us.getUsername();
+			for (final Iterator<UserSession> iter = cache.getValues(FQN).iterator(); iter.hasNext(); ) {
+				final UserSession userSession = (UserSession)iter.next();
+				final String thisUsername = userSession.getUsername();
 				
 				if (thisUsername == null) {
 					continue;
 				}
 				
-				if (us.getUserId() != aid && thisUsername.equals(username)) {
-					return us.getSessionId();
+				if (userSession.getUserId() != aid && thisUsername.equals(username)) {
+					sessionId = userSession.getSessionId();
 				}
 			}
 		}
 		
-		return null;
+		return sessionId;
 	}
 	
 	/**
@@ -357,7 +360,7 @@ public class SessionFacade implements Cacheable
 	 * @return The session id if the user is already registered into the session, 
 	 * or <code>null</code> if it is not.
 	 */
-	public static String isUserInSession(int userId)
+	public static String isUserInSession(final int userId)
 	{
 		return (String)cache.get(FQN_USER_ID, Integer.toString(userId));
 	}
@@ -426,7 +429,7 @@ public class SessionFacade implements Cacheable
 	 * @param sessionId The session which we're going to persist information
 	 * @see #storeSessionData(String, Connection)
 	 */
-	public static void storeSessionData(String sessionId)
+	public static void storeSessionData(final String sessionId)
 	{
 		Connection conn = null;
 		try {
@@ -453,16 +456,16 @@ public class SessionFacade implements Cacheable
 	 * the database. 
 	 * @see #storeSessionData(String)
 	 */
-	public static void storeSessionData(String sessionId, Connection conn) 
+	public static void storeSessionData(final String sessionId, final Connection conn) 
 	{
-		UserSession us = SessionFacade.getUserSession(sessionId);
-		if (us != null) {
+		final UserSession userSession = SessionFacade.getUserSession(sessionId);
+		if (userSession != null) {
 			try {
-				if (us.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-					DataAccessDriver.getInstance().newUserSessionDAO().update(us, conn);
+				if (userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+					DataAccessDriver.getInstance().newUserSessionDAO().update(userSession, conn);
 				}
 				
-				SecurityRepository.remove(us.getUserId());
+				SecurityRepository.remove(userSession.getUserId());
 			}
 			catch (Exception e) {
 				LOGGER.warn("Error storing user session data: " + e, e);
