@@ -255,8 +255,8 @@ ForumModel.selectAll = SELECT forum_id, forum_name, categories_id, forum_desc, f
 
 ForumModel.selectAllForPermissions = SELECT forum_id, forum_name FROM jforum_forums ORDER BY forum_name
 
-ForumModel.statsFirstPostTime = SELECT MIN(post_time) FROM jforum_posts WHERE post_time > '1970-01-01'
-ForumModel.statsFirstRegisteredUserTime = SELECT MIN(user_regdate) FROM jforum_users WHERE user_regdate > '1970-01-01'
+ForumModel.statsFirstPostTime = SELECT MIN(post_time) FROM jforum_posts
+ForumModel.statsFirstRegisteredUserTime = SELECT MIN(user_regdate) FROM jforum_users
 ForumModel.discoverForumId = SELECT forum_id FROM jforum_mail_integration WHERE forum_email = ?
 ForumModel.countForumPosts = SELECT COUNT(1) FROM jforum_posts WHERE forum_id = ?
 ForumModel.setModerated = UPDATE jforum_forums SET moderated = ? WHERE categories_id = ?
