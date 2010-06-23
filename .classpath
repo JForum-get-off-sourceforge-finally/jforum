@@ -20,9 +20,8 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/jbosscache-core.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jgroups-2.9.0.GA.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jboss-transaction-api.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/lucene-core-3.0.1.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/lucene-highlighter-3.0.1.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/lucene-analyzers-3.0.1.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/quartz-1.8.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/lucene-core-3.0.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/lucene-highlighter-3.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
