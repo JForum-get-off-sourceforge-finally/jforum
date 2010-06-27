@@ -6,7 +6,7 @@ UserModel.lastUserRegistered = SELECT TOP 1 user_id, username FROM jforum_users 
 UserModel.selectAllByLimit = SELECT LIMIT ? ? user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, \
 	user_from, user_website, user_viewemail FROM jforum_users ORDER BY user_id ASC
 
-UserModel.lastGeneratedUserId = SELECT MAX(user_id) from jforum_users
+UserModel.lastGeneratedUserId = SELECT MAX(user_id) FROM jforum_users
 
 UserModel.selectAllByGroup = SELECT LIMIT ? ? user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, \
 	user_from, user_website, user_viewemail \
@@ -28,7 +28,7 @@ UserModel.login = SELECT user_id FROM jforum_users WHERE LCASE(username) = LCASE
 # #############
 # PostModel
 # #############
-PostModel.lastGeneratedPostId = SELECT max(post_id) from jforum_posts
+PostModel.lastGeneratedPostId = SELECT MAX(post_id) FROM jforum_posts
 	
 PostModel.selectLatestByForumForRSS = SELECT LIMIT 0 ? p.topic_id, p.topic_id, p.post_id, p.forum_id, pt.post_subject AS subject, pt.post_text, p.post_time, p.user_id, u.username \
 	FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u \
@@ -85,7 +85,7 @@ PollModel.lastGeneratedPollId = SELECT MAX(vote_id) FROM jforum_vote_desc
 # #############
 # ForumModel
 # #############
-ForumModel.lastGeneratedForumId = SELECT MAX(forum_id) from jforum_forums
+ForumModel.lastGeneratedForumId = SELECT MAX(forum_id) FROM jforum_forums
 
 # #############
 # TopicModel
@@ -103,7 +103,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT LIMIT 0 ? t.*, p.user_id AS last_u
 	AND p.need_moderate = 0 \
 	ORDER BY t.topic_last_post_id DESC
 	
-TopicModel.lastGeneratedTopicId = SELECT MAX(topic_id) from jforum_topics
+TopicModel.lastGeneratedTopicId = SELECT MAX(topic_id) FROM jforum_topics
 
 TopicModel.selectByUserByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
@@ -116,28 +116,27 @@ TopicModel.selectByUserByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id
 # #####################
 # PrivateMessagesModel
 # #####################
-PrivateMessagesModel.lastGeneratedPmId = SELECT max(privmsgs_id) from jforum_privmsgs
+PrivateMessagesModel.lastGeneratedPmId = SELECT MAX(privmsgs_id) FROM jforum_privmsgs
 
 # #############
 # SmiliesModel
 # #############
-SmiliesModel.lastGeneratedSmilieId = SELECT max(smilie_id) from jforum_smilies
+SmiliesModel.lastGeneratedSmilieId = SELECT MAX(smilie_id) FROM jforum_smilies
 
 # ##################
 # PermissionControl
 # ##################
-PermissionControl.lastGeneratedRoleId = SELECT max(role_id) from jforum_roles
+PermissionControl.lastGeneratedRoleId = SELECT MAX(role_id) FROM jforum_roles
 
 # ##############
 # CategoryModel
 # ##############
-CategoryModel.lastGeneratedCategoryId = SELECT max(categories_id) from jforum_categories
+CategoryModel.lastGeneratedCategoryId = SELECT MAX(categories_id) FROM jforum_categories
 
 # ################
 # AttachmentModel
 # ################
 AttachmentModel.lastGeneratedAttachmentId = SELECT MAX(attach_id) FROM jforum_attach
-
 
 # ###############
 # BanlistModel

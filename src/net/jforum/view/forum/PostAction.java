@@ -569,8 +569,9 @@ public class PostAction extends Command
 		this.edit(false, null);
 	}
 
-	private void edit(boolean preview, Post post)
+	private void edit(boolean preview, Post origPost)
 	{
+		Post post = origPost;
 		int userId = SessionFacade.getUserSession().getUserId();
 
 		if (!preview) {

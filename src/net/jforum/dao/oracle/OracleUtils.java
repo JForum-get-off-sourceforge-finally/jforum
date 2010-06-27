@@ -59,7 +59,7 @@ import oracle.sql.BLOB;
  * @author Dmitriy Kiriy
  * @version $Id: OracleUtils.java,v 1.14 2007/08/31 22:56:40 rafaelsteil Exp $
  */
-public class OracleUtils
+public final class OracleUtils
 {
 	private static final int BUFFER_SIZE = 4096;
 	

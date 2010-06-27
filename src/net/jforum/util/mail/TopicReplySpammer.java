@@ -65,12 +65,13 @@ public class TopicReplySpammer extends Spammer
 	/**
 	 * Creates a new instance with a message's contents send
 	 * @param topic the topic we are replying to 
-	 * @param post the post instance, with the message's contents. If null,
+	 * @param origPost the post instance, with the message's contents. If null,
 	 * only a notification will be sent
 	 * @param users list of users who'll be notified
 	 */
-	public TopicReplySpammer(Topic topic, Post post, List<User> users)
+	public TopicReplySpammer(Topic topic, Post origPost, List<User> users)
 	{
+		Post post = origPost;
 		// Make the topic url
 		StringBuffer page = new StringBuffer();
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);

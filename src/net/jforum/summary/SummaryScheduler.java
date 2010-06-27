@@ -63,7 +63,7 @@ import org.quartz.impl.StdSchedulerFactory;
  * @author Franklin S. Dattein (<a href="mailto:franklin@portaljava.com">franklin@portaljava.com</a>)
  * @version $Id: SummaryScheduler.java,v 1.6 2006/10/10 00:40:53 rafaelsteil Exp $
  */
-public class SummaryScheduler
+public final class SummaryScheduler
 {
 	private static Scheduler scheduler;
 	private static final Logger LOGGER = Logger.getLogger(SummaryScheduler.class);

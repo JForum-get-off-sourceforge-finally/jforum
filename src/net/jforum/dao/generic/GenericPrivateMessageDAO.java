@@ -300,8 +300,9 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectById(net.jforum.entities.PrivateMessage)
 	 */
-	public PrivateMessage selectById(PrivateMessage pm)
+	public PrivateMessage selectById(PrivateMessage origPrivMsg)
 	{
+		PrivateMessage pm = origPrivMsg;
 		PreparedStatement p = null;
 		ResultSet rs = null;
 		try {

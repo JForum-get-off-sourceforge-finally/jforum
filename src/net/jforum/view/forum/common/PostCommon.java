@@ -149,8 +149,9 @@ public class PostCommon
 		}
 	}
 	
-	private static String parseCode(String text)
+	private static String parseCode(String origText)
 	{
+		String text =  origText;
 		for (Iterator<BBCode> iter = BBCodeRepository.getBBCollection().getBbList().iterator(); iter.hasNext();) {
 			BBCode bb = iter.next();
 			
@@ -224,8 +225,9 @@ public class PostCommon
 		return text;
 	}
 	
-	public static String prepareTextForDisplayExceptCodeTag(String text, boolean isBBCodeEnabled, boolean isSmilesEnabled)
+	public static String prepareTextForDisplayExceptCodeTag(String origText, boolean isBBCodeEnabled, boolean isSmilesEnabled)
 	{
+		String text = origText;
 		if (text == null) {
 			return text;
 		}
@@ -256,8 +258,9 @@ public class PostCommon
 		return text;
 	}
 	
-	public static String parseDefaultRequiredBBCode(String text)
+	public static String parseDefaultRequiredBBCode(String origText)
 	{
+		String text = origText;
 		Collection<BBCode> list = BBCodeRepository.getBBCollection().getAlwaysProcessList();
 		
 		for (Iterator<BBCode> iter = list.iterator(); iter.hasNext(); ) {
@@ -270,12 +273,13 @@ public class PostCommon
 
 	/**
 	 * Replace the smlies code by the respective URL.
-	 * @param text The text to process
+	 * @param origText The text to process
 	 * @return the parsed text. Note that the StringBuffer you pass as parameter
 	 * will already have the right contents, as the replaces are done on the instance
 	 */
-	public static String processSmilies(StringBuffer text)
+	public static String processSmilies(StringBuffer origText)
 	{
+		StringBuffer text = origText;
 		List<Smilie> smilies = SmiliesRepository.getSmilies();
 		
 		for (Iterator<Smilie> iter = smilies.iterator(); iter.hasNext(); ) {

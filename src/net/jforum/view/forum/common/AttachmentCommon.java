@@ -202,11 +202,12 @@ public class AttachmentCommon
 	}
 
 	/**
-	 * @param realName String
+	 * @param origRealName String
 	 * @return String
 	 */
-	public String stripPath(String realName)
+	public String stripPath(String origRealName)
 	{
+		String realName = origRealName;
 		String separator = "/";
 		int index = realName.lastIndexOf(separator);
 		

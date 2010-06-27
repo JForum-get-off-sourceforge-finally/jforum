@@ -61,8 +61,9 @@ import freemarker.template.SimpleHash;
  */
 public class ForumNewTopicSpammer extends Spammer 
 {
-	public ForumNewTopicSpammer(Forum forum, Topic topic, Post post, List<User> users)
+	public ForumNewTopicSpammer(Forum forum, Topic topic, Post origPost, List<User> users)
 	{
+		Post post = origPost;
 		String forumLink = ViewCommon.getForumLink();
 		String path = this.postLink(topic, forumLink);
 		String unwatch = this.unwatchLink(forum, forumLink);

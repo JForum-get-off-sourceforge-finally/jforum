@@ -184,6 +184,7 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 		 */
 	private List<Topic> fillTopicsDataByLimit(PreparedStatement p, int startFrom) {
 		List<Topic> l = new ArrayList<Topic>();
+		PreparedStatement pstmt2 = null;
 
 		ResultSet rs = null;
 		try {
@@ -235,9 +236,9 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 
 				Map<Integer, String> users = new HashMap<Integer, String>();
 
-				p = JForumExecutionContext.getConnection()
+				pstmt2 = JForumExecutionContext.getConnection()
 						.prepareStatement(sql);
-				rs = p.executeQuery();
+				rs = pstmt2.executeQuery();
 
 				while (rs.next()) {
 					users.put(Integer.valueOf(rs.getInt("user_id")), rs
@@ -245,7 +246,7 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 				}
 
 				rs.close();
-				p.close();
+				pstmt2.close();
 
 				for (Iterator<Topic> iter = l.iterator(); iter.hasNext();) {
 					Topic topic = (Topic) iter.next();
@@ -263,6 +264,7 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 			throw new DatabaseException(e);
 		} finally {
 			DbUtils.close(rs, p);
+			DbUtils.close(pstmt2);
 		}
 	}
 }

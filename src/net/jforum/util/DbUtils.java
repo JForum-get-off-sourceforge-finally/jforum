@@ -54,7 +54,7 @@ import org.apache.log4j.Logger;
  * @author Serge Maslyukov
  * @version $Id: DbUtils.java,v 1.3 2006/09/24 16:10:14 rafaelsteil Exp $
  */
-public class DbUtils
+public final class DbUtils
 {
 	private static final Logger LOGGER = Logger.getLogger(DbUtils.class);
 	

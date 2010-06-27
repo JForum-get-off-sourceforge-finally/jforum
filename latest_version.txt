@@ -1,24 +1,14 @@
-2.1.8
+2.2.0
 
-<p>Over 120 features have been added, changed or fixed in JForum 2.1.8, like:</p>
+<p>Some features have been added, changed or fixed in JForum 2.2.0, like:</p>
 
 <ul>
-<li>Lucene as search engine</li>
-<li>Replaced DWR with JQuery for all AJAX calls</li>
-<li>Inline message editing</li>
-<li>New BB Tags</li>
-<li>Administrators can now manually approve a user account</li>
-<li>Identification of Moved Topics</li>
-<li>"Search this forum" search</li>
-<li>Record of how many times a message was edited</li>
-<li>Logging of Moderation Activity</li>
-<li>RSS now shows a snippet of the posted message</li>
+<li>Change to Java 5 collection syntax</li>
+<li>Upgrade to Lucene 3</li>
+<li>Upgrade to JBossCache 3</li>
+<li>Third party JavaScript libraries are now put under the /js directory</li>
+<li>Third party CSS styles and images are now put under the /styles directory</li>
 </ul>
-
-<p>
-Many important bugs where fixed. A more comprehensive description of what's new in JForum 2.1.8 is available in the page
-<a href="http://www.jforum.net/doc/NewFeatures2.1.8"> New and changed features in JForum 2.1.8</a>.
-</p> 
 
 <p>
 <span color="red"><b>Upgrading is HIGHLY recommended</span>

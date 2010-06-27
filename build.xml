@@ -78,9 +78,9 @@
 			<link href="http://java.sun.com/products/servlet/2.3/javadoc/" />
 			<link href="http://java.sun.com/products/javamail/javadocs/" />
 			<link href="http://freemarker.org/docs/api/" />
-			<link href="http://lucene.apache.org/java/3_0_1/api/core/" />
-			<link href="http://www.quartz-scheduler.org/docs/api/1.8.0/" />
-			<link href="http://www.jboss.org/file-access/default/members/jbosscache/freezone/docs/3.2.1.GA/apidocs" />
+			<link href="http://lucene.apache.org/java/3_0_2/api/core/" />
+			<link href="http://www.quartz-scheduler.org/docs/api/1.8.1/" />
+			<link href="http://docs.jboss.org/jbosscache/3.2.1.GA/apidocs/" />
 		</javadoc>
 	</target>
 
@@ -98,7 +98,21 @@
 	<target name="dist" depends="compile" description="Generates the distribution file">
 		<delete file="${dist.dir}/${warfile}" />
 		<delete file="${dist.dir}/${srcfile}" />
-
+		<delete file="${classes.dir}/MANIFEST.MF" />
+		<delete file="${project.libs}/${filename}.jar" />
+		<buildnumber file="build.num"/>
+		<manifest file="${classes.dir}/MANIFEST.MF">
+			<attribute name="Specification-Title" value="${project.name}" />
+			<attribute name="Specification-Version" value="${version}" />
+			<attribute name="Implementatio-Title" value="${project.name}" /> 
+			<attribute name="Implementation-Version" value="${version}-b${build.number}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+		</manifest>
+	    <jar destfile="${project.libs}/${filename}.jar"
+	           basedir="${classes.dir}"
+	           includes="**/*.class"
+	           manifest="${classes.dir}/MANIFEST.MF"
+	    />
 		<!-- war -->
 		<war destfile="${dist.dir}/${warfile}" webxml="${web.dir}/WEB-INF/web.xml">
 			<fileset dir="${web.dir}">
@@ -129,11 +143,16 @@
 				<exclude name="jgroups*.jar" />
 			-->	
 			</lib>
+			<!--
 			<classes dir="${classes.dir}" />
+			-->
 			<manifest>
-				<attribute name="Implementation-Version" value="${version}" />
+				<attribute name="Specification-Title" value="${project.name}" />
+				<attribute name="Specification-Version" value="${version}" />
+				<attribute name="Implementatio-Title" value="${project.name}" /> 
+				<attribute name="Implementation-Version" value="${version}-b${build.number}" />
 				<attribute name="Built-Date" value="${TODAY}" />
-			</manifest>
+			</manifest>		    
 		</war>
 
 		<!-- src -->

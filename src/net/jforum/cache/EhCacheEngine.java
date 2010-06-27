@@ -8,7 +8,6 @@
  ******************************************************************************/
 package net.jforum.cache;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,7 +42,7 @@ public class EhCacheEngine implements CacheEngine {
 			manager = CacheManager.create(SystemGlobals.getValue("ehcache.cache.properties"));
 		} catch (CacheException ce) {
 			LOGGER.error("EhCache could not be initialized", ce);
-			throw new RuntimeException(ce);
+			throw ce;
 		}
 	}
 
@@ -81,7 +80,7 @@ public class EhCacheEngine implements CacheEngine {
 			cache.put(element);
 		} catch (Exception ce) {
 			LOGGER.error(ce);
-			throw new RuntimeException(ce);
+			throw new CacheException(ce);
 		}
 	}
 
@@ -103,7 +102,7 @@ public class EhCacheEngine implements CacheEngine {
 			return null;
 		} catch (Exception ce) {
 			LOGGER.error(ce);
-			throw new RuntimeException(ce);
+			throw new CacheException(ce);
 		}
 	}
 
@@ -120,7 +119,7 @@ public class EhCacheEngine implements CacheEngine {
 			return cache.getAllWithLoader(cache.getKeys(), null);
 		} catch (Exception ce) {
 			LOGGER.error("EhCache could not be shutdown", ce);
-			throw new RuntimeException(ce);
+			throw new CacheException(ce);
 		}
 				
 	}
@@ -151,7 +150,7 @@ public class EhCacheEngine implements CacheEngine {
 			return values;
 		} catch (Exception ce) {
 			LOGGER.error("EhCache could not be shutdown", ce);
-			throw new RuntimeException(ce);
+			throw new CacheException(ce);
 		}
 	}
 
@@ -165,7 +164,7 @@ public class EhCacheEngine implements CacheEngine {
 			}
 		} catch (Exception ce) {
 			LOGGER.error(ce);
-			throw new RuntimeException(ce);
+			throw new CacheException(ce);
 		}
 	}
 
@@ -177,7 +176,7 @@ public class EhCacheEngine implements CacheEngine {
 			}
 		} catch (Exception ce) {
 			LOGGER.error(ce);
-			throw new RuntimeException(ce);
+			throw new CacheException(ce);
 		}
 	}
 

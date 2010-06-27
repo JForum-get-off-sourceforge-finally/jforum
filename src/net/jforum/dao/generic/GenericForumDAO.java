@@ -388,8 +388,9 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 		}
 	}
 
-	private LastPostInfo getLastPostInfo(final int forumId, boolean tryFix)
+	private LastPostInfo getLastPostInfo(final int forumId, boolean origTryFix)
 	{
+		boolean tryFix = origTryFix;
 		final LastPostInfo lpi = new LastPostInfo();
 
 		PreparedStatement pstmt = null;

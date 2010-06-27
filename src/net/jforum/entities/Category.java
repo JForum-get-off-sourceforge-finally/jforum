@@ -102,7 +102,9 @@ public class Category  implements Serializable, Comparable<Category>
 		this.moderated = category.isModerated();
 		
 		for (Iterator<Forum> iter = category.getForums().iterator(); iter.hasNext(); ) {
-			this.addForum(new Forum(iter.next()));
+			Forum forum = new Forum(iter.next());
+			this.forumsIdMap.put(Integer.valueOf(forum.getId()), forum);
+			this.forums.add(forum);
 		}
 	}
 	

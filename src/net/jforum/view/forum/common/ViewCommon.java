@@ -119,11 +119,12 @@ public final class ViewCommon
 	
 	/**
 	 * Prepares the template context to show the login page, using "returnPath" as return path
-	 * @param returnPath the URI to use as return path
+	 * @param origReturnPath the URI to use as return path
 	 * @return TemplateKeys.USER_LOGIN
 	 */
-	public static String contextToLogin(String returnPath)
-	{
+	public static String contextToLogin(String origReturnPath)
+	{		
+		String returnPath = origReturnPath;
 		JForumExecutionContext.getTemplateContext().put("returnPath", returnPath);
 		
 		if (ConfigKeys.TYPE_SSO.equals(SystemGlobals.getValue(ConfigKeys.AUTHENTICATION_TYPE))) {

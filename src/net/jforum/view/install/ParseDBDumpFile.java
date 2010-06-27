@@ -54,7 +54,7 @@ import org.apache.log4j.Logger;
  * @author Rafael Steil
  * @version $Id: ParseDBDumpFile.java,v 1.6 2007/10/08 17:34:40 rafaelsteil Exp $
  */
-public class ParseDBDumpFile
+public final class ParseDBDumpFile
 {
 	private static final Logger LOGGER = Logger.getLogger(ParseDBDumpFile.class);
 	

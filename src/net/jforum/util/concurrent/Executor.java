@@ -50,10 +50,11 @@ import org.apache.log4j.Logger;
 
 
 /**
- * @author Rafael Steil, Andowson Chang
+ * @author Rafael Steil
+ * @author Andowson Chang
  * @version $Id: Executor.java,v 1.6 2007/03/18 16:56:56 rafaelsteil Exp $
  */
-public class Executor
+public final class Executor
 {
 	private static final Logger LOGGER = Logger.getLogger(Executor.class);
 	private static ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(2, 10, 1000 * 60 * 10, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(5));

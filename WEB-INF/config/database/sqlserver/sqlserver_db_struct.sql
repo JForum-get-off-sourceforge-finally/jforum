@@ -159,7 +159,7 @@ CREATE INDEX idx_forums_categories_id ON jforum_forums(categories_id);
 CREATE TABLE jforum_forums_watch (
 	forum_id int NOT NULL,
 	user_id int NOT NULL,
-    is_read int DEFAULT (1) NULL,
+	is_read int DEFAULT (1) NULL,
 );
 CREATE INDEX idx_fw_forum ON jforum_forums_watch(forum_id);
 CREATE INDEX idx_fw_user ON jforum_forums_watch(user_id);
@@ -600,8 +600,7 @@ CREATE TABLE jforum_mail_integration (
 	pop_password varchar(100) NOT NULL,
 	pop_host varchar(100) NOT NULL,
 	pop_port int DEFAULT (110),
-	pop_ssl tinyint DEFAULT (0),
-	KEY(forum_id)
+	pop_ssl tinyint DEFAULT (0)
 );
 
 CREATE INDEX idx_mi_forum ON jforum_mail_integration(forum_id);

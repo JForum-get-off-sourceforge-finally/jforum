@@ -218,10 +218,10 @@ public class JForumExecutionContext
 
 	/**
 	 * Sets the content type for the current http response.
-	 * @param contentType String
+	 * @param cntType String
 	 */
-	public static void setContentType(final String contentType) {
-		((JForumExecutionContext)userData.get()).contentType = contentType;
+	public static void setContentType(final String cntType) {
+		((JForumExecutionContext)userData.get()).contentType = cntType;
 	}
 	
 	/**

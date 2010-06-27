@@ -21,12 +21,19 @@ import org.quartz.impl.StdSchedulerFactory;
  * @version $Id: POPJobStarter.java,v 1.1 2006/10/10 00:40:53 rafaelsteil Exp $
  */
 public final class POPJobStarter
-{
-	private static boolean isStarted = false;
+{	
 	private static Scheduler scheduler;
+	private static boolean isStarted = false;
 	private static final Logger LOGGER = Logger.getLogger(POPJobStarter.class);
 	private static final Object MUTEX = new Object();
 	
+	/**
+	 * Starts the main integration Job. Conditions to start: Is not started yet and is enabled on the file
+	 * SystemGlobasl.properties. The to enable it is "mail.pop3.integration.enabled"
+	 * (ConfigKeys.MAIL_POP3_INTEGRATION_ENABLED).
+	 * 
+	 * @throws SchedulerException
+	 */
 	public static void startJob() throws SchedulerException
 	{
 		final boolean isEnabled = SystemGlobals.getBoolValue(ConfigKeys.MAIL_POP3_INTEGRATION_ENABLED);

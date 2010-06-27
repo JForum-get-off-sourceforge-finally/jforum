@@ -196,13 +196,14 @@ public class ImageUtils
 	 * the result is nowhere near as nice looking as the createHeadlessSmoothBufferedImage method.
 	 * 
 	 * @param image  The image to convert
-	 * @param type The image type 
+	 * @param origType The image type 
 	 * @param width The desired image width
 	 * @param height The desired image height
 	 * @return The converted image
 	 */
-	public static BufferedImage createHeadlessBufferedImage(BufferedImage image, int type, int width, int height)
+	public static BufferedImage createHeadlessBufferedImage(BufferedImage image, int origType, int width, int height)
 	{
+		int type = origType;
 		if (type == ImageUtils.IMAGE_PNG && hasAlpha(image)) {
 			type = BufferedImage.TYPE_INT_ARGB;
 		}
@@ -228,14 +229,15 @@ public class ImageUtils
 	 * operate. The resulting image will be smoothly scaled using bilinear filtering.
 	 * 
 	 * @param source The image to convert
-	 * @param type The image type 
+	 * @param origType The image type 
 	 * @param width The desired image width
 	 * @param height The desired image height
 	 * @return The converted image
 
 	 */
-	public static BufferedImage createHeadlessSmoothBufferedImage(BufferedImage source, int type, int width, int height)
+	public static BufferedImage createHeadlessSmoothBufferedImage(BufferedImage source, int origType, int width, int height)
 	{
+		int type = origType;
 		if (type == ImageUtils.IMAGE_PNG && hasAlpha(source)) {
 			type = BufferedImage.TYPE_INT_ARGB;
 		}

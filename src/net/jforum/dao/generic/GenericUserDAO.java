@@ -590,6 +590,11 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 			return this.processSelectAll(rs);
 		}
 		catch (SQLException e) {
+			System.out.println(SystemGlobals.getSql("UserModel.selectAllByGroup"));
+			System.out.println("groupId="+groupId);
+			System.out.println("start="+start);
+			System.out.println("count="+count);
+			e.printStackTrace();
 			throw new DatabaseException(e);
 		}
 		finally {

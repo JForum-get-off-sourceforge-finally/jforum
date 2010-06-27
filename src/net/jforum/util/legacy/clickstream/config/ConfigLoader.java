@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.jforum.exceptions.ConfigLoadException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -70,19 +71,19 @@ public class ConfigLoader
 			}
 			catch (SAXException e) {
 				LOGGER.error("Could not parse clickstream XML", e);
-				throw new RuntimeException(e.getMessage());				
+				throw new ConfigLoadException(e.getMessage());				
 			}
 			catch (IOException e) {
 				LOGGER.error("Could not read clickstream config from stream", e);
-				throw new RuntimeException(e.getMessage());				
+				throw new ConfigLoadException(e.getMessage());				
 			}
 			catch (ParserConfigurationException e) {
 				LOGGER.fatal("Could not obtain SAX parser", e);
-				throw new RuntimeException(e.getMessage());				
+				throw new ConfigLoadException(e.getMessage());				
 			}
 			catch (RuntimeException e) {
 				LOGGER.fatal("RuntimeException", e);
-				throw e;
+				throw new ConfigLoadException(e.getMessage());
 			}			
 		}
 	}

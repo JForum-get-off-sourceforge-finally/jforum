@@ -53,7 +53,7 @@ import net.jforum.exceptions.ForumException;
  * @author Rafael Steil
  * @version $Id: MD5.java,v 1.7 2006/08/23 02:13:44 rafaelsteil Exp $
  */
-public class MD5 
+public final class MD5 
 {
 	/**
 	 * Encodes a string

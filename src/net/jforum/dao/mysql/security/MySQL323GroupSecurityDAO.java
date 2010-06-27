@@ -168,14 +168,15 @@ public class MySQL323GroupSecurityDAO extends GenericGroupSecurityDAO
 	/**
 	 * Gets a statement to use with some csv data
 	 * 
-	 * @param sql The SQL query to execute. It must have an "?", which will be replaced by
+	 * @param origSql The SQL query to execute. It must have an "?", which will be replaced by
 	 *            <code>csv</code>
 	 * @param csv The ids to replace
 	 * @return The statement, ready to execute
 	 * @throws SQLException
 	 */
-	protected PreparedStatement getStatementForCsv(String sql, String csv) throws SQLException
+	protected PreparedStatement getStatementForCsv(String origSql, String csv) throws SQLException
 	{
+		String  sql = origSql;
 		int index = sql.indexOf('?');
 		sql = sql.substring(0, index) + csv + sql.substring(index + 1);
 		return JForumExecutionContext.getConnection().prepareStatement(sql);

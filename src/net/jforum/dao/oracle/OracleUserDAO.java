@@ -59,4 +59,12 @@ public class OracleUserDAO extends net.jforum.dao.generic.GenericUserDAO
 	{
 		return super.selectAll(startFrom, (count > 0 ? startFrom + count : 0));
 	}
+	
+	/** 
+	 * @see net.jforum.dao.UserDAO#selectAllByGroup(int, int, int)
+	 */
+	public List<User> selectAllByGroup(final int groupId, final int startFrom, final int count) 
+	{
+		return super.selectAllByGroup(groupId, startFrom, startFrom + count);
+	}
 }

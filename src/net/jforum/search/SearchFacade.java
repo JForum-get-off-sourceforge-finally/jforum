@@ -55,7 +55,7 @@ import org.apache.log4j.Logger;
  * @author Rafael Steil
  * @version $Id: SearchFacade.java,v 1.8 2007/09/09 22:53:35 rafaelsteil Exp $
  */
-public class SearchFacade
+public final class SearchFacade
 {
 	private static SearchManager searchManager;
 	private static final Logger LOGGER = Logger.getLogger(SearchFacade.class);

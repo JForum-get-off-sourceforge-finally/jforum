@@ -83,6 +83,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -128,7 +129,7 @@ public class InstallAction extends Command
 		String lang = this.request.getParameter("l");
 		
 		if (lang == null) {
-			Locale locale = this.request.getLocale();
+			final Locale locale = this.request.getLocale();
 			lang = locale.getLanguage() + "_" + locale.getCountry();
 		}
 		
@@ -137,14 +138,14 @@ public class InstallAction extends Command
 		}
 		I18n.load(lang);
 		
-		UserSession us = new UserSession();
-		us.setLang(lang);
+		final UserSession userSession = new UserSession();
+		userSession.setLang(lang);
 		
-		SessionFacade.add(us);
+		SessionFacade.add(userSession);
 		this.addToSessionAndContext("language", lang);
 	}
 	
-	private String getFromSession(String key)
+	private String getFromSession(final String key)
 	{
 		return (String)this.request.getSessionContext().getAttribute(key);
 	}
@@ -176,12 +177,11 @@ public class InstallAction extends Command
 			}
 		}
 		
-		LOGGER.info("Database configuration OK");
-
 		// Database Configuration is OK
 		this.addToSessionAndContext("configureDatabase", "passed");
+		LOGGER.info("Database configuration OK");
 		
-		DBConnection simpleConnection = new SimpleConnection();
+		final DBConnection simpleConnection = new SimpleConnection();
 		
 		if (conn == null) {
 			conn = simpleConnection.getConnection();
@@ -202,6 +202,7 @@ public class InstallAction extends Command
 			// Create tables is OK
 			this.addToSessionAndContext("createTables", "passed");
 			LOGGER.info("Table creation is OK");
+			
 			this.setupAutoCommit(conn); 
 	        if (!"passed".equals(this.getFromSession("importTablesData")) && !this.importTablesData(conn)) {
 				this.context.put("message", I18n.getMessage("Install.importTablesDataError"));
@@ -212,6 +213,7 @@ public class InstallAction extends Command
 			
 			// Dump is OK
 			this.addToSessionAndContext("importTablesData", "passed");
+			LOGGER.info("Table data dump is OK");
 			
 			if (!this.updateAdminPassword(conn)) {
 				this.context.put("message", I18n.getMessage("Install.updateAdminError"));
@@ -232,7 +234,7 @@ public class InstallAction extends Command
 						conn.commit();
 					}
 				}
-				catch (SQLException e) { }
+				catch (SQLException e) { LOGGER.error(e); }
 				
 				simpleConnection.releaseConnection(conn);
 			}
@@ -243,7 +245,7 @@ public class InstallAction extends Command
 			+ "?module=install&action=finished");
 	}
 	
-	private void setupAutoCommit(Connection conn)
+	private void setupAutoCommit(final Connection conn)
 	{
 		try {
 			conn.setAutoCommit(false);
@@ -255,11 +257,11 @@ public class InstallAction extends Command
 	
 	private void removeUserConfig()
 	{
-		File f = new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
+		final File file = new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
 		
-		if (f.exists() && f.canWrite()) {
+		if (file.exists() && file.canWrite()) {
 			try {
-				f.delete();
+				file.delete();
 			}
 			catch (Exception e) {
 				LOGGER.info(e.toString());
@@ -298,19 +300,19 @@ public class InstallAction extends Command
 		
 		try {
 			// Modules Mapping
-			String modulesMapping = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/modulesMapping.properties";
+			final String modulesMapping = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/modulesMapping.properties";
 			
 			if (new File(modulesMapping).canWrite()) {
-				Properties p = new Properties();
+				final Properties properties = new Properties();
 				fis = new FileInputStream(modulesMapping);
-				p.load(fis);
+				properties.load(fis);
 				
-				if (p.containsKey("install")) {
-					p.remove("install");
+				if (properties.containsKey("install")) {
+					properties.remove("install");
 
 					fos = new FileOutputStream(modulesMapping);
 					
-					p.store(fos, "Modified by JForum Installer");
+					properties.store(fos, "Modified by JForum Installer");
 					ConfigLoader.loadModulesMapping(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR));
 				}
 				
@@ -346,22 +348,22 @@ public class InstallAction extends Command
 		this.restartSystemGlobals();
 	}
 	
-	private boolean importTablesData(Connection conn)
+	private boolean importTablesData(final Connection conn)
     {
         try
         {
             boolean status = true;
-            boolean autoCommit = conn.getAutoCommit();
+            final boolean autoCommit = conn.getAutoCommit();
             conn.setAutoCommit(false);
 
-            String dbType = this.getFromSession("database");
+            final String dbType = this.getFromSession("database");
 
-            List<String> statements = ParseDBDumpFile.parse(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
+            final List<String> statements = ParseDBDumpFile.parse(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
                 + "/database/"
                 + dbType
                 + "/" + dbType + "_data_dump.sql");
 
-            for (Iterator<String> iter = statements.iterator(); iter.hasNext();) {
+            for (final Iterator<String> iter = statements.iterator(); iter.hasNext();) {
                 String query = (String)iter.next();
 
                 if (query == null || "".equals(query.trim())) {
@@ -373,14 +375,14 @@ public class InstallAction extends Command
                 	query = query.replace("\\n", "\n");
                 }
 
-                Statement s = conn.createStatement();
+                final Statement stmt = conn.createStatement();
 
                 try {
                     if (query.startsWith("UPDATE") || query.startsWith("INSERT") || query.startsWith("SET")) {
-                        s.executeUpdate(query);
+                        stmt.executeUpdate(query);
                     }
                     else if (query.startsWith("SELECT")) {
-                        s.executeQuery(query);
+                        stmt.executeQuery(query);
                     }
                     else {
                         throw new SQLException("Invalid query: " + query);
@@ -394,8 +396,12 @@ public class InstallAction extends Command
                     break;
                 }
                 finally {
-                    s.close();
+                    stmt.close();
                 }
+            }
+            // handle blob post
+            if ("oracle".equals(dbType)) {
+            	storeWelcomeMessage(conn);
             }
 
             conn.setAutoCommit(autoCommit);
@@ -411,11 +417,11 @@ public class InstallAction extends Command
         }
     }
 	
-	private boolean createTables(Connection conn)
+	private boolean createTables(final Connection conn)
 	{
            
 		LOGGER.info("Going to create tables...");
-		String dbType = this.getFromSession("database");
+		final String dbType = this.getFromSession("database");
 
 		if ("postgresql".equals(dbType) || "oracle".equals(dbType)) {
 			// This should be in a separate transaction block; otherwise, an empty database will fail.
@@ -423,27 +429,27 @@ public class InstallAction extends Command
 		}
 		try { 
 			boolean status = true;
-			boolean autoCommit = conn.getAutoCommit();
+			final boolean autoCommit = conn.getAutoCommit();
 			conn.setAutoCommit(false);
 
-			List<String> statements = ParseDBStructFile.parse(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
+			final List<String> statements = ParseDBStructFile.parse(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
 					+ "/database/"
 					+ dbType
 					+ "/" + dbType + "_db_struct.sql");
 
 
-			for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
-				String query = (String)iter.next();
+			for (final Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
+				final String query = (String)iter.next();
 
 				if (query == null || "".equals(query.trim())) {
 					continue;
 				}
 
-				Statement s = null;
+				Statement stmt = null;
 
 				try {
-					s = conn.createStatement();
-					s.executeUpdate(query);
+					stmt = conn.createStatement();
+					stmt.executeUpdate(query);
 				}
 				catch (SQLException ex) {
 					status = false;
@@ -454,7 +460,7 @@ public class InstallAction extends Command
 					break;
 				}
 				finally {
-					DbUtils.close(s);
+					DbUtils.close(stmt);
 				}
 			}
 			conn.setAutoCommit(autoCommit);
@@ -466,48 +472,48 @@ public class InstallAction extends Command
 		}
 	}
 	
-	private void dropOracleOrPostgreSQLTables(String dbName, Connection conn)
+	private void dropOracleOrPostgreSQLTables(final String dbName, final Connection conn)
 	{
-		Statement s = null;
+		Statement stmt = null;
 		
 		try {
-			boolean autoCommit = conn.getAutoCommit();
+			final boolean autoCommit = conn.getAutoCommit();
 			conn.setAutoCommit(false);
 			
-			List<String> statements = ParseDBStructFile.parse(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
+			final List<String> statements = ParseDBStructFile.parse(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
 				+ "/database/" + dbName + "/" + dbName + "_drop_tables.sql");
 			
 			this.setupAutoCommit(conn);
-			for (Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
+			for (final Iterator<String> iter = statements.iterator(); iter.hasNext(); ) {
 				try {
-					String query = (String)iter.next();
+					final String query = (String)iter.next();
 					
 					if (query == null || "".equals(query.trim())) {
 						continue;
 					}
 					
-					s = conn.createStatement();
-					s.executeUpdate(query);
-					s.close();
+					stmt = conn.createStatement();
+					stmt.executeUpdate(query);
+					stmt.close();
                 }
-				catch (Exception e) {
-					LOGGER.error("IGNORE: " + e.toString());
+				catch (SQLException e) {
+					LOGGER.warn("IGNORE: " + e.toString());
 				}
 			}
 			conn.setAutoCommit(autoCommit);
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			LOGGER.error(e.toString(), e);
 		}
 		finally {
-            DbUtils.close(s);
+            DbUtils.close(stmt);
 		}
 	}
 	
 	private boolean checkForWritableDir()
 	{
-		boolean canWriteToWebInf = this.canWriteToWebInf();
-		boolean canWriteToLuceneIndex = this.canWriteToLuceneIndex();
+		final boolean canWriteToWebInf = this.canWriteToWebInf();
+		final boolean canWriteToLuceneIndex = this.canWriteToLuceneIndex();
 		
 		if (!canWriteToWebInf || !canWriteToLuceneIndex) {
 			if (!canWriteToWebInf) {
@@ -533,7 +539,7 @@ public class InstallAction extends Command
 	
 	private boolean canWriteToLuceneIndex()
 	{
-		File file = new File(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
+		final File file = new File(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
 		
 		if (!file.exists()) {
 			return file.mkdir();
@@ -542,13 +548,13 @@ public class InstallAction extends Command
 		return file.canWrite();
 	}
 	
-	private void handleDatabasePort(Properties p, String port)
+	private void handleDatabasePort(final Properties properties, final String port)
 	{
-		String portKey = ":${database.connection.port}";
-		String connectionString = p.getProperty(ConfigKeys.DATABASE_CONNECTION_STRING);
+		final String portKey = ":${database.connection.port}";
+		String connectionString = properties.getProperty(ConfigKeys.DATABASE_CONNECTION_STRING);
 		
 		if (StringUtils.isBlank(port)) {
-			int index = connectionString.indexOf(portKey);
+			final int index = connectionString.indexOf(portKey);
 			
 			if (index > -1) {
 				if (connectionString.charAt(index - 1) == '\\') {
@@ -560,32 +566,32 @@ public class InstallAction extends Command
 			}
 		}
 		else if (connectionString.indexOf(portKey) == -1) {
-			String hostKey = "${database.connection.host}";
+			final String hostKey = "${database.connection.host}";
 			connectionString = StringUtils.replace(connectionString, hostKey, hostKey + portKey);
 		}
 		
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_STRING, connectionString);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_STRING, connectionString);
 	}
 	
 	private void configureJDBCConnection()
 	{
-		String username = this.getFromSession("dbUser");
-		String password = this.getFromSession("dbPassword");
-		String dbName = this.getFromSession("dbName");
-		String host = this.getFromSession("dbHost");
-		String type = this.getFromSession("database");
-		String encoding = this.getFromSession("dbEncoding");
-		String port = this.getFromSession("dbPort");
+		final String username = this.getFromSession("dbUser");
+		final String password = this.getFromSession("dbPassword");
+		final String dbName = this.getFromSession("dbName");
+		final String host = this.getFromSession("dbHost");
+		final String type = this.getFromSession("database");
+		final String encoding = this.getFromSession("dbEncoding");
+		final String port = this.getFromSession("dbPort");
 		
-		String dbConfigFilePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) 
+		final String dbConfigFilePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) 
 			+ "/database/" + type + "/" + type + ".properties";
 		
-		Properties p = new Properties();
+		final Properties properties = new Properties();
 		FileInputStream fis = null;
 		
 		try {
             fis = new FileInputStream(dbConfigFilePath);
-			p.load(fis);
+			properties.load(fis);
         }
         catch (IOException e) {
             throw new ForumException(e);
@@ -596,22 +602,22 @@ public class InstallAction extends Command
         	}
         }
 
-        this.handleDatabasePort(p, port);
+        this.handleDatabasePort(properties, port);
 		
 		// Write database information to the respective file
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_HOST, host);
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_USERNAME, username);
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_PASSWORD, password);
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_DBNAME, dbName);
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_ENCODING, encoding);
-		p.setProperty(ConfigKeys.DATABASE_CONNECTION_PORT, port);
-		p.setProperty(ConfigKeys.DATABASE_DRIVER_NAME, type);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_HOST, host);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_USERNAME, username);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_PASSWORD, password);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_DBNAME, dbName);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_ENCODING, encoding);
+		properties.setProperty(ConfigKeys.DATABASE_CONNECTION_PORT, port);
+		properties.setProperty(ConfigKeys.DATABASE_DRIVER_NAME, type);
 
 		FileOutputStream fos = null;
 		
 		try {
 			fos = new FileOutputStream(dbConfigFilePath);
-			p.store(fos, null);
+			properties.store(fos, null);
 		}
 		catch (Exception e) {
 			LOGGER.warn("Error while trying to write to " + type + ".properties: " + e);
@@ -621,14 +627,14 @@ public class InstallAction extends Command
 				try {
 					fos.close();
 				}
-				catch (IOException e) { }
+				catch (IOException e) { LOGGER.error(e); }
 			}
 		}
 		
 		// Proceed to SystemGlobals / jforum-custom.conf configuration
-		for (Enumeration<Object> e = p.keys(); e.hasMoreElements(); ) {
-			String key = (String)e.nextElement();
-			String value = p.getProperty(key);
+		for (final Enumeration<Object> e = properties.keys(); e.hasMoreElements(); ) {
+			final String key = (String)e.nextElement();
+			final String value = properties.getProperty(key);
 			
 			SystemGlobals.setValue(key, value);
 			
@@ -638,8 +644,8 @@ public class InstallAction extends Command
 	
 	private Connection configureDatabase()
 	{
-		String database = this.getFromSession("database");
-		String connectionType = this.getFromSession("db_connection_type");
+		final String database = this.getFromSession("database");
+		final String connectionType = this.getFromSession("db_connection_type");
 		String implementation;
 		
 		boolean isDatasource = false;
@@ -665,49 +671,49 @@ public class InstallAction extends Command
 		
 		Connection conn;
 		try {
-			DBConnection s;
+			DBConnection source;
 			
 			if (isDatasource) { 
-				s = new DataSourceConnection();
+				source = new DataSourceConnection();
 			}
 			else {
-				s = new SimpleConnection(); 
+				source = new SimpleConnection(); 
 			}
 			
-			s.init();
+			source.init();
 			
-			conn = s.getConnection();
+			conn = source.getConnection();
 		}
 		catch (Exception e) {
 			LOGGER.warn("Error while trying to get a connection: " + e);
 			this.context.put("exceptionMessage", e.getMessage());
 			return null;
-		}
+		}		
 		
 		return conn;
 	}
 	
 	private void restartSystemGlobals() 
 	{
-		String appPath = SystemGlobals.getApplicationPath();
+		final String appPath = SystemGlobals.getApplicationPath();
 		
 		SystemGlobals.reset();
 		
 		ConfigLoader.startSystemglobals(appPath);
 	}
 	
-	private boolean updateAdminPassword(Connection conn)
+	private boolean updateAdminPassword(final Connection conn)
 	{
 		LOGGER.info("Going to update the administrator's password");
 		
 		boolean status = false;
 		
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         
 		try {
-            p = conn.prepareStatement("UPDATE jforum_users SET user_password = ? WHERE username = 'Admin'");
-            p.setString(1, MD5.crypt(this.getFromSession("adminPassword")));
-			p.executeUpdate();
+            pstmt = conn.prepareStatement("UPDATE jforum_users SET user_password = ? WHERE username = 'Admin'");
+            pstmt.setString(1, MD5.crypt(this.getFromSession("adminPassword")));
+			pstmt.executeUpdate();
 			status = true;
 		}
 		catch (Exception e) {
@@ -715,7 +721,7 @@ public class InstallAction extends Command
 			this.context.put("exceptionMessage", e.getMessage());
 		}
         finally {
-            DbUtils.close(p);
+            DbUtils.close(pstmt);
         }
 
         return status;
@@ -725,18 +731,18 @@ public class InstallAction extends Command
 	{
 		this.setTemplateName(TemplateKeys.INSTALL_CHECK_INFO);
 		
-		String language = this.request.getParameter("language");
-		String database = this.request.getParameter("database");
+		final String language = this.request.getParameter("language");
+		final String database = this.request.getParameter("database");
 		String dbHost = this.request.getParameter("dbhost");
-		String dbPort = this.request.getParameter("dbport");
+		final String dbPort = this.request.getParameter("dbport");
 		String dbUser = this.request.getParameter("dbuser");
 		String dbName = this.request.getParameter("dbname");
-		String dbPassword = this.request.getParameter("dbpasswd");
+		final String dbPassword = this.request.getParameter("dbpasswd");
 		String dbEncoding = this.request.getParameter("dbencoding");
 		String dbEncodingOther = this.request.getParameter("dbencoding_other");
-		String usePool = this.request.getParameter("use_pool");
+		final String usePool = this.request.getParameter("use_pool");
 		String forumLink = this.request.getParameter("forum_link");
-		String adminPassword = this.request.getParameter("admin_pass1");
+		final String adminPassword = this.request.getParameter("admin_pass1");
 		
 		dbHost = this.notNullDefault(dbHost, "localhost");
 		dbEncodingOther = this.notNullDefault(dbEncodingOther, "utf-8");
@@ -771,13 +777,13 @@ public class InstallAction extends Command
 		this.context.put("moduleAction", "install_check_info.htm");
 	}
 	
-	private void addToSessionAndContext(String key, String value)
+	private void addToSessionAndContext(final String key, final String value)
 	{
 		this.request.getSessionContext().setAttribute(key, value);
 		this.context.put(key, value);
 	}
 	
-	private String notNullDefault(String value, String useDefault)
+	private String notNullDefault(final String value, final String useDefault)
 	{
 		if (value == null || value.trim().equals("")) {
 			return useDefault;
@@ -786,9 +792,32 @@ public class InstallAction extends Command
 		return value;
 	}
 	
-	private void storeSupportProjectMessage(Connection connection)
+	private void storeWelcomeMessage(final Connection conn) 
+	{		
+		final String dbType = this.getFromSession("database");
+		String filePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
+        + "/database/"
+        + dbType
+        + "/" + dbType + "_data_jforum_posts_text_post_text_blob.txt";
+		File file = new File(filePath);
+		String message = null;
+		try {
+			message = FileUtils.readFileToString(file);
+			message = message.trim();
+            if (message.indexOf("\\n") != -1) {
+            	message = message.replace("\\n", "\n");
+            }
+		} catch (IOException e) {
+			LOGGER.error("Loading congratulation message failed", e);			
+		}
+		if (message != null) {
+			saveMessage(conn, "Welcome to JForum", message, Topic.TYPE_NORMAL);		
+		}
+	}
+	
+	private void storeSupportProjectMessage(final Connection conn)
 	{
-		StringBuffer message = new StringBuffer("[color=#3AA315][size=18][b]Support JForum - Help the project[/b][/size][/color]")
+		final StringBuffer message = new StringBuffer("[color=#3AA315][size=18][b]Support JForum - Help the project[/b][/size][/color]")
 			.append("<hr />")
 			.append("This project is Open Source, and maintained by at least one full time Senior Developer, [i]which costs US$ 3,000.00 / month[/i]. ")
 			.append("If it helped you, please consider helping this project - especially with some [b][url=http://www.jforum.net/contribute.jsp]donation[/url][/b].")
@@ -828,7 +857,11 @@ public class InstallAction extends Command
 			.append("\"Support JForum\"[/url][/b][/i] page.[/size]")
 			.append('\n')
 			.append('\n');
-		
+		saveMessage(conn, "Support JForum - Please read", message.toString(), Topic.TYPE_ANNOUNCE);
+	}
+	
+	private void saveMessage(final Connection conn, final String subject, final String message, final int topicType) 
+	{
 		try {
 			ConfigLoader.createLoginAuthenticator();
 			ConfigLoader.loadDaoImplementation();
@@ -838,29 +871,30 @@ public class InstallAction extends Command
 			
 			SystemGlobals.setValue(ConfigKeys.SEARCH_INDEXING_ENABLED, "false");
 			
-			JForumExecutionContext ex = JForumExecutionContext.get();
-			ex.setConnection(connection);
-			JForumExecutionContext.set(ex);
+			final JForumExecutionContext executionContext = JForumExecutionContext.get();
+			executionContext.setConnection(conn);
+			JForumExecutionContext.set(executionContext);
 			
-			User user = new User(2);
+			final User user = new User(2);
+			final int forumId = 1;
 			
 			// Create topic
-			Topic topic = new Topic();
+			final Topic topic = new Topic();
 			topic.setPostedBy(user);
-			topic.setTitle("Support JForum - Please read");
+			topic.setTitle(subject);
 			topic.setTime(new Date());
-			topic.setType(Topic.TYPE_ANNOUNCE);
-			topic.setForumId(1);
+			topic.setType(topicType);
+			topic.setForumId(forumId);
 			
-			TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
+			final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 			topicDao.addNew(topic);
 			
 			// Create post
-			Post post = new Post();
+			final Post post = new Post();
 			post.setSubject(topic.getTitle());
 			post.setTime(topic.getTime());
 			post.setUserId(user.getId());
-			post.setText(message.toString());
+			post.setText(message);
 			post.setForumId(topic.getForumId());
 			post.setSmiliesEnabled(true);
 			post.setHtmlEnabled(true);
@@ -868,7 +902,7 @@ public class InstallAction extends Command
 			post.setUserIp("127.0.0.1");
 			post.setTopicId(topic.getId());
 			
-			PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
+			final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 			postDao.addNew(post);
 			
 			// Update topic
@@ -879,16 +913,16 @@ public class InstallAction extends Command
 			DataAccessDriver.getInstance().newUserDAO().incrementPosts(post.getUserId());
 			
 			// Update forum stats
-			ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
-			forumDao.incrementTotalTopics(1, 1);
-			forumDao.setLastPost(1, post.getId());
+			final ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
+			forumDao.incrementTotalTopics(forumId, 1);
+			forumDao.setLastPost(forumId, post.getId());
 		}
 		finally {
 			SystemGlobals.setValue(ConfigKeys.SEARCH_INDEXING_ENABLED, "true");
 			
-			JForumExecutionContext ex = JForumExecutionContext.get();
-			ex.setConnection(null);
-			JForumExecutionContext.set(ex);
+			final JForumExecutionContext executionContext = JForumExecutionContext.get();
+			executionContext.setConnection(null);
+			JForumExecutionContext.set(executionContext);
 		}
 	}
 	
@@ -906,11 +940,12 @@ public class InstallAction extends Command
      * @param response ResponseContext
      * @param context SimpleHash
 	 */
-	public Template process(RequestContext request,
-			ResponseContext response,
-			SimpleHash context)  
+	public Template process(final RequestContext request,
+			final ResponseContext response,
+			final SimpleHash context)  
 	{
-		this.setTemplateName("default/empty.htm");
+		//this.setTemplateName("default/empty.htm");
+		this.setTemplateName(TemplateKeys.EMPTY);
 		return super.process(request, response, context);
 	}
 }

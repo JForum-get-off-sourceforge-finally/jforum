@@ -91,26 +91,26 @@ public class Post implements Serializable
 	 */
 	public Post(Post post)
 	{
-		this.setBbCodeEnabled(post.isBbCodeEnabled());
-		this.setCanEdit(post.isCanEdit());
-		this.setEditCount(post.getEditCount());
-		this.setEditTime(post.getEditTime());
-		this.setFormattedTime(post.getFormattedTime());
-		this.setForumId(post.getForumId());
-		this.setHtmlEnabled(post.isHtmlEnabled());
-		this.setId(post.getId());
-		this.setPostUsername(post.getPostUsername());
-		this.setSignatureEnabled(post.isSignatureEnabled());
-		this.setSmiliesEnabled(post.isSmiliesEnabled());
-		this.setSubject(post.getSubject());
-		this.setText(post.getText());
-		this.setTime(post.getTime());
-		this.setTopicId(post.getTopicId());
-		this.setUserId(post.getUserId());
-		this.setUserIp(post.getUserIp());
-		this.setKarma(new KarmaStatus(post.getKarma()));
-		this.setModerate(post.isModerationNeeded());
-		this.hasAttachments(post.hasAttachments());
+		this.bbCodeEnabled = post.isBbCodeEnabled();
+		this.canEdit = post.isCanEdit();
+		this.editCount = post.getEditCount();
+		this.editTime = post.getEditTime();
+		this.formattedTime = post.getFormattedTime();
+		this.forumId = post.getForumId();
+		this.htmlEnabled = post.isHtmlEnabled();
+		this.id = post.getId();
+		this.postUsername = post.getPostUsername();
+		this.signatureEnabled = post.isSignatureEnabled();
+		this.smiliesEnabled = post.isSmiliesEnabled();
+		this.subject = post.getSubject();
+		this.text = post.getText();
+		this.time = post.getTime();
+		this.topicId = post.getTopicId();
+		this.userId = post.getUserId();
+		this.userIp = post.getUserIp();
+		this.karma = (new KarmaStatus(post.getKarma()));
+		this.moderate = post.isModerationNeeded();
+		this.hasAttachments = post.hasAttachments();
 	}
 	
 	public void setModerate(boolean status)

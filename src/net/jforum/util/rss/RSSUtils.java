@@ -56,14 +56,14 @@ import net.jforum.util.preferences.SystemGlobals;
  * @author Rafael Steil
  * @version $Id: RSSUtils.java,v 1.6 2006/08/23 02:13:38 rafaelsteil Exp $
  */
-public class RSSUtils 
+public final class RSSUtils 
 {
 	/**
 	 * Formats a given date to the expected RSS format
 	 * @param date The date to format
 	 * @return The formatted date
 	 */
-	public static String formatDate(Date date)
+	public static String formatDate(final Date date)
 	{
 		final SimpleDateFormat sdf = new SimpleDateFormat(
 				SystemGlobals.getValue(ConfigKeys.RSS_DATE_TIME_FORMAT),
@@ -76,7 +76,7 @@ public class RSSUtils
 	 * @param date The date to format
 	 * @return The formatted date, or the original input if some parsing exception occurs
 	 */
-	public static String formatDate(String date)
+	public static String formatDate(final String date)
 	{
 		try {
 			final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));

@@ -649,8 +649,9 @@ public class UserAction extends Command
 		this.context.put(PAGE_TITLE, I18n.getMessage("PasswordRecovery.title"));
 	}
 	
-	public User prepareLostPassword(String username, final String email)
+	public User prepareLostPassword(String origUsername, final String email)
 	{
+		String username = origUsername;
 		User user = null;
 
 		if (email != null && !email.trim().equals("")) {

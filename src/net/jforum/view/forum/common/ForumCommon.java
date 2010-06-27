@@ -70,7 +70,7 @@ import org.apache.log4j.Logger;
  * @author Rafael Steil
  * @version $Id: ForumCommon.java,v 1.24 2007/08/01 22:30:05 rafaelsteil Exp $
  */
-public class ForumCommon 
+public final class ForumCommon 
 {
 	private static final Logger LOGGER = Logger.getLogger(ForumCommon.class);
 	/**
@@ -106,14 +106,15 @@ public class ForumCommon
 	 * @param anonymousUserId The id which represents the anonymous user
 	 * @param tracking <code>Map</code> instance with information 
 	 * about the topics read by the user
-	 * @param checkUnreadPosts <code>true</code> if is to search for unread topics inside the forums, 
+	 * @param origCheckUnreadPosts <code>true</code> if is to search for unread topics inside the forums, 
 	 * or <code>false</code> if this action is not needed. 
 	 * @return A <code>List</code> instance where each record is an instance of a <code>Category</code>
 	 * object
 	 */
 	public static List<Category> getAllCategoriesAndForums(final UserSession userSession, final int anonymousUserId, 
-			final Map<Integer, Long> tracking, boolean checkUnreadPosts)
+			final Map<Integer, Long> tracking, boolean origCheckUnreadPosts)
 	{
+		boolean checkUnreadPosts = origCheckUnreadPosts;
 		long lastVisit = 0;
 		int userId = anonymousUserId;
 		

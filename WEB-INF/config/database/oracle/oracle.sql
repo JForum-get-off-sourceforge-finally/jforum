@@ -49,9 +49,7 @@ UserModel.selectAllByGroup = SELECT * FROM ( \
 	FROM jforum_users u, jforum_user_groups ug \
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ? \
-	ORDER BY username \ 
-	) \
-	WHERE LINENUM >= ? AND LINENUM < ?
+	ORDER BY username) WHERE LINENUM >= ? AND LINENUM < ?
 
 # #############
 # PostModel
@@ -145,8 +143,6 @@ PollModel.lastGeneratedPollId = SELECT jforum_vote_desc_seq.currval FROM dual
 # #############
 ForumModel.addNew = INSERT INTO jforum_forums (forum_id, categories_id, forum_name, forum_desc, forum_order, moderated) VALUES (jforum_forums_seq.nextval, ?, ?, ?, ?, ?)
 ForumModel.lastGeneratedForumId = SELECT jforum_forums_seq.currval FROM dual
-ForumModel.statsFirstPostTime = SELECT MIN(post_time) FROM jforum_posts
-ForumModel.statsFirstRegisteredUserTime = SELECT MIN(user_regdate) FROM jforum_users
 
 # #############
 # TopicModel

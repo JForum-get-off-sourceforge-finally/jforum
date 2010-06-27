@@ -697,14 +697,7 @@ public class ForumRepository implements Cacheable
 		MostUsersEverOnline online = (MostUsersEverOnline)cache.get(FQN, MOST_USERS_ONLINE);
 		
 		if (online == null) {
-			synchronized (MUTEX_MOST_USERS_ONLINE) {
-				online = (MostUsersEverOnline)cache.get(FQN, MOST_USERS_ONLINE);
-				
-				if (online == null) {
-					online = instance.loadMostUsersEverOnline(
-						DataAccessDriver.getInstance().newConfigDAO());
-				}
-			}
+			online = instance.loadMostUsersEverOnline(DataAccessDriver.getInstance().newConfigDAO());
 		}
 		
 		return online;
@@ -821,7 +814,7 @@ public class ForumRepository implements Cacheable
 		cache.add(FQN, CATEGORIES_SET, categoriesSet);
 	}
 	
-	private MostUsersEverOnline loadMostUsersEverOnline(ConfigDAO cm) 
+	private synchronized MostUsersEverOnline loadMostUsersEverOnline(ConfigDAO cm) 
 	{
 		Config config = cm.selectByName(ConfigKeys.MOST_USERS_EVER_ONLINE);
 		MostUsersEverOnline mostUsersEverOnline = new MostUsersEverOnline();

@@ -72,7 +72,7 @@ import org.apache.log4j.Logger;
  * @author Rafael Steil
  * @version $Id: UserCommon.java,v 1.29 2007/09/19 14:08:57 rafaelsteil Exp $
  */
-public class UserCommon 
+public final class UserCommon 
 {
 	private static final Logger LOGGER = Logger.getLogger(UserCommon.class);
 	private static final String IMAGE_AVATAR = "/images/avatar/";

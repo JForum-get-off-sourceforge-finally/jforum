@@ -394,11 +394,12 @@ public class UserSession implements Serializable
 	/**
 	 * Validate the captcha response of user
 	 * 
-	 * @param userResponse String the captcha response from user
+	 * @param origUserResponse String the captcha response from user
 	 * @return boolean true if the answer is valid, otherwise return false
 	 */
-	public boolean validateCaptchaResponse(String userResponse)
+	public boolean validateCaptchaResponse(String origUserResponse)
 	{
+		String userResponse = origUserResponse;
 		if ((SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_REGISTRATION) 
 				|| SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS))
 				&& this.imageCaptcha != null) {

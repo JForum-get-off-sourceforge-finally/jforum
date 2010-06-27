@@ -878,6 +878,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	{
 		List<Topic> l = new ArrayList<Topic>();
 		ResultSet rs = null;
+		PreparedStatement pstmt2 = null;
 		
 		try {
 			rs = p.executeQuery();
@@ -923,15 +924,15 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 				Map<Integer, String> users = new HashMap<Integer, String>();
 
-				p = JForumExecutionContext.getConnection().prepareStatement(sql);
-				rs = p.executeQuery();
+				pstmt2 = JForumExecutionContext.getConnection().prepareStatement(sql);
+				rs = pstmt2.executeQuery();
 
 				while (rs.next()) {
 					users.put(Integer.valueOf(rs.getInt(USER_ID)), rs.getString("username"));
 				}
 
 				rs.close();
-				p.close();
+				pstmt2.close();
 
 				for (Iterator<Topic> iter = l.iterator(); iter.hasNext();) {
 					Topic topic = (Topic) iter.next();
@@ -947,6 +948,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		}
 		finally {
 			DbUtils.close(rs, p);
+			DbUtils.close(pstmt2);
 		}
 	}
 
