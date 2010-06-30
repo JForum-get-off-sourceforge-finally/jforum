@@ -179,13 +179,7 @@ public class InstallAction extends Command
 		
 		// Database Configuration is OK
 		this.addToSessionAndContext("configureDatabase", "passed");
-		LOGGER.info("Database configuration OK");
-		
-		final DBConnection simpleConnection = new SimpleConnection();
-		
-		if (conn == null) {
-			conn = simpleConnection.getConnection();
-		}
+		LOGGER.info("Database configuration is OK");
 		
 		boolean dbError = false;
 		
@@ -203,6 +197,7 @@ public class InstallAction extends Command
 			this.addToSessionAndContext("createTables", "passed");
 			LOGGER.info("Table creation is OK");
 			
+			LOGGER.info("Going to populate the database tables ...");
 			this.setupAutoCommit(conn); 
 	        if (!"passed".equals(this.getFromSession("importTablesData")) && !this.importTablesData(conn)) {
 				this.context.put("message", I18n.getMessage("Install.importTablesDataError"));
@@ -213,7 +208,7 @@ public class InstallAction extends Command
 			
 			// Dump is OK
 			this.addToSessionAndContext("importTablesData", "passed");
-			LOGGER.info("Table data dump is OK");
+			LOGGER.info("Table data population is OK");
 			
 			if (!this.updateAdminPassword(conn)) {
 				this.context.put("message", I18n.getMessage("Install.updateAdminError"));
@@ -233,10 +228,9 @@ public class InstallAction extends Command
 					else {
 						conn.commit();
 					}
+					conn.close();
 				}
-				catch (SQLException e) { LOGGER.error(e); }
-				
-				simpleConnection.releaseConnection(conn);
+				catch (SQLException e) { LOGGER.error(e); }			
 			}
 		}
 
@@ -286,9 +280,6 @@ public class InstallAction extends Command
 
 		this.fixModulesMapping();
 		this.configureSystemGlobals();
-
-		SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC));
-		SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
 		
 		SessionFacade.remove(this.request.getSessionContext().getId());
 	}
@@ -344,8 +335,6 @@ public class InstallAction extends Command
 		SystemGlobals.setValue(ConfigKeys.INSTALLED, "true");
 		
 		SystemGlobals.saveInstallation();
-		
-		this.restartSystemGlobals();
 	}
 	
 	private boolean importTablesData(final Connection conn)
@@ -642,34 +631,64 @@ public class InstallAction extends Command
 		}
 	}
 	
+	private void configureDataSourceConnection()
+	{
+		final String type = this.getFromSession("database");
+		
+		final String dbConfigFilePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) 
+			+ "/database/" + type + "/" + type + ".properties";
+		
+		final Properties properties = new Properties();
+		FileInputStream fis = null;
+		
+		try {
+            fis = new FileInputStream(dbConfigFilePath);
+			properties.load(fis);
+        }
+        catch (IOException e) {
+            throw new ForumException(e);
+        }
+        finally {
+        	if (fis != null) {
+        		try { fis.close(); } catch (Exception e) { LOGGER.error(e.getMessage(), e); }
+        	}
+        }
+		
+		// Proceed to SystemGlobals / jforum-custom.conf configuration
+		for (final Enumeration<Object> e = properties.keys(); e.hasMoreElements(); ) {
+			final String key = (String)e.nextElement();
+			final String value = properties.getProperty(key);
+			
+			SystemGlobals.setValue(key, value);
+			
+			LOGGER.info("Updating key " + key + " with value " + value);
+		}
+	}
+	
 	private Connection configureDatabase()
 	{
 		final String database = this.getFromSession("database");
 		final String connectionType = this.getFromSession("db_connection_type");
 		String implementation;
 		
-		boolean isDatasource = false;
+		boolean isDatasource = false;		
 		
 		if ("JDBC".equals(connectionType)) {
 			implementation = "yes".equals(this.getFromSession("usePool")) && !"hsqldb".equals(database) 
 				? POOLED_CONNECTION
                 : SIMPLE_CONNECTION;
-			
 			this.configureJDBCConnection();
 		}
 		else {
 			isDatasource = true;
 			implementation = DATASOURCE_CONNECTION;
 			SystemGlobals.setValue(ConfigKeys.DATABASE_DATASOURCE_NAME, this.getFromSession("dbdatasource"));
+			this.configureDataSourceConnection();
 		}
 		
 		SystemGlobals.setValue(ConfigKeys.DATABASE_CONNECTION_IMPLEMENTATION, implementation);
-		SystemGlobals.setValue(ConfigKeys.DATABASE_DRIVER_NAME, database);
 		
-		SystemGlobals.saveInstallation();
-		this.restartSystemGlobals();
-		
-		Connection conn;
+		Connection conn = null;
 		try {
 			DBConnection source;
 			
@@ -686,20 +705,10 @@ public class InstallAction extends Command
 		}
 		catch (Exception e) {
 			LOGGER.warn("Error while trying to get a connection: " + e);
-			this.context.put("exceptionMessage", e.getMessage());
-			return null;
+			this.context.put("exceptionMessage", e.getMessage());			
 		}		
 		
 		return conn;
-	}
-	
-	private void restartSystemGlobals() 
-	{
-		final String appPath = SystemGlobals.getApplicationPath();
-		
-		SystemGlobals.reset();
-		
-		ConfigLoader.startSystemglobals(appPath);
 	}
 	
 	private boolean updateAdminPassword(final Connection conn)
@@ -944,7 +953,6 @@ public class InstallAction extends Command
 			final ResponseContext response,
 			final SimpleHash context)  
 	{
-		//this.setTemplateName("default/empty.htm");
 		this.setTemplateName(TemplateKeys.EMPTY);
 		return super.process(request, response, context);
 	}

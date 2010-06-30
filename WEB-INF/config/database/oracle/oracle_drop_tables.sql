@@ -123,5 +123,5 @@ DROP TABLE jforum_moderation_log;
 DROP TABLE jforum_mail_integration;
 
 -- jforum_api
-DROP TABLE jforum_api;
 DROP SEQUENCE jforum_api_seq;
+DROP TABLE jforum_api;

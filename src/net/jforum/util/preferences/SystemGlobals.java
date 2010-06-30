@@ -125,8 +125,8 @@ public final class SystemGlobals implements VariableStore
 		this.defaults = new Properties();
 
 		this.defaults.put(ConfigKeys.APPLICATION_PATH, appPath);
-		this.defaults.put(ConfigKeys.DEFAULT_CONFIG, mainConfigurationFile);
-		
+		this.defaults.put(ConfigKeys.DEFAULT_CONFIG, mainConfigurationFile);		
+
 		SystemGlobals.loadDefaults();
 	
 		this.installation = new Properties();
@@ -134,10 +134,6 @@ public final class SystemGlobals implements VariableStore
 
 		for (Iterator<String> iter = additionalDefaultsList.iterator(); iter.hasNext(); ) {
 			loadAdditionalDefaults((String)iter.next());
-		}
-		
-		if (new File(this.installationConfig).exists()) {
-			loadAdditionalDefaults(this.installationConfig);
 		}
 	}
 	
@@ -179,6 +175,7 @@ public final class SystemGlobals implements VariableStore
 	 */
 	public static void loadDefaults()
 	{
+		LOGGER.info("Loading " + globals.defaultConfig + " ...");
 		try
 		{
 			FileInputStream input = new FileInputStream(globals.defaultConfig);
@@ -199,6 +196,7 @@ public final class SystemGlobals implements VariableStore
 	 */
 	public static void loadAdditionalDefaults(String file)
 	{
+		LOGGER.info("Loading " + file + " ...");
 		if (!new File(file).exists()) {
 			LOGGER.info("Cannot find file " + file + ". Will ignore it");
 			return;
@@ -357,6 +355,7 @@ public final class SystemGlobals implements VariableStore
 	 **/
 	public static void loadQueries(String queryFile)
 	{
+		LOGGER.info("Loading " + queryFile + " ...");
 		FileInputStream fis = null;
 		
 		try {

@@ -433,8 +433,10 @@ public class SessionFacade implements Cacheable
 	{
 		Connection conn = null;
 		try {
-			conn = DBConnection.getImplementation().getConnection();
-			SessionFacade.storeSessionData(sessionId, conn);
+			if (DBConnection.getImplementation() != null) {
+				conn = DBConnection.getImplementation().getConnection();
+				SessionFacade.storeSessionData(sessionId, conn);
+			}
 		}
 		finally {
 			if (conn != null) {

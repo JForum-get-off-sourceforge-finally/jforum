@@ -90,6 +90,7 @@ public class JForumBaseServlet extends HttpServlet
 
 			LOGGER.info("Starting JForum. Debug mode is " + debug);
 
+			SystemGlobals.reset();
 			ConfigLoader.startSystemglobals(appPath);
 			ConfigLoader.startCacheEngine();
 

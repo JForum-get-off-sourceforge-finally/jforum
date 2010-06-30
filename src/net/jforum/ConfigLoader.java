@@ -88,8 +88,7 @@ public final class ConfigLoader
 	 */
 	public static void startSystemglobals(final String appPath)
 	{
-		SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");
-		SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
+		SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");		
 		
 		if (new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
 			SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
@@ -188,6 +187,10 @@ public final class ConfigLoader
 				SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG), fileChangesDelay);
 
 			ConfigLoader.listenInstallationConfig();
+			
+			// Quartz Properties
+			FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
+				SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG), fileChangesDelay);
         }
 	}
 	

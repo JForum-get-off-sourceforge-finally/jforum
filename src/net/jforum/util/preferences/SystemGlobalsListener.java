@@ -42,7 +42,6 @@
  */
 package net.jforum.util.preferences;
 
-import net.jforum.ConfigLoader;
 import net.jforum.util.FileChangeListener;
 
 import org.apache.log4j.Logger;
@@ -64,6 +63,5 @@ public class SystemGlobalsListener implements FileChangeListener
 
         SystemGlobals.initGlobals(SystemGlobals.getApplicationPath(),
             SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
-        ConfigLoader.listenForChanges();
     }
 }
