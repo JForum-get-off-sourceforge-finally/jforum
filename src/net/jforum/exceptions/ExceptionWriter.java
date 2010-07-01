@@ -65,11 +65,11 @@ public class ExceptionWriter
 {
 	private static final Logger LOGGER = Logger.getLogger(ExceptionWriter.class);
 	
-	public void handleExceptionData(Throwable t, Writer w, RequestContext request)
+	public void handleExceptionData(Throwable throwable, Writer wtr, RequestContext request)
 	{
 		StringWriter strWriter = new StringWriter();
 		PrintWriter writer = new PrintWriter(strWriter);
-		t.printStackTrace(writer);	
+		throwable.printStackTrace(writer);	
 		
 		String currentUrl = this.extractCurrentUrl(request);
 		
@@ -80,7 +80,7 @@ public class ExceptionWriter
 			LOGGER.error(strWriter);
 
 			String message = "";
-			Throwable cause = t.getCause();
+			Throwable cause = throwable.getCause();
 			
 			while (cause != null) {
 				message = cause.toString();
@@ -88,11 +88,11 @@ public class ExceptionWriter
 			}
 			
 			if (message == null || message.equals("")) {
-				message = t.getMessage();
+				message = throwable.getMessage();
 			}
 			
 			if (message == null || message.equals("")) {
-				message = t.toString();
+				message = throwable.toString();
 			}
 
 			boolean canViewStackTrace = !SystemGlobals.getBoolValue(ConfigKeys.STACKTRACE_MODERATORS_ONLY)
@@ -112,7 +112,7 @@ public class ExceptionWriter
 			templateContext.put("message", message);
 
 			Template template = JForumExecutionContext.getTemplateConfig().getTemplate("exception.html");
-			template.process(templateContext, w);
+			template.process(templateContext, wtr);
 		}
 		catch (Exception e) {
 			strWriter = new StringWriter();

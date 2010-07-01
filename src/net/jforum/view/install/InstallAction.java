@@ -804,11 +804,11 @@ public class InstallAction extends Command
 	private void storeWelcomeMessage(final Connection conn) 
 	{		
 		final String dbType = this.getFromSession("database");
-		String filePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
+		final String filePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
         + "/database/"
         + dbType
         + "/" + dbType + "_data_jforum_posts_text_post_text_blob.txt";
-		File file = new File(filePath);
+		final File file = new File(filePath);
 		String message = null;
 		try {
 			message = FileUtils.readFileToString(file);

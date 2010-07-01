@@ -47,27 +47,31 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.exceptions.ForumException;
 
 /**
  * @author Rafael Steil
  * @version $Id: ParseDBStructFile.java,v 1.7 2007/07/28 14:17:13 rafaelsteil Exp $
  */
-public class ParseDBStructFile
+public final class ParseDBStructFile
 {
-    public static List<String> parse(String filename)
+	private static final Logger LOGGER = Logger.getLogger(ParseDBStructFile.class);
+	
+	public static List<String> parse(final String filename)
 	{
-		List<String> statements = new ArrayList<String>();
+		final List<String> statements = new ArrayList<String>();
 		
 		BufferedReader reader = null;
 		
 		try {
 			reader = new BufferedReader(new FileReader(filename));
-			StringBuffer sb = new StringBuffer(512);
+			final StringBuffer sb = new StringBuffer(512);
 
 			boolean processing = false;
-			char delimiter = ';';
-			String[] creators = { "CREATE INDEX", "CREATE TABLE", "CREATE SEQUENCE", "DROP TABLE", "IF EXISTS",
+			final char delimiter = ';';
+			final String[] creators = { "CREATE INDEX", "CREATE TABLE", "CREATE SEQUENCE", "DROP TABLE", "IF EXISTS",
 					"DROP SEQUENCE", "DROP INDEX" };
 			
             String line ;
@@ -76,7 +80,7 @@ public class ParseDBStructFile
 					continue;
 				}
 				
-				char charAt = line.charAt(0);
+				final char charAt = line.charAt(0);
 				
 				// Ignore comments
 				if (charAt == '-' || charAt == '#') {
@@ -124,10 +128,13 @@ public class ParseDBStructFile
 				try { reader.close(); }
                 catch (Exception e) {
                     // catch close BufferedReader
+                	LOGGER.error(e); 
                 }
 			}
 		}
 		
 		return statements;
 	}
+	
+	private ParseDBStructFile() {}
 }

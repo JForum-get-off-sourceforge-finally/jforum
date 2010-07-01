@@ -391,7 +391,7 @@ public class JForum extends JForumBaseServlet
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
-		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
+		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG));
 		final String baseDir = I18n.getBaseDir();
 		final Properties localeNames = I18n.getLocaleNames();
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));
