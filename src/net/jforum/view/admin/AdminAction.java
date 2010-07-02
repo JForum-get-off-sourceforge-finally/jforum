@@ -176,9 +176,9 @@ public class AdminAction extends Command {
 			currentParts[2] = currentParts[2].substring(0, currentParts[2].indexOf('-'));
 		}
 		
-		if (Integer.parseInt(latestParts[0]) < Integer.parseInt(currentParts[0]) // Major
-			|| Integer.parseInt(latestParts[1]) < Integer.parseInt(currentParts[1]) // Minor
-			|| Integer.parseInt(latestParts[2]) < Integer.parseInt(currentParts[2])) { // Revision
+		int latestVersion = Integer.parseInt(latestParts[0]) * 1000 + Integer.parseInt(latestParts[1]) * 100 + Integer.parseInt(latestParts[2]);
+		int currentVersion = Integer.parseInt(currentParts[0]) * 1000 +	Integer.parseInt(currentParts[1]) * 100 + Integer.parseInt(currentParts[2]);
+		if (latestVersion <= currentVersion) { 
 			this.context.put("upToDate", true);
 		}
 		else {

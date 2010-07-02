@@ -143,13 +143,7 @@ public class InstallServlet extends JForumBaseServlet
 				}
 				catch (Exception e) {
 					response.setContentType("text/html; charset=" + encoding);
-					if (out == null) {
-						new ExceptionWriter().handleExceptionData(e, 
-								new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);						
-					}
-					else {
-						new ExceptionWriter().handleExceptionData(e, out, request);
-					}
+					new ExceptionWriter().handleExceptionData(e, out, request);
 				}
 			}
 			
