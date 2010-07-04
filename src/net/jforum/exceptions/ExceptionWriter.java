@@ -111,7 +111,7 @@ public class ExceptionWriter
 			templateContext.put("stackTrace", stackTrace);
 			templateContext.put("message", message);
 
-			Template template = JForumExecutionContext.getTemplateConfig().getTemplate("exception.html");
+			Template template = JForumExecutionContext.getTemplateConfig().getTemplate("exception.html", SystemGlobals.getValue(ConfigKeys.ENCODING));
 			template.process(templateContext, wtr);
 		}
 		catch (Exception e) {

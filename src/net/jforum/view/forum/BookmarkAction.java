@@ -58,6 +58,7 @@ import net.jforum.repository.ForumRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -166,8 +167,10 @@ public class BookmarkAction extends Command
 	public void insertSave()
 	{
 		Bookmark bookmark = new Bookmark();
-		bookmark.setDescription(this.request.getParameter("description"));
-		bookmark.setTitle(this.request.getParameter("title"));
+		final SafeHtml safeHtml = new SafeHtml();		
+		
+		bookmark.setDescription(safeHtml.makeSafe(this.request.getParameter("description")));
+		bookmark.setTitle(safeHtml.makeSafe(this.request.getParameter("title")));
 		
 		String publicVisible = this.request.getParameter("visible");
 		bookmark.setPublicVisible(publicVisible != null && publicVisible.length() > 0);
@@ -183,28 +186,30 @@ public class BookmarkAction extends Command
 	public void updateSave()
 	{
 		int id = this.request.getIntParameter("bookmark_id");
-		BookmarkDAO bm = DataAccessDriver.getInstance().newBookmarkDAO();
-		Bookmark bookmark = bm.selectById(id);
+		BookmarkDAO bookmarkDao = DataAccessDriver.getInstance().newBookmarkDAO();
+		Bookmark bookmark = bookmarkDao.selectById(id);
 		
 		if (!this.sanityCheck(bookmark)) {
 			return;
 		}
 		
-		bookmark.setTitle(this.request.getParameter("title"));
-		bookmark.setDescription(this.request.getParameter("description"));
+		final SafeHtml safeHtml = new SafeHtml();		
+		
+		bookmark.setDescription(safeHtml.makeSafe(this.request.getParameter("description")));
+		bookmark.setTitle(safeHtml.makeSafe(this.request.getParameter("title")));
 		
 		String visible = this.request.getParameter("visible");
 		bookmark.setPublicVisible(StringUtils.isNotBlank(visible));
 		
-		bm.update(bookmark);
+		bookmarkDao.update(bookmark);
 		this.setTemplateName(TemplateKeys.BOOKMARKS_UPDATE_SAVE);
 	}
 	
 	public void edit()
 	{
 		int id = this.request.getIntParameter("bookmark_id");
-		BookmarkDAO bm = DataAccessDriver.getInstance().newBookmarkDAO();
-		Bookmark bookmark = bm.selectById(id);
+		BookmarkDAO bookmarkDao = DataAccessDriver.getInstance().newBookmarkDAO();
+		Bookmark bookmark = bookmarkDao.selectById(id);
 		
 		if (!this.sanityCheck(bookmark)) {
 			return;
@@ -217,14 +222,14 @@ public class BookmarkAction extends Command
 	public void delete()
 	{
 		int id = this.request.getIntParameter("bookmark_id");
-		BookmarkDAO bm = DataAccessDriver.getInstance().newBookmarkDAO();
-		Bookmark bookmark = bm.selectById(id);
+		BookmarkDAO bookmarkDao = DataAccessDriver.getInstance().newBookmarkDAO();
+		Bookmark bookmark = bookmarkDao.selectById(id);
 		
 		if (!this.sanityCheck(bookmark)) {
 			return;
 		}
 		
-		bm.remove(id);
+		bookmarkDao.remove(id);
 		
 		JForumExecutionContext.setRedirect(this.request.getContextPath() + "/bookmarks/list/" + bookmark.getUserId()
 				+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
@@ -245,7 +250,7 @@ public class BookmarkAction extends Command
 		return true;
 	}
 	
-	private void error(String message)
+	private void error(final String message)
 	{
 		this.setTemplateName(TemplateKeys.BOOKMARKS_ERROR);
 		this.context.put("message", I18n.getMessage(message));
@@ -282,7 +287,7 @@ public class BookmarkAction extends Command
 	/**
 	 * @see net.jforum.Command#process(net.jforum.context.RequestContext, net.jforum.context.ResponseContext, freemarker.template.SimpleHash) 
 	 */
-	public Template process(RequestContext request, ResponseContext response, SimpleHash context)
+	public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
 	{
 		if (SessionFacade.getUserSession().getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)
 				&& !request.getAction().equals("list")) {

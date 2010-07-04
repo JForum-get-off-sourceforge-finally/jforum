@@ -56,6 +56,7 @@ import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.repository.SmiliesRepository;
 import net.jforum.util.I18n;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.concurrent.Executor;
 import net.jforum.util.mail.EmailSenderTask;
 import net.jforum.util.mail.PrivateMessageSpammer;
@@ -259,7 +260,7 @@ public class PrivateMessageAction extends Command
 	public void findUser()
 	{
 		boolean showResult = false;
-		String username = this.request.getParameter("username");
+		String username = new SafeHtml().makeSafe(this.request.getParameter("username"));
 
 		if (username != null && !username.equals("")) {
 			List<User> namesList = DataAccessDriver.getInstance().newUserDAO().findByName(username, false);

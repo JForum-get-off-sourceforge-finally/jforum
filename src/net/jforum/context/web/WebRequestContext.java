@@ -77,6 +77,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
 {
+	private static final String MODULE = "module";
 	private static final String ACTION = "action";
 	
 	private transient final Map<String, Object> query;
@@ -200,7 +201,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 
 		if (url == null) {
-			this.addOrReplaceParameter("module", null);
+			this.addOrReplaceParameter(MODULE, null);
 			this.addOrReplaceParameter(ACTION, null);				
 		}
 		else {			
@@ -210,7 +211,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				}
 			}
 			
-			this.addOrReplaceParameter("module", urlModel[moduleIndex]);
+			this.addOrReplaceParameter(MODULE, urlModel[moduleIndex]);
 			this.addOrReplaceParameter(ACTION, urlModel[actionIndex]);
 		}
 	}
@@ -371,6 +372,10 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	
 	public void addParameter(final String name, final Object value)
 	{
+		if (MODULE.equals(name) || ACTION.equals(name)) {
+			addOrReplaceParameter(name, value);
+			return;
+		}
 		if (this.query.containsKey(name)) {
 			Object currentValue = this.getObjectParameter(name);
 			List<Object> list;
@@ -460,7 +465,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 */
 	public String getModule()
 	{
-		return this.getParameter("module");
+		return this.getParameter(MODULE);
 	}
 	
 	public Object getObjectRequestParameter(final String parameter)

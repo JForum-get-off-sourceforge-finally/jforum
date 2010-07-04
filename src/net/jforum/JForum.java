@@ -232,15 +232,7 @@ public class JForum extends JForumBaseServlet
 				}
 			}
 		}
-		catch (IOException e) {
-			this.handleException(out, response, encoding, e, request);
-		} catch (TemplateException e) {
-			this.handleException(out, response, encoding, e, request);
-		} catch (InstantiationException e) {
-			this.handleException(out, response, encoding, e, request);
-		} catch (IllegalAccessException e) {
-			this.handleException(out, response, encoding, e, request);
-		} catch (ClassNotFoundException e) {
+		catch (Exception e) {
 			this.handleException(out, response, encoding, e, request);
 		}
 		finally {
@@ -249,7 +241,7 @@ public class JForum extends JForumBaseServlet
 	}
 
 	private Writer processCommand(final Writer out, final RequestContext request, final ResponseContext response, 
-			final String encoding, final SimpleHash context, final String moduleClass) throws IOException, TemplateException, InstantiationException, IllegalAccessException, ClassNotFoundException 
+			final String encoding, final SimpleHash context, final String moduleClass) throws Exception 
 	{
 		Writer outWriter = out;
 		// Here we go, baby
@@ -320,7 +312,7 @@ public class JForum extends JForumBaseServlet
 		if (exception.toString().indexOf("ClientAbortException") == -1) {
 			response.setContentType("text/html; charset=" + encoding);
 			if (out == null) {
-				new ExceptionWriter().handleExceptionData(exception, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);	
+				new ExceptionWriter().handleExceptionData(exception,  new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding)), request);	
 			}
 			else {				
 				new ExceptionWriter().handleExceptionData(exception, out, request);

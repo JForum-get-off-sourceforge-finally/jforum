@@ -356,12 +356,7 @@ public class Category  implements Serializable, Comparable<Category>
 
 	@Override
 	public int compareTo(Category o) {
-		try {
-			return this.getOrder() - ((Category)o).getOrder();
-		} catch (ClassCastException e) {
-			throw e;
-		}
-		
+		return this.getOrder() - ((Category)o).getOrder();
 	}
 
 }
