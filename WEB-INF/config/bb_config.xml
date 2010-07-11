@@ -6,7 +6,7 @@
 		<regex>(?s)\[code\](.*?)\[/code\]</regex>
 		<replace>
 		<![CDATA[
- 		<pre title="code" class="brush: java">$1</pre>
+ 		<pre name="code" class="brush: java">$1</pre>
 		]]>
 		</replace>
 	</match>
@@ -15,7 +15,7 @@
 		<regex>(?s)(?i)\[code=['"]?(.*?[^'"])['"]?\](.*?)\[/code\]</regex>
 		<replace>
 		<![CDATA[
- 		<pre title="code" class="brush: $1">$2</pre>
+ 		<pre name="code" class="brush: $1">$2</pre>
 		]]>
 		</replace>
 	</match>
