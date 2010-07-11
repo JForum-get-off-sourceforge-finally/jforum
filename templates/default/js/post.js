@@ -246,7 +246,7 @@ function previewMessage()
 
 	$.ajax({
 		type:"POST",
-		url:CONTEXTPATH + "/jforum" + SERVLET_EXTENSION + "?module=ajax&action=previewPost",
+		url:CONTEXTPATH + "/ajax/previewPost" + SERVLET_EXTENSION,
 		data:p,
 		dataType:"script",
 		global:false
