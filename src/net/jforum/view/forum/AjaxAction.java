@@ -206,7 +206,7 @@ public class AjaxAction extends Command
 			postDao.update(post);
 			SearchFacade.update(post);						
 		}
-		post = PostCommon.preparePostForDisplay(post);		
+		//post = PostCommon.preparePostForDisplay(post);		
 		
 		boolean isModerator = SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);
 		
@@ -224,8 +224,10 @@ public class AjaxAction extends Command
 			helper.saveModerationLog(log);
 		}
 		
-		if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {
+		if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {			
 			PostRepository.update(post.getTopicId(), PostCommon.preparePostForDisplay(post));
+		} else {
+			post = PostCommon.preparePostForDisplay(post);
 		}
 		
 		this.setTemplateName(TemplateKeys.AJAX_LOAD_POST);
