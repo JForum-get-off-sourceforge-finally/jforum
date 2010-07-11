@@ -394,26 +394,20 @@ function cancelOperation()
 
 						<!-- Post Options -->
 						<div id="postOptions" class="postTabContents">
-							<div>
-								<#include "post_options_tab.htm"/>
-							</div>
+							<#include "post_options_tab.htm"/>
 						</div>
 
 						<!-- Poll tab -->
 						<#if allowPoll>
 							<div id="postPoll" class="postTabContents" style="display: none;">
-								<div>
-									<#include "post_poll_tab.htm"/>
-								</div>
+								<#include "post_poll_tab.htm"/>
 							</div>
 						</#if>
 
 						<!-- Attachments tab -->
 						<#if attachmentsEnabled || attachments?exists>
-							<div id="postAttachments" class="postTabContents" style="display: none; ">
-								<div>
-									<#include "post_attachments_tab.htm"/>
-								</div>
+							<div id="postAttachments" class="postTabContents" style="display: none;">
+								<#include "post_attachments_tab.htm"/>
 							</div>
 						</#if>
 					</td>
