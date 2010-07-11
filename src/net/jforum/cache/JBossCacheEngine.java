@@ -53,6 +53,7 @@ import net.jforum.util.preferences.SystemGlobals;
 import org.apache.log4j.Logger;
 import org.jboss.cache.Cache;
 import org.jboss.cache.CacheFactory;
+import org.jboss.cache.CacheStatus;
 import org.jboss.cache.DefaultCacheFactory;
 import org.jboss.cache.Fqn;
 
@@ -96,7 +97,9 @@ public class JBossCacheEngine implements CacheEngine
 	 */
 	public void add(final String key, final Object value)
 	{
-		this.add(CacheEngine.DUMMY_FQN, key, value);
+		if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+		    this.add(CacheEngine.DUMMY_FQN, key, value);
+		}
 	}
 
 	/**
@@ -105,7 +108,9 @@ public class JBossCacheEngine implements CacheEngine
 	public void add(final String fqn, final String key, final Object value)
 	{
 		try {
-			this.cache.put(Fqn.fromString(fqn), key, value);
+			if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+			    this.cache.put(Fqn.fromString(fqn), key, value);
+			}
 		}
 		catch (Exception e) {
 			throw new CacheException("Error while adding a new entry to the cache: " + e);			
@@ -117,12 +122,18 @@ public class JBossCacheEngine implements CacheEngine
 	 */
 	public Object get(final String fqn, final String key)
 	{		
+		Object value = null;
+		
 		try {
-			return this.cache.get(Fqn.fromString(fqn), key);
+			if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+			    value = this.cache.get(Fqn.fromString(fqn), key);
+			}
 		}
 		catch (Exception e) {
 			throw new CacheException("Error while trying to get an entry from the cache: " + e);
 		}
+		
+		return value;
 	}
 
 	/**
@@ -130,19 +141,28 @@ public class JBossCacheEngine implements CacheEngine
 	 */
 	public Object get(final String fqn)
 	{
+		Object value = null;
+		
 		try {
-			return this.cache.getData(Fqn.fromString(fqn));
+			if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+			    value = this.cache.getData(Fqn.fromString(fqn));
+			}
 		}
 		catch (Exception e) {
 			throw new CacheException("Error while trying to get an entry from the cache: " + e);
 		}
+		
+		return value;
 	}
 	
 	/**
 	 * @see net.jforum.cache.CacheEngine#getValues(java.lang.String)
 	 */
 	public Collection<Object> getValues(final String fqn)
-	{
+	{		
+		if (this.cache.getCacheStatus() == CacheStatus.DESTROYED) {
+			return new ArrayList<Object>();
+		}
 		final Map<String, Object> map = this.cache.getData(Fqn.fromString(fqn));
 		if (map == null) {
 			return new ArrayList<Object>();
@@ -161,7 +181,9 @@ public class JBossCacheEngine implements CacheEngine
 				remove(fqn);				
 			}
 			else {
-				this.cache.remove(Fqn.fromString(fqn), key);
+				if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+				    this.cache.remove(Fqn.fromString(fqn), key);
+				}
 			}
 		}
 		catch (Exception e) {
@@ -175,7 +197,9 @@ public class JBossCacheEngine implements CacheEngine
 	public void remove(final String fqn)
 	{
 		try {
-			this.cache.removeNode(Fqn.fromString(fqn));
+			if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+			    this.cache.removeNode(Fqn.fromString(fqn));
+			}
 		}
 		catch (Exception e) {
 			LOGGER.warn("Error while removing a FQN from the cache: " + e);
