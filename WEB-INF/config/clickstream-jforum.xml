@@ -4,8 +4,9 @@
     <bot-host name="inktomisearch.com"/>
     <bot-host name="googlebot.com"/>
     <bot-host name="linuxtoday.com.au"/>
+    <bot-host name="crawl.yahoo.net"/>            
 
-    <bot-agent name="acme.spider"/>
+    <bot-agent name="acme.spider"/>    
     <bot-agent name="ahoythehomepagefinder"/>
     <bot-agent name="alkaline"/>
     <bot-agent name="appie"/>
@@ -25,6 +26,7 @@
     <bot-agent name="bloodhound"/>
     <bot-agent name="brightnet"/>
     <bot-agent name="bspider"/>
+    <bot-agent name="baiduspider"/>
     <bot-agent name="cactvschemistryspider"/>
     <bot-agent name="calif"/>
     <bot-agent name="cassandra"/>
@@ -44,6 +46,7 @@
     <bot-agent name="diibot"/>
     <bot-agent name="direct_hit"/>
     <bot-agent name="dnabot"/>
+    <bot-agent name="dotbot"/>
     <bot-agent name="download_express"/>
     <bot-agent name="dragonbot"/>
     <bot-agent name="dwcp"/>
@@ -240,5 +243,7 @@
     <bot-agent name="wwwc"/>
     <bot-agent name="wz101"/>
     <bot-agent name="xget"/>
+    <bot-agent name="yandexbot"/>
+    <bot-agent name="yodaobot"/>
     <bot-agent name="nederland.zoek"/>
 </clickstream>

@@ -49,9 +49,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.entities.UserSession;
 import net.jforum.exceptions.ForumException;
@@ -280,7 +282,7 @@ public final class I18n
 		}
 
 		if ("".equals(lang)) {
-			return getMessage(defaultName, messageName, params);
+			return getMessage(getUserLanguage(), messageName, params);
 		}
 
 		return getMessage(lang, messageName, params);
@@ -323,7 +325,7 @@ public final class I18n
 	public static String getMessage(String m, UserSession us)
 	{
 		if (us == null || us.getLang() == null || us.getLang().equals("")) {
-			return getMessage(defaultName, m);
+			return getMessage(getUserLanguage(), m);
 		}
 
 		return getMessage(us.getLang(), m);
@@ -341,9 +343,18 @@ public final class I18n
 		UserSession us = SessionFacade.getUserSession();
 
 		if (us == null || us.getLang() == null || us.getLang().trim().equals("")) {
+			//try get locale from request  
+			Locale locale = JForumExecutionContext.getRequest().getLocale();
+			if (locale != null) {  
+			    String lang = locale.toString();			    
+			    //check jforum support this locale  
+			    if (languageExists(lang)) {			    	
+			        return lang;  
+		        }  
+	        } 
 			return defaultName;
 		}
-
+		
 		return us.getLang();
 	}
 

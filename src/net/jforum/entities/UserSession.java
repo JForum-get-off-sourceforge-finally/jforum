@@ -359,6 +359,7 @@ public class UserSession implements Serializable
 		this.setStartTime(new Date(System.currentTimeMillis()));
 		this.setLastVisit(new Date(System.currentTimeMillis()));
 		this.setUserId(SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID));
+		this.setUsername(I18n.getMessage("Guest"));
 	}
 
 	/**

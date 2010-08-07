@@ -210,7 +210,7 @@ public class UserAction extends Command
 				.append('/')
 				.toString();
 
-			String filename = "terms_" + SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT) + ".txt";
+			String filename = "terms_" + I18n.getUserLanguage() + ".txt";
 			
 			File file = new File(directory + filename);
 			
