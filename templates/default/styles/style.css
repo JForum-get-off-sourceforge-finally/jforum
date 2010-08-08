@@ -219,7 +219,7 @@ table.attachtable	{ font: normal 12px verdana, arial, helvetica, sans-serif; col
 .pagination a:hover, .pagination a:active {
 	border: 1px solid #dd6900;
 	color: #000;
-	background-color: lightyellow;
+	background-color: #ffffe0;
 	text-decoration: none;
 }
 .pagination .current {
