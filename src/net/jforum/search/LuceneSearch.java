@@ -50,6 +50,8 @@ import java.util.List;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.SearchException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
@@ -146,7 +148,8 @@ public class LuceneSearch implements NewDocumentAdded
 			
 			Query query = new QueryParser(Version.LUCENE_30, "", this.settings.analyzer()).parse(criteria.toString());
 			
-	        TopDocs results = this.searcher.search(query, filter, 10, this.getSorter(args));
+			final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
+			TopDocs results = this.searcher.search(query, filter, limit, this.getSorter(args));
 	        if (results.totalHits > 0) {
 				result = new SearchResult(resultCollector.collect(args, results, query), results.totalHits);
 			}

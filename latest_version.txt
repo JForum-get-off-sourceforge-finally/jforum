@@ -1,13 +1,12 @@
-2.2.0
+2.2.1
 
-<p>Some features have been added, changed or fixed in JForum 2.2.0, like:</p>
+<p>Some features have been added, changed or fixed in JForum 2.2.1, like:</p>
 
 <ul>
-<li>Change to Java 5 collection syntax</li>
-<li>Upgrade to Lucene 3</li>
-<li>Upgrade to JBossCache 3</li>
-<li>Third party JavaScript libraries are now put under the /js directory</li>
-<li>Third party CSS styles and images are now put under the /styles directory</li>
+<li>Add Top Downloads</li>
+<li>Add browser language auto-detection</li>
+<li>Add ${topic.firstPostTime} in forum_show.htm, recent_thread.htm and hottest_thread.htm</li>
+<li>Third party JavaScript libraries are now put under the /javascript directory</li>
 </ul>
 
 <p>

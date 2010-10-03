@@ -810,6 +810,7 @@ public class PostAction extends Command
 			// Attachments
 			attachments.editAttachments(post.getId(), post.getForumId());
 			attachments.insertAttachments(post);
+			post.hasAttachments(attachments.getAttachments(post.getId(), post.getForumId()).size() > 0);
 
 			// The first message (the one which originated the topic) was changed
 			if (topic.getFirstPostId() == post.getId()) {
@@ -861,6 +862,7 @@ public class PostAction extends Command
 				}
 				
 				topicDao.update(topic);
+				topic = topicDao.selectById(post.getTopicId());
 				
 				if (changeType) {
 					TopicRepository.addTopic(topic);
@@ -1155,7 +1157,8 @@ public class PostAction extends Command
 			
 			attachments.insertAttachments(post);
 			post.hasAttachments(attachments.getAttachments(post.getId(), forumId).size() > 0);
-			topic.setHasAttach(topic.hasAttach() || post.hasAttachments());
+			//topic.setHasAttach(topic.hasAttach() || post.hasAttachments());
+			topic = topicDao.selectById(post.getTopicId());			
 			
 			if (!moderate) {
 				StringBuffer path = new StringBuffer(512);

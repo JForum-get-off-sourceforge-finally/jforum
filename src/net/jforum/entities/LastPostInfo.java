@@ -48,6 +48,14 @@ import java.io.Serializable;
  * @author Rafael Steil
  * @version $Id: LastPostInfo.java,v 1.6 2006/08/23 02:13:46 rafaelsteil Exp $
  */
+/**
+ * @author Andowson
+ *
+ */
+/**
+ * @author Andowson
+ *
+ */
 public class LastPostInfo implements Serializable
 {
 	private static final long serialVersionUID = -472556606758547155L;
@@ -58,6 +66,7 @@ public class LastPostInfo implements Serializable
 	private int topicReplies;
 	private String username;
 	private String postDate;
+	private String topicTitle;
 	private boolean hasInfo;
 	
 	public void setHasInfo(final boolean value) {
@@ -152,5 +161,18 @@ public class LastPostInfo implements Serializable
 	 */
 	public void setUsername(final String username) {
 		this.username = username;
+	}
+	/**
+	 * @return Returns the title.
+	 */
+	public String getTitle() {
+		return this.topicTitle;
+	}
+
+	/**
+	 * @param title The title to set.
+	 */
+	public void setTitle(String title) {
+		this.topicTitle = title;
 	}
 }

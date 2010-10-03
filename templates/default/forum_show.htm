@@ -217,14 +217,15 @@
 						</td>
 
 						<td ${class2} valign="middle" align="center"><span class="postdetails">${topic.totalReplies}</span></td>
-						<td ${class3} valign="middle" align="center">
-							<span class="name"><a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a></span>
+						<td ${class3} valign="middle" nowrap="nowrap" align="center">
+							<span class="name">${topic.firstPostTime}<br />
+							<a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a></span>
 						</td>
 
 						<td ${class2} valign="middle" align="center"><span class="postdetails">${topic.totalViews}</span></td>
 						<td ${class3} valign="middle" nowrap="nowrap" align="center">
 							<#if (topic.lastPostTime?length > 0)>
-								<span class="postdetails">${topic.lastPostTime}<br />
+								<span class="name">${topic.lastPostTime}<br />
 								<a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
 
 								<#assign startPage = ""/>

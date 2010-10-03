@@ -414,6 +414,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 				lpi.setTopicReplies(resultSet.getInt("topic_replies"));
 
 				lpi.setHasInfo(true);
+				lpi.setTitle(resultSet.getString("topic_title"));
 
 				// Check if the topic is consistent
 				TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();

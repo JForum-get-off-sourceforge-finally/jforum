@@ -45,7 +45,10 @@ package net.jforum;
 import java.beans.PropertyVetoException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -162,7 +165,7 @@ public class C3P0PooledConnection extends DBConnection
 		}
 		catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-		}
+		}		
 	}
 
 	/**
@@ -171,5 +174,14 @@ public class C3P0PooledConnection extends DBConnection
 	public void realReleaseAllConnections() throws SQLException
 	{
 		DataSources.destroy(this.dataSource);
+		Enumeration<Driver> drivers = DriverManager.getDrivers();
+		while (drivers.hasMoreElements()) {
+			Driver driver = drivers.nextElement();
+			try {
+				DriverManager.deregisterDriver(driver);
+			} catch (SQLException e) {
+				LOGGER.error(e);
+			}	
+		}
 	}
 }

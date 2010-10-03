@@ -56,7 +56,7 @@ public final class TemplateKeys
 	public static final String FORUMS_BANNED = "forums.banned";
 
 	public static final String BOOKMARKS_ADD_FORUM = "bookmarks.add.forum";
-	public static final String BOOKMARS_ADD_TOPIC = "bookmars.add.topic";
+	public static final String BOOKMARKS_ADD_TOPIC = "bookmarks.add.topic";
 	public static final String BOOKMARKS_ADD_USER = "bookmarks.add.user";
 	public static final String BOOKMARKS_INSERT_SAVE = "bookmarks.insert.save";
 	public static final String BOOKMARKS_UPDATE_SAVE = "bookmarks.update.save";
@@ -108,6 +108,8 @@ public final class TemplateKeys
 	
 	public static final String HOTTEST_LIST = "hottest.list";
 	public static final String HOTTEST_USER_TOPICS_SHOW = "hottest.usertopics.show";
+	
+	public static final String TOP_DOWNLOADS_LIST = "topdownloads.list";
 
 	public static final String SEARCH_FILTERS = "search.filters";
 	public static final String SEARCH_SEARCH = "search.search";

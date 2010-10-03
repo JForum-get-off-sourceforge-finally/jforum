@@ -43,8 +43,10 @@
 package net.jforum;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -124,6 +126,15 @@ public class SimpleConnection extends DBConnection
 	 * @see net.jforum.DBConnection#realReleaseAllConnections()
 	 */
 	public void realReleaseAllConnections() {
-		// Empty method
+		Enumeration<Driver> drivers = DriverManager.getDrivers();
+		while (drivers.hasMoreElements()) {
+			Driver driver = drivers.nextElement();
+			try {
+				DriverManager.deregisterDriver(driver);
+			} catch (SQLException e) {
+				LOGGER.error(e);
+			}	
+		}
+		
 	}
 }

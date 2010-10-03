@@ -135,7 +135,7 @@ public class BookmarkAction extends Command
 			this.context.put("bookmark", bookmark);
 		}
 		
-		this.setTemplateName(TemplateKeys.BOOKMARS_ADD_TOPIC);
+		this.setTemplateName(TemplateKeys.BOOKMARKS_ADD_TOPIC);
 		this.context.put("title", title);
 		this.context.put("relationType", Integer.valueOf(BookmarkType.TOPIC));
 		this.context.put("relationId", Integer.valueOf(topic.getId()));

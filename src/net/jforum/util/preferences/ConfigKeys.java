@@ -155,6 +155,7 @@ public final class ConfigKeys
 	public static final String HOTTEST_TOPICS = "topic.hottest";
 	public static final String POSTS_CACHE_SIZE = "posts.cache.size";
 	public static final String POSTS_CACHE_ENABLED = "posts.cache.enabled";
+	public static final String TOP_DOWNLOADS = "top.downloads";
 
 	public static final String CAPTCHA_IGNORE_CASE = "captcha.ignore.case";
 	public static final String CAPTCHA_REGISTRATION = "captcha.registration";
@@ -251,6 +252,7 @@ public final class ConfigKeys
 	public static final String SEARCH_INDEXING_ENABLED = "search.indexing.enabled";
 	public static final String SEARCH_INDEXER_IMPLEMENTATION = "search.indexer.implementation";
 	public static final String SEARCH_INDEXER_CRON_EXPRESSON = "indexer.cron.expression";
+	public static final String SEARCH_RESULT_LIMIT = "search.result.limit";
 	public static final String EXTENSION_FIELD = "extension.field";
 	
 	public static final String LDAP_SECURITY_PROTOCOL = "ldap.security.protocol";

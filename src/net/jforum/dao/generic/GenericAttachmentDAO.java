@@ -58,6 +58,7 @@ import net.jforum.entities.AttachmentExtension;
 import net.jforum.entities.AttachmentExtensionGroup;
 import net.jforum.entities.AttachmentInfo;
 import net.jforum.entities.QuotaLimit;
+import net.jforum.entities.TopDownloadInfo;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.ConfigKeys;
@@ -804,5 +805,36 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 		finally {
 			DbUtils.close(resultSet, pstmt);
 		}
+	}
+
+	@Override
+	public List<TopDownloadInfo> selectTopDownloads(int limit) {
+		final List<TopDownloadInfo> list = new ArrayList<TopDownloadInfo>();
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		try {			
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("AttachmentModel.selectTopDownloadsByLimit"));
+			pstmt.setInt(1, limit);
+			
+			resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				TopDownloadInfo tdi = new TopDownloadInfo();
+				tdi.setForumId(resultSet.getInt("forum_id"));
+				tdi.setForumName(resultSet.getString("forum_name"));
+				tdi.setTopicId(resultSet.getInt("topic_id"));
+				tdi.setTopicTitle(resultSet.getString("topic_title"));
+				tdi.setAttachId(resultSet.getInt("attach_id"));
+				tdi.setRealFilename(resultSet.getString("real_filename"));
+				tdi.setFilesize(resultSet.getLong("filesize"));
+				tdi.setDownloadCount(resultSet.getInt("download_count"));
+				list.add(tdi);
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException(e);
+		} finally {
+			DbUtils.close(resultSet, pstmt);
+		}
+		return list;
 	}
 }

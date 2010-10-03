@@ -16,11 +16,11 @@ td.row1 { background-color: #fafafa; }
 td.row2 { background-color: #f7f7f8; }
 td.row3 { background-color: #dfdfdf; }
 
-td.row1announce { background-color: #efefef;}
+td.row1announce { background-color: #fff8dd;}
 td.row1sticky { background-color: #efefef; }
-td.row2announce { background-color: #dee3e7; }
+td.row2announce { background-color: #f5ecd4; }
 td.row2sticky { background-color: #dee3e7; }
-td.row3announce { background-color: #d1d7dc; }
+td.row3announce { background-color: #efe0c3; }
 td.row3sticky { background-color: #d1d7dc; }
 td.rowpic { background-image:  url(../images/cellpic2.jpg); background-repeat: repeat-y; background-color: #ffffff }
 

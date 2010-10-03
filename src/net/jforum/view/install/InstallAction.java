@@ -169,12 +169,12 @@ public class InstallAction extends Command
 			LOGGER.info("Going to configure the database...");
 			
 			conn = this.configureDatabase();
-			
-			if (conn == null) {
-				this.context.put("message", I18n.getMessage("Install.databaseError"));
-				this.error();
-				return;
-			}
+		}
+		
+		if (conn == null) {
+			this.context.put("message", I18n.getMessage("Install.databaseError"));
+			this.error();
+			return;
 		}
 		
 		// Database Configuration is OK

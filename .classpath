@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/activation.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/c3p0-0.9.1.2.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/freemarker-2.3.16.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/htmlparser-1.6.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jcaptcha-1.0-all.jar"/>
@@ -17,11 +16,12 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/ehcache-core-2.1.0.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jbosscache-core.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/jgroups-2.9.0.GA.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/lucene-core-3.0.2.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/lucene-highlighter-3.0.2.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/quartz-1.8.3.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jboss-transaction-api.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jgroups-2.10.0.GA.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

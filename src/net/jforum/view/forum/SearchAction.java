@@ -53,6 +53,7 @@ import net.jforum.search.ContentSearchOperation;
 import net.jforum.search.NewMessagesSearchOperation;
 import net.jforum.search.SearchArgs;
 import net.jforum.search.SearchOperation;
+import net.jforum.search.SearchResult;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -100,8 +101,8 @@ public class SearchAction extends Command
 		int start = args.startFrom();
 		int recordsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		
-		//SearchResult searchResult = operation.performSearch(args);
-		operation.performSearch(args);
+		SearchResult searchResult = operation.performSearch(args);
+		//operation.performSearch(args);
 		operation.prepareForDisplay();
 		List<Object> results = operation.filterResults(operation.getResults());
 		this.setTemplateName(operation.viewTemplate());
@@ -114,7 +115,7 @@ public class SearchAction extends Command
 		this.context.put("openModeration", "1".equals(this.request.getParameter("openModeration")));
 		this.context.put("postsPerPage", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE)));
 		
-		ViewCommon.contextToPagination(start, results.size(), recordsPerPage);
+		ViewCommon.contextToPagination(start, searchResult.getNumberOfHits(), recordsPerPage);
 		TopicsCommon.topicListingBase();
 	}
 	

@@ -49,6 +49,7 @@ import net.jforum.entities.Attachment;
 import net.jforum.entities.AttachmentExtension;
 import net.jforum.entities.AttachmentExtensionGroup;
 import net.jforum.entities.QuotaLimit;
+import net.jforum.entities.TopDownloadInfo;
 
 /**
  * @author Rafael Steil
@@ -245,4 +246,13 @@ public interface AttachmentDAO
 	 * @return true = physical download mode; false = inline download mode
 	 */
 	boolean isPhysicalDownloadMode(int extensionGroupId);
+	
+
+	/**
+	 * Selects top download attachments
+	 *
+	 * @param limit The number of attachments to retrieve
+	    * @return List
+	 */
+	List<TopDownloadInfo> selectTopDownloads(int limit);
 }
