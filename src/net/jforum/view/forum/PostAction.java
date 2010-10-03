@@ -870,7 +870,14 @@ public class PostAction extends Command
 				else {
 					TopicRepository.updateTopic(topic);
 				}
+			} else {
+				topicDao.update(topic);
+				topic = topicDao.selectById(post.getTopicId());
+				TopicRepository.updateTopic(topic);
 			}
+			
+			// Update forum last post info 			
+			ForumRepository.reloadForum(post.getForumId());
 			
 			if (SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED)
 					&& isModerator && post.getUserId() != SessionFacade.getUserSession().getUserId()) {
@@ -1186,6 +1193,7 @@ public class PostAction extends Command
 				
 				TopicsCommon.updateBoardStatus(topic, postId, firstPost, topicDao, forumDao);
 				ForumRepository.updateForumStats(topic, user, post);
+				ForumRepository.reloadForum(post.getForumId());
 				
 				int anonymousUser = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
 				
