@@ -374,7 +374,7 @@ public class UserAction extends Command
 
 		SessionFacade.add(userSession);
 
-		// Finalizing.. show to user the congrats page
+		// Finalizing.. show the user the congratulations page
 		JForumExecutionContext.setRedirect(this.request.getContextPath()
 			+ "/user/registrationComplete"
 			+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));

@@ -126,6 +126,7 @@ public class ForumAction extends Command
 
 			us.setUserId(aid);
 			us.setUsername(I18n.getMessage("Guest"));
+			us.setStartTime(new Date(System.currentTimeMillis()));
 
 			onlineUsersList.add(us);
 		}

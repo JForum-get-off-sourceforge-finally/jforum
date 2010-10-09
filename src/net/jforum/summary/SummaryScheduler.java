@@ -105,6 +105,36 @@ public final class SummaryScheduler
 			isStarted = true;
 		}
 	}
+
+	/**
+	 * Stops the summary Job. Conditions to stop: Is started and is enabled on the file
+	 * SystemGlobasl.properties. The to enable it is "summary.enabled"
+	 * (ConfigKeys.SUMMARY_IS_ENABLED).
+	 * 
+	 * @throws SchedulerException
+	 */
+	public static void stopJob() throws SchedulerException
+	{
+		final boolean isEnabled = SystemGlobals.getBoolValue(ConfigKeys.SUMMARY_IS_ENABLED);
+		
+		synchronized(MUTEX) {
+			if (isStarted && isEnabled) {
+				final String filename = SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG);
 	
+				final String cronExpression = SystemGlobals.getValue("org.quartz.context.summary.cron.expression");
+				scheduler = new StdSchedulerFactory(filename).getScheduler();
+				
+				try {					
+					LOGGER.info("Stopping quartz summary expression " + cronExpression);
+					scheduler.shutdown();
+				}
+				catch (SchedulerException e) {
+					LOGGER.error(e.getMessage(), e);
+				}
+			}
+			
+			isStarted = false;
+		}
+	}
 	private SummaryScheduler() {}
 }

@@ -140,6 +140,7 @@ public class InstallAction extends Command
 		
 		final UserSession userSession = new UserSession();
 		userSession.setLang(lang);
+		userSession.setStartTime(new Date(System.currentTimeMillis()));
 		
 		SessionFacade.add(userSession);
 		this.addToSessionAndContext("language", lang);

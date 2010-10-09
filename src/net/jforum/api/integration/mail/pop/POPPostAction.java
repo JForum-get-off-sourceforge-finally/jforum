@@ -3,6 +3,7 @@
  */
 package net.jforum.api.integration.mail.pop;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -65,6 +66,7 @@ public class POPPostAction
 					userSession.setUserId(user.getId());
 					userSession.setUsername(userSession.getUsername());
 					userSession.setSessionId(sessionId);
+					userSession.setStartTime(new Date(System.currentTimeMillis()));
 					
 					SessionFacade.add(userSession, sessionId);
 					SessionFacade.setAttribute(ConfigKeys.LOGGED, "1");

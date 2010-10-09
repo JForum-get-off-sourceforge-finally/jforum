@@ -57,6 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.jforum.api.integration.mail.pop.POPJobStarter;
 import net.jforum.context.JForumContext;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
@@ -76,12 +77,14 @@ import net.jforum.repository.ModulesRepository;
 import net.jforum.repository.RankingRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.repository.SmiliesRepository;
+import net.jforum.summary.SummaryScheduler;
 import net.jforum.util.FileMonitor;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
+import org.quartz.SchedulerException;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
@@ -345,6 +348,15 @@ public class JForum extends JForumBaseServlet
 	{
 		super.destroy();
 		LOGGER.info("Destroying JForum...");
+		
+		// stop Scheduler
+		try {
+			LOGGER.debug("Stop Quartz Scheduler ...");
+			SummaryScheduler.stopJob();
+			POPJobStarter.stopJob();
+		} catch (SchedulerException e) {			
+			LOGGER.error(e.getMessage(), e);
+		}		
 		
 		// stop FileMonitor threads
 		LOGGER.debug("Close file monitors ...");
