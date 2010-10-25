@@ -349,6 +349,24 @@ public class AttachmentCommon
 							LOGGER.error("Delete file failed: " + f.getName());
 						}
 					}
+					
+					// Remove the empty parent directory
+					File parent = f.getParentFile();
+					if (parent.list().length == 0) {
+						boolean result = parent.delete();
+						if (result != true) {
+							LOGGER.error("Delete directory failed: " + parent.getName());
+						}
+					}
+					
+					// Remove the empty grand parent directory
+					File grandparent = parent.getParentFile();
+					if (grandparent.list().length == 0) {
+						boolean result = grandparent.delete();
+						if (result != true) {
+							LOGGER.error("Delete directory failed: " +grandparent.getName());
+						}
+					}
 				}
 			}
 			
@@ -397,10 +415,14 @@ public class AttachmentCommon
 		StringBuffer dir = new StringBuffer(256);
 		dir.append(year).append('/').append(month).append('/').append(day).append('/');
 		
-		boolean result = new File(SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir).mkdirs();
-		if (!result) {
-			LOGGER.error("Create directory failed: " + SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir);
-		}
+		File path = new File(SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir); 
+		// check if we have the directory already
+		if (!path.exists()) {
+			boolean result = path.mkdirs();
+			if (!result) {
+				LOGGER.error("Create directory failed: " + SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir);
+			}
+		}		
 		
 		return dir
 			.append(MD5.crypt(attInfo.getRealFilename() + System.currentTimeMillis()))
