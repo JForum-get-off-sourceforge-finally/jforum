@@ -3,6 +3,7 @@
 <p>Some features have been added, changed or fixed in JForum 2.2.1, like:</p>
 
 <ul>
+<li>Fix lucene search limit to 10 results problem</li>
 <li>Add Top Downloads</li>
 <li>Add browser language auto-detection</li>
 <li>Add ${topic.firstPostTime} in forum_show.htm, recent_thread.htm and hottest_thread.htm</li>
