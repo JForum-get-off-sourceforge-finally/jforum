@@ -22,7 +22,7 @@ public class POPListener implements Job
 {
 	private static final Logger LOGGER = Logger.getLogger(POPListener.class);
 	private static boolean working = false;
-	protected transient POPConnector connector = new POPConnector();
+	protected POPConnector connector = new POPConnector();
 	
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
