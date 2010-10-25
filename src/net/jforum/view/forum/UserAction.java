@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import net.jforum.Command;
 import net.jforum.ControllerUtils;
@@ -353,7 +354,6 @@ public class UserAction extends Command
 				}
 			));
 		}
-
 	}
 	
 	public void activateManual()
@@ -669,8 +669,10 @@ public class UserAction extends Command
 			return null;
 		}
 		
-		String hash = MD5.crypt(SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) 
-				+ user.getEmail() + System.currentTimeMillis());
+		String hash = MD5.crypt(user.getEmail() 
+				+ System.currentTimeMillis() 
+				+ SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) 
+				+ new Random().nextInt(999999));
 		userDao.writeLostPasswordHash(user.getEmail(), hash);
 		
 		user.setActivationKey(hash);
