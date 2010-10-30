@@ -101,7 +101,7 @@ public class LuceneSearchTestCase extends TestCase
 		args.setForumId(1);
 		args.setKeywords("open lucene xpto authoritative");
 		
-		List results = this.search.search(args).records();
+		List results = this.search.search(args).getRecords();
 		
 		Assert.assertEquals(3, results.size());
 	}
@@ -118,7 +118,7 @@ public class LuceneSearchTestCase extends TestCase
 		SearchArgs args = new SearchArgs();
 		args.setKeywords("open lucene");
 		
-		List results = this.search.search(args).records();
+		List results = this.search.search(args).getRecords();
 		
 		Assert.assertEquals(3, results.size());
 	}
@@ -162,7 +162,7 @@ public class LuceneSearchTestCase extends TestCase
 		args.matchAllKeywords();
 		args.setKeywords("magic regular");
 		
-		List results = this.search.search(args).records();
+		List results = this.search.search(args).getRecords();
 		
 		Assert.assertEquals(1, results.size());
 	}
@@ -188,7 +188,7 @@ public class LuceneSearchTestCase extends TestCase
 		SearchArgs args = new SearchArgs();
 		args.setKeywords("java");
 		
-		List results = this.search.search(args).records();
+		List results = this.search.search(args).getRecords();
 		
 		Assert.assertEquals(1, results.size());
 	}
@@ -206,7 +206,7 @@ public class LuceneSearchTestCase extends TestCase
 		SearchArgs args = new SearchArgs();
 		args.setForumId(1);
 		
-		List results = this.search.search(args).records();
+		List results = this.search.search(args).getRecords();
 		
 		Assert.assertEquals(1, results.size());
 	}
