@@ -94,7 +94,7 @@ public class Ranking implements Serializable
 	 * Sets the id.
 	 * @param id The id to set
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -102,7 +102,7 @@ public class Ranking implements Serializable
 	 * Sets the image.
 	 * @param image The image to set
 	 */
-	public void setImage(String image) {
+	public void setImage(final String image) {
 		this.image = image;
 	}
 
@@ -110,7 +110,7 @@ public class Ranking implements Serializable
 	 * Sets the special.
 	 * @param special The special to set
 	 */
-	public void setSpecial(boolean special) {
+	public void setSpecial(final boolean special) {
 		this.special = special;
 	}
 
@@ -118,7 +118,7 @@ public class Ranking implements Serializable
 	 * Sets the title.
 	 * @param title The title to set
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -132,7 +132,7 @@ public class Ranking implements Serializable
 	/**
 	 * @param i
 	 */
-	public void setMin(int i) {
+	public void setMin(final int i) {
 		this.min = i;
 	}
 

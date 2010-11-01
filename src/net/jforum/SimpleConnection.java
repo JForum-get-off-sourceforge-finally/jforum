@@ -43,10 +43,7 @@
 package net.jforum;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
 
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -105,36 +102,5 @@ public class SimpleConnection extends DBConnection
 			LOGGER.error(e.getMessage(), e);
 			throw new DatabaseException(e);
 		}
-	}
-
-	/** 
-	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
-	 */
-	public void releaseConnection(final Connection conn)
-	{
-		if (conn != null) {
-			try {
-				conn.close();
-			}
-			catch (SQLException e) { 
-				LOGGER.error(e);
-			}
-		}
-	}
-	
-	/** 
-	 * @see net.jforum.DBConnection#realReleaseAllConnections()
-	 */
-	public void realReleaseAllConnections() {
-		Enumeration<Driver> drivers = DriverManager.getDrivers();
-		while (drivers.hasMoreElements()) {
-			Driver driver = drivers.nextElement();
-			try {
-				DriverManager.deregisterDriver(driver);
-			} catch (SQLException e) {
-				LOGGER.error(e);
-			}	
-		}
-		
 	}
 }

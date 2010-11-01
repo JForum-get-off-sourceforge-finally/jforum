@@ -171,8 +171,9 @@ public class BBCodeHandler extends DefaultHandler implements Serializable
 
 	public void characters(char ch[], int start, int length)
 	{
-		if (this.tagName.equals("replace") || this.tagName.equals("regex"))
+		if (this.tagName.equals("replace") || this.tagName.equals("regex")) {
 			this.sb.append(ch, start, length);
+		}	
 	}
 
 	public void error(SAXParseException exception) throws SAXException 

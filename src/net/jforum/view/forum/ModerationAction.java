@@ -96,14 +96,14 @@ public class ModerationAction extends Command
 		final List<ModerationLog> list = dao.selectAll(start, recordsPerPage);
 		final boolean canAccessFullModerationLog = SecurityRepository.canAccess(SecurityConstants.PERM_FULL_MODERATION_LOG);
 		
-		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
-		TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
+		final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
+		final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 		
-		for (Iterator<ModerationLog> iter = list.iterator(); iter.hasNext();) {
-			ModerationLog log = iter.next();
+		for (final Iterator<ModerationLog> iter = list.iterator(); iter.hasNext();) {
+			final ModerationLog log = iter.next();
 			
 			if (log.getPostId() > 0) {
-				Post post = postDao.selectById(log.getPostId());
+				final Post post = postDao.selectById(log.getPostId());
 				
 				if (post.getId() > 0 && ForumRepository.getForum(post.getForumId()) == null) {
 					iter.remove();

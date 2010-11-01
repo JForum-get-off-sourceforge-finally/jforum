@@ -53,24 +53,24 @@ public class FormSelectedData
 	/**
 	 * Nome do campo ( descricao textual )
 	 * */
-	private String name;
+	private final String name;
 	
 	/**
 	 * ID relacionada com o campo
 	 * */
-	private String id;
+	private final String id;
 	
 	/**
 	 * Para verificar se o campo deve ser marcado como selecionado
 	 * */
-	private boolean selected;
+	private final boolean selected;
 	
 	/**
 	 * @param name Nome do campo
 	 * @param id ID relacionado com o campo
 	 * @param selected <code>true</code> ou <code>false</code>, com base no status desejado
 	 * */
-	public FormSelectedData(String name, String id, boolean selected)
+	public FormSelectedData(final String name, final String id, final boolean selected)
 	{
 		this.name = name;
 		this.id = id;

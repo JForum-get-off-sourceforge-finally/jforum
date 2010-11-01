@@ -48,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
@@ -108,7 +109,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		post.setText(rs.getString("post_text"));
 		post.setPostUsername(rs.getString("username"));
 
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		post.setFormattedTime(df.format(postTime));
 
 		post.setKarma(DataAccessDriver.getInstance().newKarmaDAO().getPostKarma(post.getId()));

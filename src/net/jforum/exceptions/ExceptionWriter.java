@@ -65,13 +65,13 @@ public class ExceptionWriter
 {
 	private static final Logger LOGGER = Logger.getLogger(ExceptionWriter.class);
 	
-	public void handleExceptionData(Throwable throwable, Writer wtr, RequestContext request)
+	public void handleExceptionData(final Throwable throwable, final Writer wtr, final RequestContext request)
 	{
 		StringWriter strWriter = new StringWriter();
 		PrintWriter writer = new PrintWriter(strWriter);
 		throwable.printStackTrace(writer);	
 		
-		String currentUrl = this.extractCurrentUrl(request);
+		final String currentUrl = this.extractCurrentUrl(request);
 		
 		writer.write(currentUrl);
 		writer.close();
@@ -95,10 +95,10 @@ public class ExceptionWriter
 				message = throwable.toString();
 			}
 
-			boolean canViewStackTrace = !SystemGlobals.getBoolValue(ConfigKeys.STACKTRACE_MODERATORS_ONLY)
+			final boolean canViewStackTrace = !SystemGlobals.getBoolValue(ConfigKeys.STACKTRACE_MODERATORS_ONLY)
 				|| (SessionFacade.isLogged() && SessionFacade.getUserSession().isModerator());
 			
-			String filter = "[<>]";
+			final String filter = "[<>]";
 			String stackTrace = canViewStackTrace
 				? strWriter.toString()
 				: "Only moderators can view stack trace.";
@@ -106,12 +106,12 @@ public class ExceptionWriter
 			stackTrace = stackTrace.replaceAll(filter, "");
 			message = message.replaceAll(filter, "");
 			
-			SimpleHash templateContext = JForumExecutionContext.getTemplateContext();
+			final SimpleHash templateContext = JForumExecutionContext.getTemplateContext();
 			
 			templateContext.put("stackTrace", stackTrace);
 			templateContext.put("message", message);
 
-			Template template = JForumExecutionContext.getTemplateConfig().getTemplate("exception.html", SystemGlobals.getValue(ConfigKeys.ENCODING));
+			final Template template = JForumExecutionContext.getTemplateConfig().getTemplate("exception.html", SystemGlobals.getValue(ConfigKeys.ENCODING));
 			template.process(templateContext, wtr);
 		}
 		catch (Exception e) {
@@ -123,11 +123,11 @@ public class ExceptionWriter
 		}
 	}
 	
-	private String extractCurrentUrl(RequestContext request)
+	private String extractCurrentUrl(final RequestContext request)
 	{
 		String url = null;
 		if (request != null) {
-			StringBuffer sb = new StringBuffer().append("\nURL is: ").append(request.getRequestURI()); 
+			final StringBuffer sb = new StringBuffer().append("\nURL is: ").append(request.getRequestURI()); 
 			if (request.getQueryString() != null) {
 				sb.append('?').append(request.getQueryString());				
 			}

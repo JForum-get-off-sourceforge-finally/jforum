@@ -47,6 +47,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.context.RequestContext;
@@ -122,7 +123,7 @@ public final class ViewCommon
 	 * @param origReturnPath the URI to use as return path
 	 * @return TemplateKeys.USER_LOGIN
 	 */
-	public static String contextToLogin(String origReturnPath)
+	public static String contextToLogin(final String origReturnPath)
 	{		
 		String returnPath = origReturnPath;
 		JForumExecutionContext.getTemplateContext().put("returnPath", returnPath);
@@ -245,7 +246,7 @@ public final class ViewCommon
 	 */
 	public static String formatDate(final Date date) 
 	{
-		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		return sdf.format(date);
 	}
 	
@@ -256,7 +257,7 @@ public final class ViewCommon
 	 */
 	public static String espaceHtml(final String contents)
 	{
-		StringBuffer stringBuffer = new StringBuffer(contents);
+		final StringBuffer stringBuffer = new StringBuffer(contents);
 		
 		replaceAll(stringBuffer, "<", "&lt");
 		replaceAll(stringBuffer, ">", "&gt;");

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
 import net.jforum.util.legacy.clickstream.config.ClickstreamConfig;
 import net.jforum.util.legacy.clickstream.config.ConfigLoader;
 

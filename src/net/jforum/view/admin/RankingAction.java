@@ -93,7 +93,7 @@ public class RankingAction extends AdminCommand
 		ranking.setTitle(this.request.getParameter("rank_title"));
 		ranking.setId(this.request.getIntParameter("rank_id"));
 		
-		boolean special = "1".equals(this.request.getParameter("rank_special"));
+		final boolean special = "1".equals(this.request.getParameter("rank_special"));
 		ranking.setSpecial(special);
 		
 		if (!special) {
@@ -131,7 +131,7 @@ public class RankingAction extends AdminCommand
 		final Ranking ranking = new Ranking();
 		ranking.setTitle(this.request.getParameter("rank_title"));
 		
-		boolean special = "1".equals(this.request.getParameter("rank_special"));
+		final boolean special = "1".equals(this.request.getParameter("rank_special"));
 		ranking.setSpecial(special);
 		
 		if (!special) {

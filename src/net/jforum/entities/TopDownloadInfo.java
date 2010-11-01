@@ -68,7 +68,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param forumId the forumId to set
 	 */
-	public void setForumId(int forumId) {
+	public void setForumId(final int forumId) {
 		this.forumId = forumId;
 	}
 	/**
@@ -80,7 +80,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param forumName the forumName to set
 	 */
-	public void setForumName(String forumName) {
+	public void setForumName(final String forumName) {
 		this.forumName = forumName;
 	}
 	/**
@@ -92,7 +92,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param topicId the topicId to set
 	 */
-	public void setTopicId(int topicId) {
+	public void setTopicId(final int topicId) {
 		this.topicId = topicId;
 	}
 	/**
@@ -104,7 +104,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param topicTitle the topicTitle to set
 	 */
-	public void setTopicTitle(String topicTitle) {
+	public void setTopicTitle(final String topicTitle) {
 		this.topicTitle = topicTitle;
 	}
 	/**
@@ -116,7 +116,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param attachId the attachId to set
 	 */
-	public void setAttachId(int attachId) {
+	public void setAttachId(final int attachId) {
 		this.attachId = attachId;
 	}
 	/**

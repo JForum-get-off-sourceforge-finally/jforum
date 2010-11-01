@@ -46,9 +46,9 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
 import net.jforum.entities.Topic;
+
+import org.apache.log4j.Logger;
 
 /**
  * Represents the In-Reply-To and Message-ID mail header.

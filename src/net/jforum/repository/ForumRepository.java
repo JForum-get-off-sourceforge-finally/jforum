@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -534,7 +535,7 @@ public class ForumRepository implements Cacheable
 		if (((Map<String, String>)cache.get(FQN, RELATION)).containsKey(forumId)) {
 			Forum forum = getForum(topic.getForumId());
 
-			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		
 			LastPostInfo lpi = forum.getLastPostInfo();
 			

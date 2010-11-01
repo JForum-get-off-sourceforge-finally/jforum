@@ -137,15 +137,15 @@ public class RSSAction extends Command
 	
 	public void recentTopics()
 	{
-		String title = I18n.getMessage("RSS.RecentTopics.title", 
+		final String title = I18n.getMessage("RSS.RecentTopics.title", 
 			new Object[] { SystemGlobals.getValue(ConfigKeys.FORUM_NAME) });
-		String description = I18n.getMessage("RSS.RecentTopics.description");
+		final String description = I18n.getMessage("RSS.RecentTopics.description");
 		
-		List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestForRSS(
+		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestForRSS(
 			SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS));
 
-		List<Post> authPosts = new ArrayList<Post>();  
-		Iterator<Post> iter = posts.iterator();  
+		final List<Post> authPosts = new ArrayList<Post>();  
+		final Iterator<Post> iter = posts.iterator();  
 		while ( iter.hasNext() ) {  
 		     Post post = iter.next();  
 		     if ( TopicsCommon.isTopicAccessible(post.getForumId(), false) ) {  

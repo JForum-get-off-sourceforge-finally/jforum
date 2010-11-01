@@ -144,7 +144,7 @@ public class TreeGroup
 		final List<GroupNode> rootGroups = tgm.selectGroups(0);	
 				
 		for (final Iterator<GroupNode> iter = rootGroups.iterator(); iter.hasNext();) {
-			GroupNode groupNode = iter.next();
+			final GroupNode groupNode = iter.next();
 						
 			this.checkExtraNodes(groupNode);
 			
@@ -161,12 +161,12 @@ public class TreeGroup
      */
 	private void checkExtraNodes(final GroupNode groupNode)
 	{
-		TreeGroupDAO tgm = DataAccessDriver.getInstance().newTreeGroupDAO();
+		final TreeGroupDAO tgm = DataAccessDriver.getInstance().newTreeGroupDAO();
 
-		List<GroupNode> childGroups = tgm.selectGroups(groupNode.getId());	
+		final List<GroupNode> childGroups = tgm.selectGroups(groupNode.getId());	
 				
-		for (Iterator<GroupNode> iter = childGroups.iterator(); iter.hasNext();) {
-			GroupNode foundNode = iter.next();
+		for (final Iterator<GroupNode> iter = childGroups.iterator(); iter.hasNext();) {
+			final GroupNode foundNode = iter.next();
 			
 			this.checkExtraNodes(foundNode);
 			

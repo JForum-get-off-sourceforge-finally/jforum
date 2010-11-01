@@ -59,6 +59,7 @@ public class PrivateMessageSpammer extends Spammer
 {
 	public PrivateMessageSpammer(final User user)
 	{
+		super();
 		if (user.getEmail() == null || user.getEmail().trim().equals("")) {
 			return;
 		}

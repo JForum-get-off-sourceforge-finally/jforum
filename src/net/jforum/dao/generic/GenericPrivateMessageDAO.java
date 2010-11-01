@@ -51,6 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
@@ -272,7 +273,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 		post.setTime(new Date(rs.getTimestamp("privmsgs_date").getTime()));
 		post.setSubject(rs.getString("privmsgs_subject"));
 
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		pm.setFormattedDate(df.format(post.getTime()));
 
 		if (full) {

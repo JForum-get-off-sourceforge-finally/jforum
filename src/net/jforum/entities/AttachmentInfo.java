@@ -78,7 +78,7 @@ public class AttachmentInfo
 	/**
 	 * @param attachId The attachId to set.
 	 */
-	public void setAttachId(int attachId)
+	public void setAttachId(final int attachId)
 	{
 		this.attachId = attachId;
 	}
@@ -94,7 +94,7 @@ public class AttachmentInfo
 	/**
 	 * @param comment The comment to set.
 	 */
-	public void setComment(String comment)
+	public void setComment(final String comment)
 	{
 		this.comment = comment;
 	}
@@ -110,7 +110,7 @@ public class AttachmentInfo
 	/**
 	 * @param downloadCount The downloadCount to set.
 	 */
-	public void setDownloadCount(int downloadCount)
+	public void setDownloadCount(final int downloadCount)
 	{
 		this.downloadCount = downloadCount;
 	}
@@ -126,7 +126,7 @@ public class AttachmentInfo
 	/**
 	 * @param extension The extension to set.
 	 */
-	public void setExtension(AttachmentExtension extension)
+	public void setExtension(final AttachmentExtension extension)
 	{
 		this.extension = extension;
 	}
@@ -142,7 +142,7 @@ public class AttachmentInfo
 	/**
 	 * @param filesize The filesize to set.
 	 */
-	public void setFilesize(long filesize)
+	public void setFilesize(final long filesize)
 	{
 		this.filesize = filesize;
 	}

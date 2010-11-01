@@ -72,30 +72,31 @@ import freemarker.template.SimpleHash;
  */
 public class SummaryModel extends Spammer
 {
-	private SummaryDAO dao;
+	private final SummaryDAO dao;
 
 	private static final Logger LOGGER = Logger.getLogger(SummaryModel.class);
 
 	public SummaryModel()
 	{
+		super();
 		this.dao = DataAccessDriver.getInstance().newSummaryDAO();
 	}
 
-	public void sendPostsSummary(List<String> recipients)
+	public void sendPostsSummary(final List<String> recipients)
 	{
 		LOGGER.info("Sending Weekly summary...");
 
 		// Gets a Date seven days before now
-		int daysBefore = Integer.parseInt(SystemGlobals.getValue(ConfigKeys.SUMMARY_DAYS_BEFORE));
+		final int daysBefore = Integer.parseInt(SystemGlobals.getValue(ConfigKeys.SUMMARY_DAYS_BEFORE));
 
 		// New date "X" days before now, where "X" is the number set on the variable daysBefore
-		long dateBefore = Calendar.getInstance().getTimeInMillis() - (1000L * 60 * 60 * 24 * daysBefore);
+		final long dateBefore = Calendar.getInstance().getTimeInMillis() - (1000L * 60 * 60 * 24 * daysBefore);
 
-		List<Post> posts = listPosts(new Date(dateBefore), new Date());
+		final List<Post> posts = listPosts(new Date(dateBefore), new Date());
 
-		String forumLink = ViewCommon.getForumLink();
+		final String forumLink = ViewCommon.getForumLink();
 
-		SimpleHash params = new SimpleHash();
+		final SimpleHash params = new SimpleHash();
 		params.put("posts", posts);
 		params.put("url", forumLink);
 		params.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
@@ -109,7 +110,7 @@ public class SummaryModel extends Spammer
 		super.dispatchMessages();
 	}
 	
-	private List<User> recipientsAsUsers(List<String> recipients)
+	private List<User> recipientsAsUsers(final List<String> recipients)
 	{
 		List<User> list = new ArrayList<User>();
 		
@@ -142,7 +143,7 @@ public class SummaryModel extends Spammer
 	 * @param lastDate Last date of a period.
 	 * @return List of Posts
 	 */
-	public List<Post> listPosts(Date firstDate, Date lastDate)
+	public List<Post> listPosts(final Date firstDate, final Date lastDate)
 	{
 		return this.dao.selectLastPosts(firstDate, lastDate);
 	}

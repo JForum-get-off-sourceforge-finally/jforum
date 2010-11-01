@@ -127,7 +127,7 @@ public class SqlServer2000UserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllWithKarma(int, int)
 	 */
-	public List<User> selectAllWithKarma(int startFrom, int count)
+	public List<User> selectAllWithKarma(final int startFrom, final int count)
 	{
 		return super.loadKarma(this.selectAll(startFrom, count));
 	}

@@ -43,7 +43,12 @@
 package net.jforum;
 
 import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 
+import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -140,12 +145,35 @@ public abstract class DBConnection
 	 * 
 	 * @param conn The connection to release
 	 */
-	public abstract void releaseConnection(Connection conn);
+	public void releaseConnection(final Connection conn)
+	{        
+		if (conn != null) {
+			try {
+				conn.close();
+			}
+			catch (SQLException e) { 
+				LOGGER.error(e.getMessage(), e);
+				throw new DatabaseException(e);
+			}
+		}
+	}
 	
 	/**
 	 * Close all open connections.
 	 * 
 	 * @throws Exception
 	 */
-	public abstract void realReleaseAllConnections() throws Exception;
+	public void realReleaseAllConnections() 
+	{
+		final Enumeration<Driver> drivers = DriverManager.getDrivers();
+		while (drivers.hasMoreElements()) {
+			final Driver driver = drivers.nextElement();
+			try {
+				DriverManager.deregisterDriver(driver);
+			} catch (SQLException e) {
+				LOGGER.error(e.getMessage(), e);
+				throw new DatabaseException(e);
+			}	
+		}		
+	}
 }

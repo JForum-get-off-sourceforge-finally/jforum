@@ -47,6 +47,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.jforum.Command;
@@ -94,7 +95,7 @@ public class ForumAction extends Command
 		this.context.put("totalRegisteredUsers", ForumRepository .totalUsers());
 		this.context.put("lastUser", ForumRepository.lastRegisteredUser());
 
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		GregorianCalendar gc = new GregorianCalendar();
 		this.context.put("now", df.format(gc.getTime()));
 

@@ -45,6 +45,7 @@ package net.jforum.entities;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -83,7 +84,7 @@ public class MostUsersEverOnline implements Serializable
 	public void setTimeInMillis(final long time) {
 		this.timeInMillis = time;
 		
-		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		final GregorianCalendar gcal = new GregorianCalendar();
 		gcal.setTimeInMillis(time);
 		

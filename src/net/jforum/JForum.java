@@ -88,7 +88,6 @@ import org.quartz.SchedulerException;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 /**
  * Front Controller.

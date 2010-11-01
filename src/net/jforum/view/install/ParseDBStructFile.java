@@ -47,9 +47,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import net.jforum.exceptions.ForumException;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

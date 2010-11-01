@@ -65,9 +65,7 @@ public final class RSSUtils
 	 */
 	public static String formatDate(final Date date)
 	{
-		final SimpleDateFormat sdf = new SimpleDateFormat(
-				SystemGlobals.getValue(ConfigKeys.RSS_DATE_TIME_FORMAT),
-				Locale.ENGLISH);
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.RSS_DATE_TIME_FORMAT), Locale.getDefault());
 		return sdf.format(date);
 	}
 	
@@ -79,7 +77,7 @@ public final class RSSUtils
 	public static String formatDate(final String date)
 	{
 		try {
-			final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+			final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 			return formatDate(sdf.parse(date));
 		}
 		catch (ParseException e) {

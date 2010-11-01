@@ -221,7 +221,7 @@ public class Forum implements Serializable
 	 * 
 	 * @param moderated <code>true</code> or <code>false</code>
 	 */
-	public void setModerated(boolean moderated) {
+	public void setModerated(final boolean moderated) {
 		this.moderated = moderated;
 	}
 

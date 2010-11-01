@@ -6,11 +6,11 @@ package net.jforum.api.integration.mail.pop;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.Flags.Flag;
 
 import net.jforum.entities.MailIntegration;
 import net.jforum.exceptions.MailException;

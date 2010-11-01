@@ -67,7 +67,7 @@ public class GroupNode
 	/**
 	 * Subgroups of the instantiated group
 	 */
-	private List<GroupNode> extraNodes;
+	private final List<GroupNode> extraNodes;
 
 	/**
 	 * Default Constructor
@@ -123,7 +123,7 @@ public class GroupNode
 	 * 
 	 * @param id Node ID
 	 * */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}

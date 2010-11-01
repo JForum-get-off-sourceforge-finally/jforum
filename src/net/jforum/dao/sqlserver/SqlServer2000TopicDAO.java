@@ -51,6 +51,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.jforum.JForumExecutionContext;
@@ -191,8 +192,7 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 			rs = p.executeQuery();
 			rs.absolute(startFrom);
 
-			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals
-					.getValue(ConfigKeys.DATE_TIME_FORMAT));
+			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 
 			StringBuffer sbFirst = new StringBuffer(128);
 			StringBuffer sbLast = new StringBuffer(128);

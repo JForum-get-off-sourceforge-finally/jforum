@@ -172,7 +172,7 @@ public class LastPostInfo implements Serializable
 	/**
 	 * @param title The title to set.
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.topicTitle = title;
 	}
 }

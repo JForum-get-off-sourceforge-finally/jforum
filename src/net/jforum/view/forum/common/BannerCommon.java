@@ -55,7 +55,7 @@ import net.jforum.entities.Banner;
  */
 public class BannerCommon
 {
-	private transient BannerDAO dao;
+	private transient final BannerDAO dao;
 	private transient List<Banner> banners;
 
 	public BannerCommon()

@@ -44,10 +44,7 @@
 package net.jforum;
 
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Enumeration;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -57,6 +54,8 @@ import javax.sql.DataSource;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.log4j.Logger;
 
 /**
  * DataSource connection implementation for JForum.
@@ -69,6 +68,8 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class DataSourceConnection extends DBConnection
 {
+	private static final Logger LOGGER = Logger.getLogger(DataSourceConnection.class);
+	
 	private transient DataSource dataSource;
 	
 	/**
@@ -89,38 +90,8 @@ public class DataSourceConnection extends DBConnection
 			return this.dataSource.getConnection();
 		}
 		catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new DatabaseException(e);
-		}
-	}
-
-	/**
-	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
-	 */
-	public void releaseConnection(final Connection conn)
-	{        
-		try {
-			if (conn != null) {
-				conn.close();
-	        }			
-		}
-		catch (SQLException e) {
-            // catch error of close of connection
-			throw new DatabaseException(e);
-        }
-	}
-
-	/**
-	 * @see net.jforum.DBConnection#realReleaseAllConnections()
-	 */
-	public void realReleaseAllConnections() throws DatabaseException {
-		Enumeration<Driver> drivers = DriverManager.getDrivers();
-		while (drivers.hasMoreElements()) {
-			Driver driver = drivers.nextElement();
-			try {
-				DriverManager.deregisterDriver(driver);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
 		}
 	}
 }

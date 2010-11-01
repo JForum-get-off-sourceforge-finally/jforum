@@ -45,10 +45,7 @@ package net.jforum;
 import java.beans.PropertyVetoException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Enumeration;
 
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -147,41 +144,22 @@ public class C3P0PooledConnection extends DBConnection
 			return this.dataSource.getConnection();
 		}
 		catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new DatabaseException(e);
 		}
 	}
 
 	/**
-	 * @see net.jforum.DBConnection#releaseConnection(java.sql.Connection)
-	 */
-	public void releaseConnection(final Connection conn)
-	{
-        if (conn == null) {
-            return;
-        }
-
-        try {
-			conn.close();
-		}
-		catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}		
-	}
-
-	/**
 	 * @see net.jforum.DBConnection#realReleaseAllConnections()
 	 */
-	public void realReleaseAllConnections() throws SQLException
+	public void realReleaseAllConnections()
 	{
-		DataSources.destroy(this.dataSource);
-		Enumeration<Driver> drivers = DriverManager.getDrivers();
-		while (drivers.hasMoreElements()) {
-			Driver driver = drivers.nextElement();
-			try {
-				DriverManager.deregisterDriver(driver);
-			} catch (SQLException e) {
-				LOGGER.error(e);
-			}	
-		}
+		try {
+			DataSources.destroy(this.dataSource);
+			super.realReleaseAllConnections();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DatabaseException(e);
+		}		
 	}
 }

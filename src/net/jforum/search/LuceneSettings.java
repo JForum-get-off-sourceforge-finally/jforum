@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
@@ -104,6 +105,6 @@ public class LuceneSettings
 	
 	public String formatDateTime(Date date)
 	{
-		return new SimpleDateFormat("yyyyMMddHHmmss").format(date);
+		return new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(date);
 	}
 }

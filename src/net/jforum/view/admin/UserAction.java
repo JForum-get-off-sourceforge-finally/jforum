@@ -137,7 +137,7 @@ public class UserAction extends AdminCommand
 		
 		this.commonData();
 		
-		List<Integer> list = new ArrayList<Integer>();
+		final List<Integer> list = new ArrayList<Integer>();
 		list.add(Integer.valueOf(groupId));
 		
 		this.context.put("selectedList", list);
@@ -149,11 +149,11 @@ public class UserAction extends AdminCommand
 	
 	public void search()
 	{
-		String search = this.request.getParameter("username");
-		String group = this.request.getParameter("group_id");
+		final String search = this.request.getParameter("username");
+		final String group = this.request.getParameter("group_id");
 		
 		if (search != null && !"".equals(search)) {
-			List<User> users = userDao.findByName(search, false);
+			final List<User> users = userDao.findByName(search, false);
 			
 			this.commonData();
 			
@@ -171,8 +171,8 @@ public class UserAction extends AdminCommand
 	
 	public void edit()
 	{
-		int userId = this.request.getIntParameter("id");	
-		User user = userDao.selectById(userId);
+		final int userId = this.request.getIntParameter("id");	
+		final User user = userDao.selectById(userId);
 		
 		this.setTemplateName(TemplateKeys.USER_ADMIN_EDIT);
 		this.context.put("u", user);

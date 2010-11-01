@@ -48,9 +48,9 @@ package net.jforum.entities;
  */
 public class ForumModerationInfo
 {
-	private int forumId;
-	private String forumName;
-	private int postsToModerate;
+	private final int forumId;
+	private final String forumName;
+	private final int postsToModerate;
 	
 	public ForumModerationInfo(String forumName, int forumId, 
 			int postsToModerate)

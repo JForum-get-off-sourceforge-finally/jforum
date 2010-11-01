@@ -58,6 +58,7 @@ public class ActivationKeySpammer extends Spammer
 {
 	public ActivationKeySpammer(final User user)
 	{
+		super();
 		//gets the url to the forum.
 		final String forumLink = ViewCommon.getForumLink();
 

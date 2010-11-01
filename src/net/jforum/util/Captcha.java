@@ -156,16 +156,16 @@ public class Captcha extends ListImageCaptchaEngine
 		for (final Iterator<FontGenerator> fontIter = fontGeneratorList.iterator(); fontIter.hasNext();) {
 			final FontGenerator fontGeny = fontIter.next();
 
-			for (Iterator<BackgroundGenerator> backIter = backgroundGeneratorList.iterator(); backIter.hasNext();) {
+			for (final Iterator<BackgroundGenerator> backIter = backgroundGeneratorList.iterator(); backIter.hasNext();) {
 				final BackgroundGenerator bkgdGeny = backIter.next();
 
 				for (final Iterator<TextPaster> textIter = textPasterList.iterator(); textIter.hasNext();) {
-					TextPaster textPaster = textIter.next();
+					final TextPaster textPaster = textIter.next();
 
-					WordToImage word2image = new ComposedWordToImage(fontGeny, bkgdGeny, textPaster);
+					final WordToImage word2image = new ComposedWordToImage(fontGeny, bkgdGeny, textPaster);
 					
 					// Creates a ImageCaptcha Factory
-					ImageCaptchaFactory factory = new GimpyFactory(words, word2image);
+					final ImageCaptchaFactory factory = new GimpyFactory(words, word2image);
 					
 					// Add a factory to the gimpy list (A Gimpy is a ImagCaptcha)
 					addFactory(factory);
@@ -176,7 +176,7 @@ public class Captcha extends ListImageCaptchaEngine
 
 	public void writeCaptchaImage()
 	{
-		BufferedImage image = SessionFacade.getUserSession().getCaptchaImage();
+		final BufferedImage image = SessionFacade.getUserSession().getCaptchaImage();
 		
 		if (image == null) {
 			return;

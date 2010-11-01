@@ -91,7 +91,7 @@ public class TopDownloadsAction extends Command
 	private List<TopDownloadInfo> topDownloads()
 	{
 		final int limit = SystemGlobals.getIntValue(ConfigKeys.TOP_DOWNLOADS);
-		AttachmentDAO dao = DataAccessDriver.getInstance().newAttachmentDAO();
+		final AttachmentDAO dao = DataAccessDriver.getInstance().newAttachmentDAO();
 		final List<TopDownloadInfo> tmpTopDownloads = dao.selectTopDownloads(limit);
 		
 		this.forums = new ArrayList<Forum>(limit);

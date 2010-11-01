@@ -5,6 +5,7 @@ import jargs.gnu.CmdLineParser;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import net.jforum.ConfigLoader;
 import net.jforum.ForumStartup;
@@ -168,7 +169,7 @@ public class LuceneCommandLineReindexer
 		
 		if (StringUtils.isNotEmpty(s)) {
 			try {
-				date = new SimpleDateFormat("dd/MM/yyyy").parse(s);
+				date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(s);
 			}
 			catch (ParseException e) { }
 		}

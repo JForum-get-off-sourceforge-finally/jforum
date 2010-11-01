@@ -51,8 +51,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.LuceneDAO;
 import net.jforum.entities.Post;
@@ -60,6 +58,8 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.search.SearchPost;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Rafael Steil

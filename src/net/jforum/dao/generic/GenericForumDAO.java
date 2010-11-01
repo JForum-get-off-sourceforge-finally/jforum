@@ -52,8 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.log4j.Logger;
+import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -70,6 +69,8 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -406,7 +407,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 				lpi.setUsername(resultSet.getString("username"));
 				lpi.setUserId(resultSet.getInt("user_id"));
 
-				final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+				final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 				lpi.setPostDate(sdf.format(resultSet.getTimestamp("post_time")));
 				lpi.setPostId(resultSet.getInt("post_id"));
 				lpi.setTopicId(resultSet.getInt("topic_id"));
