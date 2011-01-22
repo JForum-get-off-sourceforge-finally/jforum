@@ -122,7 +122,7 @@ public class RSSItem
 	}
 	
 	/**
-	 * Getst the document's link 
+	 * Gets the document's link 
 	 * @return the link
 	 */
 	public String getLink() 
@@ -140,7 +140,7 @@ public class RSSItem
 	}
 	
 	/**
-	 * Gets the document's  title
+	 * Gets the document's title
 	 * @return the title
 	 */
 	public String getTitle() 
