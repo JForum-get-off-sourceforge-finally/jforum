@@ -6,7 +6,7 @@ package net.jforum.tools.phpbb2jforum;
 * configuration keys under eclipse ;-)
 * 
 * @author Rafael Steil
-* @version $Id: ConfigKeys.java,v 1.8 2007/08/31 01:21:34 rafaelsteil Exp $
+* @version $Id$
 */
 
 public final class ConfigKeys {

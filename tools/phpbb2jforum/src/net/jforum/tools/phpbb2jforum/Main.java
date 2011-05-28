@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Rafael Steil
- * @version $Id: Main.java,v 1.12 2007/08/31 01:21:34 rafaelsteil Exp $
+ * @version $Id$
  */
 public class Main
 {

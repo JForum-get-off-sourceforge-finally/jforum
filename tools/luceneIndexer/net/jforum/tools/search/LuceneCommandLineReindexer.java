@@ -21,7 +21,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  * @author Rafael Steil
- * @version $Id: LuceneCommandLineReindexer.java,v 1.1 2007/09/01 15:10:32 rafaelsteil Exp $
+ * @version $Id$
  */
 public class LuceneCommandLineReindexer
 {

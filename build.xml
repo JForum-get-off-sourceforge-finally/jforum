@@ -4,7 +4,7 @@
 	-->
 	<!-- Ant build script for JForum -->
 	<!--
-		Version: $Id: build.xml,v 1.28 2009/12/05 00:12:15 andowson Exp $
+		Version: $Id$
 	-->
 	<!--
 		*********************************************************************
@@ -18,7 +18,7 @@
 	
 	<property name="project.name" value="JForum" />
 	<property name="project.title" value="JForum API" />
-	<property name="author" value="JForum Team - http://www.jforum.net/team.jsp" />
+	<property name="author" value="JForum Team - http://jforum.net/team.jsp" />
 	<property name="copyright" value="Copyright (c) 2004-2010" />
 	<property name="version" value="${version}" />
 	<property name="filename" value="jforum-${version}" />
