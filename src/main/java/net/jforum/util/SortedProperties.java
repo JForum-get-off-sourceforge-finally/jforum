@@ -42,68 +42,30 @@
  */
 package net.jforum.util;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Vector;
 
 /**
  * @author Andowson Chang
  * @version $Id$
  */
-public class SortedProperties extends Properties
+public class SortedProperties extends Properties 
 {
 	private static final long serialVersionUID = -9142524044944196840L;
-	private Set<String> names;
 
-	public SortedProperties() {
-		super();
-		names = new TreeSet<String>();
-	}
-	
-	public void list(final PrintStream out) {
-		final Enumeration<String> enu = (Enumeration<String>) propertyNames();
-		while (enu.hasMoreElements()) {
-			final String name = enu.nextElement();
-			out.println(name + "=" + getProperty(name));
+	/**
+	 * Overrides, called by the store method.
+	 */
+	@SuppressWarnings("unchecked")
+	public synchronized Enumeration keys() {
+		Enumeration keysEnum = super.keys();
+		Vector keyList = new Vector();
+		while(keysEnum.hasMoreElements()){
+			keyList.add(keysEnum.nextElement());
 		}
+		Collections.sort(keyList);
+		return keyList.elements();
 	}
-	
-	public void list(final PrintWriter out) {
-		final Enumeration<String> enu = (Enumeration<String>) propertyNames();
-		while (enu.hasMoreElements()) {
-			final String name = enu.nextElement();
-			out.println(name + "=" + getProperty(name));
-		}
-	}
-	
-	public Enumeration<String> propertyNames() {
-		return Collections.enumeration(names);
-	}
-	
-	 public Object put(final String key, final String value) {
-		 if (names.contains(key)) {
-			 names.remove(key);
-		 }
-		 names.add(key);
-		 
-		 return super.put(key, value);
-	 }
-	 
-	 public Object remove(final Object key) {
-		 names.remove(key);
-		 
-		 return super.remove(key);
-	 }
-	 
-	 public boolean equals(final Object obj) {
-		 return (obj instanceof SortedProperties) && super.equals(obj);
-	 }
-	 
-	 public int hashCode() {
-		 return super.hashCode();
-	 }
 }

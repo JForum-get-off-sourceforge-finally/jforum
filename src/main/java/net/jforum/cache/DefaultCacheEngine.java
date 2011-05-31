@@ -66,7 +66,8 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#stop()
 	 */
-	public void stop() {
+	public void stop() 
+	{
 		this.cache.clear();
 	}
 	

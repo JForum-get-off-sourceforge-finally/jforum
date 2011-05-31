@@ -113,6 +113,7 @@ public class Spammer
 		String localhost = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_LOCALHOST);
 		
 		if (StringUtils.isNotEmpty(localhost)) {
+			LOGGER.debug("localhost="+localhost);
 			mailProps.put(localhostProperty, localhost);
 		}
 		
@@ -137,13 +138,14 @@ public class Spammer
             int sendDelay = SystemGlobals.getIntValue(ConfigKeys.MAIL_SMTP_DELAY);
             
 			if (SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_AUTH)) {
-                if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
+				if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
                 	boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
-                	
+
                     Transport transport = this.session.getTransport(ssl ? "smtps" : "smtp");
                     
                     try {
 	                    String host = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST);
+
 	                    transport.connect(host, username, password);
 	
 	                    if (transport.isConnected()) {
@@ -154,10 +156,8 @@ public class Spammer
 	                        		this.defineUserMessage(user);
 	                        	}
 	                        	
-	                        	Address address = new InternetAddress(user.getEmail());
-	                        	
-	                        	LOGGER.debug("Sending mail to: " + user.getEmail());
-	                        	
+	                        	Address address = new InternetAddress(user.getEmail());	                        	
+	                        	LOGGER.debug("Sending mail to: " + user.getEmail());	                        	
 	                        	this.message.setRecipient(Message.RecipientType.TO, address);	                            
 	                        	transport.sendMessage(this.message, new Address[] { address });
 	                        	
@@ -181,7 +181,7 @@ public class Spammer
                 }
             }
             else {
-                for (Iterator<User> iter = this.users.iterator(); iter.hasNext();) {
+            	for (Iterator<User> iter = this.users.iterator(); iter.hasNext();) {
                 	User user = iter.next();
                 	
                 	if (this.needCustomization) {
@@ -204,7 +204,7 @@ public class Spammer
             }
         }
         catch (MessagingException e) {
-            LOGGER.error("Error while dispatching the message." + e, e);
+            LOGGER.error("Error while dispatching the message. " + e, e);
         }
 
         return true;

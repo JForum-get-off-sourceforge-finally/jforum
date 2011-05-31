@@ -118,22 +118,23 @@ public class LuceneReindexer
 		try {
 			if (!recreate) {
 				searcher = new IndexSearcher(this.settings.directory(), true);
-			}
+			}			
 			
-			boolean hasMorePosts = true;
 			long processStart = System.currentTimeMillis();
 			
 			int firstPostId = args.filterByMessage()
 				? args.getFirstPostId()
 				: dao.firstPostIdByDate(args.getFromDate());
-								
+			LOGGER.debug("firstPostId="+firstPostId);					
 			int lastPostId = args.filterByMessage()
 				? args.getLastPostId()
 				: dao.lastPostIdByDate(args.getToDate());
+			LOGGER.debug("lastPostId="+lastPostId);	
 
 			int dbFirstPostId = dao.firstPostIdByDate(new java.util.Date(0L));
 			int dbLastPostId = dao.lastPostIdByDate(new java.util.Date());
-				
+			LOGGER.debug("dbFirstPostId="+dbFirstPostId);
+			LOGGER.debug("dbLastPostId="+dbLastPostId);
 			if (args.filterByMessage()) {
 				if (firstPostId < dbFirstPostId) {
 					firstPostId = dbFirstPostId;
@@ -141,20 +142,24 @@ public class LuceneReindexer
 				if (lastPostId > dbLastPostId) {
 					lastPostId = dbLastPostId;
 				}
-			}				
+			}
+			LOGGER.debug("firstPostId="+firstPostId);
+			LOGGER.debug("lastPostId="+lastPostId);
 			// dao.getPostsToIndex(firstPostId, toPostId) does not include toPostId, add one to include the lastPostId
-			lastPostId = lastPostId + 1;
+			//lastPostId = lastPostId + 1;
 			
-			int counter = 1;
+			int counter = 0;
 			int indexTotal = 0;
 			long indexRangeStart = System.currentTimeMillis();
-			
+			boolean hasMorePosts = true;
 			while (hasMorePosts) {
 				boolean contextFinished = false;
 				
 				int toPostId = firstPostId + fetchCount < lastPostId
-					? firstPostId + fetchCount
+					? (firstPostId + fetchCount - 1)
 					: lastPostId;
+				LOGGER.debug("firstPostId="+firstPostId);
+				LOGGER.debug("toPostId="+toPostId);	
 
 				try {
 					JForumExecutionContext ex = JForumExecutionContext.get();

@@ -1,5 +1,5 @@
-#Sat May 21 12:04:34 CST 2011
+#Sat May 28 14:14:03 CST 2011
 eclipse.preferences.version=1
-encoding//src/main/webapp/templates/default/header.htm=UTF-8
-encoding//src/main/webapp/templates/default/pm_finduser.htm=UTF-8
+encoding//src/main/resources/templates/default/header.htm=UTF-8
+encoding//src/main/resources/templates/default/pm_finduser.htm=UTF-8
 encoding/<project>=UTF-8

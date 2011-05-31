@@ -175,6 +175,7 @@ public final class SystemGlobals implements VariableStore
 	 */
 	public static void loadDefaults()
 	{
+		LOGGER.debug("SystemGlobals.loadDefaults()");
 		LOGGER.info("Loading " + globals.defaultConfig + " ...");
 		try
 		{
@@ -196,6 +197,7 @@ public final class SystemGlobals implements VariableStore
 	 */
 	public static void loadAdditionalDefaults(String file)
 	{
+		LOGGER.debug("SystemGlobals.loadAdditionalDefaults(String file)");
 		LOGGER.info("Loading " + file + " ...");
 		if (!new File(file).exists()) {
 			LOGGER.info("Cannot find file " + file + ". Will ignore it");
@@ -355,6 +357,7 @@ public final class SystemGlobals implements VariableStore
 	 **/
 	public static void loadQueries(String queryFile)
 	{
+		LOGGER.debug("SystemGlobals.loadQueries(String queryFile)");
 		LOGGER.info("Loading " + queryFile + " ...");
 		FileInputStream fis = null;
 		

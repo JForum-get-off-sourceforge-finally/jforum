@@ -105,7 +105,10 @@ public class POPConnector
 	public void openConnection()
 	{
 		try {
-			final Session session = Session.getDefaultInstance(new Properties());
+			Properties props = new Properties();
+			// fix DEBUG POP3: server doesn't support TOP, disabling it
+			props.setProperty(ConfigKeys.MAIL_POP3_DISABLETOP, SystemGlobals.getValue(ConfigKeys.MAIL_POP3_DISABLETOP));
+			final Session session = Session.getDefaultInstance(props);
 			
 			this.store = session.getStore(this.mailIntegration.isSsl() ? "pop3s" : "pop3");
 

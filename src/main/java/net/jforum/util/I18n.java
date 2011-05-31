@@ -382,4 +382,13 @@ public final class I18n
 	public static String getBaseDir() {
 		return baseDir;
 	}
+	
+	public static void reset()
+	{
+		//messagesMap = new HashMap<String, Properties>();
+		messagesMap.clear();
+		//localeNames = new Properties();
+		LOCAL_NAMES.clear();
+		defaultName = null;
+	}
 }

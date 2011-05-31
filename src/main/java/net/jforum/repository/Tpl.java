@@ -100,7 +100,8 @@ public class Tpl implements Cacheable
 			}
 		}
 		catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error("Error while trying to load " + filename + ": " + e);
+			LOGGER.error(e.getMessage(), e);			
 			throw new ConfigLoadException("Error while trying to load " + filename + ": " + e);
 		}
 		finally {
