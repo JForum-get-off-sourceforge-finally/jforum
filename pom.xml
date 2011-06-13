@@ -199,6 +199,14 @@
 				<configuration>
 					<archiveClasses>true</archiveClasses>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+					<webResources>
+            <resource>
+              <directory>.</directory>
+              <includes>
+                <include>license.txt</include>
+              </includes>              
+            </resource>
+          </webResources>
 				</configuration>
 			</plugin>
 			<plugin>

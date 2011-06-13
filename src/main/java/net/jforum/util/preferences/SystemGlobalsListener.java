@@ -61,6 +61,7 @@ public class SystemGlobalsListener implements FileChangeListener
 	{
         LOGGER.info("Reloading "+ filename);
 
+        SystemGlobals.reset();
         SystemGlobals.initGlobals(SystemGlobals.getApplicationPath(),
             SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
     }

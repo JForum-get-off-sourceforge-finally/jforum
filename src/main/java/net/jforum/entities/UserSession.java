@@ -238,7 +238,6 @@ public class UserSession implements Serializable
 	 */
 	public Date getLastVisit()
 	{
-		//return new GregorianCalendar(2007, 6, 28, 15, 15, 19).getTime();
 		return this.lastVisit;
 	}
 
@@ -389,7 +388,7 @@ public class UserSession implements Serializable
 			return null;
 		}
 		
-		return (BufferedImage)this.imageCaptcha.getChallenge();
+		return this.imageCaptcha.getImageChallenge();
 	}
 
 	/**
@@ -433,7 +432,9 @@ public class UserSession implements Serializable
 	 */
 	public void destroyCaptcha()
 	{
-		this.imageCaptcha = null;
+		if (this.imageCaptcha != null) {
+			this.imageCaptcha.disposeChallenge();
+		}
 	}
 	
 	/**

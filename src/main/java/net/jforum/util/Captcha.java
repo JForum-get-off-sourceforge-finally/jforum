@@ -112,43 +112,30 @@ public class Captcha extends ListImageCaptchaEngine
 	{
 		this.initializeChars();
 		
+		final Integer width = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_WIDTH);
+		final Integer height = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_HEIGHT);
+		final Integer minWords = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MIN_WORDS);
+		final Integer maxWords = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MAX_WORDS);
+		final Integer minFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MIN_FONT_SIZE);
+		final Integer maxFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MAX_FONT_SIZE);
+
+		Color[] colors = new Color[] { Color.PINK, Color.RED, Color.GREEN, Color.ORANGE, Color.MAGENTA };
+		final RandomListColorGenerator colorGenerator = new RandomListColorGenerator(colors);	
+
 		final List<BackgroundGenerator> backgroundGeneratorList = new ArrayList<BackgroundGenerator>();
+		for (int i = 0; i < colors.length - 1; i++) {
+			backgroundGeneratorList.add(new GradientBackgroundGenerator(width, 
+					height, colorGenerator.getNextColor(), colorGenerator.getNextColor()));		
+		}
+		backgroundGeneratorList.add(new FunkyBackgroundGenerator(width, height));		
+		
 		final List<TextPaster> textPasterList = new ArrayList<TextPaster>();
+		textPasterList.add(new RandomTextPaster(minWords, maxWords, Color.DARK_GRAY));
+		textPasterList.add(new RandomTextPaster(minWords, maxWords, Color.BLUE));
+		textPasterList.add(new RandomTextPaster(minWords, maxWords, Color.BLACK));
+
 		final List<FontGenerator> fontGeneratorList = new ArrayList<FontGenerator>();
-		
-		final int width = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_WIDTH);
-		final int height = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_HEIGHT);
-		final int minWords = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MIN_WORDS);
-		final int maxWords = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MAX_WORDS);
-		final int minFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MIN_FONT_SIZE);
-		final int maxFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MAX_FONT_SIZE);
-
-		final RandomListColorGenerator colorGenerator = new RandomListColorGenerator(new Color[] {
-				Color.PINK, Color.RED, Color.LIGHT_GRAY, Color.ORANGE, Color.MAGENTA});	
-		/*this.backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), Color.PINK, Color.LIGHT_GRAY));
-		this.backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), Color.RED, Color.LIGHT_GRAY));
-		this.backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), Color.ORANGE, Color.LIGHT_GRAY));
-		this.backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), Color.CYAN, Color.LIGHT_GRAY));*/
-		backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), colorGenerator.getNextColor(), colorGenerator.getNextColor()));
-		backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), colorGenerator.getNextColor(), colorGenerator.getNextColor()));
-		backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), colorGenerator.getNextColor(), colorGenerator.getNextColor()));
-		backgroundGeneratorList.add(new GradientBackgroundGenerator(Integer.valueOf(width), 
-				Integer.valueOf(height), colorGenerator.getNextColor(), colorGenerator.getNextColor()));
-		backgroundGeneratorList.add(new FunkyBackgroundGenerator(Integer.valueOf(width), Integer.valueOf(height)));		
-		
-		textPasterList.add(new RandomTextPaster(Integer.valueOf(minWords), Integer.valueOf(maxWords), Color.DARK_GRAY));
-		textPasterList.add(new RandomTextPaster(Integer.valueOf(minWords), Integer.valueOf(maxWords), Color.BLUE));
-		textPasterList.add(new RandomTextPaster(Integer.valueOf(minWords), Integer.valueOf(maxWords), Color.BLACK));
-
-
-		fontGeneratorList.add(new TwistedAndShearedRandomFontGenerator(Integer.valueOf(minFontSize), Integer.valueOf(maxFontSize)));
+		fontGeneratorList.add(new TwistedAndShearedRandomFontGenerator(minFontSize, maxFontSize));
 
 		// Create a random word generator
 		final WordGenerator words = new RandomWordGenerator(charsInUse);
@@ -164,10 +151,10 @@ public class Captcha extends ListImageCaptchaEngine
 
 					final WordToImage word2image = new ComposedWordToImage(fontGeny, bkgdGeny, textPaster);
 					
-					// Creates a ImageCaptcha Factory
+					// Create an ImageCaptcha Factory
 					final ImageCaptchaFactory factory = new GimpyFactory(words, word2image);
 					
-					// Add a factory to the gimpy list (A Gimpy is a ImagCaptcha)
+					// Add a factory to the gimpy list (A Gimpy is an ImageCaptcha)
 					addFactory(factory);
 				}
 			}

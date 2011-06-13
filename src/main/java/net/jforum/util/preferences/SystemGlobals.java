@@ -227,7 +227,7 @@ public final class SystemGlobals implements VariableStore
 	{
 		// We need this temporary "p" because, when
 		// new FileOutputStream() is called, it will 
-		// raise an event to the TimerTask who is listen
+		// raise an event to the TimerTask who is listening
 		// for file modifications, which then reloads the
 		// configurations from the filesystem, overwriting
 		// our new keys. 

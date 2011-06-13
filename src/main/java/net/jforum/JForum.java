@@ -47,6 +47,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -392,9 +395,15 @@ public class JForum extends JForumBaseServlet
 	
 		try {			
 			ConfigLoader.stopCacheEngine();
-			DBConnection.getImplementation().realReleaseAllConnections();			
+			DBConnection.getImplementation().realReleaseAllConnections();
+			Enumeration<Driver> drivers = DriverManager.getDrivers();
+			while (drivers.hasMoreElements()) {
+				DriverManager.deregisterDriver(drivers.nextElement());
+			}
 		}
-		catch (Exception e) { LOGGER.error(e.getMessage(), e); }
+		catch (Exception e) { 
+			LOGGER.error(e.getMessage(), e); 
+		}		
 	}
 
 	private static boolean isDatabaseUp() 
@@ -418,5 +427,6 @@ public class JForum extends JForumBaseServlet
 		final Properties localeNames = I18n.getLocaleNames();
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT)));
+		FileMonitor.getInstance().getTimer().cancel();
 	}
 }

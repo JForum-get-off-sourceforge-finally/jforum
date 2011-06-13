@@ -120,17 +120,19 @@ public final class POPJobStarter
 		synchronized(MUTEX) {
 			if (isStarted && isEnabled) {
 				final String cronExpression = SystemGlobals.getValue("org.quartz.context.mailintegration.cron.expression");
-				
-				try {					
-					LOGGER.info("Stopping POP3 integration expression " + cronExpression);					
-					scheduler.shutdown();
-				}
-				catch (SchedulerException e) {
-					LOGGER.error(e.getMessage(), e);
-				}
+									
+				LOGGER.info("Stopping POP3 integration expression " + cronExpression);					
+				scheduler.shutdown(true);				 
 			}
 			
 			isStarted = false;
+		}
+		
+		// avoid Tomcat report memory leak
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 	

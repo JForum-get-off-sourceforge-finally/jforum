@@ -65,7 +65,7 @@ public class FileMonitor
 	
 	private FileMonitor() {
 		this.timerEntries = new HashMap<String, FileMonitorTask>();
-		this.timer = new Timer(true);
+		this.timer = new Timer("Timer-FileMonitor", true);
 	}
 	
 	public static FileMonitor getInstance() {
@@ -79,8 +79,7 @@ public class FileMonitor
 	 * @param filename The filename to watch
 	 * @param period The watch interval.
 	 */
-	public void addFileChangeListener(FileChangeListener listener, 
-		String filename, long period) {
+	public void addFileChangeListener(FileChangeListener listener, String filename, long period) {
 		this.removeFileChangeListener(filename);
 		
 		LOGGER.info("Watching " + filename);
@@ -103,6 +102,10 @@ public class FileMonitor
 			task.cancel();
 		}
 	}
+
+	public Timer getTimer() {
+		return timer;
+	}
 	
 	private static class FileMonitorTask extends TimerTask {
 		private FileChangeListener listener;
@@ -115,11 +118,9 @@ public class FileMonitor
 			this.filename = filename;
 			
 			this.monitoredFile = new File(filename);
-			if (!this.monitoredFile.exists()) {
-				return;
+			if (this.monitoredFile.exists()) {
+				this.lastModified = this.monitoredFile.lastModified();
 			}
-			
-			this.lastModified = this.monitoredFile.lastModified();
 		}
 		
 		public void run() {

@@ -222,9 +222,7 @@ public final class I18n
 					 */
 					public void fileChanged(String filename)
 					{
-						if (LOGGER.isDebugEnabled()) {
-							LOGGER.info("Reloading i18n for " + localeName);
-						}
+						LOGGER.info("Reloading i18n for " + localeName);
 
 						I18n.load(localeName, SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT), true);
 					}
