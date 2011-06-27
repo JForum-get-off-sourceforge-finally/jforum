@@ -72,20 +72,20 @@ public class GenericModerationDAO implements ModerationDAO
 	 */
 	public void approvePost(int postId)
 	{
-		PreparedStatement p=null;
+		PreparedStatement pstmt = null;
         try
         {
-            p = JForumExecutionContext.getConnection().prepareStatement(
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(
                     SystemGlobals.getSql("ModerationModel.approvePost"));
-            p.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-            p.setInt(2, postId);
-            p.executeUpdate();
+            pstmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            pstmt.setInt(2, postId);
+            pstmt.executeUpdate();
         }
         catch (SQLException e) {
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(p);
+            DbUtils.close(pstmt);
         }
     }
 	
@@ -96,18 +96,18 @@ public class GenericModerationDAO implements ModerationDAO
 	{
 		Map<Integer, TopicModerationInfo> m = new HashMap<Integer, TopicModerationInfo>();
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("ModerationModel.topicsByForum"));
-			p.setInt(1, forumId);
+			pstmt.setInt(1, forumId);
 
 			int lastId = 0;
 			TopicModerationInfo info = null;
 			
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				int id = rs.getInt("topic_id");
@@ -140,7 +140,7 @@ public class GenericModerationDAO implements ModerationDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
     }
 	
@@ -173,12 +173,12 @@ public class GenericModerationDAO implements ModerationDAO
 		List<ModerationPendingInfo> l = new ArrayList<ModerationPendingInfo>();
 		int lastId = 0;
 		ModerationPendingInfo info = null;
-		Statement s = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
-			s = JForumExecutionContext.getConnection().createStatement();
-			rs = s.executeQuery(SystemGlobals.getSql("ModerationModel.categoryPendingModeration"));
+			stmt = JForumExecutionContext.getConnection().createStatement();
+			rs = stmt.executeQuery(SystemGlobals.getSql("ModerationModel.categoryPendingModeration"));
 			
 			while (rs.next()) {
 				int id = rs.getInt("categories_id");
@@ -210,7 +210,7 @@ public class GenericModerationDAO implements ModerationDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-            DbUtils.close(rs, s);
+            DbUtils.close(rs, stmt);
         }
     }
 }

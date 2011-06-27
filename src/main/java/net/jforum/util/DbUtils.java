@@ -49,7 +49,7 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 
 /**
- * General utility methods to close statements and resultsets
+ * General utility methods to close Statements and ResultSets
  * 
  * @author Serge Maslyukov
  * @version $Id$

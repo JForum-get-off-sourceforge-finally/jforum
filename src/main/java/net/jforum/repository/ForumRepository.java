@@ -128,7 +128,7 @@ public class ForumRepository implements Cacheable
 	 * be used to retrieve information about the categories.
      * @param  configModel ConfigDAO
 	 */
-	public synchronized static void start(final ForumDAO forumDAO, final CategoryDAO categoryDAO, final ConfigDAO configModel)
+	public static synchronized void start(final ForumDAO forumDAO, final CategoryDAO categoryDAO, final ConfigDAO configModel)
 	{
 		instance = new ForumRepository();
 		
@@ -136,14 +136,7 @@ public class ForumRepository implements Cacheable
 			instance.loadCategories(categoryDAO);
 			instance.loadForums(forumDAO);
 			instance.loadMostUsersEverOnline(configModel);
-			instance.loadUsersInfo();
-			
-			final Integer totalMessages = (Integer)cache.get(FQN, TOTAL_MESSAGES);
-			
-			if (totalMessages == null) {
-				cache.add(FQN, TOTAL_MESSAGES, Integer.valueOf(0));
-			}
-			
+			instance.loadUsersInfo();			
 			cache.add(FQN, LOADED, "1");
 		}
 	}
@@ -314,7 +307,7 @@ public class ForumRepository implements Cacheable
 	 * @param category The category to update. The method will search for a category
 	 * with the same id and update its data.
 	 */
-	public synchronized static void reloadCategory(final Category category)
+	public static synchronized void reloadCategory(final Category category)
 	{
 		final Category current = (Category)cache.get(FQN, Integer.toString(category.getId()));
 		final Category currentAtOrder = findCategoryByOrder(category.getOrder());
@@ -346,7 +339,7 @@ public class ForumRepository implements Cacheable
 	 * 
 	 * @param category The category to refresh
 	 */
-	public synchronized static void refreshCategory(Category category)
+	public static synchronized void refreshCategory(Category category)
 	{
 		cache.add(FQN, Integer.toString(category.getId()), category);
 		final Set<Category> set = (Set<Category>)cache.get(FQN, CATEGORIES_SET);
@@ -355,7 +348,7 @@ public class ForumRepository implements Cacheable
 		cache.add(FQN, CATEGORIES_SET, set);
 	}
 	
-	public synchronized static void refreshForum(final Forum forum)
+	public static synchronized void refreshForum(final Forum forum)
 	{
 		final Category category = retrieveCategory(forum.getCategoryId());
 		category.addForum(forum);
@@ -367,7 +360,7 @@ public class ForumRepository implements Cacheable
 	 * @param category The category to remove. The instance should have the 
 	 * category id at least
 	 */
-	public synchronized static void removeCategory(Category category)
+	public static synchronized void removeCategory(Category category)
 	{
 		cache.remove(FQN, Integer.toString(category.getId()));
 		
@@ -389,7 +382,7 @@ public class ForumRepository implements Cacheable
 	 * Adds a new category to the cache.
 	 * @param category The category instance to insert in the cache.
 	 */
-	public synchronized static void addCategory(final Category category)
+	public static synchronized void addCategory(final Category category)
 	{
 		final String categoryId = Integer.toString(category.getId());
 		cache.add(FQN, categoryId, category);
@@ -459,7 +452,7 @@ public class ForumRepository implements Cacheable
 	 * 
 	 * @param forum The forum to add
 	 */
-	public synchronized static void addForum(Forum forum)
+	public static synchronized void addForum(Forum forum)
 	{
 		String categoryId = Integer.toString(forum.getCategoryId());
 
@@ -480,7 +473,7 @@ public class ForumRepository implements Cacheable
 	 * 
 	 * @param forum The forum instance to remove.
 	 */
-	public synchronized static void removeForum(final Forum forum)
+	public static synchronized void removeForum(final Forum forum)
 	{
 		String id = Integer.toString(forum.getId());
 		Map<String, String> map = (Map<String, String>)cache.get(FQN, RELATION);

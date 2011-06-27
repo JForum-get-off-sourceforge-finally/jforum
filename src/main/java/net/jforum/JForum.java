@@ -47,10 +47,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Properties;
 
@@ -386,8 +383,7 @@ public class JForum extends JForumBaseServlet
 		// invalidate all sessions to force SessionFacade.storeSessionData()		
 		LOGGER.debug("Current sessions: " + SessionFacade.size());
 		final List<UserSession> sessions = SessionFacade.getAllSessions();
-		for (final Iterator<UserSession> iter = sessions.iterator(); iter.hasNext(); ) {
-			final UserSession userSession = (UserSession)iter.next();
+		for (UserSession userSession: sessions) {
 			final HttpSession session = (HttpSession)getServletContext().getAttribute(userSession.getSessionId());
 			session.invalidate();
 			LOGGER.debug("Current sessions: " + SessionFacade.size());
@@ -395,15 +391,25 @@ public class JForum extends JForumBaseServlet
 	
 		try {			
 			ConfigLoader.stopCacheEngine();
-			DBConnection.getImplementation().realReleaseAllConnections();
-			Enumeration<Driver> drivers = DriverManager.getDrivers();
-			while (drivers.hasMoreElements()) {
-				DriverManager.deregisterDriver(drivers.nextElement());
-			}
 		}
 		catch (Exception e) { 
 			LOGGER.error(e.getMessage(), e); 
-		}		
+		}
+		
+		try {
+			if ("hsqldb".equals(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_NAME))) {
+				LOGGER.debug("shutdwon hsqldb");
+				Connection conn  = JForumExecutionContext.getConnection();
+				Statement stmt = conn.createStatement();
+				stmt.execute("SHUTDOWN");
+				stmt.close();
+				JForumExecutionContext.finish();
+			}
+			DBConnection.getImplementation().realReleaseAllConnections();
+		}
+		catch (Exception e) { 
+			LOGGER.error(e.getMessage(), e); 
+		}
 	}
 
 	private static boolean isDatabaseUp() 

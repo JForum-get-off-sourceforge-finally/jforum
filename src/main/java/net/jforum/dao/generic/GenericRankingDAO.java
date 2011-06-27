@@ -67,14 +67,14 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	{
 		Ranking ranking = new Ranking();
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 					.prepareStatement(SystemGlobals.getSql("RankingModel.selectById"));
-			p.setInt(1, rankingId);
+			pstmt.setInt(1, rankingId);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				ranking = this.buildRanking(rs);
@@ -86,7 +86,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -96,11 +96,11 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	public List<Ranking> selectAll()
 	{
 		List<Ranking> l = new ArrayList<Ranking>();
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.selectAll"));
-			rs = p.executeQuery();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.selectAll"));
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				Ranking ranking = buildRanking(rs);
@@ -113,7 +113,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -122,18 +122,18 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	 */
 	public void delete(int rankingId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.delete"));
-			p.setInt(1, rankingId);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.delete"));
+			pstmt.setInt(1, rankingId);
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -142,23 +142,23 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	 */
 	public void update(Ranking ranking)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.update"));
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.update"));
 
-			p.setString(1, ranking.getTitle());
-			p.setString(2, ranking.getImage());
-			p.setInt(3, ranking.isSpecial() ? 1 : 0);
-			p.setInt(4, ranking.getMin());
-			p.setInt(5, ranking.getId());
+			pstmt.setString(1, ranking.getTitle());
+			pstmt.setString(2, ranking.getImage());
+			pstmt.setInt(3, ranking.isSpecial() ? 1 : 0);
+			pstmt.setInt(4, ranking.getMin());
+			pstmt.setInt(5, ranking.getId());
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -167,21 +167,21 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	 */
 	public void addNew(Ranking ranking)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.addNew"));
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.addNew"));
 
-			p.setString(1, ranking.getTitle());
-			p.setInt(2, ranking.getMin());
-			p.setInt(3, ranking.isSpecial() ? 1 : 0);
+			pstmt.setString(1, ranking.getTitle());
+			pstmt.setInt(2, ranking.getMin());
+			pstmt.setInt(3, ranking.isSpecial() ? 1 : 0);
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 	
@@ -189,12 +189,12 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	{
 		List<Ranking> l = new ArrayList<Ranking>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.selectSpecials"));
-			rs = p.executeQuery();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("RankingModel.selectSpecials"));
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				Ranking ranking = this.buildRanking(rs);
@@ -205,7 +205,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;

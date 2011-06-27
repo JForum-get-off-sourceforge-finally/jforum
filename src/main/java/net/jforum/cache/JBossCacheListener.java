@@ -89,7 +89,7 @@ public class JBossCacheListener {
 	@NodeMoved
 	public void logNodeEvent(final NodeEvent nodeEvent)
 	{
-		LOGGER.debug("An event on node " + nodeEvent.getFqn() + " has occured: " + nodeEvent.getType());
+		//LOGGER.debug("An event on node " + nodeEvent.getFqn() + " has occured: " + nodeEvent.getType());
 	}
 
 	/**

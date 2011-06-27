@@ -66,19 +66,19 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	 */
 	public void add(MailIntegration integration)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("MailIntegration.add"));
-			this.prepareForSave(integration, p);
-			p.executeUpdate();
+			this.prepareForSave(integration, pstmt);
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 	
@@ -87,19 +87,19 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	 */
 	public void delete(int forumId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("MailIntegration.delete"));
-			p.setInt(1, forumId);
-			p.executeUpdate();
+			pstmt.setInt(1, forumId);
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -110,14 +110,14 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	{
 		MailIntegration m = null;
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("MailIntegration.find"));
-			p.setInt(1, forumId);
-			rs = p.executeQuery();
+			pstmt.setInt(1, forumId);
+			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				m = this.buildMailIntegration(rs);
@@ -127,7 +127,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return m;
@@ -140,13 +140,13 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	{
 		List<MailIntegration> l = new ArrayList<MailIntegration>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("MailIntegration.findAll"));
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				l.add(this.buildMailIntegration(rs));
@@ -156,7 +156,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;
@@ -167,22 +167,22 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	 */
 	public void update(MailIntegration integration)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("MailIntegration.update"));
 			
-			this.prepareForSave(integration, p);
-			p.setInt(8, integration.getForumId());
+			this.prepareForSave(integration, pstmt);
+			pstmt.setInt(8, integration.getForumId());
 			
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 	
@@ -204,17 +204,17 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	/**
 	 * Given a PreparedStatement, fill its values with the data of a MailIntegration instance
 	 * @param integration the data to fill the statement
-	 * @param p the statement to be filled
+	 * @param pstmt the statement to be filled
 	 * @throws SQLException
 	 */
-	private void prepareForSave(MailIntegration integration, PreparedStatement p) throws SQLException
+	private void prepareForSave(MailIntegration integration, PreparedStatement pstmt) throws SQLException
 	{
-		p.setInt(1, integration.getForumId());
-		p.setString(2, integration.getForumEmail());
-		p.setString(3, integration.getPopHost());
-		p.setString(4, integration.getPopUsername());
-		p.setString(5, integration.getPopPassword());
-		p.setInt(6, integration.getPopPort());
-		p.setInt(7, integration.isSsl() ? 1 : 0);
+		pstmt.setInt(1, integration.getForumId());
+		pstmt.setString(2, integration.getForumEmail());
+		pstmt.setString(3, integration.getPopHost());
+		pstmt.setString(4, integration.getPopUsername());
+		pstmt.setString(5, integration.getPopPassword());
+		pstmt.setInt(6, integration.getPopPort());
+		pstmt.setInt(7, integration.isSsl() ? 1 : 0);
 	}
 }

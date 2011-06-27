@@ -53,7 +53,6 @@ import net.jforum.exceptions.SearchException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
@@ -74,8 +73,6 @@ import org.apache.lucene.search.TopDocs;
  */
 public class LuceneSearch implements NewDocumentAdded
 {
-	private static final Logger LOGGER = Logger.getLogger(LuceneSearch.class);
-	
 	private IndexSearcher searcher;
 	private LuceneSettings settings;
 	private LuceneResultCollector contentCollector;
@@ -227,8 +224,7 @@ public class LuceneSearch implements NewDocumentAdded
             	CharTermAttribute token = stream.getAttribute(CharTermAttribute.class);
             	if (token == null) {
             		break;
-            	}                    
-            	LOGGER.debug("{" + String.valueOf(token.buffer()) + "}");                    
+            	}                                       
             	tokens.add(String.valueOf(token.buffer()));
             }
 			

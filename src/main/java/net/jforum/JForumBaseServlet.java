@@ -58,7 +58,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
@@ -84,14 +83,11 @@ public class JForumBaseServlet extends HttpServlet
 			final String appPath = config.getServletContext().getRealPath("");
 			debug = "true".equals(config.getInitParameter("development"));
 
-			DOMConfigurator.configure(appPath + "/WEB-INF/log4j.xml");
-
 			LOGGER.info("Starting JForum. Debug mode is " + debug);
 
 			final String containerInfo = config.getServletContext().getServerInfo();		
 			LOGGER.info("Servlet Container is " + containerInfo);			
-			
-			//SystemGlobals.reset();			
+						
 			ConfigLoader.startSystemglobals(appPath);
 			
 			final String[] info = containerInfo.split("/");
@@ -133,10 +129,11 @@ public class JForumBaseServlet extends HttpServlet
 			}
 
 			JForumExecutionContext.setTemplateConfig(templateCfg);
-		}
+		} 
 		catch (IOException e) {
 			throw new ForumStartupException("Error while starting JForum", e);
-		} catch (TemplateException e) {
+		} 
+		catch (TemplateException e) {
 			throw new ForumStartupException("Error while starting JForum", e);
 		}
 	}

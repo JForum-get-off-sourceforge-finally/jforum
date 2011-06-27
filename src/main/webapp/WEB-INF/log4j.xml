@@ -52,4 +52,9 @@
 		<priority value="info"/>
 		<appender-ref ref="jforum.log"/>
 	</category>
+	
+	<category name="hsqldb">
+		<priority value="info"/>
+		<appender-ref ref="jforum.log"/>
+	</category>	
 </log4j:configuration>

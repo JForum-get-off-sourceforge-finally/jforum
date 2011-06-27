@@ -156,7 +156,6 @@ public class C3P0PooledConnection extends DBConnection
 	{
 		try {
 			DataSources.destroy(this.dataSource);
-			super.realReleaseAllConnections();
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DatabaseException(e);

@@ -60,7 +60,6 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class I18nTest extends TestCase
 {
-	private static boolean loaded = false;
 	private static final String SESSION_ID = "1";
 	private UserSession us;
 	
@@ -69,28 +68,25 @@ public class I18nTest extends TestCase
 	 */
 	protected void setUp() throws Exception
 	{
-		if (!loaded) {
-			TestCaseUtils.loadEnvironment();							
-			SystemGlobals.setValue(ConfigKeys.RESOURCE_DIR, TestCaseUtils.getRootDir() + "/test-classes");
-			loaded = true;
-		}
-		
+		TestCaseUtils.loadEnvironment();
+
 		SystemGlobals.setValue(ConfigKeys.I18N_DEFAULT_ADMIN, "default");
 		SystemGlobals.setValue(ConfigKeys.I18N_DEFAULT, "default");
 
 		JForumExecutionContext ex = JForumExecutionContext.get();
-		
+
 		RequestContext request = new StandardRequestContext();
 		ex.setForumContext(new JForumContext("/", "", request, null));
-		
+
 		JForumExecutionContext.set(ex);
-		
+
 		ConfigLoader.startCacheEngine();
-		
+
 		this.us = new UserSession();
 		this.us.setSessionId(SESSION_ID);
 		SessionFacade.add(this.us, SESSION_ID);
-		
+
+		SystemGlobals.setValue(ConfigKeys.RESOURCE_DIR, TestCaseUtils.getRootDir() + "/test-classes");
 		I18n.reset();
 		I18n.load();
 	}

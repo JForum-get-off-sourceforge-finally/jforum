@@ -1334,7 +1334,7 @@ public class PostAction extends Command
 		moderationLog.getPosterUser().setId(post.getUserId());
 		moderationHelper.saveModerationLog(moderationLog);
 		
-		PostRepository.remove(topic.getId(), post.getId());
+		PostRepository.remove(topic.getId(), post);
 		TopicRepository.loadMostRecentTopics();
 		TopicRepository.loadHottestTopics();
 		ForumRepository.reloadForum(post.getForumId());

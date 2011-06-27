@@ -75,13 +75,13 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	 */
 	public Post selectById(int postId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.selectById"));
-			p.setInt(1, postId);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.selectById"));
+			pstmt.setInt(1, postId);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			Post post = new Post();
 
@@ -95,7 +95,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -194,14 +194,14 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	 */
 	public void deleteByTopic(int topicId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 				.prepareStatement(SystemGlobals.getSql("PostModel.deleteByTopic"));
-			p.setInt(1, topicId);
-			rs = p.executeQuery();
+			pstmt.setInt(1, topicId);
+			rs = pstmt.executeQuery();
 
 			List<Post> posts = new ArrayList<Post>();
 			
@@ -219,7 +219,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -236,49 +236,49 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 
 	protected void updatePostsTextTable(Post post)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("PostModel.updatePostText"));
-			p.setString(1, post.getText());
-			p.setString(2, post.getSubject());
-			p.setInt(3, post.getId());
+			pstmt.setString(1, post.getText());
+			pstmt.setString(2, post.getSubject());
+			pstmt.setInt(3, post.getId());
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	protected void updatePostsTable(Post post)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.updatePost"));
-			p.setInt(1, post.getTopicId());
-			p.setInt(2, post.getForumId());
-			p.setInt(3, post.isBbCodeEnabled() ? 1 : 0);
-			p.setInt(4, post.isHtmlEnabled() ? 1 : 0);
-			p.setInt(5, post.isSmiliesEnabled() ? 1 : 0);
-			p.setInt(6, post.isSignatureEnabled() ? 1 : 0);
-			p.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
-			p.setInt(8, post.getEditCount() + 1);
-			p.setString(9, post.getUserIp());
-			p.setInt(10, post.getId());
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.updatePost"));
+			pstmt.setInt(1, post.getTopicId());
+			pstmt.setInt(2, post.getForumId());
+			pstmt.setInt(3, post.isBbCodeEnabled() ? 1 : 0);
+			pstmt.setInt(4, post.isHtmlEnabled() ? 1 : 0);
+			pstmt.setInt(5, post.isSmiliesEnabled() ? 1 : 0);
+			pstmt.setInt(6, post.isSignatureEnabled() ? 1 : 0);
+			pstmt.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+			pstmt.setInt(8, post.getEditCount() + 1);
+			pstmt.setString(9, post.getUserIp());
+			pstmt.setInt(10, post.getId());
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -303,46 +303,46 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 
 	protected void addNewPostText(Post post) throws Exception
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.addNewPostText"));
-			p.setInt(1, post.getId());
-			p.setString(2, post.getText());
-			p.setString(3, post.getSubject());
-			p.executeUpdate();
+			pstmt.setInt(1, post.getId());
+			pstmt.setString(2, post.getText());
+			pstmt.setString(3, post.getSubject());
+			pstmt.executeUpdate();
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
 	protected void addNewPost(Post post)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = this.getStatementForAutoKeys("PostModel.addNewPost");
+			pstmt = this.getStatementForAutoKeys("PostModel.addNewPost");
 
-			p.setInt(1, post.getTopicId());
-			p.setInt(2, post.getForumId());
-			p.setLong(3, post.getUserId());
-			p.setTimestamp(4, new Timestamp(post.getTime().getTime()));
-			p.setString(5, post.getUserIp());
-			p.setInt(6, post.isBbCodeEnabled() ? 1 : 0);
-			p.setInt(7, post.isHtmlEnabled() ? 1 : 0);
-			p.setInt(8, post.isSmiliesEnabled() ? 1 : 0);
-			p.setInt(9, post.isSignatureEnabled() ? 1 : 0);
-			p.setInt(10, post.isModerationNeeded() ? 1 : 0);
+			pstmt.setInt(1, post.getTopicId());
+			pstmt.setInt(2, post.getForumId());
+			pstmt.setLong(3, post.getUserId());
+			pstmt.setTimestamp(4, new Timestamp(post.getTime().getTime()));
+			pstmt.setString(5, post.getUserIp());
+			pstmt.setInt(6, post.isBbCodeEnabled() ? 1 : 0);
+			pstmt.setInt(7, post.isHtmlEnabled() ? 1 : 0);
+			pstmt.setInt(8, post.isSmiliesEnabled() ? 1 : 0);
+			pstmt.setInt(9, post.isSignatureEnabled() ? 1 : 0);
+			pstmt.setInt(10, post.isModerationNeeded() ? 1 : 0);
 
 			this.setAutoGeneratedKeysQuery(SystemGlobals.getSql("PostModel.lastGeneratedPostId"));
-			int postId = this.executeAutoKeysQuery(p);
+			int postId = this.executeAutoKeysQuery(pstmt);
 			post.setId(postId);
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -363,16 +363,16 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 
 		String sql = SystemGlobals.getSql("PostModel.selectAllByTopicByLimit");
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			p.setInt(1, topicId);
-			p.setInt(2, startFrom);
-			p.setInt(3, count);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, topicId);
+			pstmt.setInt(2, startFrom);
+			pstmt.setInt(3, count);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				l.add(this.makePost(rs));
@@ -384,7 +384,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -396,16 +396,16 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		String sql = SystemGlobals.getSql("PostModel.selectByUserByLimit");
 		sql = sql.replaceAll(":fids:", ForumRepository.getListAllowedForums());
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 
-			p.setInt(1, userId);
-			p.setInt(2, startFrom);
-			p.setInt(3, count);
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, startFrom);
+			pstmt.setInt(3, count);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			List<Post> l = new ArrayList<Post>();
 
 			while (rs.next()) {
@@ -418,7 +418,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -426,15 +426,15 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	{
 		int total = 0;
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("PostModel.countUserPosts").replaceAll(":fids:",
 							ForumRepository.getListAllowedForums()));
-			p.setInt(1, userId);
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 				total = rs.getInt(1);
@@ -446,7 +446,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -457,15 +457,15 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	{
 		int total = 0;
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("PostModel.countPreviousPosts"));
-			p.setInt(1, postId);
-			p.setInt(2, postId);
+			pstmt.setInt(1, postId);
+			pstmt.setInt(2, postId);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 				total = rs.getInt(1);
@@ -477,7 +477,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -485,16 +485,16 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	{
 		List<Post> l = new ArrayList<Post>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.selectLatestByForumForRSS"));
-			p.setInt(1, forumId);
-			p.setInt(2, limit);
+			pstmt.setInt(1, forumId);
+			pstmt.setInt(2, limit);
 			
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				Post post = this.buildPostForRSS(rs);
@@ -506,7 +506,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;
@@ -515,15 +515,15 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	public List<Post> selectLatestForRSS(int limit) {
 		List<Post> l = new ArrayList<Post>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.selectLatestForRSS"));
-			p.setInt(1, limit);
+			pstmt.setInt(1, limit);
 			
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				Post post = this.buildPostForRSS(rs);
@@ -535,7 +535,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;
@@ -545,15 +545,15 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	{
 		List<Post> l = new ArrayList<Post>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.selectHotForRSS"));
-			p.setInt(1, limit);
+			pstmt.setInt(1, limit);
 			
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				Post post = this.buildPostForRSS(rs);
@@ -565,7 +565,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;

@@ -409,7 +409,7 @@ public class UserSession implements Serializable
 			}
 			
 			final boolean result =  this.imageCaptcha.validateResponse(userResponse).booleanValue();
-			this.destroyCaptcha();
+			//this.destroyCaptcha();
 			return result;
 		}
 		
@@ -422,7 +422,7 @@ public class UserSession implements Serializable
 	 */
 	public void createNewCaptcha()
 	{
-		this.destroyCaptcha();
+		//this.destroyCaptcha();
 		this.imageCaptcha = Captcha.getInstance().getNextImageCaptcha();
 	}
 

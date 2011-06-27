@@ -27,34 +27,37 @@ import org.apache.log4j.xml.DOMConfigurator;
  */
 public class OnlineUsersTest extends TestCase
 {
+	private static boolean started;
 	private static final int ANONYMOUS = 1;
 	
 	protected void setUp() throws Exception
-	{
-		DOMConfigurator.configure(TestCaseUtils.getRootDir()+"/test-classes/log4j.xml");
-		
-		TestCaseUtils.loadEnvironment();
-		
-		new SessionFacade().setCacheEngine(new DefaultCacheEngine());
-		
-        RequestContext requestContext = new WebRequestContext(new FakeHttpRequest());
-        ResponseContext responseContext = new WebResponseContext(new FakeHttpResponse());
+	{		
+		if (!started) {
+			DOMConfigurator.configure(TestCaseUtils.getRootDir()+"/test-classes/log4j.xml");
+			TestCaseUtils.loadEnvironment();
 
-        ForumContext forumContext = new JForumContext(
-            requestContext.getContextPath(),
-            SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION),
-            requestContext,
-            responseContext,
-            false
-        );
-        JForumExecutionContext ex = JForumExecutionContext.get();
-        ex.setForumContext( forumContext );
+			new SessionFacade().setCacheEngine(new DefaultCacheEngine());
 
-		JForumExecutionContext.set(ex);
-		
-		ConfigLoader.startCacheEngine();
-		
-		SystemGlobals.setValue(ConfigKeys.ANONYMOUS_USER_ID, Integer.toString(ANONYMOUS));
+			RequestContext requestContext = new WebRequestContext(new FakeHttpRequest());
+			ResponseContext responseContext = new WebResponseContext(new FakeHttpResponse());
+
+			ForumContext forumContext = new JForumContext(
+					requestContext.getContextPath(),
+					SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION),
+					requestContext,
+					responseContext,
+					false
+			);
+			JForumExecutionContext ex = JForumExecutionContext.get();
+			ex.setForumContext( forumContext );
+
+			JForumExecutionContext.set(ex);
+
+			ConfigLoader.startCacheEngine();
+
+			SystemGlobals.setValue(ConfigKeys.ANONYMOUS_USER_ID, Integer.toString(ANONYMOUS));
+			started = true;
+		} 
 	}
 	
 	/**
@@ -62,11 +65,17 @@ public class OnlineUsersTest extends TestCase
 	 */
 	public void testAnonymousCount()
 	{
-		this.createUserSession(ANONYMOUS, ANONYMOUS + "1_" + System.currentTimeMillis());
-		this.createUserSession(ANONYMOUS, ANONYMOUS + "2_" + System.currentTimeMillis());
-		this.createUserSession(ANONYMOUS, ANONYMOUS + "3_" + System.currentTimeMillis());
+		String[] sessionId = new String[3];
+		for (int i = 0; i < sessionId.length; i++) {
+			sessionId[i] = ANONYMOUS + i + "_" + System.currentTimeMillis();
+			this.createUserSession(ANONYMOUS, sessionId[i]);
+		}
 		
 		assertEquals(3, SessionFacade.anonymousSize());
+		// clean up to prevent Cache error
+		for (int i = 0; i < sessionId.length; i++) {
+			SessionFacade.remove(sessionId[i]);
+		}
 	}
 	
 	/**
@@ -74,17 +83,26 @@ public class OnlineUsersTest extends TestCase
 	 */
 	public void test2Anymous1Logged() 
 	{
+		String[] sessionId = new String[3];
 		// Anonymous
-		this.createUserSession(ANONYMOUS, ANONYMOUS + "1_" + System.currentTimeMillis());
-		this.createUserSession(ANONYMOUS, ANONYMOUS + "2_" + System.currentTimeMillis());
+		for (int i = 0; i < 2; i++) {
+			sessionId[i] = ANONYMOUS + i + "_" + System.currentTimeMillis();
+			this.createUserSession(ANONYMOUS, sessionId[i]);
+		}		
 		
 		// Logged
 		SessionFacade.setAttribute("logged", "1");
-		this.createUserSession(2, "logged" + System.currentTimeMillis());
+		sessionId[2] = "logged" + System.currentTimeMillis();
+		this.createUserSession(2, sessionId[2]);
 		
 		// Assert
 		assertEquals(2, SessionFacade.anonymousSize());
 		assertEquals(1, SessionFacade.registeredSize());
+		
+		// clean up to prevent Cache error
+		for (int i = 0; i < sessionId.length; i++) {
+			SessionFacade.remove(sessionId[i]);
+		}
 	}
 	
 	/**
@@ -111,18 +129,23 @@ public class OnlineUsersTest extends TestCase
 		
 		assertEquals(0, SessionFacade.anonymousSize());
 		assertEquals(1, SessionFacade.registeredSize());
+		
+		SessionFacade.remove(sessionId);
 	}
 	
 	public void test3LoggedThen1Logout()
 	{
+		String[] sessionId = new String[3];
 		// Logged
 		SessionFacade.setAttribute("logged", "1");
 		
-		this.createUserSession(2, "2_" + System.currentTimeMillis());
+		sessionId[0] = "2_" + System.currentTimeMillis();
+		this.createUserSession(2, sessionId[0]);
 		
-		String sessionId = "3_" + System.currentTimeMillis();
-		this.createUserSession(3, sessionId);
+		sessionId[1] = "3_" + System.currentTimeMillis();
+		this.createUserSession(3, sessionId[1]);
 
+		sessionId[2] = "4_" + System.currentTimeMillis();
 		this.createUserSession(4, "4_" + System.currentTimeMillis());
 		
 		assertEquals(3, SessionFacade.registeredSize());
@@ -130,12 +153,17 @@ public class OnlineUsersTest extends TestCase
 		
 		// Logout (goes as guest)
 		SessionFacade.removeAttribute("logged");
-		SessionFacade.remove(sessionId);
+		SessionFacade.remove(sessionId[1]);
 		
-		this.createUserSession(ANONYMOUS, sessionId);
+		this.createUserSession(ANONYMOUS, sessionId[1]);
 		
 		assertEquals(2, SessionFacade.registeredSize());
 		assertEquals(1, SessionFacade.anonymousSize());
+		
+		// clean up to prevent Cache error
+		//for (int i = 0; i < sessionId.length; i++) {
+		//	SessionFacade.remove(sessionId[i]);
+		//}		
 	}
 	
 	private void createUserSession(int userId, String sessionId)

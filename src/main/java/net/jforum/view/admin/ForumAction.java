@@ -249,8 +249,6 @@ public class ForumAction extends AdminCommand
 				topicDao.deleteByForum(forumId);
 				forumDao.delete(forumId);
 				
-				//Forum forum = new Forum(ForumRepository.getForum(forumId));
-				//ForumRepository.removeForum(forum);
 				ForumRepository.removeForum(ForumRepository.getForum(forumId));
 			}
 			

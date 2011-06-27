@@ -115,8 +115,7 @@ public final class I18n
 
 		String custom = SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT);
 		if (!custom.equals(defaultName)) {
-			load(custom, defaultName);
-			defaultName = custom;
+			changeBoardDefault(custom);
 		}
 	}
 

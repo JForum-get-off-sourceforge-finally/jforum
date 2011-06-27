@@ -73,7 +73,6 @@ public class OraclePostDAO extends GenericPostDAO
 			pstmt.setInt(1, post.getId());
 			pstmt.setString(2, post.getSubject());
 			pstmt.executeUpdate();
-			pstmt.close();
 
 			OracleUtils.writeBlobUTF16BinaryStream(SystemGlobals.getSql("PostModel.addNewPostTextField"), 
 				post.getId(), post.getText());

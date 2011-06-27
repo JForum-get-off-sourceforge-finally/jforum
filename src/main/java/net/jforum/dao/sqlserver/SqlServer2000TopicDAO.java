@@ -80,22 +80,22 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
         String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
         sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
 
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(sql,
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(sql,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            p.setInt(1, forumId);
-            p.setInt(2, forumId);
+            pstmt.setInt(1, forumId);
+            pstmt.setInt(2, forumId);
 
-            return this.fillTopicsDataByLimit(p, startFrom);
+            return this.fillTopicsDataByLimit(pstmt, startFrom);
         }
         catch (SQLException e) {
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(p);
+            DbUtils.close(pstmt);
         }
     }
 
@@ -107,23 +107,23 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
         String sql = SystemGlobals.getSql("TopicModel.selectByUserByLimit");        
         sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(
                     sql.replaceAll(":fids:",
                             ForumRepository.getListAllowedForums()), 
                             ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
 
-            p.setInt(1, userId);
+            pstmt.setInt(1, userId);
 
-            return this.fillTopicsDataByLimit(p, startFrom);            
+            return this.fillTopicsDataByLimit(pstmt, startFrom);            
         }
         catch (SQLException e) {
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(p);
+            DbUtils.close(pstmt);
         }
     }
 
@@ -135,18 +135,18 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
         String sql = SystemGlobals.getSql("TopicModel.selectRecentTopicsByLimit");
         sql = sql.replaceAll("%d", String.valueOf(limit));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(sql);
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 
-            List<Topic> list = this.fillTopicsData(p);
+            List<Topic> list = this.fillTopicsData(pstmt);
             return list;
         }
         catch (SQLException e) {
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(p);
+            DbUtils.close(pstmt);
         }
     }
     
@@ -158,17 +158,17 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
         String sql = SystemGlobals.getSql("TopicModel.selectHottestTopicsByLimit");
         sql = sql.replaceAll("%d", String.valueOf(limit));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(sql);
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
       
-            return this.fillTopicsData(p);            
+            return this.fillTopicsData(pstmt);            
         }
         catch (SQLException e) {
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(p);
+            DbUtils.close(pstmt);
         }    
     }
     
@@ -178,18 +178,18 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 		 * and the last post in the topic. <br>
 		 * <b>The method <i>will</i> close the <i>PreparedStatement</i></b>
 		 * 
-		 * @param p
+		 * @param pstmt
 		 *            the PreparedStatement to execute
 		 * @return A list with all topics found
 		 * @throws SQLException
 		 */
-	private List<Topic> fillTopicsDataByLimit(PreparedStatement p, int startFrom) {
+	private List<Topic> fillTopicsDataByLimit(PreparedStatement pstmt, int startFrom) {
 		List<Topic> l = new ArrayList<Topic>();
 		PreparedStatement pstmt2 = null;
 
 		ResultSet rs = null;
 		try {
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			rs.absolute(startFrom);
 
 			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
@@ -213,8 +213,7 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 				topic.setHasAttach(rs.getInt("attach") > 0);
 				topic.setFirstPostTime(df.format(rs.getTimestamp("topic_time")));
 				topic.setLastPostTime(df.format(rs.getTimestamp("post_time")));
-				topic.setLastPostDate(new Date(rs.getTimestamp("post_time")
-						.getTime()));
+				topic.setLastPostDate(new Date(rs.getTimestamp("post_time").getTime()));
 
 				l.add(topic);
 
@@ -223,7 +222,6 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 			}
 
 			rs.close();
-			p.close();
 
 			// Users
 			if (sbFirst.length() > 0) {
@@ -236,26 +234,17 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 
 				Map<Integer, String> users = new HashMap<Integer, String>();
 
-				pstmt2 = JForumExecutionContext.getConnection()
-						.prepareStatement(sql);
+				pstmt2 = JForumExecutionContext.getConnection().prepareStatement(sql);
 				rs = pstmt2.executeQuery();
 
 				while (rs.next()) {
-					users.put(Integer.valueOf(rs.getInt("user_id")), rs
-							.getString("username"));
+					users.put(Integer.valueOf(rs.getInt("user_id")), rs.getString("username"));
 				}
-
-				rs.close();
-				pstmt2.close();
 
 				for (Iterator<Topic> iter = l.iterator(); iter.hasNext();) {
 					Topic topic = (Topic) iter.next();
-					topic.getPostedBy().setUsername(
-							(String) users.get(Integer.valueOf(topic.getPostedBy()
-									.getId())));
-					topic.getLastPostBy().setUsername(
-							(String) users.get(Integer.valueOf(topic.getLastPostBy()
-									.getId())));
+					topic.getPostedBy().setUsername(users.get(Integer.valueOf(topic.getPostedBy().getId())));
+					topic.getLastPostBy().setUsername(users.get(Integer.valueOf(topic.getLastPostBy().getId())));
 				}
 			}
 
@@ -263,7 +252,7 @@ public class SqlServer2000TopicDAO extends GenericTopicDAO
 		} catch (SQLException e) {
 			throw new DatabaseException(e);
 		} finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs);
 			DbUtils.close(pstmt2);
 		}
 	}

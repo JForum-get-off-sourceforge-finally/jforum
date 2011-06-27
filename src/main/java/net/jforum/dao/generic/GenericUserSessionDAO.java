@@ -73,20 +73,20 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 			return;
 		}
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = conn.prepareStatement(SystemGlobals.getSql("UserSessionModel.add"));
-			p.setString(1, us.getSessionId());
-			p.setInt(2, us.getUserId());
-			p.setTimestamp(3, new Timestamp(us.getStartTime().getTime()));
+			pstmt = conn.prepareStatement(SystemGlobals.getSql("UserSessionModel.add"));
+			pstmt.setString(1, us.getSessionId());
+			pstmt.setInt(2, us.getUserId());
+			pstmt.setTimestamp(3, new Timestamp(us.getStartTime().getTime()));
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -101,21 +101,21 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 			return;
 		}
 
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = conn.prepareStatement(SystemGlobals.getSql("UserSessionModel.update"));
-			p.setTimestamp(1, new Timestamp(us.getStartTime().getTime()));
-			p.setLong(2, us.getSessionTime());
-			p.setString(3, us.getSessionId());
-			p.setInt(4, us.getUserId());
+			pstmt = conn.prepareStatement(SystemGlobals.getSql("UserSessionModel.update"));
+			pstmt.setTimestamp(1, new Timestamp(us.getStartTime().getTime()));
+			pstmt.setLong(2, us.getSessionTime());
+			pstmt.setString(3, us.getSessionId());
+			pstmt.setInt(4, us.getUserId());
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 	}
 
@@ -125,13 +125,13 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 	 */
 	public UserSession selectById(UserSession us, Connection conn)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = conn.prepareStatement(SystemGlobals.getSql("UserSessionModel.selectById"));
-			p.setInt(1, us.getUserId());
+			pstmt = conn.prepareStatement(SystemGlobals.getSql("UserSessionModel.selectById"));
+			pstmt.setInt(1, us.getUserId());
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			boolean found = false;
 
 			UserSession returnUs = new UserSession(us);
@@ -148,7 +148,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 }

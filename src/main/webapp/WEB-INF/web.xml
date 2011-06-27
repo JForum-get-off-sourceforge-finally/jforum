@@ -21,6 +21,10 @@
     <listener>
         <listener-class>net.jforum.ForumSessionListener</listener-class>
     </listener>
+    
+	<listener>
+		<listener-class>net.jforum.ContextListener</listener-class>
+	</listener>
 
     <!-- JForum Controller -->
     <servlet>

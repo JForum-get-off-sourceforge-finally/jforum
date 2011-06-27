@@ -74,14 +74,14 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 		String sql = SystemGlobals.getSql("PostModel.selectAllByTopicByLimit");
 		sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			p.setInt(1, topicId);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, topicId);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				l.add(this.makePost(rs));
@@ -93,7 +93,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -106,14 +106,14 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 		sql = sql.replaceAll(":fids:", ForumRepository.getListAllowedForums());
 		sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);			
-			p.setInt(1, userId);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);			
+			pstmt.setInt(1, userId);
 
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			List<Post> l = new ArrayList<Post>();
 
 			while (rs.next()) {
@@ -126,7 +126,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -137,14 +137,14 @@ public class SqlServer2000PostDAO extends GenericPostDAO
         String sql = SystemGlobals.getSql("PostModel.selectLatestByForumForRSS");
         sql = sql.replaceAll("%d", String.valueOf(limit));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(sql);
-            p.setInt(1, forumId);
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+            pstmt.setInt(1, forumId);
             
-            rs = p.executeQuery();
+            rs = pstmt.executeQuery();
             
             while (rs.next()) {
                 Post post = this.buildPostForRSS(rs);
@@ -156,7 +156,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(rs, p);
+            DbUtils.close(rs, pstmt);
         }
         
         return l;
@@ -169,13 +169,13 @@ public class SqlServer2000PostDAO extends GenericPostDAO
         String sql = SystemGlobals.getSql("PostModel.selectLatestForRSS");
         sql = sql.replaceAll("%d", String.valueOf(limit));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(sql);
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
             
-            rs = p.executeQuery();
+            rs = pstmt.executeQuery();
             
             while (rs.next()) {
                 Post post = this.buildPostForRSS(rs);
@@ -187,7 +187,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(rs, p);
+            DbUtils.close(rs, pstmt);
         }
         
         return l;
@@ -200,13 +200,13 @@ public class SqlServer2000PostDAO extends GenericPostDAO
         String sql = SystemGlobals.getSql("PostModel.selectHotForRSS");
         sql = sql.replaceAll("%d", String.valueOf(limit));
         
-        PreparedStatement p = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            p = JForumExecutionContext.getConnection().prepareStatement(sql);
+            pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
             
-            rs = p.executeQuery();
+            rs = pstmt.executeQuery();
             
             while (rs.next()) {
                 Post post = this.buildPostForRSS(rs);
@@ -218,7 +218,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
             throw new DatabaseException(e);
         }
         finally {
-            DbUtils.close(rs, p);
+            DbUtils.close(rs, pstmt);
         }
         
         return l;

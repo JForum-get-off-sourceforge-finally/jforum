@@ -112,7 +112,6 @@ public final class TestCaseUtils
 				+ "/jforum/WEB-INF/config/SystemGlobals.properties");
 		
 		if (new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
-        	System.out.println("SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()");
 			SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
         }
 		

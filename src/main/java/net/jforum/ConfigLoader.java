@@ -210,7 +210,6 @@ public final class ConfigLoader
 		// Start the dao.driver implementation
 		final String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
 
-		LOGGER.debug("ConfigLoader.loadDaoImplementation()");
 		LOGGER.info("Loading JDBC driver " + driver);
 
 		try {

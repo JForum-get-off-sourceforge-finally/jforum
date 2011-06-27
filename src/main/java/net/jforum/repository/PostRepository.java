@@ -115,22 +115,19 @@ public class PostRepository implements Cacheable
 		List<Post> posts = (List<Post>)cache.get(FQN, tid);
 		if (posts == null || posts.isEmpty()) {
 			PostDAO pm = DataAccessDriver.getInstance().newPostDAO();
-			posts = pm.selectAllByTopic(topicId);
+			posts = pm.selectAllByTopicByLimit(topicId, start, count);
 			
 			for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
 				PostCommon.preparePostForDisplay(iter.next());
 			}
 	
 			Map<String, List<Post>> topics = (Map<String, List<Post>>)cache.get(FQN);
-			if (topics == null || topics.isEmpty() || topics.size() < CACHE_SIZE) {
+			if (topics == null || topics.isEmpty() || topics.size() < CACHE_SIZE) {								
 				cache.add(FQN, tid, posts);
 			}
 			else {
 				if (!(topics instanceof LinkedHashMap<?, ?>)) {
 					topics = new LinkedHashMap<String, List<Post>>(topics) {
-						/**
-						 * 
-						 */
 						private static final long serialVersionUID = -4868402767486935543L;
 
 						protected boolean removeEldestEntry(java.util.Map.Entry<String, List<Post>> eldest) {
@@ -148,18 +145,13 @@ public class PostRepository implements Cacheable
 		return posts.subList(start, (size < start + count) ? size : start + count);
    }
 	
-	public static void remove(int topicId, int postId)
+	public static void remove(int topicId, Post post)
 	{
 		synchronized (MUTEX_FQN) {
-			String tid = Integer.toString(topicId);
-			
-			List<Post> posts = (List<Post>)cache.get(FQN, tid);
-			
+			String tid = Integer.toString(topicId);			
+			List<Post> posts = (List<Post>)cache.get(FQN, tid);			
 			if (posts != null) {
-				Post post = new Post();
-				post.setId(postId);
-				posts.remove(post);
-				
+				posts.remove(post);				
 				cache.add(FQN, tid, posts);
 			}
 		}
@@ -167,21 +159,25 @@ public class PostRepository implements Cacheable
 	
 	public static void update(int topicId, Post post)
 	{
-		String tid = Integer.toString(topicId);
-		List<Post> posts = (List<Post>)cache.get(FQN, tid);
-		if (posts != null && posts.contains(post)) {
-			posts.set(posts.indexOf(post), post);
-			cache.add(FQN, tid, posts);
+		synchronized (MUTEX_FQN) {
+			String tid = Integer.toString(topicId);
+			List<Post> posts = (List<Post>)cache.get(FQN, tid);
+			if (posts != null && posts.contains(post)) {
+				posts.set(posts.indexOf(post), post);
+				cache.add(FQN, tid, posts);
+			}
 		}
 	}
 	
 	public static void append(int topicId, Post post)
 	{
-		String tid = Integer.toString(topicId);
-		List<Post> posts = (List<Post>)cache.get(FQN, tid);
-		if (posts != null && !posts.contains(post)) {
-			posts.add(post);
-			cache.add(FQN, tid, posts);
+		synchronized (MUTEX_FQN) {
+			String tid = Integer.toString(topicId);
+			List<Post> posts = (List<Post>)cache.get(FQN, tid);
+			if (posts != null && !posts.contains(post)) {
+				posts.add(post);
+				cache.add(FQN, tid, posts);
+			}
 		}
 	}
 	

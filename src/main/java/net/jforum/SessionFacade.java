@@ -242,7 +242,6 @@ public class SessionFacade implements Cacheable
 			for (Iterator<?> iter = values.iterator(); iter.hasNext(); ) {
 				list.add((UserSession)iter.next());
 			}
-			//return new ArrayList<UserSession>(cache.getValues(FQN));
 			return list;
 		}
 	}
@@ -259,10 +258,7 @@ public class SessionFacade implements Cacheable
 			for (Iterator<?> iter = values.iterator(); iter.hasNext(); ) {
 				list.add((UserSession)iter.next());
 			}			
-			//return new ArrayList<UserSession>(cache.getValues(FQN_LOGGED));
 			return list;
-			
-			
 		}
 	}
 	

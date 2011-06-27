@@ -297,6 +297,7 @@ ForumModel.checkUnreadTopics = SELECT MAX(post_time), topic_id FROM jforum_posts
 ForumModel.latestTopicIdForfix = SELECT MAX(topic_id) AS topic_id FROM jforum_posts WHERE forum_id = ? AND need_moderate = 0
 ForumModel.fixLatestPostData = UPDATE jforum_topics SET topic_last_post_id = ? WHERE topic_id = ?
 ForumModel.fixForumLatestPostData = UPDATE jforum_forums SET forum_last_post_id = ? WHERE forum_id = ?
+ForumModel.fixTotalTopics = UPDATE jforum_forums SET forum_topics = ? WHERE forum_id = ?
 
 ForumModel.getUnreadForums = SELECT t.forum_id, t.topic_id, p.post_time \
 	FROM jforum_topics t, jforum_posts p \

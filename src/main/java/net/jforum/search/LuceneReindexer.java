@@ -44,6 +44,7 @@
 package net.jforum.search;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -122,17 +123,13 @@ public class LuceneReindexer
 			
 			long processStart = System.currentTimeMillis();
 			
-			int firstPostId = args.filterByMessage()
-				? args.getFirstPostId()
-				: dao.firstPostIdByDate(args.getFromDate());
+			int firstPostId = args.filterByMessage() ? args.getFirstPostId() : dao.firstPostIdByDate(args.getFromDate());
 			LOGGER.debug("firstPostId="+firstPostId);					
-			int lastPostId = args.filterByMessage()
-				? args.getLastPostId()
-				: dao.lastPostIdByDate(args.getToDate());
+			int lastPostId = args.filterByMessage()	? args.getLastPostId() : dao.lastPostIdByDate(args.getToDate());
 			LOGGER.debug("lastPostId="+lastPostId);	
 
-			int dbFirstPostId = dao.firstPostIdByDate(new java.util.Date(0L));
-			int dbLastPostId = dao.lastPostIdByDate(new java.util.Date());
+			int dbFirstPostId = dao.firstPostIdByDate(new Date(0L));
+			int dbLastPostId = dao.lastPostIdByDate(new Date());
 			LOGGER.debug("dbFirstPostId="+dbFirstPostId);
 			LOGGER.debug("dbLastPostId="+dbLastPostId);
 			if (args.filterByMessage()) {
@@ -145,8 +142,6 @@ public class LuceneReindexer
 			}
 			LOGGER.debug("firstPostId="+firstPostId);
 			LOGGER.debug("lastPostId="+lastPostId);
-			// dao.getPostsToIndex(firstPostId, toPostId) does not include toPostId, add one to include the lastPostId
-			//lastPostId = lastPostId + 1;
 			
 			int counter = 0;
 			int indexTotal = 0;

@@ -58,6 +58,7 @@ import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.repository.ForumRepository;
+import net.jforum.repository.PostRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.repository.TopicRepository;
 import net.jforum.security.PermissionControl;
@@ -328,6 +329,7 @@ public class TopicsCommon
             // Updates the Hottest Topics if it contains this topic
 			TopicRepository.loadHottestTopics();
 			TopicRepository.clearCache(forumId);
+			PostRepository.clearCache(topicId);
 			topicDao.removeSubscriptionByTopic(topicId);
 		}
 	}

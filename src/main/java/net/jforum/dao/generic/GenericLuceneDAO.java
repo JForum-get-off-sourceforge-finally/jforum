@@ -73,17 +73,17 @@ public class GenericLuceneDAO implements LuceneDAO
 	{
 		List<Post> l = new ArrayList<Post>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("SearchModel.getPostsToIndexForLucene"));
 			
-			p.setInt(1, fromPostId);
-			p.setInt(2, toPostId);
+			pstmt.setInt(1, fromPostId);
+			pstmt.setInt(2, toPostId);
 			
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				l.add(this.makePost(rs));
@@ -93,7 +93,7 @@ public class GenericLuceneDAO implements LuceneDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;
@@ -119,15 +119,15 @@ public class GenericLuceneDAO implements LuceneDAO
 	{
 		int postId = 0;
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(query);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
 			
-			p.setTimestamp(1, new Timestamp(date.getTime()));
+			pstmt.setTimestamp(1, new Timestamp(date.getTime()));
 			
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				postId = rs.getInt(1);
@@ -137,7 +137,7 @@ public class GenericLuceneDAO implements LuceneDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return postId;
@@ -154,15 +154,15 @@ public class GenericLuceneDAO implements LuceneDAO
 		
 		List<Post> l = new ArrayList<Post>();
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			String sql = SystemGlobals.getSql("SearchModel.getPostsDataForLucene");
 			sql = sql.replaceAll(":posts:", this.buildInClause(postIds));
 			
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			rs = p.executeQuery();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				Post post = this.makePost(rs);
@@ -175,7 +175,7 @@ public class GenericLuceneDAO implements LuceneDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return l;

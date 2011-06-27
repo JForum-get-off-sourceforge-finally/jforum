@@ -71,15 +71,15 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 	public List<Post> selectLastPosts(Date firstDate, Date lastDate)
 	{
 		String query = SystemGlobals.getSql("SummaryDAO.selectPosts");
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(query);
-			p.setTimestamp(1, new Timestamp(firstDate.getTime()));
-			p.setTimestamp(2, new Timestamp(lastDate.getTime()));
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
+			pstmt.setTimestamp(1, new Timestamp(firstDate.getTime()));
+			pstmt.setTimestamp(2, new Timestamp(lastDate.getTime()));
 
 			List<Post> posts = new ArrayList<Post>();
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				posts.add(this.fillPost(rs));
@@ -91,7 +91,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
@@ -120,13 +120,13 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 	public List<String> listRecipients()
 	{
 		String query = SystemGlobals.getSql("SummaryDAO.selectAllRecipients");
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(query);
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
 
 			List<String> recipients = new ArrayList<String>();
-			rs = p.executeQuery();
+			rs = pstmt.executeQuery();
 
 			String mail = null;
 			while (rs.next()) {
@@ -142,7 +142,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 }

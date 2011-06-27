@@ -209,16 +209,12 @@ public class LuceneIndexer
 	
 	private void optimize(final IndexWriter writer) throws Exception
 	{
-		if (writer.maxDoc() % 100 == 0) {
-			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("Optimizing indexes. Current number of documents is " + writer.maxDoc());
-			}
+		if (writer.maxDoc() % 100 == 0) {			
+			LOGGER.info("Optimizing indexes. Current number of documents is " + writer.maxDoc());			
 			
 			writer.optimize();
 			
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Indexes optimized");
-			}
+			LOGGER.debug("Indexes optimized");
 		}
 	}
 	

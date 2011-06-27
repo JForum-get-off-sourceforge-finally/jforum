@@ -360,14 +360,11 @@ public class PostCommon
 
 		int anonymousUser = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
 
-		for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
-			Post post;
-			
-			if (needPrepare) {
-				post = iter.next();
-			}
-			else {
-				post = new Post(iter.next());
+		boolean hasCodeBlock = false;
+		for (Post post : posts) {			
+			if (!hasCodeBlock && !needPrepare && post.getText().indexOf("pre name=\"code\"") != -1) {
+				hasCodeBlock = true;
+				JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);	
 			}
 			
 			if (canEdit || (post.getUserId() != anonymousUser && post.getUserId() == userId)) {

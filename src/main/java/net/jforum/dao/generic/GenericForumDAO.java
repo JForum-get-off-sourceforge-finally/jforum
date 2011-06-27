@@ -372,6 +372,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			pstmt.setInt(1, count);
 			pstmt.setInt(2, forumId);
 			pstmt.executeUpdate();
+			pstmt.close();
 
 			// If there are no more topics, then clean the
 			// last post id information
@@ -379,6 +380,13 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			if (totalTopics < 1) {
 				this.setLastPost(forumId, 0);
 			}
+			
+			// Fix Forum's total_topics field value
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("ForumModel.fixTotalTopics"));
+			pstmt.setInt(1, totalTopics);
+			pstmt.setInt(2, forumId);
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
@@ -607,8 +615,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 		PreparedStatement pstmt2 = null;
 		try {
 			pstmt1 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.moveTopics"));
-			pstmt2 = JForumExecutionContext.getConnection().prepareStatement(
-				SystemGlobals.getSql("PostModel.setForumByTopic"));
+			pstmt2 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.setForumByTopic"));
 
 			pstmt1.setInt(1, toForumId);
 			pstmt1.setInt(2, fromForumId);
@@ -748,9 +755,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 					firstTime = null;
 				}
 				resultSet.close();
-				resultSet = null;
 				stmt.close();
-				stmt = null;
 
 				Date today = new Date();
 
@@ -771,10 +776,6 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 						firstTime = null;
 					}
 				}
-				resultSet.close();
-				resultSet = null;
-				stmt.close();
-				stmt = null;
 
 				userPerDay = firstTime == null ? 0 : (double)forumStats.getUsers() / this.daysUntilToday(today, firstTime);
 			}
@@ -870,16 +871,16 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 
 	public boolean isUserSubscribed(int forumId, int userId)
 	{
-		PreparedStatement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("ForumModel.isUserSubscribed"));
 
-			stmt.setInt(1, forumId);
-			stmt.setInt(2, userId);
+			pstmt.setInt(1, forumId);
+			pstmt.setInt(2, userId);
 
-			rs = stmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			return rs.next();
 		}
@@ -887,26 +888,26 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(rs, stmt);
+			DbUtils.close(rs, pstmt);
 		}
 	}
 
 	public void removeSubscription(int forumId, int userId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("ForumModel.removeSubscription"));
-			p.setInt(1, forumId);
-			p.setInt(2, userId);
+			pstmt.setInt(1, forumId);
+			pstmt.setInt(2, userId);
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 
 	}
@@ -918,19 +919,19 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	 */
 	public void removeSubscriptionByForum(int forumId)
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("ForumModel.removeSubscriptionByForum"));
-			p.setInt(1, forumId);
+			pstmt.setInt(1, forumId);
 
-			p.executeUpdate();
+			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
 		}
 		finally {
-			DbUtils.close(p);
+			DbUtils.close(pstmt);
 		}
 
 	}
@@ -942,14 +943,14 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	{
 		int forumId = 0;
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("ForumModel.discoverForumId"));
-			p.setString(1, listEmail);
-			rs = p.executeQuery();
+			pstmt.setString(1, listEmail);
+			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				forumId = rs.getInt(1);
@@ -959,7 +960,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			LOGGER.error(e);
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return forumId;

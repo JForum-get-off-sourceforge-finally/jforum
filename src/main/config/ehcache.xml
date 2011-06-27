@@ -2,7 +2,7 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
 
-	<diskStore path="java.io.tmpdir/one" />
+	<diskStore path="java.io.tmpdir/cache" />
 	
 	<cacheManagerPeerProviderFactory
     class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"/>

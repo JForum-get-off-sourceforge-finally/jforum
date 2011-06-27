@@ -62,7 +62,7 @@ public class SummaryTest extends TestCase
     	SummaryModel model = new SummaryModel();
         Iterator<String> iter = model.listRecipients().iterator();
         while (iter.hasNext()) {            
-            System.out.println(iter.next());            
+            iter.next();            
         }
         assertTrue(model.listRecipients().size()>=0);       
     }
@@ -85,12 +85,10 @@ public class SummaryTest extends TestCase
         // Gets a Date seven days before now
         long weekBefore = Calendar.getInstance().getTimeInMillis() - (7 * 1000 * 60 * 60 * 24);
         Date firstDate = new Date(weekBefore);
-        System.out.println(firstDate);
         Collection<Post> posts = model.listPosts(firstDate, new Date());
         Iterator<Post> iter = posts.iterator();
         while (iter.hasNext()) {
-            Post post = (Post) iter.next();
-            System.out.println(post.getSubject());            
+            iter.next();           
         }
         assertTrue(!posts.isEmpty());        
     }

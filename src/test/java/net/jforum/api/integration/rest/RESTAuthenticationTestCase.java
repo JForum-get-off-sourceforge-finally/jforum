@@ -52,19 +52,19 @@ public class RESTAuthenticationTestCase extends TestCase
 	 */
 	protected void createApiKey(Date validity) throws SQLException
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 				.prepareStatement("INSERT INTO jforum_api (api_key, api_validity) "
 						+ " VALUES (?, ?)");
-			p.setString(1, API_KEY);
-			p.setTimestamp(2, new Timestamp(validity.getTime()));
-			p.executeUpdate();
+			pstmt.setString(1, API_KEY);
+			pstmt.setTimestamp(2, new Timestamp(validity.getTime()));
+			pstmt.executeUpdate();
 		}
 		finally {
-			if (p != null) {
-				p.close();
+			if (pstmt != null) {
+				pstmt.close();
 			}
 		}
 	}
@@ -74,17 +74,17 @@ public class RESTAuthenticationTestCase extends TestCase
 	 */
 	protected void deleteApiKey() throws SQLException
 	{
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection()
+			pstmt = JForumExecutionContext.getConnection()
 				.prepareStatement("DELETE FROM jforum_api WHERE api_key = ?");
-			p.setString(1, API_KEY);
-			p.executeUpdate();
+			pstmt.setString(1, API_KEY);
+			pstmt.executeUpdate();
 		}
 		finally {
-			if (p != null) {
-				p.close();
+			if (pstmt != null) {
+				pstmt.close();
 			}
 		}
 	}

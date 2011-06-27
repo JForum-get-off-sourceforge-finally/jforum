@@ -81,21 +81,17 @@ public class EhCacheEngine implements CacheEngine {
 	}
 
 	public void stop() {
-		LOGGER.info("stop()");
 		manager.shutdown();
 	}
 
 	public void add(final String key, final Object value) {
-		LOGGER.info("add("+key+", " + value +")");
-		LOGGER.debug("Caching " + value + " with key " + key);
 		add(DUMMY_FQN, key, value);
 	}
 
 	public void add(final String fqn, final String key, final Object value) {
-		LOGGER.info("add("+fqn+", " + key +", " + value+")");
 		try {
 			if (!manager.cacheExists(fqn)) {
-				LOGGER.info("cache "+ fqn +" doesn't exist, add one");
+				LOGGER.debug("cache "+ fqn +" doesn't exist, add one");
 				manager.addCache(fqn);
 			}
 			final Cache cache = manager.getCache(fqn);
@@ -108,20 +104,18 @@ public class EhCacheEngine implements CacheEngine {
 	}
 
 	public Object get(final String fqn, final String key) {
-		LOGGER.info("get("+fqn+", " + key +")");
 		try {
-			if (!manager.cacheExists(fqn)) {
+			if (!manager.cacheExists(fqn)) {				
 				//manager.addCache(fqn);
-				LOGGER.info("cache "+fqn+" doesn't exist and returns null");
+				LOGGER.debug("cache "+fqn+" doesn't exist and returns null");
 				return null;
 			}
 			final Cache cache = manager.getCache(fqn);
 			final Element element = cache.get(key);
 			if (element != null) {
-				LOGGER.info(key + "=" + element.getValue());
 				return element.getValue();
 			} 
-			LOGGER.info("cache " + fqn + " exists but " + key + " returns null");
+			LOGGER.debug("cache " + fqn + " exists but " + key + " returns null");
 			return null;
 		} catch (Exception ce) {
 			LOGGER.error(ce);
@@ -129,30 +123,27 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public Object get(final String fqn) {
-		LOGGER.info("get("+fqn+")");
-		
+	public Object get(final String fqn) {	
 		try {
 			if (!manager.cacheExists(fqn)) {
 				//manager.addCache(fqn);
-				LOGGER.info("cache " + fqn + "not exists and return: null");
+				LOGGER.debug("cache " + fqn + "doesn't exist and returns null");
 				return null;
 			}
 			final Cache cache = manager.getCache(fqn);
 			return cache.getAllWithLoader(cache.getKeys(), null);
 		} catch (Exception ce) {
-			LOGGER.error("EhCache could not be shutdown", ce);
+			LOGGER.error(ce);
 			throw new CacheException(ce);
 		}
 				
 	}
 
 	public Collection<Object> getValues(final String fqn) {
-		LOGGER.info("getValues("+fqn+")");
 		try {
 			if (!manager.cacheExists(fqn)) {
 				//manager.addCache(fqn);
-				LOGGER.info("cache " + fqn + "not exists and returns empty collection");
+				LOGGER.debug("cache " + fqn + "doesn't exist and returns empty collection");
 				return new ArrayList<Object>();
 			}
 			final Cache cache = manager.getCache(fqn);
@@ -162,23 +153,22 @@ public class EhCacheEngine implements CacheEngine {
 			for (final Iterator<?> iter = keys.iterator(); iter.hasNext(); ) {
 				final Element element = cache.get(iter.next());
 				if (element == null) {
-					LOGGER.info("element is null");
+					LOGGER.debug("element is null");
 				} else {					
 					values.add(element.getValue());
 				}
 			}
 			
-			LOGGER.info("return:" + values);
+			LOGGER.debug("return:" + values);
 
 			return values;
 		} catch (Exception ce) {
-			LOGGER.error("EhCache could not be shutdown", ce);
+			LOGGER.error(ce);
 			throw new CacheException(ce);
 		}
 	}
 
 	public void remove(final String fqn, final String key) {
-		LOGGER.info("remove("+fqn+", " + key +")");
 		try {
 			final Cache cache = manager.getCache(fqn);
 
@@ -192,7 +182,6 @@ public class EhCacheEngine implements CacheEngine {
 	}
 
 	public void remove(final String fqn) {
-		LOGGER.info("remove("+fqn +")");
 		try {
 			if (manager.cacheExists(fqn)) {
 				manager.removeCache(fqn);

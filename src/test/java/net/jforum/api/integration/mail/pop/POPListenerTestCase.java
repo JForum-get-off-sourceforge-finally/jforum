@@ -60,20 +60,58 @@ public class POPListenerTestCase extends TestCase
 	private int forumId = 1;
 	
 	/**
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	protected void setUp() throws Exception
+	{
+		if (!started) {			
+			TestCaseUtils.loadEnvironment();
+			TestCaseUtils.initDatabaseImplementation();
+			ConfigLoader.startCacheEngine();
+			
+			ForumStartup.startForumRepository();
+			RankingRepository.loadRanks();
+			SmiliesRepository.loadSmilies();
+			BBCodeRepository.setBBCollection(new BBCodeHandler().parse());
+			
+			SystemGlobals.setValue(ConfigKeys.SEARCH_INDEXING_ENABLED, "false");
+			
+			UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+			User user = userDao.selectById(userId);
+			user.setEmail(sender);
+			userDao.update(user);
+			MailIntegration mi = new MailIntegration();
+			mi.setForumId(forumId);
+			mi.setForumEmail(forumAddress);
+			mi.setPopUsername(popUsername);
+			mi.setPopPassword(popPassword);
+			mi.setPopHost(popHost);
+			mi.setPopPort(popPort);
+			mi.setSsl(ssl);
+			MailIntegrationDAO mdao = DataAccessDriver.getInstance().newMailIntegrationDAO();
+			if (mdao.find(forumId) == null) {
+				mdao.add(mi);
+			}
+			else {
+				mdao.update(mi);
+			}
+			started = true;
+		}
+	}	
+	
+	/**
 	 * A single and simple message
 	 */
 	public void testSimple() throws Exception
 	{
 		int beforeTopicId = this.maxTopicId();
-		System.out.println("beforTopicId: " + beforeTopicId);
-
+		
 		String subject = "Mail Message " + new Date();
 		String contents = "Mail message contents " + new Date();
 		
 		this.sendMessage(sender, subject, forumAddress, contents, null);
 		
 		int afterTopicId = this.maxTopicId();
-		System.out.println("afterTopicId: " + afterTopicId);
 		
 		assertTrue("The message was not inserted", afterTopicId > beforeTopicId);
 		
@@ -218,19 +256,19 @@ public class POPListenerTestCase extends TestCase
 	{
 		int topicId = -1;
 		
-		PreparedStatement p = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			p = JForumExecutionContext.getConnection().prepareStatement("select max(topic_id) from jforum_topics");
-			rs = p.executeQuery();
+			pstmt = JForumExecutionContext.getConnection().prepareStatement("select max(topic_id) from jforum_topics");
+			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				topicId = rs.getInt(1);
 			}
 		}
 		finally {
-			DbUtils.close(rs, p);
+			DbUtils.close(rs, pstmt);
 		}
 		
 		return topicId;
@@ -267,46 +305,6 @@ public class POPListenerTestCase extends TestCase
 		m.setSubject(subject);
 		
 		return m;
-	}
-	
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception
-	{
-		if (!started) {			
-			TestCaseUtils.loadEnvironment();
-			TestCaseUtils.initDatabaseImplementation();
-			ConfigLoader.startCacheEngine();
-			
-			ForumStartup.startForumRepository();
-			RankingRepository.loadRanks();
-			SmiliesRepository.loadSmilies();
-			BBCodeRepository.setBBCollection(new BBCodeHandler().parse());
-			
-			SystemGlobals.setValue(ConfigKeys.SEARCH_INDEXING_ENABLED, "false");
-			
-			UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
-			User user = userDao.selectById(userId);
-			user.setEmail(sender);
-			userDao.update(user);
-			MailIntegration mi = new MailIntegration();
-			mi.setForumId(forumId);
-			mi.setForumEmail(forumAddress);
-			mi.setPopUsername(popUsername);
-			mi.setPopPassword(popPassword);
-			mi.setPopHost(popHost);
-			mi.setPopPort(popPort);
-			mi.setSsl(ssl);
-			MailIntegrationDAO mdao = DataAccessDriver.getInstance().newMailIntegrationDAO();
-			if (mdao.find(forumId) == null) {			
-				mdao.add(mi);
-			}
-			else {
-				mdao.update(mi);
-			}
-			started = true;
-		}
 	}
 	
 	private static class MimeMessageMock extends MimeMessage

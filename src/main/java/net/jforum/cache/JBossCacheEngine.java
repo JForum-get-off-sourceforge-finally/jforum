@@ -76,7 +76,6 @@ public class JBossCacheEngine implements CacheEngine
 			this.cache = factory.createCache(SystemGlobals.getValue(ConfigKeys.JBOSS_CACHE_PROPERTIES));
 			
 			this.cache.addCacheListener(new JBossCacheListener());
-						
 		}
 		catch (Exception e) {
 			throw new CacheException("Error while trying to configure jboss-cache: " + e);
@@ -87,7 +86,7 @@ public class JBossCacheEngine implements CacheEngine
 	 * @see net.jforum.cache.CacheEngine#stop()
 	 */
 	public void stop()
-	{
+	{		
 		this.cache.stop();
 		this.cache.destroy();
 	}
@@ -97,9 +96,7 @@ public class JBossCacheEngine implements CacheEngine
 	 */
 	public void add(final String key, final Object value)
 	{
-		if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
-		    this.add(CacheEngine.DUMMY_FQN, key, value);
-		}
+		this.add(CacheEngine.DUMMY_FQN, key, value);
 	}
 
 	/**
