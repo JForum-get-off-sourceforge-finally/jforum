@@ -1,8 +1,15 @@
-#Wed Jun 22 00:55:42 CST 2011
+#Tue Jun 28 00:38:27 CST 2011
 eclipse.preferences.version=1
+encoding//src/main/resources/templates/default/admin/admin_index.htm=UTF-8
+encoding//src/main/resources/templates/default/admin/admin_welcome.htm=UTF-8
+encoding//src/main/resources/templates/default/admin/menu.htm=UTF-8
 encoding//src/main/resources/templates/default/header.htm=UTF-8
 encoding//src/main/resources/templates/default/install.htm=UTF-8
+encoding//src/main/resources/templates/default/install_check_info.htm=UTF-8
 encoding//src/main/resources/templates/default/install_error.htm=UTF-8
 encoding//src/main/resources/templates/default/install_finished.htm=UTF-8
+encoding//src/main/resources/templates/default/list_smilies.htm=UTF-8
 encoding//src/main/resources/templates/default/pm_finduser.htm=UTF-8
+encoding//src/main/resources/templates/default/pm_review_message.htm=UTF-8
+encoding//src/main/resources/templates/default/topic_review.htm=UTF-8
 encoding/<project>=UTF-8

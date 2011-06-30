@@ -64,9 +64,9 @@ public class ContextListener implements ServletContextListener {
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println(sce.getServletContext().getContextPath() + " initialized");
 		final String appPath = sce.getServletContext().getRealPath("");
 		DOMConfigurator.configure(appPath + "/WEB-INF/log4j.xml");
+		LOGGER.info(sce.getServletContext().getContextPath() + " initialized");
 	}
 
 	/* (non-Javadoc)
@@ -84,7 +84,7 @@ public class ContextListener implements ServletContextListener {
 				LOGGER.error(e.getMessage(), e);
 			}
 		}
-		System.out.println(sce.getServletContext().getContextPath() + " destroyed");
+		LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
 	}
 
 }

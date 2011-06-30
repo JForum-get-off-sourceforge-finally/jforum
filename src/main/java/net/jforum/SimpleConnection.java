@@ -67,10 +67,10 @@ public class SimpleConnection extends DBConnection
 	private static final Logger LOGGER = Logger.getLogger(SimpleConnection.class);
 	
 	/** 
-	 * @throws Exception 
+	 * @throws ClassNotFoundException  
 	 * @see net.jforum.DBConnection#init()
 	 */
-	public void init()
+	public void init() throws ClassNotFoundException
 	{
 		try {
 			Class.forName(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
@@ -86,7 +86,7 @@ public class SimpleConnection extends DBConnection
 		}
 		catch (ClassNotFoundException e) {
 			this.databaseUp = false;
-			//throw e;
+			throw e;
 		}
 	}
 

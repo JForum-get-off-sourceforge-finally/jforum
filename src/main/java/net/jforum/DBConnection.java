@@ -161,6 +161,7 @@ public abstract class DBConnection
 	 * @throws Exception
 	 */
 	public void realReleaseAllConnections() 
-	{		
+	{	
+		LOGGER.info("real release all connections now");
 	}
 }

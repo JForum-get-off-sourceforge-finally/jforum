@@ -77,7 +77,7 @@ public final class I18n
 	private static final Logger LOGGER = Logger.getLogger(I18n.class);
 
 	private static final I18n INSTANCE = new I18n();
-	private static final Map<String, Properties> messagesMap = new HashMap<String, Properties>();
+	private static final Map<String, Properties> MESSAGES_MAP = new HashMap<String, Properties>();
 	private static final Properties LOCAL_NAMES = new Properties();
 	private static String defaultName;
 	private static String baseDir;
@@ -165,7 +165,7 @@ public final class I18n
 				load(mergeWith, null);
 			}
 
-			p.putAll(messagesMap.get(mergeWith));
+			p.putAll(MESSAGES_MAP.get(mergeWith));
 		}
 		
 		FileInputStream fis = null;
@@ -190,7 +190,7 @@ public final class I18n
 			}
 		}
 		
-		messagesMap.put(localeName, p);
+		MESSAGES_MAP.put(localeName, p);
 
 		watchForChanges(localeName);
 	}
@@ -245,7 +245,7 @@ public final class I18n
 	 */
 	public static String getMessage(String localeName, String messageName, Object params[])
 	{
-		return MessageFormat.format(messagesMap.get(localeName).getProperty(messageName), params);
+		return MessageFormat.format(MESSAGES_MAP.get(localeName).getProperty(messageName), params);
 	}
 
 	/**
@@ -292,11 +292,11 @@ public final class I18n
 	 */
 	public static String getMessage(String localeName, String m)
 	{
-		if (!messagesMap.containsKey(localeName)) {
+		if (!MESSAGES_MAP.containsKey(localeName)) {
 			load(localeName);
 		}
 
-		return messagesMap.get(localeName).getProperty(m);
+		return MESSAGES_MAP.get(localeName).getProperty(m);
 	}
 
 	public static String getMessage(String m)
@@ -349,7 +349,7 @@ public final class I18n
 	 */
 	public static boolean contains(String language)
 	{
-		return messagesMap.containsKey(language);
+		return MESSAGES_MAP.containsKey(language);
 	}
 
 	/**
@@ -383,7 +383,7 @@ public final class I18n
 	public static void reset()
 	{
 		//messagesMap = new HashMap<String, Properties>();
-		messagesMap.clear();
+		MESSAGES_MAP.clear();
 		//localeNames = new Properties();
 		LOCAL_NAMES.clear();
 		defaultName = null;

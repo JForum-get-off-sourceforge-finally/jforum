@@ -42,7 +42,6 @@
  */
 package net.jforum.repository;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
