@@ -193,7 +193,7 @@ function enableNativeFields()
 				</table></td>
 			</tr>
 			<tr>
-				<td align="center" valign="middle"><br/><span class="maintitle">${I18n.getMessage("Install.step1")}</span></td>
+				<td align="center" valign="middle"><br /><span class="maintitle">${I18n.getMessage("Install.step1")}</span></td>
 			</tr>
 			<tr>
 				<td width="100%">
@@ -255,7 +255,7 @@ function enableNativeFields()
 							<select name="install_type">
 								<option value="0">${I18n.getMessage("Install.typeNew")}</option>
 							</select>
-							<br/><span class="gensmall"><font color="green">${I18n.getMessage("Install.upgradeNotSupported")}</font></span>
+							<br /><span class="gensmall"><font color="green">${I18n.getMessage("Install.upgradeNotSupported")}</font></span>
 						</td>
 
 					</tr>
@@ -276,7 +276,7 @@ function enableNativeFields()
 							<select name="db_connection_type" onchange="enableNativeFields()">
 								<option value="JDBC" <#if db_connection_type?default("native") == "native">selected="selected"</#if>>${I18n.getMessage("Install.dbConnectionTypeNative")}</option>
 								<option value="ds" <#if db_connection_type?default("native") == "ds">selected="selected"</#if>>${I18n.getMessage("Install.dbConnectionTypeDs")}</option>
-							</select><br/>
+							</select><br />
 							<span class="gensmall"><font color="green">${I18n.getMessage("Install.dbConnectionTypeTip")}</font></span>
 						</td>
 					</tr>
@@ -284,7 +284,7 @@ function enableNativeFields()
 					<tr>
 						<td class="row1" align="right" valign="top"><span class="gen"><b>${I18n.getMessage("Install.dbDataSource")}</b></span></td>
 						<td class="row1" align="left">
-							<input type="text" name="dbdatasource" value="${dbdatasource?default("")}" disabled="disabled" style="bgcolor: #cccccc;"/><br/>
+							<input type="text" name="dbdatasource" value="${dbdatasource?default("")}" disabled="disabled" style="bgcolor: #cccccc;"/><br />
 							<span class="gensmall"><font color="green">${I18n.getMessage("Install.dbDataSourceTip")}</font></span>
 						</td>
 					</tr>
@@ -305,7 +305,7 @@ function enableNativeFields()
 					<tr>
 						<td class="row3" align="right" valign="top"><span class="gen"><b>${I18n.getMessage("Install.dbName")}: </b></span></td>
 						<td class="row3" align="left">
-						<input type="text" name="dbname" value="${dbname?default("jforum")}" /><br/>
+						<input type="text" name="dbname" value="${dbname?default("jforum")}" /><br />
 						<span class="gensmall"><font color="green">${I18n.getMessage("Install.dbNameTip")}</font></span>
 						</td>
 					</tr>

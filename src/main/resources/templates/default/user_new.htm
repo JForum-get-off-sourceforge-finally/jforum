@@ -46,8 +46,8 @@ function validateRegistrationForm(f)
 }
 
 function newCaptcha()
-{
-	document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/jforum")}?module=captcha&action=regenerate&timestamp=" + new Date().getTime();
+{	
+	document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate/")}?timestamp="+new Date().getTime();
 }
 /* ]]> */
 </script>

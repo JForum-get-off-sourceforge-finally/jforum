@@ -69,6 +69,7 @@ import net.jforum.dao.TopicDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Attachment;
 import net.jforum.entities.Forum;
+import net.jforum.entities.KarmaStatus;
 import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Poll;
 import net.jforum.entities.PollChanges;
@@ -1140,6 +1141,7 @@ public class PostAction extends Command
 
 			// Save the remaining stuff
 			post.setModerate(moderate);
+			post.setKarma(new KarmaStatus());
 			int postId = postDao.addNew(post);
 
 			if (newTopic) {

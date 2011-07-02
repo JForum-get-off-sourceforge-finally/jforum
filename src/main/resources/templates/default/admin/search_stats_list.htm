@@ -1,6 +1,6 @@
 <#include "header.htm"/>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -161,7 +161,7 @@ function checkIfPostExists()
 			<td><strong>${I18n.getMessage("SearchStats.indexExists")}:</strong></td>
 			<td>
 				<#if !indexExists>
-					<i>${I18n.getMessage("No")}</i> <a href="${JForumContext.encodeURL("/jforum")}?module=${moduleName}&action=createIndexDirectory">>${I18n.getMessage("SearchStats.CreateIndexNow")}</a>
+					<i>${I18n.getMessage("No")}</i> <a href="${JForumContext.encodeURL("/adminSearchStats/createIndexDirectory")}">>${I18n.getMessage("SearchStats.CreateIndexNow")}</a>
 				<#else>
 					<i>${I18n.getMessage("Yes")}</i> 
 				</#if>
