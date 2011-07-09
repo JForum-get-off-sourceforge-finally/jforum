@@ -50,7 +50,7 @@ import java.util.LinkedHashMap;
  * @author Rafael Steil
  * @version $Id$
  */
-public class RoleCollection extends LinkedHashMap<Object, Object> implements Serializable
+public class RoleCollection extends LinkedHashMap<String, Role> implements Serializable
 {
 	private static final long serialVersionUID = 5785913253137782980L;
 
@@ -78,7 +78,7 @@ public class RoleCollection extends LinkedHashMap<Object, Object> implements Ser
 	{
 		final StringBuffer stringBuffer = new StringBuffer(512);
 		
-		for (final Iterator<Object> iter = this.values().iterator(); iter.hasNext(); ) {
+		for (final Iterator<Role> iter = this.values().iterator(); iter.hasNext(); ) {
 			stringBuffer.append(iter.next()).append('\n');
 		}
 		

@@ -207,10 +207,10 @@ public class JForum extends JForumBaseServlet
 			else {
 				final boolean shouldBan = this.shouldBan(request.getRemoteAddr());
 				
-				if (shouldBan) {
+				if (shouldBan && !"logout".equals(request.getAction())) {
 					moduleClass = ModulesRepository.getModuleClass("forums");
 					context.put("moduleName", "forums");
-					((WebRequestContext)request).changeAction("banned");					
+					((WebRequestContext)request).changeAction("banned");
 				}
 				else {
 					context.put("moduleName", module);
