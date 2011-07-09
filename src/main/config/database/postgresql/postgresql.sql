@@ -59,14 +59,16 @@ PollModel.lastGeneratedPollId = SELECT CURRVAL('jforum_vote_desc_seq')
 # #############
 # ForumModel
 # #############
-ForumModel.getModeratorList = SELECT g.group_id AS id, g.group_name AS name \
-	FROM jforum_groups g, jforum_roles r, jforum_role_values rv, jforum_roles r2 \
+ForumModel.getModeratorList = SELECT u.user_id AS id, u.username AS name \
+	FROM jforum_groups g, jforum_roles r, jforum_role_values rv, jforum_roles r2, jforum_users u, jforum_user_groups ug \
 	WHERE g.group_id = r.group_id \
 	AND r.role_id = rv.role_id \
 	AND r.name = 'perm_moderation_forums' \
 	AND rv.role_value = cast(? as varchar) \
 	AND r2.name = 'perm_moderation' \
-	AND r2.group_id = g.group_id
+	AND r2.group_id = g.group_id \
+	AND g.group_id = ug.group_id \
+	AND ug.user_id = u.user_id	
 	
 ForumModel.lastGeneratedForumId = SELECT CURRVAL('jforum_forums_seq');
 
