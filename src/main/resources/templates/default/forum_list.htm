@@ -185,5 +185,23 @@
 		</td>
 	</tr>
 </table>
+<script type="text/javascript"> 
+/* <![CDATA[ */
+function limitTitleSize()
+{
+    $(".last_title").each(function () {
+        var value = $(this).text();
+        
+        if (value.length > 30) {
+            $(this).text(value.substring(0, 30) + "...");
+        }
+    });
+}
 
+$(document).ready(function() {
+	limitTitleSize();
+ 
+});
+/* ]]> */
+</script>
 <#include "bottom.htm"/>

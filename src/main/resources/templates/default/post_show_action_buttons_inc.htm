@@ -2,7 +2,7 @@
 	<div class="date">
 		<#assign startStr = ""/>
 		<#if (start > 0)><#assign startStr = "${start}/"/></#if>
-		#${post_index+1+start}<a href="${JForumContext.encodeURL("/posts/list/${startStr}${post.topicId}")}#p${post.id}">
+		<a href="${JForumContext.encodeURL("/posts/list/${startStr}${post.topicId}")}#p${post.id}">
 		<img src="${contextPath}/templates/${templateName}/images/icon_minipost_new.gif" alt="[Post New]" /></a>${post.formattedTime}
 	</div>
 	<div class="subject">&nbsp;&nbsp; &nbsp;<b>${I18n.getMessage("PostShow.subject")}:</b> <a name="p${post.id}">${post.subject?default("")?html}</a></div>
@@ -24,5 +24,6 @@
 		</#if>
 
 		<a class="nav" href="#top"><img src="${contextPath}/templates/${templateName}/images/icon_up.gif" alt="[Up]" /></a>
+		#${post_index+1+start}
 	</div>
 </div>
