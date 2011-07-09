@@ -12,7 +12,7 @@ var SERVLET_EXTENSION  = "${extension}";
 /* ]]> */
 </script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 
 <script type="text/javascript">
@@ -367,7 +367,7 @@ function cancelOperation()
 								<!-- Textarea -->
 								<tr>
 									<td valign="top">
-										<textarea class="message" onkeyup="storeCaret(this);" onclick="storeCaret(this);" onselect="storeCaret(this);" tabindex="3" name="message" rows="15"  cols="35"><#if post?exists><#if quote?exists>[quote=${quoteUser}]${post.text?html}[/quote]<#else>${post.text?html}</#if></#if></textarea> 
+										<textarea class="message" onkeyup="storeCaret(this);" onclick="storeCaret(this);" onselect="storeCaret(this);" tabindex="3" name="message" rows="15" cols="35"><#if post?exists><#if quote?exists>[quote=${quoteUser}]${post.text?html}[/quote]<#else>${post.text?html}</#if></#if></textarea> 
 									</td>
 								</tr>
 							</table>

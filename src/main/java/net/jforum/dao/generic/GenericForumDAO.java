@@ -509,7 +509,17 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 				moderatorInfo.setId(resultSet.getInt("id"));
 				moderatorInfo.setName(resultSet.getString("name"));
 
-				list.add(moderatorInfo);
+				// avoid duplicate user_id
+				boolean notExists = true;
+				for (ModeratorInfo mi : list) {
+					if (mi.getId() == moderatorInfo.getId()) {
+						notExists = false;
+						break;
+					}
+				}
+				if (notExists) {
+					list.add(moderatorInfo);
+				}
 			}
 
 			return list;

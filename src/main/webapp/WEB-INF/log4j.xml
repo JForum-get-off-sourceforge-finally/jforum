@@ -8,7 +8,7 @@
 	</appender>
 	
 	<appender name="jforum.log" class="org.apache.log4j.RollingFileAppender">
-		<param name="MaxFileSize"  value="1024KB"/>
+		<param name="MaxFileSize" value="1024KB"/>
 		<param name="MaxBackupIndex" value="4"/>
 
 		<param name="File" value="/tmp/jforum.log"/>

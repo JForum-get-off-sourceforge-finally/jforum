@@ -4,7 +4,7 @@
 
 <#assign canEditSomeMessage = false/>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="${contextPath}/javascript/jquery.jeditable.pack.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post_show.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
@@ -110,7 +110,7 @@
 										</#list>
 										</table>
 										<input type="submit" value="${I18n.getMessage("PostShow.pollVote")}" /><br />
-										<span class="gensmall" style="text-align:center"><a href="${JForumContext.encodeURL("/posts/list/${topic.id}?viewResults=true", "")}">${I18n.getMessage("PostShow.showPollResults")}</a></span>
+										<span class="gensmall" style="text-align:center"><a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}?viewResults=true">${I18n.getMessage("PostShow.showPollResults")}</a></span>
 									</div>
 								</form>
 							<#else>

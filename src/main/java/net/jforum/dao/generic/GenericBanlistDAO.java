@@ -89,9 +89,8 @@ public class GenericBanlistDAO extends AutoKeys implements BanlistDAO
 	{
 		PreparedStatement pstmt = null;
 		
-		try {
-			pstmt = JForumExecutionContext.getConnection().prepareStatement(
-				SystemGlobals.getSql("BanlistModel.insert"));
+		try {			
+			pstmt = this.getStatementForAutoKeys("BanlistModel.insert");
 			
 			pstmt.setInt(1, banlist.getUserId());
 			pstmt.setString(2, banlist.getIp());

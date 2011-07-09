@@ -28,7 +28,7 @@
 						</#if>
 					</td>
 
-					<td valign="middle"  nowrap="nowrap" align="right" class="gensmall">
+					<td valign="middle" nowrap="nowrap" align="right" class="gensmall">
 						<#if logged>
 							<a href="${JForumContext.encodeURL("/forums/readAll/${forum.id}")}">${I18n.getMessage("ForumIndex.setAllTopicsAsRead")}</a>
 						</#if>
@@ -262,14 +262,14 @@
 			<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
 				<tr>
 					<#if !readonly && !replyOnly>
-						<td valign="middle"  align="left" width="50">
+						<td valign="middle" align="left" width="50">
 							<a href="${JForumContext.encodeURL("/posts/insert/${forum.id}")}" rel="nofollow" class="icon_new_topic"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 						</td>
 					<#else>
 						<#assign colspan = "2"/>
 					</#if>
 
-					<td valign="middle"  align="left" colspan="${colspan?default("0")}">
+					<td valign="middle" align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
 						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> &raquo;  <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></span>
 					</td>
@@ -310,8 +310,8 @@
 					<#if (moderators.size() > 0)>
 						<td align="right" class="gensmall">
 							${I18n.getMessage("ForumIndex.forumAdmins")}:
-							<b><#list moderators as m>
-							<a href="${JForumContext.encodeURL("/user/listGroup/${m.id}")}">${m.name?html}</a>
+							<b><#list moderators as m>							
+							<a href="${JForumContext.encodeURL("/user/profile/${m.id}")}">${m.name?html}</a>
 							</#list></b>
 						</td>
 					</#if>

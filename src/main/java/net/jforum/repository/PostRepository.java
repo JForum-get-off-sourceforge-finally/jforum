@@ -115,7 +115,7 @@ public class PostRepository implements Cacheable
 		List<Post> posts = (List<Post>)cache.get(FQN, tid);
 		if (posts == null || posts.isEmpty()) {
 			PostDAO pm = DataAccessDriver.getInstance().newPostDAO();
-			posts = pm.selectAllByTopicByLimit(topicId, start, count);
+			posts = pm.selectAllByTopic(topicId);
 			
 			for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
 				PostCommon.preparePostForDisplay(iter.next());

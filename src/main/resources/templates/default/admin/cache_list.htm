@@ -38,7 +38,7 @@
 		<td class="row2"><span class="gen">${I18n.getMessage("Cache.modules")}</span></td>
 		<td class="row2"><span class="gen">${modules.size()}</span></td>
 		<td class="row2">
-			<a class="gen" href="${JForumContext.encodeURL("/adminCache/modulesReload")}">${I18n.getMessage("Cache.reload")}</a>
+			<a class="gen" href="${JForumContext.encodeURL("/jforum")}?module=adminCache&amp;action=modulesReload">${I18n.getMessage("Cache.reload")}</a>
 		</td>
 	</tr>
 
@@ -77,6 +77,10 @@
 			<a class="gen" href="${JForumContext.encodeURL("/adminCache/postsMoreInfo")}">${I18n.getMessage("Cache.moreInfo")}</a>
 		</td>
 	</tr>
+	
+	<tr>
+	    <td class="catbottom" colspan="3" height="25" align="center">&nbsp;</td>
+    </tr>
 </table>
 
 <#include "bottom.htm"/>
