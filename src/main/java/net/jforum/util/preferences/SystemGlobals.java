@@ -102,7 +102,6 @@ public final class SystemGlobals implements VariableStore
 	 */
 	public static void initGlobals(String appPath, String mainConfigurationFile)
 	{
-		globals = new SystemGlobals();
 		globals.buildSystem(appPath, mainConfigurationFile);
 	}
 	
@@ -240,9 +239,7 @@ public final class SystemGlobals implements VariableStore
 		}
 		catch (IOException e) {
 			throw new ForumException(e);
-		}
-
-		ConfigLoader.listenInstallationConfig();
+		}		
 	}
 
 	/**
