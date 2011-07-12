@@ -75,6 +75,7 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.CategoryOrderComparator;
+import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -616,7 +617,12 @@ public class ForumRepository implements Cacheable
 	
 	public static User lastRegisteredUser()
 	{
-		return (User)cache.get(FQN, LAST_USER);
+		User user = (User)cache.get(FQN, LAST_USER);
+		if (user == null) {
+			user = new User(SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID));
+			user.setUsername(I18n.getMessage("Guest"));
+		}
+		return user;
 	}
 	
 	public static void setLastRegisteredUser(User user)
@@ -626,16 +632,17 @@ public class ForumRepository implements Cacheable
 	
 	public static Integer totalUsers()
 	{
-		return (Integer)cache.get(FQN, TOTAL_USERS);
+		Integer i = (Integer)cache.get(FQN, TOTAL_USERS);
+
+		if (i == null) {
+			i = Integer.valueOf(0);
+		}
+		return i;
 	}
 	
 	public static void incrementTotalUsers()
 	{
-		Integer i = (Integer)cache.get(FQN, TOTAL_USERS);
-		
-		if (i == null) {
-			i = Integer.valueOf(0);
-		}
+		Integer i = totalUsers();
 		
 		cache.add(FQN, TOTAL_USERS, Integer.valueOf(i.intValue() + 1));
 	}

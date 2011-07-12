@@ -370,8 +370,8 @@ public class JForum extends JForumBaseServlet
 		// stop Scheduler
 		try {
 			LOGGER.debug("Stop Quartz Scheduler ...");
-			SummaryScheduler.stopJob();
 			POPJobStarter.stopJob();
+			SummaryScheduler.stopJob();			
 		} catch (SchedulerException e) {			
 			LOGGER.error(e.getMessage(), e);
 		}		
@@ -388,14 +388,8 @@ public class JForum extends JForumBaseServlet
 			session.invalidate();
 			LOGGER.debug("Current sessions: " + SessionFacade.size());
 		}
-	
-		try {			
-			ConfigLoader.stopCacheEngine();
-		}
-		catch (Exception e) { 
-			LOGGER.error(e.getMessage(), e); 
-		}
-		
+
+		// stop database and release all connections
 		try {
 			if ("hsqldb".equals(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_NAME))) {
 				LOGGER.debug("shutdwon hsqldb");
@@ -406,6 +400,14 @@ public class JForum extends JForumBaseServlet
 				JForumExecutionContext.finish();
 			}
 			DBConnection.getImplementation().realReleaseAllConnections();
+		}
+		catch (Exception e) { 
+			LOGGER.error(e.getMessage(), e); 
+		}
+		
+		// stop cache engine
+		try {			
+			ConfigLoader.stopCacheEngine();
 		}
 		catch (Exception e) { 
 			LOGGER.error(e.getMessage(), e); 
@@ -424,15 +426,16 @@ public class JForum extends JForumBaseServlet
 	
 	private static void closeFileMonitor()
 	{
-		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC));
-		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
-		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
-		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
 		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG));
+		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
+		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
+		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
+		FileMonitor.getInstance().removeFileChangeListener(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC));
+		
 		final String baseDir = I18n.getBaseDir();
 		final Properties localeNames = I18n.getLocaleNames();
-		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT)));
+		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));		
 		FileMonitor.getInstance().getTimer().cancel();
 	}
 }
