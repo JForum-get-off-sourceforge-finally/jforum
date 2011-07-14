@@ -1159,7 +1159,7 @@ public class PostAction extends Command
 			
 			attachments.insertAttachments(post);
 			post.hasAttachments(attachments.getAttachments(post.getId(), forumId).size() > 0);
-			topic = topicDao.selectById(post.getTopicId());			
+			topic.setHasAttach(topic.hasAttach()||post.hasAttachments());
 			
 			if (!moderate) {
 				StringBuffer path = new StringBuffer(512);

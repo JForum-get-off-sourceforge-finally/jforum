@@ -231,7 +231,7 @@ public class LuceneSearchTestCase extends TestCase
 		}
 		TestCaseUtils.loadEnvironment();
 		
-		this.settings = new LuceneSettings(new StandardAnalyzer(Version.LUCENE_31));
+		this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.version));
 		
 		this.settings.useRAMDirectory();
 		

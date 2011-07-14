@@ -209,7 +209,7 @@ function limitTextArea(field, limit)
 
 							<tr>
 								<td width="50%"><span class="gen"><b>${I18n.getMessage("Forums.Form.RequiresSSL")}</b></span></td>
-								<td><input type="checkbox" name="requires_ssl" value="1" <#if mailIntegration?exists && mailIntegration.isSSL()>checked="checked"</#if> /></td>
+								<td><input type="checkbox" name="requires_ssl" value="1" <#if mailIntegration?exists && mailIntegration.isSsl()>checked="checked"</#if> /></td>
 							</tr>
 						</table>
 					</td>

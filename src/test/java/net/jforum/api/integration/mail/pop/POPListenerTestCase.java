@@ -284,7 +284,7 @@ public class POPListenerTestCase extends TestCase
 			TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
 			
 			Topic topic = new Topic(topicId);
-			topic.setForumId(2);
+			topic.setForumId(forumId);
 			
 			dao.delete(topic, false);
 			
