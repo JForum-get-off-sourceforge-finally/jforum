@@ -166,6 +166,11 @@
 								<#else>
 									${post.text}
 								</#if>
+								<#if post.hasAttachments()>
+									<!-- Fix attachment table border not correctly displayed -->
+									<br />
+									<br />
+								</#if>								
 							</div>
 
 							<!-- Attachments -->
