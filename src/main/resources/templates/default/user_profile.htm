@@ -126,6 +126,7 @@
     
 	<tr>
 		<td class="row1" valign="top">
+			<#if u.id != 1>
 			<table cellspacing="1" cellpadding="3" width="100%" border="0">
 			<#if (u.isViewEmailEnabled() && u.email?exists && u.email?length > 0)>
 			<tr>
@@ -139,7 +140,6 @@
 			</tr>
 			</#if>
 
-			<#if u.id != 1>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.privateMessage")}:</span></td>
 				<td class="row1" valign="middle">
@@ -148,7 +148,6 @@
 					</span></b>
 				</td>
 			</tr>
-			</#if>
             
 			<#if (u.msnm?exists && u.msnm?length > 0)>
 			<tr>
@@ -173,6 +172,7 @@
 			</tr>
 			</#if>
 			</table>
+			</#if>
 		</td>
 	</tr>
 </table>

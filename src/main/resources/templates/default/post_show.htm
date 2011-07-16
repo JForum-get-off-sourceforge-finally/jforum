@@ -251,7 +251,7 @@
 					/* <![CDATA[ */
 					function newCaptcha()
 					{
-						document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate/")}?timestamp="+new Date().getTime();
+						document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime();
 					}
 					
 					function activateQuickReply()
@@ -317,7 +317,7 @@
 								<#if needCaptcha?default(false)>
 									<tr>
 										<td>
-											<img border="0" align="middle" id="captcha_img" alt="Captcha" src="" />
+											<img border="0" align="middle" id="captcha_img" alt="Captcha" src="${contextPath}/images/transp.gif" />
 											<br />
 											<span class="gensmall">${I18n.getMessage("User.captchaResponse")}</span>
 											<input type="text" class="post" style="width: 80px; font-weight: bold;" maxlength="25" name="captcha_anwser" /> 

@@ -23,7 +23,7 @@ var SERVLET_EXTENSION  = "${extension}";
 
 function newCaptcha()
 {	
-	document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate/")}?timestamp="+new Date().getTime();
+	document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime();
 }
 
 function validatePostForm(f)
@@ -88,7 +88,7 @@ function cancelOperation()
 		<#if isNewTopic>
 	document.location.replace('${contextPath}/forums/show/${forum.id}${extension}');
 		<#elseif isEdit>
-	document.location.replace('${contextPath}/posts/list/${start?default("")}/${topic.id}${extension}');
+	document.location.replace('${contextPath}/posts/list/${start?default("0")}/${topic.id}${extension}');
 		<#elseif !isNewTopic>
 	document.location.replace('${contextPath}/posts/list/${topic.id}${extension}');
 		</#if>
