@@ -184,8 +184,7 @@ public class Captcha extends ListImageCaptchaEngine
 					LOGGER.error(ex);
 				}
 			}
-			image.flush();
-			SessionFacade.getUserSession().destroyCaptcha();
+			image.flush();			
 		}
 	}
 }

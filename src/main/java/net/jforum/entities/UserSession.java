@@ -434,6 +434,7 @@ public class UserSession implements Serializable
 	{
 		if (this.imageCaptcha != null) {
 			this.imageCaptcha.disposeChallenge();
+			this.imageCaptcha = null;
 		}
 	}
 	

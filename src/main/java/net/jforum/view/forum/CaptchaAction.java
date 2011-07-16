@@ -61,6 +61,8 @@ public class CaptchaAction extends Command
 		JForumExecutionContext.setContentType("image/jpg");
 		
 		Captcha.getInstance().writeCaptchaImage();
+		
+		SessionFacade.getUserSession().destroyCaptcha();
 	}
 	
 	/**
