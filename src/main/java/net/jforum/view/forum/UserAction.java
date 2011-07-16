@@ -179,8 +179,6 @@ public class UserAction extends Command
 		this.context.put(PAGE_TITLE, I18n.getMessage("ForumBase.register"));
 		
 		if (SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_REGISTRATION)){
-			// Create a new image captcha
-			SessionFacade.getUserSession().createNewCaptcha();
 			this.context.put("captcha_reg", true);
 		}
 

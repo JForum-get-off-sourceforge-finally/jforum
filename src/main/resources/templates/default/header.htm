@@ -10,6 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="-1" />
+<meta name="description" content="${metaDescription}" />
+<meta name="keywords" content="${metaKeywords}" />
 <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
 <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/${language}.css?${startupTime} );</style>
 <#if isNewPost?exists || isEdit?exists || htmlAllowed?exists>
@@ -45,7 +47,7 @@ Modifications by JForum Team
 									<span class="mainmenu"><img src="${contextPath}/templates/${templateName}/images/icon_mini_search.gif" alt="[Search]"/> <a id="search" class="mainmenu" href="${JForumContext.encodeURL("/search/filters")}"><b>${I18n.getMessage("ForumBase.search")}</b></a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Recent Topics]" /> <a id="latest" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Hottest Topics]" /> <a id="hottest" class="mainmenu" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a> &nbsp;
-									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Hottest Topics]" /> <a id="hottest" class="mainmenu" href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a> &nbsp;
+									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Top Downloads]" /> <a id="topdownload" class="mainmenu" href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Members]" /> <a id="userlist" class="mainmenu" href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a> &nbsp;
 									<span class="mainmenu"><img src="${contextPath}/templates/${templateName}/images/icon_mini_groups.gif" alt="[Groups]" /> <a id="backtosite" class="mainmenu" href="${homepageLink}">${I18n.getMessage("ForumBase.backToSite")}</a>&nbsp;
 									

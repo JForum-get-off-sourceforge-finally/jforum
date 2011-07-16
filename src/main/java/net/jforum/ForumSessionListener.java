@@ -64,6 +64,7 @@ public class ForumSessionListener implements HttpSessionListener
 		final HttpSession session = event.getSession(); 
         final ServletContext context = session.getServletContext(); 
         context.setAttribute(session.getId(), session);
+        LOGGER.debug("Session Created: " +  session.getId());
 	}
 
 	/** 
@@ -84,6 +85,7 @@ public class ForumSessionListener implements HttpSessionListener
 		SessionFacade.remove(sessionId);
 
         final ServletContext context = session.getServletContext(); 
-        context.removeAttribute(sessionId); 
+        context.removeAttribute(sessionId);
+        LOGGER.debug("Session Destroyed: " +  sessionId);
 	}
 }

@@ -741,10 +741,6 @@ public class PostAction extends Command
 		
 		boolean needCaptcha = SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS);
 		
-		if (needCaptcha) {
-			SessionFacade.getUserSession().createNewCaptcha();
-		}
-		
 		this.context.put("needCaptcha", needCaptcha);
 	}
 

@@ -165,11 +165,6 @@
 									<div class="edit_area" id="x${post.id}">${post.text}</div>
 								<#else>
 									${post.text}
-								</#if>
-								<#if post.hasAttachments()>
-									<!-- Fix attachment table border not correctly displayed -->
-									<br />
-									<br />
 								</#if>								
 							</div>
 
@@ -322,7 +317,7 @@
 								<#if needCaptcha?default(false)>
 									<tr>
 										<td>
-											<img border="0" align="middle" id="captcha_img" alt="Captcha" src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" />
+											<img border="0" align="middle" id="captcha_img" alt="Captcha" src="" />
 											<br />
 											<span class="gensmall">${I18n.getMessage("User.captchaResponse")}</span>
 											<input type="text" class="post" style="width: 80px; font-weight: bold;" maxlength="25" name="captcha_anwser" /> 

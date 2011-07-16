@@ -12,7 +12,7 @@
 						<b>${I18n.getMessage("Attachments.maxToAttach")}:</b> ${maxAttachments}
 						<#assign maxSize = maxAttachmentsSize / 1024>
 						<#if (maxSize > 1)>
-							/ 
+							/
 							<b>${I18n.getMessage("Attachments.maxSize")}:</b> <font color="red">${maxSize} kb</font>
 						</#if>
 						</span>
@@ -23,20 +23,18 @@
 						<div id="edit_attach"></div>
 
 						<div id="attachmentFields">
-						</div>			   
+						</div>
 					</td>
 				</tr>
 				<#if attachmentsEnabled>
 					<tr>
 						<td align="center" class="row3"><input type="button" name="add_attach" value="${I18n.getMessage("PostForm.AddAnotherFile")}" class="mainoption" onclick="addAttachmentFields()" /></td>
 					</tr>
-
-					<#if !attachments?exists>
-						<script type="text/javascript">addAttachmentFields();</script>
-					</#if>
-									
 				</#if>
 			</table>
 		</td>
 	</tr>
 </table>
+<#if attachmentsEnabled && !attachments?exists>
+	<script type="text/javascript">addAttachmentFields();</script>
+</#if>

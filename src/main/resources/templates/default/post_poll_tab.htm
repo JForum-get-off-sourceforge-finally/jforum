@@ -12,7 +12,7 @@
 	</tr>
 	<tr id="pollOptionWithDelete" style="display: none;">
 		<td>${I18n.getMessage("PostForm.pollOption")}</td>
-		<td><input type="text" id="pollOption" name="poll_option" maxlength="255" size="50" />
+		<td><input type="text" id="pollOptionButton" name="poll_option" maxlength="255" size="50" />
 			 <input type="button" onclick="javascript:deletePollOption(this)" value="${I18n.getMessage("PostForm.pollDeleteOption")}" class="mainoption" /></td>
 	</tr>
 	<#if poll?exists>
@@ -29,15 +29,12 @@
 
 			<#if (option.id > optionCount)><#assign optionCount = option.id/></#if>
 		</#list>
-
-		<input type="hidden" name="poll_option_count" id="pollOptionCount" value="${optionCount}"/>
 	<#else>
-		<input type="hidden" name="poll_option_count" id="pollOptionCount" value="1"/>
 		<tr id="pollOption">
 			<td>${I18n.getMessage("PostForm.pollOption")}</td>
 			<td>
 				 <input type="text" id="pollOption1" name="poll_option_1" maxlength="255" size="50" />
-				 <input type="button" onclick="javascript:deletePollOption(this)" value="${I18n.getMessage("PostForm.pollDeleteOption")}" class="mainoption" />								 
+				 <input type="button" onclick="javascript:deletePollOption(this)" value="${I18n.getMessage("PostForm.pollDeleteOption")}" class="mainoption" />
 			</td>
 		</tr>
 	</#if>
@@ -55,3 +52,8 @@
 			<span class="gensmall">${I18n.getMessage("PostForm.pollDaysDescription")}</span></td>
 	</tr>
 </table>
+<#if poll?exists>
+	<input type="hidden" name="poll_option_count" id="pollOptionCount" value="${optionCount}"/>
+<#else>
+	<input type="hidden" name="poll_option_count" id="pollOptionCount" value="1"/>
+</#if>

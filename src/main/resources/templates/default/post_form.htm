@@ -20,11 +20,7 @@ var SERVLET_EXTENSION  = "${extension}";
 <#include "js/bbcode_help.js"/>
 <#include "js/utils.js"/>
 <#include "js/attachments.js"/>
-/* ]]> */
-</script>
 
-<script type="text/javascript">
-/* <![CDATA[ */
 function newCaptcha()
 {	
 	document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate/")}?timestamp="+new Date().getTime();
