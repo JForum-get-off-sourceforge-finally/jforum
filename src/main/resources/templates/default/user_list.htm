@@ -8,13 +8,13 @@
 /* ]]> */
 </script>
 
-<#include "karma_search.inc.htm"> 
+<#include "karma_search.inc.htm">
 
 <table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
 	<tr>
 	  <th class="thcornerl" nowrap="nowrap">#</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("User.username")}&nbsp;</th>
-	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.privateMessage")}&nbsp;</th>	  
+	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.privateMessage")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("email")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.from")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.registrationDate")}&nbsp;</th>
@@ -23,8 +23,8 @@
 
 	<#list users as user>
 		<#if (user.id > 1)>
-			<tr align="center">		  
-				<td class="row2"><span class="gen">${user.id}</span></td>			
+			<tr align="center">
+				<td class="row2"><span class="gen">${user.id}</span></td>
 				<td class="row2"><span class="gen"><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a></span></td>
 				<td class="row2"><span class="gen"><#if user.id != 1><a href="${JForumContext.encodeURL("/pm/sendTo/${user.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a><#else>&nbsp;</#if></span></td>
 				<td class="row2"><span class="gen">

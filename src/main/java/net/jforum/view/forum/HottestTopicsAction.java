@@ -144,7 +144,7 @@ public class HottestTopicsAction extends Command
 		
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 		
-		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(),start,topicsPerPage);
+		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
 		
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);
 		final Map<Integer, Forum> forums = new HashMap<Integer, Forum>();

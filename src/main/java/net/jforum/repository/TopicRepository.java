@@ -68,9 +68,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * @version $Id$
  */
 public class TopicRepository implements Cacheable {
-	private static int maxItems = SystemGlobals
-	.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-
 	private static final String FQN = "topics";
 	private static final String RECENT = "recent";
 	private static final String HOTTEST = "hottest";
@@ -84,6 +81,9 @@ public class TopicRepository implements Cacheable {
 	private static final Object MUTEX_RECENT = new Object();
 	private static final Object MUTEX_HOTTEST = new Object();
 	private static final Object MUTEX_FQN_FORUM = new Object();
+	
+	private static int maxRecentTopics = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);
+	private static int maxHottestTopics = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
@@ -110,25 +110,24 @@ public class TopicRepository implements Cacheable {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			int limit = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);
 
-			LinkedList<Topic> l = (LinkedList<Topic>) cache.get(FQN, RECENT);
-			if (l == null || l.isEmpty()) {
-				l = new LinkedList<Topic>(loadMostRecentTopics());
+			LinkedList<Topic> latestList = (LinkedList<Topic>) cache.get(FQN, RECENT);
+			if (latestList == null || latestList.isEmpty()) {
+				latestList = new LinkedList<Topic>(loadMostRecentTopics());
 			}
 
-			l.remove(topic);
-			l.addFirst(topic);
+			latestList.remove(topic);
+			latestList.addFirst(topic);
 
-			while (l.size() > limit) {
-				l.removeLast();
+			while (latestList.size() > limit) {
+				latestList.removeLast();
 			}
 			synchronized (MUTEX_RECENT) {
-				cache.add(FQN, RECENT, l);
+				cache.add(FQN, RECENT, latestList);
 			}
 
 			limit = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
-			LinkedList<Topic> hottestList = (LinkedList<Topic>) cache.get(FQN,
-					HOTTEST);
+			LinkedList<Topic> hottestList = (LinkedList<Topic>) cache.get(FQN, HOTTEST);
 			if (hottestList == null || hottestList.isEmpty()) {
 				hottestList = new LinkedList<Topic>(loadHottestTopics());
 			}
@@ -163,14 +162,16 @@ public class TopicRepository implements Cacheable {
 	 * 
 	 */
 	public static List<Topic> getRecentTopics() {
-		List<Topic> l = (List<Topic>) cache.get(FQN, RECENT);
+		List<Topic> latestList = (List<Topic>) cache.get(FQN, RECENT);
+		int limit = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);		
 
-		if (l == null || l.isEmpty()
+		if (limit != maxRecentTopics || latestList == null || latestList.isEmpty()
 				|| !SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
-			l = loadMostRecentTopics();
+			latestList = loadMostRecentTopics();
+			maxRecentTopics = limit;
 		}
 
-		return new ArrayList<Topic>(l);
+		return new ArrayList<Topic>(latestList);
 	}
 
 	/**
@@ -178,14 +179,16 @@ public class TopicRepository implements Cacheable {
 	 * 
 	 */
 	public static List<Topic> getHottestTopics() {
-		List<Topic> l = (List<Topic>) cache.get(FQN, HOTTEST);
+		List<Topic> hottestList = (List<Topic>) cache.get(FQN, HOTTEST);
+		int limit = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
-		if (l == null || l.isEmpty()
+		if (limit != maxHottestTopics || hottestList == null || hottestList.isEmpty()
 				|| !SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
-			l = loadHottestTopics();
+			hottestList = loadHottestTopics();
+			maxHottestTopics = limit;
 		}
 
-		return new ArrayList<Topic>(l);
+		return new ArrayList<Topic>(hottestList);
 	}
 
 	/**
@@ -195,12 +198,12 @@ public class TopicRepository implements Cacheable {
 		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
 		int limit = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);
 
-		List<Topic> l = tm.selectRecentTopics(limit);
+		List<Topic> latestList = tm.selectRecentTopics(limit);
 		synchronized (MUTEX_RECENT) {
-			cache.add(FQN, RECENT, new LinkedList<Topic>(l));
+			cache.add(FQN, RECENT, new LinkedList<Topic>(latestList));
 		}
 
-		return l;
+		return latestList;
 	}
 
 	/**
@@ -210,12 +213,12 @@ public class TopicRepository implements Cacheable {
 		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
 		int limit = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
-		List<Topic> l = tm.selectHottestTopics(limit);
+		List<Topic> hottestList = tm.selectHottestTopics(limit);
 		synchronized (MUTEX_HOTTEST) {
-			cache.add(FQN, HOTTEST, new LinkedList<Topic>(l));
+			cache.add(FQN, HOTTEST, new LinkedList<Topic>(hottestList));
 		}
 
-		return l;
+		return hottestList;
 	}
 
 	/**
@@ -232,8 +235,7 @@ public class TopicRepository implements Cacheable {
 				cache.add(FQN_FORUM, Integer.toString(forumId),
 						new LinkedList<Topic>(topics));
 
-				Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(
-						FQN, RELATION);
+				Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 				if (m == null) {
 					m = new HashMap<Integer, Integer>();
@@ -280,31 +282,30 @@ public class TopicRepository implements Cacheable {
 
 		synchronized (MUTEX_FQN_FORUM) {
 			String forumId = Integer.toString(topic.getForumId());
-			LinkedList<Topic> list = (LinkedList<Topic>) cache.get(FQN_FORUM,
-					forumId);
+			LinkedList<Topic> forumTopicsList = (LinkedList<Topic>) cache.get(FQN_FORUM, forumId);
 
-			if (list == null) {
-				list = new LinkedList<Topic>();
-				list.add(topic);
+			if (forumTopicsList == null) {
+				forumTopicsList = new LinkedList<Topic>();
+				forumTopicsList.add(topic);
 			} else {
-				boolean contains = list.contains(topic);
+				boolean contains = forumTopicsList.contains(topic);
 
 				// If the cache is full, remove the eldest element
-				if (!contains && list.size() + 1 > maxItems) {
-					list.removeLast();
+				int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
+				if (!contains && forumTopicsList.size() + 1 > topicsPerPage) {
+					forumTopicsList.removeLast();
 				} else if (contains) {
-					list.remove(topic);
+					forumTopicsList.remove(topic);
 				}
 
-				list.add(topic);
+				forumTopicsList.add(topic);
 
-				Collections.sort(list, TYPE_COMPARATOR);
+				Collections.sort(forumTopicsList, TYPE_COMPARATOR);
 			}
 
-			cache.add(FQN_FORUM, forumId, list);
+			cache.add(FQN_FORUM, forumId, forumTopicsList);
 
-			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN,
-					RELATION);
+			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 			if (m == null) {
 				m = new HashMap<Integer, Integer>();
@@ -326,41 +327,41 @@ public class TopicRepository implements Cacheable {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			synchronized (MUTEX_FQN_FORUM) {
 				String forumId = Integer.toString(topic.getForumId());
-				List<Topic> l = (List<Topic>) cache.get(FQN_FORUM, forumId);
+				List<Topic> forumTopicsList = (List<Topic>) cache.get(FQN_FORUM, forumId);
 
-				if (l != null) {
-					int index = l.indexOf(topic);
+				if (forumTopicsList != null) {
+					int index = forumTopicsList.indexOf(topic);
 
 					if (index > -1) {
-						l.set(index, topic);
-						cache.add(FQN_FORUM, forumId, l);
+						forumTopicsList.set(index, topic);
+						cache.add(FQN_FORUM, forumId, forumTopicsList);
 					}
 				}
 			}
 
 			synchronized (MUTEX_RECENT) {
-				List<Topic> l = (List<Topic>) cache.get(FQN, RECENT);
+				List<Topic> latestList = (List<Topic>) cache.get(FQN, RECENT);
 
-				if (l != null) {
-					int index = l.indexOf(topic);
+				if (latestList != null) {
+					int index = latestList.indexOf(topic);
 
 					if (index > -1) {
-						l.set(index, topic);
-						cache.add(FQN, RECENT, l);
+						latestList.set(index, topic);
+						cache.add(FQN, RECENT, latestList);
 					}
 				}
 			}
 
 			synchronized (MUTEX_HOTTEST) {
-				List<Topic> l = (List<Topic>) cache.get(FQN, HOTTEST);
+				List<Topic> hottestList = (List<Topic>) cache.get(FQN, HOTTEST);
 
-				if (l != null) {
-					int index = l.indexOf(topic);
+				if (hottestList != null) {
+					int index = hottestList.indexOf(topic);
 					if (index > -1) {
-						l.remove(index);
+						hottestList.remove(index);
 					}
 					while (index > 0) {
-						Topic preTopic = (Topic) l.get(index - 1);
+						Topic preTopic = (Topic) hottestList.get(index - 1);
 						if (preTopic.getTotalViews() < topic.getTotalViews()) {
 							index--;
 						} else {
@@ -368,8 +369,8 @@ public class TopicRepository implements Cacheable {
 						}
 					}
 					if (index > -1) {
-						l.add(index, topic);
-						cache.add(FQN, HOTTEST, l);
+						hottestList.add(index, topic);
+						cache.add(FQN, HOTTEST, hottestList);
 					}
 				}
 			}
@@ -390,12 +391,10 @@ public class TopicRepository implements Cacheable {
 		}
 
 		if (topic.getForumId() == 0) {
-			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN,
-					RELATION);
+			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 			if (m != null) {
-				Integer forumId = (Integer) m
-				.get(Integer.valueOf(topic.getId()));
+				Integer forumId = (Integer) m.get(Integer.valueOf(topic.getId()));
 
 				if (forumId != null) {
 					topic.setForumId(forumId.intValue());
@@ -407,8 +406,7 @@ public class TopicRepository implements Cacheable {
 			}
 		}
 
-		List<Topic> l = (List<Topic>) cache.get(FQN_FORUM,
-				Integer.toString(topic.getForumId()));
+		List<Topic> l = (List<Topic>) cache.get(FQN_FORUM, Integer.toString(topic.getForumId()));
 
 		int index = -1;
 
@@ -446,19 +444,17 @@ public class TopicRepository implements Cacheable {
 	 * @return <code>ArrayList</code> with the topics.
 	 */
 	public static List<Topic> getTopics(int forumid) {
+		List<Topic> returnList = null;
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			synchronized (MUTEX_FQN_FORUM) {
-				List<Topic> returnList = (List<Topic>) cache.get(FQN_FORUM,
-						Integer.toString(forumid));
-
-				if (returnList == null) {
-					return new ArrayList<Topic>();
-				}
-
-				return new ArrayList<Topic>(returnList);
+				returnList = (List<Topic>) cache.get(FQN_FORUM,	Integer.toString(forumid));				
 			}
 		}
 
-		return new ArrayList<Topic>();
+		if (returnList == null) {
+			return new ArrayList<Topic>();
+		} else {
+			return new ArrayList<Topic>(returnList);
+		}
 	}
 }

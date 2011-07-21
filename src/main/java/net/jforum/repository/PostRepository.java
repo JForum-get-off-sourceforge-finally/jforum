@@ -67,7 +67,6 @@ import net.jforum.view.forum.common.PostCommon;
  */
 public class PostRepository implements Cacheable
 {
-	private static final int CACHE_SIZE = SystemGlobals.getIntValue(ConfigKeys.POSTS_CACHE_SIZE);
 	private static final String FQN = "posts";
 	private static CacheEngine cache;
 
@@ -122,6 +121,7 @@ public class PostRepository implements Cacheable
 			}
 	
 			Map<String, List<Post>> topics = (Map<String, List<Post>>)cache.get(FQN);
+			final int CACHE_SIZE = SystemGlobals.getIntValue(ConfigKeys.POSTS_CACHE_SIZE);
 			if (topics == null || topics.isEmpty() || topics.size() < CACHE_SIZE) {								
 				cache.add(FQN, tid, posts);
 			}

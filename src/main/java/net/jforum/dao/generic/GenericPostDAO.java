@@ -55,6 +55,7 @@ import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
+import net.jforum.dao.UserDAO;
 import net.jforum.entities.Post;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.repository.ForumRepository;
@@ -160,6 +161,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	{
 		PreparedStatement pstmtPost = null;
 		PreparedStatement pstmtText = null;
+		UserDAO userDAO = DataAccessDriver.getInstance().newUserDAO();
 
 		try {
 			pstmtPost = JForumExecutionContext.getConnection()
@@ -178,6 +180,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 				pstmtPost.executeUpdate();
 				
 				SearchFacade.delete(post);
+				userDAO.decrementPosts(post.getUserId());
 			}
 		}
 		catch (SQLException e) {

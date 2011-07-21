@@ -231,7 +231,6 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("TopicModel.delete"));
 
 			ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
-
 			PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 			PollDAO pollDao = DataAccessDriver.getInstance().newPollDAO();
 
@@ -289,7 +288,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				topics.add(topic);
 			}
 
-			this.deleteTopics(topics, false);
+			this.deleteTopics(topics, true);
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);

@@ -98,13 +98,13 @@ public class TopicsCommon
 		List<Topic> topics;
 		
 		// Try to get the first's page of topics from the cache
-		if (start == 0 && SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
+		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			topics = TopicRepository.getTopics(forumId);
 
 			if (topics.isEmpty() || !TopicRepository.isLoaded(forumId)) {
 				synchronized (MUTEXT) {
 					if (topics.isEmpty() || !TopicRepository.isLoaded(forumId)) {
-						topics = tm.selectAllByForumByLimit(forumId, start, topicsPerPage);
+						topics = tm.selectAllByForum(forumId);
 						TopicRepository.addAll(forumId, topics);
 					}
 				}
@@ -114,7 +114,8 @@ public class TopicsCommon
 			topics = tm.selectAllByForumByLimit(forumId, start, topicsPerPage);
 		}
 		
-		return topics;
+		int size = topics.size();
+		return topics.subList(start, (size < start + topicsPerPage) ? size : start + topicsPerPage);
 	}
 	
 	/**

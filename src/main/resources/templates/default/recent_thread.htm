@@ -5,7 +5,7 @@
 <table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
 	<tr>
 		<td class="bodyline" valign="top">
-		
+
 			<#assign breadCrumb>
 				<table cellspacing="0" cellpadding="2" width="100%" align="center" border="0">
 					<tr>
@@ -22,9 +22,9 @@
 					</tr>
 				</table>
 			</#assign>
-			
+
 			${breadCrumb}
-			
+
 			<table class="forumline" cellspacing="1" cellpadding="4" width="100%" border="0">
 				<tr>
 					<th class="thcornerl" nowrap="nowrap" align="center">&nbsp;${I18n.getMessage("Forums.Form.ForumName")}&nbsp;</th>
@@ -48,9 +48,9 @@
 						<#if topic.paginate>
 							<span class="gensmall">
 							<br />
-							<@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>				
+							<@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>
 							</span>
-						</#if>		
+						</#if>
 					</td>
 
 					<td class="row2" valign="middle" align="center"><span class="postdetails">${topic.totalReplies}</span></td>
@@ -69,15 +69,15 @@
 							<#if (topic.totalReplies + 1 > postsPerPage?number)>
 								<#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
 							</#if>
-				  
+
 							<a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#p${topic.lastPostId}"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" border="0" alt="Latest Reply" /></a></span>
-						</#if>		 
+						</#if>
 					</td>
 				</tr>
-				</#list>		
+				</#list>
 				<!-- END OF TOPICS LISTING -->
-			</table>  
-			
+			</table>
+
 			${breadCrumb}
 		</td>
 	</tr>
