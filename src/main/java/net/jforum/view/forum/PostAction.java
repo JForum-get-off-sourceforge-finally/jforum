@@ -1256,8 +1256,7 @@ public class PostAction extends Command
 			return;
 		}
 
-		postDao.delete(post);
-		DataAccessDriver.getInstance().newUserDAO().decrementPosts(post.getUserId());
+		postDao.delete(post);		
 		
 		// Karma
 		KarmaDAO karmaDao = DataAccessDriver.getInstance().newKarmaDAO();
