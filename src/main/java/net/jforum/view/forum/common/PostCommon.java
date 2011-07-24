@@ -339,8 +339,8 @@ public class PostCommon
 	public static boolean canEditPost(Post post)
 	{
 		return SessionFacade.isLogged()
-			&& (post.getUserId() == SessionFacade.getUserSession().getUserId()
-			|| SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT));
+			&& (post.getUserId() == SessionFacade.getUserSession().getUserId() || SessionFacade.getUserSession().isModerator(post.getForumId())
+			&& SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT));
 	}
 
 	public static List<Post> topicPosts(PostDAO dao, boolean canEdit, int userId, int topicId, int start, int count)
@@ -358,18 +358,14 @@ public class PostCommon
  		
 		List<Post> helperList = new ArrayList<Post>();
 
-		int anonymousUser = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
-
 		boolean hasCodeBlock = false;
 		for (Post post : posts) {			
 			if (!hasCodeBlock && !needPrepare && post.getText().indexOf("pre name=\"code\"") != -1) {
 				hasCodeBlock = true;
 				JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);	
-			}
+			}			
 			
-			if (canEdit || (post.getUserId() != anonymousUser && post.getUserId() == userId)) {
-				post.setCanEdit(true);
-			}
+			post.setCanEdit(PostCommon.canEditPost(post));			
 
 			helperList.add(needPrepare ? PostCommon.preparePostForDisplay(post) : post);
 		}

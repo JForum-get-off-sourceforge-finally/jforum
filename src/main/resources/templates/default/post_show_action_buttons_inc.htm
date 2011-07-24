@@ -15,11 +15,11 @@
 			<a href="${JForumContext.encodeURL("/posts/quote/${start}/${post.id}")}" rel="nofollow" class="icon_quote"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 		</#if>
 
-		<#if canEditCurrentMessage && (((post.userId == session.userId) && (session.userId != 1)) || isModerator || isAdmin)>
+		<#if canEditCurrentMessage>
 			<a href="${JForumContext.encodeURL("/${moduleName}/edit/${start}/${post.id}")}" rel="nofollow" class="icon_edit"><img src="${contextPath}/images/transp.gif" alt="" /></a>  
 		</#if>
 
-		<#if canRemove && (((post.userId == session.userId) && (session.userId != 1)) || isModerator || isAdmin)>
+		<#if canRemove && ((post.userId == session.userId && session.userId != 1) || isModerator)>
 			<a href="${JForumContext.encodeURL("/${moduleName}/delete/${start}/${post.id}")}" id="delete${post.id}" onclick="return confirmDelete(${post.id});"><img src="${contextPath}/templates/${templateName}/images/icon_delete.gif" alt="[Delete]" /></a>  
 		</#if>
 

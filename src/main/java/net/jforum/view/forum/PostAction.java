@@ -121,7 +121,6 @@ public class PostAction extends Command
 	{
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		PollDAO pollDao = DataAccessDriver.getInstance().newPollDAO();
-
 		TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 
 		UserSession us = SessionFacade.getUserSession();
@@ -160,10 +159,7 @@ public class PostAction extends Command
 
 		PermissionControl pc = SecurityRepository.get(us.getUserId());
 
-		boolean moderatorCanEdit = false;
-		if (pc.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT)) {
-			moderatorCanEdit = true;
-		}
+		boolean moderatorCanEdit = pc.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);		
 
 		List<Post> helperList = PostCommon.topicPosts(postDao, moderatorCanEdit, us.getUserId(), topic.getId(), start, count);
 		
@@ -207,10 +203,8 @@ public class PostAction extends Command
 		}
 		
 		this.setTemplateName(TemplateKeys.POSTS_LIST);
-		this.context.put("attachmentsEnabled", pc.canAccess(
-			SecurityConstants.PERM_ATTACHMENTS_ENABLED, Integer.toString(topic.getForumId())));
-		this.context.put("canDownloadAttachments", pc.canAccess(
-			SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
+		this.context.put("attachmentsEnabled", pc.canAccess(SecurityConstants.PERM_ATTACHMENTS_ENABLED, Integer.toString(topic.getForumId())));
+		this.context.put("canDownloadAttachments", pc.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
 		this.context.put("thumbShowBox", SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_THUMB_BOX_SHOW));
 		this.context.put("am", new AttachmentCommon(this.request, topic.getForumId()));
 		this.context.put("karmaVotes", userVotes);
@@ -237,15 +231,12 @@ public class PostAction extends Command
 		}
 		
 		this.context.put("users", topicPosters);
-		this.context.put("anonymousPosts", pc.canAccess(SecurityConstants.PERM_ANONYMOUS_POST, 
-			Integer.toString(topic.getForumId())));
+		this.context.put("anonymousPosts", pc.canAccess(SecurityConstants.PERM_ANONYMOUS_POST, Integer.toString(topic.getForumId())));
 		this.context.put("watching", topicDao.isUserSubscribed(topicId, SessionFacade.getUserSession().getUserId()));
 		this.context.put("pageTitle", topic.getTitle());
 		this.context.put("isAdmin", pc.canAccess(SecurityConstants.PERM_ADMINISTRATION));
-		this.context.put("readonly", !pc.canAccess(SecurityConstants.PERM_READ_ONLY_FORUMS, 
-			Integer.toString(topic.getForumId())));
-		this.context.put("replyOnly", !pc.canAccess(SecurityConstants.PERM_REPLY_ONLY, 
-			Integer.toString(topic.getForumId())));
+		this.context.put("readonly", !pc.canAccess(SecurityConstants.PERM_READ_ONLY_FORUMS,	Integer.toString(topic.getForumId())));
+		this.context.put("replyOnly", !pc.canAccess(SecurityConstants.PERM_REPLY_ONLY, Integer.toString(topic.getForumId())));
 
 		this.context.put("isModerator", us.isModerator(topic.getForumId()));
 
@@ -587,8 +578,8 @@ public class PostAction extends Command
 			}
 		}
 
-		boolean isModerator = SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);
-		boolean canEdit = SessionFacade.isLogged() && (isModerator || post.getUserId() == userId);
+		boolean isModerator = SessionFacade.getUserSession().isModerator(post.getForumId());			
+		boolean canEdit = PostCommon.canEditPost(post);
 
 		if (!canEdit) {
 			this.setTemplateName(TemplateKeys.POSTS_EDIT_CANNOTEDIT);
@@ -757,7 +748,7 @@ public class PostAction extends Command
 			return;
 		}
 		
-		boolean isModerator = SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);
+		boolean isModerator = SessionFacade.getUserSession().isModerator(post.getForumId());
 		
 		String originalMessage = post.getText();
 		

@@ -208,7 +208,7 @@ public class AjaxAction extends Command
 		}
 		//post = PostCommon.preparePostForDisplay(post);		
 		
-		boolean isModerator = SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);
+		boolean isModerator = SessionFacade.getUserSession().isModerator(post.getForumId());
 		
 		if (SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED)
 				&& isModerator && post.getUserId() != SessionFacade.getUserSession().getUserId()) {
