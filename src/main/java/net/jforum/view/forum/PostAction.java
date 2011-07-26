@@ -470,10 +470,6 @@ public class PostAction extends Command
 			}
 			
 			forumId = topic.getForumId();
-			
-			if (!TopicsCommon.isTopicAccessible(topic.getForumId())) {
-				return;
-			}
 
 			if (topic.getStatus() == Topic.STATUS_LOCKED) {
 				this.topicLocked();
@@ -1185,7 +1181,7 @@ public class PostAction extends Command
 				
 				if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {
 					SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-					post.setFormattedTime(df.format(post.getTime()));
+					post.setFormattedTime(df.format(post.getTime()));					
 					
 					PostRepository.append(post.getTopicId(), PostCommon.preparePostForDisplay(post));
 				}
@@ -1207,7 +1203,7 @@ public class PostAction extends Command
 			this.context.put("post", post);
 			this.context.put("start", this.request.getParameter("start"));
 
-			Post postPreview = new Post(post);
+			Post postPreview = new Post(post);			
 			this.context.put("postPreview", PostCommon.preparePostForDisplay(postPreview));
 
 			this.insert();
