@@ -210,8 +210,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		user.setNotifyOnMessagesEnabled(rs.getInt("user_notify") == 1);
 		user.setViewOnlineEnabled(rs.getInt("user_viewonline") == 1);
 		user.setPassword(rs.getString("user_password"));
-		user.setViewEmailEnabled(rs.getInt("user_viewemail") == 1);
-		user.setViewOnlineEnabled(rs.getInt("user_allow_viewonline") == 1);
+		user.setViewEmailEnabled(rs.getInt("user_viewemail") == 1);		
 		user.setAvatarEnabled(rs.getInt("user_allowavatar") == 1);
 		user.setBbCodeEnabled(rs.getInt("user_allowbbcode") == 1);
 		user.setHtmlEnabled(rs.getInt("user_allowhtml") == 1);

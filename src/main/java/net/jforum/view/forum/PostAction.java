@@ -100,7 +100,6 @@ import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
 import org.apache.commons.lang.StringUtils;
-
 import freemarker.template.SimpleHash;
 
 /**
@@ -1016,7 +1015,7 @@ public class PostAction extends Command
 		if (post.getText() == null || post.getText().trim().equals("")) {
 			this.insert();
 			return;
-		}
+		}		
 		
 		// Check the elapsed time since the last post from the user
 		int delay = SystemGlobals.getIntValue(ConfigKeys.POSTS_NEW_DELAY);

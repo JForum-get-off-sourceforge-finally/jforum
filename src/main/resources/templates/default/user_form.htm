@@ -161,18 +161,18 @@ function validateForm()
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.showEmail")}:</span></td>
 					<td class="row2">
-						<input type="radio" <#if u.isViewEmailEnabled()>checked="checked"</#if> value="1" name="viewemail" /> 
+						<input type="radio" value="1" <#if u.isViewEmailEnabled()>checked="checked"</#if> name="viewemail" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.isViewEmailEnabled() == false>checked="checked"</#if> name="viewemail" /> 
+						<input type="radio" value="0" <#if !u.isViewEmailEnabled()>checked="checked"</#if> name="viewemail" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.hideOnlineStatus")}:</span></td>
 					<td class="row2">
-						<input type="radio" value="1" <#if u.isViewOnlineEnabled() == false>checked="checked"</#if> name="hideonline" /> 
+						<input type="radio" value="1" <#if !u.isViewOnlineEnabled()>checked="checked"</#if> name="hideonline" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" <#if u.isViewOnlineEnabled()>checked="checked"</#if> value="0" name="hideonline" /> 
+						<input type="radio" value="0" <#if u.isViewOnlineEnabled()>checked="checked"</#if> name="hideonline" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -182,9 +182,9 @@ function validateForm()
 						<span class="gensmall">${I18n.getMessage("User.sendPostReplyNotifyDescription")}</span>
 					</td>
 					<td class="row2">
-						<input type="radio" <#if u.isNotifyOnMessagesEnabled()>checked="checked"</#if> value="1" name="notifyreply" /> 
+						<input type="radio" value="1" <#if u.isNotifyOnMessagesEnabled()>checked="checked"</#if> name="notifyreply" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.isNotifyOnMessagesEnabled() == false>checked="checked"</#if> name="notifyreply" /> 
+						<input type="radio" value="0" <#if !u.isNotifyOnMessagesEnabled()>checked="checked"</#if> name="notifyreply" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -195,9 +195,9 @@ function validateForm()
 						<span class="gensmall">${I18n.getMessage("User.notifyAlwaysDescription")}</span>
 					</td>
 					<td class="row2">
-						<input type="radio" <#if u.notifyAlways()>checked="checked"</#if> value="1" name="notify_always" /> 
+						<input type="radio" value="1" <#if u.notifyAlways()>checked="checked"</#if>name="notify_always" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.notifyAlways() == false>checked="checked"</#if>  name="notify_always" /> 
+						<input type="radio" value="0" <#if !u.notifyAlways()>checked="checked"</#if>  name="notify_always" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -207,9 +207,9 @@ function validateForm()
 						<span class="gen">${I18n.getMessage("User.notifyText")}:</span>
 					</td>
 					<td class="row2">
-						<input type="radio" <#if u.notifyText()>checked="checked"</#if> value="1" name="notify_text" /> 
+						<input type="radio" value="1" <#if u.notifyText()>checked="checked"</#if> name="notify_text" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.notifyText() == false>checked="checked"</#if>  name="notify_text" /> 
+						<input type="radio" value="0" <#if !u.notifyText()>checked="checked"</#if> name="notify_text" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -217,9 +217,9 @@ function validateForm()
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.privateMessagesNotify")}:</span></td>
 					<td class="row2">
-						<input type="radio" <#if u.isNotifyPrivateMessagesEnabled()>checked="checked"</#if> value="1" name="notifypm" /> 
+						<input type="radio" value="1" <#if u.isNotifyPrivateMessagesEnabled()>checked="checked"</#if> name="notifypm" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.isNotifyPrivateMessagesEnabled() == false>checked="checked"</#if>  name="notifypm" /> 
+						<input type="radio" value="0" <#if !u.isNotifyPrivateMessagesEnabled()>checked="checked"</#if>  name="notifypm" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -227,9 +227,9 @@ function validateForm()
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.alwaysAttachSignature")}:</span></td>
 					<td class="row2">
-						<input type="radio" <#if u.attachSignatureEnabled>checked="checked"</#if> value="1" name="attachsig" /> 
+						<input type="radio" value="1" <#if u.attachSignatureEnabled>checked="checked"</#if> name="attachsig" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.attachSignatureEnabled == false>checked="checked"</#if> name="attachsig" /> 
+						<input type="radio" value="0" <#if !u.attachSignatureEnabled>checked="checked"</#if> name="attachsig" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -238,7 +238,7 @@ function validateForm()
 					<td class="row2">
 						<input type="radio" value="1" <#if u.isHtmlEnabled()>checked="checked"</#if> name="allowhtml" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" <#if u.isHtmlEnabled() == false>checked="checked"</#if> value="0" name="allowhtml" /> 
+						<input type="radio" value="0" <#if !u.isHtmlEnabled()>checked="checked"</#if> name="allowhtml" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -248,7 +248,7 @@ function validateForm()
 					<td class="row2">
 						<input type="radio" value="1" <#if u.isBbCodeEnabled()>checked="checked"</#if> name="allowbbcode" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" <#if !u.isBbCodeEnabled()>checked="checked"</#if> value="0" name="allowbbcode" /> 
+						<input type="radio" value="0" <#if !u.isBbCodeEnabled()>checked="checked"</#if> name="allowbbcode" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
@@ -258,7 +258,7 @@ function validateForm()
 					<td class="row2">
 						<input type="radio" value="1" <#if u.isSmiliesEnabled()>checked="checked"</#if> name="allowsmilies" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" <#if !u.isSmiliesEnabled()>checked="checked"</#if> value="0" name="allowsmilies" /> 
+						<input type="radio" value="0" <#if !u.isSmiliesEnabled()>checked="checked"</#if> name="allowsmilies" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>

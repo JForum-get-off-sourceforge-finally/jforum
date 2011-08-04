@@ -272,7 +272,7 @@ public final class ViewCommon
 	 * @param with the new value
 	 * @return the new string
 	 */
-	public static String replaceAll(final StringBuffer stringBuffer, final String what, final String with)
+	public static String replaceAll(StringBuffer stringBuffer, final String what, final String with)
 	{
 		int pos = stringBuffer.indexOf(what);
 		
@@ -284,18 +284,6 @@ public final class ViewCommon
 		return stringBuffer.toString();
 	}
 	
-	/**
-	 * @see #replaceAll(StringBuffer, String, String)
-     * @param contents String
-     * @param what String
-     * @param with String
-     * @return String
-	 */
-	public static String replaceAll(final String contents, final String what, final String with)
-	{
-		return replaceAll(new StringBuffer(contents), what, with);
-	}
-
 	/**
 	 * Parse the user's signature, to make it proper to visualization
 	 * @param user the user instance

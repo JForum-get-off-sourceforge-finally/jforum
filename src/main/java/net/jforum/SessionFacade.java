@@ -402,6 +402,7 @@ public class SessionFacade implements Cacheable
 	public static void makeUnlogged()
 	{
 		SessionFacade.removeAttribute(ConfigKeys.LOGGED);
+		SessionFacade.removeAttribute(ConfigKeys.LAST_POST_TIME);
 	}
 	
 	/**

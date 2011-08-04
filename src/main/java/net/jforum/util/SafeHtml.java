@@ -50,7 +50,6 @@ import java.util.Vector;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-import net.jforum.view.forum.common.ViewCommon;
 
 import org.htmlparser.Attribute;
 import org.htmlparser.Node;
@@ -86,13 +85,13 @@ public class SafeHtml
 	
 	private static void splitAndTrim(String s, Set<String> data)
 	{
-		String s1 = SystemGlobals.getValue(s);
+		String value = SystemGlobals.getValue(s);
 		
-		if (s1 == null) {
+		if (value == null) {
 			return;
 		}
 		
-		String[] tags = s1.toUpperCase().split(",");
+		String[] tags = value.toUpperCase().split(",");
 
 		for (int i = 0; i < tags.length; i++) {
 			data.add(tags[i].trim());
@@ -100,7 +99,7 @@ public class SafeHtml
 	}
 	
 	/**
-	 * Given an input, analyze each HTML tag and remove unsecure attributes from them. 
+	 * Given an input, analyze each HTML tag and remove unsecured attributes from them. 
 	 * @param contents The content to verify
 	 * @return the content, secure. 
 	 */
@@ -135,7 +134,7 @@ public class SafeHtml
 	/**
 	 * Given an input, makes it safe for HTML displaying. 
 	 * Removes any not allowed HTML tag or attribute, as well
-	 * unwanted Javascript statements inside the tags. 
+	 * unwanted JavaScript statements inside the tags. 
 	 * @param contents the input to analyze
 	 * @return the modified and safe string
 	 */
@@ -156,17 +155,15 @@ public class SafeHtml
 				
 				if (isTextNode) {
 					// Text nodes are raw data, so we just
-					// strip off all possible html content
+					// strip off all possible HTML content
 					String text = node.toHtml();
 					
 					if (text.indexOf('>') > -1 || text.indexOf('<') > -1) {
-						StringBuffer tmp = new StringBuffer(text);
+						text = text.replaceAll("<", "&lt;");
+						text = text.replaceAll(">", "&gt;");
+						text = text.replaceAll("\"", "&quot;");
 						
-						ViewCommon.replaceAll(tmp, "<", "&lt;");
-						ViewCommon.replaceAll(tmp, ">", "&gt;");
-						ViewCommon.replaceAll(tmp, "\"", "&quot;");
-						
-						node.setText(tmp.toString());
+						node.setText(text);
 					}
 				}
 				
@@ -174,12 +171,12 @@ public class SafeHtml
 					sb.append(node.toHtml());
 				}
 				else {
-					StringBuffer tmp = new StringBuffer(node.toHtml());
+					String text = node.toHtml();
 					
-					ViewCommon.replaceAll(tmp, "<", "&lt;");
-					ViewCommon.replaceAll(tmp, ">", "&gt;");
+					text = text.replaceAll("<", "&lt;");
+					text = text.replaceAll(">", "&gt;");
 					
-					sb.append(tmp.toString());
+					sb.append(text);
 				}
 			}
 		}

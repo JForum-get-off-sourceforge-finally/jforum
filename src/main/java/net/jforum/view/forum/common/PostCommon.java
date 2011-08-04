@@ -71,33 +71,29 @@ import net.jforum.util.preferences.SystemGlobals;
  * @version $Id$
  */
 public class PostCommon
-{
+{	
 	public static Post preparePostForDisplay(Post post)
 	{
 		if (post.getText() == null) {
 			return post;
-		}
+		}		
 		
-		StringBuffer text = new StringBuffer(post.getText());
+		String text = post.getText();
 		
-		if (!post.isHtmlEnabled()) {
-			ViewCommon.replaceAll(text, "<", "&lt;");
-			ViewCommon.replaceAll(text, ">", "&gt;");
+		if (!post.isHtmlEnabled()) {			
+			text = text.replaceAll("<", "&lt;");
+			text = text.replaceAll(">", "&gt;");
 		}
 		
 		// Do not remove the trailing blank space, as it would
-		// cause some regular expressions to fail
-		ViewCommon.replaceAll(text, "\n", "<br /> ");
+		// cause some regular expressions to fail		
+		text = text.replaceAll("\n", "<br /> ");
 		
 		SafeHtml safeHtml = new SafeHtml();
 		
-		post.setText(text.toString());
-		post.setText(safeHtml.makeSafe(post.getText()));
-		
+		post.setText(safeHtml.makeSafe(text));
 		processText(post);
-		
 		post.setText(safeHtml.ensureAllAttributesAreSafe(post.getText()));
-		
 		return post;
 	}
 	
@@ -131,8 +127,7 @@ public class PostCommon
 				nextStartPos = codeEndIndex;
 				codeIndex = post.getText().indexOf("[code", codeEndIndex);
 				codeEndIndex = codeIndex > -1 ? post.getText().indexOf("[/code]", codeIndex) : -1;
-			}
-			
+			}			
 			
 			if (nextStartPos > -1) {
 				String nonCodeResult = prepareTextForDisplayExceptCodeTag(post.getText().substring(nextStartPos), 
@@ -178,7 +173,7 @@ public class PostCommon
 					ViewCommon.replaceAll(contents, ">", "&gt;");
 					
 					// Note: there is no replacing for spaces and tabs as
-					// we are relying on the Javascript SyntaxHighlighter library
+					// we are relying on the JavaScript SyntaxHighlighter library
 					// to do it for us
 					
 					StringBuffer replace = new StringBuffer(bb.getReplace());
@@ -361,14 +356,15 @@ public class PostCommon
 		boolean hasCodeBlock = false;
 		for (Post post : posts) {			
 			if (!hasCodeBlock && !needPrepare && post.getText().indexOf("pre name=\"code\"") != -1) {
-				hasCodeBlock = true;
-				JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);	
-			}			
+				hasCodeBlock = true;					
+			}
 			
 			post.setCanEdit(PostCommon.canEditPost(post));			
 
 			helperList.add(needPrepare ? PostCommon.preparePostForDisplay(post) : post);
 		}
+		
+		JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);
 
 		return helperList;
 	}

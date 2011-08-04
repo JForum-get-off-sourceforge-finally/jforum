@@ -71,7 +71,7 @@ public class TopicReplySpammer extends Spammer
 	 */
 	public TopicReplySpammer(Topic topic, Post origPost, List<User> users)
 	{
-		Post post = origPost;
+		Post post = new Post(origPost);
 		// Make the topic url
 		StringBuffer page = new StringBuffer();
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
