@@ -142,6 +142,14 @@ public class PostRepository implements Cacheable
 		}
 		
 		int size = posts.size();
+		
+		while (size < start) {
+			start -= count;
+		}
+		if (start < 0) {
+			start = 0;
+		}
+		
 		return posts.subList(start, (size < start + count) ? size : start + count);
    }
 	
