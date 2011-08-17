@@ -354,14 +354,14 @@ public class PostCommon
 		List<Post> helperList = new ArrayList<Post>();
 
 		boolean hasCodeBlock = false;
-		for (Post post : posts) {			
-			if (!hasCodeBlock && !needPrepare && post.getText().indexOf("pre name=\"code\"") != -1) {
-				hasCodeBlock = true;					
-			}
-			
+		for (Post post : posts) {
 			post.setCanEdit(PostCommon.canEditPost(post));			
 
 			helperList.add(needPrepare ? PostCommon.preparePostForDisplay(post) : post);
+			
+			if (!hasCodeBlock && post.getText().indexOf("pre name=\"code\"") != -1) {
+				hasCodeBlock = true;					
+			}
 		}
 		
 		JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);
