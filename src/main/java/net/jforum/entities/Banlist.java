@@ -45,7 +45,7 @@ package net.jforum.entities;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

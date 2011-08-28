@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import net.jforum.ForumStartup;
 import net.jforum.SessionFacade;
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
@@ -172,7 +173,9 @@ public class ForumRepository implements Cacheable
 		if (!isCategoryAccessible(userId, categoryId)) {
 			return null;
 		}
-		
+		if (cache.get(FQN, Integer.toString(categoryId)) == null) {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
 		return (Category)cache.get(FQN, Integer.toString(categoryId));
 	}
 	
@@ -181,12 +184,17 @@ public class ForumRepository implements Cacheable
 		if (!isCategoryAccessible(permissonControl, categoryId)) {
 			return null;
 		}
-		
+		if (cache.get(FQN, Integer.toString(categoryId)) == null) {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
 		return (Category)cache.get(FQN, Integer.toString(categoryId)); 
 	}
 	
 	public static Category retrieveCategory(final int categoryId)
 	{
+        if (cache.get(FQN, Integer.toString(categoryId)) == null) {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
 		return (Category)cache.get(FQN, Integer.toString(categoryId));
 	}
 	
@@ -239,7 +247,10 @@ public class ForumRepository implements Cacheable
 	{
 		final PermissionControl permissionControl = SecurityRepository.get(userId);
 		final List<Category> list = new ArrayList<Category>();
-		
+
+        if (cache.get(FQN, CATEGORIES_SET) == null) {
+           ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
 		Set<Category> categoriesSet = (Set<Category>)cache.get(FQN, CATEGORIES_SET);		
 		
 		if (categoriesSet == null) {
@@ -419,8 +430,21 @@ public class ForumRepository implements Cacheable
 	 */
 	public static Forum getForum(int forumId)
 	{
-		String categoryId = (String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
-		
+        Object cachedCategoryMap = cache.get(FQN, RELATION);
+        String categoryId = null;
+
+        if (cachedCategoryMap != null) {
+           categoryId = (String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
+        } else {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+            cachedCategoryMap = cache.get(FQN, RELATION);
+            if (cachedCategoryMap != null) {
+                categoryId = (String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
+            } else {
+                LOGGER.error("give up something is wrong with cache - check configuration");
+            }
+        }
+
 		if (categoryId != null) {
 			Category category = (Category)cache.get(FQN, categoryId);
 			
@@ -445,6 +469,9 @@ public class ForumRepository implements Cacheable
 	
 	public static boolean isForumAccessible(int userId, int categoryId, int forumId)
 	{
+        if (cache.get(FQN, Integer.toString(categoryId)) == null) {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
 		return ((Category)cache.get(FQN, Integer.toString(categoryId))).getForum(userId, forumId) != null;
 	}
 	
@@ -457,8 +484,13 @@ public class ForumRepository implements Cacheable
 	{
 		String categoryId = Integer.toString(forum.getCategoryId());
 
-		Category category = (Category)cache.get(FQN, categoryId);
-		category.addForum(forum);
+
+        if (cache.get(FQN, categoryId) == null) {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
+
+        Category category = (Category)cache.get(FQN, categoryId);
+        category.addForum(forum);
 		cache.add(FQN, categoryId, category);
 		
 		Map<String, String> map = (Map<String, String>)cache.get(FQN, RELATION);
@@ -477,6 +509,9 @@ public class ForumRepository implements Cacheable
 	public static synchronized void removeForum(final Forum forum)
 	{
 		String id = Integer.toString(forum.getId());
+        if (cache.get(FQN, RELATION) == null) {
+            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
+        }
 		Map<String, String> map = (Map<String, String>)cache.get(FQN, RELATION);
 		map.remove(id);
 		cache.add(FQN, RELATION, map);

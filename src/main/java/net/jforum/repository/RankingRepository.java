@@ -88,6 +88,9 @@ public class RankingRepository implements Cacheable
 	
 	public static int size()
 	{
+        if (cache.get(FQN, ENTRIES) == null) {
+            RankingRepository.loadRanks();
+        }
 		return ((List<Ranking>)cache.get(FQN, ENTRIES)).size();
 	}
 	
@@ -115,7 +118,10 @@ public class RankingRepository implements Cacheable
 	private static String getRankTitleByPosts(int total)
 	{
 		Ranking lastRank = new Ranking();
-		
+
+        if (cache.get(FQN, ENTRIES)==null) {
+            RankingRepository.loadRanks();
+        }
 		List<Ranking> entries = (List<Ranking>)cache.get(FQN, ENTRIES);
 		
 		for (Iterator<Ranking> iter = entries.iterator(); iter.hasNext(); ) {
@@ -138,7 +144,9 @@ public class RankingRepository implements Cacheable
 	{
 		Ranking r = new Ranking();
 		r.setId(rankId);
-		
+		if (cache.get(FQN, ENTRIES)==null) {
+            RankingRepository.loadRanks();
+        }
 		List<Ranking> l = (List<Ranking>)cache.get(FQN, ENTRIES);
 		int index = l.indexOf(r);
 		

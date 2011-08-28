@@ -49,6 +49,8 @@ import java.util.Properties;
 import net.jforum.ConfigLoader;
 import net.jforum.JForumExecutionContext;
 
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 import org.apache.log4j.Logger;
 
 /**
@@ -87,12 +89,16 @@ public class ModulesRepository
 	 * as argument, or <code>null</code> if not found.
 	 */
 	public static String getModuleClass(final String moduleName) {
-		final Properties properties = cache.get(ENTRIES);
+		Properties properties = cache.get(ENTRIES);
 		
 		if (properties == null) {
-			LOGGER.error("Null modules. Askes moduleName: " + moduleName
-					+ ", url=" + JForumExecutionContext.getRequest().getQueryString());
-			return null;
+            ModulesRepository.init(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR));
+            properties = cache.get(ENTRIES);
+            if (properties == null) {
+                LOGGER.error("Null modules. Askes moduleName: " + moduleName
+                        + ", url=" + JForumExecutionContext.getRequest().getQueryString());
+                return null;
+            }
 		}
 		
 		return properties.getProperty(moduleName);

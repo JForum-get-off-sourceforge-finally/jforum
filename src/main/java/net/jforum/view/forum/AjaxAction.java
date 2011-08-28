@@ -56,10 +56,8 @@ import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Post;
 import net.jforum.entities.User;
 import net.jforum.repository.PostRepository;
-import net.jforum.repository.SecurityRepository;
 import net.jforum.search.LuceneManager;
 import net.jforum.search.SearchFacade;
-import net.jforum.security.SecurityConstants;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.mail.Spammer;
 import net.jforum.util.preferences.ConfigKeys;
@@ -67,7 +65,7 @@ import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.PostCommon;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
@@ -150,7 +148,7 @@ public class AjaxAction extends Command
 			s.dispatchMessages();
 		}
 		catch (Exception e) {
-			status = StringEscapeUtils.escapeJavaScript(e.toString());
+			status = StringEscapeUtils.escapeEcmaScript(e.toString());
 			LOGGER.error(e.toString(), e);
 		}
 		finally {
@@ -249,8 +247,8 @@ public class AjaxAction extends Command
 		}
 		
 		post = PostCommon.preparePostForDisplay(post);
-		post.setSubject(StringEscapeUtils.escapeJavaScript(post.getSubject()));
-		post.setText(StringEscapeUtils.escapeJavaScript(post.getText()));
+		post.setSubject(StringEscapeUtils.escapeEcmaScript(post.getSubject()));
+		post.setText(StringEscapeUtils.escapeEcmaScript(post.getText()));
 
 		this.setTemplateName(TemplateKeys.AJAX_PREVIEW_POST);
 		this.context.put("post", post);

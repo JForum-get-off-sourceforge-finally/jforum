@@ -97,7 +97,12 @@ public class EhCacheEngine implements CacheEngine {
 			final Cache cache = manager.getCache(fqn);
 			final Element element = new Element(key, value);
 			cache.put(element);
-		} catch (Exception ce) {
+		} catch(IllegalStateException ie) {
+           manager.addCache(fqn);
+           final Cache cache = manager.getCache(fqn);
+           final Element element = new Element(key, value);
+		   cache.put(element);
+        } catch (Exception ce) {
 			LOGGER.error(ce);
 			throw new CacheException(ce);
 		}
@@ -106,7 +111,7 @@ public class EhCacheEngine implements CacheEngine {
 	public Object get(final String fqn, final String key) {
 		try {
 			if (!manager.cacheExists(fqn)) {				
-				//manager.addCache(fqn);
+			    manager.addCache(fqn);
 				LOGGER.debug("cache "+fqn+" doesn't exist and returns null");
 				return null;
 			}
@@ -126,7 +131,7 @@ public class EhCacheEngine implements CacheEngine {
 	public Object get(final String fqn) {	
 		try {
 			if (!manager.cacheExists(fqn)) {
-				//manager.addCache(fqn);
+				manager.addCache(fqn);
 				LOGGER.debug("cache " + fqn + "doesn't exist and returns null");
 				return null;
 			}
@@ -184,7 +189,8 @@ public class EhCacheEngine implements CacheEngine {
 	public void remove(final String fqn) {
 		try {
 			if (manager.cacheExists(fqn)) {
-				manager.removeCache(fqn);
+				//manager.removeCache(fqn);
+                manager.getCache(fqn).flush();
 			}
 		} catch (Exception ce) {
 			LOGGER.error(ce);

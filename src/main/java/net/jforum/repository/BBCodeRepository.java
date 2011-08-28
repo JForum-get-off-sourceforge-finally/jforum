@@ -77,7 +77,16 @@ public class BBCodeRepository implements Cacheable
 	
 	public static BBCodeHandler getBBCollection()
 	{
-		return (BBCodeHandler)cache.get(FQN, BBCOLLECTION);
+        BBCodeHandler handler = null;
+        if (cache.get(FQN, BBCOLLECTION) != null) {
+           handler = (BBCodeHandler)cache.get(FQN, BBCOLLECTION);
+        } else {
+            // cache flushed this, reload
+            handler = new BBCodeHandler().parse();
+            BBCodeRepository.setBBCollection(handler);
+        }
+
+		return handler;
 	}
 	
 	public static BBCode findByName(final String tagName)

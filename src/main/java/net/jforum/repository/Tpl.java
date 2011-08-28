@@ -50,6 +50,8 @@ import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.exceptions.ConfigLoadException;
 
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 import org.apache.log4j.Logger;
 
 /**
@@ -123,6 +125,10 @@ public class Tpl implements Cacheable
 	 */
 	public static String name(final String key)
 	{
+        if (cache.get(FQN, key) == null) {
+           // cache was flushed, reload
+           Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));
+        }
 		return (String)cache.get(FQN, key);
 	}
 }

@@ -16,7 +16,7 @@ import net.jforum.search.SearchFacade;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**

@@ -51,7 +51,7 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.repository.BanlistRepository;
 import net.jforum.util.preferences.TemplateKeys;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

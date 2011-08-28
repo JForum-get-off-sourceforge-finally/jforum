@@ -58,7 +58,7 @@ import net.jforum.security.RoleValueCollection;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

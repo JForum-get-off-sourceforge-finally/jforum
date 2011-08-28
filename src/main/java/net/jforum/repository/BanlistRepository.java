@@ -114,7 +114,14 @@ public class BanlistRepository implements Cacheable
 	
 	private static Map<Integer, Banlist> banlist()
 	{
-		Map<Integer, Banlist> m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
+		Map<Integer, Banlist> m = null;
+
+        if ((Map<Integer, Banlist>)cache.get(FQN, BANLIST) != null) {
+            m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
+        } else {
+           loadBanlist();
+           m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
+        }
 		
 		if (m == null) {
 			m = new HashMap<Integer, Banlist>();

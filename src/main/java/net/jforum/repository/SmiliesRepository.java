@@ -90,7 +90,11 @@ public class SmiliesRepository implements Cacheable
 	
 	public static List<Smilie> getSmilies()
 	{
-		final List<Smilie> list = (List<Smilie>)cache.get(FQN, ENTRIES);
+		List<Smilie> list = (List<Smilie>)cache.get(FQN, ENTRIES);
+        if (list == null) {
+           loadSmilies();
+           list = (List<Smilie>)cache.get(FQN, ENTRIES);
+        }
 		if (!contexted) {
 			String forumLink = SystemGlobals.getValue(ConfigKeys.FORUM_LINK);
 			if (forumLink.endsWith("/")) {
