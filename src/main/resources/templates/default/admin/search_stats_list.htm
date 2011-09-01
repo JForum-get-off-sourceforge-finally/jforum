@@ -161,7 +161,7 @@ function checkIfPostExists()
 			<td><strong>${I18n.getMessage("SearchStats.indexExists")}:</strong></td>
 			<td>
 				<#if !indexExists>
-					<i>${I18n.getMessage("No")}</i> <a href="${JForumContext.encodeURL("/adminSearchStats/createIndexDirectory")}">>${I18n.getMessage("SearchStats.CreateIndexNow")}</a>
+					<i>${I18n.getMessage("No")}</i> <a href="${JForumContext.encodeURL("/adminSearchStats/createIndexDirectory")}">>${I18n.getMessage("SearchStats.createIndexNow")}</a>
 				<#else>
 					<i>${I18n.getMessage("Yes")}</i> 
 				</#if>
