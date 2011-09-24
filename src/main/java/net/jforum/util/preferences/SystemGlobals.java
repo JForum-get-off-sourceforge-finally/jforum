@@ -54,7 +54,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import net.jforum.ConfigLoader;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.SortedProperties;
 
