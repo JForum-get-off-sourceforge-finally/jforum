@@ -52,6 +52,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.jforum.SessionFacade;
+import net.jforum.repository.SecurityRepository;
+import net.jforum.security.PermissionControl;
+import net.jforum.security.SecurityConstants;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -906,5 +909,40 @@ public class User implements Serializable
 	public void setNotifyText(boolean notifyText)
 	{
 		this.notifyText = notifyText;
+	}
+	
+	/**
+	 * Checks if the user is an administrator
+	 * 
+	 * @return <code>true</code> if the user is an administrator
+	 */
+	public boolean isAdmin()
+	{
+		return SecurityRepository.canAccess(this.id, SecurityConstants.PERM_ADMINISTRATION);
+	}
+
+	/**
+	 * Checks if the user is a moderator
+	 * 
+	 * @return <code>true</code> if the user has moderations rights
+	 */
+	public boolean isModerator()
+	{
+		return SecurityRepository.canAccess(this.id, SecurityConstants.PERM_MODERATION);
+	}
+	
+	/**
+	 * Checks if the user can moderate a forum
+	 * 
+	 * @param forumId the forum's id to check for moderation rights
+	 * @return <code>true</code> if the user has moderations rights
+	 */
+	public boolean isModerator(int forumId)
+	{
+		final PermissionControl permissionControl = SecurityRepository.get(this.id);
+		
+		return (permissionControl.canAccess(SecurityConstants.PERM_MODERATION))
+			&& (permissionControl.canAccess(SecurityConstants.PERM_MODERATION_FORUMS, 
+				Integer.toString(forumId)));
 	}
 }
