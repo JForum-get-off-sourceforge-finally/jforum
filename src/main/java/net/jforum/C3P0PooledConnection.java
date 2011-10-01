@@ -82,6 +82,7 @@ public class C3P0PooledConnection extends DBConnection
 		this.dataSource.setIdleConnectionTestPeriod(SystemGlobals.getIntValue(ConfigKeys.DATABASE_PING_DELAY));
 		
 		this.extraParams();
+		this.databaseUp = true;
 	}
 	
 	private void extraParams()
@@ -157,6 +158,7 @@ public class C3P0PooledConnection extends DBConnection
 		try {
 			DataSources.destroy(this.dataSource);
 			Thread.sleep(1000);
+			this.databaseUp = false;
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DatabaseException(e);

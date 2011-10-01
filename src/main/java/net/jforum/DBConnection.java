@@ -163,5 +163,6 @@ public abstract class DBConnection
 	public void realReleaseAllConnections() 
 	{	
 		LOGGER.info("real release all connections now");
+		this.databaseUp = false;
 	}
 }

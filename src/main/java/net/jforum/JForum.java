@@ -102,7 +102,6 @@ public class JForum extends JForumBaseServlet
 	private static final Logger LOGGER = Logger.getLogger(JForum.class);
 	
 	private static final long serialVersionUID = 7160936607198716279L;
-	private static boolean databaseUp;
 	
 	/**
 	 * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
@@ -113,7 +112,7 @@ public class JForum extends JForumBaseServlet
 		this.startApplication();
 		
 		// Start database
-		JForum.setDatabaseUp(ForumStartup.startDatabase());
+		ForumStartup.startDatabase();
 		
 		try {
 			final Connection conn = DBConnection.getImplementation().getConnection();
@@ -270,12 +269,8 @@ public class JForum extends JForumBaseServlet
 
 	private void checkDatabaseStatus()
 	{
-		if (!JForum.isDatabaseUp()) {
-			synchronized (this) {
-				if (!JForum.isDatabaseUp()) {
-					JForum.setDatabaseUp(ForumStartup.startDatabase());
-				}
-			}
+		if (!DBConnection.getImplementation().isDatabaseUp()) {
+			ForumStartup.startDatabase();			
 		}
 	}
 
@@ -412,16 +407,6 @@ public class JForum extends JForumBaseServlet
 		catch (Exception e) { 
 			LOGGER.error(e.getMessage(), e); 
 		}
-	}
-
-	private static boolean isDatabaseUp() 
-	{
-		return databaseUp;
-	}
-
-	private static void setDatabaseUp(final boolean isDatabaseUp) 
-	{
-		JForum.databaseUp = isDatabaseUp;
 	}
 	
 	private static void closeFileMonitor()
