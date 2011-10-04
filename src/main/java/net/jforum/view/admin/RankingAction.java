@@ -119,7 +119,7 @@ public class RankingAction extends AdminCommand
 				rankingDao.delete(Integer.parseInt(ids[i]));
 			}
 		}
-			
+		RankingRepository.loadRanks();	
 		this.list();
 	}
 	

@@ -76,7 +76,7 @@ public class User implements Serializable
 	private int level;
 	private int totalPosts;
 	private boolean attachSignatureEnabled = true;
-	private int rankId = 1;
+	private int rankId;
 	private boolean htmlEnabled = true;
 	private boolean bbCodeEnabled = true;
 	private boolean smiliesEnabled = true;

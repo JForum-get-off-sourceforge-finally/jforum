@@ -42,7 +42,6 @@
  */
 package net.jforum.repository;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.jforum.cache.CacheEngine;
@@ -61,6 +60,7 @@ public class RankingRepository implements Cacheable
 	private static CacheEngine cache;
 	private static final String FQN = "ranking";
 	private static final String ENTRIES = "entries";
+	private static int size = 0;
 
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
@@ -79,7 +79,9 @@ public class RankingRepository implements Cacheable
 	{
 		try {
 			RankingDAO rm = DataAccessDriver.getInstance().newRankingDAO();
-			cache.add(FQN, ENTRIES, rm.selectAll());
+			List<Ranking> list = rm.selectAll();
+			cache.add(FQN, ENTRIES, list);
+			size = list.size();
 		}
 		catch (Exception e) {
 			throw new RankingLoadException("Error while loading the rankings: " + e);
@@ -87,11 +89,8 @@ public class RankingRepository implements Cacheable
 	}
 	
 	public static int size()
-	{
-        if (cache.get(FQN, ENTRIES) == null) {
-            RankingRepository.loadRanks();
-        }
-		return ((List<Ranking>)cache.get(FQN, ENTRIES)).size();
+	{   
+		return size;
 	}
 	
 	/**
@@ -119,15 +118,16 @@ public class RankingRepository implements Cacheable
 	{
 		Ranking lastRank = new Ranking();
 
-        if (cache.get(FQN, ENTRIES)==null) {
+        if (cache.get(FQN, ENTRIES) == null && size > 0) {
             RankingRepository.loadRanks();
         }
 		List<Ranking> entries = (List<Ranking>)cache.get(FQN, ENTRIES);
 		
-		for (Iterator<Ranking> iter = entries.iterator(); iter.hasNext(); ) {
-			Ranking r = iter.next();
-			
-			if (total == r.getMin() && !r.isSpecial()) {
+		for (Ranking r: entries) {
+			if (r.isSpecial()) {
+				continue;
+			}
+			if (total == r.getMin()) {
 				return r.getTitle();
 			}
 			else if (total > lastRank.getMin() && total < r.getMin()) {
@@ -144,7 +144,7 @@ public class RankingRepository implements Cacheable
 	{
 		Ranking r = new Ranking();
 		r.setId(rankId);
-		if (cache.get(FQN, ENTRIES)==null) {
+		if (cache.get(FQN, ENTRIES) == null && size > 0) {
             RankingRepository.loadRanks();
         }
 		List<Ranking> l = (List<Ranking>)cache.get(FQN, ENTRIES);
