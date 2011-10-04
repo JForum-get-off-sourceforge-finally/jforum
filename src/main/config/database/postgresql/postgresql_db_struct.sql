@@ -483,7 +483,7 @@ CREATE TABLE jforum_attach_desc (
 	real_filename VARCHAR(255) NOT NULL,
 	download_count INTEGER,
 	description VARCHAR(255),
-	mimetype VARCHAR(50),
+	mimetype VARCHAR(85),
 	filesize NUMERIC(20),
 	upload_time DATE,
 	thumb INTEGER DEFAULT 0,
