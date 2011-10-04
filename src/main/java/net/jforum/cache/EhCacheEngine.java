@@ -132,7 +132,7 @@ public class EhCacheEngine implements CacheEngine {
 		try {
 			if (!manager.cacheExists(fqn)) {
 				manager.addCache(fqn);
-				LOGGER.debug("cache " + fqn + "doesn't exist and returns null");
+				LOGGER.debug("cache " + fqn + " doesn't exist and returns null");
 				return null;
 			}
 			final Cache cache = manager.getCache(fqn);
@@ -148,7 +148,7 @@ public class EhCacheEngine implements CacheEngine {
 		try {
 			if (!manager.cacheExists(fqn)) {
 				//manager.addCache(fqn);
-				LOGGER.debug("cache " + fqn + "doesn't exist and returns empty collection");
+				LOGGER.debug("cache " + fqn + " doesn't exist and returns empty collection");
 				return new ArrayList<Object>();
 			}
 			final Cache cache = manager.getCache(fqn);

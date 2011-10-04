@@ -62,6 +62,7 @@ public class BanlistRepository implements Cacheable
 	private static CacheEngine cache;
 	private static final String FQN = "banlist";
 	private static final String BANLIST = "banlistCollection";
+	private static int size = 0;
 	
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
@@ -114,15 +115,12 @@ public class BanlistRepository implements Cacheable
 	
 	private static Map<Integer, Banlist> banlist()
 	{
-		Map<Integer, Banlist> m = null;
-
-        if ((Map<Integer, Banlist>)cache.get(FQN, BANLIST) != null) {
-            m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
-        } else {
-           loadBanlist();
-           m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
-        }
-		
+		Map<Integer, Banlist> m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
+        
+        if (m == null && size > 0) {
+     	   loadBanlist();
+     	   m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
+        }        
 		if (m == null) {
 			m = new HashMap<Integer, Banlist>();
 		}
@@ -136,7 +134,8 @@ public class BanlistRepository implements Cacheable
 		List<Banlist> banlist = dao.selectAll();
 		
 		for (Iterator<Banlist> iter = banlist.iterator(); iter.hasNext(); ) {
-			BanlistRepository.add(iter.next());
+			BanlistRepository.add(iter.next());			
 		}
+		size = banlist.size(); 
 	}
 }
