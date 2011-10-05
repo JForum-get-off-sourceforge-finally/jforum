@@ -360,16 +360,16 @@ public class UserAction extends Command
 	}
 
 	private void logNewRegisteredUserIn(final int userId, final User user) 
-	{
-		SessionFacade.makeLogged();
-
-		UserSession userSession = new UserSession();
+	{		
+		UserSession userSession = SessionFacade.getUserSession();
+		SessionFacade.remove(userSession.getSessionId());
 		userSession.setAutoLogin(true);
 		userSession.setUserId(userId);
 		userSession.setUsername(user.getUsername());
 		userSession.setLastVisit(new Date(System.currentTimeMillis()));
 		userSession.setStartTime(new Date(System.currentTimeMillis()));
-
+		SessionFacade.makeLogged();
+		
 		SessionFacade.add(userSession);
 
 		// Finalizing.. show the user the congratulations page
@@ -384,7 +384,6 @@ public class UserAction extends Command
 		
 		ForumRepository.setLastRegisteredUser(
 				userDao.selectById(userId));
-		ForumRepository.incrementTotalUsers();
 
 		String profilePage = JForumExecutionContext.getForumContext().encodeURL("/user/edit/" + userId);
 		String homePage = JForumExecutionContext.getForumContext().encodeURL("/forums/list");
