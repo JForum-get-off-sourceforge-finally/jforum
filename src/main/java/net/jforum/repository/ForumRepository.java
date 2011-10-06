@@ -654,8 +654,8 @@ public class ForumRepository implements Cacheable
 	{
 		User user = (User)cache.get(FQN, LAST_USER);
 		if (user == null) {
-			user = new User(SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID));
-			user.setUsername(I18n.getMessage("Guest"));
+			user = DataAccessDriver.getInstance().newUserDAO().getLastUserInfo();
+			setLastRegisteredUser(user);
 		}
 		return user;
 	}
@@ -670,7 +670,8 @@ public class ForumRepository implements Cacheable
 		Integer i = (Integer)cache.get(FQN, TOTAL_USERS);
 
 		if (i == null) {
-			i = Integer.valueOf(0);
+			i = DataAccessDriver.getInstance().newUserDAO().getTotalUsers();
+			cache.add(FQN, TOTAL_USERS, i);
 		}
 		return i;
 	}

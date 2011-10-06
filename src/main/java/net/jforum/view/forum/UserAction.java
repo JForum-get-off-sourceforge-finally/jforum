@@ -382,8 +382,8 @@ public class UserAction extends Command
 	{
 		int userId = SessionFacade.getUserSession().getUserId();
 		
-		ForumRepository.setLastRegisteredUser(
-				userDao.selectById(userId));
+		ForumRepository.setLastRegisteredUser(userDao.selectById(userId));
+		ForumRepository.incrementTotalUsers();
 
 		String profilePage = JForumExecutionContext.getForumContext().encodeURL("/user/edit/" + userId);
 		String homePage = JForumExecutionContext.getForumContext().encodeURL("/forums/list");
