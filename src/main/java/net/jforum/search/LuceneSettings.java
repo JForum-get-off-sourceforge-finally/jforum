@@ -66,7 +66,7 @@ public class LuceneSettings
 {
 	private Analyzer analyzer;
 	private Directory directory;
-	public static Version version = Version.LUCENE_34;
+	public static final Version version = Version.LUCENE_34;
 	
 	public LuceneSettings(final Analyzer analyzer)
 	{
