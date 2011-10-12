@@ -96,12 +96,16 @@ public class EhCacheEngine implements CacheEngine {
 			}
 			final Cache cache = manager.getCache(fqn);
 			final Element element = new Element(key, value);
-			cache.put(element);
-		} catch(IllegalStateException ie) {
+			if (cache != null) {
+				cache.put(element);
+			}
+		} catch (IllegalStateException ie) {
            manager.addCache(fqn);
            final Cache cache = manager.getCache(fqn);
            final Element element = new Element(key, value);
-		   cache.put(element);
+           if (cache != null) {
+				cache.put(element);
+			}
         } catch (Exception ce) {
 			LOGGER.error(ce);
 			throw new CacheException(ce);
@@ -112,7 +116,7 @@ public class EhCacheEngine implements CacheEngine {
 		try {
 			if (!manager.cacheExists(fqn)) {				
 			    manager.addCache(fqn);
-				LOGGER.debug("cache "+fqn+" doesn't exist and returns null");
+				LOGGER.debug("cache " + fqn + " doesn't exist and returns null");
 				return null;
 			}
 			final Cache cache = manager.getCache(fqn);

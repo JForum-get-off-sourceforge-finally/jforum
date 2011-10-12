@@ -157,10 +157,10 @@ public class JBossCacheEngine implements CacheEngine
 	 */
 	public Collection<Object> getValues(final String fqn)
 	{		
-		if (this.cache.getCacheStatus() == CacheStatus.DESTROYED) {
-			return new ArrayList<Object>();
-		}
-		final Map<String, Object> map = this.cache.getData(Fqn.fromString(fqn));
+		Map<String, Object> map = null;
+		if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
+			map = this.cache.getData(Fqn.fromString(fqn));
+		}		 
 		if (map == null) {
 			return new ArrayList<Object>();
 		}

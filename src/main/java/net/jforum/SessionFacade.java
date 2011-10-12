@@ -211,16 +211,15 @@ public class SessionFacade implements Cacheable
 		
 		synchronized (MUTEX_FQN) {
 			final UserSession userSession = getUserSession(sessionId);
-			
+
 			if (userSession != null) {
-				cache.remove(FQN_LOGGED, sessionId);
-				cache.remove(FQN_USER_ID, Integer.toString(userSession.getUserId()));
-				
 				if (userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
 					changeUserCount(ANONYMOUS_COUNT, false);
 				}
 				else {					
 					changeUserCount(LOGGED_COUNT, false);
+					cache.remove(FQN_LOGGED, sessionId);
+					cache.remove(FQN_USER_ID, Integer.toString(userSession.getUserId()));
 				}
 			}
 			
