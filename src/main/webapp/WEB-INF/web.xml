@@ -1,84 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="JForum" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>JForum - Powering Communities</display-name>
-	<description>Open Source Java Forum Software</description>
-	<distributable />
+<web-app id="JForum" version="2.4"
+    xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <display-name>JForum - Powering Communities</display-name>
+    <description>Open Source Java Forum Software</description>
+    <distributable/>
 
-	<!-- Clickstream -->
-	<filter>
-		<filter-name>clickstream-jforum</filter-name>
-		<filter-class>net.jforum.util.legacy.clickstream.ClickstreamFilter</filter-class>
-	</filter>
+    <!-- Clickstream -->
+    <filter>
+        <filter-name>clickstream-jforum</filter-name>
+        <filter-class>net.jforum.util.legacy.clickstream.ClickstreamFilter</filter-class>
+    </filter>
 
-	<filter-mapping>
-		<filter-name>clickstream-jforum</filter-name>
-		<url-pattern>*.page</url-pattern>
-	</filter-mapping>
-
-	<listener>
-		<listener-class>net.jforum.ForumSessionListener</listener-class>
-	</listener>
-
+    <filter-mapping>
+        <filter-name>clickstream-jforum</filter-name>
+        <url-pattern>*.page</url-pattern>
+    </filter-mapping>
+    
+    <listener>
+        <listener-class>net.jforum.ForumSessionListener</listener-class>
+    </listener>
+    
 	<listener>
 		<listener-class>net.jforum.ContextListener</listener-class>
 	</listener>
 
-	<!-- JForum Controller -->
-	<servlet>
-		<servlet-name>jforum</servlet-name>
-		<servlet-class>net.jforum.JForum</servlet-class>
-		<init-param>
-			<param-name>development</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
+    <!-- JForum Controller -->
+    <servlet>
+        <servlet-name>jforum</servlet-name>
+        <servlet-class>net.jforum.JForum</servlet-class>
+        <init-param>
+            <param-name>development</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
 
-	<!-- Installer -->
-	<servlet>
-		<servlet-name>install</servlet-name>
-		<servlet-class>net.jforum.InstallServlet</servlet-class>
+    <!-- Installer -->
+    <servlet>
+        <servlet-name>install</servlet-name>
+        <servlet-class>net.jforum.InstallServlet</servlet-class>
+    
+        <init-param>
+            <param-name>development</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+    
+    <!-- Mapping -->
+    <servlet-mapping>
+        <servlet-name>install</servlet-name>
+         <url-pattern>/install/install.page</url-pattern>
+    </servlet-mapping>
+       
+    <servlet-mapping>
+        <servlet-name>jforum</servlet-name>
+        <url-pattern>*.page</url-pattern>
+    </servlet-mapping>
+    
+    <!-- SESSION -->
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+    
+    <welcome-file-list>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
-		<init-param>
-			<param-name>development</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
+    <!-- 
+    <error-page>
+       <error-code>404</error-code>
+       <location>/missing.jsp</location>
+    </error-page>
+     -->
 
-	<!-- Mapping -->
-	<servlet-mapping>
-		<servlet-name>install</servlet-name>
-		<url-pattern>/install/install.page</url-pattern>
-	</servlet-mapping>
+    <!-- SSO -->
+    <!-- Example of SSO configuration -->
+    <!--
+    <security-role> 
+        <role-name>user</role-name> 
+    </security-role>
 
-	<servlet-mapping>
-		<servlet-name>jforum</servlet-name>
-		<url-pattern>*.page</url-pattern>
-	</servlet-mapping>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted Area</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+     
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
 
-	<!-- SESSION -->
-	<session-config>
-		<session-timeout>5</session-timeout>
-	</session-config>
-
-	<welcome-file-list>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-
-	<!-- SSO -->
-	<!-- Example of SSO configuration -->
-	<!-- <security-role> <role-name>user</role-name> </security-role> <security-constraint> 
-		<web-resource-collection> <web-resource-name>Restricted Area</web-resource-name> 
-		<url-pattern>/*</url-pattern> </web-resource-collection> <auth-constraint> 
-		<role-name>user</role-name> </auth-constraint> </security-constraint> <login-config> 
-		<auth-method>BASIC</auth-method> <realm-name>REALM NAME HERE</realm-name> 
-		</login-config> -->
-	<resource-ref>
-		<description>DB Connection</description>
-		<res-ref-name>jdbc/JForumDB</res-ref-name>
-		<res-type>javax.sql.DataSource</res-type>
-		<res-auth>Container</res-auth>
-	</resource-ref>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>REALM NAME HERE</realm-name>
+    </login-config>
+    -->
+    <resource-ref>
+        <description>DB Connection</description>
+        <res-ref-name>jdbc/JForumDB</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 </web-app>
