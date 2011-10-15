@@ -546,8 +546,8 @@ PrivateMessageModel.selectById = SELECT p.*, pt.privmsgs_text \
 # #################
 # UserSessionModel
 # #################
-UserSessionModel.add = INSERT INTO jforum_sessions ( session_id, session_user_id, session_start ) VALUES (?, ?, ?)
-UserSessionModel.update = UPDATE jforum_sessions SET session_start = ?, session_time = ?, session_id = ? WHERE session_user_id = ?
+UserSessionModel.add = INSERT INTO jforum_sessions (session_id, session_user_id, session_start, session_ip) VALUES (?, ?, ?, ?)
+UserSessionModel.update = UPDATE jforum_sessions SET session_start = ?, session_time = ?, session_id = ?, session_ip = ? WHERE session_user_id = ?
 UserSessionModel.delete = DELETE FROM jforum_sessions WHERE session_user_id = ?
 UserSessionModel.selectById = SELECT session_time, session_start, session_id FROM jforum_sessions WHERE session_user_id = ?
 

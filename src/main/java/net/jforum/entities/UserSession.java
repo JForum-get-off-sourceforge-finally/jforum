@@ -82,7 +82,7 @@ public class UserSession implements Serializable
 	private String username;
 	private String lang;
 	private String ip;
-	
+
 	private boolean autoLogin;
 	
 	private transient ImageCaptcha imageCaptcha = null;

@@ -79,6 +79,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 			pstmt.setString(1, us.getSessionId());
 			pstmt.setInt(2, us.getUserId());
 			pstmt.setTimestamp(3, new Timestamp(us.getStartTime().getTime()));
+			pstmt.setString(4, us.getIp());
 
 			pstmt.executeUpdate();
 		}
@@ -107,7 +108,8 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 			pstmt.setTimestamp(1, new Timestamp(us.getStartTime().getTime()));
 			pstmt.setLong(2, us.getSessionTime());
 			pstmt.setString(3, us.getSessionId());
-			pstmt.setInt(4, us.getUserId());
+			pstmt.setString(4, us.getIp());
+			pstmt.setInt(5, us.getUserId());
 
 			pstmt.executeUpdate();
 		}
