@@ -24,9 +24,14 @@
 			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>jahia</id>
-			<name>jahia</name>
-			<url>http://maven.jahia.org/maven2/</url>
+      		<id>jahia</id>
+      		<name>jahia</name>
+      		<url>http://maven.jahia.org/maven2/</url>
+    	</repository>
+		<repository>
+			<id>mule-deps</id>
+			<name>mule-deps</name>
+			<url>http://dist.codehaus.org/mule/dependencies/maven2/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -192,6 +197,13 @@
 			<version>1.4</version>
 			<type>jar</type>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>

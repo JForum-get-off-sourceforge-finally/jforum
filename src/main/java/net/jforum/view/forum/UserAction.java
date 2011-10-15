@@ -55,16 +55,20 @@ import net.jforum.ControllerUtils;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
+import net.jforum.dao.BanlistDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.UserDAO;
 import net.jforum.dao.UserSessionDAO;
+import net.jforum.entities.Banlist;
 import net.jforum.entities.Bookmark;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
+import net.jforum.repository.BanlistRepository;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.RankingRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
+import net.jforum.security.StopForumSpam;
 import net.jforum.util.I18n;
 import net.jforum.util.MD5;
 import net.jforum.util.concurrent.Executor;
@@ -255,6 +259,7 @@ public class UserAction extends Command
 		String password = this.request.getParameter("password");
 		String email = this.request.getParameter(EMAIL);
 		String captchaResponse = this.request.getParameter("captchaResponse");
+		String ip = this.request.getRemoteAddr();
 
 		boolean error = false;
 		if (StringUtils.isBlank(username)
@@ -292,6 +297,24 @@ public class UserAction extends Command
 			error = true;
 		}
 
+		if (StopForumSpam.checkIp(ip)) {
+			LOGGER.info("Forum Spam found! Block it: " + ip);
+			final Banlist banlist = new Banlist();
+			banlist.setIp(ip);			
+			final BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
+			dao.insert(banlist);			
+			BanlistRepository.add(banlist);
+			error = true;
+		} else if (StopForumSpam.checkEmail(email)) {
+			LOGGER.info("Forum Spam found! Block it: " + email);
+			final Banlist banlist = new Banlist();			
+			banlist.setEmail(email);
+			final BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
+			dao.insert(banlist);			
+			BanlistRepository.add(banlist);
+			error = true;
+		}
+		
 		if (error) {
 			this.insert(true);
 			return;
