@@ -149,7 +149,7 @@
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
-			<version>2.4.5</version>
+			<version>2.4.6</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
@@ -266,6 +266,22 @@
 							<resources>
 								<resource>
 									<directory>src/main/resources/templates</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-upgrade</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/upgrade</outputDirectory>
+							<resources>
+								<resource>
+									<directory>upgrade</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
