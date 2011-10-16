@@ -43,13 +43,13 @@
 package net.jforum.security;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+
+import org.apache.log4j.Logger;
 
 /**
  * StopForumSpam 
@@ -57,45 +57,23 @@ import org.jdom.input.SAXBuilder;
  *
  */
 public class StopForumSpam {
+	private static final Logger LOGGER = Logger.getLogger(StopForumSpam.class);
 	private static final String baseURL = "http://www.stopforumspam.com/api?";
 	
-	public static boolean checkIp(String ip) {
-		boolean result = false;
-		String url = baseURL + "ip=" + ip;
-		Element root = getXmlRootElement(url);
-		String appears = root.getChildTextTrim("appears");
-		if ("yes".equals(appears)) {
-			result = true;
-		}
-		return result;
+	public static boolean checkIp(String ip) {		
+		String url = baseURL + "ip=" + ip;		
+		return getResult(url);
 	}
 	
 	public static boolean checkEmail(String email) {
-		boolean result = false;
-		String url = baseURL + "email=" + email;
-		Element root = getXmlRootElement(url);
-		String appears = root.getChildTextTrim("appears");
-		if ("yes".equals(appears)) {
-			result = true;
-		}
-		return result;
+		String url = baseURL + "email=" + email;		
+		return getResult(url);
 	}
 	
-	public static void listChildren(Element current, int depth) {
-		printSpaces(depth);
-		System.out.println(current.getName());
-		List children = current.getChildren();
-		Iterator iterator = children.iterator();
-		while (iterator.hasNext()) {
-			Element child = (Element) iterator.next();
-			listChildren(child, depth + 1);
-		}
-	}
-
-	private static void printSpaces(int n) {
-		for (int i = 0; i < n; i++) {
-			System.out.print(' ');
-		}
+	private static boolean getResult(String url) {
+		Element root = getXmlRootElement(url);
+		String appears = (root != null) ? root.getChildTextTrim("appears") : null;
+		return "yes".equals(appears);
 	}
 	
 	public static Element getXmlRootElement(String url) {
@@ -106,11 +84,9 @@ public class StopForumSpam {
 			return root;
 		} catch (JDOMException e) {
             // indicates a well-formedness error
-			System.out.println("The result XML is not well-formed.");
-			System.out.println(e.getMessage());
+			LOGGER.error("The result XML is not well-formed." + e.getMessage());
 		} catch (IOException ioe) {
-			System.out.println("Oh no!...IOException");
-			System.out.println(ioe.getMessage());
+			LOGGER.error("Oh no!...IOException" + ioe.getMessage());
 		}
 		return null;
 	}

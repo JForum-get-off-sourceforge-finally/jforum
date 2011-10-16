@@ -297,21 +297,30 @@ public class UserAction extends Command
 			error = true;
 		}
 
+		final BanlistDAO banlistDao = DataAccessDriver.getInstance().newBanlistDAO();
 		if (StopForumSpam.checkIp(ip)) {
 			LOGGER.info("Forum Spam found! Block it: " + ip);
 			final Banlist banlist = new Banlist();
-			banlist.setIp(ip);			
-			final BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
-			dao.insert(banlist);			
-			BanlistRepository.add(banlist);
+			banlist.setIp(ip);
+			if (!BanlistRepository.shouldBan(banlist)) {				
+				banlistDao.insert(banlist);			
+				BanlistRepository.add(banlist);
+			}
 			error = true;
 		} else if (StopForumSpam.checkEmail(email)) {
 			LOGGER.info("Forum Spam found! Block it: " + email);
 			final Banlist banlist = new Banlist();			
 			banlist.setEmail(email);
-			final BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
-			dao.insert(banlist);			
-			BanlistRepository.add(banlist);
+			if (!BanlistRepository.shouldBan(banlist)) {				
+				banlistDao.insert(banlist);			
+				BanlistRepository.add(banlist);
+			} else { // email already exists, block source ip now
+				LOGGER.info("Forum Spam found! Block it: " + ip);
+				final Banlist banlist2 = new Banlist();			
+				banlist2.setIp(ip);
+				banlistDao.insert(banlist2);			
+				BanlistRepository.add(banlist2);
+			}
 			error = true;
 		}
 		
