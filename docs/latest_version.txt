@@ -1,11 +1,27 @@
-2.3.1
+2.3.2
 
-<p>Some features have been added, changed or fixed in JForum 2.3.1, like:</p>
+<p>Some features have been added, changed or fixed in JForum 2.3.2, like:</p>
 
 <ul>
-<li>Fix post cache problem</li>
-<li>Update to Apache Lucene 3.3.0</li>
-<li>Update to jQuery 1.6.2</li> 
+<li>Update to Commons IO 2.1</li>
+<li>Update to Commons Lang 3.0.1</li>
+<li>Update to Ehcache Core 2.4.6</li>
+<li>Update to Apache Lucene 3.4.0</li>
+<li>Update to MySQL JDBC Driver 5.1.18</li>
+<li>Update to Quartz 2.1.0</li>
+<li>Update to SLF4J-API 1.6.2</li>
+<li>Update to jQuery 1.6.4</li>
+<li>Add JDOM 1.1.1</li>
+<li>Ban forum spam during user registration</li>
+<li>Make sure external avatar URL is a real image</li>
+<li>Record session ip</li>
+<li>Fix online user session count after user registration</li>
+<li>Fix if only exist one special rank in JForum, all users are marked as the special rank.</li>
+<li>Change table jforum_attach_desc column mimetype to varchar(85) to support Microsoft Office 2007/2010 documents</li>
+<li>Add PostREST.java for postApi which allows other application adding a post outside JForum</li>
+<li>Add isAdmin(), isModerator() and isModerator(forumId) to User.java for checking poster's role</li>
+<li>Apply patch for Terracotta/Ehcache</li>
+<li>Fix post hasCodeBlock detection</li>
 </ul>
 
 <p>
