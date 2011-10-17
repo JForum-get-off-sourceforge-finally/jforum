@@ -45,6 +45,8 @@ package net.jforum.view.forum.common;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -159,12 +161,13 @@ public final class UserCommon
 		}
 		
 		if (request.getParameter("avatardel") != null) {
-			final File file = new File(SystemGlobals.getApplicationPath() + IMAGE_AVATAR+ user.getAvatar());
-			final boolean result = file.delete();
-			if (!result) {
-				LOGGER.error("Delete file failed: " + file.getName());
+			final File file = new File(SystemGlobals.getApplicationPath() + IMAGE_AVATAR + user.getAvatar());
+			if (file.exists()) {
+				final boolean result = file.delete();
+				if (!result) {
+					LOGGER.error("Delete file failed: " + file.getName());
+				}			
 			}
-			
 			user.setAvatar(null);
 		}
 	
@@ -173,7 +176,7 @@ public final class UserCommon
 				UserCommon.handleAvatar(user);
 			}
 			catch (Exception e) {
-				UserCommon.LOGGER.warn("Problems while uploading the avatar: " + e);
+				LOGGER.warn("Problems while uploading the avatar: " + e);
 				errors.add(I18n.getMessage("User.avatarUploadError"));
 			}
 		} 
@@ -181,7 +184,22 @@ public final class UserCommon
 			final String avatarUrl = request.getParameter("avatarUrl");
 			if (StringUtils.isNotEmpty(avatarUrl)) {
 				if (avatarUrl.toLowerCase(Locale.US).startsWith("http://")) {
-					user.setAvatar(avatarUrl);
+					// make sure it's really an image
+					try {
+						BufferedImage image = ImageIO.read(new URL(avatarUrl));
+						if (image != null) {
+							user.setAvatar(avatarUrl);
+						} else {
+							user.setAvatar(null);
+							errors.add("URL is not an image");
+						}
+					} catch (MalformedURLException e) {						
+						e.printStackTrace();
+						errors.add("URL malformed");
+					} catch (IOException e) {						
+						e.printStackTrace();
+						errors.add("read image error");
+					}					
 				}
 				else {
 					errors.add(I18n.getMessage("User.avatarUrlShouldHaveHttp"));
