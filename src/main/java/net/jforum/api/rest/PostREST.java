@@ -127,6 +127,10 @@ public class PostREST extends Command {
 			post.setSubject(subject);
 			post.setText(message);				
 			this.insertMessage(user, post);
+			String postLink = JForumExecutionContext.getRedirectTo(); 
+			JForumExecutionContext.setRedirect(null); 
+			this.setTemplateName(TemplateKeys.API_POST_INSERT); 
+			this.context.put("postLink", postLink);
 			SessionFacade.makeUnlogged();
 			SessionFacade.remove(sessionId);			
 		}
