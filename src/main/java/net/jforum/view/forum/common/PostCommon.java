@@ -108,8 +108,10 @@ public class PostCommon
 			post.setText(prepareTextForDisplayExceptCodeTag(post.getText(),
 				post.isBbCodeEnabled(), post.isSmiliesEnabled()));
 		}
-		else if (post.isBbCodeEnabled()) {
-			hasCodeBlock = true;
+		else if (post.isBbCodeEnabled() || post.isSmiliesEnabled()) {
+			if (post.isBbCodeEnabled()) {
+				hasCodeBlock = true;
+			}
 			
 			int nextStartPos = 0;
 			StringBuffer result = new StringBuffer(post.getText().length());
@@ -120,9 +122,12 @@ public class PostCommon
 				String nonCodeResult = prepareTextForDisplayExceptCodeTag(post.getText().substring(nextStartPos, codeIndex), 
 					post.isBbCodeEnabled(), post.isSmiliesEnabled());
 				
-				String codeResult = parseCode(post.getText().substring(codeIndex, codeEndIndex));
-				
-				result.append(nonCodeResult).append(codeResult);
+				if (hasCodeBlock) {
+					String codeResult = parseCode(post.getText().substring(codeIndex, codeEndIndex));
+					result.append(nonCodeResult).append(codeResult);
+				} else {
+					result.append(nonCodeResult).append(post.getText().substring(codeIndex, codeEndIndex));
+				}
 				
 				nextStartPos = codeEndIndex;
 				codeIndex = post.getText().indexOf("[code", codeEndIndex);
@@ -139,9 +144,7 @@ public class PostCommon
 			post.setText(result.toString());
 		}
 		
-		if (hasCodeBlock) {
-			JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);
-		}
+		JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);		
 	}
 	
 	private static String parseCode(String origText)
