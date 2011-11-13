@@ -5,8 +5,8 @@
 <meta http-equiv="Content-Type" content="${encoding}"/>
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <title>${pageTitle}</title>
-<style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
-<style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/${language}.css?${startupTime} );</style>
+<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/style.css" />
+<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/${language}.css" />
 <#if hasCodeBlock?default(false)>
 	<#include "highlighter_css.htm"/>
 </#if>

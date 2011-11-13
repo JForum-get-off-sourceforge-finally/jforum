@@ -8,14 +8,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="-1" />
+<#setting locale="en_US">
+<meta http-equiv="Expires" content="${expires?string("EEE, dd MMM yyyy hh:mm:ss zzz")}" />
+<meta http-equiv="Last-Modified" content="${.now?string("EEE, dd MMM yyyy hh:mm:ss zzz")}" />
+<#setting locale=language>
 <meta name="description" content="${metaDescription}" />
 <meta name="keywords" content="${metaKeywords}" />
-<style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
-<style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/${language}.css?${startupTime} );</style>
+<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/style.css" />
+<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/${language}.css" />
 <#if isNewPost?exists || isEdit?exists || htmlAllowed?exists>
-<style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/tabs.css?${startupTime} );</style>
+<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/tabs.css" />
 </#if>
 <#if hasCodeBlock?default(false) || isNewPost?exists || isEdit?exists || htmlAllowed?exists>
 	<#include "highlighter_css.htm"/>
