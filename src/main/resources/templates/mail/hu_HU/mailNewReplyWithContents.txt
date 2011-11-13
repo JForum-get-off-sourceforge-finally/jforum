@@ -1,13 +1,13 @@
 <html>
 <head>
 <base href="${forumLink}">
-<style type="text/css">@import url( ${forumLink}/templates/default/styles/style.css );</style>
+<link rel="stylesheet" type="text/css" href="${forumLink}templates/default/styles/style.css">
 </head>
 <body>
 ${message}
 <br>
 ---------<br>
-Téma online olvasása: ${path}<br>
-Téma figyelésének megszüntetése: ${unwatch}<br>
+Tï¿½ma online olvasï¿½sa: ${path}<br>
+Tï¿½ma figyelï¿½sï¿½nek megszï¿½ntetï¿½se: ${unwatch}<br>
 </body>
 </html>

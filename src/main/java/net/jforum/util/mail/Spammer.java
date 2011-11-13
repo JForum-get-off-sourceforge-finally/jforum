@@ -216,8 +216,12 @@ public class Spammer
 			this.templateParams.put("user", user);
 			
 			String text = this.processTemplate();
-			
+			int oldMessageFormat = messageFormat;
+			if (user.notifyText()) {
+				messageFormat = MESSAGE_HTML;
+			}
 			this.defineMessageText(text);
+			messageFormat = oldMessageFormat;
 		}
 		catch (Exception e) {
 			throw new MailException(e);
@@ -277,7 +281,7 @@ public class Spammer
 		String charset = SystemGlobals.getValue(ConfigKeys.MAIL_CHARSET);
 		
 		if (messageFormat == MESSAGE_HTML) {
-			this.message.setContent(text.replaceAll("\n", "<br />"), "text/html; charset=" + charset);
+			this.message.setContent(text.replaceAll("\n", "<br>"), "text/html; charset=" + charset);
 		}
 		else {
 			this.message.setText(text);

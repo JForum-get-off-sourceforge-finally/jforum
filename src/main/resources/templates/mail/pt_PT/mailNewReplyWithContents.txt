@@ -1,13 +1,13 @@
 <html>
 <head>
 <base href="${forumLink}">
-<style type="text/css">@import url( ${forumLink}/templates/default/styles/style.css );</style>
+<link rel="stylesheet" type="text/css" href="${forumLink}templates/default/styles/style.css">
 </head>
 <body>
 ${message}
 <br>
 ---------<br>
-Ler este tópico online: ${path}<br>
-Não receber mais notificações deste tópico: ${unwatch}<br>
+Ler este tï¿½pico online: ${path}<br>
+Nï¿½o receber mais notificaï¿½ï¿½es deste tï¿½pico: ${unwatch}<br>
 </body>
 </html>
