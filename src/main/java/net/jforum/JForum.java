@@ -48,6 +48,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -185,6 +187,10 @@ public class JForum extends JForumBaseServlet
 			final ControllerUtils utils = new ControllerUtils();
 			utils.refreshSession();
 			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, 1);
+			context.put("expires", cal.getTime());
+			context.put("lastUpdated", new Date());
 			context.put("logged", SessionFacade.isLogged());
 			
 			// Process security data
@@ -422,5 +428,5 @@ public class JForum extends JForumBaseServlet
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT)));
 		FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));		
 		FileMonitor.getInstance().getTimer().cancel();
-	}
+	}	
 }

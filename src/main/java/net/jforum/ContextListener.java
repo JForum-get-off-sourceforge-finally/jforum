@@ -45,9 +45,14 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -64,9 +69,16 @@ public class ContextListener implements ServletContextListener {
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
 	public void contextInitialized(ServletContextEvent sce) {
-		final String appPath = sce.getServletContext().getRealPath("");
-		DOMConfigurator.configure(appPath + "/WEB-INF/log4j.xml");
-		LOGGER.info(sce.getServletContext().getContextPath() + " initialized");
+		final ServletContext application = sce.getServletContext();
+		final String appPath = application.getRealPath("");		
+		DOMConfigurator.configure(appPath + "/WEB-INF/log4j.xml");		
+		final String containerInfo = application.getServerInfo();		
+		LOGGER.info("Servlet Container is " + containerInfo);
+		ConfigLoader.startSystemglobals(appPath);			
+		final String[] info = getAppServerNameAndVersion(containerInfo);
+		SystemGlobals.setValue("container.app", info[0]);
+		SystemGlobals.setValue("container.version", info[1]);
+		LOGGER.info(application.getContextPath() + " initialized");
 	}
 
 	/* (non-Javadoc)
@@ -87,4 +99,16 @@ public class ContextListener implements ServletContextListener {
 		LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
 	}
 
+	public static String[] getAppServerNameAndVersion(String serverInfo)
+	{
+		final Pattern p = Pattern.compile("\\d+\\.\\d+(\\.\\d+)*");
+		final Matcher matcher = p.matcher(serverInfo);
+		String[] result = new String[2];
+		if (matcher.find()){			
+			result[0] = serverInfo.substring(0, matcher.start()-1);
+			String version = matcher.group();
+			result[1] = version.substring(0, version.indexOf('.'));
+		}
+		return result;
+	}
 }

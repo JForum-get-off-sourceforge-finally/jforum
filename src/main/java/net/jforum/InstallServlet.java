@@ -102,23 +102,23 @@ public class InstallServlet extends JForumBaseServlet
 			// Assigns the information to user's thread 
 			JForumExecutionContext.set(executionContext);
 			
-			// Context
-			final SimpleHash context = JForumExecutionContext.getTemplateContext();
-			context.put("contextPath", req.getContextPath());
-			context.put("serverName", req.getServerName());
-			context.put("templateName", "default");
-			context.put("serverPort", Integer.toString(req.getServerPort()));
-			context.put("I18n", I18n.getInstance());
-			context.put("encoding", encoding);
-			context.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
-			context.put("JForumContext", forumContext);
-			context.put("version", SystemGlobals.getValue(ConfigKeys.VERSION));
-			
 			if (SystemGlobals.getBoolValue(ConfigKeys.INSTALLED)) {
 				JForumExecutionContext.setRedirect(request.getContextPath() 
 					+ "/forums/list" + SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 			}
-			else {		
+			else {
+			// Context
+				final SimpleHash context = JForumExecutionContext.getTemplateContext();
+				context.put("contextPath", req.getContextPath());
+				context.put("serverName", req.getServerName());
+				context.put("templateName", "default");
+				context.put("serverPort", Integer.toString(req.getServerPort()));
+				context.put("I18n", I18n.getInstance());
+				context.put("encoding", encoding);
+				context.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
+				context.put("JForumContext", forumContext);
+				context.put("version", SystemGlobals.getValue(ConfigKeys.VERSION));			
+					
 				// Module and Action
 				final String moduleClass = ModulesRepository.getModuleClass(request.getModule());
 				
@@ -139,6 +139,8 @@ public class InstallServlet extends JForumBaseServlet
 							template.process(context, out);
 							out.flush();
 						}
+					} else {
+						throw new Exception(request.getModule() + " module not found.\nAdd \"install=net.jforum.view.install.InstallAction\" to modulesMapping.properties if you want to reinstall JForum.");
 					}
 				}
 				catch (Exception e) {

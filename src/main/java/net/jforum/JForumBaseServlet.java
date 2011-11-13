@@ -80,25 +80,18 @@ public class JForumBaseServlet extends HttpServlet
 		super.init(config);
 		
 		try {
-			final String appPath = config.getServletContext().getRealPath("");
 			debug = "true".equals(config.getInitParameter("development"));
-
 			LOGGER.info("Starting JForum. Debug mode is " + debug);
-
-			final String containerInfo = config.getServletContext().getServerInfo();		
-			LOGGER.info("Servlet Container is " + containerInfo);			
-						
-			ConfigLoader.startSystemglobals(appPath);
-			
-			final String[] info = containerInfo.split("/");
-			SystemGlobals.setValue("container.app", info[0]);
-			SystemGlobals.setValue("container.version", String.valueOf(info[1].charAt(0)));	
 			
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
-			final Configuration templateCfg = new Configuration();
-			templateCfg.setTemplateUpdateDelay(2);
+			final Configuration templateCfg = new Configuration();			
+			if (!this.debug) {
+				templateCfg.setTemplateUpdateDelay(3600);
+			} else {
+				templateCfg.setTemplateUpdateDelay(2);	
+			}
 			templateCfg.setSetting("number_format", "#");
 			templateCfg.setSharedVariable("startupTime", Long.valueOf(System.currentTimeMillis()));
 
@@ -122,18 +115,14 @@ public class JForumBaseServlet extends HttpServlet
 
 			ModulesRepository.init(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR));
 
-			this.loadConfigStuff();
-
-			if (!this.debug) {
-				templateCfg.setTemplateUpdateDelay(3600);
-			}
+			this.loadConfigStuff();			
 
 			JForumExecutionContext.setTemplateConfig(templateCfg);
 		} 
-		catch (IOException e) {
-			throw new ForumStartupException("Error while starting JForum", e);
-		} 
 		catch (TemplateException e) {
+			throw new ForumStartupException("Error while starting JForum", e);
+		}
+		catch (IOException e) {
 			throw new ForumStartupException("Error while starting JForum", e);
 		}
 	}
@@ -143,6 +132,5 @@ public class JForumBaseServlet extends HttpServlet
 		ConfigLoader.loadUrlPatterns();
 		I18n.load();
 		Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));		
-	}
-
+	}	
 }
