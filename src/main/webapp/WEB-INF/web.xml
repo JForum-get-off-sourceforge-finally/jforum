@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>JForum - Powering Communities</display-name>
     <description>Open Source Java Forum Software</description>
-    <distributable/>
 
     <!-- Clickstream -->
     <filter>
@@ -60,11 +59,10 @@
     
     <!-- SESSION -->
     <session-config>
-        <session-timeout>5</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     
     <welcome-file-list>
-        <welcome-file>index.htm</welcome-file>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
