@@ -303,9 +303,12 @@ public class JForum extends JForumBaseServlet
 		JForumExecutionContext.enableRollback();
 		
 		if (exception.toString().indexOf("ClientAbortException") == -1) {
-			response.setContentType("text/html; charset=" + encoding);
-			if (out == null) {
-				new ExceptionWriter().handleExceptionData(exception,  new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding)), request);	
+			if (response != null) {
+				response.setContentType("text/html; charset=" + encoding);
+			}
+			if (out == null && response != null) {
+				new ExceptionWriter().handleExceptionData(exception,  new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding)), request);
+				
 			}
 			else {				
 				new ExceptionWriter().handleExceptionData(exception, out, request);
