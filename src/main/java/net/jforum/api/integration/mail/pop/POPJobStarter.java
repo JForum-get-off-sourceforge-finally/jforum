@@ -46,8 +46,6 @@ import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-import java.text.ParseException;
-
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -88,18 +86,13 @@ public final class POPJobStarter
 				final String cronExpression = SystemGlobals.getValue("org.quartz.context.mailintegration.cron.expression");
 				scheduler = new StdSchedulerFactory(filename).getScheduler();
 				
-				try {
-					final JobDetail job = newJob(POPListener.class).withIdentity("pop3Integration", "group1").build();
+				final JobDetail job = newJob(POPListener.class).withIdentity("pop3Integration", "group1").build();
 
-					final CronTrigger trigger = newTrigger().withIdentity("trigger2", "group1").withSchedule(cronSchedule(cronExpression)).build();
+				final CronTrigger trigger = newTrigger().withIdentity("trigger2", "group1").withSchedule(cronSchedule(cronExpression)).build();
 
-					scheduler.scheduleJob(job, trigger);
-					LOGGER.info("Starting POP3 integration expression " + cronExpression);					
-					scheduler.start();
-				}
-				catch (ParseException e) {
-					LOGGER.error(e.getMessage(), e);
-				}
+				scheduler.scheduleJob(job, trigger);
+				LOGGER.info("Starting POP3 integration expression " + cronExpression);					
+				scheduler.start();
 			}
 			
 			isStarted = true;
