@@ -73,7 +73,7 @@ public class ExceptionWriter
 		
 		final String currentUrl = this.extractCurrentUrl(request);
 		
-		writer.write(currentUrl);
+		writer.write(currentUrl != null ? currentUrl : "null");
 		writer.close();
 		
 		try {
