@@ -156,11 +156,12 @@ public class Spammer
 	                        		this.defineUserMessage(user);
 	                        	}
 	                        	
-	                        	Address address = new InternetAddress(user.getEmail());	                        	
-	                        	LOGGER.debug("Sending mail to: " + user.getEmail());	                        	
-	                        	this.message.setRecipient(Message.RecipientType.TO, address);	                            
-	                        	transport.sendMessage(this.message, new Address[] { address });
-	                        	
+	                        	if (StringUtils.isNotEmpty(user.getEmail())) {
+	                        		Address address = new InternetAddress(user.getEmail());	                        	
+	                        		LOGGER.debug("Sending mail to: " + user.getEmail());	                        	
+	                        		this.message.setRecipient(Message.RecipientType.TO, address);	                            
+	                        		transport.sendMessage(this.message, new Address[] { address });
+	                        	}
 	                        	if (sendDelay > 0) {
 		                        	try {
 		                            	Thread.sleep(sendDelay);
@@ -188,11 +189,12 @@ public class Spammer
                 		this.defineUserMessage(user);
                 	}
                 	
-                	Address address = new InternetAddress(user.getEmail());
-                	LOGGER.debug("Sending mail to: " + user.getEmail());
-                	this.message.setRecipient(Message.RecipientType.TO,address);
-                    Transport.send(this.message, new Address[] { address });
-                    
+                	if (StringUtils.isNotEmpty(user.getEmail())) {
+                		Address address = new InternetAddress(user.getEmail());
+                		LOGGER.debug("Sending mail to: " + user.getEmail());
+                		this.message.setRecipient(Message.RecipientType.TO,address);
+                		Transport.send(this.message, new Address[] { address });
+                	}
                     if (sendDelay > 0) {
 	                    try {
 	                    	Thread.sleep(sendDelay);
