@@ -57,6 +57,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 
 /**
@@ -118,7 +119,7 @@ public class LuceneReindexer
 		
 		try {
 			if (!recreate) {
-				searcher = new IndexSearcher(this.settings.directory(), true);
+				searcher = new IndexSearcher(IndexReader.open(this.settings.directory()));
 			}			
 			
 			long processStart = System.currentTimeMillis();

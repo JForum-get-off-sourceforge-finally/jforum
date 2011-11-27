@@ -54,6 +54,7 @@ import net.jforum.exceptions.ForumException;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -84,7 +85,7 @@ public class LuceneContentCollector implements LuceneResultCollector
 		try {
 			int[] postIds = new int[Math.min(args.fetchCount(), results.totalHits)];
 						
-			IndexSearcher searcher = new IndexSearcher(this.settings.directory(), true);
+			IndexSearcher searcher = new IndexSearcher(IndexReader.open(this.settings.directory()));
 			ScoreDoc[] hits = results.scoreDocs;
 			for (int docIndex = args.startFrom(), i = 0; 
 				docIndex < args.startFrom() + args.fetchCount() && docIndex < hits.length; 

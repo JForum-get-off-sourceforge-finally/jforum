@@ -140,7 +140,7 @@ public class LuceneIndexer
 				this.ramWriter.commit();
 				this.ramWriter.close();				
 				writer.addIndexes(new Directory[] { this.ramDirectory });
-				writer.optimize();
+				writer.forceMergeDeletes();
 
 				this.createRAMWriter();
 			}
@@ -212,7 +212,7 @@ public class LuceneIndexer
 		if (writer.maxDoc() % 100 == 0) {			
 			LOGGER.info("Optimizing indexes. Current number of documents is " + writer.maxDoc());			
 			
-			writer.optimize();
+			writer.forceMergeDeletes();
 			
 			LOGGER.debug("Indexes optimized");
 		}

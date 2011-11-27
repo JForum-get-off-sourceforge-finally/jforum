@@ -56,6 +56,7 @@ import net.jforum.util.preferences.SystemGlobals;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Filter;
@@ -238,7 +239,7 @@ public class LuceneSearch implements NewDocumentAdded
 	private void openSearch()
 	{
 		try {
-			this.searcher = new IndexSearcher(this.settings.directory(), true);
+			this.searcher = new IndexSearcher(IndexReader.open(this.settings.directory()));
 		}
 		catch (IOException e) {
 			throw new SearchException(e.toString(), e);
