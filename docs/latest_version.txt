@@ -10,15 +10,14 @@
 <li>Update to SLF4J-API 1.6.4</li>
 <li>Update to SLF4J-Log4j12 1.6.4</li>
 <li>Update to JGroups 2.12.2.Final</li>
-<li>Update to SLF4J-API 1.6.2</li>
 <li>Update to jQuery 1.7.1</li>
 <li>Fix PostREST to return a link to the post after the insert</li>
 <li>Fix Smilie is not displayed when disable BBCode</li>
 <li>Fix the installation process to support WebLogic Server</li>
-<li>Avoid CSS @import: Use the <link> tag instead of CSS @import</li>
+<li>Avoid CSS @import: Use the &lt;link&gt; tag instead of CSS @import</li>
 <li>Remove the tail query string(${startupTime}) of some static files(.css, .js)</li>
-<li>Remove <distributable/> and index.htm from <welcome-file></li>
-<li>Change <session-timeout> from 5 to 10 min</li>
+<li>Remove &lt;distributable/&gt; and index.htm from &lt;welcome-file&gt;</li>
+<li>Change &lt;session-timeout&gt; from 5 to 10 min</li>
 <li>Update web.xml to support JBoss AS</li>
 <li>Make sure user email in not an empty string before sending</li>
 <li>Change default lucene analyzer to StandardAnalyzer</li>
