@@ -1,14 +1,14 @@
 <#include "header.htm"/>
 
-<table width="100%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 <tr>
 <td>
 	<form accept-charset="${encoding}" name="formAdd" action="${JForumContext.encodeURL("/jforum")}" method="post">
 	<input type="hidden" name="action" value="extensionsSave" />
 	<input type="hidden" name="module" value="${moduleName}" />
-	<table width="100%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
-		<td class="cathead" colspan="8" align="center" height="28"><span class="cattitle">${I18n.getMessage("AdminAttachments.addNewExtension")}</span></td>
+		<td class="cathead" colspan="8" align="center"><span class="cattitle">${I18n.getMessage("AdminAttachments.addNewExtension")}</span></td>
 	</tr>	
 
 	<!-- Add new -->
@@ -21,7 +21,7 @@
 	</tr>
 	<tr>
 		<td class="row1" align="center" valign="middle">
-			<table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+			<table width="100%" align="center" cellpadding="0" cellspacing="0">
 				<tr>
 					<td class="row1" align="center" valign="middle" width="10%">&nbsp;</td>
 					<td class="row1" align="center" valign="middle"><input type="text" size="20" maxlength="100" name="extension" value="" /></td>
@@ -44,7 +44,7 @@
 	</tr>
 
 	<tr>
-	  <td class="catbottom" colspan="8" height="29" align="right"><input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
+	  <td class="catbottom" colspan="8" align="right"><input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
     </tr>
     </table>
 	</form>
@@ -53,7 +53,7 @@
 	<tr><td colspan="8">&nbsp;</td></tr>
 
 	<tr>
-		<td class="cathead" colspan="8" align="center" height="28"><span class="cattitle">${I18n.getMessage("AdminAttachments.existingExtensions")}</span></td>
+		<td class="cathead" colspan="8" align="center"><span class="cattitle">${I18n.getMessage("AdminAttachments.existingExtensions")}</span></td>
 	</tr>
 
 	<!-- Edit -->
@@ -64,7 +64,7 @@
 		<input type="hidden" name="action" value="extensionsUpdate" />
 		<input type="hidden" name="module" value="${moduleName}" />
 		<input type="hidden" name="total_records" value="${extensions.size()}"/>
-        <table width="100%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+        <table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 
 		<tr>
 			<th class="thleft">&nbsp;${I18n.getMessage("AdminAttachments.extension")}&nbsp;</th>
@@ -80,7 +80,7 @@
 			<tr>
 				<td class="row1" align="center" valign="middle">
 				    <input type="hidden" name="id_${counter}" value="${e.id}"/>
-					<table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+					<table width="100%" align="center" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="row1" align="center" valign="middle" width="10%">&nbsp;</td>
 							<td class="row1" align="center" valign="middle"><input type="text" size="20" maxlength="100" name="extension_${counter}" value="${e.extension}" /></td>
@@ -105,7 +105,7 @@
 		</#list>
 
 		<tr>
-		  <td class="catbottom" colspan="8" height="29" align="right"><input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
+		  <td class="catbottom" colspan="8" align="right"><input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
 		</tr>
 		</table>
 		</form>

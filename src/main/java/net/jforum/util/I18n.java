@@ -47,6 +47,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -325,18 +326,17 @@ public final class I18n
 		UserSession us = SessionFacade.getUserSession();
 
 		if (us == null || us.getLang() == null || us.getLang().trim().equals("")) {
-			//try get locale from request  
-			Locale locale = JForumExecutionContext.getRequest().getLocale();
-			if (locale != null) {  
-			    String lang = locale.toString();			    
-			    //check jforum support this locale  
-			    if (languageExists(lang)) {			    	
-			        return lang;  
-		        }  
-	        } 
+			//try get locale from request
+			for (Enumeration<Locale> locales = JForumExecutionContext.getRequest().getLocales();
+					locales.hasMoreElements();) {
+				String lang = locales.nextElement().toString();			    
+				//check jforum support this locale  
+				if (languageExists(lang)) {			    	
+					return lang;  
+				}
+			}
 			return defaultName;
 		}
-		
 		return us.getLang();
 	}
 

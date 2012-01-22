@@ -3,9 +3,9 @@
 <#import "../../macros/pagination.ftl" as pagination/>
 <#import "macros/group_macros.ftl" as lib />
 
-<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>
-		<th class="thhead" valign="middle" colspan="6" height="25">${I18n.getMessage("User.adminTitle")}</th>
+		<th class="thhead" valign="middle" colspan="6">${I18n.getMessage("User.adminTitle")}</th>
 	</tr>
 
 	<tr>
@@ -31,7 +31,7 @@
 	<input type="hidden" name="action" value="delete" />
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="start" value="${start}" />
-    <table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">  
+    <table class="forumline" cellspacing="1" cellpadding="3" width="100%">  
 	<tr>
 		<td class="row2" width="10%" align="center"><span class="gen"><b>${I18n.getMessage("User.id")}</b></span></td>
 		<td class="row2"><span class="gen"><b>${I18n.getMessage("User.username")}</b></span></td>
@@ -59,7 +59,7 @@
 	</#list>
 
 	<tr>
-		<td class="catbottom" colspan="5" height="28" align="center">
+		<td class="catbottom" colspan="5" align="center">
 		<!--
 			<input class="mainoption" type="button" value="${I18n.getMessage("Insert")}" onclick="document.location = '${JForumContext.encodeURL("/jforum")}?module=adminUsers&action=insert';" />&nbsp;&nbsp;	
 		-->

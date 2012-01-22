@@ -262,6 +262,13 @@ AttachmentModel.addAttachmentInfo = INSERT INTO jforum_attach_desc (attach_desc_
 		
 AttachmentModel.setGroupQuota = INSERT INTO jforum_attach_quota (attach_quota_id, group_id, quota_limit_id) VALUES (jforum_attach_quota_seq.nextval, ?, ?)
 
+AttachmentModel.selectTopDownloadsByLimit = SELECT f.forum_id, f.forum_name, t.topic_id, t.topic_title, ad.attach_id, ad.real_filename, ad.filesize, ad.download_count \
+    FROM jforum_forums f, jforum_posts p, jforum_topics t, jforum_attach a, jforum_attach_desc ad \
+    WHERE p.topic_id = t.topic_id AND p.forum_id = f.forum_id and p.post_id = a.post_id \
+    AND a.attach_id = ad.attach_id AND a.privmsgs_id = 0 AND ad.download_count > 0 \
+    AND ROWNUM < ? \
+    ORDER BY ad.download_count DESC
+    
 # ###############
 # BanlistModel
 # ###############

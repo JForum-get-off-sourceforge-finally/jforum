@@ -180,8 +180,9 @@ public class AjaxAction extends Command
 	
 	public void loadPostContents()
 	{
-		// edit_area has id begin with 'p' to be compliant to XHTML, so we need to remove it.
+		// edit_area has id begin with 'x' to be compliant to XHTML, so we need to remove it.
 		String id = this.request.getParameter("id");
+		if (id == null || "".equals(id)) return;
 		int postId = Integer.parseInt(id.substring(1));
 		PostDAO dao = DataAccessDriver.getInstance().newPostDAO();
 		Post post = dao.selectById(postId);
@@ -191,8 +192,9 @@ public class AjaxAction extends Command
 	
 	public void savePost()
 	{		
-		// edit_area has id begin with 'p' to be compliant to XHTML, so we need to remove it.
+		// edit_area has id begin with 'x' to be compliant to XHTML, so we need to remove it.
 		String id = this.request.getParameter("id");
+		if (id == null || "".equals(id)) return;
 		int postId = Integer.parseInt(id.substring(1));
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		Post post = postDao.selectById(postId);

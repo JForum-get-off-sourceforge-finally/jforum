@@ -6,19 +6,19 @@
 /* ]]> */
 </script>
 
-<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+<table cellspacing="2" cellpadding="2" width="100%" align="center">
     <tr>
       <td align="left"><span class="nav"><a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a></span></td>
     </tr>
 </table>
 
-<table class="forumline" cellspacing="1" cellpadding="3" width="100%" align="center" border="0">
+<table class="forumline" cellspacing="1" cellpadding="3" width="100%" align="center">
 	<tr>
-		<th class="thhead" nowrap="nowrap" colspan="2" height="25">${I18n.getMessage("UserProfile.profileFor")} :: ${u.username}</th>
+		<th class="thhead" nowrap="nowrap" colspan="2">${I18n.getMessage("UserProfile.profileFor")} :: ${u.username}</th>
 	</tr>
 
 	<tr>
-		<td class="catleft" align="center" width="40%" height="28"><b><span class="gen">${I18n.getMessage("UserProfile.avatar")}</span></b></td>
+		<td class="catleft" align="center" width="40%"><b><span class="gen">${I18n.getMessage("UserProfile.avatar")}</span></b></td>
 		<td class="catright" align="center" width="60%"><b><span class="gen">${I18n.getMessage("UserProfile.allAbout")} ${u.username}</span></b></td>
     </tr>
 
@@ -27,10 +27,10 @@
 			<#if (u.avatar?exists && u.avatar?length > 0)>
 				<#if u.isExternalAvatar() || u.avatar.startsWith("http://")>
 					<#if avatarAllowExternalUrl>
-						<img src="${u.avatar}" border="0" alt="avatar" />
+						<img src="${u.avatar}" alt="avatar" />
 					</#if>
 				<#else>
-					<img src="${contextPath}/images/avatar/${u.avatar}" border="0" alt="avatar" /><br />
+					<img src="${contextPath}/images/avatar/${u.avatar}" alt="avatar" /><br />
 				</#if>
 			</#if>
 			<span class="postdetails">
@@ -43,7 +43,7 @@
 		</td>
 
 		<td class="row1" valign="top" rowspan="3">
-			<table cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table cellspacing="1" cellpadding="3" width="100%">
 				<tr>
 					<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.registrationDate")}:</span></td>
 					<td width="100%"><b><span class="gen">${u.registrationDate}</span></b></td>
@@ -121,20 +121,20 @@
 	</tr>
     
 	<tr>
-		<td class="catleft" align="center" height="28"><b><span class="gen">${I18n.getMessage("UserProfile.contact")} ${u.username}</span></b></td>
+		<td class="catleft" align="center"><b><span class="gen">${I18n.getMessage("UserProfile.contact")} ${u.username}</span></b></td>
 	</tr>
     
 	<tr>
 		<td class="row1" valign="top">
 			<#if u.id != 1>
-			<table cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table cellspacing="1" cellpadding="3" width="100%">
 			<#if (u.isViewEmailEnabled() && u.email?exists && u.email?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.emailAddress")}:</span></td>
 				<td class="row1" valign="middle" width="100%">
 					<b><span class="gen">
 					<#assign e = u.email.split("@")/>
-					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]}', '${e[1]}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" border="0" alt="email" /></a>
+					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]}', '${e[1]}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
 					</span></b>
 				</td>
 			</tr>
@@ -167,7 +167,7 @@
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
 				<td class="row1">
-					<a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" border="0" alt="ICQ" /></a>
+					<a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="ICQ" /></a>
 				</td>
 			</tr>
 			</#if>

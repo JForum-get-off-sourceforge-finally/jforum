@@ -1,5 +1,5 @@
 <#include "header.htm"/>
-<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tbody>
 		<tr>
 			<td class="bodyline">
@@ -14,18 +14,18 @@
 				/* ]]> */
 				</script>
 
-				<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+				<table cellspacing="0" cellpadding="0" width="100%" align="center">
 					<tbody>
 						<tr>
 							<td valign="top" align="center" width="100%">
-								<table cellspacing="2" cellpadding="2" border="0">
+								<table cellspacing="2" cellpadding="2">
 									<tbody>
 										<tr valign="middle">
 											<td>
 												<#if !inbox?default(false)>
 												<a href="${JForumContext.encodeURL("/pm/inbox")}">
 												</#if>
-												<img src="${contextPath}/templates/${templateName}/images/msg_inbox.gif" border="0" alt="[Inbox]" />
+												<img src="${contextPath}/templates/${templateName}/images/msg_inbox.gif" alt="[Inbox]" />
 												<#if !inbox?default(false)>
 												</a>
 												</#if>
@@ -43,7 +43,7 @@
 												<#if !sentbox?default(false)>
 												<a href="${JForumContext.encodeURL("/pm/sentbox")}">
 												</#if>
-												<img src="${contextPath}/templates/${templateName}/images/msg_sentbox.gif" border="0" alt="[Sentbox]" />
+												<img src="${contextPath}/templates/${templateName}/images/msg_sentbox.gif" alt="[Sentbox]" />
 												<#if !sentbox?default(false)>
 												</a>
 												</#if>
@@ -68,7 +68,7 @@
 				<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="privmsg_list" id="privmsg_list">
 				<input type="hidden" name="module" value="${moduleName}" />
 				<input type="hidden" name="action" value="delete" />
-					<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+					<table cellspacing="2" cellpadding="2" width="100%" align="center">
 						<tbody>
 							<tr>
 								<td valign="middle" align="left">
@@ -82,10 +82,10 @@
 							</tr>
 						</tbody>
 					</table>
-					<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+					<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 						<tbody>
 							<tr>
-								<th class="thcornerl" nowrap="nowrap" width="5%" height="25">
+								<th class="thcornerl" nowrap="nowrap" width="5%">
 									&nbsp;&nbsp;
 								</th>
 								<th class="thtop" nowrap="nowrap" width="55%">
@@ -127,7 +127,7 @@
 							</tr>
 							</#list>
 							<tr>
-								<td class="catbottom" align="right" colspan="5" height="28">
+								<td class="catbottom" align="right" colspan="5">
 									&nbsp; <input class="liteoption" type="submit" value="${I18n.getMessage("PrivateMessage.deleteSelected")}" name="delete" />
 									<!--
 									&nbsp; <input class="liteoption" type="submit" value="${I18n.getMessage("PrivateMessage.deleteAll")}" name="deleteall" />
@@ -135,7 +135,7 @@
 								</td></tr>
 						</tbody>
 					</table>
-					<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+					<table cellspacing="2" cellpadding="2" width="100%" align="center">
 						<tbody>
 							<tr>
 								<td valign="middle" align="left">

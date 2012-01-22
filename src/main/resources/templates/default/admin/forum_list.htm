@@ -4,9 +4,9 @@
 <input type="hidden" name="action" value="delete" />
 <input type="hidden" name="module" value="${moduleName}" />
 
-<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>
-		<th class="thhead" valign="middle" colspan="6" height="25">${I18n.getMessage("Forums.List.Title")}</th>
+		<th class="thhead" valign="middle" colspan="6">${I18n.getMessage("Forums.List.Title")}</th>
 	</tr>
 	
 	<#list categories as category>
@@ -53,7 +53,7 @@
 	
 
 	<tr>
-		<td class="catbottom" colspan="6" height="28" align="center">
+		<td class="catbottom" colspan="6" align="center">
 			<input class="mainoption" type="button" value="${I18n.getMessage("Forums.List.ClickToNew")}" id="btn_insert" name="button" onclick="document.location = '${JForumContext.encodeURL("/${moduleName}/insert")}';" />
 			&nbsp;&nbsp;
 			<input class="mainoption" type="submit" value="${I18n.getMessage("Forums.List.ClickToDelete")}" name="submit" />

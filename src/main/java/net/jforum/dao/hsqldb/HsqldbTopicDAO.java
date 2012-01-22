@@ -90,6 +90,6 @@ public class HsqldbTopicDAO extends GenericTopicDAO
 	 */
 	public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count) 
 	{
-		return super.selectByUserByLimit(count, startFrom, userId);
+		return super.selectByUserByLimit(startFrom, count, userId);
 	}
 }

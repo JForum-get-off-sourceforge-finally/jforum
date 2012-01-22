@@ -10,9 +10,9 @@
   <input type="hidden" name="group_id" value="${group.id}" />
 </#if>
 
-<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>
-		<th class="thhead" valign="middle" colspan="2" height="25" align="center">${I18n.getMessage("Groups.Form.Title")}</th>
+		<th class="thhead" valign="middle" colspan="2" align="center">${I18n.getMessage("Groups.Form.Title")}</th>
 	</tr>
 
 	<tr>
@@ -34,7 +34,7 @@
 		<td class="row2"><textarea rows="4" cols="30" style="white-space:pre;overflow:auto;" name="group_description"><#if group?exists>${group.description?default("")}</#if></textarea></td>
 	</tr>
 	<tr>
-		<td class="catbottom" colspan="2" height="28" align="center"><input class="mainoption" type="submit" value="${I18n.getMessage("Groups.Form.ClickToUpdate")}" name="submit" /></td>
+		<td class="catbottom" colspan="2" align="center"><input class="mainoption" type="submit" value="${I18n.getMessage("Groups.Form.ClickToUpdate")}" name="submit" /></td>
 	</tr>
 </table>
 </form>

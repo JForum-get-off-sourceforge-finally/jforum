@@ -48,21 +48,21 @@
 	<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/moderation")}"></script>
 </#if>
 
-<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline">
-			<table cellspacing="2" cellpadding="2" width="100%" border="0">
+			<table cellspacing="2" cellpadding="2" width="100%">
 				<tr>
 					<td valign="middle" align="left" colspan="2">
 						<span class="maintitle"><a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}" name="top" class="maintitle" id="top">${topic.title?html}</a></span>
 						<#if rssEnabled>
-						&nbsp;<a href="${JForumContext.encodeURL("/rss/topicPosts/${topic.id}")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" border="0" alt="XML" /></a>
+						&nbsp;<a href="${JForumContext.encodeURL("/rss/topicPosts/${topic.id}")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" alt="XML" /></a>
 						</#if>
 					</td>
 				</tr>
 			</table>
 			
-			<table cellspacing="2" cellpadding="2" width="100%" border="0">
+			<table cellspacing="2" cellpadding="2" width="100%">
 				<tr>
 					<#if !readonly>
 					<td width="50" align="left" valign="bottom" nowrap="nowrap">
@@ -87,7 +87,7 @@
 				</tr>
 			</table>
 
-			<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 				<#if poll?exists>
 					<tr>
 						<td class="cathead cattitle" align="center" colspan="2" nowrap="nowrap" width="100%">${I18n.getMessage("PostShow.pollTitle")}</td>
@@ -121,7 +121,7 @@
 				</#if>
 				
 				<tr>
-					<th class="thleft" nowrap="nowrap" width="150" height="26">${I18n.getMessage("PostShow.author")}</th>
+					<th class="thleft" nowrap="nowrap" width="150">${I18n.getMessage("PostShow.author")}</th>
 					<th class="thright" nowrap="nowrap">${I18n.getMessage("PostShow.messageTitle")}</th>
 				</tr>
 
@@ -189,25 +189,25 @@
 
 					<#if useSignature>
 						<tr>
-							<td colspan="2" class="${rowColor}" width="100%" height="28"><hr/><span class="gensmall">${user.signature}</span></td>
+							<td colspan="2" class="${rowColor}" width="100%"><hr/><span class="gensmall">${user.signature}</span></td>
 						</tr>
 					</#if>
 		
 					<tr> 
-						<td class="${rowColor}" valign="bottom" nowrap="nowrap" height="28" width="100%">
+						<td class="${rowColor}" valign="bottom" nowrap="nowrap" width="100%">
 							<#include "post_show_user_profile_inc.htm"/>					
 						</td>
 					</tr>
 		
 					<tr>
-						<td class="spacerow" colspan="2" height="1"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" height="1" /></td>
+						<td class="spacerow" colspan="2"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" /></td>
 					</tr>
 				</#list>
 				<!-- END OF POST LISTING -->
 		
 				<tr align="center">
-					<td class="catbottom" colspan="2" height="28">
-						<table cellspacing="0" cellpadding="0" border="0">
+					<td class="catbottom" colspan="2">
+						<table cellspacing="0" cellpadding="0">
 							<tr>
 								<td align="center"><span class="gensmall">&nbsp;</span></td>
 							</tr>
@@ -216,7 +216,7 @@
 				</tr>
 			</table>
 		
-			<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+			<table cellspacing="2" cellpadding="2" width="100%" align="center">
 				<tr>
 					<#if !readonly>
 					<td width="50" align="left" valign="bottom" nowrap="nowrap">
@@ -243,7 +243,7 @@
 				</tr>
 			</table>
 			
-			<#if (logged || anonymousPosts) && topic.status != STATUS_LOCKED && !readonly>
+			<#if (logged || anonymousPosts) && (topic.status != STATUS_LOCKED || isModerator || isAdmin) && !readonly>
 			    <table width="100%" align="center">
 					<tr>
 						<td colspan="3">
@@ -317,7 +317,7 @@
 								<#if needCaptcha?default(false)>
 									<tr>
 										<td>
-											<img border="0" align="middle" id="captcha_img" alt="Captcha" src="${contextPath}/images/transp.gif" />
+											<img align="middle" id="captcha_img" alt="Captcha" src="${contextPath}/images/transp.gif" />
 											<br />
 											<span class="gensmall">${I18n.getMessage("User.captchaResponse")}</span>
 											<input type="text" class="post" style="width: 80px; font-weight: bold;" maxlength="25" name="captcha_anwser" /> 
@@ -362,7 +362,7 @@
 			    </table>
 			</#if>
 
-			<table cellspacing="0" cellpadding="0" width="100%" border="0">
+			<table cellspacing="0" cellpadding="0" width="100%">
 				<tr>
 					<td align="left" valign="top" class="gensmall">
 						<#if logged>

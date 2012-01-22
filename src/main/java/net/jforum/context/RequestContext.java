@@ -421,10 +421,11 @@ public interface RequestContext
 	Object getObjectParameter(String parameter);
 	
 	/**
-	 * Gets user browser's locale. This method may be used during first installation to
-	 * automatically switch to corresponding language I18N resource.
+	 * Gets user browser's preferred locale(s). This method may be used during first installation
+	 * to automatically switch to corresponding language I18N resource and in case where there is
+	 * no preferred language defined in the user's profile (��anonymous users)
 	 * 
-	 * @return Locale
+	 * @return Enumeration<Locale>
 	 */
-	Locale getLocale();
+	Enumeration<Locale> getLocales();
 }

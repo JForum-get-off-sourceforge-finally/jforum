@@ -129,21 +129,22 @@ public class InstallAction extends Command
 		String lang = this.request.getParameter("l");
 		
 		if (lang == null) {
-			final Locale locale = this.request.getLocale();
-			lang = locale.getLanguage() + "_" + locale.getCountry();
+			for (Enumeration<Locale> locales = this.request.getLocales();
+					locales.hasMoreElements();) {
+				lang = locales.nextElement().toString();			      
+				if (I18n.languageExists(lang)) {			    	
+					I18n.load(lang);
+					
+					final UserSession userSession = new UserSession();
+					userSession.setLang(lang);
+					userSession.setStartTime(new Date(System.currentTimeMillis()));
+					
+					SessionFacade.add(userSession);
+					this.addToSessionAndContext("language", lang);
+					return;
+				}
+			}
 		}
-		
-		if (!I18n.languageExists(lang)) {
-			return;
-		}
-		I18n.load(lang);
-		
-		final UserSession userSession = new UserSession();
-		userSession.setLang(lang);
-		userSession.setStartTime(new Date(System.currentTimeMillis()));
-		
-		SessionFacade.add(userSession);
-		this.addToSessionAndContext("language", lang);
 	}
 	
 	private String getFromSession(final String key)

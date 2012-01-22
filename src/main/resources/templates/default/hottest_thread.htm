@@ -2,18 +2,18 @@
 <#import "../macros/pagination.ftl" as pagination/>
 <#import "../macros/presentation.ftl" as presentation/>
 
-<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline" valign="top">
 		
 			<#assign breadCrumb>
-				<table cellspacing="0" cellpadding="2" width="100%" align="center" border="0">
+				<table cellspacing="0" cellpadding="2" width="100%" align="center">
 					<tr>
 						<td valign="bottom" align="left">
 							<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> &raquo;
 							<a class="nav" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
 							<#if rssEnabled>
-								&nbsp;<a href="${JForumContext.encodeURL("/rss/hottestTopics")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" border="0" align="middle" alt="[XML]" /></a>
+								&nbsp;<a href="${JForumContext.encodeURL("/rss/hottestTopics")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" align="middle" alt="[XML]" /></a>
 							</#if>
 						</td>
 						<td>&nbsp;
@@ -24,10 +24,10 @@
 			
 			${breadCrumb}
 			
-			<table class="forumline" cellspacing="1" cellpadding="4" width="100%" border="0">
+			<table class="forumline" cellspacing="1" cellpadding="4" width="100%">
 				<tr>
 					<th class="thcornerl" nowrap="nowrap" align="center">&nbsp;${I18n.getMessage("Forums.Form.ForumName")}&nbsp;</th>
-					<th class="thtop" nowrap="nowrap" align="center" colspan="2" height="25">&nbsp;${I18n.getMessage("ForumIndex.topics")}&nbsp;</th>
+					<th class="thtop" nowrap="nowrap" align="center" colspan="2">&nbsp;${I18n.getMessage("ForumIndex.topics")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" align="center" width="50">&nbsp;${I18n.getMessage("ForumIndex.answers")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" align="center" width="100">&nbsp;${I18n.getMessage("ForumIndex.author")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" align="center" width="50">&nbsp;${I18n.getMessage("ForumIndex.views")}&nbsp;</th>
@@ -69,7 +69,7 @@
 								<#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
 							</#if>
 				  
-							<a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#p${topic.lastPostId}"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" border="0" alt="Latest Reply" /></a></span>
+							<a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#p${topic.lastPostId}"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" alt="Latest Reply" /></a></span>
 						</#if>		 
 					</td>
 				</tr>

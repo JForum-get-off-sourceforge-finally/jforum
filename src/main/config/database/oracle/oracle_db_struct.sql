@@ -9,7 +9,7 @@ CREATE SEQUENCE jforum_banlist_seq
 CREATE TABLE jforum_banlist (
     banlist_id NUMBER(10),
     user_id NUMBER(10) DEFAULT 0,
-    banlist_ip VARCHAR2(20),
+    banlist_ip VARCHAR2(15),
     banlist_email VARCHAR2(255),
     PRIMARY KEY(banlist_id)
 );

@@ -88,11 +88,7 @@ public final class ConfigLoader
 	 */
 	public static void startSystemglobals(final String appPath)
 	{
-		SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");		
-		
-		if (new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
-			SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
-		}
+		SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");
 	}
 
 	/**
@@ -210,7 +206,7 @@ public final class ConfigLoader
 		// Start the dao.driver implementation
 		final String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
 
-		LOGGER.info("Loading JDBC driver " + driver);
+		LOGGER.info("Loading data access driver " + driver);
 
 		try {
 			final Class<?> clazz = Class.forName(driver);

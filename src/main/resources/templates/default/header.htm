@@ -30,18 +30,18 @@ http://www.subBlue.com
 
 Modifications by JForum Team
 -->
-<table width="100%" border="0">
+<table width="100%">
 	<tr>
 		<td>
-			<table cellspacing="0" cellpadding="0" width="100%" border="0">
+			<table cellspacing="0" cellpadding="0" width="100%">
 				<tr>
 					<td>
-						<a href="${homepageLink}"><img src="${contextPath}/templates/${templateName}/images/logo.jpg" vspace="1" border="0" alt="[Logo]" /></a>
+						<a href="${homepageLink}"><img src="${contextPath}/templates/${templateName}/images/logo.jpg" vspace="1" alt="[Logo]" /></a>
 					</td>
 					 
 					<td width="100%" align="center" valign="middle">
 						<span class="boardtitle">${forumTitle?default("JForum")}</span>
-						<table cellspacing="0" cellpadding="2" border="0">
+						<table cellspacing="0" cellpadding="2">
 							<tr>
 								<td valign="top" nowrap="nowrap" align="center">&nbsp;									
 									<span class="mainmenu"><img src="${contextPath}/templates/${templateName}/images/icon_mini_search.gif" alt="[Search]"/> <a id="search" class="mainmenu" href="${JForumContext.encodeURL("/search/filters")}"><b>${I18n.getMessage("ForumBase.search")}</b></a> &nbsp;
@@ -58,11 +58,11 @@ Modifications by JForum Team
 									</#if>
 
 									<#if logged>										
-										<img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" border="0" alt="[Profile]" /> <a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>&nbsp; 
+										<img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" alt="[Profile]" /> <a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>&nbsp; 
 										<#if bookmarksEnabled>
 											<img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[Post]" /> <a class="mainmenu" href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}">${I18n.getMessage("Bookmarks.myBag")}</a>&nbsp;
 										</#if>
-										<img src="${contextPath}/templates/${templateName}/images/icon_mini_message.gif" border="0" alt="[Message]" /> <a id="privatemessages" class="mainmenu" href="${JForumContext.encodeURL("/pm/inbox")}">
+										<img src="${contextPath}/templates/${templateName}/images/icon_mini_message.gif" alt="[Message]" /> <a id="privatemessages" class="mainmenu" href="${JForumContext.encodeURL("/pm/inbox")}">
 											<#if (session.privateMessages > 0)>
 												${I18n.getMessage("ForumBase.newPm")}: (${session.privateMessages})
 											<#else>
@@ -72,13 +72,13 @@ Modifications by JForum Team
 										</span>
 
 										<#if !sso>
-											<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Login]" /> <a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} [${session.username}]</a>
+											<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" alt="[Login]" /> <a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} [${session.username}]</a>
 										</#if>
 									</#if>
 	
 									<#if !logged && !sso>
-										<img src="${contextPath}/templates/${templateName}/images/icon_mini_register.gif" border="0" alt="[Register]" /> <a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a>&nbsp;/&nbsp;</span>
-										<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Login]" /> <a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>&nbsp;
+										<img src="${contextPath}/templates/${templateName}/images/icon_mini_register.gif" alt="[Register]" /> <a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a>&nbsp;/&nbsp;</span>
+										<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" alt="[Login]" /> <a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>&nbsp;
 									</#if>
 									</span>									
 								</td>

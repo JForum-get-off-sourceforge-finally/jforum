@@ -2,8 +2,8 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <table width="100%" align="center">
 	<tr>
-		<td width="100%" height="318" valign="top">
-			<table cellspacing="0" cellpadding="2" width="100%" align="center" border="0">
+		<td width="100%" valign="top">
+			<table cellspacing="0" cellpadding="2" width="100%" align="center">
 				<tr>
 					<td valign="bottom" align="left">
 						<#if logged><span class="gensmall">${I18n.getMessage("ForumListing.lastVisit")}: ${lastVisit}</span><br /></#if>
@@ -18,9 +18,9 @@
 				</tr>
 			</table>
 
-			<table class="forumline" cellspacing="1" cellpadding="2" width="100%" border="0">
+			<table class="forumline forumlist" cellspacing="1" cellpadding="2" width="100%">
 				<tr>
-					<th class="thcornerl" nowrap="nowrap" colspan="2" height="25">&nbsp;${I18n.getMessage("ForumListing.forums")}&nbsp;</th>
+					<th class="thcornerl" nowrap="nowrap" colspan="2">&nbsp;${I18n.getMessage("ForumListing.forums")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" width="50">&nbsp;${I18n.getMessage("ForumListing.totalTopics")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" width="50">&nbsp;${I18n.getMessage("ForumListing.totalMessages")}&nbsp;</th>
 					<th class="thcornerr" nowrap="nowrap">&nbsp;${I18n.getMessage("ForumListing.lastMessage")}&nbsp;</th>
@@ -29,21 +29,21 @@
 				<!-- START FORUM LISTING -->
 				<#list allCategories as category>
 					<tr>
-						<td class="catleft" colspan="2" height="28"><span class="cattitle">${category.name}</span></td>
-						<td class="catright" align="right" colspan="3">&nbsp;</td>
+						<td class="catleft"  colspan="2"><span class="cattitle">${category.name}</span></td>
+						<td class="catright" colspan="3">&nbsp;</td>
 					</tr>
 
 					<#list category.getForums() as forum>
 					<#assign lpi = forumRepository.getLastPostInfo(forum.id)/>
 					<tr>
-						<td class="row1" valign="middle" align="center" height="50">
+						<td class="row1" valign="middle" align="center">
 						<#if forum.unread>
 							<img src="${contextPath}/templates/${templateName}/images/folder_new_big.gif" alt="[New Folder]" />
 						<#else>
 							<img src="${contextPath}/templates/${templateName}/images/folder_big.gif" alt="[Folder]" />
 						</#if>
 						</td>
-						<td class="row1" width="100%" height="50">
+						<td class="row1" width="100%">
 							<span class="forumlink"><a class="forumlink" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></span><br />
 							<span class="genmed">
 								<#if (forum.description?length > 0)>${forum.description?default("")}<#else>&nbsp;</#if>
@@ -58,15 +58,15 @@
 								</#if>
 							</span>
 						</td>
-						<td class="row2" valign="middle" align="center" height="50"><span class="gensmall">${forum.totalTopics}</span></td>
-						<td class="row2" valign="middle" align="center" height="50">
+						<td class="row2" valign="middle" align="center"><span class="gensmall">${forum.totalTopics}</span></td>
+						<td class="row2" valign="middle" align="center">
 							<#assign total = forum.totalPosts/>
 							<#if (total == 0 && forum.totalTopics > 0)>
 								<#assign total = forum.totalTopics/>
 							</#if>
 							<span class="gensmall"><#if (total > 0)>${total}<#else>${I18n.getMessage("ForumListing.noMessages")}</#if></span>
 						</td>
-						<td class="row2" valign="middle" nowrap="nowrap" align="left" height="50">
+						<td class="row2" valign="middle" nowrap="nowrap" align="left">
 							<span class="postdetails">
 							<#if (lpi.postTimeMillis > 0)>
 								${lpi.postDate}
@@ -79,7 +79,7 @@
 
 								<#assign url = JForumContext.encodeURL("/posts/list/${startPage}${lpi.topicId}") + "#p" + lpi.postId/>
 								<a href="${url}" class="last_title">${lpi.title}</a>
-								<a href="${url}" class="last_title"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" border="0" alt="[Latest Reply]" /></a>								
+								<a href="${url}" class="last_title"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" alt="[Latest Reply]" /></a>								
 							<#else>
 								${I18n.getMessage("ForumListing.noMessages")}
 							</#if>
@@ -91,15 +91,15 @@
 				<!-- END OF FORUM LISTING -->
 			</table>
 
-			<table cellspacing="0" cellpadding="2" width="100%" align="center" border="0">
+			<table cellspacing="0" cellpadding="2" width="100%" align="center">
 				<tr>
 					<td align="left"><span class="gensmall">&nbsp;</span></td>
 				</tr>
 			</table>
 
-			<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 				<tr>
-					<td class="cathead" colspan="2" height="28"><span class="cattitle">${I18n.getMessage("ForumListing.whoIsOnline")}</span></td>
+					<td class="cathead" colspan="2"><span class="cattitle">${I18n.getMessage("ForumListing.whoIsOnline")}</span></td>
 				</tr>
 
 				<tr>
@@ -147,13 +147,13 @@
 				<input type="hidden" name="module" value="user" />
 				<input type="hidden" name="action" value="validateLogin" />
 
-				<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+				<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 					<tr>
-						<td class="cathead" height="28"><a name="login2" id="login2"></a><span class="cattitle">${I18n.getMessage("Login.enter")}</span></td>
+						<td class="cathead"><a name="login2" id="login2"></a><span class="cattitle">${I18n.getMessage("Login.enter")}</span></td>
 					</tr>
 
 					<tr>
-						<td class="row1" valign="middle" align="center" height="28">
+						<td class="row1" valign="middle" align="center">
 							<span class="gensmall">
 								${I18n.getMessage("Login.user")}: <input class="post" size="10" name="username" type="text"/>
 								&nbsp;&nbsp;&nbsp;
@@ -171,7 +171,7 @@
 			</form>
 			</#if>
 
-			<table cellspacing="3" cellpadding="0" align="center" border="0">
+			<table cellspacing="3" cellpadding="0" align="center">
 				<tr>
 					<td align="center" width="20"><img src="${contextPath}/templates/${templateName}/images/folder_new.gif" alt="[New Folder]" /></td>
 					<td><span class="gensmall">${I18n.getMessage("ForumListing.newMessages")}</span></td>

@@ -23,10 +23,10 @@ function validateForm()
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="user_id" value="${u.id}" />
-<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline">
-			<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 				<#assign message = ""/>
 				<#if editDone?default(false)>
 					<#assign message = I18n.getMessage("User.editDone")/>
@@ -51,7 +51,7 @@ function validateForm()
 				</tr>
 
 				<tr>
-					<th class="thhead" valign="middle" align="center" colspan="2" height="25">${I18n.getMessage("User.registerInformation")}</th>
+					<th class="thhead" valign="middle" align="center" colspan="2">${I18n.getMessage("User.registerInformation")}</th>
 				</tr>
 				<tr>
 					<td class="row2" colspan="2" align="center"><span class="gensmall"><font color="red">${I18n.getMessage("User.requiredFields")}</font></span></td>
@@ -104,7 +104,7 @@ function validateForm()
 				</#if>
 
 				<tr>
-					<th class="thsides" valign="middle" colspan="2" height="25">${I18n.getMessage("User.preferencesInfo")}</th>
+					<th class="thsides" valign="middle" colspan="2">${I18n.getMessage("User.preferencesInfo")}</th>
 				</tr>
 
 				<tr>
@@ -156,7 +156,7 @@ function validateForm()
 					<td class="row2"><textarea class="post" style="WIDTH: 300px" name="signature" rows="6" cols="30">${u.signature?default("")}</textarea></td>
 				</tr>
 				<tr>
-					<th class="thsides" valign="middle" colspan="2" height="25">${I18n.getMessage("User.preferences")}</th>
+					<th class="thsides" valign="middle" colspan="2">${I18n.getMessage("User.preferences")}</th>
 				</tr>
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.showEmail")}:</span></td>
@@ -305,11 +305,11 @@ function validateForm()
 				</#if>
 
 				<tr>
-					<th class="thsides" valign="middle" colspan="2" height="12">${I18n.getMessage("User.avatarControlPanel")}</th>
+					<th class="thsides" valign="middle" colspan="2">${I18n.getMessage("User.avatarControlPanel")}</th>
 				</tr>
 				<tr>
 					<td class="row1" colspan="2">
-						<table cellspacing="2" cellpadding="0" width="70%" align="center" border="0">
+						<table cellspacing="2" cellpadding="0" width="70%" align="center">
 							<tr>
 								<td width="65%"><span class="gensmall">${I18n.getMessage("User.avatarDesc")}</span></td>
 								<td align="center">
@@ -362,7 +362,7 @@ function validateForm()
 				</#if>
 
 				<tr>
-					<td class="catbottom" align="center" colspan="2" height="28">
+					<td class="catbottom" align="center" colspan="2">
 						<input class="mainoption" type="submit" value="${I18n.getMessage("User.submit")}" name="submit" />&nbsp;&nbsp;
 						<input class="liteoption" type="reset" value="${I18n.getMessage("User.reset")}" name="reset" />
 					</td>

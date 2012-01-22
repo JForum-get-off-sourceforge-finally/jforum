@@ -2,15 +2,15 @@
 
 <#import "macros/group_macros.ftl" as lib />
 
-<table width="99%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+<table width="99%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 <tr>
 <td>
 	<form accept-charset="${encoding}" name="form1" action="${JForumContext.encodeURL("/jforum")}" method="post">
 	<input type="hidden" name="action" value="quotaLimitSave" />
 	<input type="hidden" name="module" value="${moduleName}" />
-	<table width="100%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
-	  <th class="thead" colspan="5" align="center" height="28">${I18n.getMessage("AdminAttachments.quotaTitle")}</th>
+	  <th class="thead" colspan="5" align="center">${I18n.getMessage("AdminAttachments.quotaTitle")}</th>
 	</tr>
 
 	<!-- Enter a new quota -->
@@ -31,7 +31,7 @@
 	</tr>
 
 	<tr align="right">
-	  <td class="catbottom" colspan="5" height="29">  <input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
+	  <td class="catbottom" colspan="5">  <input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
 	</tr>
 	</table>
 	</form>
@@ -42,7 +42,7 @@
 	<input type="hidden" name="action" value="quotaLimitUpdate" />
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="total_records" value="${quotas.size()}"/>
-	<table width="100%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 		<tr>
 			<th class="thcornerl">${I18n.getMessage("AdminAttachments.quotaDescription")}</th>
 			<th class="thtop">${I18n.getMessage("AdminAttachments.quotaFilesize")}</th>
@@ -54,7 +54,7 @@
 			<tr>
 				<td class="row1" align="center" valign="middle">
 				    <input type="hidden" name="id_${count}" value="${q.id}" />
-					<table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+					<table width="100%" align="center" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="row1" align="center" valign="middle" width="10%">&nbsp;</td>
 
@@ -78,7 +78,7 @@
 		</#list>
 
 		<tr>
-		  <td class="catbottom" colspan="5" height="29" align="right"> <input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
+		  <td class="catbottom" colspan="5" align="right"> <input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
 		</tr>
 	</table>
     </form>
@@ -101,9 +101,9 @@
 <input type="hidden" name="action" value="quotaGroupsSave" />
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="total_groups" value="${groups.size()}" />
-<table width="60%" align="center" cellpadding="4" cellspacing="1" border="0" class="forumline">
+<table width="60%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
-	  <th class="thead" colspan="5" align="center" height="28">${I18n.getMessage("AdminAttachments.groupPermission")}</th>
+	  <th class="thead" colspan="5" align="center">${I18n.getMessage("AdminAttachments.groupPermission")}</th>
 	</tr>
 
 	<tr>
@@ -130,7 +130,7 @@
 	</#list>
 
 	<tr>
-	  <td class="catbottom" colspan="5" height="29" align="center"> <input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
+	  <td class="catbottom" colspan="5" align="center"> <input type="submit" name="submit" class="liteoption" value="${I18n.getMessage("submit")}" /></td>
 	</tr>
 </table>
 </form>

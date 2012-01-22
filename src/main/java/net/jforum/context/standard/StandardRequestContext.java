@@ -43,6 +43,7 @@
 package net.jforum.context.standard;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -275,8 +276,9 @@ public class StandardRequestContext implements RequestContext
 		// Empty method
 	}
 
-	public Locale getLocale() {
+	@SuppressWarnings("unchecked")
+	public Enumeration<Locale> getLocales() {
+		return (Enumeration<Locale>) Collections.enumeration(Collections.EMPTY_LIST);
 		
-		return null;
 	}
 }

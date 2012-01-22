@@ -149,67 +149,31 @@ public class PostCommon
 	
 	private static String parseCode(String origText)
 	{
-		String text =  origText;
+		StringBuffer processed = new StringBuffer(origText.length());
+		Matcher contentMatcher = Pattern.compile("(\\[code.*?\\])(.*)(\\[/code\\])", Pattern.DOTALL).matcher(origText);
+		if (contentMatcher.matches()) {
+			StringBuffer contents = new StringBuffer(contentMatcher.group(2));
+			ViewCommon.replaceAll(contents, "<br /> ", "\n");
+			// XML-like tags
+			ViewCommon.replaceAll(contents, "<", "&lt;");
+			ViewCommon.replaceAll(contents, ">", "&gt;");
+			// Note: there is no replacing for spaces and tabs as
+			// we are relying on the JavaScript SyntaxHighlighter library
+			// to do it for us
+			processed.append(contentMatcher.group(1));
+			processed.append(contents);
+			processed.append(contentMatcher.group(3));
+		} else {
+			// probably want to do some logging here...
+			return origText; 
+		}
+		// now apply the regular expressions from the xml-config
+		String text = processed.toString();
 		for (Iterator<BBCode> iter = BBCodeRepository.getBBCollection().getBbList().iterator(); iter.hasNext();) {
 			BBCode bb = iter.next();
 			
 			if (bb.getTagName().startsWith("code")) {
-				Matcher matcher = Pattern.compile(bb.getRegex()).matcher(text);
-				StringBuffer sb = new StringBuffer(text);
-
-				while (matcher.find()) {
-					StringBuffer lang = null;
-					StringBuffer contents = null;
-					
-					if ("code".equals(bb.getTagName())) {
-					    contents = new StringBuffer(matcher.group(1));
-					} 
-					else {
-						lang = new StringBuffer(matcher.group(1));
-						contents = new StringBuffer(matcher.group(2));						
-					}
-					
-					ViewCommon.replaceAll(contents, "<br /> ", "\n");
-
-					// XML-like tags
-					ViewCommon.replaceAll(contents, "<", "&lt;");
-					ViewCommon.replaceAll(contents, ">", "&gt;");
-					
-					// Note: there is no replacing for spaces and tabs as
-					// we are relying on the JavaScript SyntaxHighlighter library
-					// to do it for us
-					
-					StringBuffer replace = new StringBuffer(bb.getReplace());
-					int index = replace.indexOf("$1");
-					
-					if ("code".equals(bb.getTagName())) {
-						if (index > -1) {
-							replace.replace(index, index + 2, contents.toString());
-						}
-
-						index = sb.indexOf("[code]");	
-					}
-					else {
-						if (index > -1) {
-							replace.replace(index, index + 2, lang.toString());
-						}
-						
-						index = replace.indexOf("$2");
-
-						if (index > -1) {
-							replace.replace(index, index + 2, contents.toString());
-						}
-						
-						index = sb.indexOf("[code=");
-					} 
-					int lastIndex = sb.indexOf("[/code]", index) + "[/code]".length();
-
-					if (lastIndex > index) {
-						sb.replace(index, lastIndex, replace.toString());
-					}
-				}
-				
-				text = sb.toString();
+				text = text.replaceAll(bb.getRegex(), bb.getReplace());
 			}
 		}
 		
@@ -270,7 +234,7 @@ public class PostCommon
 	}
 
 	/**
-	 * Replace the smlies code by the respective URL.
+	 * Replace the smilies code by the respective URL.
 	 * @param origText The text to process
 	 * @return the parsed text. Note that the StringBuffer you pass as parameter
 	 * will already have the right contents, as the replaces are done on the instance

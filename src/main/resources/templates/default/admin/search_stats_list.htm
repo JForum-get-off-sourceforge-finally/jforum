@@ -137,7 +137,7 @@ function checkIfPostExists()
 /* ]]> */
 </script>
 
-<table border="0" class="forumline gen" width="100%">
+<table class="forumline gen" width="100%">
 	<tr>
 		<th colspan="2">${I18n.getMessage("SearchStats.title")}</th>
 	</tr>
@@ -221,7 +221,7 @@ function checkIfPostExists()
 		<input type="hidden" name="action" value="cancelIndexing" />
 	</#if>
 
-	<table border="0" class="forumline gen" width="100%">
+	<table class="forumline gen" width="100%">
 		<tr>
 			<th colspan="2">${I18n.getMessage("SearchStats.reIndex")}</th>
 		</tr>
@@ -246,7 +246,7 @@ function checkIfPostExists()
 					<input type="radio" id="reindexByDate" name="type" value="1" checked="checked" /><label for="reindexByDate">${I18n.getMessage("SearchStats.byDate")}</label>
 				</td>
 				<td valign="top">
-					<table border="0" class="gen">
+					<table class="gen">
 						<tr>
 							<td>${I18n.getMessage("SearchStats.from")}:</td>
 							<td>
@@ -283,7 +283,7 @@ function checkIfPostExists()
 					<input type="radio" id="reindexByMessage" name="type" value="2" /><label for="reindexByMessage">${I18n.getMessage("SearchStats.byMessageId")}</label>
 				</td>
 				<td valign="top" class="row3">
-					<table border="0" class="gen">
+					<table class="gen">
 						<tr>
 							<td>${I18n.getMessage("SearchStats.from")}:</td>
 							<td><input type="text" name="firstPostId" onblur="chooseByPostId(this);" /></td>

@@ -3,12 +3,12 @@
 
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
 
-<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline" valign="top">
 		
 			<#assign sectionTable>
-				<table cellspacing="0" cellpadding="2" width="100%" align="center" border="0">
+				<table cellspacing="0" cellpadding="2" width="100%" align="center">
 					<tr>
 						<td valign="bottom" align="left">
 							<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
@@ -24,7 +24,7 @@
 
 			${sectionTable}
 			
-			<table class="forumline gen" cellspacing="1" cellpadding="4" width="100%" border="0">
+			<table class="forumline gen" cellspacing="1" cellpadding="4" width="100%">
 				<tr>
 					<th class="thtop" align="center">${I18n.getMessage("ModerationLog.date")}</th>
 

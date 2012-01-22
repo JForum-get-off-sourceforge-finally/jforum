@@ -3,7 +3,7 @@
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="action" value="search" />
 	
-	<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+	<table cellspacing="2" cellpadding="2" width="100%" align="center">
 		<tr>
 			<td align="left">
 				<span class="nav"><a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a></span>
@@ -11,9 +11,9 @@
 	    </tr>
 	</table>
 
-	<table class="forumline" cellspacing="1" cellpadding="4" width="100%" border="0">
+	<table class="forumline" cellspacing="1" cellpadding="4" width="100%">
 		<tr>
-			<th class="thhead" colspan="4" height="25">${I18n.getMessage("Search.terms")}</th>
+			<th class="thhead" colspan="4">${I18n.getMessage("Search.terms")}</th>
 		</tr>
 		
 		<tr>
@@ -30,7 +30,7 @@
 			</td>
         </tr>
         <tr>
-			<th class="thhead" colspan="4" height="25">${I18n.getMessage("Search.options")}</th>
+			<th class="thhead" colspan="4">${I18n.getMessage("Search.options")}</th>
         </tr>
 		
         <tr>
@@ -63,7 +63,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="catbottom" align="center" colspan="4" height="28"><input class="liteoption" type="submit" value="${I18n.getMessage("Search.search")}" /></td>
+			<td class="catbottom" align="center" colspan="4"><input class="liteoption" type="submit" value="${I18n.getMessage("Search.search")}" /></td>
 		</tr>
 	</table>
 </form>

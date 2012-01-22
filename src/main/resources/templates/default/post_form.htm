@@ -78,7 +78,7 @@ function openFindUserWindow()
 
 function smiliePopup()
 {
-	var w = window.open("${JForumContext.encodeURL("/posts/listSmilies")}", "smilies", "width=300, height=300, toolbars=no, scrollbars=yes");
+	var w = window.open("${JForumContext.encodeURL("/posts/listSmilies")}", "smilies", "width=300, height300, toolbars=no, scrollbars=yes");
 	w.focus();
 }
 
@@ -135,15 +135,15 @@ function cancelOperation()
 <#if isEdit><input type="hidden" name="post_id" value="${post.id}" /></#if>
 <#if !isNewTopic><input type="hidden" name="topic_id" value="${topic.id}" /></#if>
 
-<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline">
 			
 			<!-- Preview message -->
 			<a name="preview"></a>
-			<table class="forumline" width="100%" cellspacing="1" cellpadding="4" border="0" <#if !preview>style="display: none"</#if> id="previewTable">
+			<table class="forumline" width="100%" cellspacing="1" cellpadding="4" <#if !preview>style="display: none"</#if> id="previewTable">
 				<tr>
-					<th height="25" class="thhead">${I18n.getMessage("PostForm.preview")}</th>
+					<th class="thhead">${I18n.getMessage("PostForm.preview")}</th>
 				</tr>
 				<tr>
 					<td class="row1">
@@ -153,7 +153,7 @@ function cancelOperation()
 				</tr>
 				<tr>
 					<td class="row1" height="100%">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%">
+						<table width="100%" cellspacing="0" cellpadding="0" style="height:100%">
 							<tr>
 								<td><div id="previewMessage" class="postbody"><#if postPreview?exists>${postPreview.text}</#if></div></td>
 							</tr>
@@ -161,12 +161,12 @@ function cancelOperation()
 					</td>
 				</tr>
 				<tr>
-					<td class="spacerow" height="1"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" height="1" /></td>
+					<td class="spacerow"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" /></td>
 				</tr>
 			</table>
 			<br clear="all" />
 
-			<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+			<table cellspacing="2" cellpadding="2" width="100%" align="center">
 				<tr>
 					<td align="left">
 						<span class="nav">
@@ -180,9 +180,9 @@ function cancelOperation()
 				</tr>
 			</table>
 		
-			<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 				<tr>
-					<th class="thhead" colspan="2" height="25">
+					<th class="thhead" colspan="2">
 						<b>
 						<#if forum?exists>
 							<#if (topic?exists && topic.id > -1)>
@@ -257,11 +257,11 @@ function cancelOperation()
 					<td class="row1" valign="top">
 						<span class="gen"><b>${I18n.getMessage("PostForm.body")}</b></span>
 
-						<table cellspacing="0" cellpadding="1" border="0" align="center">
+						<table cellspacing="0" cellpadding="1" align="center">
 							<tr>
 								<td valign="middle" align="center">
 									<br />
-									<table cellspacing="0" cellpadding="5" width="100" border="0">
+									<table cellspacing="0" cellpadding="5" width="100">
 										<tr align="center">
 											<td class="gensmall" colspan="4"><b>${I18n.getMessage("PostForm.emoticons")}</b></td>
 										</tr>
@@ -300,7 +300,7 @@ function cancelOperation()
 					<!-- BB Codes, textarea -->
 					<td class="row2" valign="top">
 						<div class="gen">
-							<table cellspacing="0" cellpadding="2" border="0" width="100%">
+							<table cellspacing="0" cellpadding="2" width="100%">
 								<!-- bb code -->
 								<tr valign="middle">
 									<td>
@@ -414,7 +414,7 @@ function cancelOperation()
 						<td class="row1" valign="middle"><span class="gensmall"><b>${I18n.getMessage("User.captchaResponse")}:</b></span></td>
 						<td class="row2">
 							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser" /> 
-							<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" border="0" align="middle" id="captcha_img" alt="Captcha unavailable" />
+							<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" align="middle" id="captcha_img" alt="Captcha unavailable" />
 							<br />
 							<span class="gensmall">${I18n.getMessage("User.hardCaptchaPart1")} <a href="#newCaptcha" onclick="newCaptcha()"><b>${I18n.getMessage("User.hardCaptchaPart2")}</b></a></span>
 						</td>
@@ -436,7 +436,7 @@ function cancelOperation()
 				</#if>
 				
 				<tr>
-					<td align="center" height="28" colspan="2" class="catbottom">
+					<td align="center" colspan="2" class="catbottom">
 						<input class="mainoption" id="btnPreview" tabindex="5" type="button" value="${I18n.getMessage("PostForm.preview")}" onclick="previewMessage();" />&nbsp;
 						<input class="mainoption" id="btnSubmit" accesskey="s" tabindex="6" type="submit" value="${I18n.getMessage("PostForm.submit")}" name="post" />&nbsp;
 						<input class="mainoption" id="btnCancel" accesskey="c" tabindex="7" type="button" value="${I18n.getMessage("cancel")}" onclick="cancelOperation()"/>
@@ -450,9 +450,9 @@ function cancelOperation()
 	<#if ((topic?exists && topic.id > 0) || pmReply?default(false))>
 	<tr>
 	<td colspan="2">
-		<table border="0" cellpadding="3" cellspacing="0" width="100%" class="forumline">
+		<table cellpadding="3" cellspacing="0" width="100%" class="forumline">
 			<tr>
-				<th class="cathead" height="28" align="center"><b><span class="cattitle">${I18n.getMessage("PostShow.topicReview")}</span></b></th>
+				<th class="cathead" align="center"><b><span class="cattitle">${I18n.getMessage("PostShow.topicReview")}</span></b></th>
 			</tr>
 	
 			<tr>

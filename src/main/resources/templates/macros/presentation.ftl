@@ -137,7 +137,7 @@
 <#-- Forum navigation combo -->
 <#-- ********************** -->
 <#macro forumsComboTable>
-	<table cellspacing="0" cellpadding="0" border="0">
+	<table cellspacing="0" cellpadding="0">
 		<tr>			  
 			<td nowrap="nowrap">
 				<form action="" name="f" id="f" accept-charset="${encoding}">

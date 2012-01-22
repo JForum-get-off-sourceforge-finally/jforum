@@ -1,4 +1,4 @@
-ALTER TABLE jforum_topics ALTER COLUMN topic_views SET DEFAULT 0;
+ALTER TABLE jforum_topics MODIFY (topic_views DEFAULT 0);
 
 --
 -- Table structure for table 'jforum_mail_integration'

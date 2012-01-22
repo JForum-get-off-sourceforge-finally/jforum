@@ -77,16 +77,16 @@ public class LuceneSearch implements NewDocumentAdded
 	private IndexSearcher searcher;
 	private LuceneSettings settings;
 	private LuceneResultCollector contentCollector;
-	
-	public LuceneSearch(LuceneSettings settings, 
+
+	public LuceneSearch(LuceneSettings settings,
 		LuceneResultCollector contentCollector)
 	{
 		this.settings = settings;
 		this.contentCollector = contentCollector;
-		
+
 		this.openSearch();
 	}
-	
+
 	/**
 	 * @see net.jforum.search.NewDocumentAdded#newDocumentAdded()
 	 */
@@ -100,7 +100,7 @@ public class LuceneSearch implements NewDocumentAdded
 			throw new SearchException(e);
 		}
 	}
-	
+
 	/**
 	 * @return the search result
 	 */
@@ -108,97 +108,97 @@ public class LuceneSearch implements NewDocumentAdded
 	{
 		return this.performSearch(args, this.contentCollector, null);
 	}
-	
+
 	public Document findDocumentByPostId(int postId)
 	{
 		Document doc = null;
-		
-		try {			
-	        TopDocs results = searcher.search(new TermQuery(
-					new Term(SearchFields.Keyword.POST_ID, String.valueOf(postId))),  null, 1);	        
-	        ScoreDoc[] hits = results.scoreDocs;
-	        for (ScoreDoc hit : hits) {
-	            doc = this.searcher.doc(hit.doc);
-	        }
+
+		try {
+			TopDocs results = searcher.search(new TermQuery(
+					new Term(SearchFields.Keyword.POST_ID, String.valueOf(postId))), null, 1);
+			ScoreDoc[] hits = results.scoreDocs;
+			for (ScoreDoc hit : hits) {
+				doc = this.searcher.doc(hit.doc);
+			}
 		}
 		catch (IOException e) {
 			throw new SearchException(e);
 		}
-		
+
 		return doc;
 	}
 
 	private SearchResult<Post> performSearch(SearchArgs args, LuceneResultCollector resultCollector, Filter filter)
 	{
 		SearchResult<Post> result;
-		
+
 		try {
 			StringBuffer criteria = new StringBuffer(256);
-			
+
 			this.filterByForum(args, criteria);
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
-			
+
 			if (criteria.length() == 0) {
 				return new SearchResult<Post>(new ArrayList<Post>(), 0);
 			}
-			
+
 			Query query = new QueryParser(LuceneSettings.version, "", this.settings.analyzer()).parse(criteria.toString());
-			
+
 			final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
 			TopDocs results = this.searcher.search(query, filter, limit, this.getSorter(args));
-	        if (results.totalHits > 0) {
+			if (results.totalHits > 0) {
 				result = new SearchResult<Post>(resultCollector.collect(args, results, query), results.totalHits);
 			}
-			else {				
+			else {
 				result = new SearchResult<Post>(new ArrayList<Post>(), 0);
 			}
 		}
 		catch (Exception e) {
 			throw new SearchException(e);
 		}
-		
+
 		return result;
 	}
-	
+
 	private Sort getSorter(SearchArgs args)
 	{
 		Sort sort = Sort.RELEVANCE;
-		
-		if ("time".equals(args.getOrderBy())) {			
+
+		if ("time".equals(args.getOrderBy())) {
 			sort = new Sort(new SortField(SearchFields.Keyword.POST_ID, SortField.INT, "DESC".equals(args.getOrderDir())));
 		}
 
 		return sort;
 	}
-	
+
 	private void filterByDateRange(SearchArgs args, StringBuffer criteria)
 	{
 		if (args.getFromDate() != null) {
 			criteria.append('(')
-			.append(SearchFields.Keyword.DATE)
-			.append(": [")
-			.append(this.settings.formatDateTime(args.getFromDate()))
-			.append(" TO ")
-			.append(this.settings.formatDateTime(args.getToDate()))
-			.append("])");
+				.append(SearchFields.Keyword.DATE)
+				.append(": [")
+				.append(this.settings.formatDateTime(args.getFromDate()))
+				.append(" TO ")
+				.append(this.settings.formatDateTime(args.getToDate()))
+				.append("])");
 		}
 	}
-	
+
 	private void filterByKeywords(SearchArgs args, StringBuffer criteria)
 	{
 		String[] keywords = this.analyzeKeywords(args.rawKeywords());
-		
+
 		for (int i = 0; i < keywords.length; i++) {
 			if (args.shouldMatchAllKeywords()) {
 				criteria.append(" +");
 			}
-			
+
 			criteria.append('(')
-			.append(SearchFields.Indexed.CONTENTS)
-			.append(':')
-			.append(QueryParser.escape(keywords[i]))
-			.append(") ");
+				.append(SearchFields.Indexed.CONTENTS)
+				.append(':')
+				.append(QueryParser.escape(keywords[i]))
+				.append(") ");
 		}
 	}
 
@@ -212,7 +212,7 @@ public class LuceneSearch implements NewDocumentAdded
 				.append(") ");
 		}
 	}
-	
+
 	private String[] analyzeKeywords(String contents)
 	{
 		try {
@@ -220,22 +220,22 @@ public class LuceneSearch implements NewDocumentAdded
 			stream.addAttribute(CharTermAttribute.class);
 			List<String> tokens = new ArrayList<String>();
 
-            stream.reset();
-            while (stream.incrementToken()) {                    
-            	CharTermAttribute token = stream.getAttribute(CharTermAttribute.class);
-            	if (token == null) {
-            		break;
-            	}                                       
-            	tokens.add(String.valueOf(token.buffer()));
-            }
-			
+			stream.reset();
+			while (stream.incrementToken()) {
+				CharTermAttribute token = stream.getAttribute(CharTermAttribute.class);
+				if (token == null) {
+					break;
+				}
+				tokens.add(token.toString());
+			}
+
 			return (String[])tokens.toArray(new String[tokens.size()]);
 		}
 		catch (IOException e) {
 			throw new SearchException(e);
 		}
 	}
-	
+
 	private void openSearch()
 	{
 		try {

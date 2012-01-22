@@ -97,7 +97,7 @@ public final class SystemGlobals implements VariableStore
 	/**
 	 * Initialize the global configuration
 	 * @param appPath The application path (normally the path to the webapp base dir
-	 * @param mainConfigurationFile The file containing system defaults (when null, defaults to <appPath>/WEB-INF/config/default.conf)
+	 * @param mainConfigurationFile The file containing system defaults (when null, defaults to <appPath>/WEB-INF/config/SystemGlobals.properties)
 	 */
 	public static void initGlobals(String appPath, String mainConfigurationFile)
 	{
@@ -120,18 +120,22 @@ public final class SystemGlobals implements VariableStore
 		}
 
 		this.defaultConfig = mainConfigurationFile;
-		this.defaults = new Properties();
+		this.defaults.clear();
 
 		this.defaults.put(ConfigKeys.APPLICATION_PATH, appPath);
 		this.defaults.put(ConfigKeys.DEFAULT_CONFIG, mainConfigurationFile);		
 
 		SystemGlobals.loadDefaults();
 	
-		this.installation = new Properties();
+		this.installation.clear();
 		this.installationConfig = getVariableValue(ConfigKeys.INSTALLATION_CONFIG);
+		if (new File(this.installationConfig).exists() && !additionalDefaultsList.contains(this.installationConfig)) {
+			additionalDefaultsList.add(0, this.installationConfig);
+			LOGGER.info("Add " + this.installationConfig);
+		}		
 
-		for (Iterator<String> iter = additionalDefaultsList.iterator(); iter.hasNext(); ) {
-			loadAdditionalDefaults((String)iter.next());
+		for (String file : additionalDefaultsList) {
+			loadAdditionalDefaults(file);
 		}
 	}
 	
@@ -283,7 +287,7 @@ public final class SystemGlobals implements VariableStore
 	}
 
 	/**
-	 * Return the value of a configuration value as a variable. Variable expansion is performe
+	 * Return the value of a configuration value as a variable. Variable expansion is performed
 	 * on the result.
 	 * 
 	 * @param field The field name to retrieve
@@ -298,6 +302,7 @@ public final class SystemGlobals implements VariableStore
 			preExpansion = this.defaults.getProperty(field);
 
 			if (preExpansion == null) {
+				LOGGER.info("Key '" + field + "' is not found in " + globals.defaultConfig + " and " + globals.installationConfig);
 				return null;
 			}
 		}
