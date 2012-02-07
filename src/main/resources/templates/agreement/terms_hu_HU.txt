@@ -1,14 +1,14 @@
 <p>
-Bár a fórum adminisztrátorai és moderátorai mindent megtesznek, hogy eltávolítsanak vagy átszerkesszenek bármiféle kifogásolható anyagot amilyen gyorsan csak lehet, lehetetlen az összes üzenetet átnézni. Ezért te elfogadod, hogy a fórum összes hozzászólása a hozzászólás szerzõjének véleményét és nézeteit tükrözi, nem a fórum adminisztrátoráét, moderátoráét vagy webmesteréét, kivéve az õ saját hozzászólásaikat, és ezért õket felelõsség nem terheli.
+BÃ¡r a fÃ³rum adminisztrÃ¡torai Ã©s moderÃ¡torai mindent megtesznek, hogy eltÃ¡volÃ­tsanak vagy Ã¡tszerkesszenek bÃ¡rmifÃ©le kifogÃ¡solhatÃ³ anyagot amilyen gyorsan csak lehet, lehetetlen az Ã¶sszes Ã¼zenetet Ã¡tnÃ©zni. EzÃ©rt te elfogadod, hogy a fÃ³rum Ã¶sszes hozzÃ¡szÃ³lÃ¡sa a hozzÃ¡szÃ³lÃ¡s szerzÃµjÃ©nek vÃ©lemÃ©nyÃ©t Ã©s nÃ©zeteit tÃ¼krÃ¶zi, nem a fÃ³rum adminisztrÃ¡torÃ¡Ã©t, moderÃ¡torÃ¡Ã©t vagy webmesterÃ©Ã©t, kivÃ©ve az Ãµ sajÃ¡t hozzÃ¡szÃ³lÃ¡saikat, Ã©s ezÃ©rt Ãµket felelÃµssÃ©g nem terheli.
 </p>
 
 <p>
-Elfogadod, hogy nem küldesz a fórumra sértegetõ, obszcén, vulgáris, rágalmazó, gyûlölködõ, fenyegetõ, szexuálisan zaklató, vagy bármi más módon a törvénybe ütközõ anyagokat. Ha mégis ezt teszed, akkor azonnal és véglegesen törölhetünk a fórumról, a szolgáltatódat pedig értesítjük. Az IP címedet a fentiek betartásának érdekében rögzítjük. Beleegyezel, hogy a fórum webmestere, adminisztrátora vagy moderátorai bármikor elltávolíthatnak, szerkeszthetnek, átmozgathatnak vagy bezárhatnak bármely témát, ha úgy látják jónak. Mint felhasználó beleegyezel, hogy az információk, amelyeket megadtál, egy adatbázisban tárolódnak. Bár ez az információ engedélyed nélkül nem lesz kiadva harmadik félnek, a webmester, az adminisztrátor és a moderátorok nem vonhatóak felelõsségre, ha az adatokkal a szerver feltörése miatt visszaélnek.
+Elfogadod, hogy nem kÃ¼ldesz a fÃ³rumra sÃ©rtegetÃµ, obszcÃ©n, vulgÃ¡ris, rÃ¡galmazÃ³, gyÃ»lÃ¶lkÃ¶dÃµ, fenyegetÃµ, szexuÃ¡lisan zaklatÃ³, vagy bÃ¡rmi mÃ¡s mÃ³don a tÃ¶rvÃ©nybe Ã¼tkÃ¶zÃµ anyagokat. Ha mÃ©gis ezt teszed, akkor azonnal Ã©s vÃ©glegesen tÃ¶rÃ¶lhetÃ¼nk a fÃ³rumrÃ³l, a szolgÃ¡ltatÃ³dat pedig Ã©rtesÃ­tjÃ¼k. Az IP cÃ­medet a fentiek betartÃ¡sÃ¡nak Ã©rdekÃ©ben rÃ¶gzÃ­tjÃ¼k. Beleegyezel, hogy a fÃ³rum webmestere, adminisztrÃ¡tora vagy moderÃ¡torai bÃ¡rmikor elltÃ¡volÃ­thatnak, szerkeszthetnek, Ã¡tmozgathatnak vagy bezÃ¡rhatnak bÃ¡rmely tÃ©mÃ¡t, ha Ãºgy lÃ¡tjÃ¡k jÃ³nak. Mint felhasznÃ¡lÃ³ beleegyezel, hogy az informÃ¡ciÃ³k, amelyeket megadtÃ¡l, egy adatbÃ¡zisban tÃ¡rolÃ³dnak. BÃ¡r ez az informÃ¡ciÃ³ engedÃ©lyed nÃ©lkÃ¼l nem lesz kiadva harmadik fÃ©lnek, a webmester, az adminisztrÃ¡tor Ã©s a moderÃ¡torok nem vonhatÃ³ak felelÃµssÃ©gre, ha az adatokkal a szerver feltÃ¶rÃ©se miatt visszaÃ©lnek.
 </p>
 
 <p>
-Ez a fórumrendszer sütiket használ, hogy információkat tároljon a számítógépeden. Ezek a sütik nem tartalmazzák a fent megadott adatokat. Csak a kényelmedet szolgálják. Az e-mail címed csak arra szolgál, hogy elküldjük neked a regisztrációd adatait és a jelszót (és hogy új jelszót küldhessünk, ha ezt elfelejtenéd)</p>
+Ez a fÃ³rumrendszer sÃ¼tiket hasznÃ¡l, hogy informÃ¡ciÃ³kat tÃ¡roljon a szÃ¡mÃ­tÃ³gÃ©peden. Ezek a sÃ¼tik nem tartalmazzÃ¡k a fent megadott adatokat. Csak a kÃ©nyelmedet szolgÃ¡ljÃ¡k. Az e-mail cÃ­med csak arra szolgÃ¡l, hogy elkÃ¼ldjÃ¼k neked a regisztrÃ¡ciÃ³d adatait Ã©s a jelszÃ³t (Ã©s hogy Ãºj jelszÃ³t kÃ¼ldhessÃ¼nk, ha ezt elfelejtenÃ©d)</p>
 
 <p>
-A Regisztráció gombra kattintva elfogadod a fenti feltételeket
+A RegisztrÃ¡ciÃ³ gombra kattintva elfogadod a fenti feltÃ©teleket
 </p>
