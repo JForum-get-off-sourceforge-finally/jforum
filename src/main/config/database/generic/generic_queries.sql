@@ -717,7 +717,7 @@ ModerationModel.topicsByForum = SELECT p.post_id, t.topic_id, t.topic_title, t.t
 # #############
 # BannerDAO
 # #############
-BannerDAO.selectById = SELECT banner_id, name, banner_placement, banner_description, banner_clicks, banner_views, \
+BannerDAO.selectById = SELECT banner_id, banner_name, banner_placement, banner_description, banner_clicks, banner_views, \
 	banner_url, banner_weight, banner_active, banner_comment, banner_type, banner_width, banner_height \
 	FROM jforum_banner \
 	WHERE banner_id = ?
@@ -725,7 +725,7 @@ BannerDAO.selectById = SELECT banner_id, name, banner_placement, banner_descript
 BannerDAO.selectAll = SELECT banner_id, banner_name, banner_placement, banner_description, banner_clicks, banner_views, \
 	banner_url, banner_weight, banner_active, banner_comment, banner_type, banner_width, banner_height \
 	FROM jforum_banner \
-	ORDER BY comment
+	ORDER BY banner_comment
 	
 BannerDAO.canDelete = SELECT COUNT(1) AS total FROM jforum_banner WHERE banner_id = ?
 BannerDAO.delete = DELETE FROM jforum_banner WHERE banner_id = ?
