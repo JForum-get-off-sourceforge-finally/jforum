@@ -423,7 +423,7 @@ public interface RequestContext
 	/**
 	 * Gets user browser's preferred locale(s). This method may be used during first installation
 	 * to automatically switch to corresponding language I18N resource and in case where there is
-	 * no preferred language defined in the user's profile (��anonymous users)
+	 * no preferred language defined in the user's profile (-> anonymous users)
 	 * 
 	 * @return Enumeration<Locale>
 	 */
