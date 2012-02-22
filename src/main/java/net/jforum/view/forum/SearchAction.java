@@ -141,10 +141,6 @@ public class SearchAction extends Command
 				(Date)this.request.getObjectParameter("to_date"));		    
 		}
 
-		if ("all".equals(args.getMatchType())) {
-			args.matchAllKeywords();
-		}
-		
 		if (this.request.getParameter("search_forum") != null && !"".equals(this.request.getParameter("search_forum"))) {
 			args.setForumId(this.request.getIntParameter("search_forum"));
 		}

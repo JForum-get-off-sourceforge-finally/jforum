@@ -50,6 +50,7 @@ import java.util.List;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.SearchException;
+import net.jforum.search.SearchArgs.MatchType;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -187,19 +188,20 @@ public class LuceneSearch implements NewDocumentAdded
 
 	private void filterByKeywords(SearchArgs args, StringBuffer criteria)
 	{
-		String[] keywords = this.analyzeKeywords(args.rawKeywords());
+		criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
+		if ( args.getMatchType() == MatchType.RAW_KEYWORDS ) {
+			criteria.append(args.rawKeywords());
+		} else {
+			String[] keywords = this.analyzeKeywords(args.rawKeywords());
 
-		for (int i = 0; i < keywords.length; i++) {
-			if (args.shouldMatchAllKeywords()) {
-				criteria.append(" +");
+			for (int i = 0; i < keywords.length; i++) {
+				if (args.getMatchType() == MatchType.ALL_KEYWORDS) {
+					criteria.append("+");
+				}
+				criteria.append(QueryParser.escape(keywords[i])).append(" ");
 			}
-
-			criteria.append('(')
-				.append(SearchFields.Indexed.CONTENTS)
-				.append(':')
-				.append(QueryParser.escape(keywords[i]))
-				.append(") ");
 		}
+		criteria.append(")");
 	}
 
 	private void filterByForum(SearchArgs args, StringBuffer criteria)

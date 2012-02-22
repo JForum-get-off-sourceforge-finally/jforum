@@ -57,19 +57,35 @@ public class SearchArgs
 	private int author;
 	private String orderDir = "DESC";
 	private String orderBy;
-	private boolean matchAllKeywords;
 	private int forumId;
 	private int initialRecord;
 	private Date fromDate;
 	private Date toDate;
-	private String matchType;
+	private MatchType matchType;
 	
-	public void setMatchType(String matchType)
-	{
-		this.matchType = matchType;
+	public static enum MatchType {
+		ALL_KEYWORDS,
+		ANY_KEYWORDS,
+		RAW_KEYWORDS
 	}
 	
-	public String getMatchType()
+	/**
+	 * set the matching type - default to all words if unknown string is passed
+	 * @param matchType
+	 */
+	public void setMatchType(String matchType)
+	{
+		if("any".equals(matchType)) {
+			this.matchType = MatchType.ANY_KEYWORDS;
+		} else if ("raw".equals(matchType)) {
+			this.matchType = MatchType.RAW_KEYWORDS;
+		} else {
+			/* not set or null like for new messagesSearch */
+			this.matchType = MatchType.ALL_KEYWORDS;
+		}
+	}
+	
+	public MatchType getMatchType()
 	{
 		return this.matchType;
 	}
@@ -109,12 +125,7 @@ public class SearchArgs
 	{
 		this.keywords = keywords;
 	}
-	
-	public void matchAllKeywords()
-	{
-		this.matchAllKeywords = true;
-	}
-	
+
 	public void setAuthor(int author)
 	{
 		this.author = author;
@@ -152,12 +163,7 @@ public class SearchArgs
 		
 		return this.keywords.trim();
 	}
-	
-	public boolean shouldMatchAllKeywords()
-	{
-		return this.matchAllKeywords;
-	}
-	
+
 	public int getAuthor()
 	{
 		return this.author;

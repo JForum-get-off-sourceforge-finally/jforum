@@ -158,7 +158,7 @@ public class LuceneSearchTestCase extends TestCase
 		
 		// Search
 		SearchArgs args = new SearchArgs();
-		args.matchAllKeywords();
+		args.setMatchType("all");
 		args.setKeywords("magic regular");
 		
 		List<?> results = this.search.search(args).getRecords();
