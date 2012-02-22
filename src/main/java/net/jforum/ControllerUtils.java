@@ -65,6 +65,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.MD5;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+import net.jforum.view.forum.common.BannerCommon;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -112,6 +113,7 @@ public class ControllerUtils
 		context.put("bookmarksEnabled", SecurityRepository.canAccess(SecurityConstants.PERM_BOOKMARKS_ENABLED));
 		context.put("canAccessModerationLog", SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_LOG));
 		context.put("JForumContext", jforumContext);
+		context.put("bannerCommon", new BannerCommon());
 		context.put("timestamp", Long.valueOf(System.currentTimeMillis()));
 	}
 
