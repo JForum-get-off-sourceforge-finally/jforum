@@ -269,6 +269,11 @@ AttachmentModel.selectTopDownloadsByLimit = SELECT f.forum_id, f.forum_name, t.t
     AND ROWNUM < ? \
     ORDER BY ad.download_count DESC
     
+############
+# ApiModel
+############
+ApiModel.insert = INSERT INTO jforum_api (api_id, api_key, api_validity) VALUES (jforum_api_seq.nextval, ?, ?)
+
 # ###############
 # BanlistModel
 # ###############

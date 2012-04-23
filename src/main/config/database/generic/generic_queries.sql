@@ -775,7 +775,8 @@ MailIntegration.update = UPDATE jforum_mail_integration SET forum_id = ?, forum_
 # ApiModel
 ############
 ApiModel.isValid = SELECT 1 FROM jforum_api WHERE api_key = ?
-
+ApiModel.insert = INSERT INTO jforum_api (api_key, api_validity) VALUES (?, ?)
+ 
 # ###############
 # BanlistModel
 # ###############

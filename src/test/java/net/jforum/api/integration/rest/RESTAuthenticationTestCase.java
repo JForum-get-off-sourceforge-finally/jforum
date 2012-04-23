@@ -4,6 +4,7 @@
 package net.jforum.api.integration.rest;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -14,6 +15,10 @@ import junit.framework.TestCase;
 import net.jforum.JForumExecutionContext;
 import net.jforum.TestCaseUtils;
 import net.jforum.api.rest.RESTAuthentication;
+import net.jforum.dao.generic.AutoKeys;
+import net.jforum.exceptions.DatabaseException;
+import net.jforum.util.DbUtils;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
@@ -52,21 +57,8 @@ public class RESTAuthenticationTestCase extends TestCase
 	 */
 	protected void createApiKey(Date validity) throws SQLException
 	{
-		PreparedStatement pstmt = null;
-		
-		try {
-			pstmt = JForumExecutionContext.getConnection()
-				.prepareStatement("INSERT INTO jforum_api (api_key, api_validity) "
-						+ " VALUES (?, ?)");
-			pstmt.setString(1, API_KEY);
-			pstmt.setTimestamp(2, new Timestamp(validity.getTime()));
-			pstmt.executeUpdate();
-		}
-		finally {
-			if (pstmt != null) {
-				pstmt.close();
-			}
-		}
+		ApiInsertDeleteDAO apiInsertDeleteDAO = new ApiInsertDeleteDAO();
+		apiInsertDeleteDAO.insert(API_KEY, new Timestamp(validity.getTime()));
 	}
 
 	/**
@@ -107,4 +99,35 @@ public class RESTAuthenticationTestCase extends TestCase
 		this.deleteApiKey();
 		JForumExecutionContext.finish();
 	}
+}
+
+
+/**
+ * This functionality is only used by this testcase. So
+ * this DAO is here and not among the other DAOs. 
+ *
+ */
+class ApiInsertDeleteDAO extends AutoKeys {
+
+	public void insert(final String apiKey, final Timestamp timestamp)
+	{
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+
+		try {
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("ApiModel.insert"));
+			pstmt.setString(1, apiKey);
+			pstmt.setTimestamp(2, timestamp);
+
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DatabaseException(e);
+		}
+		finally {
+			DbUtils.close(resultSet, pstmt);
+		}
+	}
+
 }
