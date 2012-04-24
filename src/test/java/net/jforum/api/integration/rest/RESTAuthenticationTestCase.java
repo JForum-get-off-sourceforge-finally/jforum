@@ -119,7 +119,6 @@ class ApiInsertDeleteDAO extends AutoKeys {
 					SystemGlobals.getSql("ApiModel.insert"));
 			pstmt.setString(1, apiKey);
 			pstmt.setTimestamp(2, timestamp);
-
 			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {
