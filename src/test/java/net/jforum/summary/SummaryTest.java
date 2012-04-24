@@ -51,8 +51,8 @@ public class SummaryTest extends TestCase
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_HOST, "localhost");
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_PORT, "1825");
 		fakeSmtpServer = SimpleSmtpServer.start(1825);
-		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_SSL, String.valueOf(true));
-		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_AUTH, String.valueOf(true));		
+		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_SSL, String.valueOf(false));
+		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_AUTH, String.valueOf(false));		
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_USERNAME, "jforumtest@andowson.com");
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_PASSWORD, "STQa*2eZ");
 

@@ -40,6 +40,7 @@
  */
 package net.jforum.dao.generic;
 
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,8 +107,9 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		Timestamp postTime = rs.getTimestamp("post_time");
 		post.setTime(postTime);
 		post.setSubject(rs.getString("post_subject"));
-		post.setText(rs.getString("post_text"));
-		post.setPostUsername(rs.getString("username"));
+		Blob blob = rs.getBlob("post_text");
+		String textString = new String(blob.getBytes(1, (int)blob.length()));
+		post.setText(textString);		post.setPostUsername(rs.getString("username"));
 
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		post.setFormattedTime(df.format(postTime));
