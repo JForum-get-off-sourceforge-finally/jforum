@@ -188,20 +188,25 @@ public class LuceneSearch implements NewDocumentAdded
 
 	private void filterByKeywords(SearchArgs args, StringBuffer criteria)
 	{
-		criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
 		if ( args.getMatchType() == MatchType.RAW_KEYWORDS ) {
+			criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
 			criteria.append(args.rawKeywords());
+			criteria.append(")");
 		} else {
 			String[] keywords = this.analyzeKeywords(args.rawKeywords());
 
-			for (int i = 0; i < keywords.length; i++) {
-				if (args.getMatchType() == MatchType.ALL_KEYWORDS) {
-					criteria.append("+");
+			if(keywords.length != 0) {
+				criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
+
+				for (int i = 0; i < keywords.length; i++) {
+					if (args.getMatchType() == MatchType.ALL_KEYWORDS) {
+						criteria.append("+");
+					}
+					criteria.append(QueryParser.escape(keywords[i])).append(" ");
 				}
-				criteria.append(QueryParser.escape(keywords[i])).append(" ");
+				criteria.append(")");
 			}
 		}
-		criteria.append(")");
 	}
 
 	private void filterByForum(SearchArgs args, StringBuffer criteria)
