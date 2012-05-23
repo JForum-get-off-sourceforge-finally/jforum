@@ -43,9 +43,10 @@
 package net.jforum.repository;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
@@ -59,10 +60,11 @@ import net.jforum.entities.Banlist;
  */
 public class BanlistRepository implements Cacheable
 {
+	private static final Logger LOGGER = Logger.getLogger(BanlistRepository.class);
 	private static CacheEngine cache;
 	private static final String FQN = "banlist";
 	private static final String BANLIST = "banlistCollection";
-	private static int size = 0;
+	private static boolean empty = false;
 	
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
@@ -77,13 +79,16 @@ public class BanlistRepository implements Cacheable
 		cache = engine;
 	}
 	
-	public static boolean shouldBan(Banlist b) {
+	public static boolean shouldBan(Banlist ban) {
 		boolean status = false;
-		
-		for (Iterator<Banlist> iter = banlist().values().iterator(); iter.hasNext(); ) {
-			Banlist current = iter.next();
-			
-			if (current.matches(b)) {
+				
+		Map<Integer, Banlist> map = banlist();
+		if (map.isEmpty() && !empty) {
+			loadBanlist();
+			map = banlist();
+		}
+		for (Banlist current: map.values()) {			
+			if (current.matches(ban)) {
 				status = true;
 				break;
 			}
@@ -92,50 +97,56 @@ public class BanlistRepository implements Cacheable
 		return status;
 	}
 
-	public static void add(Banlist b)
+	public static void add(Banlist ban)
 	{
-		Map<Integer, Banlist> m = banlist();
-		m.put(Integer.valueOf(b.getId()), b);
+		Map<Integer, Banlist> map = banlist();
+		map.put(Integer.valueOf(ban.getId()), ban);
 		
-		cache.add(FQN, BANLIST, m);
+		cache.add(FQN, BANLIST, map);
+		if (empty) {
+			empty = false;
+		}
 	}
 	
 	public static void remove(int banlistId)
 	{
-		Map<Integer, Banlist> m = banlist();
+		Map<Integer, Banlist> map = banlist();
 		
 		Integer key = Integer.valueOf(banlistId);
 		
-		if (m.containsKey(key)) {
-			m.remove(key);
+		if (map.containsKey(key)) {
+			map.remove(key);
 		}
 		
-		cache.add(FQN, BANLIST, m);
+		cache.add(FQN, BANLIST, map);
+		if (map.isEmpty()) {
+			empty = true;
+		}
 	}
 	
 	private static Map<Integer, Banlist> banlist()
 	{
-		Map<Integer, Banlist> m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
+		Map<Integer, Banlist> map = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
         
-        if (m == null && size > 0) {
-     	   loadBanlist();
-     	   m = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
-        }        
-		if (m == null) {
-			m = new HashMap<Integer, Banlist>();
+		if (map == null) {
+			map = new HashMap<Integer, Banlist>();
 		}
 		
-		return m;
+		return map;
 	}
 	
 	public static void loadBanlist() 
 	{
 		BanlistDAO dao = DataAccessDriver.getInstance().newBanlistDAO();
-		List<Banlist> banlist = dao.selectAll();
+		List<Banlist> list = dao.selectAll();
 		
-		for (Iterator<Banlist> iter = banlist.iterator(); iter.hasNext(); ) {
-			BanlistRepository.add(iter.next());			
+		if (list.size() == 0) {
+			empty = true;
+		} else {
+			for (Banlist ban: list) {
+				BanlistRepository.add(ban);			
+			}
 		}
-		size = banlist.size(); 
+		LOGGER.debug("Loading banlist from DAO");
 	}
 }
