@@ -109,7 +109,8 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		post.setSubject(rs.getString("post_subject"));
 		Blob blob = rs.getBlob("post_text");
 		String textString = new String(blob.getBytes(1, (int)blob.length()));
-		post.setText(textString);		post.setPostUsername(rs.getString("username"));
+		post.setText(textString);
+		post.setPostUsername(rs.getString("username"));
 
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		post.setFormattedTime(df.format(postTime));
