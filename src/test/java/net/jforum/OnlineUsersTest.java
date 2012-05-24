@@ -67,7 +67,7 @@ public class OnlineUsersTest extends TestCase
 	{
 		String[] sessionId = new String[3];
 		for (int i = 0; i < sessionId.length; i++) {
-			sessionId[i] = ANONYMOUS + i + "_" + System.currentTimeMillis();
+			sessionId[i] = i + "_" + System.currentTimeMillis();
 			this.createUserSession(ANONYMOUS, sessionId[i]);
 		}
 		
@@ -86,13 +86,13 @@ public class OnlineUsersTest extends TestCase
 		String[] sessionId = new String[3];
 		// Anonymous
 		for (int i = 0; i < 2; i++) {
-			sessionId[i] = ANONYMOUS + i + "_" + System.currentTimeMillis();
+			sessionId[i] = i + "_" + System.currentTimeMillis();
 			this.createUserSession(ANONYMOUS, sessionId[i]);
 		}		
 		
 		// Logged
 		SessionFacade.setAttribute("logged", "1");
-		sessionId[2] = "logged" + System.currentTimeMillis();
+		sessionId[2] = "logged_" + System.currentTimeMillis();
 		this.createUserSession(2, sessionId[2]);
 		
 		// Assert
@@ -111,18 +111,15 @@ public class OnlineUsersTest extends TestCase
 	public void testAnonymousThenLogged()
 	{
 		// Anonymous
-		String sessionId = ANONYMOUS + "1_" + System.currentTimeMillis();
-		
+		String sessionId = "1_" + System.currentTimeMillis();
 		this.createUserSession(ANONYMOUS, sessionId);
 		
 		assertEquals(1, SessionFacade.anonymousSize());
 		assertEquals(0, SessionFacade.registeredSize());
 		
 		// Logged
-		UserSession us = SessionFacade.getUserSession(sessionId);
-		
-		SessionFacade.setAttribute("logged", "1");		
-		
+		UserSession us = SessionFacade.getUserSession(sessionId);		
+		SessionFacade.setAttribute("logged", "1");
 		SessionFacade.remove(sessionId);
 		us.setUserId(2);
 		SessionFacade.add(us);
@@ -138,15 +135,10 @@ public class OnlineUsersTest extends TestCase
 		String[] sessionId = new String[3];
 		// Logged
 		SessionFacade.setAttribute("logged", "1");
-		
-		sessionId[0] = "2_" + System.currentTimeMillis();
-		this.createUserSession(2, sessionId[0]);
-		
-		sessionId[1] = "3_" + System.currentTimeMillis();
-		this.createUserSession(3, sessionId[1]);
-
-		sessionId[2] = "4_" + System.currentTimeMillis();
-		this.createUserSession(4, "4_" + System.currentTimeMillis());
+		for (int i = 0; i < sessionId.length; i++) {
+			sessionId[i] = i+2 + "_" + System.currentTimeMillis();
+			this.createUserSession(i+2, sessionId[i]);
+		}		
 		
 		assertEquals(3, SessionFacade.registeredSize());
 		assertEquals(0, SessionFacade.anonymousSize());
@@ -161,9 +153,9 @@ public class OnlineUsersTest extends TestCase
 		assertEquals(1, SessionFacade.anonymousSize());
 		
 		// clean up to prevent Cache error
-		//for (int i = 0; i < sessionId.length; i++) {
-		//	SessionFacade.remove(sessionId[i]);
-		//}		
+		for (int i = 0; i < sessionId.length; i++) {
+			SessionFacade.remove(sessionId[i]);
+		}		
 	}
 	
 	private void createUserSession(int userId, String sessionId)
