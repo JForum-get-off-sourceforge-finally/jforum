@@ -304,6 +304,8 @@ public final class ConfigKeys
 	public static final String REDIRECT_BASE_URL = "redirect.base.url";
     
 	public static final String FREEMARKER_EXTRA_TEMPLATE_PATH = "freemarker.extra.template.path";
+	public static final String STOPFORUMSPAM_API_ENABLED = "stopForumSpam.api.enabled";
+	public static final String STOPFORUMSPAM_API_URL = "stopForumSpam.api.url";
 
 	private ConfigKeys() {}
 }

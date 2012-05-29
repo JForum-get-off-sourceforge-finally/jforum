@@ -298,7 +298,8 @@ public class UserAction extends Command
 		}
 
 		final BanlistDAO banlistDao = DataAccessDriver.getInstance().newBanlistDAO();
-		if (StopForumSpam.checkIp(ip)) {
+		boolean stopForumSpamEnabled = SystemGlobals.getBoolValue(ConfigKeys.STOPFORUMSPAM_API_ENABLED);
+		if (stopForumSpamEnabled && StopForumSpam.checkIp(ip)) {
 			LOGGER.info("Forum Spam found! Block it: " + ip);
 			final Banlist banlist = new Banlist();
 			banlist.setIp(ip);
@@ -307,7 +308,7 @@ public class UserAction extends Command
 				BanlistRepository.add(banlist);
 			}
 			error = true;
-		} else if (StopForumSpam.checkEmail(email)) {
+		} else if (stopForumSpamEnabled && StopForumSpam.checkEmail(email)) {
 			LOGGER.info("Forum Spam found! Block it: " + email);
 			final Banlist banlist = new Banlist();			
 			banlist.setEmail(email);
