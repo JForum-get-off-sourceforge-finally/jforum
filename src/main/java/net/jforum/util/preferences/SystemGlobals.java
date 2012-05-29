@@ -131,7 +131,7 @@ public final class SystemGlobals implements VariableStore
 		this.installationConfig = getVariableValue(ConfigKeys.INSTALLATION_CONFIG);
 		if (new File(this.installationConfig).exists() && !additionalDefaultsList.contains(this.installationConfig)) {
 			additionalDefaultsList.add(0, this.installationConfig);
-			LOGGER.info("Add " + this.installationConfig);
+			LOGGER.info("Added " + this.installationConfig);
 		}		
 
 		for (String file : additionalDefaultsList) {
@@ -217,6 +217,7 @@ public final class SystemGlobals implements VariableStore
 
 		if (!additionalDefaultsList.contains(file)) {
 			additionalDefaultsList.add(file);
+			LOGGER.info("Added " + file);
 		}
 	}
 

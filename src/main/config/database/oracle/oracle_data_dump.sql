@@ -101,8 +101,8 @@ INSERT INTO jforum_user_groups (group_id, user_id) VALUES (jforum_groups_seq.cur
 --
 -- Demonstration forum
 --
-INSERT INTO jforum_categories VALUES (jforum_categories_seq.nextval,'Category Test',1,0);
-INSERT INTO jforum_forums VALUES (jforum_forums_seq.nextval,jforum_categories_seq.currval,'Test Forum','This is a test forum',1,0,1,0);
+INSERT INTO jforum_categories VALUES (jforum_categories_seq.nextval, 'Category Test', 1, 0);
+INSERT INTO jforum_forums VALUES (jforum_forums_seq.nextval, jforum_categories_seq.currval, 'Test Forum', 'This is a test forum', 1, 0, 0, 0);
 
 -- 
 --  Smilies
