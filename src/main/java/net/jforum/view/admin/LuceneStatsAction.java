@@ -88,7 +88,7 @@ public class LuceneStatsAction extends AdminCommand
 			boolean isInformationAvailable = true;
 			
 			try {
-				reader = IndexReader.open(FSDirectory.open(indexDir), false);
+				reader = IndexReader.open(FSDirectory.open(indexDir));
 			}
 			catch (IOException e) {
 				isInformationAvailable = false;
@@ -100,7 +100,7 @@ public class LuceneStatsAction extends AdminCommand
 			
 			if (isInformationAvailable) {
 				this.context.put("isLocked", IndexWriter.isLocked(FSDirectory.open(indexDir)));
-				this.context.put("lastModified", new Date(IndexReader.lastModified(FSDirectory.open(indexDir))));
+				this.context.put("lastModified", new Date(FSDirectory.fileModified(indexDir, "segments.gen")));
 				this.context.put("indexLocation", indexDir.getAbsolutePath());
 				this.context.put("totalMessages", Integer.valueOf(ForumRepository.getTotalMessages()));
 				this.context.put("indexVersion", Long.valueOf(reader.getVersion()));

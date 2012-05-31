@@ -58,7 +58,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
@@ -250,21 +249,23 @@ public class LuceneIndexer
 	private boolean performDelete(final Post post)
 	{
 		synchronized (MUTEX) {
-			IndexReader reader = null;
+			IndexWriter writer = null;
 			boolean status = false;
 			
-			try {
-				reader = IndexReader.open(this.settings.directory(), false);
-				reader.deleteDocuments(new Term(SearchFields.Keyword.POST_ID, String.valueOf(post.getId())));				
+			try {				
+				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				writer = new IndexWriter(this.settings.directory(), conf);
+				writer.deleteDocuments(new Term(SearchFields.Keyword.POST_ID, String.valueOf(post.getId())));				
 				status = true;
 			}
 			catch (IOException e) {
 				LOGGER.error(e.toString(), e);
 			}
 			finally {
-				if (reader != null) {
+				if (writer != null) {
 					try {						
-						reader.close();
+						writer.commit();
+						writer.close();
 						this.flushRAMDirectory();
 					}
 					catch (IOException e) {
