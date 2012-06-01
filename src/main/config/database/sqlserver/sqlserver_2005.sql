@@ -183,6 +183,12 @@ KarmaModel.getMostRatedUserByPeriod = u.user_id, u.username, SUM(points) AS tota
 # ################
 AttachmentModel.lastGeneratedAttachmentId = SELECT IDENT_CURRENT('jforum_attach') AS attach_id
 
+AttachmentModel.selectTopDownloadsByLimit = SELECT TOP (?) f.forum_id, f.forum_name, t.topic_id, t.topic_title, ad.attach_id, ad.real_filename, ad.filesize, ad.download_count \
+    FROM jforum_forums f, jforum_posts p, jforum_topics t, jforum_attach a, jforum_attach_desc ad \
+    WHERE p.topic_id = t.topic_id AND p.forum_id = f.forum_id and p.post_id = a.post_id \
+    AND a.attach_id = ad.attach_id AND a.privmsgs_id = 0 AND ad.download_count > 0 \
+    ORDER BY ad.download_count DESC
+    
 # ###############
 # BanlistModel
 # ###############
