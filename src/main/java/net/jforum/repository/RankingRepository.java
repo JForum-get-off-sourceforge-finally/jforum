@@ -149,4 +149,9 @@ public class RankingRepository implements Cacheable
 			? rankList.get(index).getTitle()
 			: null;
 	}
+	
+	public static int size() {
+		List<Ranking> rankList = (List<Ranking>)cache.get(FQN, ENTRIES);
+		return (rankList != null ? rankList.size() : 0);
+	}
 }
