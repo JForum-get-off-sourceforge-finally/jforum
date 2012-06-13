@@ -111,10 +111,6 @@ public final class TestCaseUtils
 		SystemGlobals.initGlobals(this.rootDir+"/jforum", this.rootDir
 				+ "/jforum/WEB-INF/config/SystemGlobals.properties");
 		
-		if (new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
-			SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG));
-        }
-		
 		// Configure the template engine
         Configuration templateCfg = new Configuration();
         templateCfg.setDirectoryForTemplateLoading(new File(SystemGlobals.getApplicationPath()
