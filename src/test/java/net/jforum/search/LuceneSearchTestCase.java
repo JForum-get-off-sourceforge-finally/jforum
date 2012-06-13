@@ -84,13 +84,13 @@ public class LuceneSearchTestCase extends TestCase
 		// Post 4
 		Post post = this.newPost();
 		post.setText("It introduces you to searching, sorting, filtering and highlighting [...]");
-		post.setForumId(1);
+		post.setForumId(2);
 		this.indexer.create(post);
 		
 		// Post 5
 		post = this.newPost();
 		post.setText("How to integrate lucene into your applications");
-		post.setForumId(2);
+		post.setForumId(1);
 		l.add(post);
 		
 		this.indexer.create(post);

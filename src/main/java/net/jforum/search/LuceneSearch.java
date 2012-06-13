@@ -54,6 +54,7 @@ import net.jforum.search.SearchArgs.MatchType;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
@@ -75,6 +76,7 @@ import org.apache.lucene.search.TopDocs;
  */
 public class LuceneSearch implements NewDocumentAdded
 {
+	private static final Logger LOGGER = Logger.getLogger(LuceneSearch.class);
 	private IndexSearcher searcher;
 	private LuceneSettings settings;
 	private LuceneResultCollector contentCollector;
@@ -140,19 +142,22 @@ public class LuceneSearch implements NewDocumentAdded
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
 
+			LOGGER.debug("criteria=["+criteria.toString()+"]");
+			
 			if (criteria.length() == 0) {
-				return new SearchResult<Post>(new ArrayList<Post>(), 0);
-			}
-
-			Query query = new QueryParser(LuceneSettings.version, "", this.settings.analyzer()).parse(criteria.toString());
-
-			final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
-			TopDocs results = this.searcher.search(query, filter, limit, this.getSorter(args));
-			if (results.totalHits > 0) {
-				result = new SearchResult<Post>(resultCollector.collect(args, results, query), results.totalHits);
-			}
+				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
+			} 
 			else {
-				result = new SearchResult<Post>(new ArrayList<Post>(), 0);
+				Query query = new QueryParser(LuceneSettings.version, SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
+
+				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
+				TopDocs results = this.searcher.search(query, filter, limit, this.getSorter(args));
+				if (results.totalHits > 0) {
+					result = new SearchResult<Post>(resultCollector.collect(args, results, query), results.totalHits);
+				}
+				else {
+					result = new SearchResult<Post>(new ArrayList<Post>(), 0);
+				}
 			}
 		}
 		catch (Exception e) {
@@ -168,6 +173,7 @@ public class LuceneSearch implements NewDocumentAdded
 
 		if ("time".equals(args.getOrderBy())) {
 			sort = new Sort(new SortField(SearchFields.Keyword.POST_ID, SortField.INT, "DESC".equals(args.getOrderDir())));
+			LOGGER.debug("sort by time DESC: " + "DESC".equals(args.getOrderDir()));
 		}
 
 		return sort;
@@ -176,6 +182,9 @@ public class LuceneSearch implements NewDocumentAdded
 	private void filterByDateRange(SearchArgs args, StringBuffer criteria)
 	{
 		if (args.getFromDate() != null) {
+			if (criteria.length() > 0) {
+				criteria.append(" AND ");
+			}
 			criteria.append('(')
 				.append(SearchFields.Keyword.DATE)
 				.append(": [")
@@ -187,24 +196,33 @@ public class LuceneSearch implements NewDocumentAdded
 	}
 
 	private void filterByKeywords(SearchArgs args, StringBuffer criteria)
-	{
-		if ( args.getMatchType() == MatchType.RAW_KEYWORDS ) {
+	{		
+		if (args.getMatchType() == MatchType.RAW_KEYWORDS) {
+			if (criteria.length() >0) {
+				criteria.append(" AND ");
+			}
 			criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
 			criteria.append(args.rawKeywords());
-			criteria.append(")");
+			criteria.append(')');
 		} else {
 			String[] keywords = this.analyzeKeywords(args.rawKeywords());
 
-			if(keywords.length != 0) {
+			if (keywords.length != 0) {
+				if (criteria.length() >0) {
+					criteria.append(" AND ");
+				}
 				criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
 
 				for (int i = 0; i < keywords.length; i++) {
 					if (args.getMatchType() == MatchType.ALL_KEYWORDS) {
-						criteria.append("+");
+						criteria.append('+');
 					}
-					criteria.append(QueryParser.escape(keywords[i])).append(" ");
+					criteria.append(QueryParser.escape(keywords[i]));
+					if (i < keywords.length -1) {
+						criteria.append(' ');					
+					}
 				}
-				criteria.append(")");
+				criteria.append(')');
 			}
 		}
 	}
@@ -216,14 +234,14 @@ public class LuceneSearch implements NewDocumentAdded
 				.append(SearchFields.Keyword.FORUM_ID)
 				.append(':')
 				.append(args.getForumId())
-				.append(") ");
+				.append(')');
 		}
 	}
 
 	private String[] analyzeKeywords(String contents)
 	{
 		try {
-			TokenStream stream = this.settings.analyzer().tokenStream("contents", new StringReader(contents));
+			TokenStream stream = this.settings.analyzer().tokenStream(SearchFields.Indexed.CONTENTS, new StringReader(contents));
 			stream.addAttribute(CharTermAttribute.class);
 			List<String> tokens = new ArrayList<String>();
 
@@ -236,7 +254,7 @@ public class LuceneSearch implements NewDocumentAdded
 				tokens.add(token.toString());
 			}
 
-			return (String[])tokens.toArray(new String[tokens.size()]);
+			return tokens.toArray(new String[tokens.size()]);
 		}
 		catch (IOException e) {
 			throw new SearchException(e);
