@@ -45,7 +45,6 @@ package net.jforum.summary;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import net.jforum.dao.DataAccessDriver;
@@ -83,39 +82,42 @@ public class SummaryModel extends Spammer
 
 	public void sendPostsSummary(final List<String> recipients)
 	{
-		LOGGER.info("Sending Weekly summary...");
+		if (recipients.size() > 0) { // make sure somebody want to receive it		
+			// Gets a Date seven days before now
+			final int daysBefore = Integer.parseInt(SystemGlobals.getValue(ConfigKeys.SUMMARY_DAYS_BEFORE));
 
-		// Gets a Date seven days before now
-		final int daysBefore = Integer.parseInt(SystemGlobals.getValue(ConfigKeys.SUMMARY_DAYS_BEFORE));
+			// New date "X" days before now, where "X" is the number set on the variable daysBefore
+			final long dateBefore = Calendar.getInstance().getTimeInMillis() - (1000L * 60 * 60 * 24 * daysBefore);
 
-		// New date "X" days before now, where "X" is the number set on the variable daysBefore
-		final long dateBefore = Calendar.getInstance().getTimeInMillis() - (1000L * 60 * 60 * 24 * daysBefore);
+			final List<Post> posts = listPosts(new Date(dateBefore), new Date());
+			if (posts.size() > 0) { // make sure there is at least one new post
+				
+				final String forumLink = ViewCommon.getForumLink();
 
-		final List<Post> posts = listPosts(new Date(dateBefore), new Date());
+				final SimpleHash params = new SimpleHash();
+				params.put("posts", posts);
+				params.put("url", forumLink);
+				params.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 
-		final String forumLink = ViewCommon.getForumLink();
+				final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_SUMMARY_SUBJECT);
 
-		final SimpleHash params = new SimpleHash();
-		params.put("posts", posts);
-		params.put("url", forumLink);
-		params.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
+				LOGGER.info("Sending Weekly summary...");
+				
+				this.setUsers(this.recipientsAsUsers(recipients));
+				this.setTemplateParams(params);
 
-		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_SUMMARY_SUBJECT);
-		
-		this.setUsers(this.recipientsAsUsers(recipients));
-		this.setTemplateParams(params);
-
-		this.prepareMessage(subject, SystemGlobals.getValue(ConfigKeys.MAIL_SUMMARY_FILE));
-		super.dispatchMessages();
+				this.prepareMessage(subject, SystemGlobals.getValue(ConfigKeys.MAIL_SUMMARY_FILE));
+				super.dispatchMessages();
+			}
+		}
 	}
 	
 	private List<User> recipientsAsUsers(final List<String> recipients)
 	{
-		final List<User> list = new ArrayList<User>();
+		final List<User> list = new ArrayList<User>();		
 		
-		for (final Iterator<String> iter = recipients.iterator(); iter.hasNext(); ) {
-			final String email = (String)iter.next();
-			
+		for (String email : recipients) {			
+			LOGGER.debug("email="+email);
 			final User user = new User();
 			user.setEmail(email);
 			

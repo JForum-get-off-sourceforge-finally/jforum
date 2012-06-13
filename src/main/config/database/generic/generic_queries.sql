@@ -749,7 +749,7 @@ BannerDAO.selectActiveBannerByPlacement = SELECT banner_id, banner_name, banner_
 ##############
 # SummaryDAO
 ##############
-SummaryDAO.selectAllRecipients = SELECT username, user_email FROM jforum_users WHERE user_email != ''  AND user_notify_always = 1 AND (deleted IS NULL OR deleted = 0) ORDER BY user_posts DESC 
+SummaryDAO.selectAllRecipients = SELECT username, user_email FROM jforum_users WHERE user_email != ' ' AND user_notify_always = 1 AND (deleted IS NULL OR deleted = 0) ORDER BY user_posts DESC 
 
 SummaryDAO.selectPosts = SELECT p.post_id, p.topic_id, p.forum_id, p.user_id, post_time, \
 	pt.post_subject, pt.post_text, username \

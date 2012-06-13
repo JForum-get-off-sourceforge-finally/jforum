@@ -40,7 +40,6 @@
  */
 package net.jforum.dao.generic;
 
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.log4j.Logger;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
@@ -66,6 +67,8 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 {
+	private static final Logger LOGGER = Logger.getLogger(GenericSummaryDAO.class);
+	
 	/**
 	 * @see net.jforum.dao.SummaryDAO#selectLastPosts(Date, Date)
 	 */
@@ -107,9 +110,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		Timestamp postTime = rs.getTimestamp("post_time");
 		post.setTime(postTime);
 		post.setSubject(rs.getString("post_subject"));
-		Blob blob = rs.getBlob("post_text");
-		String textString = new String(blob.getBytes(1, (int)blob.length()));
-		post.setText(textString);
+		post.setText(rs.getString("post_text"));
 		post.setPostUsername(rs.getString("username"));
 
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
@@ -117,6 +118,8 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 
 		post.setKarma(DataAccessDriver.getInstance().newKarmaDAO().getPostKarma(post.getId()));
 
+		LOGGER.debug("Add to Weekly Summary: post.id="+ post.getId() +" post.subject="+ post.getSubject());
+		
 		return post;
 	}
 
@@ -127,15 +130,16 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		ResultSet rs = null;
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
-
-			List<String> recipients = new ArrayList<String>();
 			rs = pstmt.executeQuery();
 
+			List<String> recipients = new ArrayList<String>();
 			String mail = null;
 			while (rs.next()) {
 				mail = rs.getString("user_email");
-				if (mail != null && !mail.trim().equals("")) {
+				LOGGER.debug("user_email=<" + mail + ">");
+				if (mail != null && !"".equals(mail.trim())) {
 					recipients.add(mail);
+					LOGGER.debug("recipients add " + mail);
 				}
 			}
 

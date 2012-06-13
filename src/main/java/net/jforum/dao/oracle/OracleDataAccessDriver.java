@@ -47,6 +47,7 @@ import net.jforum.dao.ModerationDAO;
 import net.jforum.dao.ModerationLogDAO;
 import net.jforum.dao.PostDAO;
 import net.jforum.dao.PrivateMessageDAO;
+import net.jforum.dao.SummaryDAO;
 import net.jforum.dao.TopicDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.dao.generic.GenericDataAccessDriver;
@@ -64,6 +65,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	private static ModerationDAO moderationDao = new OracleModerationDAO();
 	private static ModerationLogDAO moderationLogDao = new OracleModerationLogDAO();
 	private static LuceneDAO luceneDao = new OracleLuceneDAO();
+	private static SummaryDAO summaryDao = new OracleSummaryDAO();
 	
 	/**
 	 * @see net.jforum.dao.generic.GenericDataAccessDriver#newModerationLogDAO()
@@ -119,5 +121,13 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	public LuceneDAO newLuceneDAO() 
 	{
 		return luceneDao;
+	}
+	
+	/**
+	 * @see net.jforum.dao.generic.GenericDataAccessDriver#newSummaryDAO()
+	 */
+	public SummaryDAO newSummaryDAO() 
+	{
+		return summaryDao;
 	}
 }
