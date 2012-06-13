@@ -63,7 +63,7 @@ public class SystemGlobalsTest extends TestCase
 						TestCaseUtils.getRootDir() + GLOBALS);
 	}
 	
-	public void testLoad()
+	public void testLoadDefaults()
 	{
 		assertEquals(TestCaseUtils.getRootDir() + "/WEB-INF", 
 						SystemGlobals.getApplicationResourceDir());
