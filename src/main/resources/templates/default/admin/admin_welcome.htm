@@ -9,13 +9,33 @@
 <style type="text/css">
 h1 { font-size: 22px; font-family: arial, verdana; }
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+function fetchMail()
+{
+  $("#fetchMailButton").val("Fetching mail...").attr("disabled", "disabled");
+  
+  var params = { };
+  $.ajax({
+	  type:"GET",
+	  url:"${JForumContext.encodeURL("/admBase/fetchMail")}",
+	  data:params,
+	  dataType:"script",
+	  global:false
+  });
+  alert("Fetch mail post done!");
+  $("#fetchMailButton").val("Fetch mail").removeAttr("disabled");
+}
+/* ]]> */
+</script>
 <title>Welcome</title>
 </head>
 <body>
 
 <a name="top"></a>
 
-<a href="${JForumContext.encodeURL("/admBase/fetchMail")}">Fetch mail</a><br />
+<input type="button" value="Fetch mail" class="mainoption" id="fetchMailButton" onclick="fetchMail();" />
 
 <h1>${I18n.getMessage("ForumListing.versionInformation")}</h1>
 
