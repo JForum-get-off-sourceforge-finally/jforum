@@ -42,7 +42,6 @@
  */
 package net.jforum.dao.oracle;
 
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,8 +52,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.log4j.Logger;
-
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.generic.GenericSummaryDAO;
@@ -63,6 +60,8 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Andowson Chang
@@ -112,10 +111,8 @@ public class OracleSummaryDAO extends GenericSummaryDAO
 		post.setUserId(rs.getInt("user_id"));
 		Timestamp postTime = rs.getTimestamp("post_time");
 		post.setTime(postTime);
-		post.setSubject(rs.getString("post_subject"));
-		Blob blob = rs.getBlob("post_text");
-		String textString = new String(blob.getBytes(1, (int)blob.length()));
-		post.setText(textString);
+		post.setSubject(rs.getString("post_subject"));		
+		post.setText(OracleUtils.readBlobUTF16BinaryStream(rs, "post_text"));
 		post.setPostUsername(rs.getString("username"));
 
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
