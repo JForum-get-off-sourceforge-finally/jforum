@@ -483,7 +483,7 @@ public class User implements Serializable
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 		
-		if (avatar != null && avatar.toLowerCase().startsWith("http://")) {
+		if (avatar != null && (avatar.toLowerCase().startsWith("http://") || avatar.toLowerCase().startsWith("https://"))) {
 			this.isExternalAvatar = true;
 		}
 	}

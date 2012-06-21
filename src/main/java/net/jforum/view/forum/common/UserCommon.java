@@ -77,7 +77,7 @@ import org.apache.log4j.Logger;
 public final class UserCommon 
 {
 	private static final Logger LOGGER = Logger.getLogger(UserCommon.class);
-	private static final String IMAGE_AVATAR = "/images/avatar/";
+	private static final String IMAGE_AVATAR = SystemGlobals.getValue(ConfigKeys.AVATAR_STORE_DIR);
 
 	/**
 	 * Updates the user information
@@ -132,7 +132,8 @@ public final class UserCommon
 		user.setNotifyText("1".equals(request.getParameter("notify_text")));
 		
 		String website = safeHtml.makeSafe(request.getParameter("website"));
-		if (StringUtils.isNotEmpty(website) && !website.toLowerCase(Locale.US).startsWith("http://")) {
+		if (StringUtils.isNotEmpty(website) && !website.toLowerCase(Locale.US).startsWith("http://") 
+				&& !website.toLowerCase(Locale.US).startsWith("https://")) {
 			website = "http://" + website;
 		}
 	
@@ -161,7 +162,7 @@ public final class UserCommon
 		}
 		
 		if (request.getParameter("avatardel") != null) {
-			final File file = new File(SystemGlobals.getApplicationPath() + IMAGE_AVATAR + user.getAvatar());
+			final File file = new File(IMAGE_AVATAR + user.getAvatar());
 			if (file.exists()) {
 				final boolean result = file.delete();
 				if (!result) {
@@ -183,7 +184,8 @@ public final class UserCommon
 		else if (SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL)) {
 			final String avatarUrl = request.getParameter("avatarUrl");
 			if (StringUtils.isNotEmpty(avatarUrl)) {
-				if (avatarUrl.toLowerCase(Locale.US).startsWith("http://")) {
+				if (avatarUrl.toLowerCase(Locale.US).startsWith("http://") 
+						|| avatarUrl.toLowerCase(Locale.US).startsWith("https://")) {
 					// make sure it's really an image
 					try {
 						BufferedImage image = ImageIO.read(new URL(avatarUrl));
@@ -227,9 +229,7 @@ public final class UserCommon
 		if (user.getAvatar() != null) {
 			final File avatarFile = new File(user.getAvatar());
 			
-			final File fileToDelete = new File(SystemGlobals.getApplicationPath() 
-				+ IMAGE_AVATAR
-				+ avatarFile.getName());
+			final File fileToDelete = new File(IMAGE_AVATAR + avatarFile.getName());
 			
 			if (fileToDelete.exists()) {
 				result = fileToDelete.delete();
@@ -258,17 +258,9 @@ public final class UserCommon
 		}
 		
 		if (type != ImageUtils.IMAGE_UNKNOWN) {
-			String avatarTmpFileName = SystemGlobals.getApplicationPath() 
-				+ IMAGE_AVATAR 
-				+ fileName 
-				+ "_tmp." 
-				+ extension;
+			String avatarTmpFileName = IMAGE_AVATAR + fileName + "_tmp." + extension;
 	
-			String avatarFinalFileName = SystemGlobals.getApplicationPath() 
-				+ IMAGE_AVATAR 
-				+ fileName 
-				+ "." 
-				+ extension;
+			String avatarFinalFileName = IMAGE_AVATAR + fileName + "." + extension;
 	
 			uploadUtils.saveUploadedFile(avatarTmpFileName);		
 

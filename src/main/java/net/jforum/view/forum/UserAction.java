@@ -125,6 +125,7 @@ public class UserAction extends Command
 			this.context.put("action", "editSave");
 			this.context.put(PAGE_TITLE, I18n.getMessage("UserProfile.profileFor") + " " + user.getUsername());
 			this.context.put("avatarAllowExternalUrl", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL));
+			this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 			this.setTemplateName(TemplateKeys.USER_EDIT);
 		} 
 	}
@@ -605,6 +606,7 @@ public class UserAction extends Command
 			this.context.put("rank", new RankingRepository());
 			this.context.put("u", user);
 			this.context.put("avatarAllowExternalUrl", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL));
+			this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 			
 			int loggedId = SessionFacade.getUserSession().getUserId();
 			int count = 0;

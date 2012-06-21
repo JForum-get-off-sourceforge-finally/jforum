@@ -25,12 +25,12 @@
 	<tr>
 		<td class="row1" valign="top" align="center" height="6">
 			<#if (u.avatar?exists && u.avatar?length > 0)>
-				<#if u.isExternalAvatar() || u.avatar.startsWith("http://")>
+				<#if u.isExternalAvatar() || u.avatar.startsWith("http://") || u.avatar.startsWith("https://")>
 					<#if avatarAllowExternalUrl>
 						<img src="${u.avatar}" alt="avatar" />
 					</#if>
 				<#else>
-					<img src="${contextPath}/images/avatar/${u.avatar}" alt="avatar" /><br />
+					<img src="${contextPath}/${avatarPath}/${u.avatar}" alt="avatar" /><br />
 				</#if>
 			</#if>
 			<span class="postdetails">

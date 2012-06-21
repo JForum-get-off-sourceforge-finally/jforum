@@ -220,8 +220,9 @@ public class PostAction extends Command
 		this.context.put("karmaMin", Integer.valueOf(SystemGlobals.getValue(ConfigKeys.KARMA_MIN_POINTS)));
 		this.context.put("karmaMax", Integer.valueOf(SystemGlobals.getValue(ConfigKeys.KARMA_MAX_POINTS)));
 		this.context.put("avatarAllowExternalUrl", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL));
+		this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 		this.context.put("moderationLoggingEnabled", SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED));
-		this.context.put("needCaptcha", SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS));
+		this.context.put("needCaptcha", SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS));		
 		
 		Map<Integer, User> topicPosters = topicDao.topicPosters(topic.getId());
 		

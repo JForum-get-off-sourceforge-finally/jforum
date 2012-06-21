@@ -319,7 +319,7 @@ function validateForm()
 										<#if u.isExternalAvatar()>
 											<img src="${u.avatar?html}" alt="[Avatar]" />
 										<#else>
-											<img src="${contextPath}/images/avatar/${u.avatar}" alt="[Avatar]" /><br />
+											<img src="${contextPath}/${avatarPath}/${u.avatar}" alt="[Avatar]" /><br />
 										</#if>
 
 										<script type="text/javascript">

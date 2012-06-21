@@ -179,6 +179,7 @@ public class UserAction extends AdminCommand
 		this.context.put("action", "editSave");		
 		this.context.put("specialRanks", DataAccessDriver.getInstance().newRankingDAO().selectSpecials());
 		this.context.put("avatarAllowExternalUrl", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL));
+		this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 		this.context.put("admin", true);
 	}
 	

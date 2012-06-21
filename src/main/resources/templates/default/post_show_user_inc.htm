@@ -12,12 +12,12 @@
 </#if>
 
 <#if (user.avatar?exists && user.avatar?length > 0)>
-	<#if user.isExternalAvatar() || user.avatar.startsWith("http://")>
+	<#if user.isExternalAvatar() || user.avatar.startsWith("http://") || user.avatar.startsWith("https://")>
 		<#if avatarAllowExternalUrl>
 			<img src="${user.avatar?html}" alt="[Avatar]" />
 		</#if>
 	<#else>
-		<img src="${contextPath}/images/avatar/${user.avatar}" alt="[Avatar]" /><br />
+		<img src="${contextPath}/${avatarPath}/${user.avatar}" alt="[Avatar]" /><br />
 	</#if>
 </#if>
 <br /> 

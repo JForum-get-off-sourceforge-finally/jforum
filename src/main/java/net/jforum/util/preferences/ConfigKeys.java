@@ -57,15 +57,17 @@ public final class ConfigKeys
 	public static final String APPLICATION_PATH = "application.path";
 	public static final String INSTALLATION = "installation";
 	public static final String INSTALLED = "installed";
-
 	public static final String INSTALLATION_CONFIG = "installation.config";
 	public static final String CACHEABLE_OBJECTS = "cacheable.objects";
 	
 	public static final String FILECHANGES_DELAY = "file.changes.delay";
+
+	public static final String DAO_DRIVER = "dao.driver";
 	public static final String DATABASE_PING_DELAY = "database.ping.delay";
 	public static final String DATABASE_CONNECTION_IMPLEMENTATION = "database.connection.implementation";
 	public static final String DATABASE_DRIVER_NAME = "database.driver.name";
 	public static final String DATABASE_DRIVER_CONFIG = "database.driver.config";
+	public static final String DATABASE_DRIVER_PROPERTIES = "database.driver.properties";	
 	public static final String DATABASE_CONNECTION_HOST = "database.connection.host";
 	public static final String DATABASE_CONNECTION_USERNAME = "database.connection.username";
 	public static final String DATABASE_CONNECTION_PASSWORD = "database.connection.password";
@@ -78,12 +80,16 @@ public final class ConfigKeys
 	public static final String DATABASE_POOL_MAX = "database.connection.pool.max";
 	public static final String DATABASE_USE_TRANSACTIONS = "database.use.transactions";
 	public static final String DATABASE_DATASOURCE_NAME = "database.datasource.name";
+	public static final String DATABASE_PROPERTIES = "database.properties";
 	public static final String DATABASE_ERROR_PAGE = "database.error.page";
 	public static final String DATABASE_MYSQL_UNICODE = "mysql.unicode";
 	public static final String DATABASE_MYSQL_ENCODING = "mysql.encoding";
 	public static final String DATABASE_AUTO_KEYS = "database.support.autokeys";
 	public static final String DATABASE_SUPPORT_SUBQUERIES = "database.support.subqueries";
 	public static final String C3P0_EXTRA_PARAMS = "c3p0.extra.params";
+
+	public static final String SQL_QUERIES_GENERIC = "sql.queries.generic";
+	public static final String SQL_QUERIES_DRIVER = "sql.queries.driver";
 	
 	public static final String AUTHENTICATION_TYPE = "authentication.type";
 	public static final String SSO_IMPLEMENTATION = "sso.implementation";
@@ -101,10 +107,7 @@ public final class ConfigKeys
 	
 	public static final String RESOURCE_DIR = "resource.dir";
 	public static final String CONFIG_DIR = "config.dir";
-	public static final String DATABASE_PROPERTIES = "database.properties";
-	public static final String DATABASE_DRIVER_PROPERTIES = "database.driver.properties";
-	public static final String SQL_QUERIES_GENERIC = "sql.queries.generic";
-	public static final String SQL_QUERIES_DRIVER = "sql.queries.driver";
+
 
 	public static final String TEMPLATES_MAPPING = "templates.mapping";
 	public static final String TEMPLATE_DIR = "template.dir";
@@ -126,6 +129,7 @@ public final class ConfigKeys
 	public static final String TOPICS_READ_TIME_BY_FORUM = "topics.tracking.byforum";
 	
 	public static final String TOPIC_CACHE_ENABLED = "topic.cache.enabled";
+	public static final String TOPIC_CACHE_SIZE = "topic.cache.size";
 	public static final String SECURITY_CACHE_ENABLED = "security.cache.enabled";
 
 	public static final String VERSION = "version";
@@ -140,8 +144,6 @@ public final class ConfigKeys
 
 	public static final String TMP_DIR = "tmp.dir";
 	public static final String CACHE_DIR = "cache.dir";
-
-	public static final String DAO_DRIVER = "dao.driver";
 
 	public static final String DATE_TIME_FORMAT = "dateTime.format";
 	public static final String RSS_DATE_TIME_FORMAT = "rss.datetime.format";
@@ -220,6 +222,8 @@ public final class ConfigKeys
 	public static final String SMILIE_IMAGE_DIR = "smilie.image.dir";
 	public static final String SMILIE_IMAGE_PATTERN = "smilie.image.pattern";
 
+	public static final String AVATAR_IMAGE_DIR = "avatar.image.dir";
+	public static final String AVATAR_STORE_DIR = "avatar.store.dir";
 	public static final String AVATAR_MAX_WIDTH = "avatar.maxWidth";
 	public static final String AVATAR_MAX_HEIGHT = "avatar.maxHeight";
 	public static final String AVATAR_ALLOW_EXTERNAL_URL = "avatar.allow.external.url";
@@ -248,9 +252,9 @@ public final class ConfigKeys
 	public static final String REGISTRATION_ENABLED = "registration.enabled";
 	public static final String USERNAME_MAX_LENGTH = "username.max.length";
 
-	public static final String QUARTZ_CONFIG = "quartz.config";
-	
+	public static final String QUARTZ_CONFIG = "quartz.config";	
 	public static final String QUARTZ_CONTEXT = "org.quartz.context.";
+	
 	public static final String SEARCH_INDEXING_ENABLED = "search.indexing.enabled";
 	public static final String SEARCH_INDEXER_IMPLEMENTATION = "search.indexer.implementation";
 	public static final String SEARCH_INDEXER_CRON_EXPRESSON = "indexer.cron.expression";
@@ -304,6 +308,7 @@ public final class ConfigKeys
 	public static final String REDIRECT_BASE_URL = "redirect.base.url";
     
 	public static final String FREEMARKER_EXTRA_TEMPLATE_PATH = "freemarker.extra.template.path";
+	
 	public static final String STOPFORUMSPAM_API_ENABLED = "stopForumSpam.api.enabled";
 	public static final String STOPFORUMSPAM_API_URL = "stopForumSpam.api.url";
 
