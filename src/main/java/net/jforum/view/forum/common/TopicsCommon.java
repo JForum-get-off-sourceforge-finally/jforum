@@ -99,11 +99,12 @@ public class TopicsCommon
 		
 		// Try to get the first's page of topics from the cache
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
+			int topicCacheSize = SystemGlobals.getIntValue(ConfigKeys.TOPIC_CACHE_SIZE);
 			topics = TopicRepository.getTopics(forumId);
 
-			if (topics.isEmpty() || !TopicRepository.isLoaded(forumId)) {
+			if (topics.isEmpty() || !TopicRepository.isLoaded(forumId) || start+topicsPerPage >= topicCacheSize) {
 				synchronized (MUTEXT) {
-					if (topics.isEmpty() || !TopicRepository.isLoaded(forumId)) {
+					if (topics.isEmpty() || !TopicRepository.isLoaded(forumId) || start+topicsPerPage >= topicCacheSize) {
 						topics = tm.selectAllByForum(forumId);
 						TopicRepository.addAll(forumId, topics);
 					}

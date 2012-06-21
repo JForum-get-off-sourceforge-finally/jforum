@@ -291,8 +291,8 @@ public class TopicRepository implements Cacheable {
 				boolean contains = forumTopicsList.contains(topic);
 
 				// If the cache is full, remove the eldest element
-				int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-				if (!contains && forumTopicsList.size() + 1 > topicsPerPage) {
+				int topicCacheSize = SystemGlobals.getIntValue(ConfigKeys.TOPIC_CACHE_SIZE);
+				if (!contains && forumTopicsList.size() + 1 > topicCacheSize) {
 					forumTopicsList.removeLast();
 				} else if (contains) {
 					forumTopicsList.remove(topic);

@@ -53,11 +53,8 @@ public class TopicTypeComparator implements Comparator<Topic>, Serializable
 {
 	private static final long serialVersionUID = 4774281835148485281L;
 
-	public int compare(final Topic obj1, final Topic obj2)
+	public int compare(final Topic topic1, final Topic topic2)
 	{
-		final Topic topic1 = (Topic)obj1;
-		final Topic topic2 = (Topic)obj2;
-		
 		if (topic1.getType() < topic2.getType()) {
 			return 1;
 		}
