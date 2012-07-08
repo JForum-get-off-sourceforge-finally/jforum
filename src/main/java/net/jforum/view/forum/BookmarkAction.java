@@ -273,15 +273,20 @@ public class BookmarkAction extends Command
 	{
 		int userId = this.request.getIntParameter("user_id");
 		
-		this.setTemplateName(TemplateKeys.BOOKMARKS_LIST);
-		this.context.put("bookmarks", DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId));
-		this.context.put("forumType", Integer.valueOf(BookmarkType.FORUM));
-		this.context.put("userType", Integer.valueOf(BookmarkType.USER));
-		this.context.put("topicType", Integer.valueOf(BookmarkType.TOPIC));
 		User user = DataAccessDriver.getInstance().newUserDAO().selectById(userId);
-		this.context.put("user", user);
-		this.context.put("loggedUserId", Integer.valueOf(SessionFacade.getUserSession().getUserId()));
-		this.context.put("pageTitle", I18n.getMessage("Bookmarks.for")+" "+user.getUsername());				
+		if (user.getId() == 0) {
+			this.error("Bookmarks.notFound");
+		}
+		else {
+			this.setTemplateName(TemplateKeys.BOOKMARKS_LIST);
+			this.context.put("bookmarks", DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId));
+			this.context.put("forumType", Integer.valueOf(BookmarkType.FORUM));
+			this.context.put("userType", Integer.valueOf(BookmarkType.USER));
+			this.context.put("topicType", Integer.valueOf(BookmarkType.TOPIC));		
+			this.context.put("user", user);
+			this.context.put("loggedUserId", Integer.valueOf(SessionFacade.getUserSession().getUserId()));
+			this.context.put("pageTitle", I18n.getMessage("Bookmarks.for")+" "+user.getUsername());
+		}
 	}
 	
 	/**
