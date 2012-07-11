@@ -464,7 +464,7 @@ public class PostAction extends Command
 			if (topic == null) {
 				topic = DataAccessDriver.getInstance().newTopicDAO().selectRaw(topicId);
 				
-				if (topic == null) {
+				if (topic.getId() == 0) {
 					throw new ForumException("Could not find a topic with id #" + topicId);
 				}
 			}
