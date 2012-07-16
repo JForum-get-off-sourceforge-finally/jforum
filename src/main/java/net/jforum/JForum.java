@@ -307,8 +307,7 @@ public class JForum extends JForumBaseServlet
 				response.setContentType("text/html; charset=" + encoding);
 			}
 			if (out == null && response != null) {
-				new ExceptionWriter().handleExceptionData(exception,  new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding)), request);
-				
+				new ExceptionWriter().handleExceptionData(exception,  new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding)), request);				
 			}
 			else {				
 				new ExceptionWriter().handleExceptionData(exception, out, request);

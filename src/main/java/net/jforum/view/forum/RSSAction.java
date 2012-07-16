@@ -84,7 +84,14 @@ public class RSSAction extends Command
 	 */
 	public void forumTopics()
 	{
-		final int forumId = this.request.getIntParameter("forum_id"); 
+		final int forumId = this.request.getIntParameter("forum_id");		
+		final Forum forum = ForumRepository.getForum(forumId);
+		
+		// Handle if forum doesn't  exist
+		if (forum == null) {
+			this.context.put(RSS_CONTENTS, "<!-- The requested forum does not exist-->");
+			return;
+		}
 		
 		if (!TopicsCommon.isTopicAccessible(forumId)) {
 			JForumExecutionContext.requestBasicAuthentication();
@@ -93,8 +100,7 @@ public class RSSAction extends Command
 		
 		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestByForumForRSS(
 			forumId, SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE));
-		
-		final Forum forum = ForumRepository.getForum(forumId);
+				
 		final String[] param = { forum.getName() };
 		
 		final RSSAware rss = new TopicRSS(I18n.getMessage("RSS.ForumTopics.title", param),
@@ -112,18 +118,24 @@ public class RSSAction extends Command
 	{
 		final int topicId = this.request.getIntParameter("topic_id");
 
-		final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 		
 		final Topic topic = topicDao.selectById(topicId);
 		
-		if (!TopicsCommon.isTopicAccessible(topic.getForumId()) || topic.getId() == 0) {
+		// Handle if topic doesn't  exist
+		if (topic.getId() == 0) {
+			this.context.put(RSS_CONTENTS, "<!-- The requested topic does not exist-->");
+			return;
+		}
+		
+		if (!TopicsCommon.isTopicAccessible(topic.getForumId())) {
 			JForumExecutionContext.requestBasicAuthentication(); 
             return;
 		}
 		
 		topicDao.incrementTotalViews(topic.getId());
 		
+		final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		final List<Post> posts = postDao.selectAllByTopic(topicId);
 		
 		final String[] param = { topic.getTitle() };
