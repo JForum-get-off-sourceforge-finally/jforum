@@ -12,7 +12,7 @@ var SERVLET_EXTENSION  = "${extension}";
 /* ]]> */
 </script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 
 <script type="text/javascript">
@@ -78,7 +78,7 @@ function openFindUserWindow()
 
 function smiliePopup()
 {
-	var w = window.open("${JForumContext.encodeURL("/posts/listSmilies")}", "smilies", "width=300, height300, toolbars=no, scrollbars=yes");
+	var w = window.open("${JForumContext.encodeURL("/posts/listSmilies")}", "smilies", "width=300, height=300, toolbars=no, scrollbars=yes");
 	w.focus();
 }
 
