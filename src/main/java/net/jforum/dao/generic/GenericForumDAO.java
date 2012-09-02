@@ -840,8 +840,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 				user.setId(resultSet.getInt("user_id"));
 				user.setEmail(resultSet.getString("user_email"));
 				user.setUsername(resultSet.getString("username"));
-				user.setLang(resultSet.getString("user_lang"));
-				user.setNotifyAlways(resultSet.getInt("user_notify_always") == 1);
+				user.setLang(resultSet.getString("user_lang"));				
 				user.setNotifyText(resultSet.getInt("user_notify_text") == 1);
 
 				users.add(user);

@@ -311,13 +311,13 @@ ForumModel.isUserSubscribed = SELECT user_id FROM jforum_forums_watch WHERE foru
 ForumModel.removeSubscription = DELETE FROM jforum_forums_watch WHERE forum_id = ? AND user_id = ?
 ForumModel.removeSubscriptionByForum = DELETE FROM jforum_forums_watch WHERE forum_id = ?
 
-ForumModel.notifyUsers = SELECT u.user_id, u.username, u.user_lang, u.user_email, \
-	u.user_notify_always, u.user_notify_text \
+ForumModel.notifyUsers = SELECT u.user_id, u.username, u.user_lang, u.user_email, u.user_notify_text \
 	FROM jforum_forums_watch fw, jforum_users u \
 	WHERE fw.user_id = u.user_id \
 	AND fw.forum_id = ? \
+	AND (u.deleted IS NULL OR u.deleted = 0) \
+	AND u.user_notify_always IN (0, 1) \
 	AND u.user_id NOT IN ( ?, ? )
-	AND u.user_notify_always IN (0, 1)
 
 # #############
 # TopicModel
@@ -385,6 +385,7 @@ TopicModel.notifyUsers = SELECT u.user_id, u.username, u.user_lang, u.user_email
 	FROM jforum_topics_watch tw, jforum_users u \
 	WHERE tw.user_id = u.user_id \
 	AND tw.topic_id = ? \
+	AND (u.deleted IS NULL OR u.deleted = 0) \
 	AND (tw.is_read = 1 OR u.user_notify_always = 1) \
 	AND u.user_id NOT IN ( ?, ? )
 	
@@ -753,7 +754,7 @@ SummaryDAO.selectAllRecipients = SELECT username, user_email FROM jforum_users W
 
 SummaryDAO.selectPosts = SELECT p.post_id, p.topic_id, p.forum_id, p.user_id, post_time, \
 	pt.post_subject, pt.post_text, username \
-	FROM jforum_topics t,jforum_posts p, jforum_posts_text pt, jforum_users u \
+	FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND p.post_id = t.topic_first_post_id \
 	AND p.user_id = u.user_id \
