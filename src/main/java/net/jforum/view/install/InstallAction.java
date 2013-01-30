@@ -48,6 +48,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
@@ -371,7 +372,8 @@ public class InstallAction extends Command
                         stmt.executeUpdate(query);
                     }
                     else if (query.startsWith("SELECT")) {
-                        stmt.executeQuery(query);
+                        ResultSet rs = stmt.executeQuery(query);
+                        rs.close();
                     }
                     else {
                         throw new SQLException("Invalid query: " + query);

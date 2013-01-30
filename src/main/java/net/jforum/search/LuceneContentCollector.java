@@ -94,7 +94,7 @@ public class LuceneContentCollector implements LuceneResultCollector
 		        Document doc = searcher.doc(hit.doc);
 				postIds[i] = Integer.parseInt(doc.get(SearchFields.Keyword.POST_ID));
 			}
-			
+			searcher.close();
 			return this.retrieveRealPosts(postIds, query);
 		}
 		catch (Exception e) {

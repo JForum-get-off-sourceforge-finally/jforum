@@ -87,7 +87,7 @@ public class RecentTopicsAction extends Command
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.recentTopics"));
 
 		TopicsCommon.topicListingBase();
-		this.request.setAttribute("template", null);
+		this.request.removeAttribute("template");
 	}
 	
 	private List<Topic> topics()

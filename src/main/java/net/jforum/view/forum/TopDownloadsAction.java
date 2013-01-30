@@ -85,7 +85,7 @@ public class TopDownloadsAction extends Command
 		this.context.put("topics", this.topics);
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.topDownloads"));
 
-		this.request.setAttribute("template", null);
+		this.request.removeAttribute("template");
 	}
 	
 	private List<TopDownloadInfo> topDownloads()

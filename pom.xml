@@ -24,10 +24,10 @@
 			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
-      		<id>jahia</id>
-      		<name>jahia</name>
-      		<url>http://maven.jahia.org/maven2/</url>
-    	</repository>
+			<id>jahia</id>
+			<name>jahia</name>
+			<url>http://maven.jahia.org/maven2/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
-			<version>2.0.3</version>
+			<version>2.0.4</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>maven-findbugs-plugin</artifactId>
@@ -123,12 +123,12 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers</artifactId>
-			<version>3.6.1</version>
+			<version>3.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-highlighter</artifactId>
-			<version>3.6.1</version>
+			<version>3.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.beanshell</groupId>
@@ -139,7 +139,7 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.1.5</version>
+			<version>2.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.cache</groupId>
@@ -158,12 +158,12 @@
 			<version>2.2.19.GA</version>
 			<scope>runtime</scope>
 		</dependency>
-    <dependency>
-      <groupId>org.jboss.logging</groupId>
-      <artifactId>jboss-logging-spi</artifactId>
-      <version>2.1.2.GA</version>
-      <scope>runtime</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging-spi</artifactId>
+			<version>2.1.2.GA</version>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.21</version>
+			<version>5.1.22</version>
 		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>
@@ -241,7 +241,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
+				<version>2.3</version>
 				<configuration>
 					<archiveClasses>true</archiveClasses>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
@@ -258,7 +258,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<executions>
 					<execution>
 						<id>copy-config</id>
@@ -309,6 +309,15 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

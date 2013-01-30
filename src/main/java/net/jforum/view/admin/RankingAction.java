@@ -90,7 +90,11 @@ public class RankingAction extends AdminCommand
 	public void editSave()
 	{
 		final Ranking ranking = new Ranking();
-		ranking.setTitle(this.request.getParameter("rank_title"));
+		String rank_title = this.request.getParameter("rank_title");
+		if (rank_title != null) {
+			rank_title = rank_title.trim();
+		}
+		ranking.setTitle(rank_title);
 		ranking.setId(this.request.getIntParameter("rank_id"));
 		
 		final boolean special = "1".equals(this.request.getParameter("rank_special"));
@@ -129,7 +133,11 @@ public class RankingAction extends AdminCommand
 	public void insertSave() 
 	{
 		final Ranking ranking = new Ranking();
-		ranking.setTitle(this.request.getParameter("rank_title"));
+		String rank_title = this.request.getParameter("rank_title");
+		if (rank_title != null) {
+			rank_title = rank_title.trim();
+		}
+		ranking.setTitle(rank_title);
 		
 		final boolean special = "1".equals(this.request.getParameter("rank_special"));
 		ranking.setSpecial(special);

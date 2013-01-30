@@ -88,7 +88,7 @@ public class HottestTopicsAction extends Command
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.hottestTopics"));
 
 		TopicsCommon.topicListingBase();
-		this.request.setAttribute("template", null);
+		this.request.removeAttribute("template");
 	}
 	
 	private List<Topic> topics()
