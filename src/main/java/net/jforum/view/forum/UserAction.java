@@ -372,7 +372,7 @@ public class UserAction extends Command
 
 		boolean isValid = userDao.validateActivationKeyHash(userId, hash);
 		
-		if (isValid) {
+		if (isValid) {			
 			// Activate the account
 			userDao.writeUserActive(userId);
 			this.logNewRegisteredUserIn(userId, user);
@@ -415,6 +415,14 @@ public class UserAction extends Command
 	public void registrationComplete()
 	{
 		int userId = SessionFacade.getUserSession().getUserId();
+
+		// prevent increment total users through directly type in url
+		if (userId <= ForumRepository.lastRegisteredUser().getId()) {
+			JForumExecutionContext.setRedirect(this.request.getContextPath()
+					+ "/forums/list"
+					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
+			return;
+		}
 		
 		ForumRepository.setLastRegisteredUser(userDao.selectById(userId));
 		ForumRepository.incrementTotalUsers();
@@ -774,7 +782,6 @@ public class UserAction extends Command
 		this.setTemplateName(TemplateKeys.USER_RECOVERPASSWORD_VALIDATE);
 		this.context.put(MESSAGE, message);
 	}
-
 		
 	public void list()
 	{
@@ -812,8 +819,7 @@ public class UserAction extends Command
 		List<User> users = userDao.selectAllWithKarma(start ,usersPerPage);
 		this.context.put("users", users);
 		this.setTemplateName(TemplateKeys.USER_SEARCH_KARMA);
-	}
-	
+	}	
 	
 	private int preparePagination(int totalUsers)
 	{
