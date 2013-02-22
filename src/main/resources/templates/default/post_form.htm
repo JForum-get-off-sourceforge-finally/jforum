@@ -21,9 +21,23 @@ var SERVLET_EXTENSION  = "${extension}";
 <#include "js/utils.js"/>
 <#include "js/attachments.js"/>
 
+<#if needCaptcha?default(false)>
+// disable submit button first and enable it after captcha img full loaded
+$(document).ready(function() {
+  $("#btnSubmit").attr("disabled", "true");
+  $('#captcha_img').load(function() {
+     if ($(this).height() == 75) {  // captcha.height = 75
+       $("#btnSubmit").removeAttr("disabled");
+     }
+  });
+});
+</#if>
+
 function newCaptcha()
-{	
-	document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime();
+{
+	$("#btnSubmit").attr("disabled", "true");
+	$("#captcha_img").attr("src", "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime());
+	$("#btnSubmit").removeAttr("disabled");
 }
 
 function validatePostForm(f)
@@ -32,15 +46,15 @@ function validatePostForm(f)
 	if (f.subject.value == "") {
 		alert("${I18n.getMessage("PostForm.subjectEmpty")}");
 		f.subject.focus();
-		
+
 		return false;
 	}
 	</#if>
-	
+
 	if (f.message.value.replace(/^\s*|\s*$/g, "").length == 0) {
 		alert("${I18n.getMessage("PostForm.textEmpty")}");
 		f.message.focus();
-		
+
 		return false;
 	}
 
@@ -61,12 +75,12 @@ function validatePostForm(f)
 		return false;
 	}
 	</#if>
-	
+
 	$("#icon_saving").css("display", "inline");
-	$("#btnPreview").attr("disabled", "disabled");	
-	$("#btnSubmit").attr("disabled", "disabled").val("${I18n.getMessage("PostForm.saving")}...");
-	$("#btnCancel").attr("disabled", "disabled");
-	
+	$("#btnPreview").attr("disabled", "true");
+	$("#btnSubmit").attr("disabled", "true").val("${I18n.getMessage("PostForm.saving")}...");
+	$("#btnCancel").attr("disabled", "true");
+
 	return true;
 }
 
@@ -138,7 +152,7 @@ function cancelOperation()
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline">
-			
+
 			<!-- Preview message -->
 			<a name="preview"></a>
 			<table class="forumline" width="100%" cellspacing="1" cellpadding="4" <#if !preview>style="display: none"</#if> id="previewTable">
@@ -179,7 +193,7 @@ function cancelOperation()
 					</td>
 				</tr>
 			</table>
-		
+
 			<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 				<tr>
 					<th class="thhead" colspan="2">
@@ -247,7 +261,7 @@ function cancelOperation()
 					</#if>
 					<td class="row2" width="85%">
 						<span class="gen">
-							<input class="subject" type="text" tabindex="2" maxlength="100" name="subject" value="${subject?default("")}" /> 
+							<input class="subject" type="text" tabindex="2" maxlength="100" name="subject" value="${subject?default("")}" />
 						</span>
 					</td>
 				</tr>
@@ -304,10 +318,10 @@ function cancelOperation()
 								<!-- bb code -->
 								<tr valign="middle">
 									<td>
-										<input class="button" onmouseover="helpline('b')" style="WIDTH: 30px; FONT-WEIGHT: bold" accesskey="b" onclick="bbstyle(0)" type="button" value=" B " name="addbbcode0" /> 
-										<input class="button" onmouseover="helpline('i')" style="WIDTH: 30px; FONT-STYLE: italic" accesskey="i" onclick="bbstyle(2)" type="button" value=" i " name="addbbcode2" /> 
+										<input class="button" onmouseover="helpline('b')" style="WIDTH: 30px; FONT-WEIGHT: bold" accesskey="b" onclick="bbstyle(0)" type="button" value=" B " name="addbbcode0" />
+										<input class="button" onmouseover="helpline('i')" style="WIDTH: 30px; FONT-STYLE: italic" accesskey="i" onclick="bbstyle(2)" type="button" value=" i " name="addbbcode2" />
 										<input class="button" onmouseover="helpline('u')" style="WIDTH: 30px; TEXT-DECORATION: underline" accesskey="u" onclick="bbstyle(4)" type="button" value=" u " name="addbbcode4" />
-										<input class="button" onmouseover="helpline('q')" style="WIDTH: 55px" accesskey="q" onclick="bbstyle(6)" type="button" value="Quote" name="addbbcode6" /> 
+										<input class="button" onmouseover="helpline('q')" style="WIDTH: 55px" accesskey="q" onclick="bbstyle(6)" type="button" value="Quote" name="addbbcode6" />
 										<input class="button" onmouseover="helpline('c')" style="WIDTH: 50px" accesskey="c" onclick="bbstyle(8)" type="button" value="Code" name="addbbcode8" />
 										<input class="button" onmouseover="helpline('l')" style="WIDTH: 40px" accesskey="l" onclick="bbstyle(10)" type="button" value="List" name="addbbcode10" />
 										<input class="button" onmouseover="helpline('p')" style="WIDTH: 40px" accesskey="p" onclick="bbstyle(12)" type="button" value="Img" name="addbbcode12" />
@@ -318,36 +332,36 @@ function cancelOperation()
 										<input class="button" onmouseover="helpline('v')" style="WIDTH: 50px" accesskey="v" onclick="bbstyle(22)" type="button" value="WMV" name="addbbcode22" />
 									</td>
 								</tr>
-								
+
 								<!-- Color, Fonts -->
 								<tr>
 									<td>
-										<span class="genmed">&nbsp;${I18n.getMessage("PostForm.textColor")}: 
-										<select onmouseover="helpline('s')" onchange="bbfontstyle('[color=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/color]')" name="addbbcode24"> 
-											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="#444444" selected="selected">${I18n.getMessage("PostForm.colorDefault")}</option> 
-											<option class="genmed" style="COLOR: darkred; BACKGROUND-COLOR: #fafafa" value="darkred">${I18n.getMessage("PostForm.colorDarkRed")}</option> 
-											<option class="genmed" style="COLOR: red; BACKGROUND-COLOR: #fafafa" value="red">${I18n.getMessage("PostForm.colorRed")}</option> 
-											<option class="genmed" style="COLOR: orange; BACKGROUND-COLOR: #fafafa" value="orange">${I18n.getMessage("PostForm.colorOrange")}</option> 
-											<option class="genmed" style="COLOR: brown; BACKGROUND-COLOR: #fafafa" value="brown">${I18n.getMessage("PostForm.colorBrown")}</option> 
-											<option class="genmed" style="COLOR: yellow; BACKGROUND-COLOR: #fafafa" value="yellow">${I18n.getMessage("PostForm.colorYellow")}</option> 
-											<option class="genmed" style="COLOR: green; BACKGROUND-COLOR: #fafafa" value="green">${I18n.getMessage("PostForm.colorGreen")}</option> 
-											<option class="genmed" style="COLOR: olive; BACKGROUND-COLOR: #fafafa" value="olive">${I18n.getMessage("PostForm.colorOlive")}</option> 
-											<option class="genmed" style="COLOR: cyan; BACKGROUND-COLOR: #fafafa" value="cyan">${I18n.getMessage("PostForm.colorCyan")}</option> 
-											<option class="genmed" style="COLOR: blue; BACKGROUND-COLOR: #fafafa" value="blue">${I18n.getMessage("PostForm.colorBlue")}</option> 
-											<option class="genmed" style="COLOR: darkblue; BACKGROUND-COLOR: #fafafa" value="darkblue">${I18n.getMessage("PostForm.colorDarkBlue")}</option> 
-											<option class="genmed" style="COLOR: violet; BACKGROUND-COLOR: #fafafa" value="violet">${I18n.getMessage("PostForm.colorViolet")}</option> 
+										<span class="genmed">&nbsp;${I18n.getMessage("PostForm.textColor")}:
+										<select onmouseover="helpline('s')" onchange="bbfontstyle('[color=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/color]')" name="addbbcode24">
+											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="#444444" selected="selected">${I18n.getMessage("PostForm.colorDefault")}</option>
+											<option class="genmed" style="COLOR: darkred; BACKGROUND-COLOR: #fafafa" value="darkred">${I18n.getMessage("PostForm.colorDarkRed")}</option>
+											<option class="genmed" style="COLOR: red; BACKGROUND-COLOR: #fafafa" value="red">${I18n.getMessage("PostForm.colorRed")}</option>
+											<option class="genmed" style="COLOR: orange; BACKGROUND-COLOR: #fafafa" value="orange">${I18n.getMessage("PostForm.colorOrange")}</option>
+											<option class="genmed" style="COLOR: brown; BACKGROUND-COLOR: #fafafa" value="brown">${I18n.getMessage("PostForm.colorBrown")}</option>
+											<option class="genmed" style="COLOR: yellow; BACKGROUND-COLOR: #fafafa" value="yellow">${I18n.getMessage("PostForm.colorYellow")}</option>
+											<option class="genmed" style="COLOR: green; BACKGROUND-COLOR: #fafafa" value="green">${I18n.getMessage("PostForm.colorGreen")}</option>
+											<option class="genmed" style="COLOR: olive; BACKGROUND-COLOR: #fafafa" value="olive">${I18n.getMessage("PostForm.colorOlive")}</option>
+											<option class="genmed" style="COLOR: cyan; BACKGROUND-COLOR: #fafafa" value="cyan">${I18n.getMessage("PostForm.colorCyan")}</option>
+											<option class="genmed" style="COLOR: blue; BACKGROUND-COLOR: #fafafa" value="blue">${I18n.getMessage("PostForm.colorBlue")}</option>
+											<option class="genmed" style="COLOR: darkblue; BACKGROUND-COLOR: #fafafa" value="darkblue">${I18n.getMessage("PostForm.colorDarkBlue")}</option>
+											<option class="genmed" style="COLOR: violet; BACKGROUND-COLOR: #fafafa" value="violet">${I18n.getMessage("PostForm.colorViolet")}</option>
 											<option class="genmed" style="COLOR: white; BACKGROUND-COLOR: #fafafa" value="white">${I18n.getMessage("PostForm.colorWhite")}</option>
 											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="black">${I18n.getMessage("PostForm.colorBlack")}</option>
-										</select> 
+										</select>
 
 										&nbsp;${I18n.getMessage("PostForm.font")}:
-										<select onmouseover="helpline('f')" onchange="bbfontstyle('[size=' + this.form.addbbcode26.options[this.form.addbbcode26.selectedIndex].value + ']', '[/size]')" name="addbbcode26"> 
-											<option class="genmed" value="7">${I18n.getMessage("PostForm.fontVerySmall")}</option> 
-											<option class="genmed" value="9">${I18n.getMessage("PostForm.fontSmall")}</option> 
-											<option class="genmed" value="12" selected="selected">${I18n.getMessage("PostForm.fontNormal")}</option> 
-											<option class="genmed" value="18">${I18n.getMessage("PostForm.fontBig")}</option> 
+										<select onmouseover="helpline('f')" onchange="bbfontstyle('[size=' + this.form.addbbcode26.options[this.form.addbbcode26.selectedIndex].value + ']', '[/size]')" name="addbbcode26">
+											<option class="genmed" value="7">${I18n.getMessage("PostForm.fontVerySmall")}</option>
+											<option class="genmed" value="9">${I18n.getMessage("PostForm.fontSmall")}</option>
+											<option class="genmed" value="12" selected="selected">${I18n.getMessage("PostForm.fontNormal")}</option>
+											<option class="genmed" value="18">${I18n.getMessage("PostForm.fontBig")}</option>
 											<option class="genmed" value="24">${I18n.getMessage("PostForm.fontGiant")}</option>
-										</select> 
+										</select>
 										</span>
 										<span class="gensmall"><a class="genmed" onmouseover="helpline('a')" href="javascript:bbstyle(-1)">${I18n.getMessage("PostForm.closeMarks")}</a></span>
 									</td>
@@ -356,18 +370,18 @@ function cancelOperation()
 								<!-- Help box -->
 								<tr>
 									<td>
-										<input name="helpbox" class="helpline" readonly="readonly" style="FONT-SIZE: 10px; WIDTH: 100%" value="${I18n.getMessage("PostForm.helplineTip")}" size="45" maxlength="100" /> 
+										<input name="helpbox" class="helpline" readonly="readonly" style="FONT-SIZE: 10px; WIDTH: 100%" value="${I18n.getMessage("PostForm.helplineTip")}" size="45" maxlength="100" />
 									</td>
 								</tr>
-								
+
 								<!-- Textarea -->
 								<tr>
 									<td valign="top">
-										<textarea class="message" onkeyup="storeCaret(this);" onclick="storeCaret(this);" onselect="storeCaret(this);" tabindex="3" name="message" rows="15" cols="35"><#if post?exists><#if quote?exists>[quote=${quoteUser}]${post.text?html}[/quote]<#else>${post.text?html}</#if></#if></textarea> 
+										<textarea class="message" onkeyup="storeCaret(this);" onclick="storeCaret(this);" onselect="storeCaret(this);" tabindex="3" name="message" rows="15" cols="35"><#if post?exists><#if quote?exists>[quote=${quoteUser}]${post.text?html}[/quote]<#else>${post.text?html}</#if></#if></textarea>
 									</td>
 								</tr>
 							</table>
-						</div> 
+						</div>
 					</td>
 				</tr>
 
@@ -413,7 +427,7 @@ function cancelOperation()
 					<tr>
 						<td class="row1" valign="middle"><span class="gensmall"><b>${I18n.getMessage("User.captchaResponse")}:</b></span></td>
 						<td class="row2">
-							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser" /> 
+							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser" />
 							<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" align="middle" id="captcha_img" alt="Captcha unavailable" />
 							<br />
 							<span class="gensmall">${I18n.getMessage("User.hardCaptchaPart1")} <a href="#newCaptcha" onclick="newCaptcha()"><b>${I18n.getMessage("User.hardCaptchaPart2")}</b></a></span>
@@ -434,7 +448,7 @@ function cancelOperation()
 						<td class="row2"><span class="gen"><font color="red"><b>${error}</b></font></span></td>
 					</tr>
 				</#if>
-				
+
 				<tr>
 					<td align="center" colspan="2" class="catbottom">
 						<input class="mainoption" id="btnPreview" tabindex="5" type="button" value="${I18n.getMessage("PostForm.preview")}" onclick="previewMessage();" />&nbsp;
@@ -454,7 +468,7 @@ function cancelOperation()
 			<tr>
 				<th class="cathead" align="center"><b><span class="cattitle">${I18n.getMessage("PostShow.topicReview")}</span></b></th>
 			</tr>
-	
+
 			<tr>
 				<td class="row1">
 					<#if pmReply?default(false)>
@@ -464,7 +478,7 @@ function cancelOperation()
 					</#if>
 				</td>
 			</tr>
-			
+
 		</table>
 	</td>
 	</tr>
