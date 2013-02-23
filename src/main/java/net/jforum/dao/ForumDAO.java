@@ -275,4 +275,11 @@ public interface ForumDAO
 	 * @return the forum id of the given email, or 0 if not found
 	 */
 	int discoverForumId(String listEmail) ;
+
+	/**
+	 * Returns all forums that are watched by a given user.
+	 * @param userId The user id
+	 */
+	public List selectWatchesByUser (int userID);
+
 }

@@ -42,6 +42,8 @@
  */
 package net.jforum.view.forum;
 
+import java.util.*;
+
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -90,177 +92,177 @@ public class BookmarkAction extends Command
 			this.error("Bookmarks.invalidType");
 		}
 	}
-	
+
 	private void addForum()
 	{
 		Forum forum = ForumRepository.getForum(this.request.getIntParameter("relation_id"));
 		String title = forum.getName();
 		String description = forum.getDescription();
-		
+
 		Bookmark bookmark = DataAccessDriver.getInstance().newBookmarkDAO().selectForUpdate(
 				forum.getId(), BookmarkType.FORUM, SessionFacade.getUserSession().getUserId());
 		if (bookmark != null) {
 			if (bookmark.getTitle() != null) {
 				title = bookmark.getTitle();
 			}
-			
+
 			if (bookmark.getDescription() != null) {
 				description = bookmark.getDescription();
 			}
 
 			this.context.put("bookmark", bookmark);
 		}
-		
+
 		this.setTemplateName(TemplateKeys.BOOKMARKS_ADD_FORUM);
 		this.context.put("title", title);
 		this.context.put("description", description);
 		this.context.put("relationType", Integer.valueOf(BookmarkType.FORUM));
 		this.context.put("relationId", Integer.valueOf(forum.getId()));
 	}
-	
+
 	private void addTopic()
 	{
 		Topic topic = DataAccessDriver.getInstance().newTopicDAO().selectById(
 				this.request.getIntParameter("relation_id"));
 		String title = topic.getTitle();
-		
+
 		Bookmark bookmark = DataAccessDriver.getInstance().newBookmarkDAO().selectForUpdate(
 				topic.getId(), BookmarkType.TOPIC, SessionFacade.getUserSession().getUserId());
 		if (bookmark != null) {
 			if (bookmark.getTitle() != null) {
 				title = bookmark.getTitle();
 			}
-			
+
 			this.context.put("description", bookmark.getDescription());
 			this.context.put("bookmark", bookmark);
 		}
-		
+
 		this.setTemplateName(TemplateKeys.BOOKMARKS_ADD_TOPIC);
 		this.context.put("title", title);
 		this.context.put("relationType", Integer.valueOf(BookmarkType.TOPIC));
 		this.context.put("relationId", Integer.valueOf(topic.getId()));
 	}
-	
+
 	private void addUser()
 	{
 		User user = DataAccessDriver.getInstance().newUserDAO().selectById(
 				this.request.getIntParameter("relation_id"));
 		String title = user.getUsername();
-		
+
 		Bookmark bookmark = DataAccessDriver.getInstance().newBookmarkDAO().selectForUpdate(
 				user.getId(), BookmarkType.USER, SessionFacade.getUserSession().getUserId());
 		if (bookmark != null) {
 			if (bookmark.getTitle() != null) {
 				title = bookmark.getTitle();
 			}
-			
+
 			this.context.put("description", bookmark.getDescription());
 			this.context.put("bookmark", bookmark);
 		}
-		
+
 		this.setTemplateName(TemplateKeys.BOOKMARKS_ADD_USER);
 		this.context.put("title", title);
 		this.context.put("relationType", Integer.valueOf(BookmarkType.USER));
 		this.context.put("relationId", Integer.valueOf(user.getId()));
 	}
-	
+
 	public void insertSave()
 	{
 		Bookmark bookmark = new Bookmark();
-		final SafeHtml safeHtml = new SafeHtml();		
-		
+		final SafeHtml safeHtml = new SafeHtml();
+
 		bookmark.setDescription(safeHtml.makeSafe(this.request.getParameter("description")));
 		bookmark.setTitle(safeHtml.makeSafe(this.request.getParameter("title")));
-		
+
 		String publicVisible = this.request.getParameter("visible");
 		bookmark.setPublicVisible(publicVisible != null && publicVisible.length() > 0);
-		
+
 		bookmark.setRelationId(this.request.getIntParameter("relation_id"));
 		bookmark.setRelationType(this.request.getIntParameter("relation_type"));
 		bookmark.setUserId(SessionFacade.getUserSession().getUserId());
-		
+
 		DataAccessDriver.getInstance().newBookmarkDAO().add(bookmark);
 		this.setTemplateName(TemplateKeys.BOOKMARKS_INSERT_SAVE);
 	}
-	
+
 	public void updateSave()
 	{
 		int id = this.request.getIntParameter("bookmark_id");
 		BookmarkDAO bookmarkDao = DataAccessDriver.getInstance().newBookmarkDAO();
 		Bookmark bookmark = bookmarkDao.selectById(id);
-		
+
 		if (!this.sanityCheck(bookmark)) {
 			return;
 		}
-		
-		final SafeHtml safeHtml = new SafeHtml();		
-		
+
+		final SafeHtml safeHtml = new SafeHtml();
+
 		bookmark.setDescription(safeHtml.makeSafe(this.request.getParameter("description")));
 		bookmark.setTitle(safeHtml.makeSafe(this.request.getParameter("title")));
-		
+
 		String visible = this.request.getParameter("visible");
 		bookmark.setPublicVisible(StringUtils.isNotBlank(visible));
-		
+
 		bookmarkDao.update(bookmark);
 		this.setTemplateName(TemplateKeys.BOOKMARKS_UPDATE_SAVE);
 	}
-	
+
 	public void edit()
 	{
 		int id = this.request.getIntParameter("bookmark_id");
 		BookmarkDAO bookmarkDao = DataAccessDriver.getInstance().newBookmarkDAO();
 		Bookmark bookmark = bookmarkDao.selectById(id);
-		
+
 		if (!this.sanityCheck(bookmark)) {
 			return;
 		}
-		
+
 		this.setTemplateName(TemplateKeys.BOOKMARKS_EDIT);
 		this.context.put("bookmark", bookmark);
 	}
-	
+
 	public void delete()
 	{
 		int id = this.request.getIntParameter("bookmark_id");
 		BookmarkDAO bookmarkDao = DataAccessDriver.getInstance().newBookmarkDAO();
 		Bookmark bookmark = bookmarkDao.selectById(id);
-		
+
 		if (!this.sanityCheck(bookmark)) {
 			return;
 		}
-		
+
 		bookmarkDao.remove(id);
-		
+
 		JForumExecutionContext.setRedirect(this.request.getContextPath() + "/bookmarks/list/" + bookmark.getUserId()
 				+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 	}
-	
+
 	private boolean sanityCheck(Bookmark bookmark)
 	{
 		if (bookmark == null) {
 			this.error("Bookmarks.notFound");
 			return false;
 		}
-		
+
 		if (bookmark.getUserId() != SessionFacade.getUserSession().getUserId()) {
 			this.error("Bookmarks.notOwner");
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	private void error(final String message)
 	{
 		this.setTemplateName(TemplateKeys.BOOKMARKS_ERROR);
 		this.context.put("message", I18n.getMessage(message));
 	}
-	
+
 	public void disabled()
 	{
 		this.error("Bookmarks.featureDisabled");
 	}
-	
+
 	public void anonymousIsDenied()
 	{
 		this.error("Bookmarks.anonymousIsDenied");
@@ -269,10 +271,11 @@ public class BookmarkAction extends Command
 	/**
 	 * @see net.jforum.Command#list()
 	 */
+	/*
 	public void list()
 	{
 		int userId = this.request.getIntParameter("user_id");
-		
+
 		User user = DataAccessDriver.getInstance().newUserDAO().selectById(userId);
 		if (user.getId() == 0) {
 			this.error("Bookmarks.notFound");
@@ -282,13 +285,58 @@ public class BookmarkAction extends Command
 			this.context.put("bookmarks", DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId));
 			this.context.put("forumType", Integer.valueOf(BookmarkType.FORUM));
 			this.context.put("userType", Integer.valueOf(BookmarkType.USER));
-			this.context.put("topicType", Integer.valueOf(BookmarkType.TOPIC));		
+			this.context.put("topicType", Integer.valueOf(BookmarkType.TOPIC));
 			this.context.put("user", user);
 			this.context.put("loggedUserId", Integer.valueOf(SessionFacade.getUserSession().getUserId()));
 			this.context.put("pageTitle", I18n.getMessage("Bookmarks.for")+" "+user.getUsername());
 		}
 	}
-	
+	*/
+	public void list()
+	{
+		int userId = 0;
+		try {
+			userId = this.request.getIntParameter("user_id");
+		} catch (NumberFormatException nfex) {
+			// no userID passed - means we're accessing our own bookmarks
+			if (SessionFacade.isLogged()) {
+				userId = SessionFacade.getUserSession().getUserId();
+			} else {
+				this.error("Bookmarks.notFound");
+				return;
+			}
+		}
+
+		this.setTemplateName(TemplateKeys.BOOKMARKS_LIST);
+		List bookmarks = DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId);
+		// remove bookmarks from list that are in forums which this user is not allowed to see
+		for (Iterator iter = bookmarks.iterator(); iter.hasNext(); ) {
+			Bookmark b = (Bookmark) iter.next();			
+			Forum f = ForumRepository.getForum(b.getForumId());
+			if (f == null || !ForumRepository.isCategoryAccessible(f.getCategoryId())) {
+				iter.remove();
+			}
+		}
+
+		// a user viewing his own bookmarks also gets to see his topic and forum watches
+		if (userId == SessionFacade.getUserSession().getUserId()) {
+			this.context.put("watchedForums",
+							DataAccessDriver.getInstance().newForumDAO().selectWatchesByUser(userId));
+			this.context.put("watchedTopics",
+							DataAccessDriver.getInstance().newTopicDAO().selectWatchesByUser(userId));
+		}
+
+		this.context.put("bookmarks", bookmarks);
+		this.context.put("forumType", new Integer(BookmarkType.FORUM));
+		this.context.put("userType", new Integer(BookmarkType.USER));
+		this.context.put("topicType", new Integer(BookmarkType.TOPIC));
+		User u = DataAccessDriver.getInstance().newUserDAO().selectById(userId);
+		this.context.put("user", u);
+		this.context.put("loggedUserId", new Integer(SessionFacade.getUserSession().getUserId()));
+		this.context.put("pageTitle", I18n.getMessage("Bookmarks.for")+" "+u.getUsername());
+		this.context.put("fr", new ForumRepository());
+	}
+
 	/**
 	 * @see net.jforum.Command#process(net.jforum.context.RequestContext, net.jforum.context.ResponseContext, freemarker.template.SimpleHash) 
 	 */

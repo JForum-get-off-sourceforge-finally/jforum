@@ -318,4 +318,23 @@ public class SafeHtml
 		
 		return false;
 	}
+
+	public static String escapeUnsafe (CharSequence str) {
+		StringBuilder tmp = new StringBuilder(str);
+		replaceAll(tmp, "<", "&lt;");
+		replaceAll(tmp, ">", "&gt;");
+		return tmp.toString();
+	}
+
+	public static String replaceAll (StringBuilder sb, String what, String with)
+	{
+		int pos = sb.indexOf(what);
+		
+		while (pos > -1) {
+			sb.replace(pos, pos + what.length(), with);
+			pos = sb.indexOf(what);
+		}
+		
+		return sb.toString();
+	}
 }

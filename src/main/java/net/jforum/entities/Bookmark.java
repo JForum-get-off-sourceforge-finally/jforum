@@ -55,7 +55,10 @@ public class Bookmark
 	private boolean publicVisible;
 	private String title;
 	private String description;
-	
+
+	// only used when displaying
+	private int forumId;
+
 	/**
 	 * @return Returns the id.
 	 */
@@ -166,5 +169,13 @@ public class Bookmark
 	public void setTitle(final String title)
 	{
 		this.title = title;
+	}
+
+	public int getForumId() {
+		return forumId;
+	}
+
+	public void setForumId(int forumId) {
+		this.forumId = forumId;
 	}
 }

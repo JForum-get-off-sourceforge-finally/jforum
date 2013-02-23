@@ -51,8 +51,10 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -974,4 +976,30 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 		
 		return forumId;
 	}
+
+    /**
+    * Returns all forums that are watched by a given user.
+    * @param userId The user id
+    */
+    public List selectWatchesByUser (int userID) {
+        List l = new ArrayList();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        try {
+			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.selectWatchesByUser"));
+            p.setInt(1, userID);
+            rs = p.executeQuery();
+            while (rs.next()) {
+                Map m = new HashMap();
+                m.put("id", rs.getInt("forum_id"));
+                m.put("forumName", rs.getString("forum_name"));
+                l.add(m);
+            }
+            return l;
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            DbUtils.close(p);
+        }
+    }
 }

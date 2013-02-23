@@ -337,4 +337,11 @@ public interface TopicDAO
 	 * @return SearchResult
 	 */
 	SearchResult<Topic> findTopicsByDateRange(SearchArgs args) ;
+
+	/**
+	 * Returns all topics that are watched by a given user.
+	 * @param userId The user id
+	 */
+	public List selectWatchesByUser (int userID);
+
 }

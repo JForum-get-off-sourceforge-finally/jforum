@@ -161,10 +161,13 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectAllFromUser"));
 			pstmt.setInt(1, userId);
+			pstmt.setInt(2, userId);
 
 			resultSet = pstmt.executeQuery();
 			while (resultSet.next()) {
-				list.add(this.getBookmark(resultSet));
+				Bookmark bookmark = this.getBookmark(resultSet);
+				bookmark.setForumId(resultSet.getInt("forum_id"));
+				list.add(bookmark);
 			}
 
 			return list;

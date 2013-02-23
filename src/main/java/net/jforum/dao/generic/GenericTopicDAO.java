@@ -71,6 +71,7 @@ import net.jforum.repository.ForumRepository;
 import net.jforum.search.SearchArgs;
 import net.jforum.search.SearchResult;
 import net.jforum.util.DbUtils;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -1189,4 +1190,33 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			DbUtils.close(rs, pstmt);
 		}
 	}
+
+    /**
+    * Returns all topics that are watched by a given user.
+    * @param userId The user id
+    */
+    public List selectWatchesByUser (int userID) {
+        List l = new ArrayList();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        try {
+            p = JForumExecutionContext.getConnection().prepareStatement(
+                    SystemGlobals.getSql("TopicModel.selectWatchesByUser"));
+            p.setInt(1, userID);
+            rs = p.executeQuery();
+            while (rs.next()) {
+                Map m = new HashMap();
+                m.put("id", new Integer(rs.getInt("topic_id")));
+                m.put("title", SafeHtml.escapeUnsafe(rs.getString("topic_title")));
+                m.put("forumName", rs.getString("forum_name"));
+                l.add(m);
+            }
+            return l;
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            DbUtils.close(p);
+        }
+    }
+
 }

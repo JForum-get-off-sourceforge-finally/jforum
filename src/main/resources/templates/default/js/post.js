@@ -18,8 +18,9 @@ var is_mac    = (clientPC.indexOf("mac")!=-1);
 
 // Define the bbCode tags
 bbcode = new Array();
-bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]',
-	'[img]','[/img]','[url]','[/url]', '[google]', '[/google]', '[youtube]', '[/youtube]', '[flash]', '[/flash]', '[wmv]', '[/wmv]');
+bbtags = new Array('[b]','[/b]', '[i]','[/i]', '[u]','[/u]', '[quote]','[/quote]', '[code]','[/code]',
+	'[list]','[/list]', '[img]','[/img]', '[url]','[/url]', '[google]','[/google]', '[youtube]','[/youtube]', 
+	'[flash]','[/flash]', '[wmv]','[/wmv]', '[tt]','[/tt]', '[strike]','[/strike]', '[wikipedia]','[/wikipedia]');
 imageTag = false;
 
 var openBBtags = new Array();

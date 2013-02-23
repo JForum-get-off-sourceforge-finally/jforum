@@ -319,6 +319,12 @@ ForumModel.notifyUsers = SELECT u.user_id, u.username, u.user_lang, u.user_email
 	AND u.user_notify_always IN (0, 1) \
 	AND u.user_id NOT IN ( ?, ? )
 
+ForumModel.selectWatchesByUser = SELECT w.forum_id, f.forum_name \
+    FROM jforum_forums_watch w, jforum_forums f \
+    WHERE w.user_id = ? \
+    AND w.forum_id = f.forum_id \
+    ORDER BY f.forum_name
+
 # #############
 # TopicModel
 # #############
@@ -435,6 +441,13 @@ TopicModel.selectByUserByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_t
 	AND t.forum_id IN(:fids:) \
 	ORDER BY t.topic_last_post_id DESC \
 	LIMIT ?, ?
+
+TopicModel.selectWatchesByUser = SELECT w.topic_id, t.topic_title, f.forum_name \
+    FROM jforum_topics_watch w, jforum_topics t, jforum_forums f \
+    WHERE w.user_id = ? \
+    AND w.topic_id = t.topic_id \
+    AND t.forum_id = f.forum_id \
+    ORDER BY f.forum_name, t.topic_title
 
 TopicModel.countUserTopics = SELECT COUNT(1) AS total FROM jforum_topics t, jforum_posts p WHERE t.user_id = ? AND t.forum_id IN (:fids:) AND p.post_id = t.topic_first_post_id AND p.need_moderate = 0
 	
@@ -607,10 +620,17 @@ BookmarkModel.selectUserBookmarks = SELECT b.bookmark_id, b.user_id, b.relation_
 	AND b.user_id = ? \
 	ORDER BY u.username
 	
-BookmarkModel.selectAllFromUser = SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, b.title, b.description \
-	FROM jforum_bookmarks b \
-	WHERE b.user_id = ? \
-	ORDER BY b.title
+BookmarkModel.selectAllFromUser = SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, b.title, b.description, t.forum_id \
+    FROM jforum_bookmarks b, jforum_topics t \
+    WHERE b.user_id = ? \
+    and b.relation_type = 2 \
+    and b.relation_id = t.topic_id \
+  union \
+    SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, b.title, b.description, -1 \
+    FROM jforum_bookmarks b \
+    WHERE b.user_id = ?  \
+    and b.relation_type != 2  \
+	ORDER BY title
 
 BookmarkModel.selectForUpdate = SELECT bookmark_id, relation_id, public_visible, relation_type, title, description, user_id \
 	FROM jforum_bookmarks WHERE relation_id = ? AND relation_type = ? AND user_id = ?
