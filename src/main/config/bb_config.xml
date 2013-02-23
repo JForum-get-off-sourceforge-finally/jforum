@@ -81,6 +81,26 @@
 		</replace>
 	</match>
 	
+	<!-- TT -->
+	<match name="tt">
+		<regex>(?s)(?i)\[tt\](.*?)\[/tt\]</regex>
+		<replace>
+		<![CDATA[
+		<tt>$1</tt>
+		]]>
+		</replace>
+	</match>
+
+	<!-- STRIKE -->
+	<match name="strike">
+		<regex>(?s)(?i)\[strike\](.*?)\[/strike\]</regex>
+		<replace>
+		<![CDATA[
+		<strike>$1</strike>
+		]]>
+		</replace>
+	</match>
+
 	<!-- LIST -->
 	<match name="list">
 		<regex>(?s)(?i)\[list\](.*?)\[/list\]</regex>
@@ -266,7 +286,17 @@
 		]]>
 		</replace>
 	</match>
-	
+
+	<!-- Wikipedia -->
+	<match name="wikipedia">
+		<regex>(?i)\[wikipedia\](.*?)\[/wikipedia\]</regex>
+		<replace>
+		<![CDATA[
+		<a class="snap_shots" href="http://en.wikipedia.org/wiki/$1" target="_blank">$1</a>
+		]]>
+		</replace>
+	</match>
+
 	<!-- YouTube -->
 	<match name="youtube">
 		<regex>(?i)\[youtube\]http\:\/\/(.*?)youtube.com\/watch\?v\=(.*?)\[/youtube\]</regex>
