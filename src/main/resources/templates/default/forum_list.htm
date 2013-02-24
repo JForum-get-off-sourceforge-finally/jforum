@@ -78,7 +78,7 @@
 								</#if>
 
 								<#assign url = JForumContext.encodeURL("/posts/list/${startPage}${lpi.topicId}") + "#p" + lpi.postId/>
-								<a href="${url}" class="last_title">${lpi.title}</a>
+								<a href="${url}" class="last_title">${lpi.title?html}</a>
 								<a href="${url}" class="last_title"><img src="${contextPath}/templates/${templateName}/images/icon_latest_reply.gif" alt="[Latest Reply]" /></a>								
 							<#else>
 								${I18n.getMessage("ForumListing.noMessages")}
