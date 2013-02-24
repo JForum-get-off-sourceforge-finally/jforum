@@ -167,7 +167,7 @@ public class MailIntegration
 	 */
 	public String toString()
 	{
-		return new StringBuffer()
+		return new StringBuilder()
 			.append('[')
 			.append("email=").append(this.forumEmail)
 			.append(", host=").append(this.popHost)

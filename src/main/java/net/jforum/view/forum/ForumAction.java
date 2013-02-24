@@ -237,7 +237,7 @@ public class ForumAction extends Command
 		String thisPage = this.request.getParameter("start");
 
 		if (thisPage != null && !thisPage.equals("0")) {			
-			path = new StringBuffer(path).append(thisPage).append('/').toString();
+			path = new StringBuilder(path).append(thisPage).append('/').toString();
 		}
 
 		String forumId = this.request.getParameter("forum_id");
@@ -246,7 +246,7 @@ public class ForumAction extends Command
 			forumId = this.request.getParameter("persistData");
 		}
 		
-		path = new StringBuffer(path).append(forumId).append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION)).toString();
+		path = new StringBuilder(path).append(forumId).append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION)).toString();
 
 		return path;
 	}

@@ -113,7 +113,7 @@ public class PollOption implements Serializable
 	 */
 	public String toString()
 	{
-		return new StringBuffer(128)
+		return new StringBuilder(128)
 			.append('[')
 			.append(this.id)
 			.append(", ")

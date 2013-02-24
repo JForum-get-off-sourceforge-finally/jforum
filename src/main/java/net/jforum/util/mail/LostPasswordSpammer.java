@@ -61,7 +61,7 @@ public class LostPasswordSpammer extends Spammer
 	{
 		final String forumLink = ViewCommon.getForumLink();
 
-		final String url = new StringBuffer()
+		final String url = new StringBuilder()
 			.append(forumLink)
 			.append("user/recoverPassword/")
 			.append(user.getActivationKey()) 

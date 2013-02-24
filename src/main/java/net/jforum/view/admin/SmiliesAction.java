@@ -81,7 +81,7 @@ public class SmiliesAction extends AdminCommand
 					+ "/"
 					+ imgName + "." + uploadUtils.getExtension());			
 			
-			imgName = new StringBuffer(imgName).append('.').append(uploadUtils.getExtension()).toString();
+			imgName = new StringBuilder(imgName).append('.').append(uploadUtils.getExtension()).toString();
 		}
 		
 		return imgName;

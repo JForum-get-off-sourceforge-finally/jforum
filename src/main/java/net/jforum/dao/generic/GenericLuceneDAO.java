@@ -183,7 +183,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	
 	private String buildInClause(int[] postIds)
 	{
-		StringBuffer sb = new StringBuffer(128);
+		StringBuilder sb = new StringBuilder(128);
 		
 		for (int i = 0; i < postIds.length - 1; i++) {
 			sb.append(postIds[i]).append(',');

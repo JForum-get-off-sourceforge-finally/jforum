@@ -144,7 +144,7 @@ public class DBVersionWorkarounder {
 	}
 
 	protected String buildPath(final String concat) {
-		return new StringBuffer(256)
+		return new StringBuilder(256)
 			.append(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR))
 			.append("/database/")
 			.append(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_NAME))

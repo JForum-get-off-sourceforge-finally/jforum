@@ -64,7 +64,7 @@ public class PrivateMessageSpammer extends Spammer
 			return;
 		}
 		
-		final String forumLink = new StringBuffer()
+		final String forumLink = new StringBuilder()
 			.append(ViewCommon.getForumLink())
 			.append("pm/inbox")
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))

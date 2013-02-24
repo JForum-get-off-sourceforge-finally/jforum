@@ -870,7 +870,7 @@ public class ForumRepository implements Cacheable
 	public static String getListAllowedForums() 
 	{
 		int n = 0;
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		
 		List<Category> allCategories = ForumRepository.getAllCategories();
 		

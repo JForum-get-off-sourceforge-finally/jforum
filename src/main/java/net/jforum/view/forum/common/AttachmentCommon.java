@@ -412,7 +412,7 @@ public class AttachmentCommon
 		int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		
-		StringBuffer dir = new StringBuffer(256);
+		StringBuilder dir = new StringBuilder(256);
 		dir.append(year).append('/').append(month).append('/').append(day).append('/');
 		
 		File path = new File(SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR) + "/" + dir); 
@@ -454,7 +454,7 @@ public class AttachmentCommon
 	{
 		// Attachments
 		List<Attachment> attachments = DataAccessDriver.getInstance().newAttachmentDAO().selectAttachments(postId);
-		StringBuffer attachIds = new StringBuffer();
+		StringBuilder attachIds = new StringBuilder();
 		
 		for (Iterator<Attachment> iter = attachments.iterator(); iter.hasNext(); ) {
 			Attachment a = iter.next();

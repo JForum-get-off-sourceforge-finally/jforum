@@ -60,7 +60,7 @@ public class SqlServerKarmaDAO extends GenericKarmaDAO
 	 */
 	public List<User> getMostRatedUserByPeriod(final int start, final Date firstPeriod, final Date lastPeriod, final String orderField)
     {
-		final StringBuffer stringBuffer = new StringBuffer(SystemGlobals.getSql("GenericModel.selectByLimit")).append(" ").append(start).append(" ").
+		final StringBuilder stringBuffer = new StringBuilder(SystemGlobals.getSql("GenericModel.selectByLimit")).append(" ").append(start).append(" ").
 		append(SystemGlobals.getSql("KarmaModel.getMostRatedUserByPeriod")).
 		append(" ORDER BY ").append(orderField).append(" DESC");
 		final String sql = stringBuffer.toString();

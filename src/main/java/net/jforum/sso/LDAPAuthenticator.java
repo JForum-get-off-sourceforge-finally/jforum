@@ -94,7 +94,7 @@ public class LDAPAuthenticator implements LoginAuthenticator
 	{
 		Hashtable<String, String> environment = this.prepareEnvironment();
 		
-		StringBuffer principal = new StringBuffer(256)
+		StringBuilder principal = new StringBuilder(256)
 			.append(SystemGlobals.getValue(ConfigKeys.LDAP_LOGIN_PREFIX))
 			.append(username)
 			.append(',')

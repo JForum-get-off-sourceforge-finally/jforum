@@ -844,7 +844,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		try {
 			String sql = SystemGlobals.getSql("TopicModel.selectForNewMessages");
 			
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			
 			for (Iterator<Integer> iter = topicIds.iterator(); iter.hasNext(); ) {
 				sb.append(iter.next()).append(',');
@@ -886,8 +886,8 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 
-			StringBuffer sbFirst = new StringBuffer(128);
-			StringBuffer sbLast = new StringBuffer(128);
+			StringBuilder sbFirst = new StringBuilder(128);
+			StringBuilder sbLast = new StringBuilder(128);
 
 			while (rs.next()) {
 				Topic topic = this.getBaseTopicData(rs);
@@ -1090,7 +1090,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
 		String sql = SystemGlobals.getSql("TopicModel.selectTopicTitlesByIds");
 
-		StringBuffer sb = new StringBuffer(idList.size() * 2);
+		StringBuilder sb = new StringBuilder(idList.size() * 2);
 		for (Iterator<?> iter = idList.iterator(); iter.hasNext();) {
 			sb.append(iter.next()).append(',');
 		}
@@ -1131,7 +1131,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		ResultSet rs = null;
 
 		try {
-			StringBuffer sql = new StringBuffer(SystemGlobals.getSql("TopicModel.topicPosters"));
+			StringBuilder sql = new StringBuilder(SystemGlobals.getSql("TopicModel.topicPosters"));
 
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("TopicModel.distinctPosters"));
@@ -1139,7 +1139,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 			rs = pstmt.executeQuery();
 
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			while (rs.next()) {
 				sb.append(rs.getInt(USER_ID)).append(',');

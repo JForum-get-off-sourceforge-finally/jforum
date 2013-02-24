@@ -86,7 +86,7 @@ public class VariableExpander
 			return source;
 		}
 		
-		final StringBuffer stringBuffer = new StringBuffer(source);
+		final StringBuilder stringBuffer = new StringBuilder(source);
 		
 		while (fIndex > -1) {
 			final int lIndex = stringBuffer.indexOf(this.post);

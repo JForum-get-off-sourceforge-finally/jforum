@@ -136,7 +136,7 @@ public class LuceneSearch implements NewDocumentAdded
 		SearchResult<Post> result;
 
 		try {
-			StringBuffer criteria = new StringBuffer(256);
+			StringBuilder criteria = new StringBuilder(256);
 
 			this.filterByForum(args, criteria);
 			this.filterByKeywords(args, criteria);
@@ -179,7 +179,7 @@ public class LuceneSearch implements NewDocumentAdded
 		return sort;
 	}
 
-	private void filterByDateRange(SearchArgs args, StringBuffer criteria)
+	private void filterByDateRange(SearchArgs args, StringBuilder criteria)
 	{
 		if (args.getFromDate() != null) {
 			if (criteria.length() > 0) {
@@ -195,7 +195,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private void filterByKeywords(SearchArgs args, StringBuffer criteria)
+	private void filterByKeywords(SearchArgs args, StringBuilder criteria)
 	{		
 		if (args.getMatchType() == MatchType.RAW_KEYWORDS) {
 			if (criteria.length() >0) {
@@ -227,7 +227,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private void filterByForum(SearchArgs args, StringBuffer criteria)
+	private void filterByForum(SearchArgs args, StringBuilder criteria)
 	{
 		if (args.getForumId() > 0) {
 			criteria.append("+(")

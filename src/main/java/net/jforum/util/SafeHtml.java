@@ -105,7 +105,7 @@ public class SafeHtml
 	 */
 	public String ensureAllAttributesAreSafe(String contents) 
 	{
-		StringBuffer sb = new StringBuffer(contents.length());
+		StringBuilder sb = new StringBuilder(contents.length());
 		
 		try {
 			Lexer lexer = new Lexer(contents);
@@ -144,7 +144,7 @@ public class SafeHtml
 			return contents;
 		}
 		
-		StringBuffer sb = new StringBuffer(contents.length());
+		StringBuilder sb = new StringBuilder(contents.length());
 		
 		try {
 			Lexer lexer = new Lexer(contents);

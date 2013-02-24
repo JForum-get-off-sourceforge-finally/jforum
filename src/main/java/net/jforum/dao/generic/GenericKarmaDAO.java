@@ -360,7 +360,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	public List<User> getMostRatedUserByPeriod(final int start, final Date firstPeriod, final Date lastPeriod, final String orderField)
 	{
 		String sql = SystemGlobals.getSql("KarmaModel.getMostRatedUserByPeriod");
-		sql = new StringBuffer(sql).append(" ORDER BY ").append(orderField).append(" DESC").toString();
+		sql = new StringBuilder(sql).append(" ORDER BY ").append(orderField).append(" DESC").toString();
 
 		return this.getMostRatedUserByPeriod(sql, firstPeriod, lastPeriod);
 	}

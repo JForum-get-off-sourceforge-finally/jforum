@@ -159,7 +159,7 @@ public class POPMessage
 				reader = new BufferedReader(
 					new InputStreamReader(inputStream));
 				
-				final StringBuffer stringBuffer = new StringBuffer(512);
+				final StringBuilder stringBuffer = new StringBuilder(512);
 				int count = 0;
 				final char[] chr = new char[2048];
 				
@@ -345,7 +345,7 @@ public class POPMessage
 	 */
 	public String toString()
 	{
-		return new StringBuffer()
+		return new StringBuilder()
 			.append('[')
 			.append("subject=").append(this.subject)
 			.append(", sender=").append(this.sender)

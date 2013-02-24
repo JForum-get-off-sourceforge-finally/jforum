@@ -127,7 +127,7 @@ public class ExceptionWriter
 	{
 		String url = null;
 		if (request != null) {
-			final StringBuffer sb = new StringBuffer().append("\nURL is: ").append(request.getRequestURI()); 
+			final StringBuilder sb = new StringBuilder().append("\nURL is: ").append(request.getRequestURI()); 
 			if (request.getQueryString() != null) {
 				sb.append('?').append(request.getQueryString());				
 			}

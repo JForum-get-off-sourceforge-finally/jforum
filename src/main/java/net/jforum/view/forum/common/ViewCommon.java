@@ -69,7 +69,7 @@ import freemarker.template.SimpleHash;
 public final class ViewCommon
 {
 	private static final Logger LOGGER = Logger.getLogger(ViewCommon.class);
-			
+
 	/**
 	 * Prepared the user context to use data pagination. 
 	 * The following variables are set to the context:
@@ -89,14 +89,14 @@ public final class ViewCommon
 	public static void contextToPagination(final int start, final int totalRecords, final int recordsPerPage)
 	{
 		final SimpleHash context = JForumExecutionContext.getTemplateContext();
-		
+
 		context.put("totalPages", new Double(Math.ceil((double) totalRecords / (double) recordsPerPage)));
 		context.put("recordsPerPage", Integer.valueOf(recordsPerPage));
 		context.put("totalRecords", Integer.valueOf(totalRecords));
 		context.put("thisPage", new Double(Math.ceil((double) (start + 1) / (double) recordsPerPage)));
 		context.put("start", Integer.valueOf(start));
 	}
-	
+
 	/**
 	 * Prepares the template context to show the login page, using the current URI as return path.
 	 * @return TemplateKeys.USER_LOGIN
@@ -104,7 +104,7 @@ public final class ViewCommon
 	public static String contextToLogin() 
 	{
 		final RequestContext request = JForumExecutionContext.getRequest();
-		
+
 		String uri = request.getRequestURI();
         final String ctxPath = request.getContextPath() + "/";
         
@@ -114,53 +114,53 @@ public final class ViewCommon
         
 		final String query = request.getQueryString();
 		final String returnPath = query == null ? uri : uri + "?" + query;
-		
+
 		return contextToLogin(returnPath);
 	}
-	
+
 	/**
 	 * Prepares the template context to show the login page, using "returnPath" as return path
 	 * @param origReturnPath the URI to use as return path
 	 * @return TemplateKeys.USER_LOGIN
 	 */
 	public static String contextToLogin(final String origReturnPath)
-	{		
+	{
 		String returnPath = origReturnPath;
 		JForumExecutionContext.getTemplateContext().put("returnPath", returnPath);
-		
+
 		if (ConfigKeys.TYPE_SSO.equals(SystemGlobals.getValue(ConfigKeys.AUTHENTICATION_TYPE))) {
 			String redirect = SystemGlobals.getValue(ConfigKeys.SSO_REDIRECT);
-			
+
 			if (StringUtils.isNotEmpty(redirect)) {
 				final URI redirectUri = URI.create(redirect);
-				
+
 				if (!redirectUri.isAbsolute()) {
 					throw new ForumException("SSO redirect URL should start with a scheme");
 				}
-				
+
 				try {
 					returnPath = URLEncoder.encode( ViewCommon.getForumLink() + returnPath, "UTF-8");
 				}
 				catch (UnsupportedEncodingException e) {
 					LOGGER.error(e);
 				}
-				
-				if (redirect.indexOf('?') == -1) {					
-					redirect = new StringBuffer(redirect).append('?').toString();
+
+				if (redirect.indexOf('?') == -1) {
+					redirect = new StringBuilder(redirect).append('?').toString();
 				}
-				else {					
-					redirect = new StringBuffer(redirect).append('&').toString();
-				}				
-				
-				redirect = new StringBuffer(redirect).append("returnUrl=").append(returnPath).toString();
-				
+				else {
+					redirect = new StringBuilder(redirect).append('&').toString();
+				}
+
+				redirect = new StringBuilder(redirect).append("returnUrl=").append(returnPath).toString();
+
 				JForumExecutionContext.setRedirect(redirect);
 			}
 		}
-		
+
 		return TemplateKeys.USER_LOGIN;
 	}
-	
+
 	/**
 	 * Returns the initial page to start fetching records from.
 	 *   
@@ -170,21 +170,21 @@ public final class ViewCommon
 	{
 		final String str = JForumExecutionContext.getRequest().getParameter("start");
 		int start;
-		
+
 		if (StringUtils.isEmpty(str)) {
 			start = 0;
 		}
 		else {
 			start = Integer.parseInt(str);
-			
+
 			if (start < 0) {
 				start = 0;
 			}
 		}
-		
+
 		return start;
 	}
-	
+
 	/**
 	 * Gets the forum base link.
 	 * The returned link has a trailing slash
@@ -193,51 +193,51 @@ public final class ViewCommon
 	public static String getForumLink()
 	{
 		String forumLink = SystemGlobals.getValue(ConfigKeys.FORUM_LINK);
-		
-		if (forumLink.charAt(forumLink.length() - 1) != '/') {			
-			forumLink = new StringBuffer(forumLink).append('/').toString();
+
+		if (forumLink.charAt(forumLink.length() - 1) != '/') {
+			forumLink = new StringBuilder(forumLink).append('/').toString();
 		}
-		
+
 		return forumLink;
 	}
-	
+
 	public static String toUtf8String(final String str)
 	{
-		final StringBuffer stringBuffer = new StringBuffer();
-	
+		final StringBuilder stringBuffer = new StringBuilder();
+
 		for (int i = 0; i < str.length(); i++) {
 			final char chr = str.charAt(i);
-	
+
 			if ((chr >= 0) && (chr <= 255)) {
 				stringBuffer.append(chr);
 			}
 			else {
 				byte[] byt;
-	
+
 				try {
 					byt = Character.toString(chr).getBytes("utf-8");
 				}
 				catch (Exception ex) {
 					LOGGER.error(ex.getMessage(), ex);
-					
+
 					byt = new byte[0];
 				}
-	
+
 				for (int j = 0; j < byt.length; j++) {
 					int key = byt[j];
-	
+
 					if (key < 0) {
 						key += 256;
 					}
-	
+
 					stringBuffer.append('%').append(Integer.toHexString(key).toUpperCase());
 				}
 			}
 		}
-	
+
 		return stringBuffer.toString();
 	}
-	
+
 	/**
 	 * Formats a date using the pattern defined in the configuration file.
 	 * The key is the value of {@link net.jforum.util.preferences.ConfigKeys#DATE_TIME_FORMAT}
@@ -249,7 +249,7 @@ public final class ViewCommon
 		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		return sdf.format(date);
 	}
-	
+
 	/**
 	 * Escapes &lt; by &amp;lt; and &gt; by &amp;gt;
 	 * @param contents the string to parse
@@ -257,14 +257,14 @@ public final class ViewCommon
 	 */
 	public static String espaceHtml(final String contents)
 	{
-		final StringBuffer stringBuffer = new StringBuffer(contents);
-		
+		final StringBuilder stringBuffer = new StringBuilder(contents);
+
 		replaceAll(stringBuffer, "<", "&lt");
 		replaceAll(stringBuffer, ">", "&gt;");
-		
+
 		return stringBuffer.toString();
 	}
-	
+
 	/**
 	 * Replaces some string with another value
 	 * @param stringBuffer the StrinbBuilder with the contents to work on
@@ -272,18 +272,18 @@ public final class ViewCommon
 	 * @param with the new value
 	 * @return the new string
 	 */
-	public static String replaceAll(StringBuffer stringBuffer, final String what, final String with)
+	public static String replaceAll(StringBuilder stringBuffer, final String what, final String with)
 	{
 		int pos = stringBuffer.indexOf(what);
-		
+
 		while (pos > -1) {
 			stringBuffer.replace(pos, pos + what.length(), with);
 			pos = stringBuffer.indexOf(what);
 		}
-		
+
 		return stringBuffer.toString();
 	}
-	
+
 	/**
 	 * Parse the user's signature, to make it proper to visualization
 	 * @param user the user instance
@@ -291,14 +291,14 @@ public final class ViewCommon
 	public static void prepareUserSignature(final User user)
 	{
 		if (user.getSignature() != null) {
-			final StringBuffer stringBuffer = new StringBuffer(user.getSignature());
-			
+			final StringBuilder stringBuffer = new StringBuilder(user.getSignature());
+
 			replaceAll(stringBuffer, "\n", "<br />");
-			
+
 			user.setSignature(stringBuffer.toString());
 			user.setSignature(PostCommon.prepareTextForDisplayExceptCodeTag(user.getSignature(), true, true));
 		}
 	}
-	
+
 	private ViewCommon() {}
 }

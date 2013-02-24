@@ -107,7 +107,7 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 		final List<Integer> roleIds = this.selectForumRoles(forumId);
 		
 		try {
-			final StringBuffer ids = new StringBuffer();
+			final StringBuilder ids = new StringBuilder();
 			
 			for (final Iterator<Integer> iterator = roleIds.iterator(); iterator.hasNext();) {
 				final Integer id = (Integer)iterator.next();

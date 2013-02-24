@@ -205,10 +205,10 @@ public class UserAction extends Command
 	
 	private String agreementContents()
 	{
-		StringBuffer contents = new StringBuffer();
+		StringBuilder contents = new StringBuilder();
 		
 		try {
-			String directory = new StringBuffer()
+			String directory = new StringBuilder()
 				.append(SystemGlobals.getApplicationPath()) 
 				.append(SystemGlobals.getValue(ConfigKeys.AGREEMENT_FILES_PATH)) 
 				.append('/')
@@ -231,7 +231,7 @@ public class UserAction extends Command
 		}
 		catch (Exception e) {
 			LOGGER.warn("Failed to read agreement data: " + e, e);
-			contents = new StringBuffer(I18n.getMessage("User.agreement.noAgreement"));
+			contents = new StringBuilder(I18n.getMessage("User.agreement.noAgreement"));
 		}		
 		
 		return contents.toString();

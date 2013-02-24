@@ -76,7 +76,7 @@ public class RoleCollection extends LinkedHashMap<String, Role> implements Seria
 	 */
 	public String toString() 
 	{
-		final StringBuffer stringBuffer = new StringBuffer(512);
+		final StringBuilder stringBuffer = new StringBuilder(512);
 		
 		for (final Iterator<Role> iter = this.values().iterator(); iter.hasNext(); ) {
 			stringBuffer.append(iter.next()).append('\n');

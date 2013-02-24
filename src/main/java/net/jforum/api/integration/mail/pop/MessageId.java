@@ -83,7 +83,7 @@ public class MessageId
 	 */
 	public static String buildMessageId(final int postId, final int topicId, final int forumId)
 	{
-		return new StringBuffer()
+		return new StringBuilder()
 			.append('<')
 			.append(postId)
 			.append('.')

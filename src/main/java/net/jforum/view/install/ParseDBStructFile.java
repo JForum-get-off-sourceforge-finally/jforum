@@ -67,7 +67,7 @@ public final class ParseDBStructFile
 		
 		try {
 			reader = new BufferedReader(new FileReader(filename));
-			final StringBuffer sb = new StringBuffer(512);
+			final StringBuilder sb = new StringBuilder(512);
 
 			boolean processing = false;
 			final char delimiter = ';';

@@ -195,7 +195,7 @@ public class SecurityCommon
 	
 	public static String groupIdAsString(int[] ids)
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		for (int i = 0; i < ids.length - 1; i++) {
 			sb.append(ids[i]).append(',');

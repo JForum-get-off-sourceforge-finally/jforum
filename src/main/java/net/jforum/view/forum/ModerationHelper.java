@@ -270,7 +270,7 @@ public class ModerationHelper
 			
 			context.put("forum_id", forumId);
 			
-			StringBuffer sb = new StringBuffer(128);
+			StringBuilder sb = new StringBuilder(128);
 			
 			for (int i = 0; i < topics.length - 1; i++) {
 				sb.append(topics[i]).append(',');

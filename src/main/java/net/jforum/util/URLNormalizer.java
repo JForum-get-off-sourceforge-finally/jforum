@@ -78,7 +78,7 @@ public class URLNormalizer
 	{
 		char[] chars = url.toCharArray();
 		
-		StringBuffer sb = new StringBuffer(url.length());
+		StringBuilder sb = new StringBuilder(url.length());
 		
 		for (int i = 0; i < chars.length; i++) {
 			if (i <= limit || (friendlyTruncate && i > limit && sb.charAt(sb.length() - 1) != '_')) {

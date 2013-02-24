@@ -190,7 +190,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		
 		if (urlModel.length >= baseLen) {
 			// <moduleName>.<actionName>.<numberOfParameters>
-			StringBuffer stringBuffer = new StringBuffer(64)
+			StringBuilder stringBuffer = new StringBuilder(64)
 				.append(urlModel[moduleIndex])
 				.append('.')
 				.append(urlModel[actionIndex])
@@ -231,7 +231,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 */
 	private void handleMultipart(final HttpServletRequest superRequest, final String encoding) throws UnsupportedEncodingException
 	{
-		String tmpPath = new StringBuffer(256)
+		String tmpPath = new StringBuilder(256)
 		    .append(SystemGlobals.getApplicationPath())
 		    .append('/')
 		    .append(SystemGlobals.getValue(ConfigKeys.TMP_DIR))

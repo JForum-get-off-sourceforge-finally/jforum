@@ -62,7 +62,7 @@ public class ActivationKeySpammer extends Spammer
 		//gets the url to the forum.
 		final String forumLink = ViewCommon.getForumLink();
 
-		final String url = new StringBuffer()
+		final String url = new StringBuilder()
 			.append(forumLink) 
 			.append("user/activateAccount/") 
 			.append(user.getActivationKey()) 
@@ -71,7 +71,7 @@ public class ActivationKeySpammer extends Spammer
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
 		
-		final String manualUrl = new StringBuffer()
+		final String manualUrl = new StringBuilder()
 			.append(forumLink)
 			.append("user/activateManual") 
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))

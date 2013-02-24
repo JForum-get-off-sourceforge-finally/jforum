@@ -97,7 +97,7 @@ public class ForumNewTopicSpammer extends Spammer
 	 */
 	private String unwatchLink(Forum forum, String forumLink)
 	{
-		String unwatch = new StringBuffer(128)
+		String unwatch = new StringBuilder(128)
 			.append(forumLink)
 			.append("forums/unwatchForum/")
 			.append(forum.getId())
@@ -113,7 +113,7 @@ public class ForumNewTopicSpammer extends Spammer
 	 */
 	private String postLink(Topic topic, String forumLink)
 	{
-		String path = new StringBuffer(128)
+		String path = new StringBuilder(128)
 			.append(forumLink)
 			.append("posts/list/")
 			.append(topic.getId()) 

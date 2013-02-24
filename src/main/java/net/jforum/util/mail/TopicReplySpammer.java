@@ -73,7 +73,7 @@ public class TopicReplySpammer extends Spammer
 	{
 		Post post = new Post(origPost);
 		// Make the topic url
-		StringBuffer page = new StringBuffer();
+		StringBuilder page = new StringBuilder();
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		
 		if (topic.getTotalReplies() >= postsPerPage) {
@@ -121,7 +121,7 @@ public class TopicReplySpammer extends Spammer
 	 */
 	private String unwatchLink(Topic topic, String forumLink)
 	{
-		return new StringBuffer(128)
+		return new StringBuilder(128)
 			.append(forumLink)
 			.append("posts/unwatch/")
 			.append(topic.getId())
@@ -136,9 +136,9 @@ public class TopicReplySpammer extends Spammer
 	 * @param forumLink the forum's link
 	 * @return the link to the message
 	 */
-	private String messageLink(Topic topic, StringBuffer page, String forumLink)
+	private String messageLink(Topic topic, StringBuilder page, String forumLink)
 	{
-		return new StringBuffer(128)
+		return new StringBuilder(128)
 			.append(forumLink)
 			.append("posts/list/")
 			.append(page.toString())

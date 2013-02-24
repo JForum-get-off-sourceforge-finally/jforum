@@ -881,10 +881,10 @@ public class PostAction extends Command
 			int start = ViewCommon.getStartPage();
 			
 			if (start > 0) {				
-				path = new StringBuffer(path).append(start).append('/').toString();
+				path = new StringBuilder(path).append(start).append('/').toString();
 			}
 			
-			path = new StringBuffer(path).append(post.getTopicId())
+			path = new StringBuilder(path).append(post.getTopicId())
 			    .append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			    .append("#p")
 			    .append(post.getId())
@@ -922,10 +922,10 @@ public class PostAction extends Command
 		String path = this.request.getContextPath();
 		
 		if (topicId == 0) {			
-			path = new StringBuffer(path).append("/forums/show/").append(this.request.getParameter("forum_id")).toString();
+			path = new StringBuilder(path).append("/forums/show/").append(this.request.getParameter("forum_id")).toString();
 		}
 		else {			
-			path = new StringBuffer(path).append("/posts/list/").append(topicId).toString();
+			path = new StringBuilder(path).append("/posts/list/").append(topicId).toString();
 		}
 		
 		this.context.put("message", I18n.getMessage("PostShow.waitingModeration", 
@@ -1145,7 +1145,7 @@ public class PostAction extends Command
 			topic.setHasAttach(topic.hasAttach()||post.hasAttachments());
 			
 			if (!moderate) {
-				StringBuffer path = new StringBuffer(512);
+				StringBuilder path = new StringBuilder(512);
 				path.append(this.request.getContextPath()).append("/posts/list/");
 				
 				int start = ViewCommon.getStartPage();
@@ -1289,7 +1289,7 @@ public class PostAction extends Command
 					page -= postsPerPage;
 				}
 
-				returnPath = new StringBuffer(returnPath).append(page).append('/').toString();
+				returnPath = new StringBuilder(returnPath).append(page).append('/').toString();
 			}
 
 			JForumExecutionContext.setRedirect(returnPath 

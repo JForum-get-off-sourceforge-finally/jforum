@@ -139,7 +139,7 @@ public abstract class Command
 
         try {
             return JForumExecutionContext.getTemplateConfig().getTemplate(
-                new StringBuffer(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)).
+                new StringBuilder(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)).
                 append('/').append(this.templateName).toString(),
                 SystemGlobals.getValue(ConfigKeys.ENCODING));
         }

@@ -68,7 +68,7 @@ public final class MD5
 			throw new IllegalArgumentException("String to encript cannot be null or zero length");
 		}
 		
-		final StringBuffer hexString = new StringBuffer();
+		final StringBuilder hexString = new StringBuilder();
 		
 		try {
 			final MessageDigest msgDigest = MessageDigest.getInstance("MD5");

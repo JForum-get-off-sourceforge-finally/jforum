@@ -69,7 +69,7 @@ public final class OracleUtils
 			final Blob clob = resultSet.getBlob(fieldName);
 
 			final InputStream inputStream = clob.getBinaryStream();
-			final StringBuffer stringBuffer = new StringBuffer();
+			final StringBuilder stringBuffer = new StringBuilder();
 			
 			int readedBytes;
 			

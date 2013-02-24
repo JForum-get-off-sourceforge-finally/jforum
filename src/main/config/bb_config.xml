@@ -19,7 +19,7 @@
 		]]>
 		</replace>
 	</match>
-  	
+  
 	<match name="openSimpleQuote">
 		<regex>(?i)\[quote\]</regex>
 		<replace>
@@ -29,7 +29,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<match name="openQuote">
 		<regex>(?i)\[quote=['"]?(.*?[^'"])['"]?\]</regex>
 		<replace>
@@ -40,7 +40,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<match name="closeQuote">
 		<regex>(?i)\[/quote\]</regex>
 		<replace>
@@ -60,7 +60,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- I -->
 	<match name="i">
 		<regex>(?s)(?i)\[i\](.*?)\[/i\]</regex>
@@ -70,7 +70,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- U -->
 	<match name="u">
 		<regex>(?s)(?i)\[u\](.*?)\[/u\]</regex>
@@ -80,7 +80,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- TT -->
 	<match name="tt">
 		<regex>(?s)(?i)\[tt\](.*?)\[/tt\]</regex>
@@ -110,9 +110,9 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- IMG -->
-	<match name="img" removeQuotes="true">
+	<match name="img" removeQuotes="true" lockedForSmilies="img">
 		<regex>(?i)\[img\](.*?)\[/img\]</regex>
 		<replace>
 		<![CDATA[
@@ -120,9 +120,9 @@
 		]]>
 		</replace>
 	</match>
-    
+
 	<!-- Flash -->
-	<match name="flash" removeQuotes="true">
+	<match name="flash" removeQuotes="true" lockedForSmilies="flash">
 		<regex>(?i)\[flash\](.*?)\[/flash\]</regex>
 		<replace>
 		<![CDATA[
@@ -135,7 +135,7 @@
 		</replace>
 	</match>
 
-	<match name="swf" removeQuotes="true">
+	<match name="swf" removeQuotes="true" lockedForSmilies="swf">
 		<regex>(?i)\[swf\](.*?)\[/swf\]</regex>
 		<replace>
 		<![CDATA[
@@ -149,7 +149,7 @@
 	</match>
 
 	<!-- Windows Media -->
-	<match name="wmv" removeQuotes="true">
+	<match name="wmv" removeQuotes="true" lockedForSmilies="wmv">
 		<regex>(?i)\[wmv\](.*?)\[/wmv\]</regex>
 		<replace>
 		<![CDATA[
@@ -170,9 +170,9 @@
 		]]>
 		</replace>
 	</match>
-	
+
     <!-- Real Media -->
-	<match name="rm" removeQuotes="true">
+	<match name="rm" removeQuotes="true" lockedForSmilies="rm">
 		<regex>(?i)\[rm\](.*?)\[/rm\]</regex>
 		<replace>
 		<![CDATA[
@@ -199,7 +199,7 @@
 		]]>
 		</replace>
 	</match>
-				
+
 	<!-- Automatic URL matching -->
 	<match name="auto-url" removeQuotes="true" alwaysProcess="true">
 		<regex>(^|[\n ]|\()([\w]+?://[^ \"\n\r\t&lt;\)\[]*)</regex>
@@ -236,9 +236,9 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- URL -->
-	<match name="simple-url" removeQuotes="true">
+	<match name="simple-url" removeQuotes="true" lockedForSmilies="url">
 		<regex>(?i)\[url\](.*?)\[/url\]</regex>
 		<replace>
 		<![CDATA[
@@ -246,9 +246,9 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- URL=?? -->
-	<match name="descriptive-url" removeQuotes="true">
+	<match name="descriptive-url" removeQuotes="true" lockedForSmilies="url">
 		<regex>(?i)\[url=['"]?(.*?[^'"])['"]?\](.*?)\[/url\]</regex>
 		<replace>
 		<![CDATA[
@@ -256,7 +256,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- COLOR -->
 	<match name="color" removeQuotes="true">
 		<regex>(?s)(?i)\[color=['"]?(.*?[^'"])['"]?\](.*?)\[/color\]</regex>
@@ -278,7 +278,7 @@
 	</match>
 
 	<!-- Google -->
-	<match name="google">
+	<match name="google" lockedForSmilies="google">
 		<regex>(?i)\[google\](.*?)\[/google\]</regex>
 		<replace>
 		<![CDATA[
@@ -288,7 +288,7 @@
 	</match>
 
 	<!-- Wikipedia -->
-	<match name="wikipedia">
+	<match name="wikipedia" lockedForSmilies="wikipedia">
 		<regex>(?i)\[wikipedia\](.*?)\[/wikipedia\]</regex>
 		<replace>
 		<![CDATA[
@@ -298,7 +298,7 @@
 	</match>
 
 	<!-- YouTube -->
-	<match name="youtube">
+	<match name="youtube" lockedForSmilies="youtube">
 		<regex>(?i)\[youtube\]http\:\/\/(.*?)youtube.com\/watch\?v\=(.*?)\[/youtube\]</regex>
 		<replace>
 		<![CDATA[
@@ -312,7 +312,7 @@
 	</match>
 
     <!-- Xuite -->
-    <match name="xuite">
+    <match name="xuite" lockedForSmilies="xuite">
         <regex>(?i)\[xuite\]http\:\/\/vlog.xuite.net\/vlog\/guest\/basic.php\?media_id\=(.*?)\[/xuite\]</regex>
         <replace>
         <![CDATA[
@@ -322,7 +322,7 @@
     </match>
 
     <!--I'm Vlog -->
-    <match name="imvlog">
+    <match name="imvlog" lockedForSmilies="imvlog">
         <regex>(?i)\[imvlog\]http\:\/\/www.im.tv/vlog/Personal\/(.*?)/(.*?)\[/imvlog\]</regex>
         <replace>
         <![CDATA[
@@ -334,4 +334,11 @@
         ]]>
         </replace>
     </match>
+
+	<!-- Javadoc -->
+	<match name="javadoc" lockedForSmilies="javadoc">
+		<regex>(?i)\[javadoc\](.*?)\[/javadoc\]</regex>
+		<class-name>net.jforum.util.bbcode.JavaDocLink</class-name>
+	</match>
+
 </bbConfig>
