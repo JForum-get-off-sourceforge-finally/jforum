@@ -297,6 +297,15 @@
 		</replace>
 	</match>
 
+	<match name="wikipedia-non-english" lockedForSmilies="wikipedia">
+		<regex>(?i)\[wikipedia=([a-z]+)\](.*?)\[/wikipedia\]</regex>
+		<replace>
+		<![CDATA[
+		<a class="snap_shots" href="http://$1.wikipedia.org/wiki/$2" target="_blank">$2</a>
+		]]>
+		</replace>
+	</match>
+  
 	<!-- YouTube -->
 	<match name="youtube" lockedForSmilies="youtube">
 		<regex>(?i)\[youtube\]http\:\/\/(.*?)youtube.com\/watch\?v\=(.*?)\[/youtube\]</regex>
