@@ -275,6 +275,7 @@ public final class ConfigKeys
 	public static final String IS_BOT = "clickstream.is.bot";
 
 	public static final String POSTS_NEW_DELAY = "posts.new.delay";
+	public static final String POSTS_EDIT_AFTER_REPLY = "posts.edit.after.reply";
 	public static final String LAST_POST_TIME = "last.post.time";
 
 	public static final String KARMA_MIN_POINTS = "karma.min.points";

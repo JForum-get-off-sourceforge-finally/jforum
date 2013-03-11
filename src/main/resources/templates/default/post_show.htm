@@ -135,7 +135,7 @@
 					</#if>
 	
 					<#assign user = users.get(post.userId)/>
-					<#assign canEditCurrentMessage = (logged && post.canEdit && topic.status != STATUS_LOCKED)/>
+					<#assign canEditCurrentMessage = isAdmin || isModerator || (logged && post.canEdit && (editAfterReply || !post_has_next) && topic.status != STATUS_LOCKED)/>
 					<tr>
 						<td colspan="2">
 							<#include "post_show_action_buttons_inc.htm"/>
