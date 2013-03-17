@@ -71,28 +71,27 @@ import org.apache.lucene.store.RAMDirectory;
 public class LuceneIndexer
 {
 	private static final Logger LOGGER = Logger.getLogger(LuceneIndexer.class);
-	private static final Object MUTEX = new Object();
-	
+
 	private LuceneSettings settings;
 	private Directory ramDirectory;
 	private IndexWriter ramWriter;
 	private int ramNumDocs;
 	private List<NewDocumentAdded> newDocumentAddedList = new ArrayList<NewDocumentAdded>();
-	
+
 	public LuceneIndexer(final LuceneSettings settings)
 	{
 		this.settings = settings;
 		this.createRAMWriter();
 	}
-	
+
 	public void watchNewDocuDocumentAdded(NewDocumentAdded newDoc)
 	{
 		this.newDocumentAddedList.add(newDoc);
 	}
-	
+
 	public void batchCreate(final Post post)
 	{
-		synchronized (MUTEX) {
+		synchronized (LOGGER) {
 			try {
 				final Document document = this.createDocument(post);
 				this.ramWriter.addDocument(document);
@@ -103,41 +102,41 @@ public class LuceneIndexer
 			}
 		}
 	}
-	
+
 	private void createRAMWriter()
 	{
 		try {
-			if (this.ramWriter != null) {				
+			if (this.ramWriter != null) {
 				this.ramWriter.close();
 			}
-			
+
 			this.ramDirectory = new RAMDirectory();
 			final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-			this.ramWriter = new IndexWriter(this.ramDirectory, conf);			
+			this.ramWriter = new IndexWriter(this.ramDirectory, conf);
 			this.ramNumDocs = SystemGlobals.getIntValue(ConfigKeys.LUCENE_INDEXER_RAM_NUMDOCS);
 		}
 		catch (IOException e) {
 			throw new SearchException(e);
 		}
 	}
-	
+
 	private void flushRAMDirectoryIfNecessary()
 	{
 		if (this.ramWriter.maxDoc() >= this.ramNumDocs) {
 			this.flushRAMDirectory();
 		}
 	}
-	
+
 	public void flushRAMDirectory()
 	{
-		synchronized (MUTEX) {
+		synchronized (LOGGER) {
 			IndexWriter writer = null;
-			
-			try {				
+
+			try {
 				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 				this.ramWriter.commit();
-				this.ramWriter.close();				
+				this.ramWriter.close();
 				writer.addIndexes(new Directory[] { this.ramDirectory });
 				writer.forceMergeDeletes();
 
@@ -151,7 +150,7 @@ public class LuceneIndexer
 					try { 
 						writer.commit(); 
 						writer.close();
-						
+
 						this.notifyNewDocumentAdded();
 					}
 					catch (Exception e) {
@@ -161,21 +160,21 @@ public class LuceneIndexer
 			}
 		}
 	}
-	
+
 	public void create(final Post post)
 	{
-		synchronized (MUTEX) {
+		synchronized (LOGGER) {
 			IndexWriter writer = null;
-			
-			try {				
+
+			try {
 				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
-				
+
 				final Document document = this.createDocument(post);
 				writer.addDocument(document);
-				
+
 				this.optimize(writer);
-				
+
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("Indexed " + document);
 				}
@@ -188,7 +187,7 @@ public class LuceneIndexer
 					try {
 						writer.commit();
 						writer.close();
-						
+
 						this.notifyNewDocumentAdded();
 					}
 					catch (Exception e) {
@@ -198,42 +197,41 @@ public class LuceneIndexer
 			}
 		}
 	}
-	
+
 	public void update(final Post post)
 	{
 		if (this.performDelete(post)) {
 			this.create(post);
 		}
 	}
-	
+
 	private void optimize(final IndexWriter writer) throws Exception
 	{
-		if (writer.maxDoc() % 100 == 0) {			
-			LOGGER.info("Optimizing indexes. Current number of documents is " + writer.maxDoc());			
-			
+		if (writer.maxDoc() % 100 == 0) {
+			LOGGER.info("Optimizing indexes. Current number of documents is " + writer.maxDoc());
+
 			writer.forceMergeDeletes();
-			
+
 			LOGGER.debug("Indexes optimized");
 		}
 	}
-	
+
 	private Document createDocument(final Post post)
 	{
 		Document doc = new Document();
-		
+
 		doc.add(new Field(SearchFields.Keyword.POST_ID, String.valueOf(post.getId()), Store.YES, Index.NOT_ANALYZED));
 		doc.add(new Field(SearchFields.Keyword.FORUM_ID, String.valueOf(post.getForumId()), Store.YES, Index.NOT_ANALYZED));
 		doc.add(new Field(SearchFields.Keyword.TOPIC_ID, String.valueOf(post.getTopicId()), Store.YES, Index.NOT_ANALYZED));
 		doc.add(new Field(SearchFields.Keyword.USER_ID, String.valueOf(post.getUserId()), Store.YES, Index.NOT_ANALYZED));
 		doc.add(new Field(SearchFields.Keyword.DATE, this.settings.formatDateTime(post.getTime()), Store.YES, Index.NOT_ANALYZED));
-		
-		// We add the subject and message text together because, when searching, we only care about the 
-		// matches, not where it was performed. The real subject and contents will be fetched from the database
-		doc.add(new Field(SearchFields.Indexed.CONTENTS, post.getSubject() + " " + post.getText(), Store.NO, Index.ANALYZED));
-		
+
+		doc.add(new Field(SearchFields.Indexed.SUBJECT, post.getSubject(), Store.NO, Index.ANALYZED));
+		doc.add(new Field(SearchFields.Indexed.CONTENTS, post.getText(), Store.NO, Index.ANALYZED));
+
 		return doc;
 	}
-	
+
 	private void notifyNewDocumentAdded()
 	{
 		for (Iterator<NewDocumentAdded> iter = this.newDocumentAddedList.iterator(); iter.hasNext(); ) {
@@ -245,17 +243,17 @@ public class LuceneIndexer
 	{
 		this.performDelete(post);
 	}
-	
+
 	private boolean performDelete(final Post post)
 	{
-		synchronized (MUTEX) {
+		synchronized (LOGGER) {
 			IndexWriter writer = null;
 			boolean status = false;
-			
-			try {				
+
+			try {
 				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
-				writer.deleteDocuments(new Term(SearchFields.Keyword.POST_ID, String.valueOf(post.getId())));				
+				writer.deleteDocuments(new Term(SearchFields.Keyword.POST_ID, String.valueOf(post.getId())));
 				status = true;
 			}
 			catch (IOException e) {
@@ -263,7 +261,7 @@ public class LuceneIndexer
 			}
 			finally {
 				if (writer != null) {
-					try {						
+					try {
 						writer.commit();
 						writer.close();
 						this.flushRAMDirectory();
@@ -271,9 +269,9 @@ public class LuceneIndexer
 					catch (IOException e) {
 						LOGGER.error(e.toString(), e);
 					}
-				}				
+				}
 			}
-			
+
 			return status;
 		}
 	}

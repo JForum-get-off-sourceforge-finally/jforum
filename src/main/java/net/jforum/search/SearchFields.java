@@ -58,9 +58,10 @@ public final class SearchFields
 		public static final String CATEGORY_ID = "category.id";
 		public static final String DATE = "date";
 	}
-	
+
 	public static final class Indexed
 	{
+		public static final String SUBJECT = "subject";
 		public static final String CONTENTS = "contents";
 	}
 }

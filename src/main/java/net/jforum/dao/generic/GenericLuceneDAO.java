@@ -46,9 +46,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.LuceneDAO;
@@ -177,10 +175,37 @@ public class GenericLuceneDAO implements LuceneDAO
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
-		return l;
+
+		return resortByPostId(postIds, l);
 	}
-	
+
+	/**
+	 * SearchModel.getPostsDataForLucene returns the posts in the order they are
+	 * stored in the database which may not be the same as the order original requested.
+	 * This method resorts them in the original order returned by Lucene.
+	 * 
+	 * @param postIds
+	 * @param l
+	 * @return
+	 */
+	private List<Post> resortByPostId (int[] postIds, List<Post> posts) {
+		Map<Integer, Post> postsById = new HashMap<Integer, Post>(postIds.length);
+		for (Post post : posts) {
+			postsById.put(post.getId(), post);
+		}
+
+		List<Post> result = new ArrayList<Post>();
+		for (int postId : postIds) {
+			Post post = postsById.get(postId);
+
+			// shouldn't be null, but just in case there is no match
+			if ( post != null) {
+				result.add(post);
+			}
+		}
+		return result;
+	}
+
 	private String buildInClause(int[] postIds)
 	{
 		StringBuilder sb = new StringBuilder(128);

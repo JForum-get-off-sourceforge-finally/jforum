@@ -59,55 +59,50 @@ import org.apache.lucene.util.Version;
  * @author Rafael Steil
  * @version $Id$
  */
-public class LuceneManager implements SearchManager
+public class LuceneManager 
 {
 	private LuceneSearch search;
 	private LuceneSettings settings;
 	private LuceneIndexer indexer;
-	
-	/**
-	 * @see net.jforum.search.SearchManager#init()
-	 */
+
 	public void init()
 	{
 		try {
-			Class<?> clazz = Class.forName(SystemGlobals.getValue(
-					ConfigKeys.LUCENE_ANALYZER));
+			Class<?> clazz = Class.forName(SystemGlobals.getValue(ConfigKeys.LUCENE_ANALYZER));
 			Constructor<?> con = clazz.getConstructor(Version.class);
 			Object obj = con.newInstance(new Object[]{LuceneSettings.version});
 			Analyzer analyzer = (Analyzer)obj;
-				
+
 			this.settings = new LuceneSettings(analyzer);
-			
+
 			this.settings.useFSDirectory(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
-			
+
 			this.removeLockFile();
-			
+
 			this.indexer = new LuceneIndexer(this.settings);
-			
-			this.search = new LuceneSearch(this.settings, 
-				new LuceneContentCollector(this.settings));
-			
+
+			this.search = new LuceneSearch(this.settings, new LuceneContentCollector(this.settings));
+
 			this.indexer.watchNewDocuDocumentAdded(this.search);
-			
+
 			SystemGlobals.setObjectValue(ConfigKeys.LUCENE_SETTINGS, this.settings);
 		}
-		
+
 		catch (Exception e) {
 			throw new ForumException(e);
 		}
 	}
-	
+
 	public LuceneSearch luceneSearch()
 	{
 		return this.search;
 	}
-	
+
 	public LuceneIndexer luceneIndexer()
 	{
 		return this.indexer;
 	}
-	
+
 	public void removeLockFile()
 	{
 		try {
@@ -119,34 +114,22 @@ public class LuceneManager implements SearchManager
 			throw new ForumException(e);
 		}
 	}
-	
-	/**
-	 * @see net.jforum.search.SearchManager#create(net.jforum.entities.Post)
-	 */
+
 	public void create(final Post post)
 	{
 		this.indexer.create(post);
 	}
-	
-	/**
-	 * @see net.jforum.search.SearchManager#update(net.jforum.entities.Post)
-	 */
+
 	public void update(final Post post)
 	{
 		this.indexer.update(post);
 	}
 
-	/**
-	 * @see net.jforum.search.SearchManager#search(net.jforum.search.SearchArgs)
-	 */
 	public SearchResult<Post> search(final SearchArgs args)
 	{
 		return this.search.search(args);
 	}
-	
-	/**
-	 * @see net.jforum.search.SearchManager#delete(net.jforum.entities.Post)
-	 */
+
 	public void delete(final Post post)
 	{
 		this.indexer.delete(post);

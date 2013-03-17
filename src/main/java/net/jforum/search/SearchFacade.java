@@ -58,47 +58,47 @@ import org.apache.log4j.Logger;
 public final class SearchFacade
 {
 	private static final Logger LOGGER = Logger.getLogger(SearchFacade.class);
-	private static SearchManager searchManager;
-	
+	private static LuceneManager searchManager;
+
 	public static void init()
 	{
 		if (!isSearchEnabled()) {
-			LOGGER.info("Search indexing is disabled. Will try to create a SearchManager "
+			LOGGER.info("Search indexing is disabled. Will try to create a LuceneSearch "
 				+ "instance for runtime configuration changes");
 		}
-		
+
 		final String clazz = SystemGlobals.getValue(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION);
-		
+
 		if (clazz == null || "".equals(clazz)) {
 			LOGGER.info(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION + " is not defined. Skipping.");
 		}
 		else {
 			try {
-				searchManager = (SearchManager)Class.forName(clazz).newInstance();
+				searchManager = (LuceneManager)Class.forName(clazz).newInstance();
 			}
 			catch (Exception e) {
 				LOGGER.warn(e.toString(), e);
 				throw new SearchInstantiationException("Error while tring to start the search manager: " + e);
 			}
-			
+
 			searchManager.init();
 		}
 	}
-	
+
 	public static void create(final Post post)
 	{
 		if (isSearchEnabled()) {
 			searchManager.create(post);
 		}
 	}
-	
+
 	public static void update(final Post post) 
 	{
 		if (isSearchEnabled()) {
 			searchManager.update(post);
 		}
 	}
-	
+
 	public static SearchResult<Post> search(final SearchArgs args)
 	{
 		return isSearchEnabled()
@@ -117,11 +117,11 @@ public final class SearchFacade
 			searchManager.delete(post);
 		}
 	}
-	
-	public static SearchManager manager()
+
+	public static LuceneManager manager()
 	{
 		return searchManager;
 	}
-	
+
 	private SearchFacade() {}
 }

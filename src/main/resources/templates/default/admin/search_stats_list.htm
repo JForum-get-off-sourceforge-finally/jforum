@@ -170,20 +170,25 @@ function checkIfPostExists()
 	
 		<#if indexExists>
 			<tr>
-				<td class="row3"><strong>${I18n.getMessage("SearchStats.lastModified")}:</strong></td>
-				<td class="row3"><i>${lastModified?datetime}</i></td>
-			</tr>
-
-			<tr>
 				<td><strong>${I18n.getMessage("SearchStats.numberOfDocs")}:</strong> </td>
 				<td><i>${numberOfDocs}</i></td>
 			</tr>
-
+			<tr>
+				<td><strong>${I18n.getMessage("SearchStats.numberDeletedDocs")}:</strong></td>
+				<td><i>${numberDeletedDocs}</i></td>
+			</tr>
+			<tr>
+				<td><strong>${I18n.getMessage("SearchStats.refCount")}:</strong></td>
+				<td><i>${refCount}</i></td>
+			</tr>
+			<tr>
+				<td><strong>${I18n.getMessage("SearchStats.uniqueTermCount")}:</strong></td>
+				<td><i>${uniqueTermCount}</i></td>
+			</tr>
 			<tr>
 				<td class="row3"><strong>${I18n.getMessage("SearchStats.indexVersion")}:</strong> </td>
 				<td class="row3"><i>${indexVersion}</i></td>
 			</tr>
-
 			<tr>
 				<td><strong>${I18n.getMessage("SearchStats.isLocked")}</strong> </td>
 				<td>
@@ -196,7 +201,6 @@ function checkIfPostExists()
 					</i>
 				</td>
 			</tr>
-
 			<tr>
 				<td class="row3"><strong>${I18n.getMessage("SearchStats.isPostIndexed")}</strong> </td>
 				<td class="gensmall row3">

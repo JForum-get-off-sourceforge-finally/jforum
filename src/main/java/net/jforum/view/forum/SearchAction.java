@@ -42,12 +42,12 @@
  */
 package net.jforum.view.forum;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import net.jforum.Command;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
+import net.jforum.context.web.WebRequestContext;
 import net.jforum.repository.ForumRepository;
 import net.jforum.search.ContentSearchOperation;
 import net.jforum.search.NewMessagesSearchOperation;
@@ -60,14 +60,20 @@ import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
+
 import freemarker.template.SimpleHash;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
  * @version $Id$
  */
+
 public class SearchAction extends Command 
 {
+    private static final Logger log = Logger.getLogger(SearchAction.class);
+
 	public SearchAction() { }
 	
 	public SearchAction(RequestContext request, ResponseContext response, SimpleHash context) 
@@ -82,6 +88,12 @@ public class SearchAction extends Command
 		this.setTemplateName(TemplateKeys.SEARCH_FILTERS);
 		this.context.put("categories", ForumRepository.getAllCategories());
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.search"));
+
+        int forumId = -1;
+        try {
+            forumId = this.request.getIntParameter("forum_id");
+        } catch (NumberFormatException nfex) { }
+        this.context.put("forum_id", forumId);
 	}
 	
 	public void newMessages()
@@ -119,7 +131,7 @@ public class SearchAction extends Command
 		ViewCommon.contextToPagination(start, searchResults.getNumberOfHits(), recordsPerPage);
 		TopicsCommon.topicListingBase();
 	}
-	
+/*
 	private SearchArgs buildSearchArgs()
 	{
 		SearchArgs args = new SearchArgs();
@@ -147,7 +159,57 @@ public class SearchAction extends Command
 		
 		return args;
 	}
-	
+*/
+    private SearchArgs buildSearchArgs() {
+        SearchArgs args = new SearchArgs();
+
+        args.setKeywords(this.request.getParameter("search_keywords"));
+
+        args.setSearchIn(request.getParameter("search_in"));
+
+        args.setOrderBy(this.request.getParameter("sort_by"));
+        args.setOrderDir(this.request.getParameter("sort_dir"));
+        args.startFetchingAtRecord(ViewCommon.getStartPage());
+        args.setMatchType(this.request.getParameter("match_type"));
+
+        // setter handles these optional properties if not passed
+        args.setGroupByForum("true".equals(this.request.getParameter("groupByForum")));
+        args.setSearchDate(this.request.getParameter("search_date"));
+        args.setTopicsIstarted("true".equals(this.request.getParameter("topicsIstarted")));
+
+        setDates(args, this.request.getParameter("search_date"));
+
+        args.setAuthor(this.request.getParameter("member_name"));
+
+		if (this.request.getParameter("search_forum") != null && !"".equals(this.request.getParameter("search_forum"))) {
+			args.setForumId(this.request.getIntParameter("search_forum"));
+		}
+
+        return args;
+    }
+
+    private void setDates (SearchArgs args, String requestDateRange) {
+        if (requestDateRange == null || requestDateRange.equals("ALL")) {
+            args.setDateRange(null, null);
+        } else {
+            Calendar cal = new GregorianCalendar();
+            try {
+                int numDaysAgo = Integer.parseInt(requestDateRange);
+                cal.add(Calendar.DATE, -numDaysAgo);
+                Date fromDate = cal.getTime();
+                Date toDate = new Date();
+                args.setDateRange(fromDate, toDate);
+            } catch (NumberFormatException e) {
+				String ip = null;
+				if (request instanceof WebRequestContext) {
+					ip = ((WebRequestContext) request).getRemoteAddr();
+				}
+				log.error(requestDateRange + " is not a date. Not possible through the UI. IP " + ip);
+				throw new RuntimeException("The search request was malformed. Please use sensible values only.");
+            }
+        }
+    }
+
 	/** 
 	 * @see net.jforum.Command#list()
 	 */

@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.*;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.SearchException;
@@ -61,14 +62,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 
 /**
  * @author Rafael Steil
@@ -77,30 +71,35 @@ import org.apache.lucene.search.TopDocs;
 public class LuceneSearch implements NewDocumentAdded
 {
 	private static final Logger LOGGER = Logger.getLogger(LuceneSearch.class);
+
+	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+	private final Lock read = rwl.readLock();
+	private final Lock write = rwl.writeLock();
+
 	private IndexSearcher searcher;
 	private LuceneSettings settings;
-	private LuceneResultCollector contentCollector;
+	private LuceneContentCollector collector;
 
-	public LuceneSearch(LuceneSettings settings,
-		LuceneResultCollector contentCollector)
+	public LuceneSearch(LuceneSettings settings, LuceneContentCollector collector)
 	{
 		this.settings = settings;
-		this.contentCollector = contentCollector;
+		this.collector = collector;
 
 		this.openSearch();
 	}
 
-	/**
-	 * @see net.jforum.search.NewDocumentAdded#newDocumentAdded()
-	 */
-	public void newDocumentAdded()
-	{
+	public void newDocumentAdded() {
+		write.lock();
 		try {
-			this.searcher.close();
-			this.openSearch();
-		}
-		catch (Exception e) {
-			throw new SearchException(e);
+            if (searcher != null) {
+                searcher.close();
+            }
+            // re-open a new searcher
+			openSearch();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			write.unlock();
 		}
 	}
 
@@ -109,13 +108,13 @@ public class LuceneSearch implements NewDocumentAdded
 	 */
 	public SearchResult<Post> search(SearchArgs args)
 	{
-		return this.performSearch(args, this.contentCollector, null);
+		return this.performSearch(args, this.collector, null);
 	}
 
-	public Document findDocumentByPostId(int postId)
-	{
+	public Document findDocumentByPostId (int postId) {
 		Document doc = null;
 
+		read.lock();
 		try {
 			TopDocs results = searcher.search(new TermQuery(
 					new Term(SearchFields.Keyword.POST_ID, String.valueOf(postId))), null, 1);
@@ -123,18 +122,20 @@ public class LuceneSearch implements NewDocumentAdded
 			for (ScoreDoc hit : hits) {
 				doc = this.searcher.doc(hit.doc);
 			}
-		}
-		catch (IOException e) {
-			throw new SearchException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			read.unlock();
 		}
 
 		return doc;
 	}
 
-	private SearchResult<Post> performSearch(SearchArgs args, LuceneResultCollector resultCollector, Filter filter)
+	private SearchResult<Post> performSearch(SearchArgs args, LuceneContentCollector resultCollector, Filter filter)
 	{
 		SearchResult<Post> result;
 
+		boolean readLockAcquired = false;
 		try {
 			StringBuilder criteria = new StringBuilder(256);
 
@@ -142,38 +143,59 @@ public class LuceneSearch implements NewDocumentAdded
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
 
-			LOGGER.debug("criteria=["+criteria.toString()+"]");
-			
+			LOGGER.info("criteria=["+criteria.toString()+"]");
+
 			if (criteria.length() == 0) {
 				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
-			} 
-			else {
+			} else {
 				Query query = new QueryParser(LuceneSettings.version, SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
+				read.lock();
+				readLockAcquired = true;
 
 				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
-				TopDocs results = this.searcher.search(query, filter, limit, this.getSorter(args));
-				if (results.totalHits > 0) {
-					result = new SearchResult<Post>(resultCollector.collect(args, results, query), results.totalHits);
-				}
-				else {
+				TopFieldDocs tfd = searcher.search(query, filter, limit, getSorter(args));
+				ScoreDoc[] docs = tfd.scoreDocs;
+				int numDocs = tfd.totalHits;
+				if (numDocs > 0) {
+					result = new SearchResult<Post>(resultCollector.collect(args, docs, query), numDocs);
+				} else {
 					result = new SearchResult<Post>(new ArrayList<Post>(), 0);
 				}
+
+				LOGGER.info("hits="+numDocs);
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new SearchException(e);
+		} finally {
+			if (readLockAcquired) {
+				read.unlock();
+            }
 		}
 
 		return result;
 	}
 
-	private Sort getSorter(SearchArgs args)
-	{
-		Sort sort = Sort.RELEVANCE;
+	// only options are relevance and date
+	private Sort getSorter (SearchArgs args) {
+		Sort sort;
+
+		SortField forumGroupingSortField = new SortField(SearchFields.Keyword.FORUM_ID, SortField.INT, false);
+		SortField dateSortField = new SortField(SearchFields.Keyword.DATE, SortField.LONG, args.isOrderDirectionDescending());
 
 		if ("time".equals(args.getOrderBy())) {
-			sort = new Sort(new SortField(SearchFields.Keyword.POST_ID, SortField.INT, "DESC".equals(args.getOrderDir())));
-			LOGGER.debug("sort by time DESC: " + "DESC".equals(args.getOrderDir()));
+			// sort by date
+			if (args.isGroupByForum()) {
+				sort = new Sort(new SortField[] { forumGroupingSortField, dateSortField });
+			} else {
+				sort = new Sort(new SortField[] { dateSortField });
+			}
+		} else {
+			// sort by relevance
+			if (args.isGroupByForum()) {
+				sort = new Sort(new SortField[] { forumGroupingSortField, SortField.FIELD_SCORE });
+			} else {
+				sort = new Sort(new SortField[] { SortField.FIELD_SCORE });
+			}
 		}
 
 		return sort;
@@ -196,14 +218,41 @@ public class LuceneSearch implements NewDocumentAdded
 	}
 
 	private void filterByKeywords(SearchArgs args, StringBuilder criteria)
-	{		
-		if (args.getMatchType() == MatchType.RAW_KEYWORDS) {
+	{
+		LOGGER.info("searching for: " + args.rawKeywords());
+
+		if (args.isMatchRaw()) {
 			if (criteria.length() >0) {
 				criteria.append(" AND ");
 			}
-			criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
-			criteria.append(args.rawKeywords());
+
+			criteria.append(":(");
+
+			if (args.shouldLimitSearchToSubject()) {
+				// subject only
+				criteria.append(SearchFields.Indexed.SUBJECT).append(":").append(args.rawKeywords());
+			} else {
+				// contents and subject 
+				criteria.append(SearchFields.Indexed.CONTENTS).append(":").append(args.rawKeywords());
+				criteria.append(" OR ").append(SearchFields.Indexed.SUBJECT).append(":").append(args.rawKeywords());
+			}
+
 			criteria.append(')');
+		} else if (args.isMatchExact()) {
+			String escapedKeywords = "\"" + QueryParser.escape(args.rawKeywords()) + "\"";
+
+			criteria.append("+(");
+
+			if (args.shouldLimitSearchToSubject()) {
+				// subject only
+				criteria.append(SearchFields.Indexed.SUBJECT).append(":").append(escapedKeywords);
+			} else {
+				// contents and subject 
+				criteria.append(SearchFields.Indexed.CONTENTS).append(":").append(escapedKeywords);
+				criteria.append(" OR ").append(SearchFields.Indexed.SUBJECT).append(":").append(escapedKeywords);
+			}
+
+			criteria.append(") ");
 		} else {
 			String[] keywords = this.analyzeKeywords(args.rawKeywords());
 
@@ -211,18 +260,25 @@ public class LuceneSearch implements NewDocumentAdded
 				if (criteria.length() >0) {
 					criteria.append(" AND ");
 				}
-				criteria.append(SearchFields.Indexed.CONTENTS).append(":(");
 
 				for (int i = 0; i < keywords.length; i++) {
-					if (args.getMatchType() == MatchType.ALL_KEYWORDS) {
-						criteria.append('+');
+					if (args.isMatchAll()) {
+						criteria.append(" +");
 					}
-					criteria.append(QueryParser.escape(keywords[i]));
-					if (i < keywords.length -1) {
-						criteria.append(' ');					
+
+					String escapedKeywords = QueryParser.escape(keywords[i]);
+
+					criteria.append("(");
+					if (args.shouldLimitSearchToSubject()) {
+						// subject only
+						criteria.append(SearchFields.Indexed.SUBJECT).append(":").append(escapedKeywords);
+					} else {
+						// contents and subject 
+						criteria.append(SearchFields.Indexed.CONTENTS).append(":").append(escapedKeywords);
+						criteria.append(" OR ").append(SearchFields.Indexed.SUBJECT).append(":").append(escapedKeywords);
 					}
+					criteria.append(") ");
 				}
-				criteria.append(')');
 			}
 		}
 	}

@@ -69,58 +69,52 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
  * @author Rafael Steil
  * @version $Id$
  */
-public class LuceneContentCollector implements LuceneResultCollector
+public class LuceneContentCollector 
 {
 	private LuceneSettings settings;
-	
+
 	public LuceneContentCollector(LuceneSettings settings)
 	{
 		this.settings = settings;
 	}
 
-	/**
-	 * @see net.jforum.search.LuceneResultCollector#collect(SearchArgs, org.apache.lucene.search.TopDocs, org.apache.lucene.search.Query)
-	 */
-	public List<Post> collect(SearchArgs args, TopDocs results, Query query) {
+	public List<Post> collect(SearchArgs args, ScoreDoc[] results, Query query) {
 		try {
-			int[] postIds = new int[Math.min(args.fetchCount(), results.totalHits)];
-						
+			int[] postIds = new int[Math.min(args.fetchCount(), results.length)];
+
 			IndexSearcher searcher = new IndexSearcher(IndexReader.open(this.settings.directory()));
-			ScoreDoc[] hits = results.scoreDocs;
 			for (int docIndex = args.startFrom(), i = 0; 
-				docIndex < args.startFrom() + args.fetchCount() && docIndex < hits.length; 
+				docIndex < args.startFrom() + args.fetchCount() && docIndex < results.length; 
 				docIndex++, i++) {
-				ScoreDoc hit = hits[docIndex];
+				ScoreDoc hit = results[docIndex];
 		        Document doc = searcher.doc(hit.doc);
 				postIds[i] = Integer.parseInt(doc.get(SearchFields.Keyword.POST_ID));
 			}
 			searcher.close();
 			return this.retrieveRealPosts(postIds, query);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new ForumException(e.toString(), e);
 		}		
-		
 	}
 
 	private List<Post> retrieveRealPosts(int[] postIds, Query query) throws IOException, InvalidTokenOffsetsException
 	{
 		List<Post> posts = DataAccessDriver.getInstance().newLuceneDAO().getPostsData(postIds);
-		
+
 		for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
 			Post post = iter.next();
-			
+
 			Scorer scorer = new QueryScorer(query);
 			SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<b><font color=\"red\">", "</font></b>");
 			Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);
-			
+
 			// Highlight keyword in post text
 			TokenStream tokenStream = this.settings.analyzer().tokenStream(
 				SearchFields.Indexed.CONTENTS, new StringReader(post.getText()));
 
 			String fragment = highlighter.getBestFragment(tokenStream, post.getText());
 			post.setText(fragment != null ? fragment : post.getText());
-			
+
 			// Highlight keyword in post subject
 			tokenStream = this.settings.analyzer().tokenStream(
 					SearchFields.Indexed.CONTENTS, new StringReader(post.getSubject()));
@@ -128,7 +122,7 @@ public class LuceneContentCollector implements LuceneResultCollector
 			fragment = highlighter.getBestFragment(tokenStream, post.getSubject());
 			post.setSubject(fragment != null ? fragment : post.getSubject());
 		}
-		
+
 		return posts;
 	}
 }

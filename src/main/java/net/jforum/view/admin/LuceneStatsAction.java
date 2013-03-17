@@ -63,6 +63,7 @@ import net.jforum.util.preferences.TemplateKeys;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import freemarker.template.SimpleHash;
@@ -80,31 +81,39 @@ public class LuceneStatsAction extends AdminCommand
 	public void list()
 	{
 		IndexReader reader = null;
-		
+
 		try {
 			File indexDir = new File(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
-			
+			Directory fsDir = FSDirectory.open(indexDir);
+
 			this.setTemplateName(TemplateKeys.SEARCH_STATS_LIST);
 			boolean isInformationAvailable = true;
-			
+
 			try {
-				reader = IndexReader.open(FSDirectory.open(indexDir));
-			}
-			catch (IOException e) {
+				reader = IndexReader.open(fsDir);
+			} catch (IOException e) {
 				isInformationAvailable = false;
 			}
-			
+
 			this.context.put("isInformationAvailable", isInformationAvailable);
-			this.context.put("indexExists", IndexReader.indexExists(FSDirectory.open(indexDir)));
+			this.context.put("indexExists", IndexReader.indexExists(fsDir));
 			this.context.put("currentlyIndexing", "1".equals(SystemGlobals.getValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING)));
-			
+
 			if (isInformationAvailable) {
-				this.context.put("isLocked", IndexWriter.isLocked(FSDirectory.open(indexDir)));
-				this.context.put("lastModified", new Date(FSDirectory.fileModified(indexDir, "segments.gen")));
+				this.context.put("isLocked", IndexWriter.isLocked(fsDir));
+				this.context.put("isUpToDate", reader.isCurrent());
 				this.context.put("indexLocation", indexDir.getAbsolutePath());
-				this.context.put("totalMessages", Integer.valueOf(ForumRepository.getTotalMessages()));
-				this.context.put("indexVersion", Long.valueOf(reader.getVersion()));
-				this.context.put("numberOfDocs", Integer.valueOf(reader.numDocs()));
+				this.context.put("totalMessages", new Integer(ForumRepository.getTotalMessages()));
+				this.context.put("indexVersion", new Long(reader.getVersion()));
+				this.context.put("numberOfDocs", new Integer(reader.numDocs()));
+				this.context.put("numberDeletedDocs", new Integer(reader.numDeletedDocs()));
+				this.context.put("refCount", new Integer(reader.getRefCount()));
+				long uniqueTermCount = 0;
+				for (IndexReader r : reader.getSequentialSubReaders()) {
+					if (r != null)
+						uniqueTermCount += r.getUniqueTermCount();
+				}
+				this.context.put("uniqueTermCount", uniqueTermCount);
 			}
 		}
 		catch (IOException e) {

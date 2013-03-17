@@ -54,7 +54,8 @@ import net.jforum.util.preferences.SystemGlobals;
 public class SearchArgs 
 {
 	private String keywords;
-	private int author;
+	private String author;
+	private int userID;
 	private String orderDir = "DESC";
 	private String orderBy;
 	private int forumId;
@@ -62,13 +63,20 @@ public class SearchArgs
 	private Date fromDate;
 	private Date toDate;
 	private MatchType matchType;
-	
+	private String searchIn;
+
+	private boolean groupByForum;
+	private boolean topicsIstarted;
+
+	private String searchDate;
+
 	public static enum MatchType {
 		ALL_KEYWORDS,
 		ANY_KEYWORDS,
+		EXACT_PHRASE,
 		RAW_KEYWORDS
 	}
-	
+
 	/**
 	 * set the matching type - default to all words if unknown string is passed
 	 * @param matchType
@@ -79,73 +87,116 @@ public class SearchArgs
 			this.matchType = MatchType.ANY_KEYWORDS;
 		} else if ("raw".equals(matchType)) {
 			this.matchType = MatchType.RAW_KEYWORDS;
+		} else if ("phrase".equals(matchType)) {
+			this.matchType = MatchType.EXACT_PHRASE;
 		} else {
 			/* not set or null like for new messagesSearch */
 			this.matchType = MatchType.ALL_KEYWORDS;
 		}
 	}
-	
-	public MatchType getMatchType()
-	{
-		return this.matchType;
+
+	public boolean isMatchAll() {
+		return matchType.equals(MatchType.ALL_KEYWORDS);
 	}
-	
+
+	public boolean isMatchAny() {
+		return matchType.equals(MatchType.ANY_KEYWORDS);
+	}
+
+	public boolean isMatchExact() {
+		return matchType.equals(MatchType.EXACT_PHRASE);
+	}
+
+	public boolean isMatchRaw() {
+		return matchType.equals(MatchType.RAW_KEYWORDS);
+	}
+
 	public void setDateRange(Date fromDate, Date toDate)
 	{
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
-	
+
 	public Date getFromDate()
 	{
 		return this.fromDate;
 	}
-	
+
 	public Date getToDate()
 	{
 		return this.toDate;
 	}
-	
+
+	public String getSearchDate() {
+		return formatNullOrTrim(searchDate);
+	}
+
+	public void setSearchDate(String searchDate) {
+		this.searchDate = searchDate;
+	}
+
 	public int fetchCount()
 	{
 		return SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 	}
-	
+
 	public void startFetchingAtRecord(int initialRecord)
 	{
 		this.initialRecord = initialRecord;
 	}
-	
+
 	public int startFrom()
 	{
 		return this.initialRecord;
 	}
-	
+
 	public void setKeywords(String keywords)
 	{
 		this.keywords = keywords;
 	}
 
-	public void setAuthor(int author)
+	public void setAuthor(String author)
 	{
 		this.author = author;
 	}
-	
+
 	public void setForumId(int forumId)
 	{
 		this.forumId = forumId;
 	}
-	
+
+	public void setUserID(int userID)
+	{
+		this.userID = userID;
+	}
+
 	public void setOrderBy(String orderBy)
 	{
 		this.orderBy = orderBy;
 	}
-	
+
 	public void setOrderDir(String orderDir)
 	{
-		this.orderDir = orderDir;
+		if (orderDir != null && (orderDir.equals("ASC") || orderDir.equals("DESC")))
+			this.orderDir = orderDir;
 	}
-	
+
+	public boolean isGroupByForum() {
+		return groupByForum;
+	}
+
+	public void setGroupByForum(boolean groupByForum) {
+		this.groupByForum = groupByForum;
+	}
+
+	public void setTopicsIstarted(boolean topicsIstarted) {
+		this.topicsIstarted = topicsIstarted;
+	}
+
+	public boolean isTopicsIstarted() {
+		return topicsIstarted;
+	}
+
 	public String[] getKeywords()
 	{
 		if (this.keywords == null || this.keywords.trim().length() == 0) {
@@ -154,37 +205,59 @@ public class SearchArgs
 
 		return this.keywords.trim().split(" ");
 	}
-	
+
 	public String rawKeywords()
 	{
 		if (this.keywords == null) {
 			return "";
 		}
-		
+
 		return this.keywords.trim();
 	}
 
-	public int getAuthor()
+	public int getUserID() {
+		return userID;
+	}
+
+	public String getAuthor()
 	{
 		return this.author;
 	}
-	
+
 	public int getForumId()
 	{
 		return this.forumId;
 	}
-	
-	public String getOrderDir()
-	{
-		if (!"ASC".equals(this.orderDir) && !"DESC".equals(this.orderDir)) {
-			return "DESC";
-		}
 
-		return this.orderDir;
+	public boolean isOrderDirectionDescending() {
+		return "DESC".equals(orderDir);
 	}
-	
+
 	public String getOrderBy()
 	{
 		return this.orderBy;
+	}
+
+	// -----------------------------------------------------------------
+
+	public String getSearchIn() {
+		return formatNullOrTrim(searchIn);
+	}
+
+	public void setSearchIn(String searchIn) {
+		this.searchIn = searchIn;
+	}
+
+	public boolean shouldLimitSearchToSubject() {
+		return "SUBJECT".equals(searchIn);
+	}
+
+	// -----------------------------------------------------------------
+
+	private String formatNullOrTrim(String value) {
+		if (value == null) {
+			return "";
+		}
+		return value.trim();
 	}
 }
