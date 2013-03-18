@@ -57,6 +57,9 @@
 						<#else>
 							<span class="gen">${I18n.getMessage("PostShow.noUserCreatedPosts")}</span>
 						</#if>
+						<#if rssEnabled >
+							<a href="${JForumContext.encodeURL("/rss/userPosts/${u.id}")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" border="0" alt="RSS feed" title="RSS feed"/></a>
+						</#if>
 					</td>
 				</tr>
 				<tr>

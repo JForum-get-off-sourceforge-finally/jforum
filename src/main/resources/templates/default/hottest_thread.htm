@@ -13,7 +13,7 @@
 							<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> &raquo;
 							<a class="nav" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
 							<#if rssEnabled>
-								&nbsp;<a href="${JForumContext.encodeURL("/rss/hottestTopics")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" align="middle" alt="[XML]" /></a>
+								&nbsp;<a href="${JForumContext.encodeURL("/rss/hottestTopics")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" align="middle" alt="RSS feed" title="RSS feed" /></a>
 							</#if>
 						</td>
 						<td>&nbsp;
