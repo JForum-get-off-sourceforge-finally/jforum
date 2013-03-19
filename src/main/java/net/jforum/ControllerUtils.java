@@ -115,6 +115,10 @@ public class ControllerUtils
 		context.put("JForumContext", jforumContext);
 		context.put("bannerCommon", new BannerCommon());
 		context.put("timestamp", Long.valueOf(System.currentTimeMillis()));
+        String googleTracker = SystemGlobals.getValue(ConfigKeys.GA_ID);
+        if (googleTracker != null && googleTracker.trim().length() > 0) {
+            context.put("googleAnalyticsTracker", googleTracker.trim());
+        }
 	}
 
 	/**

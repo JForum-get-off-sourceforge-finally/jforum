@@ -108,6 +108,7 @@ public final class ConfigKeys
 	public static final String RESOURCE_DIR = "resource.dir";
 	public static final String CONFIG_DIR = "config.dir";
 
+	public static final String GA_ID = "google.analytics.tracker";
 
 	public static final String TEMPLATES_MAPPING = "templates.mapping";
 	public static final String TEMPLATE_DIR = "template.dir";
