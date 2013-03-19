@@ -131,36 +131,8 @@ public class SearchAction extends Command
 		ViewCommon.contextToPagination(start, searchResults.getNumberOfHits(), recordsPerPage);
 		TopicsCommon.topicListingBase();
 	}
-/*
-	private SearchArgs buildSearchArgs()
-	{
-		SearchArgs args = new SearchArgs();
-		
-		args.setKeywords(this.request.getParameter("search_keywords"));
-		
-		if (this.request.getParameter("search_author") != null) {
-			args.setAuthor(this.request.getIntParameter("search_author"));
-		}
-		
-		args.setOrderBy(this.request.getParameter("sort_by"));
-		args.setOrderDir(this.request.getParameter("sort_dir"));
-		args.startFetchingAtRecord(ViewCommon.getStartPage());
-		args.setMatchType(this.request.getParameter("match_type"));
-		
-		if (this.request.getObjectParameter("from_date") != null
-			&& this.request.getObjectParameter("to_date") != null) {
-			args.setDateRange((Date)this.request.getObjectParameter("from_date"), 
-				(Date)this.request.getObjectParameter("to_date"));		    
-		}
 
-		if (this.request.getParameter("search_forum") != null && !"".equals(this.request.getParameter("search_forum"))) {
-			args.setForumId(this.request.getIntParameter("search_forum"));
-		}
-		
-		return args;
-	}
-*/
-    private SearchArgs buildSearchArgs() {
+	private SearchArgs buildSearchArgs() {
         SearchArgs args = new SearchArgs();
 
         args.setKeywords(this.request.getParameter("search_keywords"));
@@ -179,7 +151,10 @@ public class SearchAction extends Command
 
         setDates(args, this.request.getParameter("search_date"));
 
-        args.setAuthor(this.request.getParameter("member_name"));
+        args.setMemberId(this.request.getParameter("member_number"));
+        args.setMemberName(this.request.getParameter("member_name"));
+        args.setMemberMatchType(this.request.getParameter("member_match_type"));
+        args.setTopicsIstarted("true".equals(this.request.getParameter("topicsIstarted")));
 
 		if (this.request.getParameter("search_forum") != null && !"".equals(this.request.getParameter("search_forum"))) {
 			args.setForumId(this.request.getIntParameter("search_forum"));

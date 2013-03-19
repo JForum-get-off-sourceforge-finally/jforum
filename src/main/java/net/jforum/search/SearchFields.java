@@ -57,6 +57,8 @@ public final class SearchFields
 		public static final String USER_ID = "user.id";
 		public static final String CATEGORY_ID = "category.id";
 		public static final String DATE = "date";
+		public static final String TOPIC_STARTER_ID = "topic.starter.id";
+		public static final String IS_FIRST_POST = "is.first.post";
 	}
 
 	public static final class Indexed

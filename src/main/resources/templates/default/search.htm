@@ -92,7 +92,40 @@
     </SELECT>
     </td>
     </tr>
-
+<!--
+    <tr>
+        <td class="row1" width="50%" colspan="2"><span class="gen">Search by member ID:</span><br /></td>
+        <td class="row2" valign="top">
+        <span class="genmed"> <input type="text" class="post" style="WIDTH: 100px" size="15" name="member_number" />
+        <#if (session.userId > 0)>
+        &nbsp;&nbsp;(<a href="" onClick="document.formSearch.member_number.value='${session.userId}'; return false;"><FONT size="1">my own posts</FONT></a>)
+        </#if>
+        </span>
+        </td>
+    </tr>
+    <tr>
+        <td class="row1" width="50%" colspan="2"><span class="gen">Search by member name:</span><br /></td>
+        <td class="row2" valign="top">
+        <span class="genmed">
+			<input type="text" class="post" style="WIDTH: 150px" size="35" name="member_name" />
+        </span>
+        </td>
+    </tr>
+    <tr>
+        <td class="row1" colspan="2">&nbsp;</td>
+        <td class="row2" valign="top">
+        <span class="genmed">
+            <input type="radio" name="member_match_type" value="memberPosted" checked="checked" id="memberPosted" />
+            <label for="memberPosted">All topics posted to by this member</label>
+            <#if (session.userId > 0)>(<input type="checkbox" name="topicsIstarted" value="true"> which I started)</#if>
+            <br />
+            <input type="radio" name="member_match_type" value="memberStarted" id="memberStarted" />
+            <label for="memberStarted">Topics started by this member</label>
+        </span>
+        </p>
+        </td>
+    </tr>
+-->
 		<tr>
 			<td class="catbottom" align="center" colspan="4"><input class="liteoption" type="submit" value="${I18n.getMessage("Search.search")}" /></td>
 		</tr>

@@ -54,7 +54,6 @@ import net.jforum.util.preferences.SystemGlobals;
 public class SearchArgs 
 {
 	private String keywords;
-	private String author;
 	private int userID;
 	private String orderDir = "DESC";
 	private String orderBy;
@@ -64,11 +63,14 @@ public class SearchArgs
 	private Date toDate;
 	private MatchType matchType;
 	private String searchIn;
-
-	private boolean groupByForum;
-	private boolean topicsIstarted;
-
 	private String searchDate;
+	private boolean groupByForum;
+
+	// member search
+	private int memberId;
+	private String memberName;
+	private boolean topicsIstarted;
+	private String memberMatchType;
 
 	public static enum MatchType {
 		ALL_KEYWORDS,
@@ -155,9 +157,38 @@ public class SearchArgs
 		this.keywords = keywords;
 	}
 
-	public void setAuthor(String author)
+	public void setMemberName (String memberName)
 	{
-		this.author = author;
+		this.memberName = memberName;
+	}
+
+	public void setMemberId(String memberId) {
+		int id = -1;
+		if (memberId != null && memberId.trim().length() > 0) {
+			try {
+				id = Integer.parseInt(memberId.trim());
+			} catch (NumberFormatException nfex) {
+				// id is already -1, no need to do anything about this
+			}
+		}
+
+		this.memberId = id;
+	}
+
+	public int getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
+	}
+
+	public void setTopicsIstarted(boolean topicsIstarted) {
+		this.topicsIstarted = topicsIstarted;
+	}
+
+	public boolean isTopicsIstarted() {
+		return topicsIstarted;
 	}
 
 	public void setForumId(int forumId)
@@ -189,14 +220,6 @@ public class SearchArgs
 		this.groupByForum = groupByForum;
 	}
 
-	public void setTopicsIstarted(boolean topicsIstarted) {
-		this.topicsIstarted = topicsIstarted;
-	}
-
-	public boolean isTopicsIstarted() {
-		return topicsIstarted;
-	}
-
 	public String[] getKeywords()
 	{
 		if (this.keywords == null || this.keywords.trim().length() == 0) {
@@ -219,9 +242,9 @@ public class SearchArgs
 		return userID;
 	}
 
-	public String getAuthor()
+	public String getMemberName()
 	{
-		return this.author;
+		return this.memberName;
 	}
 
 	public int getForumId()
@@ -236,6 +259,20 @@ public class SearchArgs
 	public String getOrderBy()
 	{
 		return this.orderBy;
+	}
+
+	// -----------------------------------------------------------------
+
+	public String getMemberMatchType() {
+		return formatNullOrTrim(memberMatchType);
+	}
+
+	public void setMemberMatchType(String memberMatchType) {
+		this.memberMatchType = memberMatchType;
+	}
+
+	public boolean shouldLimitSearchToTopicStarted() {
+		return "memberStarted".equals(memberMatchType);
 	}
 
 	// -----------------------------------------------------------------
