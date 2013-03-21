@@ -235,15 +235,19 @@ public class LuceneSearchTestCase extends TestCase
 		this.settings.useRAMDirectory();
 		
 		this.indexer = new LuceneIndexer(this.settings);
-		
-		this.search = new LuceneSearch(this.settings, 
-			new FakeResultCollector());
-		
+
+		this.search = new LuceneSearch(this.settings, new FakeResultCollector(this.settings));
+
 		this.indexer.watchNewDocuDocumentAdded(this.search);
 	}
-	
-	private static class FakeResultCollector implements LuceneResultCollector
+
+	private static class FakeResultCollector extends LuceneContentCollector
 	{
+		public FakeResultCollector(LuceneSettings settings)
+		{
+			super(settings);
+		}
+
 		public List<Post> collect(SearchArgs args, TopDocs results, Query query)
 		{
 			List<Post> l = new ArrayList<Post>();
