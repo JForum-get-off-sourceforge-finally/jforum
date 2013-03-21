@@ -64,6 +64,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.PostCommon;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.ViewCommon;
 
 /**
@@ -254,9 +255,13 @@ public class PrivateMessageAction extends Command
 				&& SystemGlobals.getBoolValue(ConfigKeys.MAIL_NOTIFY_ANSWERS)) {
 				Executor.execute(new EmailSenderTask(new PrivateMessageSpammer(toUser)));
 			}
+
+			Stats.record(Stats.ForbidDetailDisplay.SENT_PMS.toString(),
+					"From " + pm.getFromUser().getUsername() +
+					" to " + pm.getToUser().getUsername());
 		}
 	}
-	
+
 	public void findUser()
 	{
 		boolean showResult = false;

@@ -61,6 +61,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -88,6 +89,7 @@ public class RecentTopicsAction extends Command
 
 		TopicsCommon.topicListingBase();
 		this.request.removeAttribute("template");
+		Stats.record("Recent topics page", request.getRequestURL());
 	}
 	
 	private List<Topic> topics()

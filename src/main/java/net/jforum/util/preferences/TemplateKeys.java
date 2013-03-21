@@ -203,6 +203,9 @@ public final class TemplateKeys
 	public static final String MODERATION_SHOW_ACTIVITY_LOG = "moderation.show.activity.log";
 	public static final String MODERATION_LOG_DENIED = "moderation.log.denied";
 	
+    public static final String BOARD_STATS_LIST = "boardStats.list";
+    public static final String BOARD_STATS_SHOW_LAST = "boardStats.showLast";
+
 	public static final String SEARCH_STATS_LIST = "search.stats.list";
 	public static final String SEARCH_STATS_NOT_ENABLED = "search.stats.not.enabled";
 	public static final String AJAX_PREVIEW_POST = "ajax.preview.post";

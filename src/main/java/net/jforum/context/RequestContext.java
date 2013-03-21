@@ -428,4 +428,10 @@ public interface RequestContext
 	 * @return Enumeration<Locale>
 	 */
 	Enumeration<Locale> getLocales();
+
+	/**
+	 * Return full request URL (including http://....)
+	 * @return
+	 */
+	public StringBuffer getRequestURL();
 }

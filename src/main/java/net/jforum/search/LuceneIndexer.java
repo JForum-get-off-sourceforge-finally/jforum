@@ -173,8 +173,6 @@ public class LuceneIndexer
 				final Document document = this.createDocument(post);
 				writer.addDocument(document);
 
-				this.optimize(writer);
-
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("Indexed " + document);
 				}
@@ -202,17 +200,6 @@ public class LuceneIndexer
 	{
 		if (this.performDelete(post)) {
 			this.create(post);
-		}
-	}
-
-	private void optimize(final IndexWriter writer) throws Exception
-	{
-		if (writer.maxDoc() % 100 == 0) {
-			LOGGER.info("Optimizing indexes. Current number of documents is " + writer.maxDoc());
-
-			writer.forceMergeDeletes();
-
-			LOGGER.debug("Indexes optimized");
 		}
 	}
 

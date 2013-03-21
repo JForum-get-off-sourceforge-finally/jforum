@@ -122,7 +122,10 @@ public final class ConfigKeys
 	public static final String COOKIE_NAME_USER = "cookie.name.user";
 	public static final String COOKIE_AUTO_LOGIN = "cookie.name.autologin";
 	public static final String COOKIE_USER_HASH = "cookie.name.userHash";
-		
+
+    public static String STATS_RING_SIZE = "statistics.ringSize";
+    public static String STATS_ACTIVE = "statistics.active";
+
 	public static final String ANONYMOUS_USER_ID = "anonymous.userId";
 	public static final String DEFAULT_USER_GROUP = "defaultUserGroup";
 	public static final String USER_HASH_SEQUENCE = "user.hash.sequence";
@@ -279,9 +282,14 @@ public final class ConfigKeys
 	public static final String POSTS_EDIT_AFTER_REPLY = "posts.edit.after.reply";
 	public static final String LAST_POST_TIME = "last.post.time";
 
+	public static final String KARMA_SHOW = "karma.show";
 	public static final String KARMA_MIN_POINTS = "karma.min.points";
 	public static final String KARMA_MAX_POINTS = "karma.max.points";
-    
+
+	public static final String IP_SHOW = "show.ip";
+	public static final String ONLINE_SHOW = "show.online.status";
+	public static final String AVATAR_SHOW = "show.avatar";
+
     public static final String MAIL_SUMMARY_SUBJECT = "mail.summary.weekly.subject";
     public static final String MAIL_SUMMARY_FILE = "mail.summary.weekly.messageFile";
     public static final String SUMMARY_DAYS_BEFORE = "summary.days.before";

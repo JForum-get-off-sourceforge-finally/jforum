@@ -18,13 +18,9 @@
 	</tr>
 
 	<tr>
-		<td class="catleft" align="center" width="40%"><b><span class="gen">${I18n.getMessage("UserProfile.avatar")}</span></b></td>
-		<td class="catright" align="center" width="60%"><b><span class="gen">${I18n.getMessage("UserProfile.allAbout")} ${u.username}</span></b></td>
-    </tr>
-
-	<tr>
-		<td class="row1" valign="top" align="center" height="6">
-			<#if (u.avatar?exists && u.avatar?length > 0)>
+		<td class="row1" valign="top" align="center" height="6" width="50%">
+			<#if showAvatar && (u.avatar?exists && u.avatar?length > 0)>
+				<b><span class="gen">${I18n.getMessage("UserProfile.avatar")}</span></b><br />
 				<#if u.isExternalAvatar() || u.avatar.startsWith("http://") || u.avatar.startsWith("https://")>
 					<#if avatarAllowExternalUrl>
 						<img src="${u.avatar}" alt="avatar" />
@@ -36,7 +32,7 @@
 			<span class="postdetails">
 				${I18n.getMessage("PostShow.ranking")}: ${rank.getRankTitle(u.rankId, u.totalPosts)}
 			
-				<#if karmaEnabled>
+				<#if showKarma && karmaEnabled>
 					<br />${I18n.getMessage("Karma.karma")}: <script type="text/javascript">writeStars(${u.karma.karmaPoints}, ${u.id});</script>
 				</#if>
 			</span>

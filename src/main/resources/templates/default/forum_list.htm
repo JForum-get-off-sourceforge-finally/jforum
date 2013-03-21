@@ -122,20 +122,23 @@
 						[ <span ${adminColor}>${I18n.getMessage("Administrator")}</span> ]&nbsp;[ <span ${moderatorColor}>${I18n.getMessage("Moderator")}</span> ]
 						<br />
 						${I18n.getMessage("ForumListing.mostUsersEverOnline", [ mostUsersEverOnline.getTotal(), mostUsersEverOnline.getDate()?string ])}
-						<br />
-						${I18n.getMessage("ForumListing.connectedUsers")}:
 
-						<#list userSessions as us>
-							<#if us.isAdmin()>
-								<#assign color = adminColor/>
-							<#elseif us.isModerator()>
-								<#assign color = moderatorColor/>
-							<#else>
-								<#assign color = ""/>
-							</#if>
+						<#if showOnline >
+							<br />
+							${I18n.getMessage("ForumListing.connectedUsers")}:
 
-								<a href="${JForumContext.encodeURL("/user/profile/${us.userId}")}"><span ${color}>${us.username}</span></a>&nbsp;
-						</#list>
+							<#list userSessions as us>
+								<#if us.isAdmin()>
+									<#assign color = adminColor/>
+								<#elseif us.isModerator()>
+									<#assign color = moderatorColor/>
+								<#else>
+									<#assign color = ""/>
+								</#if>
+
+									<a href="${JForumContext.encodeURL("/user/profile/${us.userId}")}"><span ${color}>${us.username}</span></a>&nbsp;
+							</#list>
+						</#if>
 					</td>
 				</tr>
 			</table>

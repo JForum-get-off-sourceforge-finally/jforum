@@ -128,6 +128,7 @@ public class BannerCommon
         // increment views by 1
 		result.setViews(result.getViews() + 1);
 		dao.update(result);
+        Stats.record("Banner fetch", result.getDescription());
 
 		return result;
 	}

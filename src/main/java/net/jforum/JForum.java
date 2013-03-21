@@ -84,6 +84,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.bbcode.BBCodeHandler;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+import net.jforum.view.forum.common.Stats;
 
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
@@ -197,8 +198,9 @@ public class JForum extends JForumBaseServlet
 			// Gets the module class name
 			String moduleClass = module == null 
 				? null : ModulesRepository.getModuleClass(module);
-			
+
 			if (moduleClass == null) {
+				Stats.record("Bad module requests", req.getRequestURL());
 				// Module not found, send 404 not found response
 				//response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				response.sendRedirect(request.getContextPath());
@@ -217,6 +219,7 @@ public class JForum extends JForumBaseServlet
 				}
 				
 				if (shouldBan && SystemGlobals.getBoolValue(ConfigKeys.BANLIST_SEND_403FORBIDDEN)) {
+                    Stats.record("Banned page requests", req.getRequestURL());
 					response.sendError(HttpServletResponse.SC_FORBIDDEN);
 				}
 				else {
@@ -224,7 +227,7 @@ public class JForum extends JForumBaseServlet
 					context.put("session", SessionFacade.getUserSession());
 					context.put("request", req);
 					context.put("response", response);
-					
+                    Stats.record("All page requests", req.getRequestURL());
 					out = this.processCommand(out, request, response, encoding, context, moduleClass);
 				}
 			}
@@ -301,7 +304,8 @@ public class JForum extends JForumBaseServlet
 		final Exception exception, final RequestContext request) throws IOException
 	{
 		JForumExecutionContext.enableRollback();
-		
+        Stats.record("Error page", exception.getMessage());
+
 		if (exception.toString().indexOf("ClientAbortException") == -1) {
 			if (response != null) {
 				response.setContentType("text/html; charset=" + encoding);

@@ -96,6 +96,7 @@ import net.jforum.view.forum.common.AttachmentCommon;
 import net.jforum.view.forum.common.ForumCommon;
 import net.jforum.view.forum.common.PollCommon;
 import net.jforum.view.forum.common.PostCommon;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -225,6 +226,11 @@ public class PostAction extends Command
 		this.context.put("moderationLoggingEnabled", SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED));
 		this.context.put("needCaptcha", SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS));
 
+		this.context.put("showAvatar", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_SHOW));
+		this.context.put("showKarma", SystemGlobals.getBoolValue(ConfigKeys.KARMA_SHOW));
+		this.context.put("showIP", SystemGlobals.getBoolValue(ConfigKeys.IP_SHOW));
+		this.context.put("showOnline", SystemGlobals.getBoolValue(ConfigKeys.ONLINE_SHOW));
+
 		Map<Integer, User> topicPosters = topicDao.topicPosters(topic.getId());
 
 		for (Iterator<User> iter = topicPosters.values().iterator(); iter.hasNext(); ) {
@@ -245,6 +251,8 @@ public class PostAction extends Command
 
 		TopicsCommon.topicListingBase();
 		TopicRepository.updateTopic(topic);
+
+        Stats.record("View thread", request.getRequestURL());
 	}
 
 	/**

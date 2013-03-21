@@ -71,6 +71,7 @@ import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.admin.ModerationAction;
 import net.jforum.view.forum.common.ForumCommon;
 import net.jforum.view.forum.common.PostCommon;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -103,6 +104,7 @@ public class ForumAction extends Command
 		this.context.put("forumRepository", new ForumRepository());
 
 		// Online Users
+		this.context.put("showOnline", SystemGlobals.getBoolValue(ConfigKeys.ONLINE_SHOW));
 		this.context.put("totalOnlineUsers", Integer.valueOf(SessionFacade.size()));
 		int aid = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
 
@@ -152,6 +154,7 @@ public class ForumAction extends Command
 		}
 
 		this.context.put("mostUsersEverOnline", mostUsersEverOnline);
+        Stats.record("Show index page", "");
 	}
 
 	public void moderation()
@@ -228,6 +231,7 @@ public class ForumAction extends Command
 
 		TopicsCommon.topicListingBase();
 		this.context.put("moderator", isLogged && isModerator);
+        Stats.record("Show forum listing", request.getRequestURL());
 	}
 
 	// Make a URL to some action

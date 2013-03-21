@@ -59,6 +59,7 @@ import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.util.I18n;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
@@ -183,6 +184,7 @@ public class BookmarkAction extends Command
 
 		DataAccessDriver.getInstance().newBookmarkDAO().add(bookmark);
 		this.setTemplateName(TemplateKeys.BOOKMARKS_INSERT_SAVE);
+        Stats.record("Save bookmark", request.getRequestURL());
 	}
 
 	public void updateSave()

@@ -615,6 +615,8 @@ public class UserAction extends Command
 			this.context.put("u", user);
 			this.context.put("avatarAllowExternalUrl", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL));
 			this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
+			this.context.put("showAvatar", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_SHOW));
+			this.context.put("showKarma", SystemGlobals.getBoolValue(ConfigKeys.KARMA_SHOW));
 			
 			int loggedId = SessionFacade.getUserSession().getUserId();
 			int count = 0;

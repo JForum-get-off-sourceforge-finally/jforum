@@ -1,6 +1,6 @@
 <span class="genmed"><b>${user.username?html}</b></span>
 <br />
-<#if karmaEnabled && post.userId != 1>
+<#if showKarma && karmaEnabled && post.userId != 1>
 	<script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script>
 	<br />
 </#if>
@@ -11,7 +11,7 @@
 	<br />
 </#if>
 
-<#if (user.avatar?exists && user.avatar?length > 0)>
+<#if showAvatar && (user.avatar?exists && user.avatar?length > 0)>
 	<#if user.isExternalAvatar() || user.avatar.startsWith("http://") || user.avatar.startsWith("https://")>
 		<#if avatarAllowExternalUrl>
 			<img src="${user.avatar?html}" alt="[Avatar]" />
@@ -33,12 +33,12 @@
 	<br />
 </#if>
 
-<#if post.userIp?exists && (isModerator || post.userId == session.userId)>
+<#if showIP && post.userIp?exists && (isModerator || post.userId == session.userId)>
 	${I18n.getMessage("PostShow.userIP")}: <a href="http://whois.domaintools.com/${post.userIp}" target="_blank">${post.userIp}</a>
 	<br />
 </#if>
 
-<#if post.userId != 1>
+<#if showOnline && (post.userId != 1)>
 	<#if user.isOnline()>
 		<span class="online">${I18n.getMessage("PostShow.userOnline")}</span>
 	<#else>

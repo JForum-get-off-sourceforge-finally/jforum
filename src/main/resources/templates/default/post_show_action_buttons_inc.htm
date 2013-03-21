@@ -7,7 +7,7 @@
 	</div>
 	<div class="subject">&nbsp;&nbsp; &nbsp;<b>${I18n.getMessage("PostShow.subject")}:</b> <a name="p${post.id}">${post.subject?default("")?html}</a></div>
 	<div class="action">
-		<#if karmaEnabled>
+		<#if showKarma && karmaEnabled>
 			<script type="text/javascript">writeStars(${post.karma.karmaPoints}, ${post.id});</script>
 		</#if>
 

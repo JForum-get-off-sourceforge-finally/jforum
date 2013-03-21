@@ -59,6 +59,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.util.rss.*;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 
 import freemarker.template.SimpleHash;
@@ -102,6 +103,7 @@ public class RSSAction extends Command
 			posts);
 		
 		this.context.put(RSS_CONTENTS, rss.createRSS());
+        Stats.record("RSS forum", request.getRequestURL());
 	}
 	
 	/**
@@ -138,6 +140,7 @@ public class RSSAction extends Command
 
 		final RSSAware rss = new TopicPostsRSS(title, description, topic.getForumId(), posts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
+        Stats.record("RSS single topic", request.getRequestURL());
 	}
 	
 	public void recentTopics()
@@ -159,6 +162,7 @@ public class RSSAction extends Command
 		 }  
 		RSSAware rss = new RecentTopicsRSS(title, description, authPosts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
+        Stats.record("RSS recent topics", request.getRequestURL());
 	}
 
 	public void hottestTopics()
@@ -180,6 +184,7 @@ public class RSSAction extends Command
 		 }  
 		RSSAware rss = new HottestTopicsRSS(title, description, authPosts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
+        Stats.record("RSS hot topics", request.getRequestURL());
 	}
 
     public void userPosts() {
@@ -201,6 +206,7 @@ public class RSSAction extends Command
 
         RSSAware rss = new UserPostsRSS(title, description, userId, posts);
         this.context.put("rssContents", rss.createRSS());
+        Stats.record("RSS user posts", request.getRequestURL());
     }
 
     /**

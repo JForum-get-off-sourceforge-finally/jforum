@@ -281,4 +281,8 @@ public class StandardRequestContext implements RequestContext
 		return (Enumeration<Locale>) Collections.enumeration(Collections.EMPTY_LIST);
 		
 	}
+
+	public StringBuffer getRequestURL() {
+		throw new UnsupportedOperationException("this method only supported for web layer");
+	}
 }
