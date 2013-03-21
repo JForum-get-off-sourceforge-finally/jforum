@@ -217,7 +217,9 @@ public class RSSAction extends Command
         for (Iterator iter = posts.iterator(); iter.hasNext(); ) {
             Post p = (Post) iter.next();
             Forum f = ForumRepository.getForum(p.getForumId());
-            if ((f == null) || !ForumRepository.isCategoryAccessible(f.getCategoryId()))
+            if ((f == null)
+					|| !ForumRepository.isCategoryAccessible(f.getCategoryId())
+		     		|| !TopicsCommon.isTopicAccessible(p.getForumId(), false))
                 iter.remove();
         }
     }
