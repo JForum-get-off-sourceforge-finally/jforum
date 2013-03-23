@@ -45,19 +45,23 @@ package net.jforum.view.admin;
 
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import net.jforum.util.preferences.*;
 import net.jforum.view.forum.common.*;
 
 public class BoardStatsAction extends AdminCommand {
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
+
     /**
      * @see net.jforum.Command#list()
      */
     public void list() {
         this.setTemplateName(TemplateKeys.BOARD_STATS_LIST);
         this.context.put("records", Stats.getRecords());
-        this.context.put("restartTime", Stats.getRestartTime());
+
 
 		List<Item> sysInfo = new ArrayList<Item>();
         sysInfo.add(new Item("Java version", System.getProperty("java.version")));
@@ -66,6 +70,7 @@ public class BoardStatsAction extends AdminCommand {
         sysInfo.add(new Item("Free memory", ""+Runtime.getRuntime().freeMemory()));
         sysInfo.add(new Item("Server info", SystemGlobals.getValue("server.info")));
         sysInfo.add(new Item("Servlet API version", SystemGlobals.getValue("servlet.version")));
+        sysInfo.add(new Item("Last board restart", sdf.format(Stats.getRestartTime())));
         Collections.sort(sysInfo);
         this.context.put("sysInfo", sysInfo);
     }
