@@ -58,6 +58,14 @@ public class BoardStatsAction extends AdminCommand {
         this.setTemplateName(TemplateKeys.BOARD_STATS_LIST);
         this.context.put("records", Stats.getRecords());
         this.context.put("restartTime", Stats.getRestartTime());
+
+		List<Item> sysInfo = new ArrayList<Item>();
+        sysInfo.add(new Item("Java version", System.getProperty("java.version")));
+        sysInfo.add(new Item("Max memory", ""+Runtime.getRuntime().maxMemory()));
+        sysInfo.add(new Item("Total memory", ""+Runtime.getRuntime().totalMemory()));
+        sysInfo.add(new Item("Free memory", ""+Runtime.getRuntime().freeMemory()));
+        Collections.sort(sysInfo);
+        this.context.put("sysInfo", sysInfo);
     }
 
     public void showLast() {
@@ -89,5 +97,26 @@ public class BoardStatsAction extends AdminCommand {
         } catch (UnsupportedEncodingException e) {
             // Whatever
         }
+    }
+
+    public static class Item implements Comparable {
+        private String name, value;
+
+		Item (String name, String value) {
+			this.name = name;
+			this.value = value;
+		}
+
+        public String getName() {
+            return name;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+		public int compareTo (Object rec) {
+			return name.compareTo(((Item) rec).name);
+		}
     }
 }

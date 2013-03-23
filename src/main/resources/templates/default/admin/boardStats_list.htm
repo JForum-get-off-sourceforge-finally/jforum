@@ -38,6 +38,22 @@
 </table>
 <br />
 
+<div align="center">
+<table class="forumline" cellspacing="1" cellpadding="3" width="50%" border="0">
+	<tr>
+		<th class="thhead" valign="middle" colspan="2" height="25">${I18n.getMessage("BoardStats.info")}</th>
+	</tr>
+    <tr>
+        <th class="thhead" valign="middle" height="25" width="50%">${I18n.getMessage("BoardStats.infoName")}</th>
+        <th class="thhead" valign="middle" height="25" width="50%">${I18n.getMessage("BoardStats.infoValue")}</th>
+	</tr>
+	<#list sysInfo as item>
+		<tr> <td valign="left">${item.name}</td><td valign="left">${item.value}</td> </tr>
+	</#list>
+</table>
+</div>
+<br />
+
 <center>${I18n.getMessage("BoardStats.lastBoardRestart")}: ${restartTime?datetime}</center>
 
 </body></html>
