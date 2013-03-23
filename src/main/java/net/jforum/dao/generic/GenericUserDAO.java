@@ -218,6 +218,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		user.setEmail(rs.getString("user_email"));
 		user.setFrom(rs.getString("user_from"));
 		user.setIcq(rs.getString("user_icq"));
+		user.setTwitter(rs.getString("user_twitter"));
 		user.setId(rs.getInt("user_id"));
 		user.setInterests(rs.getString("user_interests"));
 		user.setBiography(rs.getString("user_biography"));
@@ -309,8 +310,9 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 			pstmt.setTimestamp(28, new Timestamp(user.getLastVisit().getTime()));
 			pstmt.setInt(29, user.notifyAlways() ? 1 : 0);
 			pstmt.setInt(30, user.notifyText() ? 1 : 0);
-			pstmt.setInt(31, user.getRankId());
-			pstmt.setInt(32, user.getId());
+            pstmt.setString(31, user.getTwitter());
+			pstmt.setInt(32, user.getRankId());
+			pstmt.setInt(33, user.getId());
 
 			pstmt.executeUpdate();
 		}

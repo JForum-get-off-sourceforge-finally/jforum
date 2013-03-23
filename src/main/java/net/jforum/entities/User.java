@@ -95,6 +95,7 @@ public class User implements Serializable
 	private boolean isExternalAvatar;
 	private String email;
 	private String icq;
+	private String twitter;
 	private String webSite;
 	private String from;
 	private String signature;
@@ -263,6 +264,10 @@ public class User implements Serializable
 	 */
 	public String getIcq() {
 		return this.icq;
+	}
+
+	public String getTwitter() {
+		return this.twitter;
 	}
 
 	/**
@@ -566,6 +571,10 @@ public class User implements Serializable
 	 */
 	public void setIcq(String icq) {
 		this.icq = icq;
+	}
+
+	public void setTwitter (String twitter) {
+		this.twitter = twitter;
 	}
 
 	/**

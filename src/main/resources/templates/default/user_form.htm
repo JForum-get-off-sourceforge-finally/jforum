@@ -86,7 +86,6 @@ function validateForm()
 					<td class="row2"><input name="current_password" type="password" class="post" id="current_password" style="WIDTH: 200px" size="25" maxlength="100" /> </td>
 				</tr>
 				</#if>
-
 				<tr>
 					<td class="row1">
 						<span class="gen">${I18n.getMessage("User.newPassword")}: *</span><br />
@@ -94,7 +93,6 @@ function validateForm()
 					</td>
 					<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="new_password" /> </td>
 				</tr>
-			
 				<tr>
 					<td class="row1">
 						<span class="gen">${I18n.getMessage("User.confirmPassword")}: * </span><br />
@@ -103,13 +101,15 @@ function validateForm()
 					<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="password_confirm" /> </td>
 				</tr>
 				</#if>
-
 				<tr>
 					<th class="thsides" valign="middle" colspan="2">${I18n.getMessage("User.preferencesInfo")}</th>
 				</tr>
-
 				<tr>
 					<td class="row2" colspan="2" align="center"><span class="gensmall"><font color="red">${I18n.getMessage("User.infoWillBePublicVisible")}</font></span></td>
+				</tr>
+				<tr>
+					<td class="row1"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
+					<td class="row2"><input type="text" class="post" style="WIDTH: 300px" maxlength="15" size="10" name="twitter" value="${u.twitter?default("")?html}" /> </td>
 				</tr>
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>

@@ -332,6 +332,7 @@ CREATE TABLE jforum_users (
   user_authhash VARCHAR(32),
   user_notify_always int DEFAULT 0,
   user_notify_text int DEFAULT 0,
+  user_twitter VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY  (user_id)
 ) ;
 

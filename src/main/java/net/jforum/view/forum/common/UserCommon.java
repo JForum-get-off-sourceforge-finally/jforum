@@ -111,6 +111,7 @@ public final class UserCommon
 		
 		user.setId(userId);
 		user.setIcq(safeHtml.makeSafe(request.getParameter("icq")));
+		user.setTwitter(safeHtml.makeSafe(request.getParameter("twitter")));
 		user.setAim(safeHtml.makeSafe(request.getParameter("aim")));
 		user.setMsnm(safeHtml.makeSafe(request.getParameter("msn")));
 		user.setYim(safeHtml.makeSafe(request.getParameter("yim")));

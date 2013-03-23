@@ -377,9 +377,9 @@ CREATE TABLE jforum_users (
 	user_notify_pm tinyint DEFAULT (1) NULL,
 	user_popup_pm tinyint DEFAULT (1) NULL,
 	rank_id int DEFAULT (0) NULL,
-	user_avatar varchar(100)  DEFAULT NULL,
+	user_avatar varchar(100) DEFAULT NULL,
 	user_avatar_type tinyint DEFAULT (0) NOT NULL,
-	user_email varchar(255)  DEFAULT('') NOT NULL,
+	user_email varchar(255) DEFAULT('') NOT NULL,
 	user_icq varchar(15) DEFAULT NULL,
 	user_website varchar(255) DEFAULT NULL,
 	user_from nvarchar(100) DEFAULT NULL,
@@ -398,7 +398,8 @@ CREATE TABLE jforum_users (
 	user_viewonline tinyint DEFAULT(1) NULL,
 	security_hash varchar(32) NULL, 
 	user_karma decimal (10,2),
-	user_authhash varchar(32) NULL
+	user_authhash varchar(32) NULL,
+	user_twitter varchar(50) DEFAULT NULL
 );
 
 --

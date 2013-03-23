@@ -118,11 +118,11 @@
 			</table>
 		</td>
 	</tr>
-    
+
 	<tr>
 		<td class="catleft" align="center"><b><span class="gen">${I18n.getMessage("UserProfile.contact")} ${u.username}</span></b></td>
 	</tr>
-    
+ 
 	<tr>
 		<td class="row1" valign="top">
 			<#if u.id != 1>
@@ -138,7 +138,6 @@
 				</td>
 			</tr>
 			</#if>
-
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.privateMessage")}:</span></td>
 				<td class="row1" valign="middle">
@@ -147,21 +146,28 @@
 					</span></b>
 				</td>
 			</tr>
-            
+		   <#if (u.twitter?exists && u.twitter?length > 0)>
+                <tr>
+                    <td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
+                    <td class="row1">
+                        <b><span class="gen">
+                        <a href="http://twitter.com/${u.twitter}">@${u.twitter}</a>
+                        </span></b>
+                    </td>
+                </tr>
+			</#if>
 			<#if (u.msnm?exists && u.msnm?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.msn")}:</span></td>
 				<td class="row1" valign="middle"><span class="gen">${u.msnm}</span></td>
 			</tr>
 			</#if>
-            
 			<#if (u.yim?exists && u.yim?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.yahoo")}:</span></td>
 				<td class="row1" valign="middle"><span class="gen">${u.yim}</span></td>
 			</tr>
 			</#if>
-
 			<#if (u.icq?exists && u.icq?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>

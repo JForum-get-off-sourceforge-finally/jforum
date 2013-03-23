@@ -321,6 +321,7 @@ CREATE TABLE jforum_users (
   security_hash VARCHAR(32),
   user_karma DOUBLE,
   user_authhash VARCHAR(32),
+  user_twitter VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (user_id)
 ) ENGINE=InnoDB;
 

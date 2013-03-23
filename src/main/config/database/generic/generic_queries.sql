@@ -117,6 +117,7 @@ UserModel.update = UPDATE jforum_users SET user_aim = ?, \
 	user_lastvisit = ?, \
 	user_notify_always = ?, \
 	user_notify_text = ?, \
+    user_twitter = ?, \
 	rank_id = ? \
 	WHERE user_id = ?
 	
@@ -360,8 +361,9 @@ TopicModel.selectAllByForumByLimit = SELECT t.*, p.user_id AS last_user_id, p.po
 	ORDER BY t.topic_type DESC, t.topic_last_post_id DESC \
 	LIMIT ?, ?
 
-TopicModel.topicPosters = SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, user_icq, \
-	user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim \
+TopicModel.topicPosters = SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, \
+	user_icq, user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, \
+	user_sig, user_aim, user_twitter \
 	FROM jforum_users \
 	WHERE user_id IN (:ids:)
 
