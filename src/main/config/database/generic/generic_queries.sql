@@ -76,7 +76,14 @@ UserModel.rankingId = UPDATE jforum_users SET rank_id = ? WHERE user_id = ?
 UserModel.activeStatus = UPDATE jforum_users SET user_active = ? WHERE user_id = ?
 UserModel.addNew = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, rank_id) VALUES (?, ?, ?, ?, ?, 0)
 UserModel.findByName = SELECT user_id, username, user_email, deleted FROM jforum_users WHERE LOWER(username) LIKE LOWER(?)
-UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
+UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?) LIMIT ?, ?
+UserModel.totalEmailMatches = SELECT COUNT(*) FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
+UserModel.totalByIp = SELECT count(DISTINCT users.user_id) \
+    FROM jforum_users users left join jforum_posts posts on (users.user_id = posts.user_id) \
+    WHERE posts.poster_ip LIKE ?
+UserModel.findByIp = SELECT DISTINCT users.* \
+    FROM jforum_users users left join jforum_posts posts on (users.user_id = posts.user_id) \
+    WHERE posts.poster_ip LIKE ? LIMIT ?, ?
 UserModel.selectByName = SELECT * FROM jforum_users WHERE LOWER(username) = LOWER(?)
 UserModel.addNewWithId = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, user_id) VALUES (?, ?, ?, ?, ?, ?)
 

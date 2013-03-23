@@ -1102,35 +1102,132 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 			DbUtils.close(rs, pstmt);
 		}
 	}
-	
+
 	/**
 	 * @see net.jforum.dao.UserDAO#findByEmail(java.lang.String)
 	 */
-	public User findByEmail(String email)
-	{
-		PreparedStatement pstmt = null;
+	public User findByEmail(String email) {
+	    List<User> users = findAllUsersByEmail(email, 0, 1);
+		if ( users.isEmpty()) {
+			return null;
+		}
+		return users.iterator().next();
+	}
+
+    /**
+     * @see net.jforum.dao.UserDAO#getTotalUsersWithEmail(String)
+     */
+    public int getTotalUsersWithEmail(String email) {
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
+        int totalUsers = 0;
+
+        try {
+            p = JForumExecutionContext.getConnection().prepareStatement(
+                    SystemGlobals.getSql("UserModel.totalEmailMatches"));
+            p.setString(1, email);
+            rs = p.executeQuery();
+
+            while (rs.next()) {
+                totalUsers = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            DbUtils.close(rs, p);
+        }
+
+        return totalUsers;
+    }
+
+	/**
+     * @see UserDAO#findAllUsersByEmail(String, int, int)
+	 */
+	public List<User> findAllUsersByEmail(String email, int start, int count) {
+		List<User> result = new ArrayList<User>();
+		PreparedStatement p = null;
 		ResultSet rs = null;
-		
-		User user = null;
-		
+
+		User u = null;
+
 		try {
-			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+			p = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("UserModel.findByEmail"));
-			pstmt.setString(1, email);
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				user = new User();
-				fillUserFromResultSet(user, rs);
+			p.setString(1, email);
+			p.setInt(2, start);
+			p.setInt(3, count);
+			rs = p.executeQuery();
+
+			while (rs.next()) {
+				u = new User();
+				fillUserFromResultSet(u, rs);
+				result.add(u);
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DatabaseException(e);
+		} finally {
+			DbUtils.close(rs, p);
 		}
-		finally {
-			DbUtils.close(rs, pstmt);
-		}
-		
-		return user;
+
+		return result;
+	}
+
+	/**
+	 * @see UserDAO#getTotalUsersByIp(String)
+	 */
+	public int getTotalUsersByIp(String ip) {
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
+        int totalUsers = 0;
+
+        try {
+            p = JForumExecutionContext.getConnection().prepareStatement(
+                    SystemGlobals.getSql("UserModel.totalByIp"));
+            p.setString(1, ip);
+            rs = p.executeQuery();
+
+            while (rs.next()) {
+                totalUsers = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            DbUtils.close(rs, p);
+        }
+	    return totalUsers;
+	}
+
+	/**
+     * @see UserDAO#findAllUsersByIp(String, int, int)
+	 */
+	public List<User> findAllUsersByIp(String ip, int start, int count) {
+        List<User> result = new ArrayList<User>();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
+        User u = null;
+
+        try {
+            p = JForumExecutionContext.getConnection().prepareStatement(
+                    SystemGlobals.getSql("UserModel.findByIp"));
+            p.setString(1, ip);
+            p.setInt(2, start);
+            p.setInt(3, count);
+            rs = p.executeQuery();
+
+            while (rs.next()) {
+                u = new User();
+                fillUserFromResultSet(u, rs);
+                result.add(u);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            DbUtils.close(rs, p);
+        }
+
+        return result;
 	}
 }

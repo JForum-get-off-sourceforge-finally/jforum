@@ -20,6 +20,13 @@
 			${I18n.getMessage("User.searchByGroup")}: 
 			<@lib.selectFieldGroups "group_id", groups, 0, false, selectedList/>
 
+			<br /><br />
+			${I18n.getMessage("User.searchByEmail")}: <input type="text" name="email" value="${email?default("")}" />&nbsp;
+			${I18n.getMessage("User.searchByUserId")}: <input type="text" name="userId" value="${userId?default("")}" />&nbsp;
+
+			<br /><br />
+			${I18n.getMessage("User.searchByIp")}: <input type="text" name="ip" value="${ip?default("")}" />&nbsp;
+
 			<input type="submit" value="${I18n.getMessage("ForumBase.search")}" class="mainoption"/>
 			</span>
 			</form>
@@ -47,7 +54,6 @@
 			<td class="row1"><span class="gen">${user.username}</span></td>
 			<td class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/edit/${user.id}")}">${I18n.getMessage("Edit")}</a></span></td>
 			<td class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/groups/${user.id}")}">${I18n.getMessage("User.Groups")}</a></span></td>
-
 			<#if user.deleted>
 				<td class="row1" align="center">&nbsp;</td>
 				<td class="row1" align="center"><input type="checkbox" name="user_id" value="${user.id}" /></td>

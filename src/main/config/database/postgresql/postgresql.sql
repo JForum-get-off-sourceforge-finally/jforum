@@ -17,13 +17,19 @@ UserModel.selectById = SELECT u.*, \
 	AND pm.privmsgs_type = 1) AS private_messages \
 	FROM jforum_users u \
 	WHERE u.user_id = ?
-	
+
 UserModel.selectAllByGroup = SELECT user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail \
 	FROM jforum_users u, jforum_user_groups ug \
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ? \
 	ORDER BY username \
 	OFFSET ? LIMIT ?
+
+UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?) OFFSET ? LIMIT ?
+
+UserModel.findByIp = SELECT DISTINCT users.* \
+    FROM jforum_users users left join jforum_posts posts on (users.user_id = posts.user_id) \
+    WHERE posts.poster_ip LIKE ? OFFSET ? LIMIT ?
 
 # #############
 # PostModel

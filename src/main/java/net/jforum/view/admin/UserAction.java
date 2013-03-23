@@ -149,26 +149,104 @@ public class UserAction extends AdminCommand
 	
 	public void search()
 	{
-		final String search = this.request.getParameter("username");
 		final String group = this.request.getParameter("group_id");
-		
-		if (search != null && !"".equals(search)) {
-			final List<User> users = userDao.findByName(search, false);
-			
-			this.commonData();
-			
-			this.context.put(USERS, users);
-			this.context.put("search", search);
-			this.context.put("start", Integer.valueOf(1));
-		}
-		else if ("0".equals(group)) {
-			this.list();
-		}
-		else {			
-			this.groupSearch();
-		}
+		final String username = getTrimmedNonNullParameter("username");
+        final String email = getTrimmedNonNullParameter("email");
+        final String userId = getTrimmedNonNullParameter("userId");
+        final String ip = getTrimmedNonNullParameter("ip");
+
+	    if (!"".equals(ip)) {
+            ipSearch();
+        } else if (!"".equals(userId)) {
+            List<User> users = new ArrayList<User>();
+            try {
+                User user = userDao.selectById(Integer.parseInt(userId));
+                if (user != null) {
+                    users.add(user);
+                }
+            } catch (NumberFormatException ignored) {
+            }
+
+            this.commonData();
+
+            this.context.put(USERS, users);
+            this.context.put("userId", userId);
+            this.context.put("start", 1);
+        } else if (!"".equals(email)) {
+            emailSearch();
+        } else if (!"".equals(username)) {
+            List<User> users = userDao.findByName(username, false);
+
+            this.commonData();
+
+            this.context.put(USERS, users);
+            this.context.put("search", username);
+            this.context.put("start", 1);
+        } else if (!"0".equals(group)) {
+            this.groupSearch();
+        } else {
+            this.list();
+        }
 	}
-	
+
+    /**
+    * Returns a trimmed value for the provided parameter name. If the parameter
+    * does not exist, then an empty string is returned.
+    *
+    * @param parameterName the name of the parameter that we want the value of
+    * @return the trimmed value or an empty string
+    */
+    private String getTrimmedNonNullParameter(String parameterName) {
+        String value = this.request.getParameter(parameterName);
+        return (value == null) ? "" : value.trim();
+    }
+
+    /**
+     * Performs the search by IP address. Separated out so that pagination
+     * can be easily handled. Still called by the generic search method so
+     * that we have a single form on the search page.
+     */
+    public void ipSearch() {
+        String ip = this.request.getParameter("ip");
+        ip = (ip == null) ? "" : ip.trim().replaceAll("\\*", "%");
+
+        int total = userDao.getTotalUsersByIp(ip);
+        int start = this.preparePagination(total);
+        int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+
+        List<User> users = userDao.findAllUsersByIp(ip, start, usersPerPage);
+
+        this.commonData();
+
+        this.context.put(USERS, users);
+        this.context.put("ip", this.request.getParameter("ip"));
+        this.context.put("start", 1);
+        this.context.put("searchAction", "ipSearch");
+        this.context.put("searchId", this.request.getParameter("ip"));
+    }
+
+    /**
+    * Performs the search by email address. Separated out so that pagination
+    * can be easily handled. Still called by the generic search method so
+    * that we have a single form on the search page.
+    */
+    public void emailSearch() {
+        String email = this.request.getParameter("email");
+        email = (email == null) ? "" : email.trim();
+
+        int total = userDao.getTotalUsersWithEmail(email);
+        int start = this.preparePagination(total);
+        int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+
+        List<User> users = userDao.findAllUsersByEmail(email, start, usersPerPage);
+
+        this.commonData();
+        this.context.put(USERS, users);
+        this.context.put("email", email);
+        this.context.put("searchAction", "emailSearch");
+        this.context.put("searchId", email);
+    }
+
 	public void edit()
 	{
 		final int userId = this.request.getIntParameter("id");	
@@ -182,7 +260,7 @@ public class UserAction extends AdminCommand
 		this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 		this.context.put("admin", true);
 	}
-	
+
 	public void editSave() 
 	{
 		int userId = this.request.getIntParameter(USER_ID);

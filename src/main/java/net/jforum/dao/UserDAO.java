@@ -317,7 +317,62 @@ public interface UserDAO
 	 * @return The username, if found, or an empty <code>String</code>
 	 */
 	String getUsernameByEmail(String email) ;
-	
+
+    /**
+    * Finds a user by its email address.  If multiple found, it returns the first one.
+    *
+    * @param email
+    *            the email address to search
+    * @return the user instance if a match is found, or null otherwise
+    */
+    public User findByEmail(String email);
+
+    /**
+    * Returns the number of users who have the specified email address.<p>
+    *
+    * While for a new installation this should always return 0 or 1, it is
+    * quite possible for the JavaRanch database to return a great many more,
+    * since the old forum software did not have a unique constraint on email
+    * addresses (which caused it's own problems - the new way is much nicer).
+    * However since there can be duplicates (in particular, there are 44,994
+    * "no_address_provided@" users), this will allow us to process
+    * users in batches (and not bring the system down!).
+    *
+    * @param email the email address we will shortly be looking up.
+    * @return the number of users who have that email address.
+    */
+    public int getTotalUsersWithEmail(String email);
+
+    /**
+    * Finds all users with matching e-mails. Users migrated from UBB may have
+    * the same e-mail.
+    *
+    * @param email the email address we are looking up
+    * @param start the offset to the 1st record we want to return from all matches
+    * @param count the number of records we want to return
+    * @return a List of User records matching that email address
+    */
+    public List<User> findAllUsersByEmail(String email, int start, int count);
+
+    /**
+     * Finds all users with matching ip address. SQL style wildcards allowed
+     * (e.g. "192.168.1.%").
+     *
+     * @param ip the IP address we want to look up.
+     * @param start the offset to the 1st record we want to return from all matches
+     * @param count the number of records we want to return
+     * @return a list of users who have posted via that address.
+     */
+    public List<User> findAllUsersByIp(String ip, int start, int count);
+
+    /**
+     * Counts the number of users who have used the specified IP address.
+     *
+     * @param ip the IP address we want to look up.
+     * @return the number of users who have used that IP address
+     */
+    public int getTotalUsersByIp(String ip);
+
 	/**
 	 * Validate if the activated key matches the one in the database
 	 * 
@@ -376,11 +431,4 @@ public interface UserDAO
 	 * @return ArrayList of pending activation users
 	 */
 	List<User> pendingActivations() ;
-
-	/**
-	 * Finds a user by its email address
-	 * @param email the email address to search
-	 * @return the user instance if a match is found, or null otherwise
-	 */
-	User findByEmail(String email) ;
 }
