@@ -214,7 +214,7 @@ public class RSSAction extends Command
     * @param posts
     */
     private void removeUnauthorizedPosts(List<Post> posts) {
-        for (Iterator iter = posts.iterator(); iter.hasNext(); ) {
+        for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
             Post p = (Post) iter.next();
             Forum f = ForumRepository.getForum(p.getForumId());
             if ((f == null)

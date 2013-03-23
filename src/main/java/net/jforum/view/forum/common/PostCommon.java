@@ -250,10 +250,10 @@ public class PostCommon
 	 * @return the parsed text. Note that the StringBuilder you pass as parameter
 	 * will already have the right contents, as the replaces are done on the instance
 	 */
-    private static String processSmilies (StringBuilder text) {
-        List smilies = SmiliesRepository.getSmilies();
+    private static String processSmilies(StringBuilder text) {
+        List<Smilie> smilies = SmiliesRepository.getSmilies();
         BBCodeHandler bbch = BBCodeRepository.getBBCollection();
-        for (Iterator iter = smilies.iterator(); iter.hasNext();) {
+        for (Iterator<Smilie> iter = smilies.iterator(); iter.hasNext();) {
             Smilie s = (Smilie) iter.next();
             int pos = 0;
             // The counter is used as prevention, in case

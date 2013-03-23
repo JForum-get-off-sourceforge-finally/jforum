@@ -53,16 +53,14 @@ import net.jforum.view.forum.common.*;
 
 public class BoardStatsAction extends AdminCommand {
 
-	private static SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-
-    /**
+	    /**
      * @see net.jforum.Command#list()
      */
     public void list() {
         this.setTemplateName(TemplateKeys.BOARD_STATS_LIST);
         this.context.put("records", Stats.getRecords());
 
-
+        SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		List<Item> sysInfo = new ArrayList<Item>();
         sysInfo.add(new Item("Java version", System.getProperty("java.version")));
         sysInfo.add(new Item("Max memory", ""+Runtime.getRuntime().maxMemory()));
@@ -89,7 +87,6 @@ public class BoardStatsAction extends AdminCommand {
 			List<Date> times = new ArrayList<Date>(values.keySet());
 			// sort list of descending time
 			Collections.sort(times, new Comparator<Date>() {
-				@Override
 				public int compare (Date obj1, Date obj2) {
 					if (obj1.getTime() < obj2.getTime())	return 1;
 					if (obj1.getTime() > obj2.getTime())	return -1;
@@ -126,4 +123,5 @@ public class BoardStatsAction extends AdminCommand {
 			return name.compareTo(((Item) rec).name);
 		}
     }
+
 }

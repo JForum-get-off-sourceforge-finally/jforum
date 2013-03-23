@@ -310,9 +310,9 @@ public class BookmarkAction extends Command
 		}
 
 		this.setTemplateName(TemplateKeys.BOOKMARKS_LIST);
-		List bookmarks = DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId);
+		List<Bookmark> bookmarks = DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId);
 		// remove bookmarks from list that are in forums which this user is not allowed to see
-		for (Iterator iter = bookmarks.iterator(); iter.hasNext(); ) {
+		for (Iterator<Bookmark> iter = bookmarks.iterator(); iter.hasNext(); ) {
 			Bookmark b = (Bookmark) iter.next();			
 			Forum f = ForumRepository.getForum(b.getForumId());
 			if (f == null || !ForumRepository.isCategoryAccessible(f.getCategoryId())) {

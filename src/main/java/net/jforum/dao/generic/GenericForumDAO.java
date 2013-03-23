@@ -981,7 +981,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
     * Returns all forums that are watched by a given user.
     * @param userId The user id
     */
-    public List selectWatchesByUser (int userID) {
+    public List selectWatchesByUser(int userID) {
         List l = new ArrayList();
         PreparedStatement p = null;
         ResultSet rs = null;

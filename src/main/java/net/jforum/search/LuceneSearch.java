@@ -47,11 +47,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.SearchException;
-import net.jforum.search.SearchArgs.MatchType;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -62,7 +62,15 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.Filter;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopFieldDocs;
 
 /**
  * @author Rafael Steil
@@ -135,7 +143,6 @@ public class LuceneSearch implements NewDocumentAdded
 	{
 		SearchResult<Post> result;
 
-		boolean readLockAcquired = false;
 		try {
 			StringBuilder criteria = new StringBuilder(256);
 
@@ -150,7 +157,6 @@ public class LuceneSearch implements NewDocumentAdded
 			} else {
 				Query query = new QueryParser(LuceneSettings.version, SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
 				read.lock();
-				readLockAcquired = true;
 
 				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
 				TopFieldDocs tfd = searcher.search(query, filter, limit, getSorter(args));
@@ -167,9 +173,7 @@ public class LuceneSearch implements NewDocumentAdded
 		} catch (Exception e) {
 			throw new SearchException(e);
 		} finally {
-			if (readLockAcquired) {
 				read.unlock();
-            }
 		}
 
 		return result;
