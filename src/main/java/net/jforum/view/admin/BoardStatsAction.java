@@ -64,6 +64,8 @@ public class BoardStatsAction extends AdminCommand {
         sysInfo.add(new Item("Max memory", ""+Runtime.getRuntime().maxMemory()));
         sysInfo.add(new Item("Total memory", ""+Runtime.getRuntime().totalMemory()));
         sysInfo.add(new Item("Free memory", ""+Runtime.getRuntime().freeMemory()));
+        sysInfo.add(new Item("Server info", SystemGlobals.getValue("server.info")));
+        sysInfo.add(new Item("Servlet API version", SystemGlobals.getValue("servlet.version")));
         Collections.sort(sysInfo);
         this.context.put("sysInfo", sysInfo);
     }
