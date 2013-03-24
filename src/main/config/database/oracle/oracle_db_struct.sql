@@ -681,3 +681,11 @@ CREATE TABLE jforum_api (
 	api_validity DATE NOT NULL,
 	PRIMARY KEY(api_id)
 );
+
+CREATE TABLE jforum_announcement
+(
+  sequence_number integer NOT NULL,
+  text VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (sequence_number)
+);
+

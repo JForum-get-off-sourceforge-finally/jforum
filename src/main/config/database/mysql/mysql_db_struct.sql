@@ -553,3 +553,15 @@ CREATE TABLE jforum_api (
 	api_key VARCHAR(32) NOT NULL,
 	api_validity DATETIME NOT NULL
 ) ENGINE=InnoDB;
+
+--
+-- Table structure for table 'jforum_announcement'
+--
+DROP TABLE IF EXISTS jforum_announcement;
+CREATE TABLE jforum_announcement
+(
+  sequence_number integer NOT NULL,
+  text VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (sequence_number)
+) ENGINE=InnoDB;
+

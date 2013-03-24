@@ -41,6 +41,14 @@ ConfigModel.selectAll = SELECT config_name, config_value, config_id FROM jforum_
 ConfigModel.delete = DELETE FROM jforum_config WHERE config_id = ?
 ConfigModel.update = UPDATE jforum_config SET config_value = ? WHERE config_name = ?
 
+##############
+# AnnouncementDAO
+##############
+
+AnnouncementDAO.select = SELECT text FROM jforum_announcement order by sequence_number;
+AnnouncementDAO.deleteAll = delete FROM jforum_announcement;
+AnnouncementDAO.insert = insert into jforum_announcement (sequence_number, text) values ( ?, ? );
+
 # ##########
 # UserModel
 # ##########
@@ -183,12 +191,14 @@ PostModel.countPreviousPosts = SELECT COUNT(p2.post_id) AS prev_posts \
 	AND p2.topic_id = p.topic_id \
 	AND p2.post_id <= ?
 
-PostModel.selectById = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, enable_html, \
-	enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.attach, p.need_moderate \
-	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
-	WHERE p.post_id = pt.post_id \
-	AND p.post_id = ? \
-	AND p.user_id = u.user_id
+PostModel.selectById = SELECT p.post_id, p.topic_id, p.forum_id, p.user_id, p.post_time, p.poster_ip, p.enable_bbcode, p.enable_html, \
+        p.enable_smilies, p.enable_sig, p.post_edit_time, p.post_edit_count, p.status, pt.post_subject, \
+        pt.post_text, u.username, p.attach, p.need_moderate, t.user_id as topic_user_id \
+    FROM jforum_posts p, jforum_posts_text pt, jforum_users u, jforum_topics t \
+    WHERE p.post_id = pt.post_id \
+    AND p.post_id = ? \
+    AND p.user_id = u.user_id \
+    AND p.topic_id = t.topic_id
 
 PostModel.deletePost = DELETE FROM jforum_posts WHERE post_id = ?
 PostModel.deletePostText = DELETE FROM jforum_posts_text WHERE post_id = ?
@@ -470,17 +480,21 @@ TopicModel.totalTopics = SELECT COUNT(1) FROM jforum_topics
 SearchModel.firstPostIdByDate = SELECT min(post_id) FROM jforum_posts WHERE post_time > ?
 SearchModel.lastPostIdByDate = SELECT max(post_id) FROM jforum_posts WHERE post_time < ?
 
-SearchModel.getPostsToIndexForLucene = SELECT p.post_id, p.forum_id, p.enable_bbcode, p.enable_smilies, '' AS topic_title, p.topic_id, p.user_id, p.post_time, pt.post_text, pt.post_subject \
-	FROM jforum_posts p, jforum_posts_text pt \
-	WHERE p.post_id = pt.post_id \
-	AND p.post_id >= ? AND p.post_id <= ? ORDER BY p.post_id
+SearchModel.getPostsToIndexForLucene = SELECT p.post_id, p.forum_id, p.enable_bbcode, p.enable_smilies, \
+        '' AS topic_title, p.topic_id, p.user_id, p.post_time, pt.post_text, pt.post_subject, t.user_id as topic_user_id  \
+    FROM jforum_posts p, jforum_posts_text pt, jforum_topics t  \
+    WHERE p.post_id = pt.post_id \
+    AND p.topic_id = t.topic_id \
+    AND p.post_id >= ? AND p.post_id < ?
 
-SearchModel.getPostsDataForLucene = SELECT p.post_id, p.forum_id, p.topic_id, p.user_id, u.username, p.enable_bbcode, p.enable_smilies, p.post_time, pt.post_subject, pt.post_text, t.topic_title \
-	FROM jforum_posts p, jforum_posts_text pt, jforum_users u, jforum_topics t \
-	WHERE p.post_id IN (:posts:) \
-	AND p.post_id = pt.post_id  \
-	AND p.topic_id = t.topic_id \
-	AND p.user_id = u.user_Id
+SearchModel.getPostsDataForLucene = SELECT p.post_id, p.forum_id, p.topic_id, p.user_id, \
+        u.username, p.enable_bbcode, p.enable_smilies, p.post_time, \
+        pt.post_subject, pt.post_text, t.topic_title, t.user_id as topic_user_id \
+    FROM jforum_posts p, jforum_posts_text pt, jforum_users u, jforum_topics t \
+    WHERE p.post_id IN (:posts:) \
+    AND p.post_id = pt.post_id  \
+    AND p.topic_id = t.topic_id \
+    AND p.user_id = u.user_Id
 
 # ##########
 # TreeGroup

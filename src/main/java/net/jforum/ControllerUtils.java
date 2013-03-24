@@ -57,6 +57,7 @@ import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.exceptions.ForumException;
+import net.jforum.repository.AnnouncementRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.sso.SSO;
@@ -119,6 +120,7 @@ public class ControllerUtils
         if (googleTracker != null && googleTracker.trim().length() > 0) {
             context.put("googleAnalyticsTracker", googleTracker.trim());
         }
+        context.put("announcement", AnnouncementRepository.getAnnouncement());
 	}
 
 	/**

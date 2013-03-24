@@ -1,12 +1,20 @@
 <#function moderationParams>
 	<#assign params = ""/>
 
+	<#if (searchArgs.keywords?size > 0)>
+		<#assign params = params +"&amp;search_keywords="+ searchArgs.rawKeywords()/>
+		<#assign params = params+"&amp;search_in="+ searchArgs.searchIn />
+	</#if>
+	<#if (searchArgs.memberId > 0)>
+		<#assign params = params +"&amp;member_number="+ searchArgs.memberId/>
+	</#if>
 	<#if (searchArgs.keywords?size > 0)><#assign params = params +"&amp;search_keywords="+ searchArgs.rawKeywords()/></#if>
 	<#if (searchArgs.forumId > 0)><#assign params = params +"&amp;search_forum="+ searchArgs.forumId/></#if>
-	<#if (searchArgs.author > 0)><#assign params = params +"&amp;search_author="+ searchArgs.author/></#if>
 	<#if (searchArgs.matchType?default("")?length > 0)><#assign params = params +"&amp;match_type="+ searchArgs.matchType/></#if>
 	<#if (searchArgs.orderDir?default("")?length > 0)><#assign params = params +"&amp;sort_dir="+ searchArgs.orderDir/></#if>
 	<#if (searchArgs.orderBy?default("")?length > 0)><#assign params = params +"&amp;sort_by="+ searchArgs.orderBy/></#if>
+	<#assign params = params+"&amp;groupByForum="+ searchArgs.groupByForum?string />
+	<#if (searchArgs.searchDate?default("")?length > 0)><#assign params = params +"&amp;search_date="+ searchArgs.searchDate/></#if>
 
 	<#return params/>
 </#function>

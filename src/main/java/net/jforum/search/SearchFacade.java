@@ -99,10 +99,10 @@ public final class SearchFacade
 		}
 	}
 
-	public static SearchResult<Post> search(final SearchArgs args)
+	public static SearchResult<Post> search(final SearchArgs args, int userID)
 	{
 		return isSearchEnabled()
-			? searchManager.search(args)
+			? searchManager.search(args, userID)
 			: new SearchResult<Post>(new ArrayList<Post>(), 0);
 	}
 

@@ -43,6 +43,7 @@
 package net.jforum.dao.generic;
 
 import net.jforum.dao.ApiDAO;
+import net.jforum.dao.AnnouncementDAO;
 import net.jforum.dao.AttachmentDAO;
 import net.jforum.dao.BanlistDAO;
 import net.jforum.dao.BannerDAO;
@@ -101,13 +102,14 @@ public class GenericDataAccessDriver extends DataAccessDriver
     private static BanlistDAO banlistDao = new GenericBanlistDAO();
     private static ModerationLogDAO moderationLogDao = new GenericModerationLogDAO();
     private static LuceneDAO luceneDao = new GenericLuceneDAO();
+    private static AnnouncementDAO announcementDao = new GenericAnnouncementDAO();
     
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newForumDAO()
 	 */
 	public ForumDAO newForumDAO() 
 	{
-		return forumDao;	
+		return forumDao;
 	}
 
 	/**
@@ -138,7 +140,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	 * @see net.jforum.dao.DataAccessDriver#newRankingDAO()
 	 */
 	public RankingDAO newRankingDAO() 
-	{	
+	{
 		return rankingDao;
 	}
 
@@ -173,7 +175,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return treeGroupDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newSmilieDAO()
 	 */
@@ -181,7 +183,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return smilieDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newGroupSecurityDAO()
 	 */
@@ -197,7 +199,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return privateMessageDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newUserSessionDAO()
 	 */
@@ -205,7 +207,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return userSessionDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newConfigDAO()
 	 */
@@ -213,7 +215,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return configDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newKarmaDAO()
 	 */
@@ -221,7 +223,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return karmaDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newBookmarkDAO()
 	 */
@@ -229,7 +231,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return bookmarkDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newAttachmentDAO()
 	 */
@@ -237,7 +239,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	{
 		return attachmentDao;
 	}
-	
+
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newModerationDAO()
 	 */
@@ -300,5 +302,13 @@ public class GenericDataAccessDriver extends DataAccessDriver
     public LuceneDAO newLuceneDAO()
     {
     	return luceneDao;
+    }
+ 
+    /**
+     * @see net.jforum.dao.DataAccessDriver#newAnnouncementDAO()
+     */
+    public AnnouncementDAO newAnnouncementDAO()
+    {
+    	return announcementDao;
     }
 }

@@ -96,9 +96,19 @@ Modifications by JForum Team
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_register.gif" alt="[Register]" /> <a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a>&nbsp;/&nbsp;</span>
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" alt="[Login]" /> <a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>&nbsp;
 									</#if>
+
 									</span>									
 								</td>
 							</tr>
+							<#if announcement?exists && announcement?length != 0>
+							<tr>
+								<td>
+									<#-- added to display announcements across the site -->
+									<br /><br />
+									<div class="announcementBar">${announcement}</div>
+								</td>
+							</tr>
+							</#if>
 						</table>
 					</td>
 				</tr>

@@ -45,9 +45,11 @@ package net.jforum.view.forum;
 import java.util.*;
 
 import net.jforum.Command;
+import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
 import net.jforum.context.web.WebRequestContext;
+import net.jforum.entities.UserSession;
 import net.jforum.repository.ForumRepository;
 import net.jforum.search.ContentSearchOperation;
 import net.jforum.search.NewMessagesSearchOperation;
@@ -97,25 +99,37 @@ public class SearchAction extends Command
         this.context.put("forum_id", forumId);
 	}
 	
-	public void newMessages()
+    public void newMessages() {
+        UserSession userSession = SessionFacade.getUserSession();
+        Date lastVisit = userSession.getLastVisit();
+
+        SearchArgs args = this.buildSearchArgs();
+        args.setDateRange(lastVisit, new Date());
+
+        search(new NewMessagesSearchOperation(), args);
+    }
+
+    public void search() {
+		SearchArgs args = null;
+		try {
+			args = this.buildSearchArgs();
+		} catch (RuntimeException rex) {
+			context.put("error", "The search request was malformed. Please use sensible values only.");
+			filters();
+			return;
+		}
+		Stats.record("Search", args.rawKeywords());
+		this.search(new ContentSearchOperation(), args);
+    }
+
+    private void search (SearchOperation operation, SearchArgs args)
 	{
-		this.search(new NewMessagesSearchOperation());
-	}
-	
-	public void search()
-	{
-		this.search(new ContentSearchOperation());
-	}
-	
-	private void search(SearchOperation operation)
-	{
-		SearchArgs args = this.buildSearchArgs();
-		
 		int start = args.startFrom();
 		int recordsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-		
+
 		//operation.performSearch(args);
-		SearchResult<?> searchResults = operation.performSearch(args);
+		UserSession userSession = SessionFacade.getUserSession();
+		SearchResult<?> searchResults = operation.performSearch(args, userSession.getUserId());
 		operation.prepareForDisplay();
 		List<?> results = operation.filterResults(operation.getResults());
 		this.setTemplateName(operation.viewTemplate());
@@ -131,7 +145,6 @@ public class SearchAction extends Command
 		//ViewCommon.contextToPagination(start, results.size(), recordsPerPage);
 		ViewCommon.contextToPagination(start, searchResults.getNumberOfHits(), recordsPerPage);
 		TopicsCommon.topicListingBase();
-		Stats.record("Search", args.rawKeywords());
 	}
 
 	private SearchArgs buildSearchArgs() {

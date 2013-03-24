@@ -255,3 +255,11 @@ input.subject, textarea.message { width: 100%; }
 .leftLine {
 	border-left: 1px solid #000;
 }
+
+.announcementBar {
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: center;
+    font-size: small;
+}
+

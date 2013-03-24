@@ -114,9 +114,9 @@ public class LuceneSearch implements NewDocumentAdded
 	/**
 	 * @return the search result
 	 */
-	public SearchResult<Post> search(SearchArgs args)
+	public SearchResult<Post> search(SearchArgs args, int userID)
 	{
-		return this.performSearch(args, this.collector, null);
+		return this.performSearch(args, this.collector, null, userID);
 	}
 
 	public Document findDocumentByPostId (int postId) {
@@ -139,7 +139,7 @@ public class LuceneSearch implements NewDocumentAdded
 		return doc;
 	}
 
-	private SearchResult<Post> performSearch(SearchArgs args, LuceneContentCollector resultCollector, Filter filter)
+	private SearchResult<Post> performSearch(SearchArgs args, LuceneContentCollector resultCollector, Filter filter, int userID)
 	{
 		SearchResult<Post> result;
 
@@ -147,6 +147,7 @@ public class LuceneSearch implements NewDocumentAdded
 			StringBuilder criteria = new StringBuilder(256);
 
 			this.filterByForum(args, criteria);
+			this.filterByUser(args, criteria, userID);
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
 
@@ -218,6 +219,45 @@ public class LuceneSearch implements NewDocumentAdded
 				.append(" TO ")
 				.append(this.settings.formatDateTime(args.getToDate()))
 				.append("])");
+		}
+	}
+
+	private void filterByUser (SearchArgs args, StringBuilder criteria, int userID) {
+		int[] memberIds = args.getMemberIds();
+
+		// if searching by member id (as opposed to solely by keyword)
+		if (memberIds.length > 0) {
+
+			// By default, Lucene can't handle boolean queries with more than 1024 clauses.
+			// Instead of raising the limit, we ask the user to give more information.
+			if (memberIds.length > 1000) {
+				throw new RuntimeException("This first name/last name combination matches too many users. Please be more specific.");
+			}
+
+			if (args.shouldLimitSearchToTopicStarted()) {
+				// just looking for topics started by this user
+				criteria.append("+(").append(SearchFields.Keyword.IS_FIRST_POST).append(":true) ");
+			} else {
+				// if searching for all posts by a member, we have
+				// the option of filtering by those I started
+				if (args.isTopicsIstarted()) {
+					criteria.append("+(")
+							.append(SearchFields.Keyword.TOPIC_STARTER_ID)
+							.append(":")
+							.append(userID<0 ? "\\" : "")
+							.append(userID)
+							.append(") ");
+				}
+			}
+
+			StringBuilder query = new StringBuilder();
+			for (int i = 0; i < memberIds.length; i++) {
+				if (i > 0) {
+					query.append(" OR ");
+				}
+				query.append(SearchFields.Keyword.USER_ID).append(":").append(memberIds[i]);
+			}
+			criteria.append("+(").append(query.toString()).append(") ");
 		}
 	}
 

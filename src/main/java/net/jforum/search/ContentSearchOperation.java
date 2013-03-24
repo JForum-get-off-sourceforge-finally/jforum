@@ -59,14 +59,15 @@ public class ContentSearchOperation extends SearchOperation
 {
     private transient List<Post> results = new ArrayList<Post>();
 	
-	public SearchResult<Post> performSearch(final SearchArgs args)
+	public SearchResult<Post> performSearch(final SearchArgs args, int userID)
 	{
-		final SearchResult<Post> searchResult = args.getKeywords().length > 0
-			? SearchFacade.search(args)
-			: new SearchResult<Post>(new ArrayList<Post>(), 0);
-		
+        final SearchResult searchResult =
+				(args.getKeywords().length > 0 || args.getMemberIds().length > 0)
+				? SearchFacade.search(args, userID)
+				: new SearchResult(new ArrayList(), 0);
+
 		this.results = searchResult.getRecords();
-		
+
 		return searchResult;
 	}
 	

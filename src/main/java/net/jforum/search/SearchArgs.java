@@ -42,8 +42,12 @@
  */
 package net.jforum.search;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.entities.User;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -160,6 +164,56 @@ public class SearchArgs
 	public void setMemberName (String memberName)
 	{
 		this.memberName = memberName;
+	}
+
+	// -----------------------------------------------------------------
+
+	/**
+	 * Return member ids to query.<br />
+	 * 1) If user searching by keyword and not member, return empty array.
+	 * <br />
+	 * 2) If user searching by user id, return array with single element <br />
+	 * 3) If user searching by display name, return array with all non-negative
+	 * elements. (Lucene doesn't allow searches for negative numbers without
+	 * custom code. Since negative numbers are only test ids (and
+	 * anonymous/admin), the search is not present for negative ids.
+	 */
+	public int[] getMemberIds() {
+		int[] memberIds;
+		if (memberId > 0) {
+			memberIds = new int[] { memberId };
+		} else if (memberName != null && memberName.trim().length() > 0) {
+			memberIds = getMemberIdsForName();
+		} else {
+			memberIds = new int[0];
+		}
+		return memberIds;
+	}
+
+	private int[] getMemberIdsForName() {
+		int[] memberIds;
+		List<User> users = DataAccessDriver.getInstance().newUserDAO().findByName(getMemberName(), false);
+		users = removeNegativeIds(users);
+		int length = users.size();
+		memberIds = new int[length];
+		for (int i = 0; i < length; i++) {
+			memberIds[i] = users.get(i).getId();
+		}
+		return memberIds;
+	}
+
+	/*
+	 * Lucene doesn't handle negative numbers. Since the only negative ids are
+	 * test ids (or anonymous or admin), real users won't be searching for them.
+	 */
+	private List<User> removeNegativeIds(List<User> list) {
+		List<User> result = new ArrayList<User>(list.size());
+		for (User user : list) {
+			if (user.getId() >= 0) {
+				result.add(user);
+			}
+		}
+		return result;
 	}
 
 	public void setMemberId(String memberId) {
