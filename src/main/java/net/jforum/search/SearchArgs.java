@@ -65,7 +65,7 @@ public class SearchArgs
 	private int initialRecord;
 	private Date fromDate;
 	private Date toDate;
-	private MatchType matchType;
+	private MatchType matchType = MatchType.ALL_KEYWORDS;
 	private String searchIn;
 	private String searchDate;
 	private boolean groupByForum;

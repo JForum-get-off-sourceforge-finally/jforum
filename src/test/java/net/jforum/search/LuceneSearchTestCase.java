@@ -100,7 +100,7 @@ public class LuceneSearchTestCase extends TestCase
 		args.setForumId(1);
 		args.setKeywords("open lucene xpto authoritative");
 		
-		List<?> results = this.search.search(args).getRecords();
+		List<?> results = this.search.search(args, -1).getRecords();
 		
 		Assert.assertEquals(3, results.size());
 	}
@@ -117,7 +117,7 @@ public class LuceneSearchTestCase extends TestCase
 		SearchArgs args = new SearchArgs();
 		args.setKeywords("open lucene");
 		
-		List<?> results = this.search.search(args).getRecords();
+		List<?> results = this.search.search(args, -1).getRecords();
 		
 		Assert.assertEquals(3, results.size());
 	}
@@ -161,7 +161,7 @@ public class LuceneSearchTestCase extends TestCase
 		args.setMatchType("all");
 		args.setKeywords("magic regular");
 		
-		List<?> results = this.search.search(args).getRecords();
+		List<?> results = this.search.search(args, -1).getRecords();
 		
 		Assert.assertEquals(1, results.size());
 	}
@@ -187,7 +187,7 @@ public class LuceneSearchTestCase extends TestCase
 		SearchArgs args = new SearchArgs();
 		args.setKeywords("java");
 		
-		List<?> results = this.search.search(args).getRecords();
+		List<?> results = this.search.search(args, -1).getRecords();
 		
 		Assert.assertEquals(1, results.size());
 	}
@@ -205,7 +205,7 @@ public class LuceneSearchTestCase extends TestCase
 		SearchArgs args = new SearchArgs();
 		args.setForumId(1);
 		
-		List<?> results = this.search.search(args).getRecords();
+		List<?> results = this.search.search(args, -1).getRecords();
 		
 		Assert.assertEquals(1, results.size());
 	}
@@ -230,7 +230,7 @@ public class LuceneSearchTestCase extends TestCase
 		}
 		TestCaseUtils.loadEnvironment();
 		
-		this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.version));
+		this.settings = new LuceneSettings(new PorterStandardAnalyzer(LuceneSettings.version));
 		
 		this.settings.useRAMDirectory();
 		
