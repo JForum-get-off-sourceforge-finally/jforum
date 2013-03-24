@@ -301,9 +301,10 @@ public class LuceneSearch implements NewDocumentAdded
 			String[] keywords = this.analyzeKeywords(args.rawKeywords());
 
 			if (keywords.length != 0) {
-				if (criteria.length() >0) {
+				if (criteria.length() > 0) {
 					criteria.append(" AND ");
 				}
+				criteria.append("(");
 
 				for (int i = 0; i < keywords.length; i++) {
 					if (args.isMatchAll()) {
@@ -323,6 +324,8 @@ public class LuceneSearch implements NewDocumentAdded
 					}
 					criteria.append(") ");
 				}
+
+				criteria.append(")");
 			}
 		}
 	}

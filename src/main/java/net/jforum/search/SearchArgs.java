@@ -58,17 +58,17 @@ import net.jforum.util.preferences.SystemGlobals;
 public class SearchArgs 
 {
 	private String keywords;
-	private int userID;
+	private int userID = -1;
 	private String orderDir = "DESC";
-	private String orderBy;
+	private String orderBy = "relevance";
 	private int forumId;
 	private int initialRecord;
 	private Date fromDate;
 	private Date toDate;
 	private MatchType matchType = MatchType.ALL_KEYWORDS;
-	private String searchIn;
+	private String searchIn = "ALL";
 	private String searchDate;
-	private boolean groupByForum;
+	private boolean groupByForum = false;
 
 	// member search
 	private int memberId;
@@ -89,11 +89,11 @@ public class SearchArgs
 	 */
 	public void setMatchType(String matchType)
 	{
-		if ("any".equals(matchType)) {
+		if ("any".equals(matchType.toLowerCase())) {
 			this.matchType = MatchType.ANY_KEYWORDS;
-		} else if ("raw".equals(matchType)) {
+		} else if ("raw".equals(matchType.toLowerCase())) {
 			this.matchType = MatchType.RAW_KEYWORDS;
-		} else if ("phrase".equals(matchType)) {
+		} else if ("phrase".equals(matchType.toLowerCase())) {
 			this.matchType = MatchType.EXACT_PHRASE;
 		} else {
 			/* not set or null like for new messagesSearch */

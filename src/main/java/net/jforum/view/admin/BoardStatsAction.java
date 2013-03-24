@@ -93,7 +93,7 @@ public class BoardStatsAction extends AdminCommand {
 					else 									return 0;
 				}
 				@Override
-				public boolean equals (Object dt) { return false; }
+				public boolean equals (Object dt) { return dt == this; }
 			});
             this.context.put("tag", tag);
             this.context.put("times", times);     

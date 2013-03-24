@@ -92,14 +92,14 @@ public class LuceneSearchTestCase extends TestCase
 		post.setText("How to integrate lucene into your applications");
 		post.setForumId(1);
 		l.add(post);
-		
 		this.indexer.create(post);
-		
+
 		// Search
 		SearchArgs args = new SearchArgs();
 		args.setForumId(1);
+		args.setMatchType("ANY");
 		args.setKeywords("open lucene xpto authoritative");
-		
+
 		List<?> results = this.search.search(args, -1).getRecords();
 		
 		Assert.assertEquals(3, results.size());
@@ -115,6 +115,7 @@ public class LuceneSearchTestCase extends TestCase
 		
 		// Search
 		SearchArgs args = new SearchArgs();
+		args.setMatchType("ANY");
 		args.setKeywords("open lucene");
 		
 		List<?> results = this.search.search(args, -1).getRecords();
@@ -230,7 +231,7 @@ public class LuceneSearchTestCase extends TestCase
 		}
 		TestCaseUtils.loadEnvironment();
 		
-		this.settings = new LuceneSettings(new PorterStandardAnalyzer(LuceneSettings.version));
+		this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.version));
 		
 		this.settings.useRAMDirectory();
 		
@@ -248,10 +249,10 @@ public class LuceneSearchTestCase extends TestCase
 			super(settings);
 		}
 
-		public List<Post> collect(SearchArgs args, TopDocs results, Query query)
+		@Override
+		public List<Post> collect(SearchArgs args, ScoreDoc[] hits, Query query)
 		{
 			List<Post> l = new ArrayList<Post>();
-			ScoreDoc[] hits = results.scoreDocs;
 			for (int i = 0; i < hits.length; i++) {
 				// We really don't care about the results, only how many they are
 				l.add(new Post()); 
