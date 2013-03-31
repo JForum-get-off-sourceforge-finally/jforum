@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -32,14 +31,14 @@ public class TopicTypeComparatorTest extends TestCase
 		
 		Collections.sort(l, new TopicTypeComparator());
 		
-		Assert.assertEquals("Announce day 5", this.extractTitle(l, 0));
-		Assert.assertEquals("Announce day 4", this.extractTitle(l, 1));
-		Assert.assertEquals("Sticky day 7", this.extractTitle(l, 2));
-		Assert.assertEquals("Sticky day 2", this.extractTitle(l, 3));
-		Assert.assertEquals("Sticky day 1", this.extractTitle(l, 4));
-		Assert.assertEquals("Regular day 6", this.extractTitle(l, 5));
-		Assert.assertEquals("Regular day 3", this.extractTitle(l, 6));
-		Assert.assertEquals("Regular day 1", this.extractTitle(l, 7));
+		assertEquals("Announce day 5", this.extractTitle(l, 0));
+		assertEquals("Announce day 4", this.extractTitle(l, 1));
+		assertEquals("Sticky day 7", this.extractTitle(l, 2));
+		assertEquals("Sticky day 2", this.extractTitle(l, 3));
+		assertEquals("Sticky day 1", this.extractTitle(l, 4));
+		assertEquals("Regular day 6", this.extractTitle(l, 5));
+		assertEquals("Regular day 3", this.extractTitle(l, 6));
+		assertEquals("Regular day 1", this.extractTitle(l, 7));
 	}
 	
 	public void testCreateTwoTopicsThenAddAReply()
@@ -51,16 +50,16 @@ public class TopicTypeComparatorTest extends TestCase
 		
 		Collections.sort(l, new TopicTypeComparator());
 		
-		Assert.assertEquals("Topic 2", this.extractTitle(l, 0));
-		Assert.assertEquals("Topic 1", this.extractTitle(l, 1));
+		assertEquals("Topic 2", this.extractTitle(l, 0));
+		assertEquals("Topic 1", this.extractTitle(l, 1));
 		
 		// Simulate a reply
 		((Topic)l.get(1)).setLastPostDate(new GregorianCalendar(2006, 4, 3).getTime());
 		
 		Collections.sort(l, new TopicTypeComparator());
 		
-		Assert.assertEquals("Topic 1", this.extractTitle(l, 0));
-		Assert.assertEquals("Topic 2", this.extractTitle(l, 1));
+		assertEquals("Topic 1", this.extractTitle(l, 0));
+		assertEquals("Topic 2", this.extractTitle(l, 1));
 	}
 	
 	private String extractTitle(List<Topic> l, int index)

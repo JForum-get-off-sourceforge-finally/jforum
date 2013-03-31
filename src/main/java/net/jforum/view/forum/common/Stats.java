@@ -41,11 +41,6 @@
  */
 package net.jforum.view.forum.common;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -104,33 +99,7 @@ public class Stats {
 		Collections.sort(result);
         return result;
     }
-
-    private static String dumpStackTrace(Exception e) {
-        StringWriter temp = new StringWriter();
-        e.printStackTrace(new PrintWriter(temp));
-        return temp.toString();
-    }
-
-    private static void close(InputStream in) {
-        if (in != null) {
-            try {
-                in.close();
-            } catch (IOException e) {
-                // ignore
-            }
-        }
-    }
     
-    private static void close(Reader reader) {
-        if (reader != null) {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                // ignore
-            }
-        }
-    }
-
     public static Date getRestartTime() {
         return restartTime;
     }
@@ -185,28 +154,6 @@ public class Stats {
 
         public Map<Date, Object> getValues() {
             return buffer;
-            //return buffer.values();
-        }
-    }
-
-    public static class ServerMetric {
-        public void setTag(String tag) {
-			this.tag = tag;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-		}
-
-		private String tag;
-        private String value;
-
-        public String getTag() {
-            return tag;
-        }
-
-        public String getValue() {
-            return value;
         }
     }
     
@@ -215,8 +162,8 @@ public class Stats {
         
         private String value;
         
-        private ForbidDetailDisplay(String _value) {
-            value = _value;
+        private ForbidDetailDisplay(String value) {
+            this.value = value;
         }
         
         public String toString() {

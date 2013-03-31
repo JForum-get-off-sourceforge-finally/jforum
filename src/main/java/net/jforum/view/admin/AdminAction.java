@@ -244,8 +244,6 @@ public class AdminAction extends Command {
 	{
 		int userId = SessionFacade.getUserSession().getUserId();
 		
-		System.out.println(userId+"="+SecurityRepository.get(userId).canAccess(SecurityConstants.PERM_ADMINISTRATION));
-
 		if (SecurityRepository.get(userId).canAccess(SecurityConstants.PERM_ADMINISTRATION)) {
 			return true;
 		}

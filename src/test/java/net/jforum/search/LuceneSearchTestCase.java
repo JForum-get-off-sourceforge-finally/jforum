@@ -47,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import net.jforum.TestCaseUtils;
 import net.jforum.entities.Post;
@@ -56,7 +55,6 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
 
 /**
  * @author Rafael Steil
@@ -102,7 +100,7 @@ public class LuceneSearchTestCase extends TestCase
 
 		List<?> results = this.search.search(args, -1).getRecords();
 		
-		Assert.assertEquals(3, results.size());
+		assertEquals(3, results.size());
 	}
 	
 	public void testORExpressionUsingThreePostsSearchTwoTermsExpectThreeResults()
@@ -120,7 +118,7 @@ public class LuceneSearchTestCase extends TestCase
 		
 		List<?> results = this.search.search(args, -1).getRecords();
 		
-		Assert.assertEquals(3, results.size());
+		assertEquals(3, results.size());
 	}
 
 	private List<Post> createThreePosts()
@@ -164,7 +162,7 @@ public class LuceneSearchTestCase extends TestCase
 		
 		List<?> results = this.search.search(args, -1).getRecords();
 		
-		Assert.assertEquals(1, results.size());
+		assertEquals(1, results.size());
 	}
 	
 	public void testThreePostsSearchContentsExpectOneResult()
@@ -190,7 +188,7 @@ public class LuceneSearchTestCase extends TestCase
 		
 		List<?> results = this.search.search(args, -1).getRecords();
 		
-		Assert.assertEquals(1, results.size());
+		assertEquals(1, results.size());
 	}
 	
 	public void testTwoDifferentForumsSearchOneExpectOneResult()
@@ -208,7 +206,7 @@ public class LuceneSearchTestCase extends TestCase
 		
 		List<?> results = this.search.search(args, -1).getRecords();
 		
-		Assert.assertEquals(1, results.size());
+		assertEquals(1, results.size());
 	}
 	
 	private Post newPost() 

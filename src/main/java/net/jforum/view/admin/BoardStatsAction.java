@@ -78,7 +78,7 @@ public class BoardStatsAction extends AdminCommand {
         String tag = this.request.getParameter("tag");
         try {
             tag = URLDecoder.decode(tag, "UTF-8");
-            Map<Date, Object> values = new HashMap();
+            Map<Date, Object> values = new HashMap<Date, Object>();
             if (tag != null && !Stats.ForbidDetailDisplay.isForbidden(tag)) {
                 tag = URLDecoder.decode(tag, "UTF-8");
                 Stats.Data data = Stats.getStatsFor(tag);

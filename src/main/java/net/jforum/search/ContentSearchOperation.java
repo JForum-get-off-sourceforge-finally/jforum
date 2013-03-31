@@ -61,10 +61,10 @@ public class ContentSearchOperation extends SearchOperation
 	
 	public SearchResult<Post> performSearch(final SearchArgs args, int userID)
 	{
-        final SearchResult searchResult =
+        final SearchResult<Post> searchResult =
 				(args.getKeywords().length > 0 || args.getMemberIds().length > 0)
 				? SearchFacade.search(args, userID)
-				: new SearchResult(new ArrayList(), 0);
+				: new SearchResult<Post>(new ArrayList<Post>(), 0);
 
 		this.results = searchResult.getRecords();
 
@@ -74,7 +74,7 @@ public class ContentSearchOperation extends SearchOperation
 	public void prepareForDisplay()
 	{
 		for (final Iterator<Post> iter = this.results.iterator(); iter.hasNext(); ) {
-			PostCommon.preparePostForDisplay((Post)iter.next());
+			PostCommon.preparePostForDisplay(iter.next());
 		}
 	}
 
