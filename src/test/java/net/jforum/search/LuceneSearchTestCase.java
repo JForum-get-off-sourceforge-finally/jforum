@@ -160,7 +160,7 @@ public class LuceneSearchTestCase extends TestCase
 		args.setMatchType("all");
 		args.setKeywords("magic regular");
 		
-		List<?> results = this.search.search(args, -1).getRecords();
+		List<Post> results = this.search.search(args, -1).getRecords();
 		
 		assertEquals(1, results.size());
 	}

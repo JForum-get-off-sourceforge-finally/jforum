@@ -2,19 +2,18 @@
 	<#assign params = ""/>
 
 	<#if (searchArgs.keywords?size > 0)>
-		<#assign params = params +"&amp;search_keywords="+ searchArgs.rawKeywords()/>
-		<#assign params = params+"&amp;search_in="+ searchArgs.searchIn />
+		<#assign params = params + "&amp;search_keywords=" + searchArgs.rawKeywords()/>
+		<#assign params = params + "&amp;search_in=" + searchArgs.searchIn/>
 	</#if>
-	<#if (searchArgs.memberId > 0)>
-		<#assign params = params +"&amp;member_number="+ searchArgs.memberId/>
+	<#if (searchArgs.userId > 0)>
+		<#assign params = params + "&amp;user_id="+ searchArgs.userId/>
 	</#if>
-	<#if (searchArgs.keywords?size > 0)><#assign params = params +"&amp;search_keywords="+ searchArgs.rawKeywords()/></#if>
-	<#if (searchArgs.forumId > 0)><#assign params = params +"&amp;search_forum="+ searchArgs.forumId/></#if>
-	<#if (searchArgs.matchType?default("")?length > 0)><#assign params = params +"&amp;match_type="+ searchArgs.matchType/></#if>
-	<#if (searchArgs.orderDir?default("")?length > 0)><#assign params = params +"&amp;sort_dir="+ searchArgs.orderDir/></#if>
-	<#if (searchArgs.orderBy?default("")?length > 0)><#assign params = params +"&amp;sort_by="+ searchArgs.orderBy/></#if>
-	<#assign params = params+"&amp;groupByForum="+ searchArgs.groupByForum?string />
-	<#if (searchArgs.searchDate?default("")?length > 0)><#assign params = params +"&amp;search_date="+ searchArgs.searchDate/></#if>
+	<#if (searchArgs.forumId > 0)><#assign params = params + "&amp;search_forum=" + searchArgs.forumId/></#if>
+	<#if (searchArgs.matchType?default("")?length > 0)><#assign params = params + "&amp;match_type=" + searchArgs.matchType/></#if>
+	<#if (searchArgs.orderDir?default("")?length > 0)><#assign params = params + "&amp;sort_dir=" + searchArgs.orderDir/></#if>
+	<#if (searchArgs.orderBy?default("")?length > 0)><#assign params = params + "&amp;sort_by=" + searchArgs.orderBy/></#if>
+	<#assign params = params + "&amp;groupByForum=" + searchArgs.groupByForum?string />
+	<#if (searchArgs.searchDate?default("")?length > 0)><#assign params = params + "&amp;search_date=" + searchArgs.searchDate/></#if>
 
 	<#return params/>
 </#function>
@@ -84,9 +83,9 @@
 			</#list>
 		</#if>
 
-		<#-- ------------- -->
+		<#-- --------- -->
 		<#-- Next page -->
-		<#-- ------------- -->
+		<#-- --------- -->
 		<#if (thisPage < totalPages)>
 			<#assign start = thisPage * recordsPerPage/>
 			<a href="${baseUrl}&amp;start=${start}">&#9658;</a>

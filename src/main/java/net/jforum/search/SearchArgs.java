@@ -58,23 +58,19 @@ import net.jforum.util.preferences.SystemGlobals;
 public class SearchArgs 
 {
 	private String keywords;
-	private int userID = -1;
+	private int userId = -1;
+	private String username;
 	private String orderDir = "DESC";
 	private String orderBy = "relevance";
 	private int forumId;
 	private int initialRecord;
+	private String searchDate;
 	private Date fromDate;
 	private Date toDate;
 	private MatchType matchType = MatchType.ALL_KEYWORDS;
 	private String searchIn = "ALL";
-	private String searchDate;
-	private boolean groupByForum = false;
 
-	// member search
-	private int memberId;
-	private String memberName;
-	private boolean topicsIstarted;
-	private String memberMatchType;
+	private boolean groupByForum = false;
 
 	public static enum MatchType {
 		ALL_KEYWORDS,
@@ -161,9 +157,9 @@ public class SearchArgs
 		this.keywords = keywords;
 	}
 
-	public void setMemberName (String memberName)
+	public void setUsername (String username)
 	{
-		this.memberName = memberName;
+		this.username = username;
 	}
 
 	// -----------------------------------------------------------------
@@ -178,28 +174,27 @@ public class SearchArgs
 	 * custom code. Since negative numbers are only test ids (and
 	 * anonymous/admin), the search is not present for negative ids.
 	 */
-	public int[] getMemberIds() {
-		int[] memberIds;
-		if (memberId > 0) {
-			memberIds = new int[] { memberId };
-		} else if (memberName != null && memberName.trim().length() > 0) {
-			memberIds = getMemberIdsForName();
+	public int[] getUserIds() {
+		int[] userIds;
+		if (userId > 0) {
+			userIds = new int[] { userId };
+		} else if (username != null && username.trim().length() > 0) {
+			userIds = getUserIdsForName();
 		} else {
-			memberIds = new int[0];
+			userIds = new int[0];
 		}
-		return memberIds;
+		return userIds;
 	}
 
-	private int[] getMemberIdsForName() {
-		int[] memberIds;
-		List<User> users = DataAccessDriver.getInstance().newUserDAO().findByName(getMemberName(), false);
+	private int[] getUserIdsForName() {
+		List<User> users = DataAccessDriver.getInstance().newUserDAO().findByName(getUsername(), false);
 		users = removeNegativeIds(users);
 		int length = users.size();
-		memberIds = new int[length];
+		int[] userIds = new int[length];
 		for (int i = 0; i < length; i++) {
-			memberIds[i] = users.get(i).getId();
+			userIds[i] = users.get(i).getId();
 		}
-		return memberIds;
+		return userIds;
 	}
 
 	/*
@@ -216,33 +211,25 @@ public class SearchArgs
 		return result;
 	}
 
-	public void setMemberId(String memberId) {
+	public void setUserId(String userId) {
 		int id = -1;
-		if (memberId != null && memberId.trim().length() > 0) {
+		if (userId != null && userId.trim().length() > 0) {
 			try {
-				id = Integer.parseInt(memberId.trim());
+				id = Integer.parseInt(userId.trim());
 			} catch (NumberFormatException nfex) {
 				// id is already -1, no need to do anything about this
 			}
 		}
 
-		this.memberId = id;
+		this.userId = id;
 	}
 
-	public int getMemberId() {
-		return memberId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
-	}
-
-	public void setTopicsIstarted(boolean topicsIstarted) {
-		this.topicsIstarted = topicsIstarted;
-	}
-
-	public boolean isTopicsIstarted() {
-		return topicsIstarted;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public void setForumId(int forumId)
@@ -252,7 +239,7 @@ public class SearchArgs
 
 	public void setUserID(int userID)
 	{
-		this.userID = userID;
+		this.userId = userID;
 	}
 
 	public void setOrderBy(String orderBy)
@@ -285,20 +272,12 @@ public class SearchArgs
 
 	public String rawKeywords()
 	{
-		if (this.keywords == null) {
-			return "";
-		}
-
-		return this.keywords.trim();
+		return formatNullOrTrim(this.keywords);
 	}
 
-	public int getUserID() {
-		return userID;
-	}
-
-	public String getMemberName()
+	public String getUsername()
 	{
-		return this.memberName;
+		return this.username;
 	}
 
 	public int getForumId()
@@ -313,20 +292,6 @@ public class SearchArgs
 	public String getOrderBy()
 	{
 		return this.orderBy;
-	}
-
-	// -----------------------------------------------------------------
-
-	public String getMemberMatchType() {
-		return formatNullOrTrim(memberMatchType);
-	}
-
-	public void setMemberMatchType(String memberMatchType) {
-		this.memberMatchType = memberMatchType;
-	}
-
-	public boolean shouldLimitSearchToTopicStarted() {
-		return "memberStarted".equals(memberMatchType);
 	}
 
 	// -----------------------------------------------------------------

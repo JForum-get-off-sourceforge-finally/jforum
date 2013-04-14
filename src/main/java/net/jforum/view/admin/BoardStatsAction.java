@@ -103,7 +103,7 @@ public class BoardStatsAction extends AdminCommand {
         }
     }
 
-    public static class Item implements Comparable {
+    public static class Item implements Comparable<Object> {
         private String name, value;
 
 		Item (String name, String value) {

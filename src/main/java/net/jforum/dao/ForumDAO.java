@@ -43,6 +43,7 @@
 package net.jforum.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import net.jforum.entities.Forum;
 import net.jforum.entities.ForumStats;
@@ -280,6 +281,6 @@ public interface ForumDAO
 	 * Returns all forums that are watched by a given user.
 	 * @param userId The user id
 	 */
-	public List selectWatchesByUser(int userID);
+	public List<Map<String, Object>> selectWatchesByUser(int userID);
 
 }

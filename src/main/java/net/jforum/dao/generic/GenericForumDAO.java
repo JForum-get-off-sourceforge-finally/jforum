@@ -981,8 +981,8 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
     * Returns all forums that are watched by a given user.
     * @param userId The user id
     */
-    public List selectWatchesByUser(int userID) {
-        List l = new ArrayList();
+    public List<Map<String, Object>> selectWatchesByUser(int userID) {
+        List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
         PreparedStatement p = null;
         ResultSet rs = null;
         try {
@@ -990,7 +990,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
             p.setInt(1, userID);
             rs = p.executeQuery();
             while (rs.next()) {
-                Map m = new HashMap();
+                Map<String, Object> m = new HashMap<String, Object>();
                 m.put("id", rs.getInt("forum_id"));
                 m.put("forumName", rs.getString("forum_name"));
                 l.add(m);

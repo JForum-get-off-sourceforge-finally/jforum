@@ -104,7 +104,7 @@ public class Stats {
         return restartTime;
     }
 
-    public static class Record implements Comparable {
+    public static class Record implements Comparable<Object> {
         private String tag;
         private double cps;
         private long count;

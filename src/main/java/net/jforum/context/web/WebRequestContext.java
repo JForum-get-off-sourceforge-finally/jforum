@@ -261,9 +261,9 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		upload.setHeaderEncoding(encoding);
 
 		try {
-			List<?> items = upload.parseRequest(superRequest);
+			List<FileItem> items = upload.parseRequest(superRequest);
 			
-			for (Iterator<?> iter = items.iterator(); iter.hasNext(); ) {
+			for (Iterator<FileItem> iter = items.iterator(); iter.hasNext(); ) {
 				FileItem item = (FileItem)iter.next();
 			
 				if (item.isFormField()) {

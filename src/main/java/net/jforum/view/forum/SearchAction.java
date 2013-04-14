@@ -162,14 +162,10 @@ public class SearchAction extends Command
         // setter handles these optional properties if not passed
         args.setGroupByForum("true".equals(this.request.getParameter("groupByForum")));
         args.setSearchDate(this.request.getParameter("search_date"));
-        args.setTopicsIstarted("true".equals(this.request.getParameter("topicsIstarted")));
+        setDateRange(args, this.request.getParameter("search_date"));
 
-        setDates(args, this.request.getParameter("search_date"));
-
-        args.setMemberId(this.request.getParameter("member_number"));
-        args.setMemberName(this.request.getParameter("member_name"));
-        args.setMemberMatchType(this.request.getParameter("member_match_type"));
-        args.setTopicsIstarted("true".equals(this.request.getParameter("topicsIstarted")));
+        args.setUserId(this.request.getParameter("user_id"));
+        args.setUsername(this.request.getParameter("username"));
 
 		if (this.request.getParameter("search_forum") != null && !"".equals(this.request.getParameter("search_forum"))) {
 			args.setForumId(this.request.getIntParameter("search_forum"));
@@ -178,7 +174,7 @@ public class SearchAction extends Command
         return args;
     }
 
-    private void setDates (SearchArgs args, String requestDateRange) {
+    private void setDateRange (SearchArgs args, String requestDateRange) {
         if (requestDateRange == null || requestDateRange.equals("ALL")) {
             args.setDateRange(null, null);
         } else {

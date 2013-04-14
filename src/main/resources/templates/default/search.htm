@@ -20,12 +20,11 @@
 			<td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.typeKeywords")}:</span></td>
 			<td class="row2" valign="top" colspan="2">
 				<span class="genmed">
-				<input type="text" class="post" style="WIDTH: 300px" size="30" name="search_keywords" />
-				<br/>
-				<br/><input type="radio" name="match_type" value="all" id="all_terms" checked="checked"/><label for="all_terms">${I18n.getMessage("Search.allTerms")}</label>
-				<br/><input type="radio" name="match_type" value="any" id="any_term"/><label for="any_term">${I18n.getMessage("Search.anyTerm")}</label>
-				<br/><input type="radio" name="match_type" value="phrase" id="phrase"/><label for="phrase">${I18n.getMessage("Search.exactPhrase")}</label>
-				<br/><input type="radio" name="match_type" value="raw" id="raw_term"/><label for="raw_term">${I18n.getMessage("Search.rawTerm")}</label>
+				<input type="text" class="post" style="WIDTH: 300px" size="30" name="search_keywords" /><br/>				
+				<input type="radio" name="match_type" value="all" id="all_terms" checked="checked"/><label for="all_terms">${I18n.getMessage("Search.allTerms")}</label><br/>
+				<input type="radio" name="match_type" value="any" id="any_term"/><label for="any_term">${I18n.getMessage("Search.anyTerm")}</label><br/>
+				<input type="radio" name="match_type" value="phrase" id="phrase"/><label for="phrase">${I18n.getMessage("Search.exactPhrase")}</label><br/>
+				<input type="radio" name="match_type" value="raw" id="raw_term"/><label for="raw_term">${I18n.getMessage("Search.rawTerm")}</label>
 				</span>
 			</td>
         </tr>
@@ -61,71 +60,53 @@
 				<input type="checkbox" name="groupByForum" value="true"> <label for="groupByForum">${I18n.getMessage("Search.groupByForum")}</label>
 				</span>
 			</td>
-        </span>
-        </td>
-    </tr>
-
-    <tr>
-        <td class="row1" colspan="2"><span class="gen">${I18n.getMessage("Search.orderBy")}:&nbsp;</span></td>
-        <td class="row2" valign="middle" nowrap="nowrap"><span class="genmed">
-			<select class="post" name="sort_by" onChange="enableDisableOrderBy(this.value);">
-				<option value="relevance" selected="selected">${I18n.getMessage("Search.relevance")}</option>
-				<option value="time">${I18n.getMessage("Search.postDate")}</option>
-			</select>
-			<input type="radio" value="ASC" name="sort_dir" id="sort_asc" /> <label for="sort_asc">${I18n.getMessage("Search.ascending")}</label>
-			<input type="radio" checked="checked" value="DESC" name="sort_dir" id="sort_desc" /> <label for="sort_desc">${I18n.getMessage("Search.descending")}</label>
-		</span></td>
-    </tr>
-
-    <tr>
-    <td class="row1" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByDate")}:&nbsp;</span></td>
-    <td class="row2" valign="middle" nowrap="nowrap">
-    <SELECT NAME="search_date">
-        <OPTION value="ALL">${I18n.getMessage("Search.anyDate")}</OPTION>
-        <OPTION VALUE="1">${I18n.getMessage("Search.sinceYesterday")}</OPTION>
-        <OPTION VALUE="10">${I18n.getMessage("Search.since10days")}</OPTION>
-        <OPTION VALUE="30">${I18n.getMessage("Search.since30days")}</OPTION>
-        <OPTION VALUE="90">${I18n.getMessage("Search.since3Months")}</OPTION>
-        <OPTION VALUE="180">${I18n.getMessage("Search.since6Months")}</OPTION>
-        <OPTION VALUE="365">${I18n.getMessage("Search.since12Months")}</OPTION>
-        <OPTION VALUE="730">${I18n.getMessage("Search.since24Months")}</OPTION>
-    </SELECT>
-    </td>
-    </tr>
-    <tr>
-        <td class="row1" width="50%" colspan="2"><span class="gen">Search by member ID:</span><br /></td>
-        <td class="row2" valign="top">
-        <span class="genmed"> <input type="text" class="post" style="WIDTH: 100px" size="15" name="member_number" />
-        <#if (session.userId > 0)>
-        &nbsp;&nbsp;(<a href="" onClick="document.formSearch.member_number.value='${session.userId}'; return false;"><FONT size="1">my own posts</FONT></a>)
-        </#if>
-        </span>
-        </td>
-    </tr>
-    <tr>
-        <td class="row1" width="50%" colspan="2"><span class="gen">Search by member name:</span><br /></td>
-        <td class="row2" valign="top">
-        <span class="genmed">
-			<input type="text" class="post" style="WIDTH: 150px" size="35" name="member_name" />
-        </span>
-        </td>
-    </tr>
-	<!--
-    <tr>
-        <td class="row1" colspan="2">&nbsp;</td>
-        <td class="row2" valign="top">
-        <span class="genmed">
-            <input type="radio" name="member_match_type" value="memberPosted" checked="checked" id="memberPosted" />
-            <label for="memberPosted">All topics posted to by this member</label>
-            <#if (session.userId > 0)>(<input type="checkbox" name="topicsIstarted" value="true"> which I started)</#if>
-            <br />
-            <input type="radio" name="member_match_type" value="memberStarted" id="memberStarted" />
-            <label for="memberStarted">Topics started by this member</label>
-        </span>
-        </p>
-        </td>
-    </tr>
-	-->
+	    </tr>
+	
+	    <tr>
+	        <td class="row1" colspan="2"><span class="gen">${I18n.getMessage("Search.orderBy")}:&nbsp;</span></td>
+	        <td class="row2" valign="middle" nowrap="nowrap"><span class="genmed">
+				<select class="post" name="sort_by" onChange="enableDisableOrderBy(this.value);">
+					<option value="relevance" selected="selected">${I18n.getMessage("Search.relevance")}</option>
+					<option value="time">${I18n.getMessage("Search.postDate")}</option>
+				</select>
+				<input type="radio" value="ASC" name="sort_dir" id="sort_asc" /> <label for="sort_asc">${I18n.getMessage("Search.ascending")}</label>
+				<input type="radio" checked="checked" value="DESC" name="sort_dir" id="sort_desc" /> <label for="sort_desc">${I18n.getMessage("Search.descending")}</label>
+			</span></td>
+	    </tr>
+	
+	    <tr>
+		    <td class="row1" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByDate")}:&nbsp;</span></td>
+		    <td class="row2" valign="middle" nowrap="nowrap">
+		    <select name="search_date">
+		        <option value="ALL">${I18n.getMessage("Search.anyDate")}</option>
+		        <option value="1">${I18n.getMessage("Search.sinceYesterday")}</option>
+		        <option value="10">${I18n.getMessage("Search.since10days")}</option>
+		        <option value="30">${I18n.getMessage("Search.since30days")}</option>
+		        <option value="90">${I18n.getMessage("Search.since3Months")}</option>
+		        <option value="180">${I18n.getMessage("Search.since6Months")}</option>
+		        <option value="365">${I18n.getMessage("Search.since12Months")}</option>
+		        <option value="730">${I18n.getMessage("Search.since24Months")}</option>
+		    </select>
+		    </td>
+	    </tr>
+	    <tr>
+	        <td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByUserId")}:</span><br /></td>
+	        <td class="row2" valign="top">
+	        <span class="genmed"> <input type="text" class="post" style="WIDTH: 100px" size="15" name="user_id" />
+	        <#if (session.userId > 0)>
+	        &nbsp;&nbsp;(<a href="" onClick="document.formSearch.user_id.value='${session.userId}'; return false;"><font size="1">${I18n.getMessage("Search.myOwnPosts")}</font></a>)
+	        </#if>
+	        </span>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByUsername")}:</span><br /></td>
+	        <td class="row2" valign="top">
+	        <span class="genmed">
+				<input type="text" class="post" style="WIDTH: 150px" size="35" name="username" />
+	        </span>
+	        </td>
+	    </tr>
 		<tr>
 			<td class="catbottom" align="center" colspan="4"><input class="liteoption" type="submit" value="${I18n.getMessage("Search.search")}" /></td>
 		</tr>

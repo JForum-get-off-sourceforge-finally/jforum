@@ -1196,8 +1196,8 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
     * Returns all topics that are watched by a given user.
     * @param userId The user id
     */
-    public List selectWatchesByUser(int userID) {
-        List l = new ArrayList();
+    public List<Map<String, Object>> selectWatchesByUser(int userID) {
+        List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
         PreparedStatement p = null;
         ResultSet rs = null;
         try {
@@ -1206,7 +1206,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
             p.setInt(1, userID);
             rs = p.executeQuery();
             while (rs.next()) {
-                Map m = new HashMap();
+            	Map<String, Object> m = new HashMap<String, Object>();
                 m.put("id", new Integer(rs.getInt("topic_id")));
                 m.put("title", SafeHtml.escapeUnsafe(rs.getString("topic_title")));
                 m.put("forumName", rs.getString("forum_name"));
