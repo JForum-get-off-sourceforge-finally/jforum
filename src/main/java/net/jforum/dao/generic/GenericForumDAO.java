@@ -973,7 +973,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return forumId;
 	}
 

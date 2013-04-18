@@ -962,17 +962,10 @@ public class PostAction extends Command
 		int forumId = this.request.getIntParameter("forum_id");
 		boolean firstPost = false;
 
-		if (!this.anonymousPost(forumId)) {
-			return;
-		}
-
-		Topic topic = new Topic(-1);
-		topic.setForumId(forumId);
-
 		boolean newTopic = (this.request.getParameter("topic_id") == null);
 
-		if (!TopicsCommon.isTopicAccessible(topic.getForumId())
-				|| this.isForumReadonly(topic.getForumId(), newTopic)) {
+		if (!this.anonymousPost(forumId) || !TopicsCommon.isTopicAccessible(forumId)
+				|| this.isForumReadonly(forumId, newTopic)) {
 			return;
 		}
 
@@ -980,12 +973,12 @@ public class PostAction extends Command
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		PollDAO pollDao = DataAccessDriver.getInstance().newPollDAO();
 		ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
-
+		
+		Topic topic = new Topic(-1);
 		if (!newTopic) {
 			int topicId = this.request.getIntParameter("topic_id");
 
 			topic = TopicRepository.getTopic(new Topic(topicId));
-
 			if (topic == null) {
 				topic = topicDao.selectById(topicId);
 			}
@@ -1052,6 +1045,7 @@ public class PostAction extends Command
 			}
 		}
 
+		topic.setForumId(forumId);
 		post.setForumId(forumId);
 
 		if (StringUtils.isBlank(post.getSubject())) {
