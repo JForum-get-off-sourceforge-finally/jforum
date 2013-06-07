@@ -307,6 +307,9 @@ public class LuceneSearch implements NewDocumentAdded
 						criteria.append(" AND ");
 					}
 					criteria.append("+(");
+			// for Porter stemming it's problematic to analyze (and potentially alter) the keywords twice
+			if (settings.analyzer() instanceof PorterStandardAnalyzer)
+				keywords = args.rawKeywords().split("\\s");
 
 					for (int i = 0; i < keywords.length; i++) {
 						if (args.isMatchAll()) {
