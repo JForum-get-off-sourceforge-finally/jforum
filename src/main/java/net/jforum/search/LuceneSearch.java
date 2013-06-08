@@ -312,6 +312,9 @@ public class LuceneSearch implements NewDocumentAdded
 				keywords = args.rawKeywords().split("\\s");
 
 					for (int i = 0; i < keywords.length; i++) {
+						if (keywords[i].trim().length() == 0)
+							continue;
+
 						if (args.isMatchAll()) {
 							criteria.append("+");
 						}
