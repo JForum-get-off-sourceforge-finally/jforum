@@ -77,13 +77,15 @@ CREATE TABLE jforum_groups (
   PRIMARY KEY (group_id)
 ) ENGINE=InnoDB;
 
-
+--
+-- Table structure for table 'jforum_user_groups'
+--
 DROP TABLE IF EXISTS jforum_user_groups;
 CREATE TABLE jforum_user_groups (
-	group_id INT NOT NULL,
-	user_id INT NOT NULL,
-	INDEX idx_group (group_id),
-	INDEX idx_user (user_id)
+  group_id INT NOT NULL,
+  user_id INT NOT NULL,
+  INDEX idx_group (group_id),
+  INDEX idx_user (user_id)
 ) ENGINE=InnoDB;
 
 --
@@ -141,9 +143,9 @@ CREATE TABLE jforum_posts (
 --
 DROP TABLE IF EXISTS jforum_posts_text;
 CREATE TABLE jforum_posts_text (
-	post_id INT NOT NULL PRIMARY KEY,
-	post_text TEXT,
-	post_subject VARCHAR(100)
+  post_id INT NOT NULL PRIMARY KEY,
+  post_text TEXT,
+  post_subject VARCHAR(100)
 ) ENGINE=InnoDB;
 
 --
@@ -165,11 +167,14 @@ CREATE TABLE jforum_privmsgs (
   PRIMARY KEY (privmsgs_id)
 ) ENGINE=InnoDB;
 
+--
+-- Table structure for table 'jforum_privmsgs_text'
+--
 DROP TABLE IF EXISTS jforum_privmsgs_text;
 CREATE TABLE jforum_privmsgs_text (
-	privmsgs_id INT NOT NULL,
-	privmsgs_text TEXT,
-	PRIMARY KEY (privmsgs_id)
+  privmsgs_id INT NOT NULL,
+  privmsgs_text TEXT,
+  PRIMARY KEY (privmsgs_id)
 ) ENGINE=InnoDB;
 
 --
@@ -193,7 +198,7 @@ CREATE TABLE jforum_sessions (
   session_id VARCHAR(150) NOT NULL DEFAULT '',
   session_user_id INT NOT NULL DEFAULT 0,
   session_start DATETIME DEFAULT NULL,
-  session_time bigint DEFAULT 0,
+  session_time BIGINT DEFAULT 0,
   session_ip VARCHAR(15) NOT NULL DEFAULT '',
   session_page INT(11) NOT NULL DEFAULT 0,
   session_logged_int TINYINT(1) DEFAULT NULL,
@@ -271,7 +276,7 @@ CREATE TABLE jforum_users (
   user_active TINYINT(1) DEFAULT NULL,
   username VARCHAR(50) NOT NULL DEFAULT '',
   user_password VARCHAR(32) NOT NULL DEFAULT '',
-  user_session_time bigint default 0,
+  user_session_time BIGINT DEFAULT 0,
   user_session_page INT NOT NULL DEFAULT 0,
   user_lastvisit DATETIME DEFAULT NULL,
   user_regdate DATETIME DEFAULT NULL,
@@ -280,7 +285,7 @@ CREATE TABLE jforum_users (
   user_timezone VARCHAR(5) NOT NULL DEFAULT '',
   user_style TINYINT(4) DEFAULT NULL,
   user_lang VARCHAR(255) NOT NULL DEFAULT '',
-  user_dateformat VARCHAR(20) NOT NULL default '%d/%M/%Y %H:%i',
+  user_dateformat VARCHAR(20) NOT NULL DEFAULT '%d/%M/%Y %H:%i',
   user_new_privmsg INT NOT NULL DEFAULT 0,
   user_unread_privmsg INT NOT NULL DEFAULT 0,
   user_last_privmsg DATETIME NULL,
@@ -298,7 +303,7 @@ CREATE TABLE jforum_users (
   user_notify_text TINYINT(1) DEFAULT 0,
   user_notify_pm TINYINT(1) DEFAULT 1,
   user_popup_pm TINYINT(1) DEFAULT 1,
-  rank_id INT default 0,
+  rank_id INT DEFAULT 0,
   user_avatar VARCHAR(100) DEFAULT NULL,
   user_avatar_type TINYINT(4) NOT NULL DEFAULT 0,
   user_email VARCHAR(255) NOT NULL DEFAULT '',
@@ -314,7 +319,7 @@ CREATE TABLE jforum_users (
   user_interests VARCHAR(255) DEFAULT NULL,
   user_biography TEXT DEFAULT NULL,
   user_actkey VARCHAR(32) DEFAULT NULL,
-  gender char(1) DEFAULT NULL,
+  gender CHAR(1) DEFAULT NULL,
   themes_id INT DEFAULT NULL,
   deleted TINYINT(1) DEFAULT NULL,
   user_viewonline TINYINT(1) DEFAULT 1,
@@ -379,17 +384,17 @@ CREATE TABLE jforum_words (
 --
 DROP TABLE IF EXISTS jforum_karma;
 CREATE TABLE jforum_karma (
-	karma_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	post_id INT NOT NULL,
-	topic_id INT NOT NULL,
-	post_user_id INT NOT NULL,
-	from_user_id INT NOT NULL,
-	points INT NOT NULL,
-	rate_date DATETIME NULL,
-	KEY (post_id),
-	KEY (topic_id),
-	KEY (post_user_id),
-	KEY (from_user_id)
+  karma_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  post_id INT NOT NULL,
+  topic_id INT NOT NULL,
+  post_user_id INT NOT NULL,
+  from_user_id INT NOT NULL,
+  points INT NOT NULL,
+  rate_date DATETIME NULL,
+  KEY (post_id),
+  KEY (topic_id),
+  KEY (post_user_id),
+  KEY (from_user_id)
 ) ENGINE=InnoDB;
 
 --
@@ -397,25 +402,25 @@ CREATE TABLE jforum_karma (
 --
 DROP TABLE IF EXISTS jforum_bookmarks;
 CREATE TABLE jforum_bookmarks (
-	bookmark_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user_id INT NOT NULL,
-	relation_id INT NOT NULL,
-	relation_type INT NOT NULL,
-	public_visible INT DEFAULT 1,
-	title VARCHAR(255),
-	description VARCHAR(255),
-	INDEX book_idx_relation (relation_id),
-	KEY (user_id)
+  bookmark_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  relation_id INT NOT NULL,
+  relation_type INT NOT NULL,
+  public_visible INT DEFAULT 1,
+  title VARCHAR(255),
+  description VARCHAR(255),
+  INDEX book_idx_relation (relation_id),
+  KEY (user_id)
 ) ENGINE=InnoDB;
 -- 
 -- Table structure for table 'jforum_quota_limit'
 --
 DROP TABLE IF EXISTS jforum_quota_limit;
 CREATE TABLE jforum_quota_limit (
-	quota_limit_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	quota_desc VARCHAR(50) NOT NULL,
-	quota_limit INT NOT NULL,
-	quota_type TINYINT(1) DEFAULT 1
+  quota_limit_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  quota_desc VARCHAR(50) NOT NULL,
+  quota_limit INT NOT NULL,
+  quota_type TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB;
 
 --
@@ -423,11 +428,11 @@ CREATE TABLE jforum_quota_limit (
 --
 DROP TABLE IF EXISTS jforum_extension_groups;
 CREATE TABLE jforum_extension_groups (
-	extension_group_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(100) NOT NULL,
-	allow TINYINT(1) DEFAULT 1, 
-	upload_icon VARCHAR(100),
-	download_mode TINYINT(1) DEFAULT 1
+  extension_group_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  allow TINYINT(1) DEFAULT 1,
+  upload_icon VARCHAR(100),
+  download_mode TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB;
 
 -- 
@@ -435,14 +440,14 @@ CREATE TABLE jforum_extension_groups (
 --
 DROP TABLE IF EXISTS jforum_extensions;
 CREATE TABLE jforum_extensions (
-	extension_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	extension_group_id INT NOT NULL,
-	description VARCHAR(100),
-	upload_icon VARCHAR(100),
-	extension VARCHAR(10),
-	allow TINYINT(1) DEFAULT 1,
-	KEY (extension_group_id),
-	INDEX (extension)
+  extension_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  extension_group_id INT NOT NULL,
+  description VARCHAR(100),
+  upload_icon VARCHAR(100),
+  extension VARCHAR(10),
+  allow TINYINT(1) DEFAULT 1,
+  KEY (extension_group_id),
+  INDEX (extension)
 ) ENGINE=InnoDB;
 
 --
@@ -450,13 +455,13 @@ CREATE TABLE jforum_extensions (
 --
 DROP TABLE IF EXISTS jforum_attach;
 CREATE TABLE jforum_attach (
-	attach_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	post_id INT,
-	privmsgs_id INT,
-	user_id INT NOT NULL,
-	INDEX idx_att_post (post_id),
-	INDEX idx_att_priv (privmsgs_id),
-	INDEX idx_att_user (user_id)
+  attach_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  post_id INT,
+  privmsgs_id INT,
+  user_id INT NOT NULL,
+  INDEX idx_att_post (post_id),
+  INDEX idx_att_priv (privmsgs_id),
+  INDEX idx_att_user (user_id)
 ) ENGINE=InnoDB;
 
 -- 
@@ -464,19 +469,19 @@ CREATE TABLE jforum_attach (
 --
 DROP TABLE IF EXISTS jforum_attach_desc;
 CREATE TABLE jforum_attach_desc (
-	attach_desc_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	attach_id INT NOT NULL,
-	physical_filename VARCHAR(255) NOT NULL,
-	real_filename VARCHAR(255) NOT NULL,
-	download_count INT,
-	description VARCHAR(255),
-	mimetype VARCHAR(85),
-	filesize INT,
-	upload_time DATETIME,
-	thumb TINYINT(1) DEFAULT 0,
-	extension_id INT,
-	INDEX idx_att_d_att (attach_id),
-	INDEX idx_att_d_ext (extension_id)
+  attach_desc_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  attach_id INT NOT NULL,
+  physical_filename VARCHAR(255) NOT NULL,
+  real_filename VARCHAR(255) NOT NULL,
+  download_count INT,
+  description VARCHAR(255),
+  mimetype VARCHAR(85),
+  filesize INT,
+  upload_time DATETIME,
+  thumb TINYINT(1) DEFAULT 0,
+  extension_id INT,
+  INDEX idx_att_d_att (attach_id),
+  INDEX idx_att_d_ext (extension_id)
 ) ENGINE=InnoDB;
 
 --
@@ -484,10 +489,10 @@ CREATE TABLE jforum_attach_desc (
 --
 DROP TABLE IF EXISTS jforum_attach_quota;
 CREATE TABLE jforum_attach_quota (
-	attach_quota_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	group_id INT NOT NULL,
-	quota_limit_id INT NOT NULL,
-	KEY (group_id)
+  attach_quota_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  group_id INT NOT NULL,
+  quota_limit_id INT NOT NULL,
+  KEY (group_id)
 ) ENGINE=InnoDB;
 
 --
@@ -495,20 +500,20 @@ CREATE TABLE jforum_attach_quota (
 --
 DROP TABLE IF EXISTS jforum_banner;
 CREATE TABLE jforum_banner (
-	banner_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	banner_name VARCHAR(90),
-	banner_placement INT NOT NULL DEFAULT 0,
-	banner_description VARCHAR(250),
-	banner_clicks INT NOT NULL DEFAULT 0,
-	banner_views INT NOT NULL DEFAULT 0,
-	banner_url VARCHAR(250),
-	banner_weight TINYINT(1) NOT NULL DEFAULT '50',
-	banner_active TINYINT(1) NOT NULL DEFAULT 0,
-	banner_comment VARCHAR(250),
-	banner_type INT NOT NULL DEFAULT 0,
-	banner_width INT NOT NULL DEFAULT 0,
-	banner_height INT NOT NULL DEFAULT 0,
-	KEY (banner_id)
+  banner_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  banner_name VARCHAR(90),
+  banner_placement INT NOT NULL DEFAULT 0,
+  banner_description VARCHAR(250),
+  banner_clicks INT NOT NULL DEFAULT 0,
+  banner_views INT NOT NULL DEFAULT 0,
+  banner_url VARCHAR(250),
+  banner_weight TINYINT(1) NOT NULL DEFAULT 50,
+  banner_active TINYINT(1) NOT NULL DEFAULT 0,
+  banner_comment VARCHAR(250),
+  banner_type INT NOT NULL DEFAULT 0,
+  banner_width INT NOT NULL DEFAULT 0,
+  banner_height INT NOT NULL DEFAULT 0,
+  KEY (banner_id)
 ) ENGINE=InnoDB;
 
 --
@@ -516,17 +521,17 @@ CREATE TABLE jforum_banner (
 -- 
 DROP TABLE IF EXISTS jforum_moderation_log;
 CREATE TABLE jforum_moderation_log (
-	log_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user_id INT NOT NULL,
-	log_description TEXT NOT NULL,
-	log_original_message TEXT,
-	log_date DATETIME NOT NULL,
-	log_type TINYINT DEFAULT 0,
-	post_id INT DEFAULT 0,
-	topic_id INT DEFAULT 0,
-	post_user_id INT DEFAULT 0,
-	KEY (user_id),
-	KEY (post_user_id)
+  log_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  log_description TEXT NOT NULL,
+  log_original_message TEXT,
+  log_date DATETIME NOT NULL,
+  log_type TINYINT DEFAULT 0,
+  post_id INT DEFAULT 0,
+  topic_id INT DEFAULT 0,
+  post_user_id INT DEFAULT 0,
+  KEY (user_id),
+  KEY (post_user_id)
 ) ENGINE=InnoDB;
 
 --
@@ -534,14 +539,14 @@ CREATE TABLE jforum_moderation_log (
 --
 DROP TABLE IF EXISTS jforum_mail_integration;
 CREATE TABLE jforum_mail_integration (
-	forum_id INT NOT NULL,
-	forum_email VARCHAR(100) NOT NULL,
-	pop_username VARCHAR(100) NOT NULL,
-	pop_password VARCHAR(100) NOT NULL,
-	pop_host VARCHAR(100) NOT NULL,
-	pop_port INT DEFAULT 110,
-	pop_ssl TINYINT DEFAULT 0,
-	KEY (forum_id)
+  forum_id INT NOT NULL,
+  forum_email VARCHAR(100) NOT NULL,
+  pop_username VARCHAR(100) NOT NULL,
+  pop_password VARCHAR(100) NOT NULL,
+  pop_host VARCHAR(100) NOT NULL,
+  pop_port INT DEFAULT 110,
+  pop_ssl TINYINT DEFAULT 0,
+  KEY (forum_id)
 ) ENGINE=InnoDB;
 
 --
@@ -549,18 +554,17 @@ CREATE TABLE jforum_mail_integration (
 --
 DROP TABLE IF EXISTS jforum_api;
 CREATE TABLE jforum_api (
-	api_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	api_key VARCHAR(32) NOT NULL,
-	api_validity DATETIME NOT NULL
+  api_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  api_key VARCHAR(32) NOT NULL,
+  api_validity DATETIME NOT NULL
 ) ENGINE=InnoDB;
 
 --
 -- Table structure for table 'jforum_announcement'
 --
 DROP TABLE IF EXISTS jforum_announcement;
-CREATE TABLE jforum_announcement
-(
-  sequence_number integer NOT NULL,
+CREATE TABLE jforum_announcement (
+  sequence_number INT NOT NULL,
   text VARCHAR(1024) NOT NULL,
   PRIMARY KEY (sequence_number)
 ) ENGINE=InnoDB;

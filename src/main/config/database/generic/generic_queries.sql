@@ -46,8 +46,8 @@ ConfigModel.update = UPDATE jforum_config SET config_value = ? WHERE config_name
 ##############
 
 AnnouncementDAO.select = SELECT text FROM jforum_announcement order by sequence_number;
-AnnouncementDAO.deleteAll = delete FROM jforum_announcement;
-AnnouncementDAO.insert = insert into jforum_announcement (sequence_number, text) values ( ?, ? );
+AnnouncementDAO.deleteAll = DELETE FROM jforum_announcement;
+AnnouncementDAO.insert = INSERT INTO jforum_announcement (sequence_number, text) values ( ?, ? );
 
 # ##########
 # UserModel
@@ -86,12 +86,12 @@ UserModel.addNew = INSERT INTO jforum_users (username, user_password, user_email
 UserModel.findByName = SELECT user_id, username, user_email, deleted FROM jforum_users WHERE LOWER(username) LIKE LOWER(?)
 UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?) LIMIT ?, ?
 UserModel.totalEmailMatches = SELECT COUNT(*) FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
-UserModel.totalByIp = SELECT count(DISTINCT users.user_id) \
-    FROM jforum_users users left join jforum_posts posts on (users.user_id = posts.user_id) \
-    WHERE posts.poster_ip LIKE ?
-UserModel.findByIp = SELECT DISTINCT users.* \
-    FROM jforum_users users left join jforum_posts posts on (users.user_id = posts.user_id) \
-    WHERE posts.poster_ip LIKE ? LIMIT ?, ?
+UserModel.totalByIp = SELECT COUNT(DISTINCT u.user_id) \
+    FROM jforum_users u LEFT JOIN jforum_posts p ON (u.user_id = p.user_id) \
+    WHERE p.poster_ip LIKE ?
+UserModel.findByIp = SELECT DISTINCT u.* \
+    FROM jforum_users u LEFT JOIN jforum_posts p ON (u.user_id = p.user_id) \
+    WHERE p.poster_ip LIKE ? LIMIT ?, ?
 UserModel.selectByName = SELECT * FROM jforum_users WHERE LOWER(username) = LOWER(?)
 UserModel.addNewWithId = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, user_id) VALUES (?, ?, ?, ?, ?, ?)
 
@@ -125,7 +125,7 @@ UserModel.update = UPDATE jforum_users SET user_aim = ?, \
 	user_lastvisit = ?, \
 	user_notify_always = ?, \
 	user_notify_text = ?, \
-    user_twitter = ?, \
+	user_twitter = ?, \
 	rank_id = ? \
 	WHERE user_id = ?
 	
@@ -646,13 +646,13 @@ BookmarkModel.selectUserBookmarks = SELECT b.bookmark_id, b.user_id, b.relation_
 BookmarkModel.selectAllFromUser = SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, b.title, b.description, t.forum_id \
     FROM jforum_bookmarks b, jforum_topics t \
     WHERE b.user_id = ? \
-    and b.relation_type = 2 \
-    and b.relation_id = t.topic_id \
-  union \
+    AND b.relation_type = 2 \
+    AND b.relation_id = t.topic_id \
+  UNION \
     SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, b.title, b.description, -1 \
     FROM jforum_bookmarks b \
     WHERE b.user_id = ?  \
-    and b.relation_type != 2  \
+    AND b.relation_type != 2  \
 	ORDER BY title
 
 BookmarkModel.selectForUpdate = SELECT bookmark_id, relation_id, public_visible, relation_type, title, description, user_id \

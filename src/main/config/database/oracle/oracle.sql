@@ -51,6 +51,18 @@ UserModel.selectAllByGroup = SELECT * FROM ( \
 	AND ug.group_id = ? \
 	ORDER BY username) WHERE LINENUM >= ? AND LINENUM < ?
 
+UserModel.findByEmail = SELECT * FROM ( \
+  SELECT *, ROW_NUMBER() OVER(ORDER BY u.user_id) - 1 LINENUM \
+  FROM jforum_users \
+  WHERE LOWER(user_email) = LOWER(?) \
+  ORDER BY user_id) WHERE LINENUM >= ? AND LINENUM < ?
+ 
+UserModel.findByIp = SELECT * FROM ( \
+  SELECT DISTINCT u.*, ROW_NUMBER() OVER(ORDER BY u.user_id) - 1 LINENUM \
+  FROM jforum_users u LEFT JOIN jforum_posts p ON (u.user_id = p.user_id) \
+  WHERE p.poster_ip LIKE ? \
+  ORDER BY user_id)	WHERE LINENUM >= ? AND LINENUM < ?
+  
 # #############
 # PostModel
 # #############

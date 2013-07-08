@@ -14,7 +14,13 @@ UserModel.selectAllByGroup = SELECT LIMIT ? ? user_email, u.user_id, user_posts,
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ? \
 	ORDER BY username
-	
+
+UserModel.findByEmail = SELECT LIMIT ?, ? * FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
+
+UserModel.findByIp = SELECT LIMIT ?, ? DISTINCT users.* \
+    FROM jforum_users users LEFT JOIN jforum_posts posts ON (users.user_id = posts.user_id) \
+    WHERE posts.poster_ip LIKE ?
+    	
 UserModel.selectById = SELECT u.*, \
 	(SELECT COUNT(1) FROM jforum_privmsgs pm \
 	WHERE pm.privmsgs_to_userid = u.user_id \

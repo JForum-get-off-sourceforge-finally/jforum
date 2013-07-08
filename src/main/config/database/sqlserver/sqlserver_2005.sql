@@ -34,7 +34,19 @@ UserModel.selectAllByGroup = SELECT * \
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ? ) AS tmp \
 	WHERE rownumber >= ? and rownumber < ?
-		
+
+UserModel.findByEmail = SELECT * \
+	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY user_id ASC) - 1 AS rownumber, \
+  * FROM jforum_users WHERE LOWER(user_email) = LOWER(?) ) AS tmp \
+	WHERE rownumber >= ? and rownumber < ?
+ 
+UserModel.findByIp = SELECT * \
+	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY user_id ASC) - 1 AS rownumber, \
+  DISTINCT u.* \
+  FROM jforum_users u LEFT JOIN jforum_posts p ON (u.user_id = p.user_id) \
+  WHERE p.poster_ip LIKE ?  ) AS tmp \
+	WHERE rownumber >= ? and rownumber < ?
+  		
 # #############
 # PostModel
 # #############

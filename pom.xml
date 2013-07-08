@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
-			<version>2.0.4</version>
+			<version>2.0.5</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>maven-findbugs-plugin</artifactId>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.24</version>
+			<version>5.1.25</version>
 		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>

@@ -1110,7 +1110,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	 */
 	public User findByEmail(String email) {
 	    List<User> users = findAllUsersByEmail(email, 0, 1);
-		if ( users.isEmpty()) {
+		if (users.isEmpty()) {
 			return null;
 		}
 		return users.iterator().next();
@@ -1132,7 +1132,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
             rs = p.executeQuery();
 
             while (rs.next()) {
-                totalUsers = rs.getInt("count");
+                totalUsers = rs.getInt(1);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -1191,7 +1191,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
             rs = p.executeQuery();
 
             while (rs.next()) {
-                totalUsers = rs.getInt("count");
+                totalUsers = rs.getInt(1);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e);
