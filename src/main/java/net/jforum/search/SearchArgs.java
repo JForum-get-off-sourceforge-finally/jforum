@@ -85,7 +85,9 @@ public class SearchArgs
 	 */
 	public void setMatchType(String matchType)
 	{
-		if ("any".equals(matchType.toLowerCase())) {
+		if (matchType == null) {
+			this.matchType = MatchType.ALL_KEYWORDS;
+		} else if ("any".equals(matchType.toLowerCase())) {
 			this.matchType = MatchType.ANY_KEYWORDS;
 		} else if ("raw".equals(matchType.toLowerCase())) {
 			this.matchType = MatchType.RAW_KEYWORDS;
