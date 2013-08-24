@@ -88,7 +88,8 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JEE_KEY+":1.4", "http://download.oracle.com/javaee/1.4/api/");
         versionedUrls.put(JEE_KEY+":5", "http://download.oracle.com/javaee/5/api/");
         versionedUrls.put(JEE_KEY+":6", "http://download.oracle.com/javaee/6/api/");
-        versionedUrls.put(JEE_KEY+":"+OTHER, "http://download.oracle.com/javaee/6/api/");
+        versionedUrls.put(JEE_KEY+":7", "http://download.oracle.com/javaee/7/api/");
+        versionedUrls.put(JEE_KEY+":"+OTHER, "http://download.oracle.com/javaee/7/api/");
 
 		// Tomcat
 		versionedUrls.put(JASPER_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
@@ -114,7 +115,8 @@ public class JavaDocLink implements Substitution {
     private static String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
     private static String JAVAFX_URL = "http://docs.oracle.com/javafx/2/api/";
     private static String COMMONDOM_URL = "http://docs.oracle.com/javase/6/docs/jre/api/plugin/dom/";
-    private static String JERSEY_URL = "http://jersey.java.net/nonav/apidocs/latest/jersey/";
+    private static String JERSEY1_URL = "https://jersey.java.net/apidocs/1.17/jersey/";
+    private static String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
     private static String COM_SUN_MAIL_URL = "http://javamail.kenai.com/nonav/javadocs/";
     private static String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
     private static String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
@@ -133,10 +135,9 @@ public class JavaDocLink implements Substitution {
     private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
     private static String STRUTS1_URL = "http://struts.apache.org/1.x/apidocs/";
     private static String STRUTS2_URL = "http://struts.apache.org/2.x/struts2-core/apidocs/";
-    private static String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.0.x/";
+    private static String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
     private static String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.4.0/reference/";
-    private static String TAPESTRY4_URL = "http://tapestry.apache.org/tapestry4/apidocs/";
-    private static String TAPESTRY5_URL = "http://tapestry.apache.org/tapestry5/apidocs/";
+    private static String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
     private static String WSS4J_URL = "http://ws.apache.org/wss4j/apidocs/";
     private static String SHIRO_URL = "http://shiro.apache.org/static/current/apidocs/";
 
@@ -211,8 +212,10 @@ public class JavaDocLink implements Substitution {
         {"javax.faces", J2EE_URL},
         {"javax.inject", J2EE_URL}, // 6
         {"javax.jms", J2EE_URL},
+        {"javax.json", J2EE_URL}, // 7
         {"javax.mail", J2EE_URL},
         {"com.sun.mail", COM_SUN_MAIL_URL},
+        {"javax.management.j2ee", J2EE_URL}, // 7
         {"javax.persistence", J2EE_URL},
         {"javax.resource", J2EE_URL},
         {"javax.security.auth.message", J2EE_URL}, // 6
@@ -221,14 +224,10 @@ public class JavaDocLink implements Substitution {
         {"javax.transaction", J2EE_URL},
         {"javax.validation", J2EE_URL}, // 6
         {"javax.webbeans", J2EE_URL}, // 6
+        {"javax.websocket", J2EE_URL}, // 7
         {"javax.ws.rs", J2EE_URL}, // 6
-        {"javax.xml.bind", J2EE_URL},
-        {"javax.xml.crypto", XML_CRYPTO_URL},
         {"javax.xml.registry", J2EE_URL},
         {"javax.xml.rpc", J2EE_URL},
-        {"javax.xml.soap", J2EE_URL},
-        {"javax.xml.stream", J2EE_URL},
-        {"javax.xml.ws", J2EE_URL},
         {"javax.comm", JAVAXCOMM_URL},
         {"javax.jnlp", JAVAXJNLP_URL},
 
@@ -295,7 +294,10 @@ public class JavaDocLink implements Substitution {
         {"javax.media.nativewindow", JOGL_URL},
         {"javax.media.opengl", JOGL_URL},
         {"javax.media", JMF_URL}, // after all the other javax.media subpackages in JAI, Java3D and JOGL
-        {"com.sun.jersey", JERSEY_URL},
+        {"com.sun.jersey", JERSEY1_URL},
+        {"com.sun.ws.rs.ext", JERSEY1_URL},
+        {"org.glassfish.jersey", JERSEY2_URL},
+        {"com.sun.research.ws.wadl", JERSEY2_URL},
 
         {"org.apache.lucene", LUCENE_URL},
         {"org.apache.poi", POI_URL},
@@ -308,9 +310,7 @@ public class JavaDocLink implements Substitution {
         {"org.apache.wicket", WICKET_URL},
         {"org.apache.xmlbeans", XMLBEANS_URL},
         {"org.apache.shiro", SHIRO_URL},
-        {"org.apache.tapestry.mojo", TAPESTRY5_URL},
         {"org.apache.tapestry5", TAPESTRY5_URL},
-        {"org.apache.tapestry", TAPESTRY4_URL}, // after the subpackage in Tapestry 5
         {"org.apache.ws.axis.security", WSS4J_URL},
         {"org.apache.ws.security", WSS4J_URL},
         {"org.apache.xml.security", XML_CRYPTO_URL},
