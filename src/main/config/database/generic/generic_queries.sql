@@ -41,14 +41,6 @@ ConfigModel.selectAll = SELECT config_name, config_value, config_id FROM jforum_
 ConfigModel.delete = DELETE FROM jforum_config WHERE config_id = ?
 ConfigModel.update = UPDATE jforum_config SET config_value = ? WHERE config_name = ?
 
-##############
-# AnnouncementDAO
-##############
-
-AnnouncementDAO.select = SELECT text FROM jforum_announcement order by sequence_number;
-AnnouncementDAO.deleteAll = DELETE FROM jforum_announcement;
-AnnouncementDAO.insert = INSERT INTO jforum_announcement (sequence_number, text) values ( ?, ? );
-
 # ##########
 # UserModel
 # ##########
