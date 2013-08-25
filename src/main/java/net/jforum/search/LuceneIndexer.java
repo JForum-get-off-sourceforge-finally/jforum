@@ -242,7 +242,7 @@ public class LuceneIndexer
 				doc.add(new Field(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO, Field.Index.ANALYZED));
 
 				File f = new File(attachDir + File.separatorChar + info.getPhysicalFilename());
-				LOGGER.info("indexing "+f.getName());
+				LOGGER.debug("indexing "+f.getName());
 				InputStream is = null;
 				try {
 					Metadata metadata = new Metadata();
