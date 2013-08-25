@@ -43,11 +43,16 @@
  */
 package net.jforum.search;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import net.jforum.dao.AttachmentDAO;
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.entities.Attachment;
+import net.jforum.entities.AttachmentInfo;
 import net.jforum.entities.Post;
 import net.jforum.exceptions.SearchException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -64,6 +69,15 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.sax.BodyContentHandler;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+
+import org.xml.sax.ContentHandler;
+
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -78,10 +92,15 @@ public class LuceneIndexer
 	private int ramNumDocs;
 	private List<NewDocumentAdded> newDocumentAddedList = new ArrayList<NewDocumentAdded>();
 
+	private boolean indexAttachments = SystemGlobals.getBoolValue(ConfigKeys.LUCENE_INDEX_ATTACHMENTS);
+	private AttachmentDAO attachDAO;
+	private String attachDir = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR);
+
 	public LuceneIndexer(final LuceneSettings settings)
 	{
 		this.settings = settings;
 		this.createRAMWriter();
+		this.attachDAO = DataAccessDriver.getInstance().newAttachmentDAO();
 	}
 
 	public void watchNewDocuDocumentAdded(NewDocumentAdded newDoc)
@@ -215,6 +234,52 @@ public class LuceneIndexer
 
 		doc.add(new Field(SearchFields.Indexed.SUBJECT, post.getSubject(), Store.NO, Index.ANALYZED));
 		doc.add(new Field(SearchFields.Indexed.CONTENTS, post.getText(), Store.NO, Index.ANALYZED));
+
+		if (indexAttachments && post.hasAttachments()) {
+			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
+				AttachmentInfo info = att.getInfo();
+				String realFilename = info.getRealFilename();
+				doc.add(new Field(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO, Field.Index.ANALYZED));
+
+				File f = new File(attachDir + File.separatorChar + info.getPhysicalFilename());
+				LOGGER.info("indexing "+f.getName());
+				InputStream is = null;
+				try {
+					Metadata metadata = new Metadata();
+					metadata.set(Metadata.RESOURCE_NAME_KEY, f.getName());
+					is = new FileInputStream(f);
+					Parser parser = new AutoDetectParser();
+					ContentHandler handler = new BodyContentHandler(-1);
+					//-1 disables the character size limit; otherwise only the first 100.000 characters are indexed
+					ParseContext context = new ParseContext();
+					context.set(Parser.class, parser);
+
+					Set textualMetadataFields = new HashSet();
+					textualMetadataFields.add(TikaCoreProperties.TITLE);
+					textualMetadataFields.add(TikaCoreProperties.COMMENTS);
+					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);
+					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION);
+					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);
+
+					parser.parse(is, handler, metadata, context);
+
+					doc.add(new Field(SearchFields.Indexed.CONTENTS, handler.toString(), Field.Store.NO, Field.Index.ANALYZED));
+
+					String[] names = metadata.names();
+					for (int j=0; j<names.length; j++) {
+						String value = metadata.get(names[j]);
+
+						if (textualMetadataFields.contains(names[j])) {
+							doc.add(new Field(SearchFields.Indexed.CONTENTS, value, Field.Store.NO, Field.Index.ANALYZED));
+						}
+					}
+				} catch (Exception ex) {
+					LOGGER.info("error indexing "+f.getName()+": " + ex.getMessage());
+				} finally {
+					try { is.close(); } catch (Exception e) { /* ignore */ }
+				}
+			}
+		}
 
 		return doc;
 	}

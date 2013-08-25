@@ -98,6 +98,7 @@ public class PostCommon
 		SafeHtml safeHtml = new SafeHtml();
 
 		post.setText(safeHtml.makeSafe(text));
+		post.setSubject(safeHtml.makeSafe(post.getSubject()));
 		processText(post);
 		post.setText(safeHtml.ensureAllAttributesAreSafe(post.getText()));
 		return post;

@@ -231,7 +231,8 @@ public class GenericLuceneDAO implements LuceneDAO
 		post.setText(this.readPostTextFromResultSet(rs));
 		post.setBbCodeEnabled(rs.getInt("enable_bbcode") == 1);
 		post.setSmiliesEnabled(rs.getInt("enable_smilies") == 1);
-		
+		post.hasAttachments(rs.getInt("attach") == 1);
+
 		String subject = rs.getString("post_subject");
 		
 		if (StringUtils.isBlank(subject)) {
