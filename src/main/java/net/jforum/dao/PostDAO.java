@@ -87,7 +87,14 @@ public interface PostDAO
 	 * @return The new ID
 	 */
 	int addNew(Post post) ;
-	
+		
+	/**
+	 * Adds the post, and optionally its attachments, to the Lucene index.
+	 * 
+	 * @param post Post Reference to a valid and configured <code>Post</code> object
+	 */
+	void index (Post post) ;
+
 	/**
 	 * Selects all messages related to a specific topic. 
 	 * 

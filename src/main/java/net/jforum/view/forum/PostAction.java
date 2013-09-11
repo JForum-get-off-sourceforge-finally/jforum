@@ -1157,6 +1157,8 @@ public class PostAction extends Command
 			post.hasAttachments(attachments.getAttachments(post.getId(), forumId).size() > 0);
 			topic.setHasAttach(topic.hasAttach()||post.hasAttachments());
 
+			postDao.index(post);
+
 			if (!moderate) {
 				StringBuilder path = new StringBuilder(512);
 				path.append(this.request.getContextPath()).append("/posts/list/");

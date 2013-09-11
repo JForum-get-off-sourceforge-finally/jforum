@@ -294,14 +294,16 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			this.addNewPost(post);
 			this.addNewPostText(post);
 
-			// Search
-			SearchFacade.create(post);
-			
 			return post.getId();
 		}
 		catch (Exception e) {
 			throw new DatabaseException(e);
 		}
+	}
+
+	public void index (Post post)
+	{
+		SearchFacade.create(post);
 	}
 
 	protected void addNewPostText(Post post) throws Exception
