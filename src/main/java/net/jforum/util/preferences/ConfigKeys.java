@@ -110,6 +110,8 @@ public final class ConfigKeys
 
 	public static final String GA_ID = "google.analytics.tracker";
 
+	public static final String USER_POSTS_TOGGLE = "user.posts.toggle";
+
 	public static final String TEMPLATES_MAPPING = "templates.mapping";
 	public static final String TEMPLATE_DIR = "template.dir";
 	public static final String ENCODING = "encoding";
@@ -152,6 +154,7 @@ public final class ConfigKeys
 	public static final String DATE_TIME_FORMAT = "dateTime.format";
 	public static final String RSS_DATE_TIME_FORMAT = "rss.datetime.format";
 	public static final String RSS_ENABLED = "rss.enabled";
+	public static final String SOCIAL_SHARING_ENABLED = "social.enabled";
 	public static final String HOT_TOPIC_BEGIN = "hot.topic.begin";
 
 	public static final String TOPICS_PER_PAGE = "topicsPerPage";

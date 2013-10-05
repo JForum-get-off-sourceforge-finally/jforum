@@ -5,11 +5,17 @@
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post_show.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
-<#include "js/karma.js">
-<#include "js/utils.js">
+	<#include "js/karma.js">
+	<#include "js/utils.js">
 /* ]]> */
+
+	function showDetails(item)
+	{
+		$('#'+item).toggle();
+	}
 </script>
 
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
@@ -59,16 +65,18 @@
 					<#else>
 						<#assign rowColor = "row2">
 					</#if>
-	
 					<#assign topic = topics.get(post.topicId) />
 					<#assign forum = forums.get(post.forumId) />
-					
 					<tr>
 						<td class="postInfo" colspan="2">
 							<table width="100%">
 								<tr>
 									<td>
 										<span class="gen">
+											<#if toggleMessageBody>
+											<span id="a_${post.topicId}_${post.id}">
+												[<a href="javascript:showDetails('${post.topicId}_${post.id}')" >${I18n.getMessage("PostShow.showMessage")}</a>]</span>
+											</#if>
 											<a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a> 
 											&raquo; <a href="${JForumContext.encodeURL("/posts/list/${post.topicId}")}">${topic.title?default("Empty")?html}</a>
 											&raquo; <a href="${JForumContext.encodeURL("/posts/preList/${post.topicId}/${post.id}")}">${I18n.getMessage("PostShow.goToMessage")}</a>
@@ -81,19 +89,14 @@
 							</table>
 						</td>
 					</tr>
-
 					<tr>
 						<!-- Message -->
 						<td class="${rowColor}" valign="top" colspan="2">
-							<div class="postbody">${post.text}</div>
-
-							<!-- Attachments -->
-							<#if post.hasAttachments() && (canDownloadAttachments || attachmentsEnabled)>
-								<#assign attachments = am.getAttachments(post.id, post.forumId)/>
-							</#if>
+							<div id="${post.topicId}_${post.id}" <#if toggleMessageBody>style="display:none;"</#if>>
+								<div class="postbody">${post.text}</div>
+							</div>
 						</td>
 					</tr>
-		
 					<tr>
 						<td class="spacerow" colspan="2"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" /></td>
 					</tr>
