@@ -250,23 +250,28 @@ public class JForum extends JForumBaseServlet
 
 		if (JForumExecutionContext.getRedirectTo() == null) {
 			String contentType = JForumExecutionContext.getContentType();
-			
+
 			if (contentType == null) {
 				contentType = "text/html; charset=" + encoding;
 			}
-			
+
 			response.setContentType(contentType);
-			
+
+			// X-Frame-Options header
+			String xFrameOptions = SystemGlobals.getValue(ConfigKeys.HTTP_XFRAMEOPTIONS);
+			if (xFrameOptions != null && (xFrameOptions.trim().length() > 0)) {
+				response.setHeader("X-Frame-Options", xFrameOptions.trim());
+			}
+
 			// Binary content are expected to be fully 
-			// handled in the action, including outputstream
-			// manipulation
+			// handled in the action, including outputstream manipulation
 			if (!JForumExecutionContext.isCustomContent()) {
 				outWriter = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
 				template.process(JForumExecutionContext.getTemplateContext(), outWriter);
 				outWriter.flush();
 			}
 		}
-		
+
 		return outWriter;
 	}
 

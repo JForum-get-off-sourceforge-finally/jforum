@@ -304,6 +304,7 @@ public final class ConfigKeys
 	
 	public static final String API_SECURITY_KEY = "api.security.key";
 	public static final String BANLIST_SEND_403FORBIDDEN = "banlist.send.403forbidden";
+	public static final String HTTP_XFRAMEOPTIONS = "http.x-frame-options";
 	
 	public static final String LOGIN_IGNORE_XFORWARDEDHOST = "login.ignore.xforwardedhost";
 	public static final String LOGIN_IGNORE_REFERER = "login.ignore.referer";
