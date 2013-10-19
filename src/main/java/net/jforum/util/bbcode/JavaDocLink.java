@@ -185,7 +185,8 @@ public class JavaDocLink implements Substitution {
     private static String HTTPUNIT_URL = "http://httpunit.sourceforge.net/doc/api/";
     private static String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
     private static String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
-    private static String JDOM_URL = "http://www.jdom.org/docs/apidocs/";
+    private static String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
+    private static String JDOM1_URL = "http://www.jdom.org/docs/apidocs.1.1/";
     private static String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
     private static String SEAM_URL = "http://docs.jboss.org/seam/3/3.1.0.Final/api/";
     private static String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
@@ -367,7 +368,8 @@ public class JavaDocLink implements Substitution {
         {"dalvik", ANDROID_URL},
         {"com.meterware", HTTPUNIT_URL},
         {"com.gargoylesoftware.htmlunit", HTMLUNIT_URL},
-        {"org.jdom", JDOM_URL},
+        {"org.jdom2", JDOM2_URL},
+        {"org.jdom", JDOM1_URL},
         {"org.dom4j", DOM4J_URL},
         {"jxl", JEXCEL_URL},
         {"net.sf.mpxj", MPXJ_URL},
