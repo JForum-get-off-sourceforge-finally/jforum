@@ -167,7 +167,6 @@ public final class I18n
      *        values served as blueprint for the not existing localeName) which is detected by the FileMonitor of I18N_DEFAULT_ADMIN, only 
      *        triggers the reload of the I18N_DEFAULT_ADMIN itself and not the actual localeName which is derived 
      *        by the I18N_DEFAULT_ADMIN. The same applies to any given mergeWith-locale which can also be changed
-     *        and monitored and reloaded.
      * @param mergeWith
      *        if not null and not empty this locale is first loaded as Properties and used
      *        as default when later loading the given locale
