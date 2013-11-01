@@ -52,10 +52,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import net.jforum.util.LoggerHelper;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  * @author Andowson Chang
@@ -64,53 +64,53 @@ import org.apache.log4j.xml.DOMConfigurator;
  */
 public class ContextListener implements ServletContextListener {
 
-	private static final Logger LOGGER = Logger.getLogger(ContextListener.class);
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
-	 */
-	public void contextInitialized(ServletContextEvent sce) {
-		final ServletContext application = sce.getServletContext();
-		final String appPath = application.getRealPath("");		
-		DOMConfigurator.configure(appPath + "/WEB-INF/log4j.xml");		
-		final String containerInfo = application.getServerInfo();		
-		LOGGER.info("Servlet Container is " + containerInfo);
-		ConfigLoader.startSystemglobals(appPath);			
-		final String[] info = getAppServerNameAndVersion(containerInfo);
-		SystemGlobals.setValue("container.app", info[0]);
-		SystemGlobals.setValue("container.version", info[1]);
-		SystemGlobals.setValue("server.info", containerInfo);
-		SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
-		LOGGER.info(application.getContextPath() + " initialized");
-	}
+    private static final Logger LOGGER = Logger.getLogger(ContextListener.class);
+    /* (non-Javadoc)
+     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+     */
+    public void contextInitialized(ServletContextEvent sce) {
+        final ServletContext application = sce.getServletContext();
+        final String appPath = application.getRealPath("");		
+        LoggerHelper.checkLoggerInitialization( appPath + "/WEB-INF", appPath + "/WEB-INF/classes" );
+        final String containerInfo = application.getServerInfo();		
+        LOGGER.info("Servlet Container is " + containerInfo);
+        ConfigLoader.startSystemglobals(appPath);			
+        final String[] info = getAppServerNameAndVersion(containerInfo);
+        SystemGlobals.setValue("container.app", info[0]);
+        SystemGlobals.setValue("container.version", info[1]);
+        SystemGlobals.setValue("server.info", containerInfo);
+        SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
+        LOGGER.info(application.getContextPath() + " initialized");
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
-	 */
-	public void contextDestroyed(ServletContextEvent sce) {
-		Enumeration<Driver> drivers = DriverManager.getDrivers();
-		while (drivers.hasMoreElements()) {
-			Driver driver = drivers.nextElement();
-			LOGGER.debug("unregister JDBC Driver " + driver.getClass().getName());
-			try {
-				DriverManager.deregisterDriver(driver);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				LOGGER.error(e.getMessage(), e);
-			}
-		}
-		LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
-	}
+    /* (non-Javadoc)
+     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+     */
+    public void contextDestroyed(ServletContextEvent sce) {
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            Driver driver = drivers.nextElement();
+            LOGGER.debug("unregister JDBC Driver " + driver.getClass().getName());
+            try {
+                DriverManager.deregisterDriver(driver);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+        LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
+    }
 
-	public static String[] getAppServerNameAndVersion(String serverInfo)
-	{
-		final Pattern p = Pattern.compile("\\d+\\.\\d+(\\.\\d+)*");
-		final Matcher matcher = p.matcher(serverInfo);
-		String[] result = new String[2];
-		if (matcher.find()){			
-			result[0] = serverInfo.substring(0, matcher.start()-1);
-			String version = matcher.group();
-			result[1] = version.substring(0, version.indexOf('.'));
-		}
-		return result;
-	}
+    public static String[] getAppServerNameAndVersion(String serverInfo)
+    {
+        final Pattern p = Pattern.compile("\\d+\\.\\d+(\\.\\d+)*");
+        final Matcher matcher = p.matcher(serverInfo);
+        String[] result = new String[2];
+        if (matcher.find()){			
+            result[0] = serverInfo.substring(0, matcher.start()-1);
+            String version = matcher.group();
+            result[1] = version.substring(0, version.indexOf('.'));
+        }
+        return result;
+    }
 }

@@ -52,22 +52,25 @@ import org.apache.log4j.Logger;
  */
 public class QueriesFileListener implements FileChangeListener
 {
-	private static final Logger LOGGER = Logger.getLogger(QueriesFileListener.class);
-	
-	/** 
-	 * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
-	 */
-	public void fileChanged(final String filename)
-	{
+    private static final Logger LOGGER = Logger.getLogger(QueriesFileListener.class);
+
+    /** 
+     * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
+     */
+    public void fileChanged(final String filename)
+    {
         LOGGER.info("Reloading "+ filename);
-        SystemGlobals.loadQueries(filename);
-			
         final String driverQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
-			
-        // Force reload of driver specific queries
-        if (!filename.equals(driverQueries)) {
-            SystemGlobals.loadQueries(driverQueries);
+        if (filename.equals(driverQueries)) {
+            SystemGlobals.loadQueries(filename);
         }
-	}
+        else {
+            // Force reload of driver specific queries
+            SystemGlobals.loadQueries(filename,driverQueries);
+        }
+
+
+
+    }
 
 }

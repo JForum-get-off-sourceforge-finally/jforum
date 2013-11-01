@@ -55,6 +55,8 @@ public class LuceneCommandLineReindexer
 	{
 		this.parseCmdArgs(args);
 		
+		// TODO: remove this and let logj4 configure itself from classpath
+		// ###??? how is this tool meant to be used? Who sets the classpath when running it?
 		DOMConfigurator.configure(this.path + "/WEB-INF/log4j.xml");
 		
 		ConfigLoader.startSystemglobals(this.path);

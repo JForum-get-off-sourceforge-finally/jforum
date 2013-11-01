@@ -51,6 +51,7 @@ import junit.framework.TestCase;
 import net.jforum.TestCaseUtils;
 import net.jforum.entities.Post;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.Query;
@@ -62,201 +63,204 @@ import org.apache.lucene.search.ScoreDoc;
  */
 public class LuceneSearchTestCase extends TestCase
 {
-	private static boolean logInitialized;
-	
-	private LuceneSearch search;
-	private LuceneSettings settings;
-	private LuceneIndexer indexer;
+    private static boolean logInitialized;
 
-	public void testFivePostsInTwoForumsSearchOneForumAndTwoValidTermsAndOneInvalidTermExpectThreeResults()
-	{
-		List<Post> l = this.createThreePosts();
-		((Post)l.get(0)).setForumId(1);
-		((Post)l.get(1)).setForumId(2);
-		((Post)l.get(2)).setForumId(1);
-		
-		this.indexer.create((Post)l.get(0));
-		this.indexer.create((Post)l.get(1));
-		this.indexer.create((Post)l.get(2));
-		
-		// Post 4
-		Post post = this.newPost();
-		post.setText("It introduces you to searching, sorting, filtering and highlighting [...]");
-		post.setForumId(2);
-		this.indexer.create(post);
-		
-		// Post 5
-		post = this.newPost();
-		post.setText("How to integrate lucene into your applications");
-		post.setForumId(1);
-		l.add(post);
-		this.indexer.create(post);
+    private LuceneSearch search;
+    private LuceneSettings settings;
+    private LuceneIndexer indexer;
 
-		// Search
-		SearchArgs args = new SearchArgs();
-		args.setForumId(1);
-		args.setMatchType("ANY");
-		args.setKeywords("open lucene xpto authoritative");
+    public void testFivePostsInTwoForumsSearchOneForumAndTwoValidTermsAndOneInvalidTermExpectThreeResults()
+    {
+        List<Post> l = this.createThreePosts();
+        l.get(0).setForumId(1);
+        l.get(1).setForumId(2);
+        l.get(2).setForumId(1);
 
-		List<?> results = this.search.search(args, -1).getRecords();
-		
-		assertEquals(3, results.size());
-	}
-	
-	public void testORExpressionUsingThreePostsSearchTwoTermsExpectThreeResults()
-	{
-		List<Post> l = this.createThreePosts();
-		
-		this.indexer.create((Post)l.get(0));
-		this.indexer.create((Post)l.get(1));
-		this.indexer.create((Post)l.get(2));
-		
-		// Search
-		SearchArgs args = new SearchArgs();
-		args.setMatchType("ANY");
-		args.setKeywords("open lucene");
-		
-		List<?> results = this.search.search(args, -1).getRecords();
-		
-		assertEquals(3, results.size());
-	}
+        this.indexer.create(l.get(0));
+        this.indexer.create(l.get(1));
+        this.indexer.create(l.get(2));
 
-	private List<Post> createThreePosts()
-	{
-		List<Post> l = new ArrayList<Post>();
-		
-		// 1
-		Post post = this.newPost();
-		post.setText("lucene is a gem in the open source world");
-		l.add(post);
-		
-		// 2
-		post = this.newPost();
-		post.setText("lucene in action is the authoritative guide to lucene");
-		l.add(post);
-		
-		// 3
-		post = this.newPost();
-		post.setText("Powers search in surprising places [...] open to everyone");
-		l.add(post);
-		
-		return l;
-	}
-	
-	public void testANDExpressionUsingTwoPostsWithOneCommonWordSearchTwoTermsExpectOneResult()
-	{
-		// 1
-		Post post = this.newPost();
-		post.setText("a regular text with some magic word");
-		this.indexer.create(post);
-		
-		// 2
-		post = this.newPost();
-		post.setText("say shazan to see the magic happen");
-		this.indexer.create(post);
-		
-		// Search
-		SearchArgs args = new SearchArgs();
-		args.setMatchType("all");
-		args.setKeywords("magic regular");
-		
-		List<Post> results = this.search.search(args, -1).getRecords();
-		
-		assertEquals(1, results.size());
-	}
-	
-	public void testThreePostsSearchContentsExpectOneResult()
-	{
-		// 1
-		Post post = this.newPost();
-		post.setSubject("java");
-		this.indexer.create(post);
-		
-		// 2
-		post = this.newPost();
-		post.setSubject("something else");
-		this.indexer.create(post);
-		
-		// 3
-		post = this.newPost();
-		post.setSubject("debug");
-		this.indexer.create(post);
-		
-		// Search
-		SearchArgs args = new SearchArgs();
-		args.setKeywords("java");
-		
-		List<?> results = this.search.search(args, -1).getRecords();
-		
-		assertEquals(1, results.size());
-	}
-	
-	public void testTwoDifferentForumsSearchOneExpectOneResult()
-	{
-		Post post1 = this.newPost();
-		post1.setForumId(1);
-		this.indexer.create(post1);
-		
-		Post post2 = this.newPost();
-		post2.setForumId(2);
-		this.indexer.create(post2);
-		
-		SearchArgs args = new SearchArgs();
-		args.setForumId(1);
-		
-		List<?> results = this.search.search(args, -1).getRecords();
-		
-		assertEquals(1, results.size());
-	}
-	
-	private Post newPost() 
-	{
-		Post post = new Post();
-		
-		post.setText("");
-		post.setTime(new Date());
-		post.setSubject("");
-		post.setPostUsername("");
-		
-		return post;
-	}
-	
-	protected void setUp() throws Exception
-	{
-		if (!logInitialized) {
-			DOMConfigurator.configure(TestCaseUtils.getRootDir()+"/test-classes/log4j.xml");
-			logInitialized = true;
-		}
-		TestCaseUtils.loadEnvironment();
-		
-		this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.version));
-		
-		this.settings.useRAMDirectory();
-		
-		this.indexer = new LuceneIndexer(this.settings);
+        // Post 4
+        Post post = this.newPost();
+        post.setText("It introduces you to searching, sorting, filtering and highlighting [...]");
+        post.setForumId(2);
+        this.indexer.create(post);
 
-		this.search = new LuceneSearch(this.settings, new FakeResultCollector(this.settings));
+        // Post 5
+        post = this.newPost();
+        post.setText("How to integrate lucene into your applications");
+        post.setForumId(1);
+        l.add(post);
+        this.indexer.create(post);
 
-		this.indexer.watchNewDocuDocumentAdded(this.search);
-	}
+        // Search
+        SearchArgs args = new SearchArgs();
+        args.setForumId(1);
+        args.setMatchType("ANY");
+        args.setKeywords("open lucene xpto authoritative");
 
-	private static class FakeResultCollector extends LuceneContentCollector
-	{
-		public FakeResultCollector(LuceneSettings settings)
-		{
-			super(settings);
-		}
+        List<?> results = this.search.search(args, -1).getRecords();
 
-		@Override
-		public List<Post> collect(SearchArgs args, ScoreDoc[] hits, Query query)
-		{
-			List<Post> l = new ArrayList<Post>();
-			for (int i = 0; i < hits.length; i++) {
-				// We really don't care about the results, only how many they are
-				l.add(new Post()); 
-			}
-			
-			return l;
-		}
-	}
+        assertEquals(3, results.size());
+    }
+
+    public void testORExpressionUsingThreePostsSearchTwoTermsExpectThreeResults()
+    {
+        List<Post> l = this.createThreePosts();
+
+        this.indexer.create(l.get(0));
+        this.indexer.create(l.get(1));
+        this.indexer.create(l.get(2));
+
+        // Search
+        SearchArgs args = new SearchArgs();
+        args.setMatchType("ANY");
+        args.setKeywords("open lucene");
+
+        List<?> results = this.search.search(args, -1).getRecords();
+
+        assertEquals(3, results.size());
+    }
+
+    private List<Post> createThreePosts()
+    {
+        List<Post> l = new ArrayList<Post>();
+
+        // 1
+        Post post = this.newPost();
+        post.setText("lucene is a gem in the open source world");
+        l.add(post);
+
+        // 2
+        post = this.newPost();
+        post.setText("lucene in action is the authoritative guide to lucene");
+        l.add(post);
+
+        // 3
+        post = this.newPost();
+        post.setText("Powers search in surprising places [...] open to everyone");
+        l.add(post);
+
+        return l;
+    }
+
+    public void testANDExpressionUsingTwoPostsWithOneCommonWordSearchTwoTermsExpectOneResult()
+    {
+        // 1
+        Post post = this.newPost();
+        post.setText("a regular text with some magic word");
+        this.indexer.create(post);
+
+        // 2
+        post = this.newPost();
+        post.setText("say shazan to see the magic happen");
+        this.indexer.create(post);
+
+        // Search
+        SearchArgs args = new SearchArgs();
+        args.setMatchType("all");
+        args.setKeywords("magic regular");
+
+        List<Post> results = this.search.search(args, -1).getRecords();
+
+        assertEquals(1, results.size());
+    }
+
+    public void testThreePostsSearchContentsExpectOneResult()
+    {
+        // 1
+        Post post = this.newPost();
+        post.setSubject("java");
+        this.indexer.create(post);
+
+        // 2
+        post = this.newPost();
+        post.setSubject("something else");
+        this.indexer.create(post);
+
+        // 3
+        post = this.newPost();
+        post.setSubject("debug");
+        this.indexer.create(post);
+
+        // Search
+        SearchArgs args = new SearchArgs();
+        args.setKeywords("java");
+
+        List<?> results = this.search.search(args, -1).getRecords();
+
+        assertEquals(1, results.size());
+    }
+
+    public void testTwoDifferentForumsSearchOneExpectOneResult()
+    {
+        Post post1 = this.newPost();
+        post1.setForumId(1);
+        this.indexer.create(post1);
+
+        Post post2 = this.newPost();
+        post2.setForumId(2);
+        this.indexer.create(post2);
+
+        SearchArgs args = new SearchArgs();
+        args.setForumId(1);
+
+        List<?> results = this.search.search(args, -1).getRecords();
+
+        assertEquals(1, results.size());
+    }
+
+    private Post newPost() 
+    {
+        Post post = new Post();
+
+        post.setText("");
+        post.setTime(new Date());
+        post.setSubject("");
+        post.setPostUsername("");
+
+        return post;
+    }
+
+    @Override
+    protected void setUp() throws Exception
+    {
+        Logger logger = Logger.getLogger( this.getClass() );
+        logger.debug( "hello, I am already initialized" );
+        if (!logInitialized) {
+            DOMConfigurator.configure(TestCaseUtils.getRootDir()+"/test-classes/log4j.xml");
+            logInitialized = true;
+        }
+        TestCaseUtils.loadEnvironment();
+
+        this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.version));
+
+        this.settings.useRAMDirectory();
+
+        this.indexer = new LuceneIndexer(this.settings);
+
+        this.search = new LuceneSearch(this.settings, new FakeResultCollector(this.settings));
+
+        this.indexer.watchNewDocuDocumentAdded(this.search);
+    }
+
+    private static class FakeResultCollector extends LuceneContentCollector
+    {
+        public FakeResultCollector(LuceneSettings settings)
+        {
+            super(settings);
+        }
+
+        @Override
+        public List<Post> collect(SearchArgs args, ScoreDoc[] hits, Query query)
+        {
+            List<Post> l = new ArrayList<Post>();
+            for (int i = 0; i < hits.length; i++) {
+                // We really don't care about the results, only how many they are
+                l.add(new Post()); 
+            }
+
+            return l;
+        }
+    }
 }

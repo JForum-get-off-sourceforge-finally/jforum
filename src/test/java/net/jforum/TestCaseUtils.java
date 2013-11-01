@@ -48,6 +48,9 @@ import java.io.IOException;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.log4j.Logger;
+
 import freemarker.template.Configuration;
 
 /**
@@ -58,66 +61,70 @@ import freemarker.template.Configuration;
  */
 public final class TestCaseUtils
 {
-	private static TestCaseUtils utils = new TestCaseUtils();
-	private String rootDir;
-	
-	private TestCaseUtils() {}
-	
-	public static void loadEnvironment() throws Exception
-	{
-		utils.init();
-	}
-	
-	/**
-	 * Initializes the database stuff. 
-	 * Must be called <b>after</b> #loadEnvironment
-	 * 
-	 * @throws Exception
-	 */
-	public static void initDatabaseImplementation() throws Exception
-	{
-		SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
-		
-		SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC));
-        SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
-        
+    /** logger for this class */
+    private static final Logger LOGGER = Logger.getLogger( TestCaseUtils.class );
+
+    private static TestCaseUtils utils = new TestCaseUtils();
+    private String rootDir;
+
+    private TestCaseUtils() {}
+
+    public static void loadEnvironment() throws Exception
+    {
+        utils.init();
+    }
+
+    /**
+     * Initializes the database stuff. 
+     * Must be called <b>after</b> #loadEnvironment
+     * 
+     * @throws Exception
+     */
+    public static void initDatabaseImplementation() throws Exception
+    {
+        SystemGlobals.loadAdditionalDefaults(SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_CONFIG));
+
+        SystemGlobals.loadQueries(SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC),
+                                  SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER));
+
         // Start the dao.driver implementation
         ConfigLoader.createLoginAuthenticator();
         ConfigLoader.loadDaoImplementation();
-        
+
         DBConnection.createInstance();
-		DBConnection.getImplementation().init();
-	}
-	
-	public static String getRootDir()
-	{
-		if (utils.rootDir == null) {
-			utils.rootDir = utils.getClass().getResource("/").getPath();
-			if (utils.rootDir.indexOf("build") == -1) {
-				utils.rootDir = utils.rootDir.substring(0, utils.rootDir.length() - "/test-classes/".length());							
-			} 
-			else {
-				utils.rootDir = utils.rootDir.substring(0, utils.rootDir.length() - "/build/classes/".length());
-			}
-		}
-		
-		return utils.rootDir;
-	}
-	
-	private void init() throws IOException 
-	{		
-		SystemGlobals.reset();
-		getRootDir();		
-		SystemGlobals.initGlobals(this.rootDir+"/jforum", this.rootDir
-				+ "/jforum/WEB-INF/config/SystemGlobals.properties");
-		
-		// Configure the template engine
+        DBConnection.getImplementation().init();
+    }
+
+    public static String getRootDir()
+    {
+        if (utils.rootDir == null) {
+            utils.rootDir = utils.getClass().getResource("/").getPath();
+            if (utils.rootDir.indexOf("build") == -1) {
+                utils.rootDir = utils.rootDir.substring(0, utils.rootDir.length() - "/test-classes/".length());							
+            } 
+            else {
+                utils.rootDir = utils.rootDir.substring(0, utils.rootDir.length() - "/build/classes/".length());
+            }
+        }
+
+        return utils.rootDir;
+    }
+
+    private void init() throws IOException 
+    {		
+        SystemGlobals.reset();
+        getRootDir();		
+        SystemGlobals.initGlobals(this.rootDir+"/jforum", this.rootDir
+                                  + "/jforum/WEB-INF/config/SystemGlobals.properties");
+
+        // Configure the template engine
         Configuration templateCfg = new Configuration();
-        templateCfg.setDirectoryForTemplateLoading(new File(SystemGlobals.getApplicationPath()
-        	+ "/templates"));
+        File templateDir = new File(SystemGlobals.getApplicationPath(), "templates");
+        LOGGER.debug( "templateDir: " + templateDir );
+        templateCfg.setDirectoryForTemplateLoading( templateDir );
         templateCfg.setTemplateUpdateDelay(0);
         JForumExecutionContext.setTemplateConfig(templateCfg);
-        
+
         I18n.load();		
-	}
+    }
 }

@@ -12,6 +12,11 @@
 		<appender-ref ref="jforum-stdout" />
 	</category>
 
+    <category name="net.jforum.util.preferences.SystemGlobals" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="jforum-stdout" />
+    </category>
+
 	<category name="com.mchange" additivity="false">
 		<priority value="debug" />
 		<appender-ref ref="jforum-stdout" />

@@ -46,13 +46,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.SortedProperties;
@@ -81,12 +84,12 @@ public final class SystemGlobals implements VariableStore
     private static SystemGlobals globals = new SystemGlobals();
 
     private String defaultConfig;
-    private String installationConfig;
+    private File installationConfig;
 
     private Properties defaults = new Properties();
     private Properties installation = new Properties();
     private Map<String, Object> objectProperties = new HashMap<String, Object>();
-    private static List<String> additionalDefaultsList = new ArrayList<String>();
+    private static List<File> additionalDefaultsList = new ArrayList<File>();
     private static Properties queries = new Properties();
     private static Properties transientValues = new Properties();
 
@@ -126,17 +129,20 @@ public final class SystemGlobals implements VariableStore
         this.defaults.put(ConfigKeys.DEFAULT_CONFIG, mainConfigurationFile);		
 
         SystemGlobals.loadDefaults();
+        debugValues( defaults, "defaults" );
 
         this.installation.clear();
-        this.installationConfig = getVariableValue(ConfigKeys.INSTALLATION_CONFIG);
-        if (new File(this.installationConfig).exists() && !additionalDefaultsList.contains(this.installationConfig)) {
-            additionalDefaultsList.add(0, this.installationConfig);
+        this.installationConfig = new File( getVariableValue(ConfigKeys.INSTALLATION_CONFIG) );
+        if (this.installationConfig.exists() && !additionalDefaultsList.contains(this.installationConfig)) {
+            additionalDefaultsList.add(0, this.installationConfig );
             LOGGER.info("Added " + this.installationConfig);
         }		
 
-        for (String file : additionalDefaultsList) {
-            loadAdditionalDefaults(file);
+        for (File file : additionalDefaultsList) {
+            loadAdditionalDefault(file);
         }
+        globals.expander.clearCache();
+        debugValues( globals.installation, "installation" );
     }
 
     /**
@@ -169,6 +175,7 @@ public final class SystemGlobals implements VariableStore
      */
     public static void setTransientValue(String field, String value)
     {
+        LOGGER.debug( "Adding transient " + field + "=" + value );
         transientValues.put(field, value);
     }
 
@@ -177,18 +184,9 @@ public final class SystemGlobals implements VariableStore
      */
     private static void loadDefaults()
     {
-        LOGGER.info("Loading " + globals.defaultConfig + " ...");
-        try
-        {
-            FileInputStream input = new FileInputStream(globals.defaultConfig);
-            globals.defaults.load(input);
-            input.close();
-            globals.expander.clearCache();
-        }
-        catch (IOException e)
-        {
-            throw new ForumException(e);
-        }
+        LOGGER.info("Loading mainConfigurationFile " + globals.defaultConfig + " ...");
+        loadProps( globals.defaults, new File( globals.defaultConfig ) );
+        globals.expander.clearCache();
     }
 
     /**
@@ -196,24 +194,41 @@ public final class SystemGlobals implements VariableStore
      * 
      * @param file File from which to load the additional defaults
      */
-    public static void loadAdditionalDefaults(String file)
+    public static void loadAdditionalDefaults(String... file)
     {
-        LOGGER.info("Loading " + file + " ...");
-        if (!new File(file).exists()) {
+        File[] files = new File[file.length];
+        for ( int i = 0; i < file.length; i++ )
+        {
+            files[i] = new File(file[i]);
+        }
+        for ( int i = 0; i < files.length; i++ )
+        {
+            globals.loadAdditionalDefault( files[i] );
+        }
+        globals.expander.clearCache();
+        debugValues( globals.installation, "installation" );
+    }
+
+    /**
+     * Merge additional configuration into installations
+     * <p>
+     * If the file does not exist nothing is done.
+     * <p>
+     * The file is added to the internal list additionalDefaultsList if not yet present
+     * <p>
+     * 
+     * @param file File from which to load the additional defaults. Must not be <code>null</code>
+     */
+    private void loadAdditionalDefault( File file )
+    {
+        if (!file.exists()) {
             LOGGER.info("Cannot find file " + file + ". Will ignore it");
             return;
         }
 
-        try
-        {
-            FileInputStream input = new FileInputStream(file);
-            globals.installation.load(input);
-            input.close();
-        }
-        catch (IOException e)
-        {
-            throw new ForumException(e);
-        }
+        LOGGER.info("Loading additional default into installation " + file + " ...");
+
+        loadProps( installation, file );
 
         if (!additionalDefaultsList.contains(file)) {
             additionalDefaultsList.add(file);
@@ -294,7 +309,6 @@ public final class SystemGlobals implements VariableStore
      * @param field The field name to retrieve
      * @return The value of the field if present or null if not  
      */
-
     public String getVariableValue(String field)
     {
         String preExpansion = globals.installation.getProperty(field);
@@ -353,24 +367,58 @@ public final class SystemGlobals implements VariableStore
     /**
      * Load the SQL queries
      *
-     * @param queryFile Complete path to the SQL queries file.
+     * @param queryFiles Complete path to the SQL queries file(s).
      **/
-    public static void loadQueries(String queryFile)
+    public static void loadQueries(String... queryFiles)
     {
-        LOGGER.info("Loading " + queryFile + " ...");
-        FileInputStream fis = null;
+        File[] files = new File[queryFiles.length];
+        for ( int i = 0; i < queryFiles.length; i++ )
+        {
+            files[i] = new File( queryFiles[i] );
+        }
+        loadQueries( files );
+    }
 
-        try {
-            fis = new FileInputStream(queryFile);
-            queries.load(fis);
+    /**
+     * Load the SQL queries
+     *
+     * @param queryFiles Complete path to the SQL queries file(s).
+     **/
+    public static void loadQueries(File... queryFiles)
+    {
+        for ( int i = 0; i < queryFiles.length; i++ )
+        {
+            loadProps( queries, queryFiles[i] );
         }
-        catch (IOException e) {
-            throw new ForumException(e);
-        }
-        finally {
-            if (fis != null) {
-                try { fis.close(); } catch (Exception e) { e.printStackTrace(); }
+        debugValues( queries, "queries" );
+    }
+
+    /**
+     * Loads an arbitrary property file into destination
+     * <p>
+     * @param destination 
+     *        the loader Properties. Must not be <code>null</code>
+     * @param file 
+     *        file to be loaded. Must not be <code>null</code>
+     */
+    private static void loadProps( Properties destination, File file )
+    {
+        LOGGER.info("Loading property file " + file + " ...");
+        try
+        {
+            InputStream is = new FileInputStream( file );
+            try
+            {
+                destination.load( is );
             }
+            finally
+            {
+                is.close();
+            } // try..finally
+        }
+        catch ( IOException e )
+        {
+            throw new ForumException( e );
         }
     }
 
@@ -400,4 +448,46 @@ public final class SystemGlobals implements VariableStore
     {
         return new Properties(globals.defaults);
     }
+
+    /**
+     * Lists all properties (expanded) in alphabetical order in logger
+     * <p>
+     * @param aProps the properties to be listed
+     * @param aName the name of the 
+     */
+    private static void debugValues( Properties aProps, String aName )
+    {
+        if ( LOGGER.isDebugEnabled() )
+        {
+            StringBuilder sb = new StringBuilder( "SystemGlobals." );
+            sb.append( aName ).append( " contains values:" );
+
+            Enumeration<?> keys = aProps.propertyNames();
+
+            if ( !keys.hasMoreElements() )
+            {
+                sb.append( " <none>" );
+            }
+            else
+            {
+                Map<String,String> sorted = new TreeMap<String,String>();
+                while ( keys.hasMoreElements() )
+                {
+                    String key = (String) keys.nextElement();
+                    String preExpansion = aProps.getProperty( key );
+                    sorted.put( key, globals.expander.expandVariables(preExpansion) );
+                }
+
+                for ( String key : sorted.keySet() )
+                {
+                    String value = sorted.get( key );
+                    sb.append( "\n    " ).append( key ).append( " = " ).append( value );
+                }
+
+            }
+
+            LOGGER.debug( sb.toString() );
+        }
+    }
+
 }
