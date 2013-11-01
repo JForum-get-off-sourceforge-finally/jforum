@@ -18,43 +18,48 @@
 		</layout>
 	</appender>
 
-	<category name="org.jgroups">
+	<category name="org.jgroups" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="org.jboss">
+	<category name="org.jboss" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="net.sf.ehcache">
+	<category name="net.sf.ehcache" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="net.jforum">
+	<category name="net.jforum" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="freemarker">
+	<category name="freemarker" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="com.mchange">
+	<category name="com.mchange" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="org.quartz">
+	<category name="org.quartz" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
 
-	<category name="hsqldb">
+	<category name="hsqldb" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
 	</category>
+    
+    <root>
+        <priority value="info" />
+        <appender-ref ref="jforum.log" />
+    </root>
 </log4j:configuration>
