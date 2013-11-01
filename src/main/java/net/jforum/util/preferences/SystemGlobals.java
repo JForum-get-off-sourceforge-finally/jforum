@@ -457,7 +457,23 @@ public final class SystemGlobals implements VariableStore
      */
     private static void debugValues( Properties aProps, String aName )
     {
-        if ( LOGGER.isDebugEnabled() )
+        // Note that the logger which emits this can be configured by using
+        // the param aName:
+        // e.g.
+        /*
+            <logger name="net.jforum.util.preferences.SystemGlobals.defaults" additivity="true">
+                <level value="debug" />
+            </logger>
+
+            <logger name="net.jforum.util.preferences.SystemGlobals.queries" additivity="true">
+                <level value="info" />
+            </logger>
+
+            which will cause the defaults to be logged and the queries not.
+         */
+
+        Logger log = Logger.getLogger( SystemGlobals.class.getName() + "." + aName );
+        if ( log.isDebugEnabled() )
         {
             StringBuilder sb = new StringBuilder( "SystemGlobals." );
             sb.append( aName ).append( " contains values:" );
@@ -486,7 +502,7 @@ public final class SystemGlobals implements VariableStore
 
             }
 
-            LOGGER.debug( sb.toString() );
+            log.debug( sb.toString() );
         }
     }
 

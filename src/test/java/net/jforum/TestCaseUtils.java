@@ -43,13 +43,19 @@
 package net.jforum;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import freemarker.template.Configuration;
 
@@ -65,9 +71,12 @@ public final class TestCaseUtils
     private static final Logger LOGGER = Logger.getLogger( TestCaseUtils.class );
 
     private static TestCaseUtils utils = new TestCaseUtils();
-    private String rootDir;
+    private static String rootDir;
 
-    private TestCaseUtils() {}
+    private TestCaseUtils() 
+    {
+        checkTestOverloads( getRootDir() );
+    }
 
     public static void loadEnvironment() throws Exception
     {
@@ -97,24 +106,23 @@ public final class TestCaseUtils
 
     public static String getRootDir()
     {
-        if (utils.rootDir == null) {
-            utils.rootDir = utils.getClass().getResource("/").getPath();
-            if (utils.rootDir.indexOf("build") == -1) {
-                utils.rootDir = utils.rootDir.substring(0, utils.rootDir.length() - "/test-classes/".length());							
+        if (rootDir == null) {
+            rootDir = TestCaseUtils.class.getResource("/").getPath();
+            if (rootDir.indexOf("build") == -1) {
+                rootDir = rootDir.substring(0, rootDir.length() - "/test-classes/".length());							
             } 
             else {
-                utils.rootDir = utils.rootDir.substring(0, utils.rootDir.length() - "/build/classes/".length());
+                rootDir = rootDir.substring(0, rootDir.length() - "/build/classes/".length());
             }
         }
 
-        return utils.rootDir;
+        return rootDir;
     }
 
     private void init() throws IOException 
-    {		
+    {	
         SystemGlobals.reset();
-        getRootDir();		
-        SystemGlobals.initGlobals(this.rootDir+"/jforum", this.rootDir
+        SystemGlobals.initGlobals(getRootDir()+"/jforum", getRootDir()
                                   + "/jforum/WEB-INF/config/SystemGlobals.properties");
 
         // Configure the template engine
@@ -126,5 +134,96 @@ public final class TestCaseUtils
         JForumExecutionContext.setTemplateConfig(templateCfg);
 
         I18n.load();		
+    }
+
+    /**
+     * This is still experimental.
+     * <p> 
+     * If a file user.home/.JForum/testoverload.properties can be found and its content
+     * is satisfying then the listed files there are replaced in the test environment.
+     * <p>
+     * @param aRootDir
+     *        used for building the destination file name
+     */
+    private void checkTestOverloads( String aRootDir )
+    {
+        String userHome = System.getProperties().getProperty( "user.home" );
+        if ( StringUtils.isEmpty( userHome ) )
+        {
+            return;
+        }
+        File overloadConfig = new File( userHome, ".JForum/testoverload.properties" );
+        if ( !overloadConfig.exists() )
+        {
+            return;
+        }
+        if ( StringUtils.isEmpty( aRootDir ) )
+        {
+            LOGGER.warn( "RootDir not valid: " + aRootDir );
+            return;
+        }
+        File targetRoot = new File( aRootDir );
+        if ( !targetRoot.exists() || !targetRoot.isDirectory() )
+        {
+            LOGGER.warn( "Configured overload path does not exist or is not directory: " + aRootDir );
+            return;
+        }
+
+        try
+        {
+            Properties overloads = new Properties();
+            overloads.load( new FileInputStream( overloadConfig ) );
+            String path = overloads.getProperty( "testoverload.src.dir" );
+            if ( StringUtils.isEmpty( path ) )
+            {
+                return;
+            }
+            File overloadPath = new File ( path );
+            if ( !overloadPath.exists() || !overloadPath.isDirectory() )
+            {
+                LOGGER.warn( "Configured overload path does not exist or is not directory: " + path );
+                return;
+            }
+
+            String fileCopyPrefixKey = "copy.";
+            for ( Object o : overloads.keySet() )
+            {
+                String key = (String) o;
+                if ( !key.startsWith( fileCopyPrefixKey ) )
+                {
+                    continue;
+                }
+                String value = overloads.getProperty( key );
+                if ( StringUtils.isEmpty( value ) )
+                {
+                    continue;
+                }
+                String srcName = key.substring( fileCopyPrefixKey.length() );
+                File src = new File( overloadPath, srcName );
+                File dst = new File( targetRoot, value ); 
+                if ( dst.exists() )
+                {
+                    dst.delete();
+                }
+                LOGGER.info( "replacing file " + dst + " by a version found in test overload folder" );
+                FileUtils.copyFile( src, dst, true );
+
+                if ( value.equals( "test-classes/log4j.xml" ) )
+                {
+                    LOGGER.info( "recoonfiguring Log4j" );
+                    LogManager.resetConfiguration();
+                    DOMConfigurator.configure( dst.toURI().toURL() );
+                }
+
+            }
+
+        }
+        catch ( Exception t )
+        {
+            LOGGER.error( t.getMessage(), t );
+            return;
+        }
+
+
     }
 }
