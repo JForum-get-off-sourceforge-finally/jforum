@@ -47,6 +47,14 @@ import net.jforum.util.FileChangeListener;
 import org.apache.log4j.Logger;
 
 /**
+ * Listener for changed file events.
+ * <p>
+ * On change of the registered resource file SystemGlobals.loadQueries is called.
+ * <p> 
+ * First the registered resource is reloaded followed by a reload of "&lt;database_name&gt;.sql"
+ * (unless the former was already named "&lt;database_name&gt;.sql").
+ * <p>
+ * 
  * @author Rafael Steil
  * @version $Id$
  */
@@ -59,7 +67,7 @@ public class QueriesFileListener implements FileChangeListener
      */
     public void fileChanged(final String filename)
     {
-        LOGGER.info("Reloading "+ filename);
+        LOGGER.info("File change detected: "+ filename);
         final String driverQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
         if (filename.equals(driverQueries)) {
             SystemGlobals.loadQueries(filename);

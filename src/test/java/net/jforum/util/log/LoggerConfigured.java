@@ -41,10 +41,12 @@
  * http://www.jforum.net
  */
 
-package net.jforum.util;
+package net.jforum.util.log;
 
 import java.io.File;
 import java.io.IOException;
+
+import net.jforum.util.log.LoggerHelper;
 
 import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Assert;

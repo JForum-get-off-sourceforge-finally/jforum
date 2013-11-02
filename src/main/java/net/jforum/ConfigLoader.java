@@ -75,207 +75,213 @@ import org.quartz.SchedulerException;
  */
 public final class ConfigLoader 
 {
-	private static final Logger LOGGER = Logger.getLogger(ConfigLoader.class);
-	private static CacheEngine cache;
-	
-	/**
-	 * Start ( or restart ) <code>SystemGlobals</code>.
-	 * This method loads all configuration keys set at
-	 * <i>SystemGlobals.properties</i>, <i>&lt;user.name&gt;.properties</i>
-	 * and database specific stuff.
-	 * 
-	 * @param appPath The application root's directory
-	 */
-	public static void startSystemglobals(final String appPath)
-	{
-		SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");
-	}
+    private static final Logger LOGGER = Logger.getLogger(ConfigLoader.class);
+    private static CacheEngine cache;
 
-	/**
-	 * Loads module mappings for the system.
-	 * 
-	 * @param baseConfigDir The directory where the file <i>modulesMapping.properties</i> is.
-	 * @return The <code>java.util.Properties</code> instance, with the loaded modules 
-	 */
-	public static Properties loadModulesMapping(final String baseConfigDir)
-	{
-		FileInputStream fis = null;
-		
-		try {
-			final Properties modulesMapping = new Properties();
-			fis = new FileInputStream(baseConfigDir + "/modulesMapping.properties");
-			modulesMapping.load(fis);
-
-			return modulesMapping;
-		}
-		catch (IOException e) {
-			throw new ForumException( e);
-		}
-		finally {
-			if (fis != null) {
-				try { fis.close(); } catch (Exception e) { LOGGER.error(e.getMessage(), e); }
-			}
-		}
+    /**
+     * Start ( or restart ) <code>SystemGlobals</code>.
+     * This method loads all configuration keys set at
+     * <i>SystemGlobals.properties</i>, <i>&lt;user.name&gt;.properties</i>
+     * and database specific stuff.
+     * 
+     * @param appPath The application root's directory
+     */
+    public static void startSystemglobals(final String appPath)
+    {
+        SystemGlobals.initGlobals(appPath, appPath + "/WEB-INF/config/SystemGlobals.properties");
     }
-	
-	public static void createLoginAuthenticator()
-	{
-		final String className = SystemGlobals.getValue(ConfigKeys.LOGIN_AUTHENTICATOR);
 
-		try {
-			final LoginAuthenticator authenticator = (LoginAuthenticator) Class.forName(className).newInstance();
-			SystemGlobals.setObjectValue(ConfigKeys.LOGIN_AUTHENTICATOR_INSTANCE, authenticator);
-		}
-		catch (Exception e) {
-			throw new ForumException("Error while trying to create a login.authenticator instance ("
-				+ className + "): " + e, e);
-		}
-	}
-	
-	/**
-	 * Load url patterns.
-	 * The method tries to load url patterns from <i>WEB-INF/config/urlPattern.properties</i>
-	 */
-	public static void loadUrlPatterns()  
-	{
-		FileInputStream fis = null;
-		
-		try {
-			final Properties properties = new Properties();
-			fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/urlPattern.properties");
-			properties.load(fis);
+    /**
+     * Loads module mappings for the system.
+     * 
+     * @param baseConfigDir The directory where the file <i>modulesMapping.properties</i> is.
+     * @return The <code>java.util.Properties</code> instance, with the loaded modules 
+     */
+    public static Properties loadModulesMapping(final String baseConfigDir)
+    {
+        FileInputStream fis = null;
 
-			for (final Iterator<Map.Entry<Object, Object>> iter = properties.entrySet().iterator(); iter.hasNext(); ) {
-				final Map.Entry<Object, Object> entry = iter.next();
-				UrlPatternCollection.addPattern((String)entry.getKey(), (String)entry.getValue());
-			}
-		}
-		catch (IOException e) {
-			throw new ForumException(e);
-		}
-		finally {
-			if (fis != null) {
-				try { fis.close(); } catch (Exception e) { LOGGER.error(e.getMessage(), e); }
-			}
-		}
-    }
-	
-	/**
-	 * Listen for changes in common configuration files.
-	 * The watched files are: <i>generic_queries.sql</i>, 
-	 * <i>&lt;database_name&gt;.sql</i>, <i>SystemGlobals.properties</i>
-	 * and <i>&lt;user.name&gt;.properties</i>
-	 */
-	public static void listenForChanges()
-	{
-		final int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
-		
-		if (fileChangesDelay > 0) {
-			// Queries
-			FileMonitor.getInstance().addFileChangeListener(new QueriesFileListener(),
-				SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC), fileChangesDelay);
+        try {
+            final Properties modulesMapping = new Properties();
+            fis = new FileInputStream(baseConfigDir + "/modulesMapping.properties");
+            modulesMapping.load(fis);
 
-			FileMonitor.getInstance().addFileChangeListener(new QueriesFileListener(),
-				SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER), fileChangesDelay);
-
-			// System Properties
-			FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
-				SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG), fileChangesDelay);
-
-			ConfigLoader.listenInstallationConfig();
-			
-			// Quartz Properties
-			FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
-				SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG), fileChangesDelay);
+            return modulesMapping;
         }
-	}
-	
-	public static void listenInstallationConfig()
-	{
-		final int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
-		
-		if (fileChangesDelay > 0 && 
-				new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
-				FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
-						SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG), fileChangesDelay);
-		}
-	}
-	
-	public static void loadDaoImplementation()
-	{
-		// Start the dao.driver implementation
-		final String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
-
-		LOGGER.info("Loading data access driver " + driver);
-
-		try {
-			final Class<?> clazz = Class.forName(driver);
-			final DataAccessDriver dad = (DataAccessDriver)clazz.newInstance();
-			DataAccessDriver.init(dad);
-		}
-		catch (Exception e) {
-			throw new ForumException(e);
-		}
+        catch (IOException e) {
+            throw new ForumException( e);
+        }
+        finally {
+            if (fis != null) {
+                try { fis.close(); } catch (Exception e) { LOGGER.error(e.getMessage(), e); }
+            }
+        }
     }
-	
-	public static void startCacheEngine()
-	{
-		try {
-			final String cacheImpl = SystemGlobals.getValue(ConfigKeys.CACHE_IMPLEMENTATION);
-			LOGGER.info("Using cache engine: " + cacheImpl);
-			
-			cache = (CacheEngine)Class.forName(cacheImpl).newInstance();
-			cache.init();
-			
-			final String str = SystemGlobals.getValue(ConfigKeys.CACHEABLE_OBJECTS);
-			if (str == null || str.trim().equals("")) {
-				LOGGER.warn("Cannot find Cacheable objects to associate the cache engine instance.");
-				return;
-			}
-			
-			final String[] cacheableObjects = str.split(",");
-			for (int i = 0; i < cacheableObjects.length; i++) {
-				LOGGER.info("Creating an instance of " + cacheableObjects[i].trim());
-				final Object obj = Class.forName(cacheableObjects[i].trim()).newInstance();
-				
-				if (obj instanceof Cacheable) {
-					((Cacheable)obj).setCacheEngine(cache);
-				}
-				else {
-					LOGGER.error(cacheableObjects[i] + " is not an instance of net.jforum.cache.Cacheable");
-				}
-			}
-		}
-		catch (Exception e) {
-			throw new CacheEngineStartupException("Error while starting the cache engine", e);
-		}
-	}
-	
-	public static void stopCacheEngine()
-	{
-		if (cache != null) {
-			cache.stop();
-		}
-	}
-	
-	public static void startSearchIndexer()
-	{
-		SearchFacade.init();
-	}
 
-	/**
-	 * Init a Job who will send e-mails to the all users with a summary of posts...
-	 * @throws SchedulerException
-	 * @throws IOException
-	 */
-	public static void startSummaryJob() throws SchedulerException {
-		SummaryScheduler.startJob();
-	}
-	
-	public static void startPop3Integration() throws SchedulerException
-	{
-		POPJobStarter.startJob();
-	}
-	
-	private ConfigLoader() {}
+    public static void createLoginAuthenticator()
+    {
+        final String className = SystemGlobals.getValue(ConfigKeys.LOGIN_AUTHENTICATOR);
+
+        try {
+            final LoginAuthenticator authenticator = (LoginAuthenticator) Class.forName(className).newInstance();
+            SystemGlobals.setObjectValue(ConfigKeys.LOGIN_AUTHENTICATOR_INSTANCE, authenticator);
+        }
+        catch (Exception e) {
+            throw new ForumException("Error while trying to create a login.authenticator instance ("
+                + className + "): " + e, e);
+        }
+    }
+
+    /**
+     * Load url patterns.
+     * The method tries to load url patterns from <i>WEB-INF/config/urlPattern.properties</i>
+     */
+    public static void loadUrlPatterns()  
+    {
+        FileInputStream fis = null;
+
+        try {
+            final Properties properties = new Properties();
+            fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/urlPattern.properties");
+            properties.load(fis);
+
+            for (final Iterator<Map.Entry<Object, Object>> iter = properties.entrySet().iterator(); iter.hasNext(); ) {
+                final Map.Entry<Object, Object> entry = iter.next();
+                UrlPatternCollection.addPattern((String)entry.getKey(), (String)entry.getValue());
+            }
+        }
+        catch (IOException e) {
+            throw new ForumException(e);
+        }
+        finally {
+            if (fis != null) {
+                try { fis.close(); } catch (Exception e) { LOGGER.error(e.getMessage(), e); }
+            }
+        }
+    }
+
+    /**
+     * Register a file change listener for following resources:
+     * <ul>
+     *   <li>
+     *     SystemGlobalsListener
+     *     <ul>
+     *       <li><i>SystemGlobals.properties</i></li>
+     *       <li><i>quartz-jforum.properties</i></li>
+     *       <li>if exists: <i>jforum_custom.config</i></li>
+     *     </ul>
+     *   </li>
+     *   <li>
+     *     QueriesFileListener
+     *     <ul>
+     *       <li><i>generic_queries.sql</i></li>
+     *       <li><i>&lt;database_name&gt;.sql</i></li>
+     *     </ul>
+     *   </li>
+     * </ul>      
+     */
+    public static void listenForChanges()
+    {
+        final int fileChangesDelay = SystemGlobals.getIntValue(ConfigKeys.FILECHANGES_DELAY);
+
+        if (fileChangesDelay > 0) {
+            // Queries
+            FileMonitor.getInstance().addFileChangeListener(new QueriesFileListener(),
+                                                            SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_GENERIC), fileChangesDelay);
+
+            FileMonitor.getInstance().addFileChangeListener(new QueriesFileListener(),
+                                                            SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER), fileChangesDelay);
+
+            // System Properties
+            FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
+                                                            SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG), fileChangesDelay);
+
+            if (new File(SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG)).exists()) {
+                FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
+                                                                SystemGlobals.getValue(ConfigKeys.INSTALLATION_CONFIG), fileChangesDelay);
+            }
+
+            // Quartz Properties
+            FileMonitor.getInstance().addFileChangeListener(new SystemGlobalsListener(),
+                                                            SystemGlobals.getValue(ConfigKeys.QUARTZ_CONFIG), fileChangesDelay);
+        }
+    }
+
+    public static void loadDaoImplementation()
+    {
+        // Start the dao.driver implementation
+        final String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
+
+        LOGGER.info("Loading data access driver " + driver);
+
+        try {
+            final Class<?> clazz = Class.forName(driver);
+            final DataAccessDriver dad = (DataAccessDriver)clazz.newInstance();
+            DataAccessDriver.init(dad);
+        }
+        catch (Exception e) {
+            throw new ForumException(e);
+        }
+    }
+
+    public static void startCacheEngine()
+    {
+        try {
+            final String cacheImpl = SystemGlobals.getValue(ConfigKeys.CACHE_IMPLEMENTATION);
+            LOGGER.info("Using cache engine: " + cacheImpl);
+
+            cache = (CacheEngine)Class.forName(cacheImpl).newInstance();
+            cache.init();
+
+            final String str = SystemGlobals.getValue(ConfigKeys.CACHEABLE_OBJECTS);
+            if (str == null || str.trim().equals("")) {
+                LOGGER.warn("Cannot find Cacheable objects to associate the cache engine instance.");
+                return;
+            }
+
+            final String[] cacheableObjects = str.split(",");
+            for (int i = 0; i < cacheableObjects.length; i++) {
+                LOGGER.info("Creating an instance of " + cacheableObjects[i].trim());
+                final Object obj = Class.forName(cacheableObjects[i].trim()).newInstance();
+
+                if (obj instanceof Cacheable) {
+                    ((Cacheable)obj).setCacheEngine(cache);
+                }
+                else {
+                    LOGGER.error(cacheableObjects[i] + " is not an instance of net.jforum.cache.Cacheable");
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new CacheEngineStartupException("Error while starting the cache engine", e);
+        }
+    }
+
+    public static void stopCacheEngine()
+    {
+        if (cache != null) {
+            cache.stop();
+        }
+    }
+
+    public static void startSearchIndexer()
+    {
+        SearchFacade.init();
+    }
+
+    /**
+     * Init a Job who will send e-mails to the all users with a summary of posts...
+     * @throws SchedulerException
+     * @throws IOException
+     */
+    public static void startSummaryJob() throws SchedulerException {
+        SummaryScheduler.startJob();
+    }
+
+    public static void startPop3Integration() throws SchedulerException
+    {
+        POPJobStarter.startJob();
+    }
+
+    private ConfigLoader() {}
 }

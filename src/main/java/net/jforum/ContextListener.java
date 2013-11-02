@@ -52,7 +52,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import net.jforum.util.LoggerHelper;
+import net.jforum.util.log.LoggerHelper;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;

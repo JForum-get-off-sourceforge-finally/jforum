@@ -47,21 +47,26 @@ import net.jforum.util.FileChangeListener;
 import org.apache.log4j.Logger;
 
 /**
+ * Listener for changed file events.
+ * <p>
+ * On change of the registered resource file the global settings are re-initialized
+ * by calling SystemGlobals.initGlobals.
+ * <p> 
  * @author Rafael Steil
  * @version $Id$
  */
 public class SystemGlobalsListener implements FileChangeListener
 {
-	private static final Logger LOGGER = Logger.getLogger(SystemGlobalsListener.class);
-	
-	/** 
-	 * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
-	 */
-	public void fileChanged(final String filename)
-	{
-        LOGGER.info("Reloading "+ filename);
-        
+    private static final Logger LOGGER = Logger.getLogger(SystemGlobalsListener.class);
+
+    /** 
+     * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
+     */
+    public void fileChanged(final String filename)
+    {
+        LOGGER.info("File change detected: "+ filename);
+
         SystemGlobals.initGlobals(SystemGlobals.getApplicationPath(),
-            SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
+                                  SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));
     }
 }

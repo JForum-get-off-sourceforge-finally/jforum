@@ -388,6 +388,7 @@ public final class SystemGlobals implements VariableStore
     {
         for ( int i = 0; i < queryFiles.length; i++ )
         {
+            LOGGER.info("Loading query file " + queryFiles[i] + " ...");
             loadProps( queries, queryFiles[i] );
         }
         debugValues( queries, "queries" );
@@ -403,7 +404,6 @@ public final class SystemGlobals implements VariableStore
      */
     private static void loadProps( Properties destination, File file )
     {
-        LOGGER.info("Loading property file " + file + " ...");
         try
         {
             InputStream is = new FileInputStream( file );
