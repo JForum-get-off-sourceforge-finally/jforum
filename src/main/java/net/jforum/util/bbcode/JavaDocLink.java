@@ -107,7 +107,10 @@ public class JavaDocLink implements Substitution {
     private static String J2SE_URL = VERSIONED+":"+JSE_KEY;
     private static String J2EE_URL = VERSIONED+":"+JEE_KEY;
     private static String JME_URL = "http://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
-    private static String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
+	// JOGL 1.1.1a
+    // private static String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
+	// JOGL 2.0
+    private static String JOGL_URL = "http://download.java.net/media/jogl/jogl-2.x-docs/";
     private static String JAVA3D_URL = "http://download.java.net/media/java3d/javadoc/1.5.2/";
     private static String JMF_URL = "http://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
     private static String JAI_URL = "http://download.java.net/media/jai/javadoc/1.1.3/jai-apidocs/";
@@ -117,7 +120,7 @@ public class JavaDocLink implements Substitution {
     private static String COMMONDOM_URL = "http://docs.oracle.com/javase/6/docs/jre/api/plugin/dom/";
     private static String JERSEY1_URL = "https://jersey.java.net/apidocs/1.17/jersey/";
     private static String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
-    private static String COM_SUN_MAIL_URL = "http://javamail.kenai.com/nonav/javadocs/";
+    private static String COM_SUN_MAIL_URL = "https://javamail.java.net/nonav/docs/api/";
     private static String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
     private static String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
     private static String JAVAXJNLP_URL = "http://docs.oracle.com/javase/6/docs/jre/api/javaws/jnlp/";
@@ -126,15 +129,13 @@ public class JavaDocLink implements Substitution {
     private static String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static String LUCENE_URL = "http://lucene.apache.org/core/3_6_2/api/all/";
-	// Starting with Lucene 4, the core javadocs no longer include
-	// many of the auxiliary packages, so I'm sticking with Lucene 3.6 for now
-	// http://lucene.apache.org/core/4_1_0/core/
+    private static String LUCENE_URL = "http://lucene.apache.org/core/4_5_1/core/";
     private static String POI_URL = "http://poi.apache.org/apidocs/";
     private static String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
-    private static String STRUTS1_URL = "http://struts.apache.org/1.x/apidocs/";
-    private static String STRUTS2_URL = "http://struts.apache.org/2.x/struts2-core/apidocs/";
+    private static String STRUTS1_URL = "http://struts.apache.org/release/1.3.x/apidocs/";
+    private static String STRUTS2_URL = "http://struts.apache.org/release/2.3.x/struts2-core/apidocs/";
+    private static String XWORK_URL = "http://struts.apache.org/release/2.3.x/xwork-core/apidocs/";
     private static String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
     private static String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.4.0/reference/";
     private static String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
@@ -156,6 +157,8 @@ public class JavaDocLink implements Substitution {
     private static String CONFIGURATION_URL = "http://commons.apache.org/configuration/apidocs/";
     private static String CODEC_URL = "http://commons.apache.org/codec/api-release/";
     private static String BEANUTILS_URL = "http://commons.apache.org/beanutils/apidocs/";
+	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
+	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
     private static String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
     private static String NET_URL = "http://commons.apache.org/net/api/";
     private static String LANG_URL = "http://commons.apache.org/lang/api-release/";
@@ -176,9 +179,9 @@ public class JavaDocLink implements Substitution {
     private static String JCHART2D_URL = "http://jchart2d.sourceforge.net/docs/javadoc/";
     private static String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
     private static String STRIPES_URL = "http://stripes.sourceforge.net/docs/current/javadoc/";
-    private static String OPENCHART_URL = "http://javadocs.approximatrix.com/openchart2/1.4.3/";
-    private static String QUICKTIME_URL = "http://www.coderanch.com/how-to/javadocs/qtjavadocs/";
-    private static String APPLEJAVA_URL = "http://developer.apple.com/library/mac/#documentation/Java/Reference/JavaSE6_AppleExtensionsRef/api/";
+    private static String OPENCHART_URL = "http://www.coderanch.com/how-to/javadoc/openchart2-1.4.3/";
+    private static String QUICKTIME_URL = "http://www.coderanch.com/how-to/javadoc/qtjavadocs/";
+    private static String APPLEJAVA_URL = "http://www.coderanch.com/how-to/javadoc/appledoc/api/";
     private static String ANDROID_URL = "http://developer.android.com/reference/";
     private static String JEXCEL_URL = "http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/";
     private static String MPXJ_URL = "http://mpxj.sourceforge.net/apidocs/";
@@ -193,8 +196,7 @@ public class JavaDocLink implements Substitution {
     private static String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
     private static String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
     private static String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
-    private static String QUARTZ_URL = "http://www.opensymphony.com/quartz/api/";
-    private static String WEBWORK_URL = "http://www.opensymphony.com/webwork/api/";
+    private static String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.0/";
     private static String OSGI_URL_CORE = "http://www.osgi.org/javadoc/r5/core/";
     private static String OSGI_URL_ENTERPRISE = "http://www.osgi.org/javadoc/r5/enterprise/";
     private static String GOOGLE_GUAVA_URL = "http://guava-libraries.googlecode.com/svn/trunk/javadoc/";
@@ -307,7 +309,7 @@ public class JavaDocLink implements Substitution {
         {"org.apache.strutsel", STRUTS1_URL},
         {"org.apache.struts", STRUTS1_URL},
         {"org.apache.struts2", STRUTS2_URL},
-        {"com.opensymphony.xwork2", STRUTS2_URL},
+        {"com.opensymphony.xwork2", XWORK_URL},
         {"org.apache.wicket", WICKET_URL},
         {"org.apache.xmlbeans", XMLBEANS_URL},
         {"org.apache.shiro", SHIRO_URL},
@@ -379,8 +381,6 @@ public class JavaDocLink implements Substitution {
         {"org.hibernate.validator", HIBERNATE_VALIDATOR_URL},
         {"org.hibernate.shards", HIBERNATE_SHARDS_URL},
         {"org.hibernate", HIBERNATE_URL}, // after the other org.hibernate subpackages
-		{"com.opensymphony.xwork", WEBWORK_URL},
-		{"com.opensymphony.webwork", WEBWORK_URL},
 		{"org.quartz", QUARTZ_URL},
 		{"org.osgi.framework", OSGI_URL_CORE},
 		{"org.osgi.resource", OSGI_URL_CORE},
