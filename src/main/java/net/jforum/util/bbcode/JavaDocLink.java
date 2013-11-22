@@ -143,29 +143,30 @@ public class JavaDocLink implements Substitution {
     private static String SHIRO_URL = "http://shiro.apache.org/static/current/apidocs/";
 
     // Apache Commons
-    private static String COLLECTIONS_URL = "http://commons.apache.org/collections/api-release/";
-    private static String CLI_URL = "http://commons.apache.org/cli/apidocs/";
-    private static String VALIDATOR_URL = "http://commons.apache.org/validator/api-release/";
-    private static String PRIMITIVES_URL = "http://commons.apache.org/primitives/api-release/";
-    private static String MATH_URL = "http://commons.apache.org/math/apidocs/";
-    private static String JEXL_URL = "http://commons.apache.org/jexl/apidocs/";
-    private static String JXPATH_URL = "http://commons.apache.org/jxpath/apidocs/";
-    private static String IO_URL = "http://commons.apache.org/io/api-release/";
-    private static String FILEUPLOAD_URL = "http://commons.apache.org/fileupload/apidocs/";
-    private static String DIGESTER_URL = "http://commons.apache.org/digester/apidocs/";
-    private static String DBCP_URL = "http://commons.apache.org/dbcp/apidocs/";
-    private static String CONFIGURATION_URL = "http://commons.apache.org/configuration/apidocs/";
-    private static String CODEC_URL = "http://commons.apache.org/codec/api-release/";
-    private static String BEANUTILS_URL = "http://commons.apache.org/beanutils/apidocs/";
+    private static String ACP = "http://commons.apache.org/proper/commons";
+    private static String COLLECTIONS_URL = ACP + "-collections/javadocs/api-3.2.1/";
+    private static String CLI_URL = ACP + "-cli/javadocs/api-release/";
+    private static String VALIDATOR_URL = ACP + "-validator/javadocs/";
+    private static String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
+    private static String MATH_URL = ACP + "-math/javadocs/api-3.2/";
+    private static String JEXL_URL = ACP + "-jexl/apidocs/";
+    private static String JXPATH_URL = ACP + "-jxpath/apidocs/";
+    private static String IO_URL = ACP + "-io/javadocs/api-2.4/";
+    private static String FILEUPLOAD_URL = ACP + "-fileupload/apidocs/";
+    private static String DIGESTER_URL = ACP + "-digester/apidocs/";
+    private static String DBCP_URL = ACP + "-dbcp/apidocs/";
+    private static String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
+    private static String CODEC_URL = ACP + "-codec/javadocs/api-release/";
+    private static String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.8.3/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
 	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
     private static String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
-    private static String NET_URL = "http://commons.apache.org/net/api/";
-    private static String LANG_URL = "http://commons.apache.org/lang/api-release/";
-    private static String LOGGING_URL = "http://commons.apache.org/logging/apidocs/";
-    private static String COMPRESS_URL = "http://commons.apache.org/compress/apidocs/";
-    private static String BETWIXT_URL = "http://commons.apache.org/betwixt/apidocs/";
-    private static String POOL_URL = "http://commons.apache.org/pool/apidocs/";
+    private static String NET_URL = ACP + "-net/javadocs/api-3.3/";
+    private static String LANG_URL = ACP + "-lang/javadocs/api-release/";
+    private static String LOGGING_URL = ACP + "-logging/javadocs/api-1.1/";
+    private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.6/";
+    private static String BETWIXT_URL = ACP + "-betwixt/apidocs/";
+    private static String POOL_URL = ACP + "-pool/api-2.0/";
 
     // Other 3rd party
     private static String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
