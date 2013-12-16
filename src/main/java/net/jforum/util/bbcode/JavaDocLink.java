@@ -95,11 +95,13 @@ public class JavaDocLink implements Substitution {
 		versionedUrls.put(JASPER_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
         versionedUrls.put(JASPER_KEY+":6", "http://tomcat.apache.org/tomcat-6.0-doc/api/");
         versionedUrls.put(JASPER_KEY+":7", "http://tomcat.apache.org/tomcat-7.0-doc/api/");
+        versionedUrls.put(JASPER_KEY+":8", "http://tomcat.apache.org/tomcat-8.0-doc/api/");
         versionedUrls.put(JASPER_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-7.0-doc/api/");
 
 		versionedUrls.put(TOMCAT_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/catalina/docs/api/");
         versionedUrls.put(TOMCAT_KEY+":6", "http://tomcat.apache.org/tomcat-6.0-doc/api/");
         versionedUrls.put(TOMCAT_KEY+":7", "http://tomcat.apache.org/tomcat-7.0-doc/api/");
+        versionedUrls.put(TOMCAT_KEY+":8", "http://tomcat.apache.org/tomcat-8.0-doc/api/");
         versionedUrls.put(TOMCAT_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-7.0-doc/api/");
 	}
 
@@ -129,7 +131,7 @@ public class JavaDocLink implements Substitution {
     private static String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static String LUCENE_URL = "http://lucene.apache.org/core/4_5_1/core/";
+    private static String LUCENE_URL = "http://lucene.apache.org/core/4_6_0/core/";
     private static String POI_URL = "http://poi.apache.org/apidocs/";
     private static String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -173,6 +175,7 @@ public class JavaDocLink implements Substitution {
     private static String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
     private static String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static String ITEXT_URL = "http://api.itextpdf.com/";
+    private static String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.3/javadocs/";
     private static String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
@@ -192,7 +195,7 @@ public class JavaDocLink implements Substitution {
     private static String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
     private static String JDOM1_URL = "http://www.jdom.org/docs/apidocs.1.1/";
     private static String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
-    private static String SEAM_URL = "http://docs.jboss.org/seam/3/3.1.0.Final/api/";
+    private static String SEAM_URL = "http://docs.jboss.org/seam/3/latest/api/";
     private static String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
     private static String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
     private static String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
@@ -356,6 +359,7 @@ public class JavaDocLink implements Substitution {
         {"org.hamcrest", JUNIT_URL},
         {"com.lowagie", ITEXT2_URL},
         {"com.itextpdf", ITEXT_URL},
+        {"org.apache.pdfbox", PDFBOX_URL},
         {"org.jfree.chart", JFREECHART_URL},
         {"org.jfree.data", JFREECHART_URL},
         {"net.sourceforge.jwebunit", JWEBUNIT_URL},
