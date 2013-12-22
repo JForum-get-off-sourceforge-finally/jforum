@@ -68,14 +68,13 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.Property;
 import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
-
 import org.xml.sax.ContentHandler;
 
 /**
@@ -238,7 +237,6 @@ public class LuceneIndexer
 		if (indexAttachments && post.hasAttachments()) {
 			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
 				AttachmentInfo info = att.getInfo();
-				String realFilename = info.getRealFilename();
 				doc.add(new Field(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO, Field.Index.ANALYZED));
 
 				File f = new File(attachDir + File.separatorChar + info.getPhysicalFilename());
@@ -254,7 +252,7 @@ public class LuceneIndexer
 					ParseContext context = new ParseContext();
 					context.set(Parser.class, parser);
 
-					Set textualMetadataFields = new HashSet();
+					Set<Property> textualMetadataFields = new HashSet<Property>();
 					textualMetadataFields.add(TikaCoreProperties.TITLE);
 					textualMetadataFields.add(TikaCoreProperties.COMMENTS);
 					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);

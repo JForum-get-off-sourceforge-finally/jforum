@@ -110,6 +110,7 @@ public class SecurityCommon
 					roleId = rs.getInt(1);
 				}
 				else {
+					pstmt.close();
 					pstmt = JForumExecutionContext.getConnection().prepareStatement(autoKeysQuery);
 					rs = pstmt.executeQuery();
 					if (rs.next()) {

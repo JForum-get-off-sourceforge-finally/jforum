@@ -1,13 +1,8 @@
 package net.jforum.dao.generic;
 
-import java.sql.*;
-import java.util.*;
-
-import net.jforum.*;
-import net.jforum.dao.*;
-import net.jforum.exceptions.*;
-import net.jforum.util.*;
-import net.jforum.util.preferences.*;
+import net.jforum.dao.AnnouncementDAO;
+import net.jforum.exceptions.DatabaseException;
+import net.jforum.util.preferences.Preferences;
 
 public class GenericAnnouncementDAO implements AnnouncementDAO {
 

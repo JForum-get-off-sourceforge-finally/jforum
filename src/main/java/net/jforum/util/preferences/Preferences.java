@@ -2,15 +2,11 @@ package net.jforum.util.preferences;
 
 import java.util.prefs.BackingStoreException;
 
-import org.apache.log4j.Logger;
-
 /**
  * A utility class to access Java's Preferences API
  */
 
 public class Preferences {
-
-	private static final Logger LOGGER = Logger.getLogger(Preferences.class);
 
 	private static java.util.prefs.Preferences prefRoot = java.util.prefs.Preferences.userNodeForPackage(Preferences.class);
 

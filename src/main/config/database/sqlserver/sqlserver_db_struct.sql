@@ -622,12 +622,3 @@ CREATE TABLE jforum_api (
   api_key varchar(32) NOT NULL,
   api_validity datetime NOT NULL
 );
-
---
--- Table structure for table 'jforum_announcement'
---
-CREATE TABLE jforum_announcement (
-  sequence_number int PRIMARY KEY NOT NULL,
-  text nvarchar(1024) NOT NULL
-);
-

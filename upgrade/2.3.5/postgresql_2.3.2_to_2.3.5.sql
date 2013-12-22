@@ -1,14 +1,7 @@
 ALTER TABLE jforum_users ADD COLUMN user_twitter VARCHAR(50) DEFAULT NULL;
-
+ALTER TABLE jforum_posts ALTER COLUMN post_time TYPE TIMESTAMP WITH TIME ZONE;
+ALTER TABLE jforum_posts ALTER COLUMN post_edit_time TYPE TIMESTAMP WITH TIME ZONE;
+ALTER TABLE jforum_topics ALTER COLUMN topic_time TYPE TIMESTAMP WITH TIME ZONE;
 ALTER TABLE jforum_moderation_log ALTER COLUMN post_id SET DEFAULT 0;
 ALTER TABLE jforum_moderation_log ALTER COLUMN topic_id SET DEFAULT 0;
 ALTER TABLE jforum_moderation_log ALTER COLUMN post_user_id SET DEFAULT 0;
-
---
--- Table structure for table 'jforum_announcement'
---
-CREATE TABLE jforum_announcement (
-  sequence_number INT NOT NULL,
-  text VARCHAR(1024) NOT NULL,
-  PRIMARY KEY (sequence_number)
-);
