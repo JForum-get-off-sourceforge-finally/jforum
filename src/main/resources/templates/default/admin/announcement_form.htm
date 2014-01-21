@@ -6,6 +6,11 @@
 	<tr>
 		<th class="thhead" valign="middle" height="25">${I18n.getMessage("Admin.announcements.title")}</th>
 	</tr>
+	<#if exception?exists>
+	<tr>
+		<td align="center"><div class="error">${I18n.getMessage("Admin.announcements.exception")}: ${exception}</div></th>
+	</tr>
+	</#if>
     <tr><td>
 		<div align="center">
 		  <textarea name="announce" rows="15" cols="80" wrap="virtual" style="width:600px" class="liteoption">${announcement}</textarea>

@@ -40,21 +40,19 @@
  * The JForum Project
  * http://www.jforum.net
  */
+
 package net.jforum.view.admin;
 
-import net.jforum.dao.*;
-import net.jforum.repository.*;
-import net.jforum.util.preferences.*;
-
-/**
- * ViewHelper class for banner administration.
- */
+import net.jforum.dao.AnnouncementDAO;
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.exceptions.DatabaseException;
+import net.jforum.repository.AnnouncementRepository;
+import net.jforum.util.preferences.TemplateKeys;
 
 public class AnnouncementAction extends AdminCommand {
 
 	@Override
 	public void list() {
-		
 		String announcement = AnnouncementRepository.getAnnouncement();
 		this.context.put("announcement", announcement);
 		this.setTemplateName(TemplateKeys.ANNOUNCEMENT_EDITOR);
@@ -64,9 +62,13 @@ public class AnnouncementAction extends AdminCommand {
 		AnnouncementDAO dao = DataAccessDriver.getInstance().newAnnouncementDAO();
 
 		String announce = this.request.getParameter("announce");
-		
-		dao.update(announce);
-		
+
+		try {
+			dao.update(announce);
+		} catch (DatabaseException dbex) {
+			this.context.put("exception", dbex.getMessage());
+		}
+
 		AnnouncementRepository.setAnnouncement(announce);
 
 		this.context.put("announcement", announce);

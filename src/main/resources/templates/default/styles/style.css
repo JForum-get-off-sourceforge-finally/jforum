@@ -263,3 +263,10 @@ input.subject, textarea.message { width: 100%; }
     font-size: small;
 }
 
+.error {
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: center;
+	color: #FF0000;
+}
+
