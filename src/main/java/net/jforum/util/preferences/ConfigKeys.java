@@ -251,6 +251,8 @@ public final class ConfigKeys
 	public static final String ATTACHMENTS_STORE_DIR = "attachments.store.dir";
 	public static final String ATTACHMENTS_UPLOAD_DIR = "attachments.upload.dir";
 	public static final String ATTACHMENTS_ANONYMOUS = "attachments.anonymous";
+
+	public static final String ANNOUNCEMENT = "announcement";
 	
 	public static final String AGREEMENT_SHOW = "agreement.show";
 	public static final String AGREEMENT_ACCEPTED = "agreement.accepted";

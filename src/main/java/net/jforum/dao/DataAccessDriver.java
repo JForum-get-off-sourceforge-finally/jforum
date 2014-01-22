@@ -268,6 +268,4 @@ public abstract class DataAccessDriver
      * @return <code>net.jforum.dao.LuceneDAO</code> instance.
      */
 	public abstract LuceneDAO newLuceneDAO();
-
-    public abstract AnnouncementDAO newAnnouncementDAO();
 }
