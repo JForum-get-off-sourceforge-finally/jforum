@@ -133,18 +133,21 @@ public class InstallAction extends Command
             for (Enumeration<Locale> locales = this.request.getLocales();
                 locales.hasMoreElements();) {
                 lang = locales.nextElement().toString();			      
-                if (I18n.languageExists(lang)) {			    	
-                    I18n.load(lang);
-
-                    final UserSession userSession = new UserSession();
-                    userSession.setLang(lang);
-                    userSession.setStartTime(new Date(System.currentTimeMillis()));
-
-                    SessionFacade.add(userSession);
-                    this.addToSessionAndContext("language", lang);
-                    return;
+                if (I18n.languageExists(lang)) { 
+                   break;
                 }
             }
+        }
+        LOGGER.info("lang="+lang);
+        if (lang != null) {
+	        I18n.load(lang);
+	
+	        final UserSession userSession = new UserSession();
+	        userSession.setLang(lang);
+	        userSession.setStartTime(new Date(System.currentTimeMillis()));
+	
+	        SessionFacade.add(userSession);
+	        this.addToSessionAndContext("language", lang);
         }
     }
 
