@@ -282,7 +282,7 @@
 		<regex>(?i)\[google\](.*?)\[/google\]</regex>
 		<replace>
 		<![CDATA[
-		<a class="snap_shots" href="http://www.google.com/search?q=$1" target="_blank">$1</a>
+		<a class="snap_shots" href="http://www.google.com/search?q=$1" target="_blank">$1</a>(google)
 		]]>
 		</replace>
 	</match>
@@ -292,7 +292,7 @@
 		<regex>(?i)\[wikipedia\](.*?)\[/wikipedia\]</regex>
 		<replace>
 		<![CDATA[
-		<a class="snap_shots" href="http://en.wikipedia.org/wiki/$1" target="_blank">$1</a>
+		<a class="snap_shots" href="http://en.wikipedia.org/wiki/$1" target="_blank">$1</a>(wikipedia)
 		]]>
 		</replace>
 	</match>
@@ -301,7 +301,7 @@
 		<regex>(?i)\[wikipedia=([a-z]+)\](.*?)\[/wikipedia\]</regex>
 		<replace>
 		<![CDATA[
-		<a class="snap_shots" href="http://$1.wikipedia.org/wiki/$2" target="_blank">$2</a>
+		<a class="snap_shots" href="http://$1.wikipedia.org/wiki/$2" target="_blank">$2</a>(wikipeida)
 		]]>
 		</replace>
 	</match>
