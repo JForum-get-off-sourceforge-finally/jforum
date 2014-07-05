@@ -42,10 +42,18 @@
  */
 package net.jforum.dao.hsqldb;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.dao.generic.GenericUserDAO;
 import net.jforum.entities.User;
+import net.jforum.exceptions.DatabaseException;
+import net.jforum.util.DbUtils;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Marc Wick
@@ -60,5 +68,69 @@ public class HsqldbUserDAO extends GenericUserDAO
 	public List<User> selectAllByGroup(final int groupId, final int start, final int count)
 	{
 		return super.selectAllByGroup(start, count, groupId);
+	}
+	
+	/**
+     * @see net.jforum.dao.UserDAO#findAllUsersByEmail(String, int, int)
+	 */
+	public List<User> findAllUsersByEmail(String email, int start, int count) {
+		List<User> result = new ArrayList<User>();
+		PreparedStatement p = null;
+		ResultSet rs = null;
+
+		User u = null;
+
+		try {
+			p = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("UserModel.findByEmail"));
+			p.setInt(1, start);
+			p.setInt(2, count);
+			p.setString(3, email);
+			rs = p.executeQuery();
+
+			while (rs.next()) {
+				u = new User();
+				fillUserFromResultSet(u, rs);
+				result.add(u);
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException(e);
+		} finally {
+			DbUtils.close(rs, p);
+		}
+
+		return result;
+	}
+	
+	/**
+     * @see net.jforum.dao.UserDAO#findAllUsersByIp(String, int, int)
+	 */
+	public List<User> findAllUsersByIp(String ip, int start, int count) {
+        List<User> result = new ArrayList<User>();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
+        User u = null;
+
+        try {
+            p = JForumExecutionContext.getConnection().prepareStatement(
+                    SystemGlobals.getSql("UserModel.findByIp"));            
+            p.setInt(1, start);
+            p.setInt(2, count);
+            p.setString(3, ip);
+            rs = p.executeQuery();
+
+            while (rs.next()) {
+                u = new User();
+                fillUserFromResultSet(u, rs);
+                result.add(u);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        } finally {
+            DbUtils.close(rs, p);
+        }
+
+        return result;
 	}
 }
