@@ -252,12 +252,12 @@ public class LuceneIndexer
 					ParseContext context = new ParseContext();
 					context.set(Parser.class, parser);
 
-					Set<Property> textualMetadataFields = new HashSet<Property>();
-					textualMetadataFields.add(TikaCoreProperties.TITLE);
-					textualMetadataFields.add(TikaCoreProperties.COMMENTS);
-					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);
-					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION);
-					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);
+					Set<String> textualMetadataFields = new HashSet<String>();
+					textualMetadataFields.add(TikaCoreProperties.TITLE.getName());
+					textualMetadataFields.add(TikaCoreProperties.COMMENTS.getName());
+					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
+					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION.getName());
+					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
 
 					parser.parse(is, handler, metadata, context);
 
@@ -274,7 +274,11 @@ public class LuceneIndexer
 				} catch (Exception ex) {
 					LOGGER.info("error indexing "+f.getName()+": " + ex.getMessage());
 				} finally {
-					try { is.close(); } catch (Exception e) { /* ignore */ }
+					try {
+						is.close();
+					} catch (Exception e) { 
+						LOGGER.error("error  closing FileInputStream " +f.getName() + ": " + e.getMessage());
+					}
 				}
 			}
 		}
