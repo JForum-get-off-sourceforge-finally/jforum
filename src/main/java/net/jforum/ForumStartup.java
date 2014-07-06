@@ -42,8 +42,6 @@
  */
 package net.jforum;
 
-import java.sql.Connection;
-
 import net.jforum.dao.CategoryDAO;
 import net.jforum.dao.ConfigDAO;
 import net.jforum.dao.DataAccessDriver;
@@ -72,17 +70,14 @@ public final class ForumStartup
 		try {
 			if (DBConnection.createInstance()) {
 				DBConnection.getImplementation().init();
-				
-				// Check if we're in fact up and running
-				final Connection conn = DBConnection.getImplementation().getConnection();
-				DBConnection.getImplementation().releaseConnection(conn);
+				return true;
 			}
 		}
 		catch (Exception e) {
 			throw new DatabaseException("Error while trying to start the database: " + e, e);
 		}
 		
-		return true;
+		return false;	
 	}
 	
 	/**

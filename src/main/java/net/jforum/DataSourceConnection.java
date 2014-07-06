@@ -80,7 +80,17 @@ public class DataSourceConnection extends DBConnection
 		final Context context = new InitialContext();
 		this.dataSource = (DataSource)context.lookup(SystemGlobals.getValue(
 				ConfigKeys.DATABASE_DATASOURCE_NAME));
-		this.databaseUp = true;
+		try {
+			// Try to validate the connection url
+			final Connection conn = this.getConnection();
+
+			if (conn != null) {
+				this.releaseConnection(conn);
+				this.databaseUp = true;
+			}
+		} catch (Exception e) {
+			this.databaseUp = false;
+		}
 	}
 	/**
 	 * @see net.jforum.DBConnection#getConnection()

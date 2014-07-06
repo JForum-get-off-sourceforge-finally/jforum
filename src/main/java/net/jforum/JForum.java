@@ -324,7 +324,7 @@ public class JForum extends JForumBaseServlet
                 new ExceptionWriter().handleExceptionData(exception, out, request);
             }
         }
-                                 }
+    }
 
     protected void startApplication()
     {
