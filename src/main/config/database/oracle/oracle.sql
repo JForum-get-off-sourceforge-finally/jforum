@@ -213,11 +213,6 @@ TopicModel.selectByUserByLimit = SELECT * FROM ( \
 	WHERE LINENUM >= ? AND LINENUM < ?
 
 TopicModel.lastGeneratedTopicId = SELECT jforum_topics_seq.currval FROM dual
-
-TopicModel.topicPosters = SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, user_icq, \
-	user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim, user_twitter \
-	FROM jforum_users \
-	WHERE user_id IN (:ids:)
 	
 # ####################
 # PrivateMessageModel
