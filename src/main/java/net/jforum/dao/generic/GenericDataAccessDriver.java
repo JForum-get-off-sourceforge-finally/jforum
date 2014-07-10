@@ -63,6 +63,7 @@ import net.jforum.dao.PostDAO;
 import net.jforum.dao.PrivateMessageDAO;
 import net.jforum.dao.RankingDAO;
 import net.jforum.dao.SmilieDAO;
+import net.jforum.dao.SpamDAO;
 import net.jforum.dao.SummaryDAO;
 import net.jforum.dao.TopicDAO;
 import net.jforum.dao.TreeGroupDAO;
@@ -72,7 +73,6 @@ import net.jforum.dao.generic.security.GenericGroupSecurityDAO;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericDataAccessDriver extends DataAccessDriver 
 {
@@ -101,7 +101,8 @@ public class GenericDataAccessDriver extends DataAccessDriver
     private static BanlistDAO banlistDao = new GenericBanlistDAO();
     private static ModerationLogDAO moderationLogDao = new GenericModerationLogDAO();
     private static LuceneDAO luceneDao = new GenericLuceneDAO();
-    
+    private static SpamDAO spamDao = new GenericSpamDAO();
+
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newForumDAO()
 	 */
@@ -269,7 +270,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     {
     	return mailIntegrationDao;
     }
-    
+
     /**
      * @see net.jforum.dao.DataAccessDriver#newApiDAO()
      */
@@ -277,7 +278,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     {
     	return apiDAO;
     }
-    
+
     /**
      * @see net.jforum.dao.DataAccessDriver#newBanlistDAO()
      */
@@ -285,7 +286,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     {
     	return banlistDao;
     }
-    
+
     /**
      * @see net.jforum.dao.DataAccessDriver#newModerationLogDAO()
      */
@@ -293,12 +294,20 @@ public class GenericDataAccessDriver extends DataAccessDriver
     {
     	return moderationLogDao;
     }
-    
+
     /**
      * @see net.jforum.dao.DataAccessDriver#newLuceneDAO()
      */
     public LuceneDAO newLuceneDAO()
     {
     	return luceneDao;
+    }
+
+    /**
+     * @see net.jforum.dao.DataAccessDriver#newSpamDAO()
+     */
+    public SpamDAO newSpamDAO()
+    {
+    	return spamDao;
     }
 }

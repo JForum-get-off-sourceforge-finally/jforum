@@ -831,3 +831,11 @@ ModerationLog.selectAll = SELECT l.*, u.username, u2.username AS poster_username
 	LEFT JOIN jforum_users u ON l.user_id = u.user_id \
 	ORDER BY log_id DESC \
 	LIMIT ?, ?
+
+# ################
+# Spam words
+# ################
+Spam.selectAll = SELECT pattern FROM jforum_spam ORDER BY pattern ASC
+Spam.create = INSERT INTO jforum_spam (pattern) values (?)
+Spam.delete = DELETE FROM jforum_spam WHERE pattern = ?
+

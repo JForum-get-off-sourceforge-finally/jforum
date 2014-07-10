@@ -106,6 +106,9 @@ DROP TABLE jforum_mail_integration;
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_api') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_api;
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_spam') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE jforum_spam;
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_announcement') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_announcement;
 
@@ -622,3 +625,11 @@ CREATE TABLE jforum_api (
   api_key varchar(32) NOT NULL,
   api_validity datetime NOT NULL
 );
+
+--
+-- Table structure for table 'jforum_spam'
+--
+CREATE TABLE jforum_spam (
+  pattern varchar(100) NOT NULL
+);
+

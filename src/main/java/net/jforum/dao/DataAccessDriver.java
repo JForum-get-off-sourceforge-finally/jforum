@@ -61,7 +61,7 @@ package net.jforum.dao;
 public abstract class DataAccessDriver 
 {
 	private static DataAccessDriver driver;
-	
+
 	/**
 	 * Empty constructor
 	 */
@@ -69,11 +69,10 @@ public abstract class DataAccessDriver
 	{
 		// Empty constructor
 	}
-	
+
 	/**
 	 * Starts the engine.
-	 * This method should be called when the system
-	 * is starting. 
+	 * This method should be called when the system is starting. 
 	 * 
 	 * @param implementation The dao.driver implementation
 	 */
@@ -81,7 +80,7 @@ public abstract class DataAccessDriver
 	{
 		driver = implementation;
 	}
-	
+
 	/**
 	 * Gets a driver implementation instance. 
 	 * You MUST use this method when you want a instance
@@ -94,63 +93,63 @@ public abstract class DataAccessDriver
 	{
 		return driver;
 	}
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.ForumDAO} instance. 
 	 * 
 	 * @return <code>net.jforum.model.ForumModel</code> instance
 	 */
 	public abstract ForumDAO newForumDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.GroupDAO} instance
 	 * 
 	 * @return <code>net.jforum.model.GroupModel</code> instance.
 	 */
 	public abstract GroupDAO newGroupDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.PostDAO} instance.
 	 * 
 	 * @return <code>net.jforum.dao.PostDAO</code> instance.
 	 */
 	public abstract PostDAO newPostDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.PollDAO} instance.
 	 * 
 	 * @return <code>net.jforum.model.PollModel</code> instance.
 	 */
 	public abstract PollDAO newPollDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.RankingDAO} instance.
 	 * 
 	 * @return <code>net.jforum.model.RankingModel</code> instance
 	 */
 	public abstract RankingDAO newRankingDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.TopicDAO} instance.
 	 * 
 	 * @return <code>net.jforum.model.TopicModel</code> instance.
 	 */
 	public abstract TopicDAO newTopicDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.UserDAO} instance.
 	 * 
 	 * @return <code>net.jforum.dao.UserDAO</code> instance.
 	 */
 	public abstract UserDAO newUserDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.CategoryDAO} instance.
 	 * 
 	 * @return <code>net.jforum.dao.CategoryDAO</code> instance.
 	 */
 	public abstract CategoryDAO newCategoryDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.TreeGroupDAO} instance
 	 * 
@@ -164,7 +163,7 @@ public abstract class DataAccessDriver
 	 * @return <code>net.jforum.model.SmilieModel</code> instance.
 	 */
 	public abstract SmilieDAO newSmilieDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.GroupSecurityDAO} instance
 	 * 
@@ -178,14 +177,14 @@ public abstract class DataAccessDriver
 	 * @return <code>link net.jforum.model.security.PrivateMessageModel</code> instance
 	 */
 	public abstract PrivateMessageDAO newPrivateMessageDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.UserSessionDAO} instance
 	 * 
 	 * @return <code>link net.jforum.model.UserSessionModel</code> instance
 	 */
 	public abstract UserSessionDAO newUserSessionDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.ConfigDAO} instance
 	 * 
@@ -198,21 +197,21 @@ public abstract class DataAccessDriver
 	 * @return <code>link net.jforum.model.KarmaModel</code> instance
 	 */
 	public abstract KarmaDAO newKarmaDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.BookmarkDAO} instance
 	 * 
 	 * @return <code>link net.jforum.model.BookmarkModel</code> instance
 	 */
 	public abstract BookmarkDAO newBookmarkDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.AttachmentDAO} instance
 	 * 
 	 * @return <code>link net.jforum.model.AttachmentModel</code> instance
 	 */
 	public abstract AttachmentDAO newAttachmentDAO();
-	
+
 	/**
 	 * Gets a {@link net.jforum.dao.ModerationDAO} instance
 	 * 
@@ -261,11 +260,18 @@ public abstract class DataAccessDriver
      * @return <code>net.jforum.dao.ModerationLogDAO</code> instance.
      */
 	public abstract ModerationLogDAO newModerationLogDAO();
-	
+
 	/**
      * Gets a {@link net.jforum.dao.LuceneDAO} instance.
      *
      * @return <code>net.jforum.dao.LuceneDAO</code> instance.
      */
 	public abstract LuceneDAO newLuceneDAO();
+
+	/**
+     * Gets a {@link net.jforum.dao.SpamDAO} instance.
+     *
+     * @return <code>net.jforum.dao.SpamDAO</code> instance.
+     */
+	public abstract SpamDAO newSpamDAO();
 }

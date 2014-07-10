@@ -85,6 +85,7 @@ import net.jforum.repository.PostRepository;
 import net.jforum.repository.RankingRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.repository.SmiliesRepository;
+import net.jforum.repository.SpamRepository;
 import net.jforum.repository.TopicRepository;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
@@ -742,6 +743,21 @@ public class PostAction extends Command
 		this.context.put("needCaptcha", needCaptcha);
 	}
 
+	/* check for spam in subject or body, except for admins */
+	private String validatePost (Post post) {
+		String str = post.getSubject();
+		String spam = SpamRepository.findSpam(str);
+		if (spam != null)
+			return I18n.getMessage("PostForm.spam");
+
+		str = post.getText();
+		spam = SpamRepository.findSpam(str);
+		if (spam != null)
+			return I18n.getMessage("PostForm.spam");
+
+		return null;
+	}
+
 	public void editSave()
 	{
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
@@ -760,6 +776,14 @@ public class PostAction extends Command
 		String originalMessage = post.getText();
 
 		post = PostCommon.fillPostFromRequest(post, true);
+		// check for subject or body containing spam
+		String error = validatePost(post);
+        if ((error != null) && ! isModerator) {
+            this.context.put("post", post);
+            this.context.put("errorMessage", error);
+            this.edit(false, post);
+            return;
+        }
 
 		// The user wants to preview the message before posting it?
 		if ("1".equals(this.request.getParameter("preview"))) {
@@ -1031,6 +1055,17 @@ public class PostAction extends Command
 			this.insert();
 			return;
 		}
+
+		boolean isModerator = SessionFacade.getUserSession().isModerator(post.getForumId());
+
+		// check for subject or body containing spam
+		String error = validatePost(post);
+        if ((error != null) && ! isModerator) {
+            this.context.put("post", post);
+            this.context.put("errorMessage", error);
+            this.insert();
+            return;
+        }
 
 		// Check the elapsed time since the last post from the user
 		int delay = SystemGlobals.getIntValue(ConfigKeys.POSTS_NEW_DELAY);

@@ -49,7 +49,7 @@ package net.jforum.util.preferences;
 public final class TemplateKeys
 {
 	private TemplateKeys() {}
-	
+
 	public static final String FORUMS_LIST = "forums.list";
 	public static final String FORUMS_SHOW = "forums.show";
 	public static final String FORUMS_PING = "forums.ping";
@@ -105,10 +105,10 @@ public final class TemplateKeys
 
 	public static final String RECENT_LIST = "recent.list";
 	public static final String RECENT_USER_TOPICS_SHOW = "recent.usertopics.show";
-	
+
 	public static final String HOTTEST_LIST = "hottest.list";
 	public static final String HOTTEST_USER_TOPICS_SHOW = "hottest.usertopics.show";
-	
+
 	public static final String TOP_DOWNLOADS_LIST = "topdownloads.list";
 
 	public static final String SEARCH_FILTERS = "search.filters";
@@ -180,33 +180,35 @@ public final class TemplateKeys
 	public static final String USER_ADMIN_EDIT = "user.admin.edit";
 	public static final String USER_ADMIN_GROUPS = "user.admin.groups";
 	public static final String USER_ADMIN_PENDING_ACTIVATIONS = "user.admin.pending.activations";
-	
+
 	public static final String BANNER_LIST = "banner.list";
 	public static final String BANNER_INSERT = "banner.insert";
 	public static final String BANNER_EDIT = "banner.edit";
 
 	public static final String RSS = "rss";
 	public static final String EMPTY = "empty";
-	
+
 	public static final String INSTALL_WELCOME = "install.welcome";
 	public static final String INSTALL_CHECK_INFO = "install.check.info";
 	public static final String INSTALL_ERROR = "install.error";
 	public static final String INSTALL_FINISHED = "install.finished";
-	
+
 	public static final String API_USER_LIST = "api.user.list";
 	public static final String API_USER_INSERT = "api.user.insert";
 	public static final String API_ERROR = "api.error";
-	public static final String API_POST_INSERT = "api.post.insert";	
+	public static final String API_POST_INSERT = "api.post.insert";
 	public static final String AGREEMENT_LIST = "agreement.list";
 	public static final String ACTIVATE_ACCOUNT_MANUAL = "activate.account.manual";
-	
+
 	public static final String BANLIST_LIST = "banlist.list";
 	public static final String BANLIST_INSERT = "banlist.insert";
 	public static final String MODERATION_SHOW_ACTIVITY_LOG = "moderation.show.activity.log";
 	public static final String MODERATION_LOG_DENIED = "moderation.log.denied";
-	
+
     public static final String BOARD_STATS_LIST = "boardStats.list";
     public static final String BOARD_STATS_SHOW_LAST = "boardStats.showLast";
+
+    public static final String SPAM_BLOCK_LIST = "spamBlock.list";
 
 	public static final String SEARCH_STATS_LIST = "search.stats.list";
 	public static final String SEARCH_STATS_NOT_ENABLED = "search.stats.not.enabled";

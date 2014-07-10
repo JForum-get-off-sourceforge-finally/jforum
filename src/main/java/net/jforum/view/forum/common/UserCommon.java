@@ -59,6 +59,7 @@ import net.jforum.context.RequestContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.User;
+import net.jforum.repository.SpamRepository;
 import net.jforum.util.I18n;
 import net.jforum.util.MD5;
 import net.jforum.util.SafeHtml;
@@ -72,7 +73,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public final class UserCommon 
 {
@@ -88,27 +88,27 @@ public final class UserCommon
 	public static List<String> saveUser(final int userId)
 	{
 		final List<String> errors = new ArrayList<String>();
-		
+
 		final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 		final User user = userDao.selectById(userId);
-		
+
 		final RequestContext request = JForumExecutionContext.getRequest();
 		final boolean isAdmin = SessionFacade.getUserSession().isAdmin();
 
 		if (isAdmin) {
 			final String username = request.getParameter("username");
-		
+
 			if (username != null) {
 				user.setUsername(username.trim());
 			}
-			
+
 			if (request.getParameter("rank_special") != null) {
 				user.setRankId(request.getIntParameter("rank_special"));
 			}
 		}
-		
+
 		final SafeHtml safeHtml = new SafeHtml();
-		
+
 		user.setId(userId);
 		user.setIcq(safeHtml.makeSafe(request.getParameter("icq")));
 		user.setTwitter(safeHtml.makeSafe(request.getParameter("twitter")));
@@ -116,10 +116,10 @@ public final class UserCommon
 		user.setMsnm(safeHtml.makeSafe(request.getParameter("msn")));
 		user.setYim(safeHtml.makeSafe(request.getParameter("yim")));
 		user.setFrom(safeHtml.makeSafe(request.getParameter("location")));
-		user.setOccupation(safeHtml.makeSafe(request.getParameter("occupation")));
-		user.setInterests(safeHtml.makeSafe(request.getParameter("interests")));
-		user.setBiography(safeHtml.makeSafe(request.getParameter("biography")));
-		user.setSignature(safeHtml.makeSafe(request.getParameter("signature")));
+		user.setOccupation(checkForSpam(safeHtml, request.getParameter("occupation"), isAdmin));
+		user.setInterests(checkForSpam(safeHtml, request.getParameter("interests"), isAdmin));
+		user.setBiography(checkForSpam(safeHtml, request.getParameter("biography"), isAdmin));
+		user.setSignature(checkForSpam(safeHtml, request.getParameter("signature"), isAdmin));
 		user.setViewEmailEnabled(request.getParameter("viewemail").equals("1"));
 		user.setViewOnlineEnabled(request.getParameter("hideonline").equals("0"));
 		user.setNotifyPrivateMessagesEnabled(request.getParameter("notifypm").equals("1"));
@@ -131,26 +131,26 @@ public final class UserCommon
 		user.setSmiliesEnabled("1".equals(request.getParameter("allowsmilies")));
 		user.setNotifyAlways("1".equals(request.getParameter("notify_always")));
 		user.setNotifyText("1".equals(request.getParameter("notify_text")));
-		
+
 		String website = safeHtml.makeSafe(request.getParameter("website"));
 		if (StringUtils.isNotEmpty(website) && !website.toLowerCase(Locale.US).startsWith("http://") 
 				&& !website.toLowerCase(Locale.US).startsWith("https://")) {
 			website = "http://" + website;
 		}
-	
+
 		user.setWebSite(website);
-		
+
 		String currentPassword = request.getParameter("current_password");
 		final boolean isCurrentPasswordEmpty = currentPassword == null || "".equals(currentPassword.trim());
-		
+
 		if (isAdmin || !isCurrentPasswordEmpty) {
 			if (!isCurrentPasswordEmpty) {
 				currentPassword = MD5.crypt(currentPassword);
 			}
-			
+
 			if (isAdmin || user.getPassword().equals(currentPassword)) {
 				user.setEmail(safeHtml.makeSafe(request.getParameter("email")));
-				
+
 				final String newPassword = request.getParameter("new_password");
 
 				if (newPassword != null && newPassword.length() > 0) {
@@ -161,18 +161,18 @@ public final class UserCommon
 				errors.add(I18n.getMessage("User.currentPasswordInvalid"));
 			}
 		}
-		
+
 		if (request.getParameter("avatardel") != null) {
 			final File file = new File(IMAGE_AVATAR + user.getAvatar());
 			if (file.exists()) {
 				final boolean result = file.delete();
 				if (!result) {
 					LOGGER.error("Delete file failed: " + file.getName());
-				}			
+				}
 			}
 			user.setAvatar(null);
 		}
-	
+
 		if (request.getObjectParameter("avatar") != null) {
 			try {
 				UserCommon.handleAvatar(user);
@@ -196,29 +196,38 @@ public final class UserCommon
 							user.setAvatar(null);
 							errors.add("URL is not an image");
 						}
-					} catch (MalformedURLException e) {						
+					} catch (MalformedURLException e) {
 						e.printStackTrace();
 						errors.add("URL malformed");
-					} catch (IOException e) {						
+					} catch (IOException e) {
 						e.printStackTrace();
 						errors.add("read image error");
-					}					
+					}
 				}
 				else {
 					errors.add(I18n.getMessage("User.avatarUrlShouldHaveHttp"));
 				}
 			}
 		}
-		
+
 		if (errors.isEmpty()) {
 			userDao.update(user);
 		}
-		
+
 		if (SessionFacade.getUserSession().getUserId() == userId) {
 		    SessionFacade.getUserSession().setLang(user.getLang());
 		}
 		return errors;
 	}
+
+    private static String checkForSpam (SafeHtml safeHtml, String text, boolean isAdmin) {
+		String result = SpamRepository.findSpam(text);
+        if (isAdmin || (result == null)) {
+			return safeHtml.makeSafe(text);
+        } else {
+			return "";
+		}
+    }
 
 	/**
 	 * @param user User
@@ -229,9 +238,9 @@ public final class UserCommon
 		// Delete old avatar file
 		if (user.getAvatar() != null) {
 			final File avatarFile = new File(user.getAvatar());
-			
+
 			final File fileToDelete = new File(IMAGE_AVATAR + avatarFile.getName());
-			
+
 			if (fileToDelete.exists()) {
 				result = fileToDelete.delete();
 				if (!result) {
@@ -239,15 +248,15 @@ public final class UserCommon
 				}
 			}
 		}
-		
+
 		final String fileName = MD5.crypt(Integer.toString(user.getId()));
 		FileItem item = (FileItem)JForumExecutionContext.getRequest().getObjectParameter("avatar");
 		UploadUtils uploadUtils = new UploadUtils(item);
-		
+
 		// Gets file extension
 		String extension = uploadUtils.getExtension().toLowerCase();
 		int type = ImageUtils.IMAGE_UNKNOWN;
-		
+
 		if ("jpg".equals(extension) || "jpeg".equals(extension)) {
 			type = ImageUtils.IMAGE_JPEG;
 		} 
@@ -257,13 +266,13 @@ public final class UserCommon
 		else if ("png".equals(extension)) {  
 			type = ImageUtils.IMAGE_PNG;  
 		}
-		
+
 		if (type != ImageUtils.IMAGE_UNKNOWN) {
 			String avatarTmpFileName = IMAGE_AVATAR + fileName + "_tmp." + extension;
-	
+
 			String avatarFinalFileName = IMAGE_AVATAR + fileName + "." + extension;
-	
-			uploadUtils.saveUploadedFile(avatarTmpFileName);		
+
+			uploadUtils.saveUploadedFile(avatarTmpFileName);
 
 			// OK, time to check and process the avatar size
 			int maxWidth = SystemGlobals.getIntValue(ConfigKeys.AVATAR_MAX_WIDTH);
@@ -280,12 +289,12 @@ public final class UserCommon
 			int width = imageOriginal.getWidth(null);
 			int height = imageOriginal.getHeight(null);
 
-			if (width > maxWidth || height > maxHeight) {				
+			if (width > maxWidth || height > maxHeight) {
 				if (type == ImageUtils.IMAGE_GIF) {
 					type = ImageUtils.IMAGE_PNG;
 					extension = "png";
 				}
-				BufferedImage image = ImageUtils.resizeImage(avatarTmpFileName, type, maxWidth, maxHeight);				
+				BufferedImage image = ImageUtils.resizeImage(avatarTmpFileName, type, maxWidth, maxHeight);
 				ImageUtils.saveImage(image, avatarFinalFileName, type);
 				// Delete the temporary file
 				result = avatar.delete();
@@ -302,7 +311,7 @@ public final class UserCommon
 			user.setAvatar(fileName + "." + extension);
 		}
 	}
-	
+
 	private UserCommon() {}
 
 }
