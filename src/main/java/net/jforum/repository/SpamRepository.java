@@ -38,7 +38,7 @@ public class SpamRepository {
 		if (text != null) {
 			for (String pattern : cache) {
 				//LOGGER.info("checking text.size="+text.length()+" for "+pattern);
-				if (text.matches("(?s).*" + pattern + ".*")) {
+				if (text.matches("(?si).*" + pattern + ".*")) {
 					// gather some stats about how pervasive spamming actually is
 					Stats.record("Spam", pattern);
 					return pattern;
