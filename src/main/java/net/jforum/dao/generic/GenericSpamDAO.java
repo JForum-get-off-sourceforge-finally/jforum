@@ -34,7 +34,6 @@ public class GenericSpamDAO implements SpamDAO {
 		}
 	}
 
-    @Override
     public void addSpam (String pattern) {
         PreparedStatement p = null;
         try {
@@ -54,7 +53,6 @@ public class GenericSpamDAO implements SpamDAO {
         }
     }
 
-    @Override
     public void deleteSpam (String pattern) {
         PreparedStatement p = null;
         try {

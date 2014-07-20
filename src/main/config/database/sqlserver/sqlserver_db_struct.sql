@@ -109,9 +109,6 @@ DROP TABLE jforum_api;
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_spam') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_spam;
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_announcement') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-DROP TABLE jforum_announcement;
-
 --
 -- Table structure for table 'jforum_banlist'
 --
