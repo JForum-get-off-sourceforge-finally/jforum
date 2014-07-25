@@ -20,7 +20,8 @@ var is_mac    = (clientPC.indexOf("mac")!=-1);
 bbcode = new Array();
 bbtags = new Array('[b]','[/b]', '[i]','[/i]', '[u]','[/u]', '[quote]','[/quote]', '[code]','[/code]',
 	'[list]','[/list]', '[img]','[/img]', '[url]','[/url]', '[google]','[/google]', '[youtube]','[/youtube]', 
-	'[flash]','[/flash]', '[wmv]','[/wmv]', '[tt]','[/tt]', '[strike]','[/strike]', '[wikipedia]','[/wikipedia]');
+	'[flash]','[/flash]', '[wmv]','[/wmv]', '[tt]','[/tt]', '[strike]','[/strike]', '[wikipedia]','[/wikipedia]',
+	'[vimeo]', '[/vimeo]');
 imageTag = false;
 
 var openBBtags = new Array();

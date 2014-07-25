@@ -17,3 +17,4 @@ d_help = "Wikipedia: [wikipedia]${I18n.getMessage("PostForm.helplineWikipedia")}
 y_help = "Youtube: [youtube]${I18n.getMessage("PostForm.helplineYoutube")}[/youtube]";
 k_help = "Flash: [flash]${I18n.getMessage("PostForm.helplineFlash")}[/flash]";
 v_help = "WMV: [wmv]${I18n.getMessage("PostForm.helplineWmv")}[/wmv]";
+m_help = "Vimeo: [vimeo]${I18n.getMessage("PostForm.helplineVimeo")}[/vimeo]";
