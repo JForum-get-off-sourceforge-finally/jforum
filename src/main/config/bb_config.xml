@@ -308,7 +308,7 @@
   
 	<!-- YouTube -->
 	<match name="youtube" lockedForSmilies="youtube">
-		<regex>(?i)\[youtube\]http\:\/\/(.*?)youtube.com\/watch\?v\=(.*?)\[/youtube\]</regex>
+		<regex>(?i)\[youtube\]http[s]?\:\/\/(.*?)youtube.com\/watch\?v\=(.*?)\[/youtube\]</regex>
 		<replace>
 		<![CDATA[
         <object width="560" height="340" type="application/x-shockwave-flash" data="http://$1youtube.com/v/$2">
@@ -317,6 +317,20 @@
             <param name="allowscriptaccess" value="always" />            
         </object>        
         ]]>
+		</replace>
+	</match>
+
+	<!-- Vimeo -->
+	<match name="vimeo" lockedForSmilies="vimeo">
+		<regex>
+			(?i)\[vimeo\]http[s]?\:\/\/vimeo.com\/(.*?)\[/vimeo\]
+		</regex>
+		<replace>
+			<![CDATA[
+				<iframe width="640" height="480"
+					src="http://player.vimeo.com/video/$1?title=0&amp;byline=0&amp;portrait=0&amp;badge=0">
+				</iframe>
+                ]]>
 		</replace>
 	</match>
 
