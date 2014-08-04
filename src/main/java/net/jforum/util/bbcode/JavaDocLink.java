@@ -463,6 +463,10 @@ public class JavaDocLink implements Substitution {
 					clazzName += "()";
 					part2 += "()";
 				}
+				if (url.equals(versionedUrls.get(JSE_KEY+":8"))) {
+					// Java SE 8 introduces a new URL style
+					part2 = part2.replaceAll("[)(]", "-");
+				}
 
 				return "<a href=\"" + url + part1 + ".html" + part2 
 					+ "\" target=\"_blank\" rel=\"nofollow\">" + clazzName + "</a>";
