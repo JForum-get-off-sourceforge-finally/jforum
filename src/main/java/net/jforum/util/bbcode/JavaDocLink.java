@@ -80,7 +80,8 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JSE_KEY+":5", "http://download.oracle.com/javase/1.5.0/docs/api/");
         versionedUrls.put(JSE_KEY+":6", "http://download.oracle.com/javase/6/docs/api/");
         versionedUrls.put(JSE_KEY+":7", "http://download.oracle.com/javase/7/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "http://download.oracle.com/javase/7/docs/api/");
+        versionedUrls.put(JSE_KEY+":8", "http://download.oracle.com/javase/8/docs/api/");
+        versionedUrls.put(JSE_KEY+":"+OTHER, "http://download.oracle.com/javase/8/docs/api/");
 
 		// JEE
 		versionedUrls.put(JEE_KEY+":1.2", "http://download.oracle.com/javaee/1.2.1/api/");
@@ -96,13 +97,13 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JASPER_KEY+":6", "http://tomcat.apache.org/tomcat-6.0-doc/api/");
         versionedUrls.put(JASPER_KEY+":7", "http://tomcat.apache.org/tomcat-7.0-doc/api/");
         versionedUrls.put(JASPER_KEY+":8", "http://tomcat.apache.org/tomcat-8.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-7.0-doc/api/");
+        versionedUrls.put(JASPER_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-8.0-doc/api/");
 
 		versionedUrls.put(TOMCAT_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/catalina/docs/api/");
         versionedUrls.put(TOMCAT_KEY+":6", "http://tomcat.apache.org/tomcat-6.0-doc/api/");
         versionedUrls.put(TOMCAT_KEY+":7", "http://tomcat.apache.org/tomcat-7.0-doc/api/");
         versionedUrls.put(TOMCAT_KEY+":8", "http://tomcat.apache.org/tomcat-8.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-7.0-doc/api/");
+        versionedUrls.put(TOMCAT_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-8.0-doc/api/");
 	}
 
     // Sun / java.net
@@ -119,19 +120,19 @@ public class JavaDocLink implements Substitution {
     private static String JAVAHELP_URL = "http://www.coderanch.com/how-to/javadoc/javahelp-2.0_05/";
     private static String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
     private static String JAVAFX_URL = "http://docs.oracle.com/javafx/2/api/";
-    private static String COMMONDOM_URL = "http://docs.oracle.com/javase/6/docs/jre/api/plugin/dom/";
-    private static String JERSEY1_URL = "https://jersey.java.net/apidocs/1.17/jersey/";
+    private static String COMMONDOM_URL = "http://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
+    private static String JERSEY1_URL = "https://jersey.java.net/apidocs/1.18/jersey/";
     private static String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
     private static String COM_SUN_MAIL_URL = "https://javamail.java.net/nonav/docs/api/";
     private static String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
     private static String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
-    private static String JAVAXJNLP_URL = "http://docs.oracle.com/javase/6/docs/jre/api/javaws/jnlp/";
+    private static String JAVAXJNLP_URL = "http://docs.oracle.com/javase/8/docs/jre/api/javaws/jnlp/";
 
     // Apache
     private static String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static String LUCENE_URL = "http://lucene.apache.org/core/4_6_0/core/";
+    private static String LUCENE_URL = "http://lucene.apache.org/core/4_9_0/core/";
     private static String POI_URL = "http://poi.apache.org/apidocs/";
     private static String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -139,18 +140,18 @@ public class JavaDocLink implements Substitution {
     private static String STRUTS2_URL = "http://struts.apache.org/release/2.3.x/struts2-core/apidocs/";
     private static String XWORK_URL = "http://struts.apache.org/release/2.3.x/xwork-core/apidocs/";
     private static String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
-    private static String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.4.0/reference/";
+    private static String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.6.0/reference/";
     private static String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
     private static String WSS4J_URL = "http://ws.apache.org/wss4j/apidocs/";
     private static String SHIRO_URL = "http://shiro.apache.org/static/current/apidocs/";
 
     // Apache Commons
     private static String ACP = "http://commons.apache.org/proper/commons";
-    private static String COLLECTIONS_URL = ACP + "-collections/javadocs/api-3.2.1/";
+    private static String COLLECTIONS_URL = ACP + "-collections/javadocs/api-release/";
     private static String CLI_URL = ACP + "-cli/javadocs/api-release/";
-    private static String VALIDATOR_URL = ACP + "-validator/javadocs/";
+    private static String VALIDATOR_URL = ACP + "-validator/apidocs/";
     private static String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
-    private static String MATH_URL = ACP + "-math/javadocs/api-3.2/";
+    private static String MATH_URL = ACP + "-math/javadocs/api-3.3/";
     private static String JEXL_URL = ACP + "-jexl/apidocs/";
     private static String JXPATH_URL = ACP + "-jxpath/apidocs/";
     private static String IO_URL = ACP + "-io/javadocs/api-2.4/";
@@ -159,23 +160,23 @@ public class JavaDocLink implements Substitution {
     private static String DBCP_URL = ACP + "-dbcp/apidocs/";
     private static String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
     private static String CODEC_URL = ACP + "-codec/javadocs/api-release/";
-    private static String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.8.3/apidocs/";
+    private static String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.2/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
 	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
     private static String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
     private static String NET_URL = ACP + "-net/javadocs/api-3.3/";
     private static String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static String LOGGING_URL = ACP + "-logging/javadocs/api-1.1/";
-    private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.6/";
+    private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.8.1/";
     private static String BETWIXT_URL = ACP + "-betwixt/apidocs/";
-    private static String POOL_URL = ACP + "-pool/api-2.0/";
+    private static String POOL_URL = ACP + "-pool/api-2.2/";
 
     // Other 3rd party
     private static String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
     private static String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
     private static String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static String ITEXT_URL = "http://api.itextpdf.com/";
-    private static String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.3/javadocs/";
+    private static String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.6/javadocs/";
     private static String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
@@ -210,6 +211,7 @@ public class JavaDocLink implements Substitution {
         {"javax.activation", J2EE_URL},
         {"javax.annotation.security", J2EE_URL}, // 6
         {"javax.annotation.sql", J2EE_URL}, // 6
+        {"javax.batch", J2EE_URL}, // 7
         {"javax.context", J2EE_URL}, // 6
         {"javax.decorator", J2EE_URL}, // 6
         {"javax.ejb", J2EE_URL},
@@ -259,23 +261,22 @@ public class JavaDocLink implements Substitution {
         {"java.security", J2SE_URL},
         {"java.sql", J2SE_URL},
         {"java.text", J2SE_URL},
+        {"java.time", J2SE_URL}, // 8
         {"java.util", J2SE_URL},
         {"javax.accessibility", J2SE_URL},
         {"javax.activity", J2SE_URL}, // 1.5
         {"javax.annotation", J2SE_URL}, // 6
         {"javax.crypto", J2SE_URL},
         {"javax.imageio", J2SE_URL},
-        {"javax.lang", J2SE_URL}, // 6
         {"javax.jws", J2SE_URL},
+        {"javax.lang", J2SE_URL}, // 6
         {"javax.management", J2SE_URL}, // 7
         {"javax.naming", J2SE_URL},
         {"javax.net", J2SE_URL},
         {"javax.print", J2SE_URL},
         {"javax.rmi", J2SE_URL},
         {"javax.script", J2SE_URL}, // 6
-        {"javax.security.auth", J2SE_URL},
-        {"javax.security.cert", J2SE_URL},
-        {"javax.security.sasl", J2SE_URL}, // 1.5
+        {"javax.security", J2SE_URL},
         {"javax.sound", J2SE_URL},
         {"javax.sql", J2SE_URL},
         {"javax.swing", J2SE_URL},
@@ -288,7 +289,6 @@ public class JavaDocLink implements Substitution {
 
         {"javax.microedition", JME_URL},
         {"com.sun.lwuit", LWUIT_URL},
-
         {"javax.help", JAVAHELP_URL},
         {"javax.speech", JAVASPEECH_URL},
         {"javafx", JAVAFX_URL},
@@ -462,6 +462,10 @@ public class JavaDocLink implements Substitution {
 				if (part2.indexOf("(") < 0) {
 					clazzName += "()";
 					part2 += "()";
+				}
+				if (url.equals(versionedUrls.get(JSE_KEY+":8"))) {
+					// Java SE 8 introduces a new URL style
+					part2 = part2.replaceAll("[)(]", "-");
 				}
 
 				return "<a href=\"" + url + part1 + ".html" + part2 

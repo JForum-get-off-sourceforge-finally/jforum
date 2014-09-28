@@ -12,7 +12,7 @@ var SERVLET_EXTENSION  = "${extension}";
 /* ]]> */
 </script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 
 <script type="text/javascript">
@@ -140,10 +140,11 @@ function cancelOperation()
 
 <#if !user.isNotifyOnMessagesEnabled()><#assign repliesChecked = ""/></#if>
 
-<form action="${JForumContext.encodeURL("/jforum")}" method="post" enctype="multipart/form-data" name="post" id="post" onsubmit="return validatePostForm(this)">
+<form action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" enctype="multipart/form-data" name="post" id="post" onsubmit="return validatePostForm(this)">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="preview" value="0"/>
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 <#if forum?exists><input type="hidden" name="forum_id" value="${forum.id}" /></#if>
 <input type="hidden" name="start" value="${start?default("")}" />
 <#if isEdit><input type="hidden" name="post_id" value="${post.id}" /></#if>
@@ -333,6 +334,7 @@ function cancelOperation()
 										<input class="button" onmouseover="helpline('y')" style="WIDTH: 70px" accesskey="y" onclick="bbstyle(18)" type="button" value="Youtube" name="addbbcode18" />
 										<input class="button" onmouseover="helpline('k')" style="WIDTH: 50px" accesskey="k" onclick="bbstyle(20)" type="button" value="Flash" name="addbbcode20" />
 										<input class="button" onmouseover="helpline('v')" style="WIDTH: 50px" accesskey="v" onclick="bbstyle(22)" type="button" value="WMV" name="addbbcode22" />
+										<input class="button" onmouseover="helpline('m')" style="WIDTH: 50px" accesskey="v" onclick="bbstyle(30)" type="button" value="Vimeo" name="addbbcode30" />
 									</td>
 								</tr>
 
@@ -340,8 +342,8 @@ function cancelOperation()
 								<tr>
 									<td>
 										<span class="genmed">&nbsp;${I18n.getMessage("PostForm.textColor")}:
-										<select onmouseover="helpline('s')" onchange="bbfontstyle('[color=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/color]')" name="addbbcode24">
-											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="#444444" selected="selected">${I18n.getMessage("PostForm.colorDefault")}</option>
+										<select onmouseover="helpline('s')" onchange="bbfontstyle('[color=' + this.form.addbbcode32.options[this.form.addbbcode32.selectedIndex].value + ']', '[/color]')" name="addbbcode32">
+											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="black" selected="selected">${I18n.getMessage("PostForm.colorDefault")}</option>
 											<option class="genmed" style="COLOR: darkred; BACKGROUND-COLOR: #fafafa" value="darkred">${I18n.getMessage("PostForm.colorDarkRed")}</option>
 											<option class="genmed" style="COLOR: red; BACKGROUND-COLOR: #fafafa" value="red">${I18n.getMessage("PostForm.colorRed")}</option>
 											<option class="genmed" style="COLOR: orange; BACKGROUND-COLOR: #fafafa" value="orange">${I18n.getMessage("PostForm.colorOrange")}</option>
@@ -358,7 +360,7 @@ function cancelOperation()
 										</select>
 
 										&nbsp;${I18n.getMessage("PostForm.font")}:
-										<select onmouseover="helpline('f')" onchange="bbfontstyle('[size=' + this.form.addbbcode26.options[this.form.addbbcode26.selectedIndex].value + ']', '[/size]')" name="addbbcode26">
+										<select onmouseover="helpline('f')" onchange="bbfontstyle('[size=' + this.form.addbbcode34.options[this.form.addbbcode34.selectedIndex].value + ']', '[/size]')" name="addbbcode34">
 											<option class="genmed" value="7">${I18n.getMessage("PostForm.fontVerySmall")}</option>
 											<option class="genmed" value="9">${I18n.getMessage("PostForm.fontSmall")}</option>
 											<option class="genmed" value="12" selected="selected">${I18n.getMessage("PostForm.fontNormal")}</option>

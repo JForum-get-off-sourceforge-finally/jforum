@@ -1,9 +1,9 @@
 <#include "header.htm"/>
 
-<form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post" enctype="multipart/form-data">
+<form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
-
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 <#if smilie?exists>
 <input type="hidden" name="id" value="${smilie.id}" />
 </#if>

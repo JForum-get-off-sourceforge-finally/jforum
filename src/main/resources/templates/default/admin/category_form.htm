@@ -21,7 +21,7 @@ function checkGroups()
 <form action="${JForumContext.encodeURL("/jforum")}" method="post" name="form" id="form" accept-charset="${encoding}" onsubmit="return checkGroups()">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
-
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 
 <#if category?exists>
 	<input type="hidden" name="categories_id" value="${category.id}" />

@@ -92,10 +92,10 @@ function limitTextArea(field, limit)
 /* ]]> */
 </script>
 
-<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="form" id="form" accept-charset="${encoding}" onsubmit="return checkInput();" enctype="multipart/form-data">
+<form action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" name="form" id="form" accept-charset="${encoding}" onsubmit="return checkInput();" enctype="multipart/form-data">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
-
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 <#if !edit>
 	<#list groups as g>
 		<input type="hidden" name="groups" value="${g.id}" />

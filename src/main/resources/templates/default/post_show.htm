@@ -8,7 +8,7 @@
 <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
 <script type="text/javascript">stLight.options({publisher: "ur-ed21c17-39ef-536e-2b90-de9490a7c86c", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="${contextPath}/javascript/jquery.jeditable.pack.js"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post_show.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
@@ -109,6 +109,7 @@
 									<input type="hidden" name="module" value="${moduleName}" />
 									<input type="hidden" name="poll_id" value="${poll.id}" />
 									<input type="hidden" name="topic_id" value="${topic.id}" />
+									<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 									<div class="poll">
 										<span class="strong">${poll.label?html}</span>
 										<table class="poll">
@@ -298,7 +299,7 @@
 					/* ]]> */
 					</script>
 					
-					<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="post" id="post" onsubmit="return validatePostForm(this);" enctype="multipart/form-data" accept-charset="${encoding}">
+					<form action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" name="post" id="post" onsubmit="return validatePostForm(this);" enctype="multipart/form-data" accept-charset="${encoding}">
 						<input type="hidden" name="action" value="insertSave" />
 						<input type="hidden" name="module" value="posts" />
 						<input type="hidden" name="forum_id" value="${forum.id}" />
@@ -306,7 +307,7 @@
 						<input type="hidden" name="topic_id" value="${topic.id}" />
 						<input type="hidden" name="disable_html" value="1" />
 						<input type="hidden" name="quick" value="1" />
-	
+						<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 						<table width="100%">
 							<tr>
 								<td align="center">
@@ -362,6 +363,7 @@
 					      <input type="hidden" name="log_type" value="0"/>
 					      <input type="hidden" name="log_description" />
 					      <input type="hidden" id="moderationTodo" />
+					      <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 					    </form>
               <@presentation.moderationImages/>              
 						</td>

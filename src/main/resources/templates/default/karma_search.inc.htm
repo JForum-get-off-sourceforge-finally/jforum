@@ -36,6 +36,7 @@ function activateAdvancedQuery()
 			<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="searchByMonthForm" id="searchByMonthForm">
 			<input type="hidden" name="action" value="searchByMonth" />
 			<input type="hidden" name="module" value="karma" />
+			<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 			<table class="forumline" width="100%" align="center">				
 				<tr>
 					<th class="thtop" align="left">
@@ -93,6 +94,7 @@ function activateAdvancedQuery()
 				<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="searchByPeriodForm" id="searchByPeriodForm">
 				<input type="hidden" name="action" value="searchByPeriod" />
 				<input type="hidden" name="module" value="karma" />
+				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 			<table class="forumline" width="100%" align="center">				
 
 				<tr>

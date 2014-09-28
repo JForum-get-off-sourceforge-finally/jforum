@@ -68,6 +68,7 @@
 				<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="privmsg_list" id="privmsg_list">
 				<input type="hidden" name="module" value="${moduleName}" />
 				<input type="hidden" name="action" value="delete" />
+				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 					<table cellspacing="2" cellpadding="2" width="100%" align="center">
 						<tbody>
 							<tr>

@@ -19,10 +19,11 @@ function validateForm()
 /* ]]> */
 </script>
 
-<form action="${JForumContext.encodeURL("/jforum")}" method="post" enctype="multipart/form-data" name="post" id="post" accept-charset="${encoding}" onsubmit="return validateForm();">
+<form action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" enctype="multipart/form-data" name="post" id="post" accept-charset="${encoding}" onsubmit="return validateForm();">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="user_id" value="${u.id}" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
 		<td class="bodyline">
@@ -286,6 +287,7 @@ function validateForm()
 							<option value="it_IT" <#if u.lang?default("") == "it_IT">selected="selected"</#if>>${I18n.getMessage("User.Lang.it_IT")}</option>
 							<option value="hu_HU" <#if u.lang?default("") == "hu_HU">selected="selected"</#if>>${I18n.getMessage("User.Lang.hu_HU")}</option>
 							<option value="ja_JP" <#if u.lang?default("") == "ja_JP">selected="selected"</#if>>${I18n.getMessage("User.Lang.ja_JP")}</option>
+							<option value="tr_TR" <#if u.lang?default("") == "tr_TR">selected="selected"</#if>>${I18n.getMessage("User.Lang.tr_TR")}</option>
 						</select>
 					</td>
 				</tr>

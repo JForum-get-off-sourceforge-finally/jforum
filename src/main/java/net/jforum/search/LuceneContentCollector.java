@@ -104,7 +104,7 @@ public class LuceneContentCollector
 			Post post = iter.next();
 
 			Scorer scorer = new QueryScorer(query);
-			SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<b><font color=\"red\">", "</font></b>");
+			SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<u><b><font color=\"red\">", "</font></b></u>");
 			Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);
 
 			// Highlight keyword in post text

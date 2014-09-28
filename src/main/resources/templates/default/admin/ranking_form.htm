@@ -21,6 +21,7 @@ function turnSpecial() {
 <form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 
 <#if rank?exists>
 	<input type="hidden" name="rank_id" value="${rank.id}" />

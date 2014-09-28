@@ -1,6 +1,6 @@
 <#include "header.htm"/>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -53,6 +53,7 @@ function testEmail()
 <form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post">
 <input type="hidden" name="action" value="editSave" />
 <input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 
 <table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 <tr>

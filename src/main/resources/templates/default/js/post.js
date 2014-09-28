@@ -20,7 +20,8 @@ var is_mac    = (clientPC.indexOf("mac")!=-1);
 bbcode = new Array();
 bbtags = new Array('[b]','[/b]', '[i]','[/i]', '[u]','[/u]', '[quote]','[/quote]', '[code]','[/code]',
 	'[list]','[/list]', '[img]','[/img]', '[url]','[/url]', '[google]','[/google]', '[youtube]','[/youtube]', 
-	'[flash]','[/flash]', '[wmv]','[/wmv]', '[tt]','[/tt]', '[strike]','[/strike]', '[wikipedia]','[/wikipedia]');
+	'[flash]','[/flash]', '[wmv]','[/wmv]', '[tt]','[/tt]', '[strike]','[/strike]', '[wikipedia]','[/wikipedia]',
+	'[vimeo]', '[/vimeo]');
 imageTag = false;
 
 var openBBtags = new Array();
@@ -115,43 +116,44 @@ function emoticon(text) {
 }
 
 function bbfontstyle(bbopen,bbclose) {
-var txtarea = document.post.message;
+    var txtarea = document.post.message;
 
-//IE
-if (document.selection)
-  { txtarea.focus();
-    sel = document.selection.createRange();
-    sel.text = bbopen+sel.text+bbclose;
-  }
-//Mozilla-Netscape
-else if (txtarea.selectionStart || txtarea.selectionStart == '0') {
-   var startPos = txtarea.selectionStart;
-   var endPos = txtarea.selectionEnd;
-   var cursorPos = endPos;
-   var scrollTop = txtarea.scrollTop;
+    //IE
+    if (document.selection) { 
+        txtarea.focus();
+        sel = document.selection.createRange();
+        if (sel.text.length > 0) {
+        	sel.text = bbopen+sel.text+bbclose;
+        }
+    }
+    //Mozilla-Netscape
+    else if (txtarea.selectionStart || txtarea.selectionStart == '0') {
+        var startPos = txtarea.selectionStart;
+        var endPos = txtarea.selectionEnd;
+        var cursorPos = endPos;
+        var scrollTop = txtarea.scrollTop;
 
-   if (startPos != endPos) {
-      txtarea.value = txtarea.value.substring(0, startPos)
+        if (startPos != endPos) {
+            txtarea.value = txtarea.value.substring(0, startPos)
                  + bbopen
                  + txtarea.value.substring(startPos, endPos)
                  + bbclose
                  + txtarea.value.substring(endPos, txtarea.value.length);
-      cursorPos += bbopen.length + bbclose.length;
-   }
-   else {
-
-         txtarea.value = txtarea.value.substring(0, startPos)
-                  + bbopen+' '+bbclose
-                  + txtarea.value.substring(endPos, txtarea.value.length);
-      cursorPos = startPos + bbopen.length+bbclose.length+1;
-   }
-   txtarea.focus();
-   txtarea.selectionStart = cursorPos;
-   txtarea.selectionEnd = cursorPos;
-   txtarea.scrollTop = scrollTop;
-}
- else {   txtarea.value += bbopen+' '+bbclose;
-   txtarea.focus();
+            cursorPos += bbopen.length + bbclose.length;
+        } else {
+            //txtarea.value = txtarea.value.substring(0, startPos)
+            //      + bbopen+' '+bbclose
+            //      + txtarea.value.substring(endPos, txtarea.value.length);
+            //cursorPos = startPos + bbopen.length+bbclose.length+1;
+        }
+        txtarea.focus();
+        txtarea.selectionStart = cursorPos;
+        txtarea.selectionEnd = cursorPos;
+        txtarea.scrollTop = scrollTop;
+    }
+    else {   
+        //txtarea.value += bbopen+' '+bbclose;
+        txtarea.focus();
     }
 }
 

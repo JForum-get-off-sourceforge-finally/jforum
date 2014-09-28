@@ -6,6 +6,7 @@
 	<form accept-charset="${encoding}" name="formAdd" action="${JForumContext.encodeURL("/jforum")}" method="post">
 	<input type="hidden" name="action" value="extensionsSave" />
 	<input type="hidden" name="module" value="${moduleName}" />
+	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
 		<td class="cathead" colspan="8" align="center"><span class="cattitle">${I18n.getMessage("AdminAttachments.addNewExtension")}</span></td>
@@ -64,6 +65,7 @@
 		<input type="hidden" name="action" value="extensionsUpdate" />
 		<input type="hidden" name="module" value="${moduleName}" />
 		<input type="hidden" name="total_records" value="${extensions.size()}"/>
+		<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
         <table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 
 		<tr>

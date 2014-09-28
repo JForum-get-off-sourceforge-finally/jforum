@@ -1,6 +1,6 @@
 <#include "header.htm"/>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -216,9 +216,10 @@ function checkIfPostExists()
 <br />
 
 <#if indexExists>
-	<form action="${JForumContext.encodeURL("/jforum")}" onsubmit="return validateReindexForm(this);">
+	<form action="${JForumContext.encodeURL("/jforum")}" onsubmit="return validateReindexForm(this);" method="post">
 	<input type="hidden" name="module" value="${moduleName}" />
-
+    <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+    
 	<#if !currentlyIndexing>
 		<input type="hidden" name="action" value="reconstructIndexFromScratch" />
 	<#else>

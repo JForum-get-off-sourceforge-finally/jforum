@@ -1144,7 +1144,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
     }
 
 	/**
-     * @see UserDAO#findAllUsersByEmail(String, int, int)
+     * @see net.jforum.dao.UserDAO#findAllUsersByEmail(String, int, int)
 	 */
 	public List<User> findAllUsersByEmail(String email, int start, int count) {
 		List<User> result = new ArrayList<User>();
@@ -1176,7 +1176,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see UserDAO#getTotalUsersByIp(String)
+	 * @see net.jforum.dao.UserDAO#getTotalUsersByIp(String)
 	 */
 	public int getTotalUsersByIp(String ip) {
         PreparedStatement p = null;
@@ -1202,7 +1202,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-     * @see UserDAO#findAllUsersByIp(String, int, int)
+     * @see net.jforum.dao.UserDAO#findAllUsersByIp(String, int, int)
 	 */
 	public List<User> findAllUsersByIp(String ip, int start, int count) {
         List<User> result = new ArrayList<User>();

@@ -563,3 +563,11 @@ CREATE TABLE jforum_api (
   api_validity TIMESTAMP NOT NULL,
   PRIMARY KEY(api_id)
 );
+
+--
+-- Table structure for table 'jforum_spam'
+--
+CREATE TABLE jforum_spam (
+  pattern varchar(100) NOT NULL
+);
+

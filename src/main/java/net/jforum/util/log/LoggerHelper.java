@@ -129,7 +129,7 @@ public final class LoggerHelper
         File dest = null;
         try
         {
-            checkClasspathDir( classpathDir );
+            //checkClasspathDir( classpathDir );
             dest = checkDestFile( classpathDir );
         }
         catch ( Throwable e )

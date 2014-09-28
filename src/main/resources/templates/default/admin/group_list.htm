@@ -5,6 +5,7 @@
 <form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post">
 <input type="hidden" name="action" value="delete" />
 <input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 
 <table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>

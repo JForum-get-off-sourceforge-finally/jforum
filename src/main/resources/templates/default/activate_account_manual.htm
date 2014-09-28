@@ -32,6 +32,7 @@ function validateForm(f)
 <form id="formactivate" accept-charset="${encoding}" name="formactivate" action="${JForumContext.encodeURL("/jforum")}" method="post" onsubmit="return validateForm(this);">
 <input type="hidden" name="action" value="activateAccount" />
 <input type="hidden" name="module" value="user" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 
 <table cellspacing="2" cellpadding="2" width="100%" align="center">
 	<tr>

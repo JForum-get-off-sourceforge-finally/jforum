@@ -82,7 +82,18 @@ public class C3P0PooledConnection extends DBConnection
 		this.dataSource.setIdleConnectionTestPeriod(SystemGlobals.getIntValue(ConfigKeys.DATABASE_PING_DELAY));
 		
 		this.extraParams();
-		this.databaseUp = true;
+		
+		try {
+			// Try to validate the connection url
+			final Connection conn = this.getConnection();
+
+			if (conn != null) {
+				this.releaseConnection(conn);
+				this.databaseUp = true;
+			}
+		} catch (Exception e) {
+			this.databaseUp = false;
+		}
 	}
 	
 	private void extraParams()

@@ -45,9 +45,13 @@ package net.jforum.search;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import net.jforum.dao.AttachmentDAO;
 import net.jforum.dao.DataAccessDriver;
@@ -69,12 +73,11 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.Property;
 import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.sax.BodyContentHandler;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 
 /**
@@ -252,12 +255,12 @@ public class LuceneIndexer
 					ParseContext context = new ParseContext();
 					context.set(Parser.class, parser);
 
-					Set<Property> textualMetadataFields = new HashSet<Property>();
-					textualMetadataFields.add(TikaCoreProperties.TITLE);
-					textualMetadataFields.add(TikaCoreProperties.COMMENTS);
-					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);
-					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION);
-					textualMetadataFields.add(TikaCoreProperties.KEYWORDS);
+					Set<String> textualMetadataFields = new HashSet<String>();
+					textualMetadataFields.add(TikaCoreProperties.TITLE.getName());
+					textualMetadataFields.add(TikaCoreProperties.COMMENTS.getName());
+					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
+					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION.getName());
+					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
 
 					parser.parse(is, handler, metadata, context);
 
@@ -274,7 +277,11 @@ public class LuceneIndexer
 				} catch (Exception ex) {
 					LOGGER.info("error indexing "+f.getName()+": " + ex.getMessage());
 				} finally {
-					try { is.close(); } catch (Exception e) { /* ignore */ }
+					try {
+						is.close();
+					} catch (Exception e) { 
+						LOGGER.error("error  closing FileInputStream " +f.getName() + ": " + e.getMessage());
+					}
 				}
 			}
 		}
