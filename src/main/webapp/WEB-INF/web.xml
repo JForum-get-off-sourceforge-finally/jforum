@@ -5,6 +5,7 @@
    version="2.5">
     <display-name>JForum - Powering Communities</display-name>
     <description>Open Source Java Forum Software</description>
+    
     <context-param>
 		<param-name>Owasp.CsrfGuard.Config</param-name>
 		<param-value>/WEB-INF/config/csrfguard.properties</param-value>
@@ -17,30 +18,28 @@
 		<param-name>Owasp.CsrfGuard.Config.Print</param-name>
 		<param-value>true</param-value>
 	</context-param>
-
+	
+    <!-- CSRF Protection -->
     <filter>
 		<filter-name>CSRFGuard</filter-name>
 		<filter-class>net.jforum.csrf.CsrfFilter</filter-class>
 	</filter>
-	<filter-mapping>
-		<filter-name>CSRFGuard</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 
     <!-- Clickstream -->
     <filter>
         <filter-name>clickstream-jforum</filter-name>
         <filter-class>net.jforum.util.legacy.clickstream.ClickstreamFilter</filter-class>
     </filter>
-
+    
+	<filter-mapping>
+		<filter-name>CSRFGuard</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
     <filter-mapping>
         <filter-name>clickstream-jforum</filter-name>
         <url-pattern>*.page</url-pattern>
     </filter-mapping>
-
-    <listener>
-        <listener-class>net.jforum.ForumSessionListener</listener-class>
-    </listener>
 
 	<listener>
 		<listener-class>net.jforum.ContextListener</listener-class>
@@ -50,21 +49,24 @@
 		<listener-class>net.jforum.csrf.CsrfListener</listener-class>
 	</listener>
 
-    <!-- JForum Controller -->
+    <listener>
+        <listener-class>net.jforum.ForumSessionListener</listener-class>
+    </listener>
+    
+    <!-- Installer -->
     <servlet>
-        <servlet-name>jforum</servlet-name>
-        <servlet-class>net.jforum.JForum</servlet-class>
+        <servlet-name>install</servlet-name>
+        <servlet-class>net.jforum.InstallServlet</servlet-class>
         <init-param>
             <param-name>development</param-name>
             <param-value>true</param-value>
         </init-param>
     </servlet>
-
-    <!-- Installer -->
+    
+    <!-- JForum Controller -->
     <servlet>
-        <servlet-name>install</servlet-name>
-        <servlet-class>net.jforum.InstallServlet</servlet-class>
-
+        <servlet-name>jforum</servlet-name>
+        <servlet-class>net.jforum.JForum</servlet-class>
         <init-param>
             <param-name>development</param-name>
             <param-value>true</param-value>

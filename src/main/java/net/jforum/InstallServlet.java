@@ -50,6 +50,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.csrfguard.CsrfGuard;
+
 import net.jforum.context.ForumContext;
 import net.jforum.context.JForumContext;
 import net.jforum.context.RequestContext;
@@ -118,7 +120,11 @@ public class InstallServlet extends JForumBaseServlet
                 context.put("encoding", encoding);
                 context.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
                 context.put("JForumContext", forumContext);
-                context.put("version", SystemGlobals.getValue(ConfigKeys.VERSION));			
+                context.put("version", SystemGlobals.getValue(ConfigKeys.VERSION));	
+                CsrfGuard csrfGuard = CsrfGuard.getInstance();
+                //context.put("OWASP_CSRFTOKEN", req.getAttribute("OWASP_CSRFTOKEN"));
+                context.put("OWASP_CSRFTOKEN", csrfGuard.getTokenValue(req));
+                System.out.println("[4]token value="+csrfGuard.getTokenValue(req));
 
                 // Module and Action
                 final String moduleClass = ModulesRepository.getModuleClass(request.getModule());

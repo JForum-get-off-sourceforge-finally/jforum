@@ -71,21 +71,28 @@ public class CsrfFilter implements Filter {
                 // added this because wasn't creating tokens on initial request
                 session = httpRequest.getSession(true);
                 csrfGuard.updateTokens(httpRequest);
+                //httpRequest.setAttribute(OWASP_CSRF_TOKEN_NAME, csrfGuard.getTokenValue(httpRequest));
+                System.out.println("[1]token value="+csrfGuard.getTokenValue(httpRequest));
                 return;
             }
             csrfGuard.getLogger().log(String.format("CsrfGuard analyzing request %s", httpRequest.getRequestURI()));
             InterceptRedirectResponse httpResponse = new InterceptRedirectResponse((HttpServletResponse) response,
                     httpRequest, csrfGuard);
-            // if(MultipartHttpServletRequest.isMultipartRequest(httpRequest)) {
-            // httpRequest = new MultipartHttpServletRequest(httpRequest);
+            // if (MultipartHttpServletRequest.isMultipartRequest(httpRequest)) {
+            //     httpRequest = new MultipartHttpServletRequest(httpRequest);
             // }
             /**
              * Custom code
              */
+            if (httpRequest.getRequestURI().endsWith("/")) {
+            	System.out.println("bypass uri="+httpRequest.getRequestURI().endsWith("/"));
+            	filterChain.doFilter(httpRequest, httpResponse);
+            	return;            	
+            }
             String name = getJForumMethodName(httpRequest);
             CsrfHttpServletRequestWrapper csrfRequestWrapper = new CsrfHttpServletRequestWrapper(httpRequest, name);
             if (session.isNew() && csrfGuard.isUseNewTokenLandingPage()) {
-                csrfGuard.writeLandingPage(httpRequest, httpResponse);
+                csrfGuard.writeLandingPage(httpRequest, httpResponse);                
             } else if (csrfGuard.isValidRequest(csrfRequestWrapper, httpResponse)) {
                 filterChain.doFilter(httpRequest, httpResponse);
             } else {
@@ -93,6 +100,9 @@ public class CsrfFilter implements Filter {
             }
             /** update tokens **/
             csrfGuard.updateTokens(httpRequest);
+            //httpRequest.setAttribute(OWASP_CSRF_TOKEN_NAME, csrfGuard.getTokenValue(httpRequest));
+            System.out.println("[2]token value="+csrfGuard.getTokenValue(httpRequest));
+            System.out.println("-----------------------------------------------------------");
         } else {
             filterConfig.getServletContext().log(
                     String.format("[WARNING] CsrfGuard does not know how to work with requests of class %s ", request
