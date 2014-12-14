@@ -71,8 +71,6 @@ public class CsrfFilter implements Filter {
                 // added this because wasn't creating tokens on initial request
                 session = httpRequest.getSession(true);
                 csrfGuard.updateTokens(httpRequest);
-                //httpRequest.setAttribute(OWASP_CSRF_TOKEN_NAME, csrfGuard.getTokenValue(httpRequest));
-                System.out.println("[1]token value="+csrfGuard.getTokenValue(httpRequest));
                 return;
             }
             csrfGuard.getLogger().log(String.format("CsrfGuard analyzing request %s", httpRequest.getRequestURI()));
@@ -84,8 +82,9 @@ public class CsrfFilter implements Filter {
             /**
              * Custom code
              */
-            if (httpRequest.getRequestURI().endsWith("/")) {
-            	System.out.println("bypass uri="+httpRequest.getRequestURI().endsWith("/"));
+            // bypass uri ends with /
+           if (httpRequest.getRequestURI().endsWith("/")) {
+            	System.out.println("bypass uri="+httpRequest.getRequestURI());
             	filterChain.doFilter(httpRequest, httpResponse);
             	return;            	
             }
@@ -100,9 +99,6 @@ public class CsrfFilter implements Filter {
             }
             /** update tokens **/
             csrfGuard.updateTokens(httpRequest);
-            //httpRequest.setAttribute(OWASP_CSRF_TOKEN_NAME, csrfGuard.getTokenValue(httpRequest));
-            System.out.println("[2]token value="+csrfGuard.getTokenValue(httpRequest));
-            System.out.println("-----------------------------------------------------------");
         } else {
             filterConfig.getServletContext().log(
                     String.format("[WARNING] CsrfGuard does not know how to work with requests of class %s ", request

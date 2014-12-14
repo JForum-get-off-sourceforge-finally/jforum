@@ -220,9 +220,7 @@ public class JForum extends JForumBaseServlet
                     context.put("moduleName", module);
                     context.put("action", request.getAction());
                     CsrfGuard csrfGuard = CsrfGuard.getInstance();
-                    //context.put("OWASP_CSRFTOKEN", req.getAttribute("OWASP_CSRFTOKEN"));
                     context.put("OWASP_CSRFTOKEN", csrfGuard.getTokenValue(req));
-                    System.out.println("[3]token value="+csrfGuard.getTokenValue(req));
                 }
 
                 if (shouldBan && SystemGlobals.getBoolValue(ConfigKeys.BANLIST_SEND_403FORBIDDEN)) {

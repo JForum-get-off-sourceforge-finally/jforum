@@ -122,9 +122,7 @@ public class InstallServlet extends JForumBaseServlet
                 context.put("JForumContext", forumContext);
                 context.put("version", SystemGlobals.getValue(ConfigKeys.VERSION));	
                 CsrfGuard csrfGuard = CsrfGuard.getInstance();
-                //context.put("OWASP_CSRFTOKEN", req.getAttribute("OWASP_CSRFTOKEN"));
                 context.put("OWASP_CSRFTOKEN", csrfGuard.getTokenValue(req));
-                System.out.println("[4]token value="+csrfGuard.getTokenValue(req));
 
                 // Module and Action
                 final String moduleClass = ModulesRepository.getModuleClass(request.getModule());
