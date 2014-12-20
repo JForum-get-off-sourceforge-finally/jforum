@@ -53,9 +53,6 @@ import java.util.Map;
  * javadocs of various API versions. This is done by appending a version ID to the class name:
  * [javadoc]String:5[/javadoc] refers to the javadocs of Java 5, while [javadoc]String:1.4[/javadoc]
  * refers to the javadocs of Java 1.4. Without the version ID, the latest available version is used.
- *
- * TODO: Move the URLs to a config file, and make it a JForum Repository so it can be reloaded
- * without a source code change or a restart.
  */
 
 public class JavaDocLink implements Substitution {
@@ -132,7 +129,7 @@ public class JavaDocLink implements Substitution {
     private static String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static String LUCENE_URL = "http://lucene.apache.org/core/4_9_0/core/";
+    private static String LUCENE_URL = "http://lucene.apache.org/core/4_10_2/core/";
     private static String POI_URL = "http://poi.apache.org/apidocs/";
     private static String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -167,7 +164,7 @@ public class JavaDocLink implements Substitution {
     private static String NET_URL = ACP + "-net/javadocs/api-3.3/";
     private static String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static String LOGGING_URL = ACP + "-logging/javadocs/api-1.1/";
-    private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.8.1/";
+    private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.9/";
     private static String BETWIXT_URL = ACP + "-betwixt/apidocs/";
     private static String POOL_URL = ACP + "-pool/api-2.2/";
 
@@ -201,7 +198,7 @@ public class JavaDocLink implements Substitution {
     private static String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
     private static String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
     private static String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
-    private static String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.0/";
+    private static String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
     private static String OSGI_URL_CORE = "http://www.osgi.org/javadoc/r5/core/";
     private static String OSGI_URL_ENTERPRISE = "http://www.osgi.org/javadoc/r5/enterprise/";
     private static String GOOGLE_GUAVA_URL = "http://guava-libraries.googlecode.com/svn/trunk/javadoc/";
