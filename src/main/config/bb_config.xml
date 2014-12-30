@@ -269,7 +269,7 @@
 
 	<!-- SIZE -->
 	<match name="size" removeQuotes="true">
-		<regex>(?s)(?i)\[size=['"]?(.*?[^'"])['"]?\](.*?)\[/size\]</regex>
+		<regex>(?s)(?i)\[size=['"]?(\s*\d+\s*)['"]?\](.*?)\[/size\]</regex>
 		<replace>
 		<![CDATA[
 		<span style="font-size: $1px; line-height: normal;">$2</span>
