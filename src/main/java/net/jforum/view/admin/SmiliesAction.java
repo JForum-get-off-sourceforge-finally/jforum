@@ -64,7 +64,7 @@ import org.apache.log4j.Logger;
 public class SmiliesAction extends AdminCommand 
 {
 	private static final Logger LOGGER = Logger.getLogger(SmiliesAction.class);
-	
+
 	private String processUpload()
 	{
 		String imgName = "";
@@ -72,40 +72,45 @@ public class SmiliesAction extends AdminCommand
 		if (this.request.getObjectParameter("smilie_img") != null) {
 			FileItem item = (FileItem)this.request.getObjectParameter("smilie_img");
 			UploadUtils uploadUtils = new UploadUtils(item);
+			String ext = uploadUtils.getExtension().toLowerCase();
+			if (ext.equals("png") || ext.equals("gif") || ext.equals("jpg") || ext.equals("jpeg")) {
+				imgName = MD5.crypt(item.getName());
 
-			imgName = MD5.crypt(item.getName());
-			
-			uploadUtils.saveUploadedFile(SystemGlobals.getApplicationPath() 
-					+ "/"
-					+ SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_DIR) 
-					+ "/"
-					+ imgName + "." + uploadUtils.getExtension());			
-			
-			imgName = new StringBuilder(imgName).append('.').append(uploadUtils.getExtension()).toString();
+				uploadUtils.saveUploadedFile(SystemGlobals.getApplicationPath() 
+						+ "/"
+						+ SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_DIR) 
+						+ "/"
+						+ imgName + "." + uploadUtils.getExtension());			
+
+				imgName = new StringBuilder(imgName).append('.').append(uploadUtils.getExtension()).toString();
+			} else {
+				LOGGER.warn("Suspect file extension in smilie upload: " + ext);
+			}
 		}
-		
+
 		return imgName;
 	}
-	
+
 	public void insert()
 	{
 		this.setTemplateName(TemplateKeys.SMILIES_INSERT);
 		this.context.put("action", "insertSave");
 	}
-		
+
 	public void insertSave()
 	{
 		Smilie s = new Smilie();
-		s.setCode(this.request.getParameter("code"));
-		
-		String imgName = this.processUpload();
-		s.setUrl(SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_PATTERN).replaceAll("#IMAGE#", imgName));
-		
-		s.setDiskName(imgName);
-		
-		DataAccessDriver.getInstance().newSmilieDAO().addNew(s);
-		
-		SmiliesRepository.loadSmilies();
+		String code = this.request.getParameter("code");
+		if (code!=null && !code.trim().equals("")) {
+			s.setCode(code);
+			String imgName = this.processUpload();
+			if (! imgName.trim().equals("")) {
+				s.setUrl(SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_PATTERN).replaceAll("#IMAGE#", imgName));
+				s.setDiskName(imgName);
+				DataAccessDriver.getInstance().newSmilieDAO().addNew(s);
+				SmiliesRepository.loadSmilies();
+			}
+		}
 		this.list();
 	}
 	
@@ -129,12 +134,14 @@ public class SmiliesAction extends AdminCommand
 		
 		if (this.request.getObjectParameter("smilie_img") != null) {
 			String imgName = this.processUpload();
-			s.setUrl(SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_PATTERN).replaceAll("#IMAGE#", imgName));
-			s.setDiskName(imgName);
+			if (! imgName.trim().equals("")) {
+				s.setUrl(SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_PATTERN).replaceAll("#IMAGE#", imgName));
+				s.setDiskName(imgName);
+			}
 		}
 
 		DataAccessDriver.getInstance().newSmilieDAO().update(s);
-		
+
 		SmiliesRepository.loadSmilies();
 		this.list();
 	}
