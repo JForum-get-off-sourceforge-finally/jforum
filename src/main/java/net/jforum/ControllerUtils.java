@@ -43,6 +43,7 @@
  */
 package net.jforum;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 
 import javax.servlet.http.Cookie;
@@ -377,7 +378,25 @@ public class ControllerUtils
 		
 		final Cookie cookie = new Cookie(name, tmpValue);
 		cookie.setMaxAge(maxAge);
-		cookie.setPath("/");
+		String contextPath = SystemGlobals.getValue("context.path");
+		if (contextPath.equals("")) {
+			cookie.setPath("/");
+		} else {
+			cookie.setPath(contextPath);
+		}
+
+		try {
+			String version = SystemGlobals.getValue("servlet.version"); // will be of the form "3.0"
+			int majorVersion = Integer.parseInt(version.substring(0, version.indexOf(".")));
+			if (majorVersion >= 3) {
+				// setHttpOnly was introduced in Servlet API 3.0
+				Class cookieClass = javax.servlet.http.Cookie.class;
+				Method httpOnlyMethod = cookieClass.getMethod("setHttpOnly", new Class[] {boolean.class});
+				httpOnlyMethod.invoke(cookie, new Object[] {Boolean.TRUE});
+			}
+		} catch (Exception ex) {
+			LOGGER.warn("Could not set httpOnly for cookie '"+name+"': "+ex.getMessage());
+		}
 
 		JForumExecutionContext.getResponse().addCookie(cookie);
 	}

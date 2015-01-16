@@ -80,6 +80,7 @@ public class ContextListener implements ServletContextListener {
         SystemGlobals.setValue("container.version", info[1]);
         SystemGlobals.setValue("server.info", containerInfo);
         SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
+        SystemGlobals.setValue("context.path", application.getContextPath());
         LOGGER.info(application.getContextPath() + " initialized");
     }
 
