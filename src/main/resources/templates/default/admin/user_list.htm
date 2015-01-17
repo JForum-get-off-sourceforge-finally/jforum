@@ -15,7 +15,7 @@
 			${I18n.getMessage("User.searchByUsername")}: 
 			<input type="hidden" name="action" value="search" />
 			<input type="hidden" name="module" value="${moduleName}" />
-
+            <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 			<input type="text" name="username" value="${search?default("")}" />&nbsp;
 			${I18n.getMessage("User.searchByGroup")}: 
 			<@lib.selectFieldGroups "group_id", groups, 0, false, selectedList/>
@@ -38,6 +38,7 @@
 	<input type="hidden" name="action" value="delete" />
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="start" value="${start}" />
+	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
     <table class="forumline" cellspacing="1" cellpadding="3" width="100%">  
 	<tr>
 		<td class="row2" width="10%" align="center"><span class="gen"><b>${I18n.getMessage("User.id")}</b></span></td>

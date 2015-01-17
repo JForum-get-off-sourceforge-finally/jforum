@@ -216,9 +216,10 @@ function checkIfPostExists()
 <br />
 
 <#if indexExists>
-	<form action="${JForumContext.encodeURL("/jforum")}" onsubmit="return validateReindexForm(this);">
+	<form action="${JForumContext.encodeURL("/jforum")}" onsubmit="return validateReindexForm(this);" method="post">
 	<input type="hidden" name="module" value="${moduleName}" />
-
+    <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+    
 	<#if !currentlyIndexing>
 		<input type="hidden" name="action" value="reconstructIndexFromScratch" />
 	<#else>

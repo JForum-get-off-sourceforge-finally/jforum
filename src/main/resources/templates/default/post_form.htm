@@ -140,10 +140,11 @@ function cancelOperation()
 
 <#if !user.isNotifyOnMessagesEnabled()><#assign repliesChecked = ""/></#if>
 
-<form action="${JForumContext.encodeURL("/jforum")}" method="post" enctype="multipart/form-data" name="post" id="post" onsubmit="return validatePostForm(this)">
+<form action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" enctype="multipart/form-data" name="post" id="post" onsubmit="return validatePostForm(this)">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="preview" value="0"/>
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 <#if forum?exists><input type="hidden" name="forum_id" value="${forum.id}" /></#if>
 <input type="hidden" name="start" value="${start?default("")}" />
 <#if isEdit><input type="hidden" name="post_id" value="${post.id}" /></#if>

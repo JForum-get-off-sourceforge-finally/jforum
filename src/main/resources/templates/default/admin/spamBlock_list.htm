@@ -14,6 +14,7 @@
 			<form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post">
 				<input type="hidden" name="module" value="${moduleName}" />
 				<input type="hidden" name="action" value="insert" />
+				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 				<label>${I18n.getMessage("SpamBlock.pattern")}: </label>
 				<input type="text" name="pattern" size="40" />
 				<input type="submit" value="${I18n.getMessage("SpamBlock.create")}"/>
@@ -41,6 +42,7 @@
 				<input type="hidden" name="module" value="${moduleName}" />
 				<input type="hidden" name="action" value="delete" />
 				<input type="hidden" name="pattern" value="${pattern}" />
+				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 				<td class="row1 gen">${pattern}</td>
 				<td class="row1 gen"><input type="submit" value="${I18n.getMessage("SpamBlock.delete")}"/></td>
 			</form>

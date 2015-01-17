@@ -63,14 +63,15 @@
 						</td>
 
             <td class="nav" valign="middle" align="left">
-					    <form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch" style="margin: 0px; padding: 0px;">
+				<form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch" style="margin: 0px; padding: 0px;">
                 <input type="hidden" name="module" value="search"/>
                 <input type="hidden" name="action" value="search"/>
                 <input type="hidden" name="search_forum" value="${forum.id}" />
                 <input type="hidden" name="match_type" value="all" />
-						    <input type="text" onblur="if (this.value == '') this.value = '${I18n.getMessage("ForumIndex.searchThisForum")}...';" onclick="if (this.value == '${I18n.getMessage("ForumIndex.searchThisForum")}...') this.value = '';" value="${I18n.getMessage("ForumIndex.searchThisForum")}..." size="20" name="search_keywords" class="inputSearchForum"/>
-						    <input type="submit" value="${I18n.getMessage("ForumBase.search")}" class="liteoption" />
-					    </form>
+                <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+				<input type="text" onblur="if (this.value == '') this.value = '${I18n.getMessage("ForumIndex.searchThisForum")}...';" onclick="if (this.value == '${I18n.getMessage("ForumIndex.searchThisForum")}...') this.value = '';" value="${I18n.getMessage("ForumIndex.searchThisForum")}..." size="20" name="search_keywords" class="inputSearchForum"/>
+				<input type="submit" value="${I18n.getMessage("ForumBase.search")}" class="liteoption" />
+				</form>
             </td>
             <td class="nav" nowrap="nowrap" align="right">
 		  				<#assign paginationData><@pagination.doPagination action, forum.id/></#assign>
@@ -94,7 +95,7 @@
 				<input type="hidden" name="action" value="approveMessages" />
 				<input type="hidden" name="module" value="${moduleName}" />
 				<input type="hidden" name="forum_id" value="${forum.id}" />
-
+                <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 				<table width="70%" class="forumline" align="center" cellspacing="1" cellpadding="4">
 					<tr>
 						<td class="bg_yellow" align="center" style="height: 30px" colspan="2"><span class="gensmal" style="font-size: 11px; "><b>${I18n.getMessage("Moderation.checkQueue")}</b></span></td>

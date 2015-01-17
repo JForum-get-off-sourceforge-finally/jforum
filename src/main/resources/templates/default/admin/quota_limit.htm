@@ -8,6 +8,7 @@
 	<form accept-charset="${encoding}" name="form1" action="${JForumContext.encodeURL("/jforum")}" method="post">
 	<input type="hidden" name="action" value="quotaLimitSave" />
 	<input type="hidden" name="module" value="${moduleName}" />
+	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
 	  <th class="thead" colspan="5" align="center">${I18n.getMessage("AdminAttachments.quotaTitle")}</th>
@@ -42,6 +43,7 @@
 	<input type="hidden" name="action" value="quotaLimitUpdate" />
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="total_records" value="${quotas.size()}"/>
+	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 		<tr>
 			<th class="thcornerl">${I18n.getMessage("AdminAttachments.quotaDescription")}</th>
@@ -101,6 +103,7 @@
 <input type="hidden" name="action" value="quotaGroupsSave" />
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="total_groups" value="${groups.size()}" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 <table width="60%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
 	  <th class="thead" colspan="5" align="center">${I18n.getMessage("AdminAttachments.groupPermission")}</th>

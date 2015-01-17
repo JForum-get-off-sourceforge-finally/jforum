@@ -2,6 +2,7 @@
 <form action="${JForumContext.encodeURL("/jforum")}" method="post" name="loginform" id="loginform" accept-charset="${encoding}">
   <input type="hidden" name="module" value="user" />
   <input type="hidden" name="action" value="validateLogin" />
+  <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
   
   <#if returnPath?exists>
   	<input type="hidden" name="returnPath" value="${returnPath?html}" />

@@ -27,6 +27,7 @@ function refreshUsername()
 <form action="${contextPath}/jforum${extension}" method="post" name="search" id="search" accept-charset="${encoding}">
 <input type="hidden" name="action" value="${action}" />
 <input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 	<table cellspacing="0" cellpadding="10" width="100%">
 		<tr>
 			<td>

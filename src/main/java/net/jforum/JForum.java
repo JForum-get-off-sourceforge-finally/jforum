@@ -87,6 +87,7 @@ import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.common.Stats;
 
 import org.apache.log4j.Logger;
+import org.owasp.csrfguard.CsrfGuard;
 import org.quartz.SchedulerException;
 
 import freemarker.template.SimpleHash;
@@ -218,6 +219,8 @@ public class JForum extends JForumBaseServlet
                 else {
                     context.put("moduleName", module);
                     context.put("action", request.getAction());
+                    CsrfGuard csrfGuard = CsrfGuard.getInstance();
+                    context.put("OWASP_CSRFTOKEN", csrfGuard.getTokenValue(req));
                 }
 
                 if (shouldBan && SystemGlobals.getBoolValue(ConfigKeys.BANLIST_SEND_403FORBIDDEN)) {

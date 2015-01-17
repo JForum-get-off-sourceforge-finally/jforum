@@ -74,6 +74,7 @@ td.cathead,td.catsides,td.catleft,td.catright,td.catbottom { background-image: u
 						<form name="f" action="${JForumContext.encodeURL("/install/install")}" method="post">
 						<input type="hidden" name="module" value="install" />
 						<input type="hidden" name="action" value="doInstall" />
+						<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 						<input type="submit" name="tryagain" class="mainoption" value="${I18n.getMessage("Install.tryAgain")}" />&nbsp;&nbsp;
 						</#if>
 						<input type="button" class="mainoption" value="${I18n.getMessage("Install.modifyConfiguration")}" onclick="document.location = '${contextPath}/install/install${extension}?module=install&amp;action=welcome';" />

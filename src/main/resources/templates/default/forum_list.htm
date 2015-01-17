@@ -149,7 +149,8 @@
 			<form name="formlogin" accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="post">
 				<input type="hidden" name="module" value="user" />
 				<input type="hidden" name="action" value="validateLogin" />
-
+                <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+                
 				<table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 					<tr>
 						<td class="cathead"><a name="login2" id="login2"></a><span class="cattitle">${I18n.getMessage("Login.enter")}</span></td>

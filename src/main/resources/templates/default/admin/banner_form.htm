@@ -10,6 +10,7 @@
 <input type="hidden" name="module" value="${moduleName}" />
 <input type="hidden" name="views" value="<#if edit>${banner.views}<#else>0</#if>" />
 <input type="hidden" name="clicks" value="<#if edit>${banner.clicks}<#else>0</#if>" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 
 <table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>

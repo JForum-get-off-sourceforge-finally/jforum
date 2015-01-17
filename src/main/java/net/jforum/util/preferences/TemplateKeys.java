@@ -138,8 +138,6 @@ public final class TemplateKeys
 	public static final String ADMIN_MENU = "admin.menu";
 	public static final String ADMIN_MAIN = "admin.main";
 
-    public static final String ANNOUNCEMENT_EDITOR = "announcement.edit";
-
 	public static final String ATTACHMENTS_CONFIG = "attachments.config";
 	public static final String ATTACHMENTS_QUOTA_LIMIT = "attachments.quota.limit";
 	public static final String ATTACHMENTS_EXTENSION_GROUPS = "attachments.extension.groups";
