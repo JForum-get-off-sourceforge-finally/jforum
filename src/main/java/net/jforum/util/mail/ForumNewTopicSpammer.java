@@ -45,6 +45,7 @@ package net.jforum.util.mail;
 import java.text.MessageFormat;
 import java.util.List;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
@@ -67,24 +68,24 @@ public class ForumNewTopicSpammer extends Spammer
 		String forumLink = ViewCommon.getForumLink();
 		String path = this.postLink(topic, forumLink);
 		String unwatch = this.unwatchLink(forum, forumLink);
-		
-		SimpleHash params = new SimpleHash();
+
+		SimpleHash params = JForumExecutionContext.newSimpleHash();
 		params.put("topic", topic);
 		params.put("path", path);
 		params.put("forumLink", forumLink);
 		params.put("unwatch", unwatch);
-		
+
 		this.setUsers(users);
-		
+
 		if (post != null) {
 			post = PostCommon.preparePostForDisplay(post);
 			params.put("message", post.getText());
 		}
-		
+
 		this.setTemplateParams(params);
-		
+
 		String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_TOPIC_SUBJECT);
-		
+
 		super.prepareMessage(
 			MessageFormat.format(subject, new Object[] { topic.getTitle() }),
 			SystemGlobals.getValue(ConfigKeys.MAIL_NEW_TOPIC_MESSAGE_FILE));

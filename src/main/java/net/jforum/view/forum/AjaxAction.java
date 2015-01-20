@@ -49,6 +49,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.jforum.Command;
+import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.PostDAO;
@@ -69,8 +70,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
-import freemarker.template.SimpleHash;
-
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -78,7 +77,7 @@ import freemarker.template.SimpleHash;
 public class AjaxAction extends Command
 {
 	private static final Logger LOGGER = Logger.getLogger(AjaxAction.class);
-	
+
 	/**
 	 * Sends a test message and set the status message in context
 	 *  sender The sender's email address
@@ -98,7 +97,7 @@ public class AjaxAction extends Command
 		String username = this.request.getParameter("username");
 		String password = this.request.getParameter("password");
 		String to = this.request.getParameter("to");
-		
+
 		// Save the current values
 		String originalHost = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST);
 		String originalAuth = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_AUTH);
@@ -107,7 +106,7 @@ public class AjaxAction extends Command
 		String originalSender = SystemGlobals.getValue(ConfigKeys.MAIL_SENDER);
 		String originalSSL = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_SSL);
 		String originalPort = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PORT);
-		
+
 		// Now put the new ones
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_HOST, host);
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_AUTH, auth);
@@ -116,34 +115,34 @@ public class AjaxAction extends Command
 		SystemGlobals.setValue(ConfigKeys.MAIL_SENDER, sender);
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_SSL, ssl);
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_PORT, port);
-		
+
 		String status = "OK";
-		
+
 		// Send the test mail
 		class TestSpammer extends Spammer {
 			public TestSpammer(String to) {
 				List<User> l = new ArrayList<User>();
-				
+
 				User user = new User();
 				user.setEmail(to);
-				
+
 				l.add(user);
-				
+
 				this.setUsers(l);
-				
-				this.setTemplateParams(new SimpleHash());
+
+				this.setTemplateParams(JForumExecutionContext.newSimpleHash());
 				this.prepareMessage("JForum Test Mail", null);
 			}
-			
+
 			protected String processTemplate() {
 				return ("Test mail from JForum Admin Panel. Sent at " + new Date());
 			}
-			
+
 			protected void createTemplate(String messageFile) throws IOException {}
 		}
-		
+
 		Spammer s = new TestSpammer(to);
-		
+
 		try {
 			s.dispatchMessages();
 		}
@@ -161,23 +160,23 @@ public class AjaxAction extends Command
 			SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_SSL, originalSSL);
 			SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_PORT, originalPort);
 		}
-		
+
 		this.setTemplateName(TemplateKeys.AJAX_TEST_MAIL);
 		this.context.put("status", status);
 	}
-	
+
 	public void isPostIndexed()
 	{
 		int postId = this.request.getIntParameter("post_id");
 
 		this.setTemplateName(TemplateKeys.AJAX_IS_POST_INDEXED);
-		
+
 		LuceneManager manager = (LuceneManager)SearchFacade.manager();
 		Document doc = manager.luceneSearch().findDocumentByPostId(postId);
-		
+
 		this.context.put("doc", doc);
 	}
-	
+
 	public void loadPostContents()
 	{
 		// edit_area has id begin with 'x' to be compliant to XHTML, so we need to remove it.
@@ -189,65 +188,65 @@ public class AjaxAction extends Command
 		this.setTemplateName(TemplateKeys.AJAX_LOAD_POST);
 		this.context.put("post", post);
 	}
-	
+
 	public void savePost()
-	{		
+	{
 		// edit_area has id begin with 'x' to be compliant to XHTML, so we need to remove it.
 		String id = this.request.getParameter("id");
 		if (id == null || "".equals(id)) return;
 		int postId = Integer.parseInt(id.substring(1));
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		Post post = postDao.selectById(postId);
-		
+
 		String originalMessage = post.getText();
-		
+
 		if (PostCommon.canEditPost(post)) {
 			post.setText(this.request.getParameter("value"));
 			postDao.update(post);
-			SearchFacade.update(post);						
+			SearchFacade.update(post);
 		}
-		//post = PostCommon.preparePostForDisplay(post);		
-		
+		//post = PostCommon.preparePostForDisplay(post);
+
 		boolean isModerator = SessionFacade.getUserSession().isModerator(post.getForumId());
-		
+
 		if (SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED)
 				&& isModerator && post.getUserId() != SessionFacade.getUserSession().getUserId()) {
 			ModerationHelper helper = new ModerationHelper();
-			
+
 			this.request.addParameter("log_original_message", originalMessage);
 			this.request.addParameter("post_id", String.valueOf(post.getId()));
 			this.request.addParameter("topic_id", String.valueOf(post.getTopicId()));
-			
+
 			ModerationLog log = helper.buildModerationLogFromRequest();
 			log.getPosterUser().setId(post.getUserId());
-			
+
 			helper.saveModerationLog(log);
 		}
-		
-		if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {			
+
+		if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {
 			PostRepository.update(post.getTopicId(), PostCommon.preparePostForDisplay(post));
 		} else {
 			post = PostCommon.preparePostForDisplay(post);
 		}
-		
+
 		this.setTemplateName(TemplateKeys.AJAX_LOAD_POST);
 		this.context.put("post", post);
 	}
-	
+
 	public void previewPost()
 	{
 		Post post = new Post();
-		
+
 		post.setText(this.request.getParameter("text"));
 		post.setSubject(this.request.getParameter("subject"));
 		post.setHtmlEnabled("true".equals(this.request.getParameter("html")));
 		post.setBbCodeEnabled("true".equals(this.request.getParameter("bbcode")));
 		post.setSmiliesEnabled("true".equals(this.request.getParameter("smilies")));
-		
+
 		if (post.isHtmlEnabled()) {
 			post.setText(new SafeHtml().makeSafe(post.getText()));
 		}
-		
+
 		post = PostCommon.preparePostForDisplay(post);
 		post.setSubject(StringEscapeUtils.escapeEcmaScript(post.getSubject()));
 		post.setText(StringEscapeUtils.escapeEcmaScript(post.getText()));
@@ -255,7 +254,7 @@ public class AjaxAction extends Command
 		this.setTemplateName(TemplateKeys.AJAX_PREVIEW_POST);
 		this.context.put("post", post);
 	}
-	
+
 	/**
 	 * @see net.jforum.Command#list()
 	 */

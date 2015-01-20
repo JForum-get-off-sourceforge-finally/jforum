@@ -97,13 +97,13 @@ public class PostREST extends Command {
 	{
 		try {
 			this.authenticate();
-			
+
 			final String email = this.requiredRequestParameter("email");
 			final String forumId = this.requiredRequestParameter("forum_id");
 			final String subject = this.requiredRequestParameter("subject");
 			final String message = this.requiredRequestParameter("message");
-					
-			final UserDAO dao = DataAccessDriver.getInstance().newUserDAO();			
+
+			final UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
 			User user = dao.findByEmail(email);
 			// If user's email not exists, use anonymous instead
 			if (user == null) {
@@ -125,21 +125,21 @@ public class PostREST extends Command {
 			final Post post = new Post();
 			post.setForumId(Integer.valueOf(forumId));
 			post.setSubject(subject);
-			post.setText(message);				
+			post.setText(message);
 			this.insertMessage(user, post);
 			String postLink = JForumExecutionContext.getRedirectTo(); 
 			JForumExecutionContext.setRedirect(null); 
 			this.setTemplateName(TemplateKeys.API_POST_INSERT); 
 			this.context.put("postLink", postLink);
 			SessionFacade.makeUnlogged();
-			SessionFacade.remove(sessionId);			
+			SessionFacade.remove(sessionId);
 		}
 		catch (Exception e) {
 			this.setTemplateName(TemplateKeys.API_ERROR);
 			this.context.put("exception", e);
 		}
 	}
-	
+
 	/**
 	 * Calls {@link PostAction#insertSave()}
 	 * @param post the post
@@ -148,11 +148,11 @@ public class PostREST extends Command {
 	private void insertMessage(final User user, final Post post)
 	{
 		this.addDataToRequest(user, post);
-		
-		final PostAction postAction = new PostAction(JForumExecutionContext.getRequest(), new SimpleHash());
+
+		final PostAction postAction = new PostAction(JForumExecutionContext.getRequest(), JForumExecutionContext.newSimpleHash());
 		postAction.insertSave();
 	}
-	
+
 	/**
 	 * Extracts information from a mail message and adds it to the request context
 	 * @param post the post
@@ -164,25 +164,25 @@ public class PostREST extends Command {
 
 		request.addParameter("topic_type", Integer.toString(Topic.TYPE_NORMAL));
 		request.addParameter("quick", "1");
-		
+
 		final int topicId = post.getTopicId();
 		if (topicId > 0) {
 			request.addParameter("topic_id", Integer.toString(topicId));
 		}
-		
+
 		if (!user.isBbCodeEnabled()) {
 			request.addParameter("disable_bbcode", "on");
 		}
-		
+
 		if (!user.isSmiliesEnabled()) {
 			request.addParameter("disable_smilies", "on");
 		}
-		
+
 		if (!user.isHtmlEnabled()) {
 			request.addParameter("disable_html", "on");
 		}
-	}	
-	
+	}
+
 	/**
 	 * Retrieves a parameter from the request and ensures it exists
 	 * @param paramName the parameter name to retrieve its value
@@ -192,11 +192,11 @@ public class PostREST extends Command {
 	private String requiredRequestParameter(final String paramName)
 	{
 		final String value = this.request.getParameter(paramName);
-		
+
 		if (StringUtils.isBlank(value)) {
 			throw new APIException("The parameter '" + paramName + "' was not found");
 		}
-		
+
 		return value;
 	}
 
@@ -207,14 +207,14 @@ public class PostREST extends Command {
 	private void authenticate()
 	{
 		final String apiKey = this.requiredRequestParameter("api_key");
-		
+
 		final RESTAuthentication auth = new RESTAuthentication();
-		
+
 		if (!auth.validateApiKey(apiKey)) {
 			throw new APIException("The provided API authentication information is not valid");
 		}
 	}
-	
+
 	public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
 	{
 		JForumExecutionContext.setContentType("text/xml");

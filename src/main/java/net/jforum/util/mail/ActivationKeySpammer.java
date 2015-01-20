@@ -44,6 +44,7 @@ package net.jforum.util.mail;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.entities.User;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -70,21 +71,21 @@ public class ActivationKeySpammer extends Spammer
 			.append(user.getId()) 
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
-		
+
 		final String manualUrl = new StringBuilder()
 			.append(forumLink)
 			.append("user/activateManual") 
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
-		
-		final SimpleHash params = new SimpleHash();
+
+		final SimpleHash params = JForumExecutionContext.newSimpleHash();
 		params.put("url", url);
 		params.put("user", user);
 		params.put("manualUrl", manualUrl);
-		
+
 		final List<User> recipients = new ArrayList<User>();
 		recipients.add(user);
-		
+
 		this.setUsers(recipients);
 		this.setTemplateParams(params);
 

@@ -57,8 +57,9 @@ import net.jforum.util.preferences.SystemGlobals;
 import org.apache.log4j.Logger;
 
 import freemarker.template.Configuration;
-import freemarker.template.ObjectWrapper;
 import freemarker.template.SimpleHash;
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.ext.beans.BeansWrapperBuilder;
 
 /**
  * Data execution context. 
@@ -71,15 +72,16 @@ public class JForumExecutionContext
     private static ThreadLocal<JForumExecutionContext> userData = new ThreadLocal<JForumExecutionContext>();
 	private static final Logger LOGGER = Logger.getLogger(JForumExecutionContext.class);
 	private static Configuration templateConfig;
-	
+	private static final BeansWrapper beansWrapper = new BeansWrapperBuilder(Configuration.VERSION_2_3_21).build();
+
 	private transient Connection conn;
     private ForumContext forumContext;
-    private transient final SimpleHash context = new SimpleHash(ObjectWrapper.BEANS_WRAPPER); 
+    private transient final SimpleHash context = new SimpleHash(beansWrapper); 
     private transient String redirectTo;
     private String contentType;
     private transient boolean isCustomContent;
     private transient boolean enableRollback;
-	
+
 	/**
 	 * Gets the execution context.
 	 * @return JForumExecutionContext
@@ -92,10 +94,10 @@ public class JForumExecutionContext
 			executionContext = new JForumExecutionContext();
 			userData.set(executionContext);
 		}
-		
+
 		return executionContext;
 	}
-	
+
 	/**
 	 * Checks if there is an execution context already set
 	 * @return <code>true</code> if there is an execution context
@@ -105,7 +107,7 @@ public class JForumExecutionContext
 	{
 		return (userData.get() != null);
 	}
-	
+
 	/**
 	 * Sets the default template configuration 
 	 * @param config The template configuration to set
@@ -114,7 +116,7 @@ public class JForumExecutionContext
 	{
 		templateConfig = config;
 	}
-	
+
 	/**
 	 * Gets a reference to the default template configuration settings.
 	 * @return The template configuration instance
@@ -123,7 +125,7 @@ public class JForumExecutionContext
 	{
 		return templateConfig;
 	}
-	
+
 	/**
 	 * Sets the execution context
 	 * @param executionContext JForumExecutionContext
@@ -132,7 +134,7 @@ public class JForumExecutionContext
 	{
 		userData.set(executionContext);
 	}
-	
+
 	/**
 	 * Sets a connection
 	 * @param conn The connection to use
@@ -141,7 +143,7 @@ public class JForumExecutionContext
 	{
 		this.conn = conn;
 	}
-	
+
 	/**
 	 * Gets the current thread's connection
 	 * @return Connection
@@ -150,15 +152,15 @@ public class JForumExecutionContext
 	{
 		return getConnection(true);
 	}
-	
+
 	public static Connection getConnection(final boolean validate)
 	{
 		final JForumExecutionContext executionContext = get();
 		Connection conn = executionContext.conn;
-		
+
 		if (validate && conn == null) {
 			conn = DBConnection.getImplementation().getConnection();
-			
+
 			try {
 				conn.setAutoCommit(!SystemGlobals.getBoolValue(ConfigKeys.DATABASE_USE_TRANSACTIONS));
 			}
@@ -166,7 +168,7 @@ public class JForumExecutionContext
                 //catch error autocommit
 				LOGGER.error(e);
             }
-			
+
 			executionContext.setConnection(conn);
 			set(executionContext);
 		}
@@ -191,7 +193,7 @@ public class JForumExecutionContext
 	public static RequestContext getRequest() {
 		return getForumContext().getRequest();
 	}
-	
+
 	/**
 	 * Gets the current thread's response
 	 * @return HttpServletResponse
@@ -223,7 +225,7 @@ public class JForumExecutionContext
 	public static void setContentType(final String cntType) {
 		((JForumExecutionContext)userData.get()).contentType = cntType;
 	}
-	
+
 	/**
 	 * Gets the content type for the current request.
 	 * @return String
@@ -250,7 +252,7 @@ public class JForumExecutionContext
 	public static void enableCustomContent(final boolean enable) {
 		((JForumExecutionContext)userData.get()).isCustomContent = enable;
 	}
-	
+
 	/**
 	 * Checks if the current request is binary
 	 * @return <code>true</code> if the content type for the current request is 
@@ -282,24 +284,24 @@ public class JForumExecutionContext
 	public static void requestBasicAuthentication()  
 	{
 		getResponse().addHeader("WWW-Authenticate", "Basic realm=\"JForum\"");
-		
+
 		try {
 			getResponse().sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 		catch (IOException e) {
 			throw new ForumException(e);
 		}
-		
+
 		enableCustomContent(true);
     }
-	
+
 	/**
 	 * Finishes the execution context
 	 */
 	public static void finish()
 	{
 		final Connection conn = JForumExecutionContext.getConnection(false);
-		
+
 		if (conn != null) {
 			if (SystemGlobals.getBoolValue(ConfigKeys.DATABASE_USE_TRANSACTIONS)) {
 				if (JForumExecutionContext.shouldRollback()) {
@@ -319,7 +321,7 @@ public class JForumExecutionContext
 					}
 				}
 			}
-			
+
 			try {
 				DBConnection.getImplementation().releaseConnection(conn);
 			}
@@ -327,7 +329,15 @@ public class JForumExecutionContext
 				LOGGER.error("Error while releasing the connection : " + e, e);
 			}
 		}
-		
+
 		userData.set(null);
+	}
+
+	/**
+	 * Creating SimpleHash objects in one central place lets us confine
+	 * the FreeMarker version information to this class.
+	 */
+	public static SimpleHash newSimpleHash() {
+		return new SimpleHash(beansWrapper);
 	}
 }

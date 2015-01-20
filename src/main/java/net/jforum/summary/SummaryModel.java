@@ -47,6 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SummaryDAO;
 import net.jforum.entities.Post;
@@ -82,7 +83,7 @@ public class SummaryModel extends Spammer
 
 	public void sendPostsSummary(final List<String> recipients)
 	{
-		if (recipients.size() > 0) { // make sure somebody want to receive it		
+		if (recipients.size() > 0) { // make sure somebody want to receive it
 			// Gets a Date seven days before now
 			final int daysBefore = Integer.parseInt(SystemGlobals.getValue(ConfigKeys.SUMMARY_DAYS_BEFORE));
 
@@ -91,10 +92,10 @@ public class SummaryModel extends Spammer
 
 			final List<Post> posts = listPosts(new Date(dateBefore), new Date());
 			if (posts.size() > 0) { // make sure there is at least one new post
-				
+
 				final String forumLink = ViewCommon.getForumLink();
 
-				final SimpleHash params = new SimpleHash();
+				final SimpleHash params = JForumExecutionContext.newSimpleHash();
 				params.put("posts", posts);
 				params.put("url", forumLink);
 				params.put("extension", SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
@@ -102,7 +103,7 @@ public class SummaryModel extends Spammer
 				final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_SUMMARY_SUBJECT);
 
 				LOGGER.info("Sending Weekly summary...");
-				
+
 				this.setUsers(this.recipientsAsUsers(recipients));
 				this.setTemplateParams(params);
 
@@ -111,19 +112,19 @@ public class SummaryModel extends Spammer
 			}
 		}
 	}
-	
+
 	private List<User> recipientsAsUsers(final List<String> recipients)
 	{
-		final List<User> list = new ArrayList<User>();		
-		
-		for (String email : recipients) {			
+		final List<User> list = new ArrayList<User>();
+
+		for (String email : recipients) {
 			LOGGER.debug("email="+email);
 			final User user = new User();
 			user.setEmail(email);
-			
+
 			list.add(user);
 		}
-		
+
 		return list;
 	}
 

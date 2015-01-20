@@ -78,19 +78,19 @@ public class JForumBaseServlet extends HttpServlet
 	public void init(final ServletConfig config) throws ServletException
 	{
 		super.init(config);
-		
+
 		try {
 			debug = "true".equals(config.getInitParameter("development"));
 			LOGGER.info("Starting JForum. Debug mode is " + debug);
-			
+
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
-			final Configuration templateCfg = new Configuration();			
+			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_21);
 			if (!this.debug) {
 				templateCfg.setTemplateUpdateDelay(3600);
 			} else {
-				templateCfg.setTemplateUpdateDelay(2);	
+				templateCfg.setTemplateUpdateDelay(2);
 			}
 			templateCfg.setSetting("number_format", "#");
 			templateCfg.setSharedVariable("startupTime", Long.valueOf(System.currentTimeMillis()));
@@ -100,7 +100,7 @@ public class JForumBaseServlet extends HttpServlet
 			final FileTemplateLoader defaultLoader = new FileTemplateLoader(new File(defaultTemplatePath));
 
 			final String extraTemplatePath = SystemGlobals.getValue(ConfigKeys.FREEMARKER_EXTRA_TEMPLATE_PATH);
-			
+
 			if (StringUtils.isNotBlank(extraTemplatePath)) {
 				// An extra template path is configured, we need a MultiTemplateLoader
 				final FileTemplateLoader extraLoader = new FileTemplateLoader(new File(extraTemplatePath));
@@ -115,7 +115,7 @@ public class JForumBaseServlet extends HttpServlet
 
 			ModulesRepository.init(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR));
 
-			this.loadConfigStuff();			
+			this.loadConfigStuff();
 
 			JForumExecutionContext.setTemplateConfig(templateCfg);
 		} 
@@ -131,6 +131,6 @@ public class JForumBaseServlet extends HttpServlet
 	{
 		ConfigLoader.loadUrlPatterns();
 		I18n.load();
-		Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));		
-	}	
+		Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));
+	}
 }

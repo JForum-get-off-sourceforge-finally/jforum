@@ -45,6 +45,7 @@ package net.jforum.util.mail;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.entities.User;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -63,23 +64,23 @@ public class PrivateMessageSpammer extends Spammer
 		if (user.getEmail() == null || user.getEmail().trim().equals("")) {
 			return;
 		}
-		
+
 		final String forumLink = new StringBuilder()
 			.append(ViewCommon.getForumLink())
 			.append("pm/inbox")
 			.append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION))
 			.toString();
-		
-		final SimpleHash params = new SimpleHash();
+
+		final SimpleHash params = JForumExecutionContext.newSimpleHash();
 		params.put("path", forumLink);
 		params.put("user", user);
-		
+
 		final List<User> recipients = new ArrayList<User>();
 		recipients.add(user);
-		
+
 		this.setUsers(recipients);
 		this.setTemplateParams(params);
-		
+
 		super.prepareMessage(SystemGlobals.getValue(ConfigKeys.MAIL_NEW_PM_SUBJECT),
 			SystemGlobals.getValue(ConfigKeys.MAIL_NEW_PM_MESSAGE_FILE));
 	}

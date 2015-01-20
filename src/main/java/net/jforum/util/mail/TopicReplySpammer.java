@@ -45,6 +45,7 @@ package net.jforum.util.mail;
 import java.text.MessageFormat;
 import java.util.List;
 
+import net.jforum.JForumExecutionContext;
 import net.jforum.api.integration.mail.pop.MessageId;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
@@ -75,36 +76,35 @@ public class TopicReplySpammer extends Spammer
 		// Make the topic url
 		StringBuilder page = new StringBuilder();
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		
+
 		if (topic.getTotalReplies() >= postsPerPage) {
 			page.append(((topic.getTotalReplies() / postsPerPage)) * postsPerPage).append('/');
 		}
-		
+
 		String forumLink = ViewCommon.getForumLink();
-		
+
 		String path = this.messageLink(topic, page, forumLink);
 		String unwatch = this.unwatchLink(topic, forumLink);
-		
-		SimpleHash params = new SimpleHash();
-		
+
+		SimpleHash params = JForumExecutionContext.newSimpleHash();
 		params.put("topic", topic);
 		params.put("path", path);
 		params.put("forumLink", forumLink);
 		params.put("unwatch", unwatch);
-		
+
 		if (post != null) {
 			this.setMessageId(MessageId.buildMessageId(post.getId(), topic.getId(), topic.getForumId()));
-			
+
 			post = PostCommon.preparePostForDisplay(post);
 			params.put("message", post.getText());
 		}
-		
+
 		this.setUsers(users);
-		
+
 		if (post != null && topic.getFirstPostId() != post.getId()) {
 			this.setInReplyTo(MessageId.buildInReplyTo(topic));
 		}
-		
+
 		this.setTemplateParams(params);
 		String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_ANSWER_SUBJECT);
 
