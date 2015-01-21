@@ -68,7 +68,6 @@
                 <input type="hidden" name="action" value="search"/>
                 <input type="hidden" name="search_forum" value="${forum.id}" />
                 <input type="hidden" name="match_type" value="all" />
-                <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 				<input type="text" onblur="if (this.value == '') this.value = '${I18n.getMessage("ForumIndex.searchThisForum")}...';" onclick="if (this.value == '${I18n.getMessage("ForumIndex.searchThisForum")}...') this.value = '';" value="${I18n.getMessage("ForumIndex.searchThisForum")}..." size="20" name="search_keywords" class="inputSearchForum"/>
 				<input type="submit" value="${I18n.getMessage("ForumBase.search")}" class="liteoption" />
 				</form>
@@ -167,6 +166,7 @@
 				<input type="hidden" name="forum_id" value="${forum.id}" />
 				<input type="hidden" name="log_type" value="0"/>
 				<input type="hidden" name="log_description" />
+				 <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 			</#if>
 
 			<table class="forumline" cellspacing="1" cellpadding="4" width="100%">

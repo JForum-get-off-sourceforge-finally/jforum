@@ -56,7 +56,7 @@ import org.junit.Test;
  * Tests the LoggerHelper.loggerFrameworkFullyConfigured() method.
  * <p>
  * Remark: The test method checks first the bad cases (not configured) since once configured it 
- * canot be undone anymore. 
+ * cannot be undone anymore. 
  * <p>  
  * Remark II: This test runs standalone successfully but I does not pass if maven
  * runs all tests subsequently. TODO: We have to fork the test execution(each test runs in its

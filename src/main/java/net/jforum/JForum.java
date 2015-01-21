@@ -247,7 +247,7 @@ public class JForum extends JForumBaseServlet
 
     private Writer processCommand(final Writer out, final RequestContext request, final ResponseContext response, 
                                   final String encoding, final SimpleHash context, final String moduleClass) throws Exception 
-                                  {
+    {
         Writer outWriter = out;
         // Here we go, baby
         final Command command = this.retrieveCommand(moduleClass);
@@ -278,7 +278,7 @@ public class JForum extends JForumBaseServlet
         }
 
         return outWriter;
-                                  }
+    }
 
     private void checkDatabaseStatus()
     {
