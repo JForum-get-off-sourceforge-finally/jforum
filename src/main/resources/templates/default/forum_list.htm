@@ -161,7 +161,7 @@
 							<span class="gensmall">
 								${I18n.getMessage("Login.user")}: <input class="post" size="10" name="username" type="text"/>
 								&nbsp;&nbsp;&nbsp;
-								${I18n.getMessage("Login.password")}: <input class="post" type="password" size="10" name="password" />
+								${I18n.getMessage("Login.password")}: <input class="post" type="password" size="10" name="password" autocomplete="off" />
 								<#if autoLoginEnabled>
 									&nbsp;&nbsp; &nbsp;&nbsp;
 									<label for="autologin">${I18n.getMessage("Login.autoLogon")}</label> <input class="text" type="checkbox" name="autologin" id="autologin"/>

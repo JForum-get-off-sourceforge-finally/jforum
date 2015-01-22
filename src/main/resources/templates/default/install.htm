@@ -318,12 +318,12 @@ function enableNativeFields()
 
 					<tr>
 						<td class="row3" align="right"><span class="gen"><b>${I18n.getMessage("Install.dbPassword")}: </b></span></td>
-						<td class="row3" align="left"><input type="password" name="dbpasswd" value="${dbpasswd?default("")}" /></td>
+						<td class="row3" align="left"><input type="password" name="dbpasswd" value="${dbpasswd?default("")}" autocomplete="off" /></td>
 					</tr>
 
 					<tr>
 						<td class="row1" align="right"><span class="gen"><b>${I18n.getMessage("Install.dbPassword")} [ ${I18n.getMessage("Install.confirm")} ]: </b></span></td>
-						<td class="row1" align="left"><input type="password" name="dbpasswd_confirm" value="" /></td>
+						<td class="row1" align="left"><input type="password" name="dbpasswd_confirm" value="" autocomplete="off" /></td>
 					</tr>
 
 					<tr>
@@ -373,11 +373,11 @@ function enableNativeFields()
 					<tr>
 
 						<td class="row1" align="right"><span class="gen"><b>${I18n.getMessage("Install.adminPassword")}: </b></span></td>
-						<td class="row1" align="left"><input type="password" name="admin_pass1" value="" /></td>
+						<td class="row1" align="left"><input type="password" name="admin_pass1" value="" autocomplete="off" /></td>
 					</tr>
 					<tr>
 						<td class="row3" align="right"><span class="gen"><b>${I18n.getMessage("Install.adminPassword")} [ ${I18n.getMessage("Install.confirm")} ]: </b></span></td>
-						<td class="row3" align="left"><input type="password" name="admin_pass2" value="" /></td>
+						<td class="row3" align="left"><input type="password" name="admin_pass2" value="" autocomplete="off" /></td>
 					</tr>
 					<tr> 
 					    <td class="catbottom" align="center" colspan="2">

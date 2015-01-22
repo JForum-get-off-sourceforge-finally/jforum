@@ -84,7 +84,7 @@ function validateForm()
 						<span class="gen">${I18n.getMessage("User.currentPassword")}: *</span><br />
 						<span class="gensmall">${I18n.getMessage("User.needConfirmPassword")}</span>
 					</td>
-					<td class="row2"><input name="current_password" type="password" class="post" id="current_password" style="WIDTH: 200px" size="25" maxlength="100" /> </td>
+					<td class="row2"><input name="current_password" type="password" class="post" id="current_password" style="WIDTH: 200px" size="25" maxlength="100" autocomplete="off" /> </td>
 				</tr>
 				</#if>
 				<tr>
@@ -92,14 +92,14 @@ function validateForm()
 						<span class="gen">${I18n.getMessage("User.newPassword")}: *</span><br />
 						<span class="gensmall">${I18n.getMessage("User.newPasswordIsOptional")}</span>
 					</td>
-					<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="new_password" /> </td>
+					<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="new_password" autocomplete="off" /> </td>
 				</tr>
 				<tr>
 					<td class="row1">
 						<span class="gen">${I18n.getMessage("User.confirmPassword")}: * </span><br />
 						<span class="gensmall">${I18n.getMessage("User.newPasswordIsOptional")}</span>
 					</td>
-					<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="password_confirm" /> </td>
+					<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="password_confirm" autocomplete="off" /> </td>
 				</tr>
 				</#if>
 				<tr>

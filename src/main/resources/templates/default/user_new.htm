@@ -85,12 +85,12 @@ function newCaptcha()
         
 	<tr>
 		<td class="row1"><span class="gen">${I18n.getMessage("User.password")}: *</span></td>
-		<td class="row2"><input name="password" type="password" class="post" id="password" style="WIDTH: 200px" size="25" maxlength="100" /> </td>
+		<td class="row2"><input name="password" type="password" class="post" id="password" style="WIDTH: 200px" size="25" maxlength="100" autocomplete="off" /> </td>
 	</tr>
         
 	<tr>
 		<td class="row1"><span class="gen">${I18n.getMessage("User.confirmPassword")}: * </span></td>
-		<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="password_confirm" /> </td>
+		<td class="row2"><input class="post" style="WIDTH: 200px" type="password" maxlength="100" size="25" name="password_confirm" autocomplete="off" /> </td>
 	</tr>
 
 	<#if captcha_reg?exists>
