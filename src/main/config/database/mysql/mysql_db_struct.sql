@@ -145,7 +145,7 @@ DROP TABLE IF EXISTS jforum_posts_text;
 CREATE TABLE jforum_posts_text (
   post_id INT NOT NULL PRIMARY KEY,
   post_text TEXT,
-  post_subject VARCHAR(100)
+  post_subject VARCHAR(130)
 ) ENGINE=InnoDB;
 
 --
@@ -235,7 +235,7 @@ DROP TABLE IF EXISTS jforum_topics;
 CREATE TABLE jforum_topics (
   topic_id INT NOT NULL AUTO_INCREMENT,
   forum_id INT NOT NULL DEFAULT 0,
-  topic_title VARCHAR(100) NOT NULL DEFAULT '',
+  topic_title VARCHAR(120) NOT NULL DEFAULT '',
   user_id INT NOT NULL DEFAULT 0,
   topic_time DATETIME DEFAULT NULL,
   topic_views INT DEFAULT 0,

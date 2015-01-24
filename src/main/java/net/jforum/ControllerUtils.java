@@ -390,7 +390,7 @@ public class ControllerUtils
 			int majorVersion = Integer.parseInt(version.substring(0, version.indexOf(".")));
 			if (majorVersion >= 3) {
 				// setHttpOnly was introduced in Servlet API 3.0
-				Class cookieClass = javax.servlet.http.Cookie.class;
+				Class<Cookie> cookieClass = javax.servlet.http.Cookie.class;
 				Method httpOnlyMethod = cookieClass.getMethod("setHttpOnly", new Class[] {boolean.class});
 				httpOnlyMethod.invoke(cookie, new Object[] {Boolean.TRUE});
 			}

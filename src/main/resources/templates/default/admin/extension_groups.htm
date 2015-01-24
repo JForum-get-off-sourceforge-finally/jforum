@@ -38,7 +38,7 @@
 			</select>
 		</td>
 
-		<td colspan="2" class="row1" align="center" valign="middle"><input type="text" size="30" name="upload_icon" /></td>
+		<td colspan="2" class="row1" align="center" valign="middle"><input type="text" size="30" maxlength="100" name="upload_icon" /></td>
 	</tr>
 
 	<tr>
@@ -93,7 +93,7 @@
 						<option value="2" <#if g.downloadMode == 2>selected="selected"</#if>>${I18n.getMessage("AdminAttachments.physical")}</option>
 					</select>
 				</td>
-				<td class="row1" align="center" valign="middle"><input type="text" size="30" name="upload_icon_${counter}" value="${g.uploadIcon?default("")}"/></td>
+				<td class="row1" align="center" valign="middle"><input type="text" size="30" maxlength="100" name="upload_icon_${counter}" value="${g.uploadIcon?default("")}"/></td>
 				<td class="row1" align="center" valign="middle"><input type="checkbox" name="delete" value="${g.id}"/></td>
 			</tr>
 			<#assign counter = counter + 1/>

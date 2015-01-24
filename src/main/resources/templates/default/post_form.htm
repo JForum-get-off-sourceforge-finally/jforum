@@ -12,7 +12,7 @@ var SERVLET_EXTENSION  = "${extension}";
 /* ]]> */
 </script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 
 <script type="text/javascript">
@@ -37,7 +37,13 @@ function newCaptcha()
 {
 	$("#btnSubmit").attr("disabled", "true");
 	$("#captcha_img").attr("src", "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime());
-	$("#btnSubmit").removeAttr("disabled");
+}
+
+function enableSubmit(cap)
+{
+	if (cap.value.length > 2) {
+		$("#btnSubmit").removeAttr("disabled");
+	}
 }
 
 function validatePostForm(f)
@@ -253,16 +259,18 @@ function cancelOperation()
 
 				<tr>
 					<td class="row1" width="15%"><span class="gen"><b>${I18n.getMessage("PostForm.subject")}</b></span></td>
+					<#assign maxlength_subject = 120/>
 					<#if post?exists>
-						<#assign subject = post.subject?default("")?html/>
+						<#assign subject = post.subject?default("")?html/>						
 						<#elseif pmReply?default(false)>
 						<#assign subject = pm.post.subject?html/>
 						<#elseif topic?exists>
 						<#assign subject = I18n.getMessage("Message.replyPrefix") + topic.title?default("")?html/>
+						<#assign maxlength_subject = 130/>
 					</#if>
 					<td class="row2" width="85%">
 						<span class="gen">
-							<input class="subject" type="text" tabindex="2" maxlength="100" name="subject" value="${subject?default("")}" />
+							<input class="subject" type="text" tabindex="2" maxlength="${maxlength_subject}" name="subject" value="${subject?default("")}" />
 						</span>
 					</td>
 				</tr>
@@ -319,22 +327,22 @@ function cancelOperation()
 								<!-- bb code -->
 								<tr valign="middle">
 									<td>
-										<input class="button" onmouseover="helpline('b')" style="WIDTH: 30px; FONT-WEIGHT: bold" accesskey="b" onclick="bbstyle(0)" type="button" value=" B " name="addbbcode0" />
-										<input class="button" onmouseover="helpline('i')" style="WIDTH: 30px; FONT-STYLE: italic" accesskey="i" onclick="bbstyle(2)" type="button" value=" i " name="addbbcode2" />
-										<input class="button" onmouseover="helpline('u')" style="WIDTH: 30px; TEXT-DECORATION: underline" accesskey="u" onclick="bbstyle(4)" type="button" value=" u " name="addbbcode4" />
-                                        <input class="button" onmouseover="helpline('st')" style="WIDTH: 50px; TEXT-DECORATION: line-through" onclick="bbstyle(26)" type="button" value="strike" name="addbbcode26" />
-                                        <input class="button" onmouseover="helpline('t')" style="WIDTH: 36px" accesskey="t" onclick="bbstyle(24)" type="button" value="tt" name="addbbcode24" />
-										<input class="button" onmouseover="helpline('q')" style="WIDTH: 55px" accesskey="q" onclick="bbstyle(6)" type="button" value="Quote" name="addbbcode6" />
-										<input class="button" onmouseover="helpline('c')" style="WIDTH: 50px" accesskey="c" onclick="bbstyle(8)" type="button" value="Code" name="addbbcode8" />
-										<input class="button" onmouseover="helpline('l')" style="WIDTH: 40px" accesskey="l" onclick="bbstyle(10)" type="button" value="List" name="addbbcode10" />
-										<input class="button" onmouseover="helpline('p')" style="WIDTH: 40px" accesskey="p" onclick="bbstyle(12)" type="button" value="Img" name="addbbcode12" />
-										<input class="button" onmouseover="helpline('w')" style="WIDTH: 40px" accesskey="w" onclick="bbstyle(14)" type="button" value="URL" name="addbbcode14" />
-										<input class="button" onmouseover="helpline('g')" style="WIDTH: 60px" accesskey="g" onclick="bbstyle(16)" type="button" value="Google" name="addbbcode16" />
-										<input class="button" onmouseover="helpline('d')" style="WIDTH: 80px" accesskey="d" onclick="bbstyle(28)" type="button" value="Wikipedia" name="addbbcode28" />
-										<input class="button" onmouseover="helpline('y')" style="WIDTH: 70px" accesskey="y" onclick="bbstyle(18)" type="button" value="Youtube" name="addbbcode18" />
-										<input class="button" onmouseover="helpline('k')" style="WIDTH: 50px" accesskey="k" onclick="bbstyle(20)" type="button" value="Flash" name="addbbcode20" />
-										<input class="button" onmouseover="helpline('v')" style="WIDTH: 50px" accesskey="v" onclick="bbstyle(22)" type="button" value="WMV" name="addbbcode22" />
-										<input class="button" onmouseover="helpline('m')" style="WIDTH: 50px" accesskey="v" onclick="bbstyle(30)" type="button" value="Vimeo" name="addbbcode30" />
+										<input class="button" onmouseover="helpline('b')" style="width:30px; font-weight: bold" accesskey="b" onclick="bbstyle(0)" type="button" value=" B " name="addbbcode0" />
+										<input class="button" onmouseover="helpline('i')" style="width:30px; font-style: italic" accesskey="i" onclick="bbstyle(2)" type="button" value=" i " name="addbbcode2" />
+										<input class="button" onmouseover="helpline('u')" style="width:30px; text-decoration: underline" accesskey="u" onclick="bbstyle(4)" type="button" value=" u " name="addbbcode4" />
+                                        <input class="button" onmouseover="helpline('st')" style="width:50px; text-decoration: line-through" onclick="bbstyle(26)" type="button" value="strike" name="addbbcode26" />
+                                        <input class="button" onmouseover="helpline('t')" style="width:36px" accesskey="t" onclick="bbstyle(24)" type="button" value="tt" name="addbbcode24" />
+										<input class="button" onmouseover="helpline('q')" style="width:55px" accesskey="q" onclick="bbstyle(6)" type="button" value="Quote" name="addbbcode6" />
+										<input class="button" onmouseover="helpline('c')" style="width:50px" accesskey="c" onclick="bbstyle(8)" type="button" value="Code" name="addbbcode8" />
+										<input class="button" onmouseover="helpline('l')" style="width:40px" accesskey="l" onclick="bbstyle(10)" type="button" value="List" name="addbbcode10" />
+										<input class="button" onmouseover="helpline('p')" style="width:40px" accesskey="p" onclick="bbstyle(12)" type="button" value="Img" name="addbbcode12" />
+										<input class="button" onmouseover="helpline('w')" style="width:40px" accesskey="w" onclick="bbstyle(14)" type="button" value="URL" name="addbbcode14" />
+										<input class="button" onmouseover="helpline('g')" style="width:60px" accesskey="g" onclick="bbstyle(16)" type="button" value="Google" name="addbbcode16" />
+										<input class="button" onmouseover="helpline('d')" style="width:80px" accesskey="d" onclick="bbstyle(28)" type="button" value="Wikipedia" name="addbbcode28" />
+										<input class="button" onmouseover="helpline('y')" style="width:70px" accesskey="y" onclick="bbstyle(18)" type="button" value="Youtube" name="addbbcode18" />
+										<input class="button" onmouseover="helpline('k')" style="width:50px" accesskey="k" onclick="bbstyle(20)" type="button" value="Flash" name="addbbcode20" />
+										<input class="button" onmouseover="helpline('v')" style="width:50px" accesskey="v" onclick="bbstyle(22)" type="button" value="WMV" name="addbbcode22" />
+										<input class="button" onmouseover="helpline('m')" style="width:50px" accesskey="v" onclick="bbstyle(30)" type="button" value="Vimeo" name="addbbcode30" />
 									</td>
 								</tr>
 
@@ -343,20 +351,20 @@ function cancelOperation()
 									<td>
 										<span class="genmed">&nbsp;${I18n.getMessage("PostForm.textColor")}:
 										<select onmouseover="helpline('s')" onchange="bbfontstyle('[color=' + this.form.addbbcode32.options[this.form.addbbcode32.selectedIndex].value + ']', '[/color]')" name="addbbcode32">
-											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="black" selected="selected">${I18n.getMessage("PostForm.colorDefault")}</option>
-											<option class="genmed" style="COLOR: darkred; BACKGROUND-COLOR: #fafafa" value="darkred">${I18n.getMessage("PostForm.colorDarkRed")}</option>
-											<option class="genmed" style="COLOR: red; BACKGROUND-COLOR: #fafafa" value="red">${I18n.getMessage("PostForm.colorRed")}</option>
-											<option class="genmed" style="COLOR: orange; BACKGROUND-COLOR: #fafafa" value="orange">${I18n.getMessage("PostForm.colorOrange")}</option>
-											<option class="genmed" style="COLOR: brown; BACKGROUND-COLOR: #fafafa" value="brown">${I18n.getMessage("PostForm.colorBrown")}</option>
-											<option class="genmed" style="COLOR: yellow; BACKGROUND-COLOR: #fafafa" value="yellow">${I18n.getMessage("PostForm.colorYellow")}</option>
-											<option class="genmed" style="COLOR: green; BACKGROUND-COLOR: #fafafa" value="green">${I18n.getMessage("PostForm.colorGreen")}</option>
-											<option class="genmed" style="COLOR: olive; BACKGROUND-COLOR: #fafafa" value="olive">${I18n.getMessage("PostForm.colorOlive")}</option>
-											<option class="genmed" style="COLOR: cyan; BACKGROUND-COLOR: #fafafa" value="cyan">${I18n.getMessage("PostForm.colorCyan")}</option>
-											<option class="genmed" style="COLOR: blue; BACKGROUND-COLOR: #fafafa" value="blue">${I18n.getMessage("PostForm.colorBlue")}</option>
-											<option class="genmed" style="COLOR: darkblue; BACKGROUND-COLOR: #fafafa" value="darkblue">${I18n.getMessage("PostForm.colorDarkBlue")}</option>
-											<option class="genmed" style="COLOR: violet; BACKGROUND-COLOR: #fafafa" value="violet">${I18n.getMessage("PostForm.colorViolet")}</option>
-											<option class="genmed" style="COLOR: white; BACKGROUND-COLOR: #fafafa" value="white">${I18n.getMessage("PostForm.colorWhite")}</option>
-											<option class="genmed" style="COLOR: black; BACKGROUND-COLOR: #fafafa" value="black">${I18n.getMessage("PostForm.colorBlack")}</option>
+											<option class="genmed" style="color: black; background-color #fafafa" value="black" selected="selected">${I18n.getMessage("PostForm.colorDefault")}</option>
+											<option class="genmed" style="color: darkred; background-color #fafafa" value="darkred">${I18n.getMessage("PostForm.colorDarkRed")}</option>
+											<option class="genmed" style="color: red; background-color #fafafa" value="red">${I18n.getMessage("PostForm.colorRed")}</option>
+											<option class="genmed" style="color: orange; background-color #fafafa" value="orange">${I18n.getMessage("PostForm.colorOrange")}</option>
+											<option class="genmed" style="color: brown; background-color #fafafa" value="brown">${I18n.getMessage("PostForm.colorBrown")}</option>
+											<option class="genmed" style="color: yellow; background-color #fafafa" value="yellow">${I18n.getMessage("PostForm.colorYellow")}</option>
+											<option class="genmed" style="color: green; background-color #fafafa" value="green">${I18n.getMessage("PostForm.colorGreen")}</option>
+											<option class="genmed" style="color: olive; background-color #fafafa" value="olive">${I18n.getMessage("PostForm.colorOlive")}</option>
+											<option class="genmed" style="color: cyan; background-color #fafafa" value="cyan">${I18n.getMessage("PostForm.colorCyan")}</option>
+											<option class="genmed" style="color: blue; background-color #fafafa" value="blue">${I18n.getMessage("PostForm.colorBlue")}</option>
+											<option class="genmed" style="color: darkblue; background-color #fafafa" value="darkblue">${I18n.getMessage("PostForm.colorDarkBlue")}</option>
+											<option class="genmed" style="color: violet; background-color #fafafa" value="violet">${I18n.getMessage("PostForm.colorViolet")}</option>
+											<option class="genmed" style="color: white; background-color #fafafa" value="white">${I18n.getMessage("PostForm.colorWhite")}</option>
+											<option class="genmed" style="color: black; background-color #fafafa" value="black">${I18n.getMessage("PostForm.colorBlack")}</option>
 										</select>
 
 										&nbsp;${I18n.getMessage("PostForm.font")}:
@@ -375,7 +383,7 @@ function cancelOperation()
 								<!-- Help box -->
 								<tr>
 									<td>
-										<input name="helpbox" class="helpline" readonly="readonly" style="FONT-SIZE: 10px; WIDTH: 100%" value="${I18n.getMessage("PostForm.helplineTip")}" size="45" maxlength="100" />
+										<input name="helpbox" class="helpline" readonly="readonly" style="font-size: 10px; width:100%" value="${I18n.getMessage("PostForm.helplineTip")}" size="45" />
 									</td>
 								</tr>
 
@@ -432,7 +440,7 @@ function cancelOperation()
 					<tr>
 						<td class="row1" valign="middle"><span class="gensmall"><b>${I18n.getMessage("User.captchaResponse")}:</b></span></td>
 						<td class="row2">
-							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser" />
+							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser"  onkeyup="enableSubmit(this)"/>
 							<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" align="middle" id="captcha_img" alt="Captcha unavailable" />
 							<br />
 							<span class="gensmall">${I18n.getMessage("User.hardCaptchaPart1")} <a href="#newCaptcha" onclick="newCaptcha()"><b>${I18n.getMessage("User.hardCaptchaPart2")}</b></a></span>

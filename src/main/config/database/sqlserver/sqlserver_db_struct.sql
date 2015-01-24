@@ -239,7 +239,7 @@ CREATE INDEX idx_posts_moderate ON jforum_posts(need_moderate);
 CREATE TABLE jforum_posts_text (
   post_id bigint PRIMARY KEY NOT NULL,
   post_text ntext,
-  post_subject nvarchar(100) NULL 
+  post_subject nvarchar(130) NULL 
 );
 
 --
@@ -318,7 +318,7 @@ CREATE TABLE jforum_themes (
 CREATE TABLE jforum_topics (
   topic_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL,
   forum_id int DEFAULT (0) NOT NULL,
-  topic_title nvarchar(100) DEFAULT ('') NOT NULL,
+  topic_title nvarchar(120) DEFAULT ('') NOT NULL,
   user_id bigint DEFAULT (0) NOT NULL,
   topic_time datetime DEFAULT NULL,
   topic_views bigint DEFAULT (0) NULL,

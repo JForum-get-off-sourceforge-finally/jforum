@@ -88,17 +88,21 @@ public class CsrfListener implements ServletContextListener {
         /** try web context **/
         if (is == null) {
             String fileName = context.getRealPath(resourceName);
-            File file = new File(fileName);
-            if (file.exists()) {
-                is = new FileInputStream(fileName);
+            if (fileName != null) {
+            	File file = new File(fileName); 
+            	if (file.exists()) {
+            		is = new FileInputStream(fileName);
+            	}
             }
         }
         /** try current directory **/
         if (is == null) {
-            File file = new File(resourceName);
-            if (file.exists()) {
-                is = new FileInputStream(resourceName);
-            }
+        	if (resourceName != null) {
+        		File file = new File(resourceName);        	
+        		if (file.exists()) {
+        			is = new FileInputStream(resourceName);
+        		}
+        	}
         }
         /** fail if still empty **/
         if (is == null) {

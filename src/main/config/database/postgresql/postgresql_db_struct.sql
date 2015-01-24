@@ -140,7 +140,7 @@ CREATE INDEX idx_posts_moderate ON jforum_posts(need_moderate);
 CREATE TABLE jforum_posts_text (
   post_id INT NOT NULL,
   post_text TEXT,
-  post_subject VARCHAR(100) DEFAULT NULL,
+  post_subject VARCHAR(130) DEFAULT NULL,
   PRIMARY KEY ( post_id )
 );
 
@@ -229,7 +229,7 @@ CREATE SEQUENCE jforum_topics_seq;
 CREATE TABLE jforum_topics (
   topic_id INT NOT NULL DEFAULT nextval('jforum_topics_seq'),
   forum_id INT NOT NULL DEFAULT 0,
-  topic_title VARCHAR(100) NOT NULL DEFAULT '',
+  topic_title VARCHAR(120) NOT NULL DEFAULT '',
   user_id INT NOT NULL DEFAULT 0,
   topic_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   topic_views INT DEFAULT 0,

@@ -20,7 +20,7 @@
 			<td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.typeKeywords")}:</span></td>
 			<td class="row2" valign="top" colspan="2">
 				<span class="genmed">
-				<input type="text" class="post" style="WIDTH: 300px" size="30" name="search_keywords" /><br/>				
+				<input type="text" class="post" style="width:300px" size="30" name="search_keywords" /><br/>				
 				<input type="radio" name="match_type" value="all" id="all_terms" checked="checked"/><label for="all_terms">${I18n.getMessage("Search.allTerms")}</label><br/>
 				<input type="radio" name="match_type" value="any" id="any_term"/><label for="any_term">${I18n.getMessage("Search.anyTerm")}</label><br/>
 				<input type="radio" name="match_type" value="phrase" id="phrase"/><label for="phrase">${I18n.getMessage("Search.exactPhrase")}</label><br/>
@@ -92,7 +92,7 @@
 	    <tr>
 	        <td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByUserId")}:</span><br /></td>
 	        <td class="row2" valign="top">
-	        <span class="genmed"> <input type="text" class="post" style="WIDTH: 100px" size="15" name="user_id" />
+	        <span class="genmed"> <input type="text" class="post" style="width:100px" size="15" name="user_id" />
 	        <#if (session.userId > 0)>
 	        &nbsp;&nbsp;(<a href="" onClick="document.formSearch.user_id.value='${session.userId}'; return false;"><font size="1">${I18n.getMessage("Search.myOwnPosts")}</font></a>)
 	        </#if>
@@ -103,7 +103,7 @@
 	        <td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByUsername")}:</span><br /></td>
 	        <td class="row2" valign="top">
 	        <span class="genmed">
-				<input type="text" class="post" style="WIDTH: 150px" size="35" name="username" />
+				<input type="text" class="post" style="width:150px" size="35" name="username" />
 	        </span>
 	        </td>
 	    </tr>

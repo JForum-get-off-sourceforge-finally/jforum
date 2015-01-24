@@ -35,7 +35,7 @@ function turnSpecial() {
 
 		<tr>
 			<td class="gen">${I18n.getMessage("Rank.Form.RankName")}</td>
-			<td class="row2"><input name="rank_title" type="text" id="rank_title" value="<#if rank?exists>${rank.title}</#if>" /></td>
+			<td class="row2"><input name="rank_title" type="text" id="rank_title" value="<#if rank?exists>${rank.title}</#if>" maxlength="50"/></td>
 		</tr>
 
 		<tr>
