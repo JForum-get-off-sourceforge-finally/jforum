@@ -93,28 +93,28 @@ import org.apache.log4j.Logger;
 public class UserAction extends Command 
 {
 	private static final Logger LOGGER = Logger.getLogger(UserAction.class);
-	
+
 	private static final String USERNAME = "username";
 	private static final String USER_ID = "user_id";
 	private static final String PAGE_TITLE = "pageTitle";
 	private static final String MESSAGE = "message";
 	private static final String EMAIL = "email";
-	
+
 	private final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 	private final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
-	
+
 	private boolean canEdit()
 	{
 		final int tmpId = SessionFacade.getUserSession().getUserId();
 		final boolean canEdit = SessionFacade.isLogged() && tmpId == this.request.getIntParameter(USER_ID);
-		
+
 		if (!canEdit) {
 			this.profile();
 		}
-		
+
 		return canEdit;
 	}
-	
+
 	public void edit()
 	{
 		if (this.canEdit()) {
@@ -141,7 +141,7 @@ public class UserAction extends Command
 		if (this.canEdit()) {
 			final int userId = this.request.getIntParameter(USER_ID);
 			final List<String> warns = UserCommon.saveUser(userId);
-	
+
 			if (!warns.isEmpty()) {
 				this.context.put("warns", warns);
 				this.edit();
@@ -153,13 +153,13 @@ public class UserAction extends Command
 			}
 		}
 	}
-	
+
 	private void registrationDisabled()
 	{
 		this.setTemplateName(TemplateKeys.USER_REGISTRATION_DISABLED);
 		this.context.put(MESSAGE, I18n.getMessage("User.registrationDisabled"));
 	}
-	
+
 	private void insert(final boolean hasErrors)
 	{
 		final int userId = SessionFacade.getUserSession().getUserId();
@@ -170,7 +170,7 @@ public class UserAction extends Command
 			this.registrationDisabled();
 			return;
 		}
-		
+
 		if (!hasErrors && SystemGlobals.getBoolValue(ConfigKeys.AGREEMENT_SHOW) && !this.agreementAccepted()) {
 			this.setTemplateName(TemplateKeys.AGREEMENT_LIST);
 			this.context.put("agreementContents", this.agreementContents());
@@ -182,7 +182,7 @@ public class UserAction extends Command
 		this.context.put(USERNAME, this.request.getParameter(USERNAME));
 		this.context.put(EMAIL, this.request.getParameter(EMAIL));
 		this.context.put(PAGE_TITLE, I18n.getMessage("ForumBase.register"));
-		
+
 		if (SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_REGISTRATION)){
 			this.context.put("captcha_reg", true);
 		}
@@ -194,7 +194,7 @@ public class UserAction extends Command
 	{
 		this.insert(false);
 	}
-	
+
 	public void acceptAgreement()
 	{
 		SessionFacade.setAttribute(ConfigKeys.AGREEMENT_ACCEPTED, "1");
@@ -202,11 +202,11 @@ public class UserAction extends Command
 			+ "/user/insert"
 			+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 	}
-	
+
 	private String agreementContents()
 	{
 		StringBuilder contents = new StringBuilder();
-		
+
 		try {
 			String directory = new StringBuilder()
 				.append(SystemGlobals.getApplicationPath()) 
@@ -215,28 +215,28 @@ public class UserAction extends Command
 				.toString();
 
 			String filename = "terms_" + I18n.getUserLanguage() + ".txt";
-			
+
 			File file = new File(directory + filename);
-			
+
 			if (!file.exists()) {
 				filename = SystemGlobals.getValue(ConfigKeys.AGREEMENT_DEFAULT_FILE);
 				file = new File(directory + filename);
-				
+
 				if (!file.exists()) {
 					throw new FileNotFoundException("Could not locate any terms agreement file");
 				}
 			}
-			
+
 			contents.append(FileUtils.readFileToString(file, SystemGlobals.getValue(ConfigKeys.ENCODING)));
 		}
 		catch (Exception e) {
 			LOGGER.warn("Failed to read agreement data: " + e, e);
 			contents = new StringBuilder(I18n.getMessage("User.agreement.noAgreement"));
-		}		
-		
+		}
+
 		return contents.toString();
 	}
-	
+
 	private boolean agreementAccepted()
 	{
 		return "1".equals(SessionFacade.getAttribute(ConfigKeys.AGREEMENT_ACCEPTED));
@@ -268,7 +268,7 @@ public class UserAction extends Command
 			this.context.put("error", I18n.getMessage("UsernamePasswordCannotBeNull"));
 			error = true;
 		}
-		
+
 		if (username != null) {
 			username = username.trim();
 		}
@@ -277,7 +277,7 @@ public class UserAction extends Command
 			this.context.put("error", I18n.getMessage("User.usernameTooBig"));
 			error = true;
 		}
-		
+
 		if (!error && username != null && (username.indexOf('<') > -1 || username.indexOf('>') > -1)) {
 			this.context.put("error", I18n.getMessage("User.usernameInvalidChars"));
 			error = true;
@@ -287,12 +287,12 @@ public class UserAction extends Command
 			this.context.put("error", I18n.getMessage("UsernameExists"));
 			error = true;
 		}
-		
+
 		if (!error && userDao.findByEmail(email) != null) {
 			this.context.put("error", I18n.getMessage("User.emailExists", new String[] { email }));
 			error = true;
 		}
-		
+
 		if (!error && !userSession.validateCaptchaResponse(captchaResponse)){
 			this.context.put("error", I18n.getMessage("CaptchaResponseFails"));
 			error = true;
@@ -304,28 +304,28 @@ public class UserAction extends Command
 			LOGGER.info("Forum Spam found! Block it: " + ip);
 			final Banlist banlist = new Banlist();
 			banlist.setIp(ip);
-			if (!BanlistRepository.shouldBan(banlist)) {				
-				banlistDao.insert(banlist);			
+			if (!BanlistRepository.shouldBan(banlist)) {
+				banlistDao.insert(banlist);
 				BanlistRepository.add(banlist);
 			}
 			error = true;
 		} else if (stopForumSpamEnabled && StopForumSpam.checkEmail(email)) {
 			LOGGER.info("Forum Spam found! Block it: " + email);
-			final Banlist banlist = new Banlist();			
+			final Banlist banlist = new Banlist();
 			banlist.setEmail(email);
-			if (!BanlistRepository.shouldBan(banlist)) {				
-				banlistDao.insert(banlist);			
+			if (!BanlistRepository.shouldBan(banlist)) {
+				banlistDao.insert(banlist);
 				BanlistRepository.add(banlist);
 			} else { // email already exists, block source ip now
 				LOGGER.info("Forum Spam found! Block it: " + ip);
-				final Banlist banlist2 = new Banlist();			
+				final Banlist banlist2 = new Banlist();
 				banlist2.setIp(ip);
-				banlistDao.insert(banlist2);			
+				banlistDao.insert(banlist2);
 				BanlistRepository.add(banlist2);
 			}
 			error = true;
 		}
-		
+
 		if (error) {
 			this.insert(true);
 			return;
@@ -336,7 +336,7 @@ public class UserAction extends Command
 		user.setEmail(email);
 
 		boolean needMailActivation = SystemGlobals.getBoolValue(ConfigKeys.MAIL_USER_EMAIL_AUTH);
-		
+
 		if (needMailActivation) {
 			user.setActivationKey(MD5.crypt(username + System.currentTimeMillis()));
 		}
@@ -357,7 +357,7 @@ public class UserAction extends Command
 		else {
 			this.logNewRegisteredUserIn(newUserId, user);
 		}
-		
+
 		if (!needMailActivation) {
 			userDao.writeUserActive(newUserId);
 		}
@@ -371,8 +371,8 @@ public class UserAction extends Command
 		User user = userDao.selectById(userId);
 
 		boolean isValid = userDao.validateActivationKeyHash(userId, hash);
-		
-		if (isValid) {			
+
+		if (isValid) {
 			// Activate the account
 			userDao.writeUserActive(userId);
 			this.logNewRegisteredUserIn(userId, user);
@@ -387,14 +387,14 @@ public class UserAction extends Command
 			));
 		}
 	}
-	
+
 	public void activateManual()
 	{
 		this.setTemplateName(TemplateKeys.ACTIVATE_ACCOUNT_MANUAL);
 	}
 
 	private void logNewRegisteredUserIn(final int userId, final User user) 
-	{		
+	{
 		UserSession userSession = SessionFacade.getUserSession();
 		SessionFacade.remove(userSession.getSessionId());
 		userSession.setAutoLogin(true);
@@ -403,7 +403,7 @@ public class UserAction extends Command
 		userSession.setLastVisit(new Date(System.currentTimeMillis()));
 		userSession.setStartTime(new Date(System.currentTimeMillis()));
 		SessionFacade.makeLogged();
-		
+
 		SessionFacade.add(userSession);
 
 		// Finalizing.. show the user the congratulations page
@@ -423,7 +423,7 @@ public class UserAction extends Command
 					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 			return;
 		}
-		
+
 		ForumRepository.setLastRegisteredUser(userDao.selectById(userId));
 		ForumRepository.incrementTotalUsers();
 
@@ -451,7 +451,7 @@ public class UserAction extends Command
 		}
 
 		boolean validInfo = false;
-		
+
 		if (password.length() > 0) {
 			User user = this.validateLogin(username, password);
 
@@ -461,15 +461,15 @@ public class UserAction extends Command
 				this.buildSucessfulLoginRedirect();
 
 				SessionFacade.makeLogged();
-				
+
 				String sessionId = SessionFacade.isUserInSession(user.getId());
 				UserSession userSession = new UserSession(SessionFacade.getUserSession());
-				
+
 				// Remove the "guest" session
 				SessionFacade.remove(userSession.getSessionId());
-				
+
 				userSession.dataToUser(user);
-				
+
 				UserSession currentUs = SessionFacade.getUserSession(sessionId);
 
 				// Check if the user is returning to the system
@@ -481,7 +481,7 @@ public class UserAction extends Command
 					tmpUs = new UserSession(currentUs);
 					SessionFacade.remove(sessionId);
 				}
-				else {					
+				else {
 					tmpUs = userSessionDao.selectById(userSession, JForumExecutionContext.getConnection());
 				}
 
@@ -491,16 +491,16 @@ public class UserAction extends Command
 				if (this.request.getParameter("autologin") != null
 						&& SystemGlobals.getBoolValue(ConfigKeys.AUTO_LOGIN_ENABLED)) {
 					userSession.setAutoLogin(true);
-					
+
 					// Generate the user-specific hash
 					String systemHash = MD5.crypt(SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + user.getId());
 					String userHash = MD5.crypt(System.currentTimeMillis() + systemHash);
-					
+
 					// Persist the user hash
 					userDao.saveUserAuthHash(user.getId(), userHash);
-					
+
 					systemHash = MD5.crypt(userHash);
-					
+
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_AUTO_LOGIN), "1");
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_USER_HASH), systemHash);
 				}
@@ -509,7 +509,7 @@ public class UserAction extends Command
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_USER_HASH), null);
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_AUTO_LOGIN), null);
 				}
-				
+
 				if (tmpUs == null) {
 					userSession.setLastVisit(new Date(System.currentTimeMillis()));
 				}
@@ -517,7 +517,7 @@ public class UserAction extends Command
 					// Update last visit and session start time
 					userSession.setLastVisit(new Date(tmpUs.getStartTime().getTime() + tmpUs.getSessionTime()));
 				}
-				
+
 				SessionFacade.add(userSession);
 				SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new HashMap<Integer, Long>());
 				ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_DATA), 
@@ -533,12 +533,11 @@ public class UserAction extends Command
 			this.context.put("invalidLogin", "1");
 			this.setTemplateName(TemplateKeys.USER_VALIDATE_LOGIN);
 
-			if (this.request.getParameter("returnPath") != null) {
-				this.context.put("returnPath",
-						this.request.getParameter("returnPath"));
+			if (isValidReturnPath()) {
+				this.context.put("returnPath", this.request.getParameter("returnPath"));
 			}
 		} 
-		else if (this.request.getParameter("returnPath") != null) {
+		else if (isValidReturnPath()) {
 			JForumExecutionContext.setRedirect(this.request.getParameter("returnPath"));
 		}
 	}
@@ -547,12 +546,12 @@ public class UserAction extends Command
 	{
 		if (JForumExecutionContext.getRedirectTo() == null) {
 			String forwaredHost = request.getHeader("X-Forwarded-Host");
-			
+
 			if (forwaredHost == null 
 					|| SystemGlobals.getBoolValue(ConfigKeys.LOGIN_IGNORE_XFORWARDEDHOST)) {
 				JForumExecutionContext.setRedirect(this.request.getContextPath()
 					+ "/forums/list"
-					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));						
+					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 			}
 			else {
 				JForumExecutionContext.setRedirect(this.request.getScheme()
@@ -579,12 +578,12 @@ public class UserAction extends Command
 	{
 		if (hasBasicAuthentication(request)) {
 			String auth = request.getHeader("Authorization");
-			String decoded;		
-								
+			String decoded;
+
 			decoded = String.valueOf(new Base64().decode(auth.substring(6)));
-			
+
 			int p = decoded.indexOf(':');
-			
+
 			if (p != -1) {
 				request.setAttribute(USERNAME, decoded.substring(0, p));
 				request.setAttribute("password", decoded.substring(p + 1));
@@ -595,7 +594,7 @@ public class UserAction extends Command
 	}
 
     private User validateLogin(final String name, final String password)
-	{		
+	{
         return userDao.validateLogin(name, password);
 	}
 
@@ -604,7 +603,7 @@ public class UserAction extends Command
 		DataAccessDriver da = DataAccessDriver.getInstance();
 
 		User user = userDao.selectById(this.request.getIntParameter(USER_ID));
-		
+
 		if (user.getId() == 0) {
 			this.userNotFound();
 		}
@@ -617,10 +616,10 @@ public class UserAction extends Command
 			this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 			this.context.put("showAvatar", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_SHOW));
 			this.context.put("showKarma", SystemGlobals.getBoolValue(ConfigKeys.KARMA_SHOW));
-			
+
 			int loggedId = SessionFacade.getUserSession().getUserId();
 			int count = 0;
-			
+
 			List<Bookmark> bookmarks = da.newBookmarkDAO().selectByUser(user.getId());
 			for (Iterator<Bookmark> iter = bookmarks.iterator(); iter.hasNext(); ) {
 				Bookmark bookmark = iter.next();
@@ -655,7 +654,7 @@ public class UserAction extends Command
 
 		SessionFacade.makeUnlogged();
 		SessionFacade.remove(userSession.getSessionId());
-		
+
 		// Disable auto login
 		userSession.setAutoLogin(false);
 		userSession.makeAnonymous();
@@ -669,13 +668,13 @@ public class UserAction extends Command
 			this.registrationDisabled();
 			return;
 		}
-		
-		if (this.request.getParameter("returnPath") != null) {
+
+		if (isValidReturnPath()) {
 			this.context.put("returnPath", this.request.getParameter("returnPath"));
 		}
 		else if (!SystemGlobals.getBoolValue(ConfigKeys.LOGIN_IGNORE_REFERER)) {
 			String referer = this.request.getHeader("Referer");
-			
+
 			if (referer != null) {
 				this.context.put("returnPath", referer);
 			}
@@ -691,7 +690,7 @@ public class UserAction extends Command
 		this.setTemplateName(TemplateKeys.USER_LOSTPASSWORD);
 		this.context.put(PAGE_TITLE, I18n.getMessage("PasswordRecovery.title"));
 	}
-	
+
 	public User prepareLostPassword(String origUsername, final String email)
 	{
 		String username = origUsername;
@@ -707,19 +706,19 @@ public class UserAction extends Command
 				user = l.get(0);
 			}
 		}
-		
+
 		if (user == null) {
 			return null;
 		}
-		
+
 		String hash = MD5.crypt(user.getEmail() 
 				+ System.currentTimeMillis() 
 				+ SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) 
 				+ new Random().nextInt(999999));
 		userDao.writeLostPasswordHash(user.getEmail(), hash);
-		
+
 		user.setActivationKey(hash);
-		
+
 		return user;
 	}
 
@@ -737,7 +736,7 @@ public class UserAction extends Command
 			this.lostPassword();
 			return;
 		}
-		
+
 		Executor.execute(new EmailSenderTask(
 				new LostPasswordSpammer(user, 
 					SystemGlobals.getValue(ConfigKeys.MAIL_LOST_PASSWORD_SUBJECT))));
@@ -768,7 +767,7 @@ public class UserAction extends Command
 
 		String message;
 		boolean isOk = userDao.validateLostPasswordHash(email, hash);
-		
+
 		if (isOk) {
 			String password = this.request.getParameter("newPassword");
 			userDao.saveNewPassword(MD5.crypt(password), email);
@@ -785,12 +784,12 @@ public class UserAction extends Command
 		this.setTemplateName(TemplateKeys.USER_RECOVERPASSWORD_VALIDATE);
 		this.context.put(MESSAGE, message);
 	}
-		
+
 	public void list()
 	{
 		int start = this.preparePagination(userDao.getTotalUsers());
 		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
-							
+
 		List<User> users = userDao.selectAll(start ,usersPerPage);
 		this.context.put("users", users);
 		this.context.put(PAGE_TITLE, I18n.getMessage("ForumBase.usersList"));
@@ -800,16 +799,16 @@ public class UserAction extends Command
 	public void listGroup()
 	{
 		int groupId = this.request.getIntParameter("group_id");
-		
+
 		int start = this.preparePagination(userDao.getTotalUsersByGroup(groupId));
 		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
-							
+
 		List<User> users = userDao.selectAllByGroup(groupId, start ,usersPerPage);
-		
+
 		this.context.put("users", users);
 		this.setTemplateName(TemplateKeys.USER_LIST);
 	}
-	
+
 	/**
 	 * @deprecated probably will be removed. Use KarmaAction to load Karma
 	 */
@@ -817,20 +816,28 @@ public class UserAction extends Command
 	{
 		int start = this.preparePagination(userDao.getTotalUsers());
 		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
-		
+
 		//Load all users with your karma
 		List<User> users = userDao.selectAllWithKarma(start ,usersPerPage);
 		this.context.put("users", users);
 		this.setTemplateName(TemplateKeys.USER_SEARCH_KARMA);
-	}	
-	
+	}
+
 	private int preparePagination(int totalUsers)
 	{
 		int start = ViewCommon.getStartPage();
 		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
-		
+
 		ViewCommon.contextToPagination(start, totalUsers, usersPerPage);
-		
+
 		return start;
-	}	
+	}
+
+	private boolean isValidReturnPath() {
+		if (request.getParameter("returnPath") != null) {
+			return request.getParameter("returnPath").startsWith(SystemGlobals.getValue(ConfigKeys.FORUM_LINK));
+		} else {
+			return false;
+		}
+	}
 }
