@@ -24,9 +24,8 @@
 			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>jahia</id>
-			<name>jahia</name>
-			<url>http://maven.jahia.org/maven2/</url>
+			<id>codelds</id>
+			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -233,8 +232,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.4.0</version>
+			<artifactId>ojdbc6</artifactId>
+			<version>12.1.0.2</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

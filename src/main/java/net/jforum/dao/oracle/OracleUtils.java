@@ -53,7 +53,6 @@ import java.sql.SQLException;
 import net.jforum.JForumExecutionContext;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
-import oracle.sql.BLOB;
 
 /**
  * @author Dmitriy Kiriy
@@ -123,12 +122,7 @@ public final class OracleUtils
 			resultSet.next();
 			final Blob text = resultSet.getBlob(1);
 
-			if (text instanceof BLOB) {
-				blobWriter = ((BLOB) text).setBinaryStream(0L);
-			}
-			else {
-				blobWriter = text.setBinaryStream(0);
-			}
+			blobWriter = text.setBinaryStream(0L);			
 
 			blobWriter.write(value.getBytes("UTF-16"));
 
