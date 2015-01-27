@@ -52,8 +52,8 @@ UserModel.selectAllByGroup = SELECT * FROM ( \
 	ORDER BY username) WHERE LINENUM >= ? AND LINENUM < ?
 
 UserModel.findByEmail = SELECT * FROM ( \
-  SELECT *, ROW_NUMBER() OVER(ORDER BY u.user_id) - 1 LINENUM \
-  FROM jforum_users \
+  SELECT u.*, ROW_NUMBER() OVER(ORDER BY u.user_id) - 1 LINENUM \
+  FROM jforum_users u \
   WHERE LOWER(user_email) = LOWER(?) \
   ORDER BY user_id) WHERE LINENUM >= ? AND LINENUM < ?
  

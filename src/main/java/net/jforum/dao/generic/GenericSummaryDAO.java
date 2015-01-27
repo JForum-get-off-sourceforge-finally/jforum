@@ -110,7 +110,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		Timestamp postTime = rs.getTimestamp("post_time");
 		post.setTime(postTime);
 		post.setSubject(rs.getString("post_subject"));
-		post.setText(rs.getString("post_text"));
+		post.setText(this.getPostTextFromResultSet(rs));
 		post.setPostUsername(rs.getString("username"));
 
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
@@ -151,5 +151,10 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
+	}
+	
+	protected String getPostTextFromResultSet(ResultSet rs) throws SQLException
+	{
+		return rs.getString("post_text");
 	}
 }

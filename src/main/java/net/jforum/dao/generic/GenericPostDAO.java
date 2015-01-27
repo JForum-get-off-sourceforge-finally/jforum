@@ -1,41 +1,41 @@
 /*
  * Copyright (c) JForum Team
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, 
- * with or without modification, are permitted provided 
+ *
+ * Redistribution and use in source and binary forms,
+ * with or without modification, are permitted provided
  * that the following conditions are met:
- * 
- * 1) Redistributions of source code must retain the above 
- * copyright notice, this list of conditions and the 
+ *
+ * 1) Redistributions of source code must retain the above
+ * copyright notice, this list of conditions and the
  * following disclaimer.
- * 2) Redistributions in binary form must reproduce the 
- * above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or 
+ * 2) Redistributions in binary form must reproduce the
+ * above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- * 3) Neither the name of "Rafael Steil" nor 
- * the names of its contributors may be used to endorse 
- * or promote products derived from this software without 
+ * 3) Neither the name of "Rafael Steil" nor
+ * the names of its contributors may be used to endorse
+ * or promote products derived from this software without
  * specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT 
- * HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, 
- * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
- * THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER 
- * IN CONTRACT, STRICT LIABILITY, OR TORT 
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+ * HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+ * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ * THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ * IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
- * 
+ *
  * Created on Mar 28, 2003 / 22:57:43 PM
  * The JForum Project
  * http://www.jforum.net
@@ -107,7 +107,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		post.setTopicId(rs.getInt("topic_id"));
 		post.setForumId(rs.getInt("forum_id"));
 		post.setUserId(rs.getInt("user_id"));
-		
+
 		Timestamp postTime = rs.getTimestamp("post_time");
 		post.setTime(new Date(postTime.getTime()));
 		post.setUserIp(rs.getString("poster_ip"));
@@ -116,10 +116,10 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		post.setSmiliesEnabled(rs.getInt("enable_smilies") > 0);
 		post.setSignatureEnabled(rs.getInt("enable_sig") > 0);
 		post.setEditCount(rs.getInt("post_edit_count"));
-		
+
 		Timestamp editTime = rs.getTimestamp("post_edit_time");
 		post.setEditTime(editTime != null ? new Date(editTime.getTime()) : null);
-		
+
 		post.setSubject(rs.getString("post_subject"));
 		post.setText(this.getPostTextFromResultSet(rs));
 		post.setPostUsername(rs.getString("username"));
@@ -135,10 +135,10 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	}
 
 	/**
-	 * Utility method to read the post text fromt the result set. This method may be useful when
-	 * using some "non-standart" way to store text, like oracle does when using (c|b)lob
-	 * 
-	 * @param rs The resultset to fetch data from
+	 * Utility method to read the post text from the result set. This method may be useful when
+	 * using some "non-standard" way to store text, like oracle does when using (c|b)lob
+	 *
+	 * @param rs The result set to fetch data from
 	 * @return The post text string
 	 * @throws SQLException
 	 */
@@ -178,7 +178,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 
 				pstmtText.executeUpdate();
 				pstmtPost.executeUpdate();
-				
+
 				SearchFacade.delete(post);
 				userDAO.decrementPosts(post.getUserId());
 			}
@@ -199,7 +199,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection()
 				.prepareStatement(SystemGlobals.getSql("PostModel.deleteByTopic"));
@@ -207,7 +207,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 			rs = pstmt.executeQuery();
 
 			List<Post> posts = new ArrayList<Post>();
-			
+
 			while (rs.next()) {
 				Post post = new Post();
 				post.setId(rs.getInt("post_id"));
@@ -261,7 +261,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	protected void updatePostsTable(Post post)
 	{
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.updatePost"));
 			pstmt.setInt(1, post.getTopicId());
@@ -370,7 +370,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, topicId);
@@ -486,26 +486,26 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		}
 	}
 
-	public List<Post> selectLatestByForumForRSS(int forumId, int limit) 
+	public List<Post> selectLatestByForumForRSS(int forumId, int limit)
 	{
 		List<Post> l = new ArrayList<Post>();
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.selectLatestByForumForRSS"));
 			pstmt.setInt(1, forumId);
 			pstmt.setInt(2, limit);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				Post post = this.buildPostForRSS(rs);
 				l.add(post);
 			}
-			
+
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
@@ -513,28 +513,28 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return l;
 	}
 
 	public List<Post> selectLatestForRSS(int limit) {
 		List<Post> l = new ArrayList<Post>();
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.selectLatestForRSS"));
 			pstmt.setInt(1, limit);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				Post post = this.buildPostForRSS(rs);
 				l.add(post);
 			}
-			
+
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
@@ -542,29 +542,29 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return l;
 	}
-	
-	public List<Post> selectHotForRSS(int limit) 
+
+	public List<Post> selectHotForRSS(int limit)
 	{
 		List<Post> l = new ArrayList<Post>();
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PostModel.selectHotForRSS"));
 			pstmt.setInt(1, limit);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				Post post = this.buildPostForRSS(rs);
 				l.add(post);
 			}
-			
+
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
@@ -572,24 +572,23 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return l;
 	}
 
-	protected Post buildPostForRSS(ResultSet rs) throws SQLException 
+	protected Post buildPostForRSS(ResultSet rs) throws SQLException
 	{
 		Post post = new Post();
-		
+
 		post.setId(rs.getInt("post_id"));
 		post.setSubject(rs.getString("subject"));
-		post.setText(rs.getString("post_text"));
+		post.setText(this.getPostTextFromResultSet(rs));
 		post.setTopicId(rs.getInt("topic_id"));
-		post.setForumId(rs.getInt("forum_id")); 
+		post.setForumId(rs.getInt("forum_id"));
 		post.setUserId(rs.getInt("user_id"));
 		post.setPostUsername(rs.getString("username"));
 		post.setTime(new Date(rs.getTimestamp("post_time").getTime()));
-		
+
 		return post;
 	}
 }
-
