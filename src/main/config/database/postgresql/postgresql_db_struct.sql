@@ -270,7 +270,7 @@ CREATE TABLE jforum_users (
   user_id INT NOT NULL DEFAULT nextval('jforum_users_seq'),
   user_active INT DEFAULT NULL,
   username VARCHAR(50) NOT NULL DEFAULT '',
-  user_password VARCHAR(32) NOT NULL DEFAULT '',
+  user_password VARCHAR(128) NOT NULL DEFAULT '',
   user_session_time INT NOT NULL DEFAULT 0,
   user_session_page INT NOT NULL DEFAULT 0,
   user_lastvisit TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

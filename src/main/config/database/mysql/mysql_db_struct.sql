@@ -275,7 +275,7 @@ CREATE TABLE jforum_users (
   user_id INT NOT NULL AUTO_INCREMENT,
   user_active TINYINT(1) DEFAULT NULL,
   username VARCHAR(50) NOT NULL DEFAULT '',
-  user_password VARCHAR(32) NOT NULL DEFAULT '',
+  user_password VARCHAR(128) NOT NULL DEFAULT '',
   user_session_time BIGINT DEFAULT 0,
   user_session_page INT NOT NULL DEFAULT 0,
   user_lastvisit DATETIME DEFAULT NULL,

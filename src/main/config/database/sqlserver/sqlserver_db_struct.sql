@@ -357,7 +357,7 @@ CREATE TABLE jforum_users (
   user_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL,
   user_active tinyint DEFAULT NULL,
   username nvarchar(50) DEFAULT ('') NOT NULL,
-  user_password varchar(32) DEFAULT ('') NOT NULL,
+  user_password varchar(128) DEFAULT ('') NOT NULL,
   user_session_time bigint DEFAULT (0) NULL,
   user_session_page int DEFAULT (0) NOT NULL,
   user_lastvisit datetime DEFAULT NULL,
