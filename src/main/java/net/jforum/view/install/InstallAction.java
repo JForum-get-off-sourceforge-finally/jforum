@@ -79,7 +79,7 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.I18n;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -330,7 +330,7 @@ public class InstallAction extends Command
 
     private void configureSystemGlobals()
     {
-        SystemGlobals.setValue(ConfigKeys.USER_HASH_SEQUENCE, MD5.crypt(this.getFromSession("dbPassword")
+        SystemGlobals.setValue(ConfigKeys.USER_HASH_SEQUENCE, Hash.md5(this.getFromSession("dbPassword")
                                                                         + System.currentTimeMillis()));
 
         SystemGlobals.setValue(ConfigKeys.FORUM_LINK, this.getFromSession("forumLink"));
@@ -726,7 +726,7 @@ public class InstallAction extends Command
 
         try {
             pstmt = conn.prepareStatement("UPDATE jforum_users SET user_password = ? WHERE username = 'Admin'");
-            pstmt.setString(1, MD5.crypt(this.getFromSession("adminPassword")));
+            pstmt.setString(1, Hash.sha512(this.getFromSession("adminPassword")));
             pstmt.executeUpdate();
             status = true;
         }

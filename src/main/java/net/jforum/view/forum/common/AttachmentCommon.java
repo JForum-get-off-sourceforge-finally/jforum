@@ -73,7 +73,7 @@ import net.jforum.exceptions.BadExtensionException;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.image.ImageUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -425,7 +425,7 @@ public class AttachmentCommon
 		}		
 		
 		return dir
-			.append(MD5.crypt(attInfo.getRealFilename() + System.currentTimeMillis()))
+			.append(Hash.md5(attInfo.getRealFilename() + System.currentTimeMillis()))
 			.append('_')
 			.append(SessionFacade.getUserSession().getUserId())
 			.append('.')

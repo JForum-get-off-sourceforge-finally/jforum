@@ -48,7 +48,7 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SmilieDAO;
 import net.jforum.entities.Smilie;
 import net.jforum.repository.SmiliesRepository;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -74,7 +74,7 @@ public class SmiliesAction extends AdminCommand
 			UploadUtils uploadUtils = new UploadUtils(item);
 			String ext = uploadUtils.getExtension().toLowerCase();
 			if (ext.equals("png") || ext.equals("gif") || ext.equals("jpg") || ext.equals("jpeg")) {
-				imgName = MD5.crypt(item.getName());
+				imgName = Hash.md5(item.getName());
 
 				uploadUtils.saveUploadedFile(SystemGlobals.getApplicationPath() 
 						+ "/"

@@ -70,7 +70,7 @@ import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.security.StopForumSpam;
 import net.jforum.util.I18n;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.concurrent.Executor;
 import net.jforum.util.mail.ActivationKeySpammer;
 import net.jforum.util.mail.EmailSenderTask;
@@ -332,13 +332,13 @@ public class UserAction extends Command
 		}
 
 		user.setUsername(username);
-		user.setPassword(MD5.crypt(password));
+		user.setPassword(Hash.sha512(password));
 		user.setEmail(email);
 
 		boolean needMailActivation = SystemGlobals.getBoolValue(ConfigKeys.MAIL_USER_EMAIL_AUTH);
 
 		if (needMailActivation) {
-			user.setActivationKey(MD5.crypt(username + System.currentTimeMillis()));
+			user.setActivationKey(Hash.md5(username + System.currentTimeMillis()));
 		}
 
 		int newUserId = userDao.addNew(user);
@@ -493,13 +493,13 @@ public class UserAction extends Command
 					userSession.setAutoLogin(true);
 
 					// Generate the user-specific hash
-					String systemHash = MD5.crypt(SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + user.getId());
-					String userHash = MD5.crypt(System.currentTimeMillis() + systemHash);
+					String systemHash = Hash.md5(SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + user.getId());
+					String userHash = Hash.md5(System.currentTimeMillis() + systemHash);
 
 					// Persist the user hash
 					userDao.saveUserAuthHash(user.getId(), userHash);
 
-					systemHash = MD5.crypt(userHash);
+					systemHash = Hash.md5(userHash);
 
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_AUTO_LOGIN), "1");
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_USER_HASH), systemHash);
@@ -711,7 +711,7 @@ public class UserAction extends Command
 			return null;
 		}
 
-		String hash = MD5.crypt(user.getEmail() 
+		String hash = Hash.md5(user.getEmail() 
 				+ System.currentTimeMillis() 
 				+ SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) 
 				+ new Random().nextInt(999999));
@@ -770,7 +770,7 @@ public class UserAction extends Command
 
 		if (isOk) {
 			String password = this.request.getParameter("newPassword");
-			userDao.saveNewPassword(MD5.crypt(password), email);
+			userDao.saveNewPassword(Hash.sha512(password), email);
 
 			message = I18n.getMessage("PasswordRecovery.ok",
 				new String[] { this.request.getContextPath()

@@ -63,7 +63,7 @@ import net.jforum.security.SecurityConstants;
 import net.jforum.sso.SSO;
 import net.jforum.sso.SSOUtils;
 import net.jforum.util.I18n;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.common.BannerCommon;
@@ -155,7 +155,7 @@ public class ControllerUtils
 					return false;
 				}
 				
-				final String securityHash = MD5.crypt(userHash);
+				final String securityHash = Hash.md5(userHash);
 	
 				if (securityHash.equals(uidHash)) {
 					final int userId = Integer.parseInt(uid);

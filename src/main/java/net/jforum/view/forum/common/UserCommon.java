@@ -61,7 +61,7 @@ import net.jforum.dao.UserDAO;
 import net.jforum.entities.User;
 import net.jforum.repository.SpamRepository;
 import net.jforum.util.I18n;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.image.ImageUtils;
 import net.jforum.util.preferences.ConfigKeys;
@@ -141,20 +141,22 @@ public final class UserCommon
 		user.setWebSite(website);
 
 		String currentPassword = request.getParameter("current_password");
+		String currentPasswordMD5 = "", currentPasswordSHA512 = "";
 		final boolean isCurrentPasswordEmpty = currentPassword == null || "".equals(currentPassword.trim());
 
 		if (isAdmin || !isCurrentPasswordEmpty) {
 			if (!isCurrentPasswordEmpty) {
-				currentPassword = MD5.crypt(currentPassword);
+				currentPasswordMD5 = Hash.md5(currentPassword);
+				currentPasswordSHA512 = Hash.sha512(currentPassword);
 			}
 
-			if (isAdmin || user.getPassword().equals(currentPassword)) {
+			if (isAdmin || user.getPassword().equals(currentPasswordMD5) || user.getPassword().equals(currentPasswordSHA512)) {
 				user.setEmail(safeHtml.makeSafe(request.getParameter("email")));
 
 				final String newPassword = request.getParameter("new_password");
 
 				if (newPassword != null && newPassword.length() > 0) {
-					user.setPassword(MD5.crypt(newPassword));
+					user.setPassword(Hash.sha512(newPassword));
 				}
 			}
 			else {
@@ -249,7 +251,7 @@ public final class UserCommon
 			}
 		}
 
-		final String fileName = MD5.crypt(Integer.toString(user.getId()));
+		final String fileName = Hash.md5(Integer.toString(user.getId()));
 		FileItem item = (FileItem)JForumExecutionContext.getRequest().getObjectParameter("avatar");
 		UploadUtils uploadUtils = new UploadUtils(item);
 

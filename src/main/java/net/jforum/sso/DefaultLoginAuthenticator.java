@@ -52,7 +52,7 @@ import net.jforum.dao.UserDAO;
 import net.jforum.entities.User;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.DbUtils;
-import net.jforum.util.MD5;
+import net.jforum.util.Hash;
 import net.jforum.util.preferences.SystemGlobals;
 
 /**
@@ -89,11 +89,20 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("UserModel.login"));
 			pstmt.setString(1, username);
-			pstmt.setString(2, MD5.crypt(password));
+			// first try MD5 hash
+			pstmt.setString(2, Hash.md5(password));
 
 			resultSet = pstmt.executeQuery();
 			if (resultSet.next() && resultSet.getInt("user_id") > 0) {
 				user = this.userModel.selectById(resultSet.getInt("user_id"));
+			} else {
+				// then, SHA-512
+				pstmt.setString(2, Hash.sha512(password));
+
+				resultSet = pstmt.executeQuery();
+				if (resultSet.next() && resultSet.getInt("user_id") > 0) {
+					user = this.userModel.selectById(resultSet.getInt("user_id"));
+				}
 			}
 		}
 		catch (SQLException e)
