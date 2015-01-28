@@ -60,7 +60,7 @@
 					<td valign="middle" align="left">
 						<span class="maintitle"><a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}" name="top" class="maintitle" id="top">${topic.title?html}</a></span>
 						<#if rssEnabled>
-						&nbsp;<a href="${JForumContext.encodeURL("/rss/topicPosts/${topic.id}")}"><img src="${contextPath}/images/rss.png" alt="RSS feed" title=RSS feed" /></a>
+						&nbsp;<a href="${JForumContext.encodeURL("/rss/topicPosts/${topic.id}")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" alt="RSS feed" title="RSS feed" /></a>
 						</#if>
 					</td>
 					<#if socialEnabled>
