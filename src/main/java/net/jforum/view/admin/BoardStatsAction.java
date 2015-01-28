@@ -44,16 +44,20 @@
 package net.jforum.view.admin;
 
 import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.net.*;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 import net.jforum.util.preferences.*;
 import net.jforum.view.forum.common.*;
 
 public class BoardStatsAction extends AdminCommand {
 
-	    /**
+	 /**
      * @see net.jforum.Command#list()
      */
     public void list() {
@@ -61,6 +65,9 @@ public class BoardStatsAction extends AdminCommand {
         this.context.put("records", Stats.getRecords());
 
         SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMinimumFractionDigits(1);
+		nf.setMaximumFractionDigits(2);
 		List<Item> sysInfo = new ArrayList<Item>();
         sysInfo.add(new Item("Java version", System.getProperty("java.version")));
         sysInfo.add(new Item("Max memory", ""+Runtime.getRuntime().maxMemory()));
@@ -69,6 +76,13 @@ public class BoardStatsAction extends AdminCommand {
         sysInfo.add(new Item("Server info", SystemGlobals.getValue("server.info")));
         sysInfo.add(new Item("Servlet API version", SystemGlobals.getValue("servlet.version")));
         sysInfo.add(new Item("Last board restart", sdf.format(Stats.getRestartTime())));
+		try {
+			MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+			Double result = (Double) server.getAttribute(new ObjectName("java.lang:type=OperatingSystem"), "SystemLoadAverage");
+			sysInfo.add(new Item("System load average", nf.format(result.doubleValue())));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         Collections.sort(sysInfo);
         this.context.put("sysInfo", sysInfo);
     }
