@@ -73,6 +73,10 @@ public class UploadUtils
 		return this.extension;
 	}
 	
+	public String getOriginalName() {
+		return item.getName();
+	}
+
 	public void saveUploadedFile(String filename) 
 	{
 		BufferedInputStream inputStream = null;

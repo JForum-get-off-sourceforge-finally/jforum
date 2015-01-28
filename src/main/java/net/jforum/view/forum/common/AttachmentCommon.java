@@ -72,6 +72,7 @@ import net.jforum.exceptions.AttachmentSizeTooBigException;
 import net.jforum.exceptions.BadExtensionException;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
+import net.jforum.view.forum.common.Stats;
 import net.jforum.util.I18n;
 import net.jforum.util.Hash;
 import net.jforum.util.image.ImageUtils;
@@ -246,6 +247,8 @@ public class AttachmentCommon
 			if (this.shouldCreateThumb(attachment)) {
 				this.createSaveThumb(path);
 			}
+
+			Stats.record("File upload", entry.getKey().getOriginalName());
 		}
 	}
 	
