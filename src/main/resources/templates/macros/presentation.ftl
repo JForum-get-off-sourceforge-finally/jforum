@@ -146,10 +146,10 @@
 						<option value="-1" selected="selected">${I18n.getMessage("ForumIndex.goToSelectAForum")}</option>				
 						
 						<#list allCategories as category>
-                            <optgroup label="${category.name}">
+                            <optgroup label="${category.name?html}">
 		
 							<#list category.getForums() as forum>
-								<option value="${forum.id}">${forum.name}</option>
+								<option value="${forum.id}">${forum.name?html}</option>
 							</#list>
 							
                             </optgroup>

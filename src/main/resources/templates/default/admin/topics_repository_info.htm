@@ -11,12 +11,12 @@
 
 	<#list categories as c>
 		<tr>
-			<td colspan="2"><h3><b>${c.name}</b></h3></td>
+			<td colspan="2"><h3><b>${c.name?html}</b></h3></td>
 		</tr>
 
 		<#list c.getForums() as f>
 			<tr>
-				<td class="row2" width="40%"><a class="gen" href="${JForumContext.encodeURL("/forums/show/${f.id}")}" target="_blank">${f.name}</a></td>
+				<td class="row2" width="40%"><a class="gen" href="${JForumContext.encodeURL("/forums/show/${f.id}")}" target="_blank">${f.name?html}</a></td>
 				<td class="row2">
 					<a class="gen" href="${JForumContext.encodeURL("/adminCache/topicsClear/${f.id}")}">${I18n.getMessage("Cache.clear")}</a>
 				</td>

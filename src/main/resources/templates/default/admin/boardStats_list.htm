@@ -48,7 +48,7 @@
         <th class="thhead" valign="middle" height="25" width="50%">${I18n.getMessage("BoardStats.infoValue")}</th>
 	</tr>
 	<#list sysInfo as item>
-		<tr> <td valign="left">${item.name}</td><td valign="left">${item.value}</td> </tr>
+		<tr> <td valign="left">${item.name?html}</td><td valign="left">${item.value}</td> </tr>
 	</#list>
 </table>
 </div>

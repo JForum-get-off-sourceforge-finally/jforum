@@ -58,7 +58,7 @@
 									<strong>
 										<a href="${postUrl}">${post.subject}</a>
 									</strong>, 
-									${I18n.getMessage("Search.postedOn")} <a href="${JForumContext.encodeURL("/forums/show/${post.forum.id}")}">${post.forum.name}</a>, 
+									${I18n.getMessage("Search.postedOn")} <a href="${JForumContext.encodeURL("/forums/show/${post.forum.id}")}">${post.forum.name?html}</a>, 
 									${I18n.getMessage("Search.postedAt")} ${post.time?datetime}, 
 									${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a>									
 								</span>
@@ -108,9 +108,9 @@
 												<option value="-1" selected="selected">${I18n.getMessage("ForumIndex.goToSelectAForum")}</option>
 
 												<#list categories as category>
-													<optgroup label="${category.name}">
+													<optgroup label="${category.name?html}">
 														<#list category.getForums() as forum>
-														<option value="${forum.id}">${forum.name}</option>
+														<option value="${forum.id}">${forum.name?html}</option>
 														</#list>
 													</optgroup>
 												</#list>

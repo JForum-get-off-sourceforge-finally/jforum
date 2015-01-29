@@ -36,7 +36,7 @@
 		<td class="row2" align="center" valign="middle">			
 			<select name="extension_group">
 				<#list groups as g>
-					<option value="${g.id}">${g.name}</option>
+					<option value="${g.id}">${g.name?html}</option>
 				</#list>
 			</select>
 		</td>
@@ -95,7 +95,7 @@
 				<td class="row2" align="center" valign="middle">
 					<select name="extension_group_${counter}">
 						<#list groups as g>
-							<option value="${g.id}" <#if e.extensionGroupId == g.id>selected="selected"</#if>>${g.name}</option>
+							<option value="${g.id}" <#if e.extensionGroupId == g.id>selected="selected"</#if>>${g.name?html}</option>
 						</#list>
 					</select>
 				</td>

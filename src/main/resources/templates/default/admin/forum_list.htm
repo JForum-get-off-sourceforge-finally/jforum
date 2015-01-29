@@ -13,7 +13,7 @@
 	<#list categories as category>
 		<#if repository.isCategoryAccessible(category.id)>
 			<tr>
-				<td colspan="6" class="catleft"><span class="cattitle">${category.name}</span></td>
+				<td colspan="6" class="catleft"><span class="cattitle">${category.name?html}</span></td>
 			</tr>
 
 			<#assign counter = 1/>
@@ -22,7 +22,7 @@
 			<#list forums as forum>
 				<tr>
 					<td width="10" class="row1">&nbsp;</td>
-					<td class="row1"><span class="forumlink">${forum.name}</span></td>
+					<td class="row1"><span class="forumlink">${forum.name?html}</span></td>
 					<td class="row1" align="center">
 						<span class="gen">
 							<a href="${JForumContext.encodeURL("/${moduleName}/edit/${forum.id}")}">${I18n.getMessage("Forums.List.Edit")}</a>

@@ -113,7 +113,7 @@ function limitTextArea(field, limit)
         
 	<tr>
 		<td class="row1" width="20%"><span class="gen">${I18n.getMessage("Forums.Form.ForumName")}</span></td>
-		<td class="row2"><input type="text" class="post" style="width: 200px" maxlength="150" size="25" name="forum_name" value="<#if forum?exists>${forum.name}</#if>" /></td>
+		<td class="row2"><input type="text" class="post" style="width: 200px" maxlength="150" size="25" name="forum_name" value="<#if forum?exists>${forum.name?html}</#if>" /></td>
 	</tr>
 
 	<tr>
@@ -130,7 +130,7 @@ function limitTextArea(field, limit)
 		<td class="row1"><span class="gen">${I18n.getMessage("Forums.Form.Category")}</span></td>
 		<td class="row2">
 			<select name="categories_id">
-			<#list categories as c><option value="${c.id}" <#if forum?exists><#if forum.categoryId == c.id>selected="selected"</#if></#if>>${c.name}</option></#list>
+			<#list categories as c><option value="${c.id}" <#if forum?exists><#if forum.categoryId == c.id>selected="selected"</#if></#if>>${c.name?html}</option></#list>
 			</select>
 		</td>
 	</tr>

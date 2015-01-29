@@ -40,9 +40,9 @@
 									${I18n.getMessage("PostForm.moveToForum")}
 									<select name="to_forum">
 										<#list allCategories as category>
-											<optgroup label="${category.name}">
+											<optgroup label="${category.name?html}">
 												<#list category.getForums() as forum>
-													<option value="${forum.id}">&nbsp;&nbsp;${forum.name}</option>
+													<option value="${forum.id}">&nbsp;&nbsp;${forum.name?html}</option>
 												</#list>
 											</optgroup>
 										</#list>

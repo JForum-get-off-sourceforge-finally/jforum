@@ -194,7 +194,7 @@ function cancelOperation()
 							<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
 
 							<#if forum?exists>
-							&raquo; <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name}</a>
+							&raquo; <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
 							</#if>
 						</span>
 					</td>
@@ -297,7 +297,7 @@ function cancelOperation()
 														<#if count % 4 == 0>
 															<tr>
 														</#if>
-														<td><a href="javascript:emoticon('${smilie.code}');">${smilie.url}</a></td>
+														<td><a href="javascript:emoticon('${smilie.code?html}');">${smilie.url}</a></td>
 														<#assign count = count + 1/>
 														<#if count % 4 == 0>
 															</tr>

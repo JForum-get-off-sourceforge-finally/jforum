@@ -20,7 +20,7 @@
 	<#assign categories = repository.getAllCategories()/>
 	<#list categories as category>
 		<tr>
-			<td class="catleft" width="38%"><span class="cattitle">${category.name}</span></td>
+			<td class="catleft" width="38%"><span class="cattitle">${category.name?html}</span></td>
 			<td class="catleft" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/${moduleName}/edit/${category.id}")}">${I18n.getMessage("Category.List.Edit")}</a></span></td>
 			<td class="catleft" align="center" width="10%"><input type="checkbox" name="categories_id" value="${category.id}" /></td>
 			
@@ -48,7 +48,7 @@
 				<#list repository.getCategory(category.id).getForums() as forum>
 					<tr>
 						<td>&nbsp;</td>
-						<td class="row1" width="100%"><span class="forumlink">${forum.name}</span></td>
+						<td class="row1" width="100%"><span class="forumlink">${forum.name?html}</span></td>
 						<td>&nbsp;</td>
 					</tr>
 				</#list>

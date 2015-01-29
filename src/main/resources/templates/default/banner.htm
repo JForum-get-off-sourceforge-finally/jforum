@@ -12,13 +12,13 @@
                <tr><td><div align="center">
                  <#switch banner.type>
                    <#case 0>
-                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank"><img src="${banner.name}" alt="${banner.description}" <#if banner.width != 0>width="${banner.width}"</#if> <#if banner.height != 0>height="${banner.height}"</#if>/></a>
+                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank"><img src="${banner.name?html}" alt="${banner.description}" <#if banner.width != 0>width="${banner.width}"</#if> <#if banner.height != 0>height="${banner.height}"</#if>/></a>
                      <#break>
                    <#case 2>
-                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank">${banner.name}</a>
+                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank">${banner.name?html}</a>
                      <#break>
                    <#case 4>
-                     ${banner.name}
+                     ${banner.name?html}
                      <#break>
                  </#switch>
                </div></td></tr>
@@ -35,13 +35,13 @@
                <tr><td><div align="center">
                  <#switch banner.type>
                    <#case 0>
-                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank"><img src="${banner.name}" alt="${banner.description}" <#if banner.width != 0>width="${banner.width}"</#if> <#if banner.height != 0>height="${banner.height}"</#if>/></a>
+                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank"><img src="${banner.name?html}" alt="${banner.description}" <#if banner.width != 0>width="${banner.width}"</#if> <#if banner.height != 0>height="${banner.height}"</#if>/></a>
                      <#break>
                    <#case 2>
-                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank">${banner.name}</a>
+                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank">${banner.name?html}</a>
                      <#break>
                    <#case 4>
-                     ${banner.name}
+                     ${banner.name?html}
                      <#break>
                  </#switch>
                </div></td></tr>
@@ -58,13 +58,13 @@
                <tr><td><div align="center">
                  <#switch banner.type>
                    <#case 0>
-                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank"><img src="${banner.name}" alt="${banner.description}" <#if banner.width != 0>width="${banner.width}"</#if> <#if banner.height != 0>height="${banner.height}"</#if>/></a>
+                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank"><img src="${banner.name?html}" alt="${banner.description}" <#if banner.width != 0>width="${banner.width}"</#if> <#if banner.height != 0>height="${banner.height}"</#if>/></a>
                      <#break>
                    <#case 2>
-                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank">${banner.name}</a>
+                     <a href="${contextPath}/banner/redirect/${banner.id}${extension}" target="_blank">${banner.name?html}</a>
                      <#break>
                    <#case 4>
-                     ${banner.name}
+                     ${banner.name?html}
                      <#break>
                  </#switch>
                </div></td></tr>

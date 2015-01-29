@@ -15,7 +15,7 @@
 
 	<tr>
 		<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Smilies.Form.Code")}</span></td>
-		<td class="row2"><input type="text" class="post" style="width: 200px" maxlength="50" size="25" name="code" value="<#if smilie?exists>${smilie.code}</#if>" /></td>
+		<td class="row2"><input type="text" class="post" style="width: 200px" maxlength="50" size="25" name="code" value="<#if smilie?exists>${smilie.code?html}</#if>" /></td>
 	</tr>
 
 	<tr>

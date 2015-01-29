@@ -39,7 +39,7 @@
 	<tr>
 		<td class="row1" width="38%"><span class="gen"><b>${I18n.getMessage("Banner.imagePathTextCode")}</b></span><br />
 		<span class="gensmall">${I18n.getMessage("Banner.imagePathTextCodeDesc")}</span></td>
-		<td class="row2"><textarea name="name" rows="2" cols="35" wrap="virtual" style="width:450px" class="liteoption"><#if edit>${banner.name}</#if></textarea></td>
+		<td class="row2"><textarea name="name" rows="2" cols="35" wrap="virtual" style="width:450px" class="liteoption"><#if edit>${banner.name?html}</#if></textarea></td>
 	</tr>
 	<tr>
 		<td class="row1" width="38%"><span class="gen"><b>${I18n.getMessage("Banner.imageDesc")}</b></span><br />

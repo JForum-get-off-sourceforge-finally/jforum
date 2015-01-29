@@ -13,7 +13,7 @@
 	<#list smilies as smilie>
 	<tr>
 		<td class="row1" width="38%">${smilie.url}</td>
-		<td class="row2"><span class="gen">${smilie.code}</span></td>
+		<td class="row2"><span class="gen">${smilie.code?html}</span></td>
 		<td class="row2"><span class="gen"><a
 			href="${JForumContext.encodeURL("/${moduleName}/edit/${smilie.id}")}">${I18n.getMessage("Smilies.List.Edit")}</a></span>
 		</td>

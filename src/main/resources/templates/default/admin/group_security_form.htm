@@ -14,7 +14,7 @@
 
 <table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>
-		<th class="thhead" valign="middle" colspan="3">${I18n.getMessage("PermissionControl.groupTitle")} - "<i>${group.name}</i>"</th>
+		<th class="thhead" valign="middle" colspan="3">${I18n.getMessage("PermissionControl.groupTitle")} - "<i>${group.name?html}</i>"</th>
 	</tr>
 
 	<tr>
@@ -39,7 +39,7 @@
 		<#list permissions as p>
 			<tr>
 				<td class="row2">&nbsp;</td>
-				<td class="row2" valign="middle" width="33%"><span class="gensmall">${p.name}</span></td>
+				<td class="row2" valign="middle" width="33%"><span class="gensmall">${p.name?html}</span></td>
 				<td class="row2" valign="middle" align="left">
 					<span class="gensmall">
 					<#if p.type == "single">
@@ -53,7 +53,7 @@
 
 					<#assign allValues = ""/>
 					<#list permissionData as pd>
-						<option value="${pd.id}" <#if pd.selected == true>selected="selected"</#if>>${pd.name}</option>
+						<option value="${pd.id}" <#if pd.selected == true>selected="selected"</#if>>${pd.name?html}</option>
 						<#assign allValues = allValues +";"+ pd.id/>
 					</#list>
 					</select>

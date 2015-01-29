@@ -20,7 +20,7 @@
 
 	<#list ranks as rank>
 	<tr>
-		<td class="row1" width="20%"><span class="gen">${rank.title}</span></td>
+		<td class="row1" width="20%"><span class="gen">${rank.title?html}</span></td>
 		<td width="20%" class="row1" align="center"><span class="gen">${rank.min}</span></td>
 		<td width="20%" class="row1" align="center"><span class="gen">${rank.special?string}</span></td>
 		<td width="20%" class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/${moduleName}/edit/${rank.id}")}">${I18n.getMessage("Rank.List.Edit")}</a></span></td>

@@ -52,7 +52,7 @@
 							<@presentation.folderImage topic/>
 						</td>
 						<td class="row1 topictitle">
-							<a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name}</a>
+							<a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
 						</td>
 						<td class="row1">
 							<a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}" class="topictitle"><#if (topic.title?length == 0)>No Subject<#else>${topic.title?html}</#if></a>
@@ -120,9 +120,9 @@
 										<select onchange="if(this.options[this.selectedIndex].value != -1){ document.location = '${contextPath}/forums/show/'+ this.options[this.selectedIndex].value +'${extension}'; }" name="select">
 											<option value="-1" selected="selected">${I18n.getMessage("ForumIndex.goToSelectAForum")}</option>				
 												<#list categories as category>
-													<optgroup label="${category.name}">
+													<optgroup label="${category.name?html}">
 														<#list category.getForums() as forum>
-														<option value="${forum.id}">${forum.name}</option>
+														<option value="${forum.id}">${forum.name?html}</option>
 														</#list>
 													</optgroup>
 												</#list>
