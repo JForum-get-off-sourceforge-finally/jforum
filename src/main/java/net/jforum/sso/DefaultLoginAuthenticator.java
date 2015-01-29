@@ -96,6 +96,7 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 			if (resultSet.next() && resultSet.getInt("user_id") > 0) {
 				user = this.userModel.selectById(resultSet.getInt("user_id"));
 			} else {
+				resultSet.close();
 				// then, SHA-512
 				pstmt.setString(2, Hash.sha512(password));
 
