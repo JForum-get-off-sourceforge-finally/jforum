@@ -319,7 +319,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/config/database/upgrade</outputDirectory>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/upgrade</outputDirectory>
 							<resources>
 								<resource>
 									<directory>upgrade</directory>
