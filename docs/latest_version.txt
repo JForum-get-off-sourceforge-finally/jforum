@@ -12,6 +12,8 @@
 <li>Upgraded slf4j from 1.7.5 to 1.7.10</li>
 <li>Upgraded HSQLDB from 2.3.1 to 2.3.2</li>
 <li>Upgraded MySQL Connector/J JDBC Driver from 5.1.27 to 5.1.34</li>
+<li>Upgrade Microsoft JDBC Driver for SQL Server from 4.0 to 4.1</li>
+<li>Upgrade Oracle JDBC Driver from 10.2.0.4 to 12.1.0.2</li>
 <li>Upgraded PostgreSQL JDBC Driver from 9.3-1100 to 9.3-1102</li>
 <li>Upgraded jQuery from 1.10.2 to 1.11.2</li>
 <li>Upgraded Apache Commons Codec from 1.6 to 1.10</li>
@@ -31,6 +33,7 @@
 <li>Fix search_keywords encoding changed in Tomcat 8 for Chinese characters</li>
 <li>For forum administrators: ability to maintain a list of spam words and phrases that can not be used in posts</li>
 <li>Support Vimeo embedding analogous to Youtube embedding</li>
+<li>Various vulnerabilities have been fixed</li>
 </ul>
 
 <p>
