@@ -299,7 +299,7 @@ CREATE TABLE jforum_users (
   user_notify_pm INT DEFAULT 1,
   user_popup_pm INT DEFAULT 1,
   rank_id INT DEFAULT 0,
-  user_avatar VARCHAR(100) DEFAULT NULL,
+  user_avatar VARCHAR(255) DEFAULT NULL,
   user_avatar_type INT NOT NULL DEFAULT 0,
   user_email VARCHAR(255) NOT NULL DEFAULT '',
   user_icq VARCHAR(15) DEFAULT NULL,

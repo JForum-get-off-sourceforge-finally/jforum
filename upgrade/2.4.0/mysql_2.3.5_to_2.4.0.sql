@@ -12,3 +12,5 @@ ALTER TABLE jforum_posts_text MODIFY post_subject VARCHAR(130);
 
 -- more characters for more secure hash
 ALTER TABLE jforum_users MODIFY user_password VARCHAR(128);
+-- more characters for external URL
+ALTER TABLE jforum_users MODIFY user_avatar VARCHAR(255);
