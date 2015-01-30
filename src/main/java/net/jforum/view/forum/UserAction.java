@@ -339,7 +339,7 @@ public class UserAction extends Command
 		boolean needMailActivation = SystemGlobals.getBoolValue(ConfigKeys.MAIL_USER_EMAIL_AUTH);
 
 		if (needMailActivation) {
-			user.setActivationKey(Hash.md5(username + System.currentTimeMillis()));
+			user.setActivationKey(Hash.md5(username + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new Random().nextInt(999999)));
 		}
 
 		int newUserId = userDao.addNew(user);

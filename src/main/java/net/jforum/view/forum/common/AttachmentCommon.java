@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -428,7 +429,7 @@ public class AttachmentCommon
 		}		
 		
 		return dir
-			.append(Hash.md5(attInfo.getRealFilename() + System.currentTimeMillis()))
+			.append(Hash.md5(attInfo.getRealFilename() + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new Random().nextInt(999999)))
 			.append('_')
 			.append(SessionFacade.getUserSession().getUserId())
 			.append('.')
