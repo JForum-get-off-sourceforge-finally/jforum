@@ -8,7 +8,7 @@
 					<#if !thumbShowBox>
 						<a href="${JForumContext.encodeURL("/posts/downloadAttach/${a.id}")}">
 					</#if>
-					<img src="${contextPath}/${a.thumbPath()}" alt="[Thumb - ${a.info.realFilename}]"/>
+					<img src="${contextPath}/${a.thumbPath()}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" alt="[Thumb - ${a.info.realFilename}]"/>
 					<#if !thumbShowBox></a></#if>
 				</td>
 			</tr>
