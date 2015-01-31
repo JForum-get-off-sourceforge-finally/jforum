@@ -42,7 +42,9 @@
  */
 package net.jforum.view.admin;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import javax.imageio.ImageIO;
 
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SmilieDAO;
@@ -59,7 +61,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class SmiliesAction extends AdminCommand 
 {
@@ -68,23 +69,29 @@ public class SmiliesAction extends AdminCommand
 	private String processUpload()
 	{
 		String imgName = "";
-		
+
 		if (this.request.getObjectParameter("smilie_img") != null) {
 			FileItem item = (FileItem)this.request.getObjectParameter("smilie_img");
 			UploadUtils uploadUtils = new UploadUtils(item);
 			String ext = uploadUtils.getExtension().toLowerCase();
 			String contentType = item.getContentType();
 			LOGGER.info("Uploaded smilie contentType: " + contentType);
-			if ((contentType != null  && contentType.contains("image")) || ext.equals("png") || ext.equals("gif") || ext.equals("jpg") || ext.equals("jpeg")) {
-				imgName = new StringBuilder(Hash.md5(item.getName())).append('.').append(uploadUtils.getExtension()).toString();
-
-				uploadUtils.saveUploadedFile(SystemGlobals.getApplicationPath() 
-						+ "/"
-						+ SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_DIR) 
-						+ "/"
-						+ imgName);
-			} else {
-				LOGGER.warn("Suspect file extension in smilie upload: " + ext);
+			try {
+				if ((contentType != null && contentType.contains("image")) || ext.equals("png") || ext.equals("gif") || ext.equals("jpg") || ext.equals("jpeg")) {
+					// try to load it as an image; will also accept other formats if passed along
+					// with those file extensions (like TIFF and BMP), but that's fine
+					ImageIO.read(new ByteArrayInputStream(item.get()));
+					imgName = new StringBuilder(Hash.md5(item.getName())).append('.').append(uploadUtils.getExtension()).toString();
+					uploadUtils.saveUploadedFile(SystemGlobals.getApplicationPath() 
+							+ "/"
+							+ SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_DIR) 
+							+ "/"
+							+ imgName);
+				} else {
+					throw new Exception("Suspect file extension in smilie upload: " + ext);
+				}
+			} catch (Exception ex) {
+				LOGGER.error("Uploaded smilie does not seem to be an image: " + ex.getMessage());
 			}
 		}
 
@@ -113,24 +120,24 @@ public class SmiliesAction extends AdminCommand
 		}
 		this.list();
 	}
-	
+
 	public void edit()
 	{
 		int id = 1;
-		
+
 		if (this.request.getParameter("id") != null) {
 			id = this.request.getIntParameter("id");
 		}
-		
+
 		this.setTemplateName(TemplateKeys.SMILIES_EDIT);
 		this.context.put("smilie", DataAccessDriver.getInstance().newSmilieDAO().selectById(id));
 		this.context.put("action", "editSave");
 	}
-	
+
 	public void editSave()
 	{
 		Smilie s = DataAccessDriver.getInstance().newSmilieDAO().selectById(this.request.getIntParameter("id"));
-		s.setCode(this.request.getParameter("code"));		
+		s.setCode(this.request.getParameter("code"));
 		if (this.request.getObjectParameter("smilie_img") != null) {
 			String imgName = this.processUpload();
 			if (! imgName.trim().equals("")) {
@@ -139,24 +146,24 @@ public class SmiliesAction extends AdminCommand
 			}
 		}
 		DataAccessDriver.getInstance().newSmilieDAO().update(s);
-		
+
 		SmiliesRepository.loadSmilies();
 		this.list();
 	}
-	
+
 	public void delete()
 	{
 		String[] ids = this.request.getParameterValues("id");
-		
+
 		if (ids != null) {
 			SmilieDAO dao = DataAccessDriver.getInstance().newSmilieDAO();
-			
+
 			for (int i = 0; i < ids.length; i++) {
 				int id = Integer.parseInt(ids[i]);
-				
+
 				Smilie s = dao.selectById(id);
 				dao.delete(id);
-				
+
 				File f = new File(SystemGlobals.getApplicationPath() 
 						+ "/"
 						+ SystemGlobals.getValue(ConfigKeys.SMILIE_IMAGE_DIR) 
@@ -171,7 +178,7 @@ public class SmiliesAction extends AdminCommand
 				}
 			}
 		}
-		
+
 		SmiliesRepository.loadSmilies();
 		this.list();
 	}

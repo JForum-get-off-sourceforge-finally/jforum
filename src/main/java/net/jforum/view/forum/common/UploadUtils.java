@@ -52,29 +52,32 @@ import org.apache.commons.fileupload.FileItem;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class UploadUtils
 {
 	private FileItem item;
 	private String extension = "";
-	
+
 	public UploadUtils(FileItem item)
 	{
 		this.item = item;
 	}
-	
+
 	public String getExtension()
 	{
 		if (this.extension == null || this.extension.equals("")) {
 			this.extension = this.item.getName().substring(this.item.getName().lastIndexOf('.') + 1);
 		}
-		
+
 		return this.extension;
 	}
-	
+
 	public String getOriginalName() {
 		return item.getName();
+	}
+
+	public byte[] getBytes() {
+		return item.get();
 	}
 
 	public void saveUploadedFile(String filename) 
@@ -85,7 +88,7 @@ public class UploadUtils
 		try {
 			inputStream = new BufferedInputStream(this.item.getInputStream());
 			outputStream = new FileOutputStream(filename);
-			
+
 			int c;
 			byte[] b = new byte[4096];
 			while ((c = inputStream.read(b)) != -1) {
