@@ -185,7 +185,7 @@
 								<#include "post_show_attachments_inc.htm"/>
 							</#if>
 
-							<#if (post.editCount > 0) && post.editTime?exists>
+							<#if logged && (post.editCount > 0) && post.editTime?exists>
 								<#if post.editCount == 1>
 									<#assign editCountMessage = "PostShow.editCountSingle"/>
 								<#else>
