@@ -84,6 +84,7 @@ public class UserSession implements Serializable
 	private String ip;
 
 	private boolean autoLogin;
+	private boolean viewOnline;
 	
 	private transient ImageCaptcha imageCaptcha = null;
 
@@ -106,6 +107,7 @@ public class UserSession implements Serializable
 		this.sessionId = userSession.getSessionId();
 		this.username = userSession.getUsername();
 		this.autoLogin = userSession.isAutoLogin();
+		this.viewOnline = userSession.isViewOnline();
 		this.lang = userSession.getLang();
 		this.privateMessages = userSession.getPrivateMessages();
 		this.imageCaptcha = userSession.imageCaptcha;
@@ -217,6 +219,16 @@ public class UserSession implements Serializable
 	}
 
 	/**
+	 * Enable or disable the show-online status
+	 * 
+	 * @param viewOnline  <code>true</code> or <code>false</code> to represent show-onlinestatus
+	 */
+	public void setViewOnline(boolean viewOnline)
+	{
+		this.viewOnline = viewOnline;
+	}
+
+	/**
 	 * Gets user's session start time
 	 * 
 	 * @return Start time in milliseconds
@@ -283,6 +295,16 @@ public class UserSession implements Serializable
 	public boolean isAutoLogin()
 	{
 		return this.autoLogin;
+	}
+
+	/**
+	 * Gets view-online status
+	 * 
+	 * @return <code>true</code> if view-online is enabled, or <code>false</code> if disabled.
+	 */
+	public boolean isViewOnline()
+	{
+		return this.viewOnline;
 	}
 
 	/**
@@ -375,6 +397,7 @@ public class UserSession implements Serializable
 		this.setPrivateMessages(user.getPrivateMessagesCount());
 		this.setStartTime(new Date(System.currentTimeMillis()));
 		this.setLang(user.getLang());
+		this.setViewOnline(user.isViewOnlineEnabled());
 	}
 
 	/**
