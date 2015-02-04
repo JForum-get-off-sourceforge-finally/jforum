@@ -726,7 +726,7 @@ public class InstallAction extends Command
 
         try {
             pstmt = conn.prepareStatement("UPDATE jforum_users SET user_password = ? WHERE username = 'Admin'");
-            pstmt.setString(1, Hash.sha512(this.getFromSession("adminPassword")));
+            pstmt.setString(1, Hash.sha512(this.getFromSession("adminPassword")+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
             pstmt.executeUpdate();
             status = true;
         }

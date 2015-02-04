@@ -333,7 +333,7 @@ public class UserAction extends Command
 		}
 
 		user.setUsername(username);
-		user.setPassword(Hash.sha512(password));
+		user.setPassword(Hash.sha512(password+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
 		user.setEmail(email);
 
 		boolean needMailActivation = SystemGlobals.getBoolValue(ConfigKeys.MAIL_USER_EMAIL_AUTH);
@@ -773,7 +773,7 @@ public class UserAction extends Command
 
 		if (isOk) {
 			String password = this.request.getParameter("newPassword");
-			userDao.saveNewPassword(Hash.sha512(password), email);
+			userDao.saveNewPassword(Hash.sha512(password+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)), email);
 
 			message = I18n.getMessage("PasswordRecovery.ok",
 				new String[] { this.request.getContextPath()

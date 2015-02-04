@@ -53,6 +53,7 @@ import net.jforum.entities.User;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.Hash;
+import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 /**
@@ -70,6 +71,7 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 	/**
 	 * @see net.jforum.sso.LoginAuthenticator#setUserModel(net.jforum.dao.UserDAO)
 	 */
+	@Override
 	public void setUserModel(final UserDAO userModel)
 	{
 		this.userModel = userModel;
@@ -78,6 +80,7 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 	/**
 	 * @see net.jforum.sso.LoginAuthenticator#validateLogin(String, String, java.util.Map) 
 	 */
+	@Override
 	public User validateLogin(final String username, final String password, final Map<?, ?> extraParams)
 	{
 		User user = null;
@@ -103,6 +106,15 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 				resultSet = pstmt.executeQuery();
 				if (resultSet.next() && resultSet.getInt("user_id") > 0) {
 					user = this.userModel.selectById(resultSet.getInt("user_id"));
+				} else {
+					resultSet.close();
+					// then, SHA-512 with a salt
+					pstmt.setString(2, Hash.sha512(password+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
+
+					resultSet = pstmt.executeQuery();
+					if (resultSet.next() && resultSet.getInt("user_id") > 0) {
+						user = this.userModel.selectById(resultSet.getInt("user_id"));
+					}
 				}
 			}
 		}

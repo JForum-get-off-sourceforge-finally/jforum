@@ -141,22 +141,26 @@ public final class UserCommon
 		user.setWebSite(website);
 
 		String currentPassword = request.getParameter("current_password");
-		String currentPasswordMD5 = "", currentPasswordSHA512 = "";
+		String currentPasswordMD5 = "", currentPasswordSHA512 = "", currentPasswordSHA512Salt = "";
 		final boolean isCurrentPasswordEmpty = currentPassword == null || "".equals(currentPassword.trim());
 
 		if (isAdmin || !isCurrentPasswordEmpty) {
 			if (!isCurrentPasswordEmpty) {
 				currentPasswordMD5 = Hash.md5(currentPassword);
 				currentPasswordSHA512 = Hash.sha512(currentPassword);
+				currentPasswordSHA512Salt = Hash.sha512(currentPassword+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE));
 			}
 
-			if (isAdmin || user.getPassword().equals(currentPasswordMD5) || user.getPassword().equals(currentPasswordSHA512)) {
+			if (isAdmin
+					|| user.getPassword().equals(currentPasswordMD5)
+					|| user.getPassword().equals(currentPasswordSHA512)
+					|| user.getPassword().equals(currentPasswordSHA512Salt)) {
 				user.setEmail(safeHtml.makeSafe(request.getParameter("email")));
 
 				final String newPassword = request.getParameter("new_password");
 
 				if (newPassword != null && newPassword.length() > 0) {
-					user.setPassword(Hash.sha512(newPassword));
+					user.setPassword(Hash.sha512(newPassword+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
 				}
 			}
 			else {
