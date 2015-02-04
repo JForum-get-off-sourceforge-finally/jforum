@@ -38,7 +38,7 @@
 	<br />
 </#if>
 
-<#if showOnline && (post.userId != 1)>
+<#if showOnline && (post.userId != 1) && post.viewOnline >
 	<#if user.isOnline()>
 		<span class="online">${I18n.getMessage("PostShow.userOnline")}</span>
 	<#else>

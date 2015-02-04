@@ -115,6 +115,9 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		post.setHtmlEnabled(rs.getInt("enable_html") > 0);
 		post.setSmiliesEnabled(rs.getInt("enable_smilies") > 0);
 		post.setSignatureEnabled(rs.getInt("enable_sig") > 0);
+		try {
+			post.setViewOnline(rs.getInt("user_viewonline") > 0);
+		} catch (Exception ex) { /* may not be there */ }
 		post.setEditCount(rs.getInt("post_edit_count"));
 
 		Timestamp editTime = rs.getTimestamp("post_edit_time");
