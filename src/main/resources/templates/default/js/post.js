@@ -141,10 +141,10 @@ function bbfontstyle(bbopen,bbclose) {
                  + txtarea.value.substring(endPos, txtarea.value.length);
             cursorPos += bbopen.length + bbclose.length;
         } else {
-            //txtarea.value = txtarea.value.substring(0, startPos)
-            //      + bbopen+' '+bbclose
-            //      + txtarea.value.substring(endPos, txtarea.value.length);
-            //cursorPos = startPos + bbopen.length+bbclose.length+1;
+            txtarea.value = txtarea.value.substring(0, startPos)
+                  + bbopen+' '+bbclose
+                  + txtarea.value.substring(endPos, txtarea.value.length);
+            cursorPos = startPos + bbopen.length+bbclose.length+1;
         }
         txtarea.focus();
         txtarea.selectionStart = cursorPos;
@@ -152,7 +152,7 @@ function bbfontstyle(bbopen,bbclose) {
         txtarea.scrollTop = scrollTop;
     }
     else {   
-        //txtarea.value += bbopen+' '+bbclose;
+        txtarea.value += bbopen+' '+bbclose;
         txtarea.focus();
     }
 }
