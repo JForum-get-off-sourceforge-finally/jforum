@@ -75,6 +75,10 @@ import freemarker.template.Template;
  */
 public class LuceneStatsAction extends AdminCommand
 {
+	static {
+		SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "0");
+	}
+
 	/**
 	 * @see net.jforum.Command#list()
 	 */

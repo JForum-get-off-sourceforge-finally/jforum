@@ -182,13 +182,78 @@ function testEmail()
 </tr>
 
 <tr>
-	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DateFormat")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_dateTime.format" value="${config.getProperty("dateTime.format")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.EnableSocial")}</span></td>
+	<td class="row2" width="38%">
+		<#assign o = config.getProperty("social.enabled")/>
+		<span class="gen">
+			<select name="p_social.enabled">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
 </tr>
 
 <tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DateFormat")}</span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_dateTime.format" value="${config.getProperty("dateTime.format")}" /></span></td>
+</tr>
+<!--
+<tr>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.LocalTimezone")}</span></td>
+	<td class="row2" width="38%">
+		<#assign o = config.getProperty("dateTime.local")/>
+		<span class="gen">
+			<select name="p_dateTime.local">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
+</tr>
+-->
+<tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.Announcement")}</span></td>
 	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_announcement" value="${config.getProperty("announcement")}" /></span></td>
+</tr>
+
+<tr>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ShowIP")}</span></td>
+	<td class="row2" width="38%">
+		<#assign o = config.getProperty("show.ip")/>
+		<span class="gen">
+			<select name="p_show.ip">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
+</tr>
+
+<tr>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ShowOnlineStatus")}</span></td>
+	<td class="row2" width="38%">
+		<#assign o = config.getProperty("show.online.status")/>
+		<span class="gen">
+			<select name="p_show.online.status">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
+</tr>
+
+<tr>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.PostsEditAfterReply")}</span></td>
+	<td class="row2" width="38%">
+		<#assign o = config.getProperty("posts.edit.after.reply")/>
+		<span class="gen">
+			<select name="p_posts.edit.after.reply">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
 </tr>
 
 <!-- Cache Settings -->
