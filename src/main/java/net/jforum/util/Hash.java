@@ -82,7 +82,7 @@ public final class Hash
 	private static String crypt(final String str, final String algo)
 	{
 		if (str == null || str.length() == 0) {
-			throw new IllegalArgumentException("String to encript cannot be null or zero length");
+			throw new IllegalArgumentException("String to encrypt cannot be null or zero length");
 		}
 
 		final StringBuilder hexString = new StringBuilder();
