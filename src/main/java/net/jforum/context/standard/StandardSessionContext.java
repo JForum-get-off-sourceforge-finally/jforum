@@ -81,9 +81,9 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#getAttributeNames()
 	 */
-	public Enumeration<Object> getAttributeNames()
+	public Enumeration<String> getAttributeNames()
 	{
-		return this.data.elements();
+		return this.data.keys();
 	}
 
 	/**

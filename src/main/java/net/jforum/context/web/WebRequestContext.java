@@ -75,6 +75,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Rafael Steil
  * @version $Id$
  */
+@SuppressWarnings("unchecked")
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
 {
 	private static final String MODULE = "module";
@@ -136,7 +137,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			if (isPost) { 
 				containerEncoding = encoding;
 			}
-			for (final Enumeration<?> enumeration = superRequest.getParameterNames(); enumeration.hasMoreElements(); ) {
+			for (final Enumeration<String> enumeration = superRequest.getParameterNames(); enumeration.hasMoreElements(); ) {
 				final String name = (String)enumeration.nextElement();
 				
 				final String[] values = superRequest.getParameterValues(name);
@@ -338,22 +339,24 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 	/**
 	 * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
+     * @param name String
+	 * @return String
 	 */
-	public String getParameter(final String parameter) 
+	public String getParameter(final String name) 
 	{
-		return (String)this.query.get(parameter);
+		return (String)this.query.get(name);
 	}
 
 	/**
 	 * Gets a parameter that is a number.
 	 * A call to <code>Integer#parseInt(String)</code> is made
 	 * to do the conversion
-	 * @param parameter The parameter name to get the value
+	 * @param name The parameter name to get the value
 	 * @return int
 	 */
-	public int getIntParameter(final String parameter)
+	public int getIntParameter(final String name)
 	{
-		return Integer.parseInt(this.getParameter(parameter));
+		return Integer.parseInt(this.getParameter(name));
 	}
 	
 	/**
@@ -362,12 +365,12 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * of a <i>multipart/form-data</i> request, like a image
 	 * of file. <br>
 	 * 
-	 * @param parameter String
+	 * @param name String
 	 * @return Object
 	 */
-	public Object getObjectParameter(final String parameter)
+	public Object getObjectParameter(final String name)
 	{
-		return this.query.get(parameter);
+		return this.query.get(name);
 	}
 	
 	public void addParameter(final String name, final Object value)

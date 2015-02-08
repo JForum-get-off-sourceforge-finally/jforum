@@ -167,9 +167,9 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getParameterNames()
 	 */
-	public Enumeration<Object> getParameterNames()
+	public Enumeration<String> getParameterNames()
 	{
-		return this.data.elements();
+		return this.data.keys();
 	}
 
 	/**

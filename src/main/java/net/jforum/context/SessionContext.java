@@ -58,7 +58,7 @@ public interface SessionContext
 
 	String getId();
 
-	Enumeration<?> getAttributeNames();
+	Enumeration<String> getAttributeNames();
 
 	void invalidate();
 }

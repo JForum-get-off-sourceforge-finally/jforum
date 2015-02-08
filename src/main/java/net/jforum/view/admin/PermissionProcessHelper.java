@@ -74,7 +74,7 @@ class PermissionProcessHelper
 	public void processData()
 	{
 		RequestContext request = JForumExecutionContext.getRequest();
-		Enumeration<Object> e = request.getParameterNames();
+		Enumeration<String> e = request.getParameterNames();
 		
 		while (e.hasMoreElements()) {
 			String paramName = (String)e.nextElement();

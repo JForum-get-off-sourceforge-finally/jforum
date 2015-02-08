@@ -130,7 +130,7 @@ public class ConfigAction extends AdminCommand
 	{
 		Properties p = new Properties();
 
-		Enumeration<Object> e = this.request.getParameterNames();
+		Enumeration<String> e = this.request.getParameterNames();
 		while (e.hasMoreElements()) {
 			String name = (String) e.nextElement();
 

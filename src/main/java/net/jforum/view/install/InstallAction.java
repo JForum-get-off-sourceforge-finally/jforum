@@ -173,10 +173,8 @@ public class InstallAction extends Command
 
         if (!"passed".equals(this.getFromSession("configureDatabase"))) {
             LOGGER.info("Going to configure the database...");
-
             conn = this.configureDatabase();
         }
-
         if (conn == null) {
             this.context.put("message", I18n.getMessage("Install.databaseError"));
             this.error();
@@ -216,6 +214,11 @@ public class InstallAction extends Command
             this.addToSessionAndContext("importTablesData", "passed");
             LOGGER.info("Table data population is OK");
 
+            // Set user.hash.sequence before calling updateAdminPassword()
+            SystemGlobals.setValue(ConfigKeys.USER_HASH_SEQUENCE, Hash.md5(this.getFromSession("dbPassword")
+                    + System.currentTimeMillis()));
+            LOGGER.info("Generated user.hash.sequence = " + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE));
+            
             if (!this.updateAdminPassword(conn)) {
                 this.context.put("message", I18n.getMessage("Install.updateAdminError"));
                 dbError = true;
@@ -330,9 +333,6 @@ public class InstallAction extends Command
 
     private void configureSystemGlobals()
     {
-        SystemGlobals.setValue(ConfigKeys.USER_HASH_SEQUENCE, Hash.md5(this.getFromSession("dbPassword")
-                                                                        + System.currentTimeMillis()));
-
         SystemGlobals.setValue(ConfigKeys.FORUM_LINK, this.getFromSession("forumLink"));
         SystemGlobals.setValue(ConfigKeys.HOMEPAGE_LINK, this.getFromSession("siteLink"));
         SystemGlobals.setValue(ConfigKeys.I18N_DEFAULT, this.getFromSession("language"));
@@ -625,7 +625,12 @@ public class InstallAction extends Command
             }
         }
 
-        // Proceed to SystemGlobals / jforum-custom.conf configuration
+        updateSystemGlobals(properties);
+    }
+
+	private void updateSystemGlobals(final Properties properties)
+	{
+		// Proceed to SystemGlobals / jforum-custom.conf configuration
         for (final Enumeration<Object> e = properties.keys(); e.hasMoreElements(); ) {
             final String key = (String)e.nextElement();
             final String value = properties.getProperty(key);
@@ -634,7 +639,7 @@ public class InstallAction extends Command
 
             LOGGER.info("Updating key " + key + " with value " + value);
         }
-    }
+	}
 
     private void configureDataSourceConnection()
     {
@@ -659,15 +664,7 @@ public class InstallAction extends Command
             }
         }
 
-        // Proceed to SystemGlobals / jforum-custom.conf configuration
-        for (final Enumeration<Object> e = properties.keys(); e.hasMoreElements(); ) {
-            final String key = (String)e.nextElement();
-            final String value = properties.getProperty(key);
-
-            SystemGlobals.setValue(key, value);
-
-            LOGGER.info("Updating key " + key + " with value " + value);
-        }
+        updateSystemGlobals(properties);
     }
 
     private Connection configureDatabase()

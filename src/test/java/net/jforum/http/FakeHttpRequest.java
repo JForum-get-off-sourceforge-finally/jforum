@@ -62,217 +62,223 @@ import javax.servlet.http.HttpSession;
  * @author Rafael Steil
  * @version $Id$
  */
-public class FakeHttpRequest implements HttpServletRequest 
-{
+public class FakeHttpRequest implements HttpServletRequest {
 	private HttpSession session = new FakeHttpSession();
-	private Hashtable<?, ?> params = new Hashtable<Object, Object>();
+	private Hashtable<String, Object> params = new Hashtable<String, Object>();
 	private Map<String, Object> attributes = new HashMap<String, Object>();
-	
+
 	public String getAuthType() {
-		
 		return null;
 	}
+
 	public String getContextPath() {
 		return "";
 	}
+
 	public Cookie[] getCookies() {
-		
 		return null;
 	}
-	public long getDateHeader(String arg0) {
-		
+
+	public long getDateHeader(String name) {
 		return 0;
 	}
-	public String getHeader(String arg0) {
-		
+
+	public String getHeader(String name) {
 		return null;
 	}
-	public Enumeration<?> getHeaderNames() {
-		
+
+	public Enumeration<String> getHeaderNames() {
 		return null;
 	}
-	public Enumeration<?> getHeaders(String arg0) {
-		
+
+	public Enumeration<String> getHeaders(String name) {
 		return null;
 	}
-	public int getIntHeader(String arg0) {
-		
+
+	public int getIntHeader(String name) {
 		return 0;
 	}
+
 	public String getMethod() {
 		return "dummy-method";
 	}
+
 	public String getPathInfo() {
-		
 		return null;
 	}
+
 	public String getPathTranslated() {
-		
 		return null;
 	}
+
 	public String getQueryString() {
-		
 		return null;
 	}
+
 	public String getRemoteUser() {
-		
 		return null;
 	}
+
 	public String getRequestedSessionId() {
-		
 		return null;
 	}
+
 	public String getRequestURI() {
 		return "";
 	}
+
 	public StringBuffer getRequestURL() {
-		
 		return null;
 	}
+
 	public String getServletPath() {
-		
 		return null;
 	}
+
 	public HttpSession getSession() {
 		return this.session;
 	}
-	public HttpSession getSession(boolean arg0) {
+
+	public HttpSession getSession(boolean create) {
 		return this.getSession();
 	}
-	public Principal getUserPrincipal() {
-		
-		return null;
-	}
-	public boolean isRequestedSessionIdFromCookie() {
-		
-		return false;
-	}
-	public boolean isRequestedSessionIdFromUrl() {
-		
-		return false;
-	}
-	public boolean isRequestedSessionIdFromURL() {
-		
-		return false;
-	}
-	public boolean isRequestedSessionIdValid() {
-		
-		return false;
-	}
-	public boolean isUserInRole(String arg0) {
-		
-		return false;
-	}
-	public Object getAttribute(String arg0) {
-		return this.attributes.get(arg0);
-	}
-	public Enumeration<?> getAttributeNames() {
-		
-		return null;
-	}
-	public String getCharacterEncoding() {
-		
-		return null;
-	}
-	public int getContentLength() {
-		
-		return 0;
-	}
-	public String getContentType() {
-		
-		return null;
-	}
-	public ServletInputStream getInputStream() throws IOException {
-		
-		return null;
-	}
-	public String getLocalAddr() {
-		
-		return null;
-	}
-	public Locale getLocale() {
-		
-		return null;
-	}
-	public Enumeration<?> getLocales() {
-		
-		return null;
-	}
-	public String getLocalName() {
-		
-		return null;
-	}
-	public int getLocalPort() {
-		
-		return 0;
-	}
-	public String getParameter(String arg0) {
-		
-		return null;
-	}
-	public Map<?, ?> getParameterMap() {
-		
-		return null;
-	}
-	public Enumeration<?> getParameterNames() {
-		return this.params.elements();
-	}
-	public String[] getParameterValues(String arg0) {
-		
-		return null;
-	}
-	public String getProtocol() {
-		
-		return null;
-	}
-	public BufferedReader getReader() throws IOException {
-		
-		return null;
-	}
-	public String getRealPath(String arg0) {
-		
-		return null;
-	}
-	public String getRemoteAddr() {
-		
-		return null;
-	}
-	public String getRemoteHost() {
-		
-		return null;
-	}
-	public int getRemotePort() {
-		
-		return 0;
-	}
-	public RequestDispatcher getRequestDispatcher(String arg0) {
-		
-		return null;
-	}
-	public String getScheme() {
-		
-		return null;
-	}
-	public String getServerName() {
-		
-		return null;
-	}
-	public int getServerPort() {
-		
-		return 0;
-	}
-	public boolean isSecure() {
-		
-		return false;
-	}
-	public void removeAttribute(String arg0) {
-		this.attributes.remove(arg0);
-	}
-	public void setAttribute(String arg0, Object arg1) {
-		this.attributes.put(arg0, arg1);
-	}
-	public void setCharacterEncoding(String arg0) throws UnsupportedEncodingException {
-		
 
+	public Principal getUserPrincipal() {
+		return null;
+	}
+
+	public boolean isRequestedSessionIdFromCookie() {
+		return false;
+	}
+
+	public boolean isRequestedSessionIdFromUrl() {
+		return false;
+	}
+
+	public boolean isRequestedSessionIdFromURL() {
+		return false;
+	}
+
+	public boolean isRequestedSessionIdValid() {
+		return false;
+	}
+
+	public boolean isUserInRole(String role) {
+		return false;
+	}
+
+	public Object getAttribute(String name) {
+		return this.attributes.get(name);
+	}
+
+	public Enumeration<String> getAttributeNames() {
+		return null;
+	}
+
+	public String getCharacterEncoding() {
+		return null;
+	}
+
+	public int getContentLength() {
+		return 0;
+	}
+
+	public String getContentType() {
+		return null;
+	}
+
+	public ServletInputStream getInputStream() throws IOException {
+		return null;
+	}
+
+	public String getLocalAddr() {
+		return null;
+	}
+
+	public Locale getLocale() {
+		return null;
+	}
+
+	public Enumeration<Locale> getLocales() {
+		return null;
+	}
+
+	public String getLocalName() {
+		return null;
+	}
+
+	public int getLocalPort() {
+		return 0;
+	}
+
+	public String getParameter(String name) {
+		return null;
+	}
+
+	public Map<String, String[]> getParameterMap() {
+		return null;
+	}
+
+	public Enumeration<String> getParameterNames() {
+		return this.params.keys();
+	}
+
+	public String[] getParameterValues(String name) {
+		return null;
+	}
+
+	public String getProtocol() {
+		return null;
+	}
+
+	public BufferedReader getReader() throws IOException {
+		return null;
+	}
+
+	public String getRealPath(String path) {
+		return null;
+	}
+
+	public String getRemoteAddr() {
+		return null;
+	}
+
+	public String getRemoteHost() {
+		return null;
+	}
+
+	public int getRemotePort() {
+		return 0;
+	}
+
+	public RequestDispatcher getRequestDispatcher(String path) {
+		return null;
+	}
+
+	public String getScheme() {
+		return null;
+	}
+
+	public String getServerName() {
+		return null;
+	}
+
+	public int getServerPort() {
+		return 0;
+	}
+
+	public boolean isSecure() {
+		return false;
+	}
+
+	public void removeAttribute(String name) {
+		this.attributes.remove(name);
+	}
+
+	public void setAttribute(String name, Object o) {
+		this.attributes.put(name, o);
+	}
+
+	public void setCharacterEncoding(String enc)	throws UnsupportedEncodingException {
 	}
 }

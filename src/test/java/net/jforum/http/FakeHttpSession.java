@@ -55,120 +55,111 @@ import javax.servlet.http.HttpSessionContext;
  * @version $Id$
  */
 @SuppressWarnings("deprecation")
-public class FakeHttpSession implements HttpSession 
-{
+public class FakeHttpSession implements HttpSession {
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getCreationTime()
 	 */
 	public long getCreationTime() {
-		
 		return 0;
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getId()
 	 */
 	public String getId() {
 		return "jforum-testcase";
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getLastAccessedTime()
 	 */
 	public long getLastAccessedTime() {
-		
 		return 0;
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getServletContext()
 	 */
 	public ServletContext getServletContext() {
-		
 		return null;
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#setMaxInactiveInterval(int)
 	 */
-	public void setMaxInactiveInterval(int arg0) {
-		
+	public void setMaxInactiveInterval(int interval) {
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getMaxInactiveInterval()
 	 */
 	public int getMaxInactiveInterval() {
-		
 		return 0;
 	}
 
+	@Deprecated
 	public HttpSessionContext getSessionContext() {
-		
 		return null;
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getAttribute(java.lang.String)
 	 */
 	public Object getAttribute(String name) {
 		return this.attributes.get(name);
 	}
 
-	public Object getValue(String arg0) {
-		
+	@Deprecated
+	public Object getValue(String name) {
 		return null;
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#getAttributeNames()
 	 */
-	public Enumeration<?> getAttributeNames() {
-		
+	public Enumeration<String> getAttributeNames() {
 		return null;
 	}
 
 	public String[] getValueNames() {
-		
 		return null;
 	}
 
-	/** 
-	 * @see javax.servlet.http.HttpSession#setAttribute(java.lang.String, java.lang.Object)
+	/**
+	 * @see javax.servlet.http.HttpSession#setAttribute(java.lang.String,
+	 *      java.lang.Object)
 	 */
 	public void setAttribute(String name, Object value) {
 		this.attributes.put(name, value);
 	}
 
-	public void putValue(String arg0, Object arg1) {
-		
+	@Deprecated
+	public void putValue(String name, Object value) {
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#removeAttribute(java.lang.String)
 	 */
 	public void removeAttribute(String name) {
 		this.attributes.remove(name);
 	}
 
-	public void removeValue(String arg0) {
-		
+	@Deprecated
+	public void removeValue(String name) {
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#invalidate()
 	 */
 	public void invalidate() {
-		
 	}
 
-	/** 
+	/**
 	 * @see javax.servlet.http.HttpSession#isNew()
 	 */
 	public boolean isNew() {
-		
 		return false;
 	}
 }

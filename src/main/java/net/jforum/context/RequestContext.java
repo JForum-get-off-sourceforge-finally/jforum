@@ -78,12 +78,12 @@ public interface RequestContext
 	 * 
 	 * <p>
 	 * To reconstruct a URL with a scheme and host, use
-	 * {@link javax.servlet.http.HttpUtils#getRequestURL}.
+	 * {@link javax.servlet.http.HttpServletRequest#getRequestURL}.
 	 * 
 	 * @return a <code>String</code> containing the part of the URL from the protocol name up to
 	 *         the query string
 	 * 
-	 * @see javax.servlet.http.HttpUtils#getRequestURL
+	 * @see javax.servlet.http.HttpServletRequest#getRequestURI
 	 */
 	String getRequestURI();
 
@@ -337,7 +337,7 @@ public interface RequestContext
 	 * <code>String</code> containing the name of a request parameter; or an empty
 	 * <code>Enumeration</code> if the request has no parameters
 	 */
-	Enumeration<Object> getParameterNames();
+	Enumeration<String> getParameterNames();
 
 	/**
 	 * Gets the <i>action</i> of the current request.
