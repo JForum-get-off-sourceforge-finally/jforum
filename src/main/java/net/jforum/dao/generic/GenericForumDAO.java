@@ -416,8 +416,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 				lpi.setUsername(resultSet.getString("username"));
 				lpi.setUserId(resultSet.getInt("user_id"));
 
-				final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-				lpi.setPostDate(sdf.format(resultSet.getTimestamp("post_time")));
+				lpi.setPostDate(resultSet.getTimestamp("post_time"));
 				lpi.setPostId(resultSet.getInt("post_id"));
 				lpi.setTopicId(resultSet.getInt("topic_id"));
 				lpi.setPostTimeMillis(resultSet.getTimestamp("post_time").getTime());

@@ -1131,7 +1131,7 @@ public class PostAction extends Command
 				topic.setTitle(this.request.getParameter("subject"));
 				topic.setModerated(moderate);
 				topic.setPostedBy(user);
-				topic.setFirstPostTime(ViewCommon.formatDate(topic.getTime()));
+				topic.setFirstPostTime(topic.getTime());
 
 				int topicId = topicDao.addNew(topic);
 				topic.setId(topicId);
@@ -1185,7 +1185,7 @@ public class PostAction extends Command
 				topic.setLastPostId(postId);
 				topic.setLastPostBy(user);
 				topic.setLastPostDate(post.getTime());
-				topic.setLastPostTime(post.getFormattedTime());
+				topic.setLastPostTime(post.getTime());
 			}
 
 			topicDao.update(topic);
@@ -1232,9 +1232,6 @@ public class PostAction extends Command
 				}
 
 				if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {
-					SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-					post.setFormattedTime(df.format(post.getTime()));
-
 					PostRepository.append(post.getTopicId(), PostCommon.preparePostForDisplay(post));
 				}
 			}

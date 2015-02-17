@@ -47,7 +47,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -274,11 +273,10 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 
 		pm.setId(rs.getInt("privmsgs_id"));
 		pm.setType(rs.getInt("privmsgs_type"));
+
 		post.setTime(new Date(rs.getTimestamp("privmsgs_date").getTime()));
 		post.setSubject(rs.getString("privmsgs_subject"));
-
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-		pm.setFormattedDate(df.format(post.getTime()));
+		pm.setPostDate(post.getTime());
 
 		if (full) {
 			UserDAO um = DataAccessDriver.getInstance().newUserDAO();

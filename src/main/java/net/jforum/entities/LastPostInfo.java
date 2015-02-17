@@ -43,10 +43,12 @@
 package net.jforum.entities;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LastPostInfo implements Serializable
 {
@@ -57,116 +59,123 @@ public class LastPostInfo implements Serializable
 	private int userId;
 	private int topicReplies;
 	private String username;
-	private String postDate;
+	private Date postDate;
 	private String topicTitle;
 	private boolean hasInfo;
-	
+
 	public void setHasInfo(final boolean value) {
 		this.hasInfo = value;
 	}
-	
+
 	public boolean hasInfo() {
 		return this.hasInfo;
-	}	
-	
+	}
+
 	/**
 	 * @return Returns the postDate.
 	 */
 	public String getPostDate() {
-		return this.postDate;
+	    if ( this.postDate == null ) {
+            return null;
+        }
+		return ViewCommon.formatDate(this.postDate);
 	}
-	
+
+	public String getPostDateAsGmt() {
+		return ViewCommon.formatDateAsGmt(this.postDate);
+	}
+
 	/**
 	 * @param postDate The postDate to set.
 	 */
-	public void setPostDate(final String postDate) {
+	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
-	
+
 	/**
 	 * @return Returns the postId.
 	 */
 	public int getPostId() {
 		return this.postId;
 	}
-	
+
 	/**
 	 * @param postId The postId to set.
 	 */
 	public void setPostId(final int postId) {
 		this.postId = postId;
 	}
-	
+
 	/**
 	 * @return Returns the postTimeMillis.
 	 */
 	public long getPostTimeMillis() {
 		return this.postTimeMillis;
 	}
-	
+
 	/**
 	 * @param postTimeMillis The postTimeMillis to set.
 	 */
 	public void setPostTimeMillis(final long postTimeMillis) {
 		this.postTimeMillis = postTimeMillis;
 	}
-	
+
 	/**
 	 * @return Returns the topicId.
 	 */
 	public int getTopicId() {
 		return this.topicId;
 	}
-	
+
 	/**
 	 * @param topicId The topicId to set.
 	 */
 	public void setTopicId(final int topicId) {
 		this.topicId = topicId;
 	}
-	
+
 	/**
 	 * @return Returns the topicReplies.
 	 */
 	public int getTopicReplies() {
 		return this.topicReplies;
 	}
-	
+
 	/**
 	 * @param topicReplies The topicReplies to set.
 	 */
 	public void setTopicReplies(final int topicReplies) {
 		this.topicReplies = topicReplies;
 	}
-	
+
 	/**
 	 * @return Returns the userId.
 	 */
 	public int getUserId() {
 		return this.userId;
 	}
-	
+
 	/**
 	 * @param userId The userId to set.
 	 */
 	public void setUserId(final int userId) {
 		this.userId = userId;
 	}
-	
+
 	/**
 	 * @return Returns the username.
 	 */
 	public String getUsername() {
 		return this.username;
 	}
-	
+
 	/**
 	 * @param username The username to set.
 	 */
 	public void setUsername(final String username) {
 		this.username = username;
 	}
-	
+
 	/**
 	 * @return Returns the title.
 	 */

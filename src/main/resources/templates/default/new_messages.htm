@@ -1,9 +1,8 @@
 <#include "header.htm"/>
-
 <#import "../macros/pagination.ftl" as pagination/>
 <#import "../macros/presentation.ftl" as presentation/>
-
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
@@ -75,7 +74,7 @@
 						</td>
 						<td class="row3" valign="middle" nowrap="nowrap" align="center">
 							<#if (topic.lastPostTime?length > 0)>
-								<span class="postdetails">${topic.lastPostTime}<br />
+								<span class="postdetails"><script>"${topic.lastPostTimeAsGmt}".toLocaleDateTime();</script><noscript>${topic.lastPostTime}</noscript><br />
 								<a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
 
 								<#assign startPage = ""/>

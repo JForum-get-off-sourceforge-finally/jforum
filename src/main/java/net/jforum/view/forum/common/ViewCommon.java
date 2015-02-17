@@ -48,6 +48,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.context.RequestContext;
@@ -248,6 +249,14 @@ public final class ViewCommon
 	{
 		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
 		return sdf.format(date);
+	}
+
+	public static String formatDateAsGmt(Date date) 
+	{
+		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		TimeZone timeZone = TimeZone.getTimeZone("GMT");
+		df.setTimeZone(timeZone);
+		return df.format(date);
 	}
 
 	/**

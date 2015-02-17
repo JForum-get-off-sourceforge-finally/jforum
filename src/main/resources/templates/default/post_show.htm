@@ -13,6 +13,7 @@
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post_show.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <#if logged>
 	<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/watch.js?${startupTime}"></script>
@@ -191,8 +192,7 @@
 								<#else>
 									<#assign editCountMessage = "PostShow.editCountMany"/>
 								</#if>
-								
-								<p><i><span class="gensmall">${I18n.getMessage(editCountMessage, [post.editCount, post.editTime?datetime?string])}</span></i></p>
+                                <p><i><span class="gensmall">${I18n.getMessage(editCountMessage, [post.editCount, "<script>\"" + post.formattedEditTimeAsGmt + "\".toLocaleDateTime();</script><noscript>" + post.formattedEditTime+ "</noscript>"])}</span></i></p>
 							</#if>
 						</td>
 					</tr>

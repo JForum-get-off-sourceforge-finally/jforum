@@ -113,9 +113,6 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		post.setText(this.getPostTextFromResultSet(rs));
 		post.setPostUsername(rs.getString("username"));
 
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-		post.setFormattedTime(df.format(postTime));
-
 		post.setKarma(DataAccessDriver.getInstance().newKarmaDAO().getPostKarma(post.getId()));
 
 		LOGGER.debug("Add to Weekly Summary: post.id="+ post.getId() +" post.subject="+ post.getSubject());

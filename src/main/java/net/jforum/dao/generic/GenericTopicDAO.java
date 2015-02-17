@@ -903,9 +903,10 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				topic.setLastPostBy(user);
 
 				topic.setHasAttach(rs.getInt("attach") > 0);
-				topic.setFirstPostTime(df.format(rs.getTimestamp("topic_time")));
-				topic.setLastPostTime(df.format(rs.getTimestamp("post_time")));
-				topic.setLastPostDate(new Date(rs.getTimestamp("post_time").getTime()));
+                topic.setFirstPostTime(rs.getTimestamp("topic_time"));
+                Timestamp postTime = rs.getTimestamp("post_time");
+                topic.setLastPostTime(postTime);
+                topic.setLastPostDate(new Date(postTime.getTime()));
 
 				l.add(topic);
 

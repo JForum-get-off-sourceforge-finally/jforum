@@ -43,9 +43,12 @@
  */
 package net.jforum.entities;
 
+import net.jforum.view.forum.common.ViewCommon;
+
+import java.util.Date;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class PrivateMessage 
 {
@@ -54,16 +57,16 @@ public class PrivateMessage
 	private User fromUser;
 	private User toUser;
 	private Post post;
-	private String formattedDate;
-	
+	private Date postDate;
+
 	public PrivateMessage() {
 		// Empty Constructor
 	}
-	
+
 	public PrivateMessage(final int id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * @return Returns the fromUser.
 	 */
@@ -71,7 +74,7 @@ public class PrivateMessage
 	{
 		return fromUser;
 	}
-	
+
 	/**
 	 * @param fromUser The fromUser to set.
 	 */
@@ -79,7 +82,7 @@ public class PrivateMessage
 	{
 		this.fromUser = fromUser;
 	}
-	
+
 	/**
 	 * @return Returns the toUser.
 	 */
@@ -87,7 +90,7 @@ public class PrivateMessage
 	{
 		return toUser;
 	}
-	
+
 	/**
 	 * @param toUser The toUser to set.
 	 */
@@ -95,7 +98,7 @@ public class PrivateMessage
 	{
 		this.toUser = toUser;
 	}
-	
+
 	/**
 	 * @return Returns the type.
 	 */
@@ -103,7 +106,7 @@ public class PrivateMessage
 	{
 		return type;
 	}
-	
+
 	/**
 	 * @param type The type to set.
 	 */
@@ -111,7 +114,7 @@ public class PrivateMessage
 	{
 		this.type = type;
 	}
-	
+
 	/**
 	 * @return Returns the id.
 	 */
@@ -127,7 +130,7 @@ public class PrivateMessage
 	{
 		this.id = id;
 	}
-	
+
 	/**
 	 * @return Returns the post.
 	 */
@@ -135,7 +138,7 @@ public class PrivateMessage
 	{
 		return post;
 	}
-	
+
 	/**
 	 * @param post The post to set.
 	 */
@@ -143,20 +146,24 @@ public class PrivateMessage
 	{
 		this.post = post;
 	}
-	
+
+	/**
+	 * @param postDate The post date to set.
+	 */
+	public void setPostDate(final Date postDate)
+	{
+		this.postDate = postDate;
+	}
+
 	/**
 	 * @return Returns the formattedDate.
 	 */
-	public String getFormattedDate()
-	{
-		return formattedDate;
+	public String getFormattedDate() {
+        return ViewCommon.formatDate(postDate);
 	}
-	
-	/**
-	 * @param formattedDate The formattedDate to set.
-	 */
-	public void setFormattedDate(final String formattedDate)
-	{
-		this.formattedDate = formattedDate;
-	}
+
+    public String getFormattedDateAsGmt()
+    {
+		return ViewCommon.formatDateAsGmt(postDate);
+    }
 }

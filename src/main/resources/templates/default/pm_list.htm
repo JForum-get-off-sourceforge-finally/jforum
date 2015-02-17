@@ -1,4 +1,5 @@
 <#include "header.htm"/>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tbody>
 		<tr>
@@ -123,7 +124,9 @@
 									<span class="name">&nbsp;<a class="name" href="${JForumContext.encodeURL("/user/profile/${pm.toUser.id}")}">${pm.toUser.username}</a></span>
 									</#if>
 								</td>
-								<td class="row1" valign="middle" align="center" width="15%"><span class="postdetails">${pm.formattedDate}</span></td>
+								<td class="row1" valign="middle" align="center" width="15%"><span class="postdetails">
+									<script>"${pm.formattedDateAsGmt}".toLocaleDateTime();</script><noscript>${pm.formattedDate}</noscript>
+								</span></td>
 								<td class="row1" valign="middle" align="center" width="5%"><span class="postdetails"><input type="checkbox" value="${pm.id}" name="id" /></span></td>
 							</tr>
 							</#list>

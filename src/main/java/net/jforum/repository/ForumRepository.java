@@ -561,8 +561,6 @@ public class ForumRepository implements Cacheable
 		if (((Map<String, String>)cache.get(FQN, RELATION)).containsKey(forumId)) {
 			Forum forum = getForum(topic.getForumId());
 
-			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-		
 			LastPostInfo lpi = forum.getLastPostInfo();
 			
 			if (lpi == null) {
@@ -570,7 +568,7 @@ public class ForumRepository implements Cacheable
 			}
 			
 			lpi.setPostId(post.getId());
-			lpi.setPostDate(df.format(post.getTime()));
+			lpi.setPostDate(post.getTime());
 			lpi.setPostTimeMillis(post.getTime().getTime());
 			lpi.setTopicId(topic.getId());
 			lpi.setTopicReplies(topic.getTotalReplies());

@@ -59,7 +59,6 @@ public class Post implements Serializable
 	private int id;
 	private int topicId;
 	private int forumId;
-	private String formattedTime;
 	private int userId;
 	private Date time;
 	private String text;
@@ -96,7 +95,6 @@ public class Post implements Serializable
 		this.canEdit = post.isCanEdit();
 		this.editCount = post.getEditCount();
 		this.editTime = post.getEditTime();
-		this.formattedTime = post.getFormattedTime();
 		this.forumId = post.getForumId();
 		this.htmlEnabled = post.isHtmlEnabled();
 		this.id = post.getId();
@@ -166,6 +164,22 @@ public class Post implements Serializable
 	public Date getEditTime() {
 		return this.editTime;
 	}
+
+    public String getFormattedEditTime() {
+        String result = "";
+        if (this.time != null) {
+            result = ViewCommon.formatDate(this.editTime);
+        }
+        return result;
+    }
+
+    public String getFormattedEditTimeAsGmt() {
+        String result = "";
+        if (this.time != null) {
+			result = ViewCommon.formatDateAsGmt(this.editTime);
+        }
+        return result;
+    }
 
 	/**
 	 * Gets the forum's id the post is associated
@@ -364,19 +378,21 @@ public class Post implements Serializable
 		this.time = time;
 	}
 	
-	public void setFormattedTime(String formattedTime)
-	{
-		this.formattedTime = formattedTime;
-	}
-	
-	public String getFormattedTime()
-	{
-		if (this.formattedTime == null && this.time != null) {
-			this.formattedTime = ViewCommon.formatDate(this.time);
-		}
-		
-		return this.formattedTime;
-	}
+    public String getFormattedTime() {
+        String result = "";
+        if (this.time != null) {
+            result = ViewCommon.formatDate(this.time);
+        }
+        return result;
+    }
+
+    public String getFormattedTimeAsGmt() {
+        String result = "";
+        if (this.time != null) {
+			result = ViewCommon.formatDateAsGmt(this.time);
+        }
+        return result;
+    }
 
 	/**
 	 * Sets the id of the topic that the message belongs to

@@ -147,7 +147,7 @@ public class ModerationAction extends AdminCommand
 					topic.setLastPostId(postId);
 					topic.setLastPostBy(user);
 					topic.setLastPostDate(post.getTime());
-					topic.setLastPostTime(post.getFormattedTime());
+					topic.setLastPostTime(post.getTime());
 					
 					topicDao.update(topic);
 					

@@ -1,10 +1,9 @@
 <#include "header.htm"/>
-
-<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
-
 <#import "../macros/pagination.ftl" as topicPagination/>
 <#import "../macros/search_pagination.ftl" as pagination/>
 <#import "../macros/presentation.ftl" as presentation/>
+<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tr>
@@ -59,7 +58,7 @@
 										<a href="${postUrl}">${post.subject}</a>
 									</strong>, 
 									${I18n.getMessage("Search.postedOn")} <a href="${JForumContext.encodeURL("/forums/show/${post.forum.id}")}">${post.forum.name?html}</a>, 
-									${I18n.getMessage("Search.postedAt")} ${post.time?datetime}, 
+									${I18n.getMessage("Search.postedAt")} <script>"${post.formattedTimeAsGmt}".toLocaleDateTime();</script><noscript>${post.formattedTime}</noscript>
 									${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a>									
 								</span>
 							</td>
