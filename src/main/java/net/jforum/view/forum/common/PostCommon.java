@@ -337,8 +337,8 @@ public class PostCommon
 	public static boolean canEditPost(Post post)
 	{
 		return SessionFacade.isLogged()
-			&& (post.getUserId() == SessionFacade.getUserSession().getUserId() || SessionFacade.getUserSession().isModerator(post.getForumId())
-			&& SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT));
+			&& (post.getUserId() == SessionFacade.getUserSession().getUserId() || SessionFacade.getUserSession().isModerator(post.getForumId()))
+			&& SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);
 	}
 
 	public static List<Post> topicPosts(PostDAO dao, boolean canEdit, int userId, int topicId, int start, int count)
