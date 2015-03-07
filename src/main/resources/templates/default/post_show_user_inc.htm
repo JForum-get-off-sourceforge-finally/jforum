@@ -7,8 +7,10 @@
 
 <span class="gensmall">
 <#if post.userId != 1>
-	${rank.getRankTitle(user.rankId, user.totalPosts)?html}
-	<br />
+	<#assign rankStr = rank.getRankTitle(user.rankId, user.totalPosts)/>
+	<#if rankStr?trim != "">
+		${rankStr?html}<br/>
+	</#if>
 </#if>
 
 <#if showAvatar && (user.avatar?exists && user.avatar?length > 0)>
@@ -24,7 +26,7 @@
 
 <#if post.userId != 1>
 	${I18n.getMessage("PostShow.userRegistrationDate")}: ${user.registrationDate}<br />
-	${I18n.getMessage("PostShow.userTotalMessages")}: ${user.totalPosts}
+	<nobr>${I18n.getMessage("PostShow.userTotalMessages")}: ${user.totalPosts}</nobr>
 </#if>
 <br />
 
@@ -46,4 +48,3 @@
 	</#if>
 </#if>
 </span>
-<br />
