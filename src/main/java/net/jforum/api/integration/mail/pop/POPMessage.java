@@ -125,11 +125,11 @@ public class POPMessage
 			}
 			
 			if (this.headers.containsKey(IN_REPLY_TO)) {
-				this.inReplyTo = this.headers.get(IN_REPLY_TO).toString();
+				this.inReplyTo = this.headers.get(IN_REPLY_TO);
 			}
 			
 			if (this.headers.containsKey(REFERENCES)) {
-				this.references = this.headers.get(REFERENCES).toString();
+				this.references = this.headers.get(REFERENCES);
 			}
 			
 			this.extractMessageContents(message);

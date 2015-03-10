@@ -125,8 +125,8 @@ public final class ConfigKeys
 	public static final String COOKIE_AUTO_LOGIN = "cookie.name.autologin";
 	public static final String COOKIE_USER_HASH = "cookie.name.userHash";
 
-    public static String STATS_RING_SIZE = "statistics.ringSize";
-    public static String STATS_ACTIVE = "statistics.active";
+    public static final String STATS_RING_SIZE = "statistics.ringSize";
+    public static final String STATS_ACTIVE = "statistics.active";
 
 	public static final String ANONYMOUS_USER_ID = "anonymous.userId";
 	public static final String DEFAULT_USER_GROUP = "defaultUserGroup";

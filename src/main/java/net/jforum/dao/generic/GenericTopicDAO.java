@@ -884,8 +884,6 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		try {
 			rs = pstmt.executeQuery();
 
-			SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-
 			StringBuilder sbFirst = new StringBuilder(128);
 			StringBuilder sbLast = new StringBuilder(128);
 
@@ -1208,7 +1206,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
             rs = p.executeQuery();
             while (rs.next()) {
             	Map<String, Object> m = new HashMap<String, Object>();
-                m.put("id", new Integer(rs.getInt("topic_id")));
+                m.put("id", Integer.valueOf(rs.getInt("topic_id")));
                 m.put("title", SafeHtml.escapeUnsafe(rs.getString("topic_title")));
                 m.put("forumName", rs.getString("forum_name"));
                 l.add(m);

@@ -309,8 +309,8 @@ public class SafeHtml
 		}
 		
 		for (Iterator<String> iter = allowedProtocols.iterator(); iter.hasNext(); ) {
-			String protocol = iter.next().toString().toLowerCase();
-			
+			String protocol = iter.next().toLowerCase();
+
 			if (href.startsWith(protocol)) {
 				return true;
 			}

@@ -91,10 +91,10 @@ public final class ViewCommon
 	{
 		final SimpleHash context = JForumExecutionContext.getTemplateContext();
 
-		context.put("totalPages", new Double(Math.ceil((double) totalRecords / (double) recordsPerPage)));
+		context.put("totalPages", Double.valueOf(Math.ceil((double) totalRecords / (double) recordsPerPage)));
 		context.put("recordsPerPage", Integer.valueOf(recordsPerPage));
 		context.put("totalRecords", Integer.valueOf(totalRecords));
-		context.put("thisPage", new Double(Math.ceil((double) (start + 1) / (double) recordsPerPage)));
+		context.put("thisPage", Double.valueOf(Math.ceil((double) (start + 1) / (double) recordsPerPage)));
 		context.put("start", Integer.valueOf(start));
 	}
 

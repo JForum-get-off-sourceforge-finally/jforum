@@ -179,11 +179,11 @@ public class TopicsCommon
 
 			if (topic.getTotalReplies() + 1 > postsPerPage) {
 				topic.setPaginate(true);
-				topic.setTotalPages(new Double(Math.floor(topic.getTotalReplies() / (double)postsPerPage)));
+				topic.setTotalPages(Double.valueOf(Math.floor(topic.getTotalReplies() / (double)postsPerPage)));
 			}
 			else {
 				topic.setPaginate(false);
-				topic.setTotalPages(new Double(0));
+				topic.setTotalPages(Double.valueOf(0));
 			}
 			
 			// Check if this is a hot topic

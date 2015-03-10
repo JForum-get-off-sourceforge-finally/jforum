@@ -123,7 +123,7 @@ public class PostREST extends Command {
 			SessionFacade.setAttribute(ConfigKeys.REQUEST_IGNORE_CAPTCHA, "1");
 
 			final Post post = new Post();
-			post.setForumId(Integer.valueOf(forumId));
+			post.setForumId(Integer.parseInt(forumId));
 			post.setSubject(subject);
 			post.setText(message);
 			this.insertMessage(user, post);

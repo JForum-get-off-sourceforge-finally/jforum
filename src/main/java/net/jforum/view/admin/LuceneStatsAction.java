@@ -107,11 +107,11 @@ public class LuceneStatsAction extends AdminCommand
 				this.context.put("isLocked", IndexWriter.isLocked(fsDir));
 				this.context.put("isUpToDate", reader.isCurrent());
 				this.context.put("indexLocation", indexDir.getAbsolutePath());
-				this.context.put("totalMessages", new Integer(ForumRepository.getTotalMessages()));
-				this.context.put("indexVersion", new Long(reader.getVersion()));
-				this.context.put("numberOfDocs", new Integer(reader.numDocs()));
-				this.context.put("numberDeletedDocs", new Integer(reader.numDeletedDocs()));
-				this.context.put("refCount", new Integer(reader.getRefCount()));
+				this.context.put("totalMessages", Integer.valueOf(ForumRepository.getTotalMessages()));
+				this.context.put("indexVersion", Long.valueOf(reader.getVersion()));
+				this.context.put("numberOfDocs", Integer.valueOf(reader.numDocs()));
+				this.context.put("numberDeletedDocs", Integer.valueOf(reader.numDeletedDocs()));
+				this.context.put("refCount", Integer.valueOf(reader.getRefCount()));
 				long uniqueTermCount = 0;
 				for (IndexReader r : reader.getSequentialSubReaders()) {
 					if (r != null)
