@@ -141,11 +141,11 @@ public class InstallAction extends Command
         LOGGER.info("lang="+lang);
         if (lang != null) {
 	        I18n.load(lang);
-	
+
 	        final UserSession userSession = new UserSession();
 	        userSession.setLang(lang);
 	        userSession.setStartTime(new Date(System.currentTimeMillis()));
-	
+
 	        SessionFacade.add(userSession);
 	        this.addToSessionAndContext("language", lang);
         }
@@ -227,18 +227,16 @@ public class InstallAction extends Command
             }
         }
         finally {
-            if (conn != null) {
-                try {
-                    if (dbError) {
-                        conn.rollback();
-                    }
-                    else {
-                        conn.commit();
-                    }
-                    conn.close();
-                }
-                catch (SQLException e) { LOGGER.error(e); }			
-            }
+			try {
+				if (dbError) {
+					conn.rollback();
+				}
+				else {
+					conn.commit();
+				}
+				conn.close();
+			}
+			catch (SQLException e) { LOGGER.error(e); }
         }
 
         JForumExecutionContext.setRedirect(this.request.getContextPath() + "/install/install"
@@ -673,7 +671,7 @@ public class InstallAction extends Command
         final String connectionType = this.getFromSession("db_connection_type");
         String implementation;
 
-        boolean isDatasource = false;		
+        boolean isDatasource = false;
 
         if ("JDBC".equals(connectionType)) {
             implementation = "yes".equals(this.getFromSession("usePool")) && !"hsqldb".equals(database) 
@@ -707,8 +705,8 @@ public class InstallAction extends Command
         }
         catch (Exception e) {
             LOGGER.warn("Error while trying to get a connection: " + e);
-            this.context.put("exceptionMessage", e.getMessage());			
-        }		
+            this.context.put("exceptionMessage", e.getMessage());
+        }
 
         return conn;
     }
@@ -784,7 +782,7 @@ public class InstallAction extends Command
         this.addToSessionAndContext("createTables", null);
         this.addToSessionAndContext("importTablesData", null);
 
-        this.context.put("canWriteToWebInf", this.canWriteToWebInf());		
+        this.context.put("canWriteToWebInf", this.canWriteToWebInf());
         this.context.put("moduleAction", "install_check_info.htm");
     }
 
@@ -804,7 +802,7 @@ public class InstallAction extends Command
     }
 
     private void storeWelcomeMessage(final Connection conn) 
-    {		
+    {
         final String dbType = this.getFromSession("database");
         final String filePath = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
             + "/database/"
@@ -819,12 +817,12 @@ public class InstallAction extends Command
                 message = message.replace("\\n", "\n");
             }
         } catch (IOException e) {
-            LOGGER.error("Loading congratulation message failed", e);			
+            LOGGER.error("Loading congratulation message failed", e);
         }
         if (message != null) {
-            saveMessage(conn, "Welcome to JForum", message, Topic.TYPE_NORMAL);		
+            saveMessage(conn, "Welcome to JForum", message, Topic.TYPE_NORMAL);
         }
-    }	
+    }
 
     private void saveMessage(final Connection conn, final String subject, final String message, final int topicType) 
     {

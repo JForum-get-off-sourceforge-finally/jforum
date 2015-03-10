@@ -49,9 +49,8 @@ import java.util.LinkedHashSet;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
-public class RoleValueCollection extends LinkedHashSet<Object> implements Serializable 
+public class RoleValueCollection extends LinkedHashSet<Object> 
 {
 	private static final long serialVersionUID = 4067802891802773419L;
 
@@ -65,15 +64,15 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 	{
 		for (Iterator<Object> iter = this.iterator(); iter.hasNext(); ) {
 			RoleValue v = (RoleValue)iter.next();
-			
+
 			if (v.getValue().equals(valueName)) {
 				return v;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/** 
 	 * @see java.util.HashSet#contains(java.lang.Object)
 	 */
@@ -82,7 +81,7 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 		boolean c = super.contains(o);
 		return c;
 	}
-	
+
 	/** 
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
@@ -91,7 +90,7 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 		if (!(o instanceof RoleValue)) {
 			throw new IllegalArgumentException("Object passed as parameter is not a RoleValue type");
 		}
-		
+
 		return super.add(o);
 	}
 
@@ -101,11 +100,11 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 	public boolean addAll(Collection<?> c) 
 	{
 		boolean status = true;
-		
+
 		for (Iterator<?> iter = c.iterator(); iter.hasNext(); ) {
 			status = this.add(iter.next());
 		}
-		
+
 		return status;
 	}
 }

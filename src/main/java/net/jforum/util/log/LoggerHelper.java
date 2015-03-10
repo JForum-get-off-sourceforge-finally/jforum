@@ -61,17 +61,10 @@ import org.apache.log4j.xml.DOMConfigurator;
  * Utilities for helping with Log4j
  * <p>
  * @author Heri
- *
  */
+
 public final class LoggerHelper
 {
-    /**
-     * 
-     */
-    LoggerHelper()
-    {
-        super();
-    }
 
     /**
      * Checks if the log4j framework is fully initialized, i.e. if at least one appender
@@ -112,8 +105,7 @@ public final class LoggerHelper
      * and performs a reconfiguration of Log4j by invoking the DOMConfigurator.
      * <p>
      * If one of the assumptions is not fulfilled the DOMConfigurator is invoked with the
-     * template file unless the the template cannot be found. In latter case an Exception is
-     * thrown.
+     * template file unless the the template cannot be found. In latter case an Exception is thrown.
      * <p>
      * @param templateDir
      *        folder where the log4j_template.xml can be found
@@ -122,9 +114,8 @@ public final class LoggerHelper
      * @throws Exception
      *         if the template file cannot be found.
      */
-    void provideJForumLogConfig( String templateDir, String classpathDir )
-        throws Exception
-        {
+    void provideJForumLogConfig( String templateDir, String classpathDir ) throws Exception
+	{
         File template = checkTemplate( templateDir );
         File dest = null;
         try
@@ -144,7 +135,7 @@ public final class LoggerHelper
             FileUtils.copyFile( template, dest, true );
         }
         DOMConfigurator.configure( dest.toURI().toURL() );
-        }
+	}
 
     /**
      * Checks if the file log4j_template.xml can be found in given directory.
@@ -177,8 +168,7 @@ public final class LoggerHelper
      * Checks if the folder exists and is a classpath folder.
      * <p>
      * @param aClasspathDir
-     * @throws Exception if either not exists, is not a folder or not 
-     *                   a classpath folder.
+     * @throws Exception if either not exists, is not a folder or not a classpath folder.
      */
     void checkClasspathDir( String aClasspathDir ) throws Exception
     {
@@ -189,7 +179,7 @@ public final class LoggerHelper
         while ( urls.hasMoreElements() )
         {
             URL url = urls.nextElement();
-            if ( url.equals( netRes.toURI().toURL() ) )
+            if (url.toString().equals(netRes.toURI().toURL().toString()))
             {
                 return;
             }
@@ -210,13 +200,11 @@ public final class LoggerHelper
         File destDir = new File( aFolder );
         if ( !destDir.exists() )
         {
-            throw new Exception( "folder does not exist: \"" + aFolder
-                                 + "\"" );
+            throw new Exception( "folder does not exist: \"" + aFolder + "\"" );
         }
         if ( !destDir.isDirectory() )
         {
-            throw new Exception( "given folder is not directory: \"" + aFolder
-                                 + "\"" );
+            throw new Exception( "given folder is not directory: \"" + aFolder + "\"" );
         }
     }
 
@@ -245,8 +233,7 @@ public final class LoggerHelper
         if ( dest.exists() )
         {
             /*
-             * Note: if we reach here, it means that the found log4j.xml has no appenders 
-             * configured.
+             * Note: if we reach here, it means that the found log4j.xml has no appenders configured.
              */
             throw new Exception( dest.getPath() + " already exists in classpath" );
         }
@@ -301,5 +288,4 @@ public final class LoggerHelper
 
         return result;
     }
-
 }

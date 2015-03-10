@@ -48,9 +48,8 @@ import java.util.LinkedHashMap;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
-public class RoleCollection extends LinkedHashMap<String, Role> implements Serializable
+public class RoleCollection extends LinkedHashMap<String, Role> 
 {
 	private static final long serialVersionUID = 5785913253137782980L;
 
@@ -58,7 +57,7 @@ public class RoleCollection extends LinkedHashMap<String, Role> implements Seria
 	{
 		super.put(role.getName(), role);
 	}
-	
+
 	/**
 	 * Gets a role.
 	 * 
@@ -70,18 +69,18 @@ public class RoleCollection extends LinkedHashMap<String, Role> implements Seria
 	{
 		return (Role)super.get(name);
 	}
-	
+
 	/** 
 	 * @see java.util.AbstractCollection#toString()
 	 */
 	public String toString() 
 	{
 		final StringBuilder stringBuffer = new StringBuilder(512);
-		
+
 		for (final Iterator<Role> iter = this.values().iterator(); iter.hasNext(); ) {
 			stringBuffer.append(iter.next()).append('\n');
 		}
-		
+
 		return stringBuffer.toString();
 	}
 }

@@ -65,8 +65,7 @@ import org.apache.log4j.Logger;
 /**
  * <p>Store global configurations used in the system.
  * This is a helper class used to access the values
- * defined at SystemGlobals.properties and related
- * config files.</p> 
+ * defined at SystemGlobals.properties and related config files.</p> 
  * 
  * <p>
  * Transient values are stored in a special place, and are not
@@ -75,8 +74,8 @@ import org.apache.log4j.Logger;
  * 
  * @author Rafael Steil
  * @author Pieter Olivier
- * @version $Id$
  */
+
 public final class SystemGlobals implements VariableStore
 {
     private static final Logger LOGGER = Logger.getLogger(SystemGlobals.class);
@@ -457,8 +456,7 @@ public final class SystemGlobals implements VariableStore
      */
     private static void debugValues( Properties aProps, String aName )
     {
-        // Note that the logger which emits this can be configured by using
-        // the param aName:
+        // Note that the logger which emits this can be configured by using the param aName:
         // e.g.
         /*
             <logger name="net.jforum.util.preferences.SystemGlobals.defaults" additivity="true">
@@ -494,16 +492,13 @@ public final class SystemGlobals implements VariableStore
                     sorted.put( key, globals.expander.expandVariables(preExpansion) );
                 }
 
-                for ( String key : sorted.keySet() )
+                for (Map.Entry<String,String> entry : sorted.entrySet())
                 {
-                    String value = sorted.get( key );
-                    sb.append( "\n    " ).append( key ).append( " = " ).append( value );
+                    sb.append( "\n    " ).append( entry.getKey()).append(" = ").append(entry.getValue());
                 }
-
             }
 
             log.debug( sb.toString() );
         }
     }
-
 }

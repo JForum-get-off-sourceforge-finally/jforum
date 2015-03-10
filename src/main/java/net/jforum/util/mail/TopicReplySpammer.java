@@ -92,16 +92,14 @@ public class TopicReplySpammer extends Spammer
 		params.put("forumLink", forumLink);
 		params.put("unwatch", unwatch);
 
-		if (post != null) {
-			this.setMessageId(MessageId.buildMessageId(post.getId(), topic.getId(), topic.getForumId()));
+		this.setMessageId(MessageId.buildMessageId(post.getId(), topic.getId(), topic.getForumId()));
 
-			post = PostCommon.preparePostForDisplay(post);
-			params.put("message", post.getText());
-		}
+		post = PostCommon.preparePostForDisplay(post);
+		params.put("message", post.getText());
 
 		this.setUsers(users);
 
-		if (post != null && topic.getFirstPostId() != post.getId()) {
+		if (topic.getFirstPostId() != post.getId()) {
 			this.setInReplyTo(MessageId.buildInReplyTo(topic));
 		}
 
