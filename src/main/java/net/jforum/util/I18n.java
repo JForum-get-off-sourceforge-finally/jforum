@@ -295,16 +295,6 @@ public final class I18n
         return getMessage(lang, messageName, params);
     }
 
-    public static String getMessage(String messageName, SimpleSequence params)
-    {
-        try {
-            return getMessage(messageName, params.toList().toArray());
-        }
-        catch (Exception e) {
-            throw new ForumException(e);
-        }
-    }
-
     /**
      * Gets an I18N (internationalization) message.
      * 

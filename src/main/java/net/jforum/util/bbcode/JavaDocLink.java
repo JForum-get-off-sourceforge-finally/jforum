@@ -129,7 +129,7 @@ public class JavaDocLink implements Substitution {
     private static String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static String LUCENE_URL = "http://lucene.apache.org/core/4_10_2/core/";
+    private static String LUCENE_URL = "http://lucene.apache.org/core/5_1_0/core/";
     private static String POI_URL = "http://poi.apache.org/apidocs/";
     private static String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -148,7 +148,7 @@ public class JavaDocLink implements Substitution {
     private static String CLI_URL = ACP + "-cli/javadocs/api-release/";
     private static String VALIDATOR_URL = ACP + "-validator/apidocs/";
     private static String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
-    private static String MATH_URL = ACP + "-math/javadocs/api-3.3/";
+    private static String MATH_URL = ACP + "-math/javadocs/api-3.5/";
     private static String JEXL_URL = ACP + "-jexl/apidocs/";
     private static String JXPATH_URL = ACP + "-jxpath/apidocs/";
     private static String IO_URL = ACP + "-io/javadocs/api-2.4/";
@@ -163,17 +163,17 @@ public class JavaDocLink implements Substitution {
     private static String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
     private static String NET_URL = ACP + "-net/javadocs/api-3.3/";
     private static String LANG_URL = ACP + "-lang/javadocs/api-release/";
-    private static String LOGGING_URL = ACP + "-logging/javadocs/api-1.1/";
+    private static String LOGGING_URL = ACP + "-logging/javadocs/api-1.1.3/";
     private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.9/";
     private static String BETWIXT_URL = ACP + "-betwixt/apidocs/";
-    private static String POOL_URL = ACP + "-pool/api-2.2/";
+    private static String POOL_URL = ACP + "-pool/api-2.3/";
 
     // Other 3rd party
     private static String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
     private static String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
     private static String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static String ITEXT_URL = "http://api.itextpdf.com/";
-    private static String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.6/javadocs/";
+    private static String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.9/javadocs/";
     private static String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
@@ -201,8 +201,9 @@ public class JavaDocLink implements Substitution {
     private static String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
     private static String OSGI_URL_CORE = "http://www.osgi.org/javadoc/r5/core/";
     private static String OSGI_URL_ENTERPRISE = "http://www.osgi.org/javadoc/r5/enterprise/";
-    private static String GOOGLE_GUAVA_URL = "http://guava-libraries.googlecode.com/svn/trunk/javadoc/";
+    private static String GOOGLE_GUAVA_URL = "http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/";
 	private static String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
+	private static String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
     private static String[][] urlMap = new String[][] {
         {"javax.activation", J2EE_URL},
@@ -394,7 +395,8 @@ public class JavaDocLink implements Substitution {
 		{"org.osgi.util.tracker", OSGI_URL_CORE},
 		{"org.osgi", OSGI_URL_ENTERPRISE}, // after the other org.osgi packages that are part of the Core
 		{"com.google.common", GOOGLE_GUAVA_URL },
-		{"org.jaxen", JAXEN_URL }
+		{"org.jaxen", JAXEN_URL },
+		{"freemarker", FREEMARKER_URL }
     };
 
 	private String lookup (String packageName, String apiVersion) {
