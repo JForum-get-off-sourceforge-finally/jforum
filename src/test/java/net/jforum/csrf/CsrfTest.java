@@ -1,12 +1,26 @@
 package net.jforum.csrf;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.Set;
 
-import org.junit.*;
+import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Checks consistency of csrf.properties. In particular: keys have valid values,
@@ -15,9 +29,10 @@ import org.junit.*;
  * @author Jeanne Boyarsky, Andowson Chang
  * @version $Id: $
  */
-public class CsrfTest {	
-	private static final String rootDir = CsrfTest.class.getResource("/").getPath();
-	private static final String JFORUM_DIRECTORY = rootDir.substring(0, rootDir.length() - "/target/test-classes/".length());	
+public class CsrfTest {
+	private static final Logger LOGGER = Logger.getLogger(CsrfTest.class);
+	private static final String ROOT_DIR = CsrfTest.class.getResource("/").getPath();
+	private static final String JFORUM_DIRECTORY = ROOT_DIR.substring(0, ROOT_DIR.length() - "/target/test-classes/".length());	
 	private static final String CSRF_PROPERTIES = JFORUM_DIRECTORY + "/src/main/config/csrf.properties";
 	private Collection<String> packagesWithActions;
 
@@ -87,7 +102,7 @@ public class CsrfTest {
 			fullListOfKeys.remove(key);
 		}
 		for (String name: fullListOfKeys) {
-			System.out.println(name);
+			LOGGER.info(name);
 		}
 		assertTrue(
 				"You've accidentally added a duplicate key in csrf.properties.  Please delete the extra lines of: "

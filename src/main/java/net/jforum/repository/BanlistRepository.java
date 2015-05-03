@@ -42,17 +42,17 @@
  */
 package net.jforum.repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.dao.BanlistDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.Banlist;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -129,7 +129,7 @@ public class BanlistRepository implements Cacheable
 		Map<Integer, Banlist> map = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
         
 		if (map == null) {
-			map = new HashMap<Integer, Banlist>();
+			map = new ConcurrentHashMap<Integer, Banlist>();
 		}
 		
 		return map;

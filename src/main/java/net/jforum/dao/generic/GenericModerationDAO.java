@@ -48,9 +48,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.ModerationDAO;
@@ -94,7 +94,7 @@ public class GenericModerationDAO implements ModerationDAO
 	 */
 	public Map<Integer, TopicModerationInfo> topicsByForum(int forumId)
 	{
-		Map<Integer, TopicModerationInfo> m = new HashMap<Integer, TopicModerationInfo>();
+		Map<Integer, TopicModerationInfo> m = new ConcurrentHashMap<Integer, TopicModerationInfo>();
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

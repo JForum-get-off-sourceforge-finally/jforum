@@ -47,10 +47,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
@@ -64,8 +63,8 @@ import javax.servlet.http.HttpSession;
  */
 public class FakeHttpRequest implements HttpServletRequest {
 	private HttpSession session = new FakeHttpSession();
-	private Hashtable<String, Object> params = new Hashtable<String, Object>();
-	private Map<String, Object> attributes = new HashMap<String, Object>();
+	private ConcurrentHashMap<String, Object> params = new ConcurrentHashMap<String, Object>();
+	private Map<String, Object> attributes = new ConcurrentHashMap<String, Object>();
 
 	public String getAuthType() {
 		return null;
@@ -76,7 +75,7 @@ public class FakeHttpRequest implements HttpServletRequest {
 	}
 
 	public Cookie[] getCookies() {
-		return null;
+		return new Cookie[0];
 	}
 
 	public long getDateHeader(String name) {
@@ -224,7 +223,7 @@ public class FakeHttpRequest implements HttpServletRequest {
 	}
 
 	public String[] getParameterValues(String name) {
-		return null;
+		return new String[0];
 	}
 
 	public String getProtocol() {

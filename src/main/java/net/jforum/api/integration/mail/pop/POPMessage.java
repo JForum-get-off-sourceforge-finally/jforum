@@ -48,8 +48,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.mail.Header;
 import javax.mail.Message;
@@ -117,7 +117,7 @@ public class POPMessage
 				this.replyTo = this.sender;
 			}
 			
-			this.headers = new HashMap<String, String>();
+			this.headers = new ConcurrentHashMap<String, String>();
 			
 			for (final Enumeration<?> enumeration = message.getAllHeaders(); enumeration.hasMoreElements(); ) {
 				final Header header = (Header)enumeration.nextElement();
@@ -135,7 +135,7 @@ public class POPMessage
 			this.extractMessageContents(message);
 		}
 		catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 	

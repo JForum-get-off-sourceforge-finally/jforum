@@ -118,13 +118,13 @@ public class Captcha extends ListImageCaptchaEngine
 		final Integer minFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MIN_FONT_SIZE);
 		final Integer maxFontSize = SystemGlobals.getIntValue(ConfigKeys.CAPTCHA_MAX_FONT_SIZE);
 
-		Color[] colors = new Color[] { Color.PINK, Color.RED, Color.GREEN, Color.ORANGE, Color.MAGENTA };
+		final Color[] colors = new Color[] { Color.PINK, Color.RED, Color.GREEN, Color.ORANGE, Color.MAGENTA };
 		final RandomListColorGenerator colorGenerator = new RandomListColorGenerator(colors);	
 
 		final List<BackgroundGenerator> backgroundGeneratorList = new ArrayList<BackgroundGenerator>();
 		Color previousColor = colorGenerator.getNextColor();
 		for (int i = 0; i < colors.length - 1; i++) {
-			Color nextColor = colorGenerator.getNextColor();
+			final Color nextColor = colorGenerator.getNextColor();
 			backgroundGeneratorList.add(new GradientBackgroundGenerator(width, 
 					height, previousColor, nextColor));
 			previousColor = nextColor;
@@ -143,7 +143,9 @@ public class Captcha extends ListImageCaptchaEngine
 		final WordGenerator words = new RandomWordGenerator(charsInUse);
 
 		for (final FontGenerator fontGeny : fontGeneratorList) {
-			LOGGER.debug("use font: " + fontGeny.getFont().getFontName());
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("use font: " + fontGeny.getFont().getFontName());
+			}
 			for (final BackgroundGenerator bkgdGeny : backgroundGeneratorList) {
 				for (final TextPaster textPaster : textPasterList) {
 					final WordToImage word2image = new ComposedWordToImage(fontGeny, bkgdGeny, textPaster);

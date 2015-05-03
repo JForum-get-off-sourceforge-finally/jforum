@@ -83,7 +83,7 @@ public class PostREST extends Command {
 			// do nothing here
 			// TODO: add implementation
 		}
-		catch (Exception e) {
+		catch (APIException e) {
 			this.setTemplateName(TemplateKeys.API_ERROR);
 			this.context.put("exception", e);
 		}
@@ -115,7 +115,7 @@ public class PostREST extends Command {
 			final UserSession userSession = SessionFacade.getUserSession();
 			userSession.setUserId(user.getId());
 			userSession.setUsername(user.getUsername());
-			String sessionId = userSession.getSessionId(); 
+			final String sessionId = userSession.getSessionId(); 
 			userSession.setStartTime(new Date(System.currentTimeMillis()));
 			SessionFacade.makeLogged();
 
@@ -127,7 +127,7 @@ public class PostREST extends Command {
 			post.setSubject(subject);
 			post.setText(message);
 			this.insertMessage(user, post);
-			String postLink = JForumExecutionContext.getRedirectTo(); 
+			final String postLink = JForumExecutionContext.getRedirectTo(); 
 			JForumExecutionContext.setRedirect(null); 
 			this.setTemplateName(TemplateKeys.API_POST_INSERT); 
 			this.context.put("postLink", postLink);

@@ -34,14 +34,14 @@ public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 	/** Builds an analyzer with the given stop words.
 	 * @param matchVersion Lucene version to match See {@link <a href="#version">above</a>}
 	 * @param stopWords stop words */
-	public PorterStandardAnalyzer(Version matchVersion, Set<?> stopWords) {
+	public PorterStandardAnalyzer(final Version matchVersion, final Set<?> stopWords) {
 		super(matchVersion, stopWords);
 	}
 
 	/** Builds an analyzer with the default stop words ({@link #STOP_WORDS_SET}).
 	 * @param matchVersion Lucene version to match See {@link <a href="#version">above</a>}
 	 */
-	public PorterStandardAnalyzer(Version matchVersion) {
+	public PorterStandardAnalyzer(final Version matchVersion) {
 		this(matchVersion, STOP_WORDS_SET);
 	}
 
@@ -50,7 +50,7 @@ public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 	 * @param matchVersion Lucene version to match See {@link
 	 * <a href="#version">above</a>}
 	 * @param stopwords Reader to read stop words from */
-	public PorterStandardAnalyzer(Version matchVersion, Reader stopwords) throws IOException {
+	public PorterStandardAnalyzer(final Version matchVersion, final Reader stopwords) throws IOException {
 		this(matchVersion, WordlistLoader.getWordSet(stopwords, matchVersion));
 	}
 
@@ -60,7 +60,7 @@ public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 	 * setting only takes effect the next time tokenStream or
 	 * reusableTokenStream is called.
 	 */
-	public void setMaxTokenLength(int length) {
+	public void setMaxTokenLength(final int length) {
 		maxTokenLength = length;
 	}
 

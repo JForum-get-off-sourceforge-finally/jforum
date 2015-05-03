@@ -158,7 +158,7 @@ public class AttachmentInfo
 	/**
 	 * @param hasThumb The hasThumb to set.
 	 */
-	public void setHasThumb(boolean hasThumb)
+	public void setHasThumb(final boolean hasThumb)
 	{
 		this.hasThumb = hasThumb;
 	}
@@ -174,7 +174,7 @@ public class AttachmentInfo
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -190,7 +190,7 @@ public class AttachmentInfo
 	/**
 	 * @param mimetype The mimetype to set.
 	 */
-	public void setMimetype(String mimetype)
+	public void setMimetype(final String mimetype)
 	{
 		this.mimetype = mimetype;
 	}
@@ -206,7 +206,7 @@ public class AttachmentInfo
 	/**
 	 * @param physicalFilename The physicalFilename to set.
 	 */
-	public void setPhysicalFilename(String physicalFilename)
+	public void setPhysicalFilename(final String physicalFilename)
 	{
 		this.physicalFilename = physicalFilename;
 	}
@@ -222,7 +222,7 @@ public class AttachmentInfo
 	/**
 	 * @param realFilename The realFilename to set.
 	 */
-	public void setRealFilename(String realFilename)
+	public void setRealFilename(final String realFilename)
 	{
 		this.realFilename = realFilename;
 	}
@@ -238,7 +238,7 @@ public class AttachmentInfo
 	/**
 	 * @param uploadTime The uploadTime to set.
 	 */
-	public void setUploadTime(Date uploadTime)
+	public void setUploadTime(final Date uploadTime)
 	{
 		this.uploadTime = uploadTime;
 	}
@@ -254,7 +254,7 @@ public class AttachmentInfo
 	/**
 	 * @param uploadTimeInMillis The uploadTimeInMillis to set.
 	 */
-	public void setUploadTimeInMillis(long uploadTimeInMillis)
+	public void setUploadTimeInMillis(final long uploadTimeInMillis)
 	{
 		this.uploadTimeInMillis = uploadTimeInMillis;
 	}

@@ -50,16 +50,17 @@ import java.io.InputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.SortedProperties;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -87,7 +88,7 @@ public final class SystemGlobals implements VariableStore
 
     private Properties defaults = new Properties();
     private Properties installation = new Properties();
-    private Map<String, Object> objectProperties = new HashMap<String, Object>();
+    private Map<String, Object> objectProperties = new ConcurrentHashMap<String, Object>();
     private static List<File> additionalDefaultsList = new ArrayList<File>();
     private static Properties queries = new Properties();
     private static Properties transientValues = new Properties();
@@ -134,7 +135,9 @@ public final class SystemGlobals implements VariableStore
         this.installationConfig = new File( getVariableValue(ConfigKeys.INSTALLATION_CONFIG) );
         if (this.installationConfig.exists() && !additionalDefaultsList.contains(this.installationConfig)) {
             additionalDefaultsList.add(0, this.installationConfig );
-            LOGGER.info("Added " + this.installationConfig);
+            if (LOGGER.isEnabledFor(Level.INFO)) {
+            	LOGGER.info("Added " + this.installationConfig);
+            }
         }		
 
         for (File file : additionalDefaultsList) {
@@ -174,7 +177,9 @@ public final class SystemGlobals implements VariableStore
      */
     public static void setTransientValue(String field, String value)
     {
-        LOGGER.debug( "Adding transient " + field + "=" + value );
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug( "Adding transient " + field + "=" + value );
+        }
         transientValues.put(field, value);
     }
 
@@ -183,7 +188,9 @@ public final class SystemGlobals implements VariableStore
      */
     private static void loadDefaults()
     {
-        LOGGER.info("Loading mainConfigurationFile " + globals.defaultConfig + " ...");
+    	if (LOGGER.isEnabledFor(Level.INFO)) {
+    		LOGGER.info("Loading mainConfigurationFile " + globals.defaultConfig + " ...");
+    	}
         loadProps( globals.defaults, new File( globals.defaultConfig ) );
         globals.expander.clearCache();
     }
@@ -221,17 +228,23 @@ public final class SystemGlobals implements VariableStore
     private void loadAdditionalDefault( File file )
     {
         if (!file.exists()) {
-            LOGGER.info("Cannot find file " + file + ". Will ignore it");
+        	if (LOGGER.isEnabledFor(Level.INFO)) {
+        		LOGGER.info("Cannot find file " + file + ". Will ignore it");
+        	}
             return;
         }
 
-        LOGGER.info("Loading additional default into installation " + file + " ...");
+        if (LOGGER.isEnabledFor(Level.INFO)) {
+        	LOGGER.info("Loading additional default into installation " + file + " ...");
+        }
 
         loadProps( installation, file );
 
         if (!additionalDefaultsList.contains(file)) {
             additionalDefaultsList.add(file);
-            LOGGER.info("Added " + file);
+            if (LOGGER.isEnabledFor(Level.INFO)) {
+            	LOGGER.info("Added " + file);
+            }
         }
     }
 
@@ -316,7 +329,9 @@ public final class SystemGlobals implements VariableStore
             preExpansion = this.defaults.getProperty(field);
 
             if (preExpansion == null) {
-                LOGGER.info("Key '" + field + "' is not found in " + globals.defaultConfig + " and " + globals.installationConfig);
+            	if (LOGGER.isEnabledFor(Level.INFO)) {
+            		LOGGER.info("Key '" + field + "' is not found in " + globals.defaultConfig + " and " + globals.installationConfig);
+            	}
                 return null;
             }
         }
@@ -387,7 +402,9 @@ public final class SystemGlobals implements VariableStore
     {
         for ( int i = 0; i < queryFiles.length; i++ )
         {
-            LOGGER.info("Loading query file " + queryFiles[i] + " ...");
+        	if (LOGGER.isEnabledFor(Level.INFO)) {
+        		LOGGER.info("Loading query file " + queryFiles[i] + " ...");
+        	}
             loadProps( queries, queryFiles[i] );
         }
         debugValues( queries, "queries" );

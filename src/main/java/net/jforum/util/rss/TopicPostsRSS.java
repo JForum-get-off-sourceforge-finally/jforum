@@ -59,6 +59,7 @@ public class TopicPostsRSS extends TopicRSS
 {
 	public TopicPostsRSS(final String title, final String description, final int topicId, final List<Post> posts)
 	{
+		super();
 		this.forumLink = ViewCommon.getForumLink();
 		
 		super.posts = posts;

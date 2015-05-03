@@ -57,6 +57,7 @@ public class RecentTopicsRSS extends TopicRSS
 {
 	public RecentTopicsRSS(final String title, final String description, final List<Post> posts)
 	{
+		super();
 		super.posts = posts;
 		this.forumLink = ViewCommon.getForumLink();
 		

@@ -53,7 +53,7 @@ public class Role implements Serializable
 	private static final long serialVersionUID = 6022402482301273719L;
 	private int id;
 	private String name;
-	private final RoleValueCollection roleValues = new RoleValueCollection();
+	private transient final RoleValueCollection roleValues = new RoleValueCollection();
 	
 	public void setId(final int id)
 	{

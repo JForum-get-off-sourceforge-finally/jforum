@@ -62,14 +62,15 @@ import freemarker.template.SimpleHash;
  */
 public class ForumNewTopicSpammer extends Spammer 
 {
-	public ForumNewTopicSpammer(Forum forum, Topic topic, Post origPost, List<User> users)
+	public ForumNewTopicSpammer(final Forum forum, final Topic topic, final Post origPost, final List<User> users)
 	{
+		super();
 		Post post = origPost;
-		String forumLink = ViewCommon.getForumLink();
-		String path = this.postLink(topic, forumLink);
-		String unwatch = this.unwatchLink(forum, forumLink);
+		final String forumLink = ViewCommon.getForumLink();
+		final String path = this.postLink(topic, forumLink);
+		final String unwatch = this.unwatchLink(forum, forumLink);
 
-		SimpleHash params = JForumExecutionContext.newSimpleHash();
+		final SimpleHash params = JForumExecutionContext.newSimpleHash();
 		params.put("topic", topic);
 		params.put("path", path);
 		params.put("forumLink", forumLink);
@@ -84,7 +85,7 @@ public class ForumNewTopicSpammer extends Spammer
 
 		this.setTemplateParams(params);
 
-		String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_TOPIC_SUBJECT);
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_TOPIC_SUBJECT);
 
 		super.prepareMessage(
 			MessageFormat.format(subject, new Object[] { topic.getTitle() }),
@@ -96,9 +97,9 @@ public class ForumNewTopicSpammer extends Spammer
 	 * @param forumLink
 	 * @return
 	 */
-	private String unwatchLink(Forum forum, String forumLink)
+	private String unwatchLink(final Forum forum, final String forumLink)
 	{
-		String unwatch = new StringBuilder(128)
+		final String unwatch = new StringBuilder(128)
 			.append(forumLink)
 			.append("forums/unwatchForum/")
 			.append(forum.getId())
@@ -112,9 +113,9 @@ public class ForumNewTopicSpammer extends Spammer
 	 * @param forumLink
 	 * @return
 	 */
-	private String postLink(Topic topic, String forumLink)
+	private String postLink(final Topic topic, final String forumLink)
 	{
-		String path = new StringBuilder(128)
+		final String path = new StringBuilder(128)
 			.append(forumLink)
 			.append("posts/list/")
 			.append(topic.getId()) 

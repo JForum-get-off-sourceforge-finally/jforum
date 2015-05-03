@@ -19,6 +19,8 @@ import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test {@link net.jforum.SessionFacade} methods for online users
@@ -32,6 +34,7 @@ public class OnlineUsersTest extends TestCase
     private static final int ANONYMOUS = 1;
 
     @Override
+    @Before
     protected void setUp() throws Exception
     {		
         Logger logger = Logger.getLogger( this.getClass() );
@@ -67,6 +70,7 @@ public class OnlineUsersTest extends TestCase
     /**
      * Check if guest users are being counted correctly
      */
+    @Test
     public void testAnonymousCount()
     {
         String[] sessionId = new String[3];
@@ -85,6 +89,7 @@ public class OnlineUsersTest extends TestCase
     /**
      * Check if counting of both guest and logged users is correct
      */
+    @Test
     public void test2Anymous1Logged() 
     {
         String[] sessionId = new String[3];
@@ -112,6 +117,7 @@ public class OnlineUsersTest extends TestCase
     /**
      * First register as anonymous, then change to logged, and check counting
      */
+    @Test
     public void testAnonymousThenLogged()
     {
         // Anonymous
@@ -134,6 +140,7 @@ public class OnlineUsersTest extends TestCase
         SessionFacade.remove(sessionId);
     }
 
+    @Test
     public void test3LoggedThen1Logout()
     {
         String[] sessionId = new String[3];

@@ -60,15 +60,17 @@ public class CategoryOrderComparator implements Comparator<Category>, Serializab
 	 */
 	public int compare(final Category category1, final Category category2) 
 	{		
+		int result;
 		if (category1.getOrder() > category2.getOrder()) {
-			return 1;
+			result = 1;
 		}
 		else if (category1.getOrder() < category2.getOrder() ) {
-			return -1;
+			result = -1;
 		}
 		else {
-			return category1.getName().compareTo(category2.getName());
+			result = category1.getName().compareTo(category2.getName());
 		}
+		return result;
 	}
 
 }

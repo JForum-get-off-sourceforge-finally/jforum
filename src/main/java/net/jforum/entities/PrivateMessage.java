@@ -43,9 +43,9 @@
  */
 package net.jforum.entities;
 
-import net.jforum.view.forum.common.ViewCommon;
-
 import java.util.Date;
+
+import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
@@ -145,6 +145,13 @@ public class PrivateMessage
 	public void setPost(final Post post)
 	{
 		this.post = post;
+	}
+	
+	/**
+	 * @return Returns the postDate.
+	 */
+	public Date getPostDate() {
+		return postDate;
 	}
 
 	/**

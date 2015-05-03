@@ -70,7 +70,7 @@ public class LuceneManager
 		try {
 			Class<?> clazz = Class.forName(SystemGlobals.getValue(ConfigKeys.LUCENE_ANALYZER));
 			Constructor<?> con = clazz.getConstructor(Version.class);
-			Object obj = con.newInstance(new Object[]{LuceneSettings.version});
+			Object obj = con.newInstance(new Object[]{LuceneSettings.VERSION});
 			Analyzer analyzer = (Analyzer)obj;
 
 			this.settings = new LuceneSettings(analyzer);
@@ -125,9 +125,9 @@ public class LuceneManager
 		this.indexer.update(post);
 	}
 
-	public SearchResult<Post> search(final SearchArgs args, int userID)
+	public SearchResult<Post> search(final SearchArgs args, int userId)
 	{
-		return this.search.search(args, userID);
+		return this.search.search(args, userId);
 	}
 
 	public void delete(final Post post)

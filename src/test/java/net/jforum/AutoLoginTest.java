@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 import net.jforum.entities.UserSession;
 
@@ -18,9 +20,10 @@ import net.jforum.entities.UserSession;
  */
 public class AutoLoginTest extends TestCase
 {
+	@Test
 	public void testAutoLoginWithNullCookieExpectFail()
 	{
-		ControllerUtils c = this.newControllerUtils();
+		final ControllerUtils c = this.newControllerUtils();
 		c.checkAutoLogin(this.newUserSession());
 	}
 	
@@ -44,7 +47,7 @@ public class AutoLoginTest extends TestCase
 				return (Cookie)this.cookiesMap.get(name);
 			}
 			
-			protected void addCookieTemplate(String name, String value) {
+			protected void addCookieTemplate(final String name, final String value) {
 				this.cookiesMap.put(name, new Cookie(name, value));
 			}
 			

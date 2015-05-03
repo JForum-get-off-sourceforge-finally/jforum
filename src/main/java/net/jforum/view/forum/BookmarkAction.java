@@ -42,7 +42,8 @@
  */
 package net.jforum.view.forum;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -59,12 +60,12 @@ import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
-import net.jforum.view.forum.common.Stats;
 import net.jforum.util.I18n;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.view.forum.common.Stats;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -300,7 +301,7 @@ public class BookmarkAction extends Command
 		try {
 			userId = this.request.getIntParameter("user_id");
 		} catch (NumberFormatException nfex) {
-			// no userID passed - means we're accessing our own bookmarks
+			// no userId passed - means we're accessing our own bookmarks
 			if (SessionFacade.isLogged()) {
 				userId = SessionFacade.getUserSession().getUserId();
 			} else {

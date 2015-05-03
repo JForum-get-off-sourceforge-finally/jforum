@@ -5,6 +5,9 @@ import net.jforum.TestCaseUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -18,6 +21,7 @@ public class SafeHtmlTest extends TestCase
 	/** 
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Before
 	protected void setUp() throws Exception
 	{
 		TestCaseUtils.loadEnvironment();
@@ -51,6 +55,7 @@ public class SafeHtmlTest extends TestCase
 		this.expected = sb.toString();
 	}
 	
+	@Test
 	public void testJavascriptInsideURLTagExpectItToBeRemoved()
 	{
 		String input = "<a class=\"snap_shots\" rel=\"nofollow\" target=\"_new\" onmouseover=\"javascript:alert('test2');\" href=\"before\">test</a>";
@@ -61,6 +66,7 @@ public class SafeHtmlTest extends TestCase
 		assertEquals(expected, result);
 	}
 	
+	@Test
 	public void testJavascriptInsideImageTagExpectItToBeRemoved()
 	{
 		String input = "<img border=\"0\" onmouseover=\"javascript:alert('buuuh!!!');\"\"\" src=\"javascript:alert('hi from an alert!');\"/>";
@@ -71,6 +77,7 @@ public class SafeHtmlTest extends TestCase
 		assertEquals(expected, result);
 	}
 	
+	@Test
 	public void testIframe() 
 	{
 		String input = "<iframe src='http://www.google.com' onload='javascript:parent.document.body.style.display=\'none\'; alert(\'where is the forum?\'); ' style='display:none;'></iframe>";
@@ -80,6 +87,7 @@ public class SafeHtmlTest extends TestCase
 		assertEquals(output, new SafeHtml().makeSafe(input));
 	}
 	
+	@Test
 	public void testMakeSafe() throws Exception
 	{
 		SystemGlobals.setValue(ConfigKeys.HTML_TAGS_WELCOME, WELCOME_TAGS);

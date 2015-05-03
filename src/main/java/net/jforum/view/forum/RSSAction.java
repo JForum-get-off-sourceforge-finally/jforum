@@ -51,17 +51,27 @@ import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
-import net.jforum.dao.*;
-import net.jforum.entities.*;
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.dao.PostDAO;
+import net.jforum.dao.TopicDAO;
+import net.jforum.dao.UserDAO;
+import net.jforum.entities.Forum;
+import net.jforum.entities.Post;
+import net.jforum.entities.Topic;
+import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import net.jforum.util.rss.*;
+import net.jforum.util.rss.HottestTopicsRSS;
+import net.jforum.util.rss.RSSAware;
+import net.jforum.util.rss.RecentTopicsRSS;
+import net.jforum.util.rss.TopicPostsRSS;
+import net.jforum.util.rss.TopicRSS;
+import net.jforum.util.rss.UserPostsRSS;
 import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
-
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
 
@@ -201,7 +211,7 @@ public class RSSAction extends Command
         int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
         List<Post> posts = postDAO.selectByUserByLimit(userId, 0, postsPerPage);
 
-		// Remove topics that the user should not see (like MO topics for non-noderators)
+		// Remove topics that the user should not see (like MO topics for non-moderators)
 		removeUnauthorizedPosts(posts);
 
         RSSAware rss = new UserPostsRSS(title, description, userId, posts);

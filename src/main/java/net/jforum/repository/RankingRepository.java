@@ -44,14 +44,14 @@ package net.jforum.repository;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.RankingDAO;
 import net.jforum.entities.Ranking;
 import net.jforum.exceptions.RankingLoadException;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

@@ -679,7 +679,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#isDeleted(int user_id)
+	 * @see net.jforum.dao.UserDAO#isDeleted(int userId)
 	 */
 	public boolean isDeleted(int userId)
 	{

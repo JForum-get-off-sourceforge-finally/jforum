@@ -70,23 +70,24 @@ public class TopicReplySpammer extends Spammer
 	 * only a notification will be sent
 	 * @param users list of users who'll be notified
 	 */
-	public TopicReplySpammer(Topic topic, Post origPost, List<User> users)
+	public TopicReplySpammer(final Topic topic, final Post origPost, final List<User> users)
 	{
+		super();
 		Post post = new Post(origPost);
 		// Make the topic url
-		StringBuilder page = new StringBuilder();
-		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+		final StringBuilder page = new StringBuilder();
+		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 
 		if (topic.getTotalReplies() >= postsPerPage) {
 			page.append(((topic.getTotalReplies() / postsPerPage)) * postsPerPage).append('/');
 		}
 
-		String forumLink = ViewCommon.getForumLink();
+		final String forumLink = ViewCommon.getForumLink();
 
-		String path = this.messageLink(topic, page, forumLink);
-		String unwatch = this.unwatchLink(topic, forumLink);
+		final String path = this.messageLink(topic, page, forumLink);
+		final String unwatch = this.unwatchLink(topic, forumLink);
 
-		SimpleHash params = JForumExecutionContext.newSimpleHash();
+		final SimpleHash params = JForumExecutionContext.newSimpleHash();
 		params.put("topic", topic);
 		params.put("path", path);
 		params.put("forumLink", forumLink);
@@ -104,7 +105,7 @@ public class TopicReplySpammer extends Spammer
 		}
 
 		this.setTemplateParams(params);
-		String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_ANSWER_SUBJECT);
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_ANSWER_SUBJECT);
 
 		this.prepareMessage(
 			MessageFormat.format(subject, new Object[] { topic.getTitle() }),
@@ -117,7 +118,7 @@ public class TopicReplySpammer extends Spammer
 	 * @param forumLink the forum's link
 	 * @return the unwath link
 	 */
-	private String unwatchLink(Topic topic, String forumLink)
+	private String unwatchLink(final Topic topic, final String forumLink)
 	{
 		return new StringBuilder(128)
 			.append(forumLink)
@@ -134,7 +135,7 @@ public class TopicReplySpammer extends Spammer
 	 * @param forumLink the forum's link
 	 * @return the link to the message
 	 */
-	private String messageLink(Topic topic, StringBuilder page, String forumLink)
+	private String messageLink(final Topic topic, final StringBuilder page, final String forumLink)
 	{
 		return new StringBuilder(128)
 			.append(forumLink)

@@ -62,11 +62,6 @@ public class SummaryJob implements Job
 	{
 		final SummaryModel model = new SummaryModel();
 		
-		try {
-			model.sendPostsSummary(model.listRecipients());
-		}
-		catch (Exception e) {
-			LOGGER.warn(e);
-		}
+		model.sendPostsSummary(model.listRecipients());		
 	}
 }

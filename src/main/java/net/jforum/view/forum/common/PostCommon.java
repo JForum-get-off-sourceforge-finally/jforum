@@ -76,7 +76,7 @@ import org.apache.log4j.Logger;
  */
 public class PostCommon
 {
-    private static final Logger log = Logger.getLogger(PostCommon.class);
+    private static final Logger LOGGER = Logger.getLogger(PostCommon.class);
 
 	public static Post preparePostForDisplay(Post post)
 	{
@@ -222,7 +222,7 @@ public class PostCommon
                                 count++;
                             }
                         } catch (Exception ex) {
-                            log.error("error handling '" + bb.getTagName() + "' BB code: " + ex.getMessage());
+                            LOGGER.error("error handling '" + bb.getTagName() + "' BB code: " + ex.getMessage());
                         }
                     }
                 }

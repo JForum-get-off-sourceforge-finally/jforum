@@ -46,10 +46,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.SessionFacade;
 import net.jforum.repository.SecurityRepository;
@@ -118,7 +118,7 @@ public class User implements Serializable
 	private int deleted;
 	private String firstName;
 	private String lastName;
-	private Map<String, Object> extra = new HashMap<String, Object>();
+	private Map<String, Object> extra = new ConcurrentHashMap<String, Object>();
 	
 	public User(int userId)
 	{

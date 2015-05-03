@@ -433,5 +433,5 @@ public interface RequestContext
 	 * Return full request URL (including http://....)
 	 * @return
 	 */
-	public StringBuffer getRequestURL();
+	StringBuffer getRequestURL();
 }

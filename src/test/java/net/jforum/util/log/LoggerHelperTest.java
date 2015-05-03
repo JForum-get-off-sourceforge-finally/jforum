@@ -46,8 +46,6 @@ package net.jforum.util.log;
 import java.io.File;
 import java.io.IOException;
 
-import net.jforum.util.log.LoggerHelper;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;

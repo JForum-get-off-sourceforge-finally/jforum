@@ -57,26 +57,26 @@ public class ConfigModelDummy implements ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#insert(net.jforum.entities.Config)
 	 */
-	public void insert(Config config) 	{
-		
+	public void insert(final Config config) 	{
+		// empty
 
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#update(net.jforum.entities.Config)
 	 */
-	public void update(Config config)
+	public void update(final Config config)
 	{
-		
+		// empty
 
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#delete(net.jforum.entities.Config)
 	 */
-	public void delete(Config config)
+	public void delete(final Config config)
 	{
-		
+		// empty
 
 	}
 
@@ -92,7 +92,7 @@ public class ConfigModelDummy implements ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#selectByName(java.lang.String)
 	 */
-	public Config selectByName(String name) 
+	public Config selectByName(final String name) 
 	{
 		
 		return null;

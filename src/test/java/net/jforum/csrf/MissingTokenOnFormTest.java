@@ -1,16 +1,20 @@
 package net.jforum.csrf;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.apache.commons.io.*;
-import org.apache.commons.lang3.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
@@ -21,15 +25,15 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class MissingTokenOnFormTest {
-	private static final String rootDir = MissingTokenOnFormTest.class.getResource("/").getPath();	
-	private static final String JFORUM_DIRECTORY = rootDir.substring(0, rootDir.length() - "/target/test-classes/".length());	
+	private static final String ROOT_DIR = MissingTokenOnFormTest.class.getResource("/").getPath();	
+	private static final String JFORUM_DIRECTORY = ROOT_DIR.substring(0, ROOT_DIR.length() - "/target/test-classes/".length());	
 	
     private File file;
     private String fileName;
     private String content;
 
-    public MissingTokenOnFormTest(File _file) {
-        file = _file;
+    public MissingTokenOnFormTest(File file) {
+        this.file = file;
     }
 
     @Before

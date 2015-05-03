@@ -11,6 +11,7 @@ import net.jforum.exceptions.ConfigLoadException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -54,7 +55,7 @@ public class ConfigLoader
 				final String path = SystemGlobals.getValue(ConfigKeys.CLICKSTREAM_CONFIG);
 				
 				if (path != null) {
-					if (LOGGER.isInfoEnabled()) {
+					if (LOGGER.isEnabledFor(Level.INFO)) {
 						LOGGER.info("Loading clickstream config from " + path);
 					}
 					

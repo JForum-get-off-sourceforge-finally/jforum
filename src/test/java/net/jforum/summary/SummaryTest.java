@@ -22,6 +22,9 @@ import net.jforum.entities.User;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.quartz.SchedulerException;
 
 import com.dumbster.smtp.SimpleSmtpServer;
@@ -41,6 +44,7 @@ public class SummaryTest extends TestCase
 	private Topic testTopic;
 	private Post testPost;
 	
+	@Before
 	protected void setUp() throws Exception 
     {
         super.setUp();
@@ -93,7 +97,8 @@ public class SummaryTest extends TestCase
 		topicDao.update(testTopic);
 	}
     
-    protected void tearDown() throws Exception {
+    @After
+	protected void tearDown() throws Exception {
     	super.tearDown();
     	fakeSmtpServer.stop();
     	
@@ -116,7 +121,8 @@ public class SummaryTest extends TestCase
      * @throws Exception 
      *
      */
-    public void testScheduler() throws Exception
+	@Test
+	public void testScheduler() throws Exception
     {                    
     	try {
             SummaryScheduler.startJob();
@@ -125,6 +131,7 @@ public class SummaryTest extends TestCase
         }        
     }
     
+    @Test
     public void testLoadRecipients() throws Exception
     {                         
     	SummaryModel model = new SummaryModel();
@@ -135,6 +142,7 @@ public class SummaryTest extends TestCase
         assertTrue(model.listRecipients().size()>=0);       
     }
     
+    @Test
     public void testSendMails() throws Exception
     {
     	SummaryModel model = new SummaryModel();		
@@ -147,6 +155,7 @@ public class SummaryTest extends TestCase
         model.sendPostsSummary(recipients);
     }
     
+    @Test
     public void testListPosts() throws Exception
     {       
     	SummaryModel model= new SummaryModel();

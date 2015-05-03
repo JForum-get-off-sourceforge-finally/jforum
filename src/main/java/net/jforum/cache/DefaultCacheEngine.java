@@ -99,11 +99,8 @@ public class DefaultCacheEngine implements CacheEngine
 	public Object get(final String fqn, final String key)
 	{
 		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
-		if (map == null) {
-			return null;
-		}
 		
-		return map.get(key);
+		return map == null ? null : map.get(key);
 	}
 	
 	/**

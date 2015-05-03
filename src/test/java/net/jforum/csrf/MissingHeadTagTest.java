@@ -1,13 +1,18 @@
 package net.jforum.csrf;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.apache.commons.io.*;
-import org.junit.*;
+import org.apache.commons.io.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Lists any files missing HTML head section excluding those which are included
@@ -17,9 +22,9 @@ import org.junit.*;
  * @version $Id: $
  */
 public class MissingHeadTagTest {
-	private static final String rootDir = MissingHeadTagTest.class.getResource("/").getPath();	
-	private static final String JFORUM_DIRECTORY = rootDir.substring(0, rootDir.length() - "/target/test-classes/".length());	
-	private static Pattern INCLUDED_FILES_PATTERN = Pattern.compile(
+	private static final String ROOT_DIR = MissingHeadTagTest.class.getResource("/").getPath();	
+	private static final String JFORUM_DIRECTORY = ROOT_DIR.substring(0, ROOT_DIR.length() - "/target/test-classes/".length());	
+	private static final Pattern INCLUDED_FILES_PATTERN = Pattern.compile(
 			"<#include \"([^\"]+)\"", Pattern.DOTALL);
 	private List<String> filesMissingHead;
 	private Set<String> includedFiles;

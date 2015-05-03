@@ -67,7 +67,7 @@ public class RSS
 	 * @param encoding The character encoding
 	 * @param link The main document link
 	 */
-	public RSS(String title, String description, String encoding, String link)
+	public RSS(final String title, final String description, final String encoding, final String link)
 	{
 		this.items = new ArrayList<RSSItem>();
 		this.title = title;
@@ -128,7 +128,7 @@ public class RSS
 	 * 
 	 * @param item <code>RSSItem</code> object containing the item information 
 	 */
-	public void addItem(RSSItem item)
+	public void addItem(final RSSItem item)
 	{
 		this.items.add(item);
 	}

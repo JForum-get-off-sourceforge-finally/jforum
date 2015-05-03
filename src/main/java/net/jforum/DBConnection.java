@@ -117,9 +117,9 @@ public abstract class DBConnection
 	 * database, while non-pooled implementation can provide an empty method
 	 * block if no other initialization is necessary.
 	 * <br>
-	 * Please note that this method will be called just once, at system startup. 
+	 * Please note that this method will be called just once, at system startup.
 	 * 
-	 * @throws Exception
+	 *  @throws Exception
 	 */
 	public abstract void init() throws Exception;
 	
@@ -141,6 +141,7 @@ public abstract class DBConnection
 	 * in the connection object.
 	 * 
 	 * @param conn The connection to release
+	 * @throws DatabaseException
 	 */
 	public void releaseConnection(final Connection conn)
 	{        
@@ -157,8 +158,6 @@ public abstract class DBConnection
 	
 	/**
 	 * Close all open connections.
-	 * 
-	 * @throws Exception
 	 */
 	public void realReleaseAllConnections() 
 	{	

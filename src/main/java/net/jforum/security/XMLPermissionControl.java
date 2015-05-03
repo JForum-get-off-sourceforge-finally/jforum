@@ -46,10 +46,10 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -113,7 +113,7 @@ public class XMLPermissionControl extends DefaultHandler
 	{
 		this.listSections = new ArrayList<PermissionSection>();
 		this.permissionData = new ArrayList<FormSelectedData>();
-		this.queries = new HashMap<String, List<SelectData>>();
+		this.queries = new ConcurrentHashMap<String, List<SelectData>>();
 		this.permissionControl = permissionControl;
 	}
 

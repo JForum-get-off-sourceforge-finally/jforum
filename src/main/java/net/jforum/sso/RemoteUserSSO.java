@@ -69,21 +69,22 @@ public class RemoteUserSSO implements SSO
 	public boolean isSessionValid(final UserSession userSession, final RequestContext request)
 	{
 		final String remoteUser = request.getRemoteUser();
+		boolean result = true;
 
 		// user has since logged out
 		if (remoteUser == null && userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-			return false;
+			result = false;
 		}
 		// user has since logged in
 		else if (remoteUser != null
 				&& userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-			return false;
+			result = false;
 		}
 		// user has changed user
 		else if (remoteUser != null && !remoteUser.equals(userSession.getUsername())) {
-			return false;
+			result = false;
 		}
         
-		return true;
+		return result;
 	}
 }

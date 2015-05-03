@@ -57,15 +57,17 @@ public class ForumOrderComparator implements Comparator<Forum>, Serializable
 
 	public final int compare(final Forum forum1, final Forum forum2)
 	{		
+		int result;
 		if (forum1.getOrder() > forum2.getOrder()) {
-			return 1;
+			result = 1;
 		}
 		else if (forum1.getOrder() < forum2.getOrder() ) {
-			return -1;
+			result = -1;
 		}
 		else {
-			return forum1.getName().compareTo(forum2.getName());
+			result = forum1.getName().compareTo(forum2.getName());
 		}
+		return result;
 	}
 }
 

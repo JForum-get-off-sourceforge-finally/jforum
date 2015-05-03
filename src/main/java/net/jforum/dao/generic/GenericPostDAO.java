@@ -46,12 +46,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
@@ -61,7 +59,6 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.repository.ForumRepository;
 import net.jforum.search.SearchFacade;
 import net.jforum.util.DbUtils;
-import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 /**

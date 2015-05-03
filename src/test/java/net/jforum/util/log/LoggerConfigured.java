@@ -46,8 +46,6 @@ package net.jforum.util.log;
 import java.io.File;
 import java.io.IOException;
 
-import net.jforum.util.log.LoggerHelper;
-
 import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -70,11 +68,11 @@ public class LoggerConfigured
 {
 
     @Test
-    public void test()
+    public void testConfig()
     {
-        String rootDir = getClass().getResource("/").getPath();
-        File goodConfig = new File( rootDir, "log4j.xml" );
-        File backupGood = new File( rootDir, "log4j.xml.bak" );
+    	final String rootDir = getClass().getResource("/").getPath();
+        final File goodConfig = new File( rootDir, "log4j.xml" );
+        final File backupGood = new File( rootDir, "log4j.xml.bak" );
 
         // TODO: we have to find a way for loading the LogManager class new on each test step.
         // This approach did not work:

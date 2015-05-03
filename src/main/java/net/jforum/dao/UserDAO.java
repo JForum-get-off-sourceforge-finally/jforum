@@ -244,10 +244,10 @@ public interface UserDAO
 	/**
 	 * whether the user is locked or not.
 	 *
-     * @param  user_id  int
+     * @param  userId  int
 	 * @return boolean
 	 */
-	boolean isDeleted(int user_id) ;
+	boolean isDeleted(int userId) ;
 	
 	/***
 	 * Checks the existence of some username.
@@ -325,7 +325,7 @@ public interface UserDAO
     *            the email address to search
     * @return the user instance if a match is found, or null otherwise
     */
-    public User findByEmail(String email);
+    User findByEmail(String email);
 
     /**
     * Returns the number of users who have the specified email address.<p>
@@ -341,7 +341,7 @@ public interface UserDAO
     * @param email the email address we will shortly be looking up.
     * @return the number of users who have that email address.
     */
-    public int getTotalUsersWithEmail(String email);
+    int getTotalUsersWithEmail(String email);
 
     /**
     * Finds all users with matching e-mails. Users migrated from UBB may have
@@ -352,7 +352,7 @@ public interface UserDAO
     * @param count the number of records we want to return
     * @return a List of User records matching that email address
     */
-    public List<User> findAllUsersByEmail(String email, int start, int count);
+    List<User> findAllUsersByEmail(String email, int start, int count);
 
     /**
      * Finds all users with matching ip address. SQL style wildcards allowed
@@ -363,7 +363,7 @@ public interface UserDAO
      * @param count the number of records we want to return
      * @return a list of users who have posted via that address.
      */
-    public List<User> findAllUsersByIp(String ip, int start, int count);
+    List<User> findAllUsersByIp(String ip, int start, int count);
 
     /**
      * Counts the number of users who have used the specified IP address.
@@ -371,7 +371,7 @@ public interface UserDAO
      * @param ip the IP address we want to look up.
      * @return the number of users who have used that IP address
      */
-    public int getTotalUsersByIp(String ip);
+    int getTotalUsersByIp(String ip);
 
 	/**
 	 * Validate if the activated key matches the one in the database

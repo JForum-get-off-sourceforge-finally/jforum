@@ -92,7 +92,7 @@ public final class ParseDBDumpFile
 			if (reader != null) {
 				try { 
 					reader.close(); 
-				} catch (Exception e) { 
+				} catch (IOException e) { 
 					LOGGER.error(e); 
 				}
 			}

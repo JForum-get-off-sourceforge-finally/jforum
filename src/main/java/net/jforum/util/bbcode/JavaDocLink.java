@@ -41,8 +41,8 @@
  */
 package net.jforum.util.bbcode;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Transform a UBB tag like [javadoc]javax.servlet.http.HttpServletRequest[/javadoc]
@@ -68,7 +68,7 @@ public class JavaDocLink implements Substitution {
 	private static Map<String, String> versionedUrls;
 
 	static {
-		versionedUrls = new HashMap<String, String>();
+		versionedUrls = new ConcurrentHashMap<String, String>();
 
 		// JSE; "1.5" and "5" are synonyms
 		versionedUrls.put(JSE_KEY+":1.3", "http://download.oracle.com/javase/1.3/docs/api/");
@@ -104,108 +104,108 @@ public class JavaDocLink implements Substitution {
 	}
 
     // Sun / java.net
-    private static String J2SE_URL = VERSIONED+":"+JSE_KEY;
-    private static String J2EE_URL = VERSIONED+":"+JEE_KEY;
-    private static String JME_URL = "http://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
+    private static final String J2SE_URL = VERSIONED+":"+JSE_KEY;
+    private static final String J2EE_URL = VERSIONED+":"+JEE_KEY;
+    private static final String JME_URL = "http://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
 	// JOGL 1.1.1a
-    // private static String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
+    // private static final String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
 	// JOGL 2.0
-    private static String JOGL_URL = "http://download.java.net/media/jogl/jogl-2.x-docs/";
-    private static String JAVA3D_URL = "http://download.java.net/media/java3d/javadoc/1.5.2/";
-    private static String JMF_URL = "http://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
-    private static String JAI_URL = "http://download.java.net/media/jai/javadoc/1.1.3/jai-apidocs/";
-    private static String JAVAHELP_URL = "http://www.coderanch.com/how-to/javadoc/javahelp-2.0_05/";
-    private static String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
-    private static String JAVAFX_URL = "http://docs.oracle.com/javafx/2/api/";
-    private static String COMMONDOM_URL = "http://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
-    private static String JERSEY1_URL = "https://jersey.java.net/apidocs/1.18/jersey/";
-    private static String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
-    private static String COM_SUN_MAIL_URL = "https://javamail.java.net/nonav/docs/api/";
-    private static String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
-    private static String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
-    private static String JAVAXJNLP_URL = "http://docs.oracle.com/javase/8/docs/jre/api/javaws/jnlp/";
+    private static final String JOGL_URL = "http://download.java.net/media/jogl/jogl-2.x-docs/";
+    private static final String JAVA3D_URL = "http://download.java.net/media/java3d/javadoc/1.5.2/";
+    private static final String JMF_URL = "http://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
+    private static final String JAI_URL = "http://download.java.net/media/jai/javadoc/1.1.3/jai-apidocs/";
+    private static final String JAVAHELP_URL = "http://www.coderanch.com/how-to/javadoc/javahelp-2.0_05/";
+    private static final String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
+    private static final String JAVAFX_URL = "http://docs.oracle.com/javafx/2/api/";
+    private static final String COMMONDOM_URL = "http://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
+    private static final String JERSEY1_URL = "https://jersey.java.net/apidocs/1.18/jersey/";
+    private static final String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
+    private static final String COM_SUN_MAIL_URL = "https://javamail.java.net/nonav/docs/api/";
+    private static final String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
+    private static final String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
+    private static final String JAVAXJNLP_URL = "http://docs.oracle.com/javase/8/docs/jre/api/javaws/jnlp/";
 
     // Apache
-    private static String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
-    private static String JASPER_URL = VERSIONED+":"+JASPER_KEY;
-    private static String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static String LUCENE_URL = "http://lucene.apache.org/core/5_1_0/core/";
-    private static String POI_URL = "http://poi.apache.org/apidocs/";
-    private static String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
-    private static String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
-    private static String STRUTS1_URL = "http://struts.apache.org/release/1.3.x/apidocs/";
-    private static String STRUTS2_URL = "http://struts.apache.org/release/2.3.x/struts2-core/apidocs/";
-    private static String XWORK_URL = "http://struts.apache.org/release/2.3.x/xwork-core/apidocs/";
-    private static String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
-    private static String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.6.0/reference/";
-    private static String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
-    private static String WSS4J_URL = "http://ws.apache.org/wss4j/apidocs/";
-    private static String SHIRO_URL = "http://shiro.apache.org/static/current/apidocs/";
+    private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
+    private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
+    private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/5_1_0/core/";
+    private static final String POI_URL = "http://poi.apache.org/apidocs/";
+    private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
+    private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
+    private static final String STRUTS1_URL = "http://struts.apache.org/release/1.3.x/apidocs/";
+    private static final String STRUTS2_URL = "http://struts.apache.org/release/2.3.x/struts2-core/apidocs/";
+    private static final String XWORK_URL = "http://struts.apache.org/release/2.3.x/xwork-core/apidocs/";
+    private static final String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
+    private static final String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.6.0/reference/";
+    private static final String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
+    private static final String WSS4J_URL = "http://ws.apache.org/wss4j/apidocs/";
+    private static final String SHIRO_URL = "http://shiro.apache.org/static/current/apidocs/";
 
     // Apache Commons
-    private static String ACP = "http://commons.apache.org/proper/commons";
-    private static String COLLECTIONS_URL = ACP + "-collections/javadocs/api-release/";
-    private static String CLI_URL = ACP + "-cli/javadocs/api-release/";
-    private static String VALIDATOR_URL = ACP + "-validator/apidocs/";
-    private static String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
-    private static String MATH_URL = ACP + "-math/javadocs/api-3.5/";
-    private static String JEXL_URL = ACP + "-jexl/apidocs/";
-    private static String JXPATH_URL = ACP + "-jxpath/apidocs/";
-    private static String IO_URL = ACP + "-io/javadocs/api-2.4/";
-    private static String FILEUPLOAD_URL = ACP + "-fileupload/apidocs/";
-    private static String DIGESTER_URL = ACP + "-digester/apidocs/";
-    private static String DBCP_URL = ACP + "-dbcp/apidocs/";
-    private static String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
-    private static String CODEC_URL = ACP + "-codec/javadocs/api-release/";
-    private static String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.2/apidocs/";
+    private static final String ACP = "http://commons.apache.org/proper/commons";
+    private static final String COLLECTIONS_URL = ACP + "-collections/javadocs/api-release/";
+    private static final String CLI_URL = ACP + "-cli/javadocs/api-release/";
+    private static final String VALIDATOR_URL = ACP + "-validator/apidocs/";
+    private static final String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
+    private static final String MATH_URL = ACP + "-math/javadocs/api-3.5/";
+    private static final String JEXL_URL = ACP + "-jexl/apidocs/";
+    private static final String JXPATH_URL = ACP + "-jxpath/apidocs/";
+    private static final String IO_URL = ACP + "-io/javadocs/api-2.4/";
+    private static final String FILEUPLOAD_URL = ACP + "-fileupload/apidocs/";
+    private static final String DIGESTER_URL = ACP + "-digester/apidocs/";
+    private static final String DBCP_URL = ACP + "-dbcp/apidocs/";
+    private static final String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
+    private static final String CODEC_URL = ACP + "-codec/javadocs/api-release/";
+    private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.2/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
 	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
-    private static String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
-    private static String NET_URL = ACP + "-net/javadocs/api-3.3/";
-    private static String LANG_URL = ACP + "-lang/javadocs/api-release/";
-    private static String LOGGING_URL = ACP + "-logging/javadocs/api-1.1.3/";
-    private static String COMPRESS_URL = ACP + "-compress/javadocs/api-1.9/";
-    private static String BETWIXT_URL = ACP + "-betwixt/apidocs/";
-    private static String POOL_URL = ACP + "-pool/api-2.3/";
+    private static final String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
+    private static final String NET_URL = ACP + "-net/javadocs/api-3.3/";
+    private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
+    private static final String LOGGING_URL = ACP + "-logging/javadocs/api-1.1.3/";
+    private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-1.9/";
+    private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
+    private static final String POOL_URL = ACP + "-pool/api-2.3/";
 
     // Other 3rd party
-    private static String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
-    private static String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
-    private static String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
-    private static String ITEXT_URL = "http://api.itextpdf.com/";
-    private static String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.9/javadocs/";
-    private static String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
-    private static String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
-    private static String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
-    private static String XOM_URL = "http://www.xom.nu/apidocs/";
-    private static String JCHART2D_URL = "http://jchart2d.sourceforge.net/docs/javadoc/";
-    private static String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
-    private static String STRIPES_URL = "http://stripes.sourceforge.net/docs/current/javadoc/";
-    private static String OPENCHART_URL = "http://www.coderanch.com/how-to/javadoc/openchart2-1.4.3/";
-    private static String QUICKTIME_URL = "http://www.coderanch.com/how-to/javadoc/qtjavadocs/";
-    private static String APPLEJAVA_URL = "http://www.coderanch.com/how-to/javadoc/appledoc/api/";
-    private static String ANDROID_URL = "http://developer.android.com/reference/";
-    private static String JEXCEL_URL = "http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/";
-    private static String MPXJ_URL = "http://mpxj.sourceforge.net/apidocs/";
-    private static String HTTPUNIT_URL = "http://httpunit.sourceforge.net/doc/api/";
-    private static String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
-    private static String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
-    private static String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
-    private static String JDOM1_URL = "http://www.jdom.org/docs/apidocs.1.1/";
-    private static String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
-    private static String SEAM_URL = "http://docs.jboss.org/seam/3/latest/api/";
-    private static String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
-    private static String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
-    private static String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
-    private static String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
-    private static String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
-    private static String OSGI_URL_CORE = "http://www.osgi.org/javadoc/r5/core/";
-    private static String OSGI_URL_ENTERPRISE = "http://www.osgi.org/javadoc/r5/enterprise/";
-    private static String GOOGLE_GUAVA_URL = "http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/";
-	private static String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
-	private static String FREEMARKER_URL = "http://freemarker.org/docs/api/";
+    private static final String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
+    private static final String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
+    private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
+    private static final String ITEXT_URL = "http://api.itextpdf.com/";
+    private static final String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.9/javadocs/";
+    private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
+    private static final String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
+    private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
+    private static final String XOM_URL = "http://www.xom.nu/apidocs/";
+    private static final String JCHART2D_URL = "http://jchart2d.sourceforge.net/docs/javadoc/";
+    private static final String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
+    private static final String STRIPES_URL = "http://stripes.sourceforge.net/docs/current/javadoc/";
+    private static final String OPENCHART_URL = "http://www.coderanch.com/how-to/javadoc/openchart2-1.4.3/";
+    private static final String QUICKTIME_URL = "http://www.coderanch.com/how-to/javadoc/qtjavadocs/";
+    private static final String APPLEJAVA_URL = "http://www.coderanch.com/how-to/javadoc/appledoc/api/";
+    private static final String ANDROID_URL = "http://developer.android.com/reference/";
+    private static final String JEXCEL_URL = "http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/";
+    private static final String MPXJ_URL = "http://mpxj.sourceforge.net/apidocs/";
+    private static final String HTTPUNIT_URL = "http://httpunit.sourceforge.net/doc/api/";
+    private static final String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
+    private static final String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
+    private static final String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
+    private static final String JDOM1_URL = "http://www.jdom.org/docs/apidocs.1.1/";
+    private static final String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
+    private static final String SEAM_URL = "http://docs.jboss.org/seam/3/latest/api/";
+    private static final String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
+    private static final String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
+    private static final String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
+    private static final String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
+    private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
+    private static final String OSGI_URL_CORE = "http://www.osgi.org/javadoc/r5/core/";
+    private static final String OSGI_URL_ENTERPRISE = "http://www.osgi.org/javadoc/r5/enterprise/";
+    private static final String GOOGLE_GUAVA_URL = "http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/";
+	private static final String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
+	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
-    private static String[][] urlMap = new String[][] {
+    private static final String[][] URL_MAP = new String[][] {
         {"javax.activation", J2EE_URL},
         {"javax.annotation.security", J2EE_URL}, // 6
         {"javax.annotation.sql", J2EE_URL}, // 6
@@ -400,11 +400,11 @@ public class JavaDocLink implements Substitution {
     };
 
 	private String lookup (String packageName, String apiVersion) {
-        for (int i=0; i<urlMap.length; i++) {
-            if (packageName.startsWith(urlMap[i][0])) {
-				String url = urlMap[i][1];
+        for (int i=0; i<URL_MAP.length; i++) {
+            if (packageName.startsWith(URL_MAP[i][0])) {
+				String url = URL_MAP[i][1];
 				if (url.startsWith(VERSIONED)) {
-					String versionKey = url.substring(url.indexOf(":")+1);
+					String versionKey = url.substring(url.indexOf(':')+1);
 					String finalUrl = versionedUrls.get(versionKey+":"+apiVersion);
 					if (finalUrl != null) {
 						return finalUrl;
@@ -424,7 +424,7 @@ public class JavaDocLink implements Substitution {
 		// remove any leading or trailing whitespace
 		clazzName = clazzName.trim();
 
-		int colonIndex = clazzName.indexOf(":");
+		int colonIndex = clazzName.indexOf(':');
 		String apiVersion = null;
 		if (colonIndex != -1) {
 			apiVersion = clazzName.substring(colonIndex+1);
@@ -458,7 +458,7 @@ public class JavaDocLink implements Substitution {
 				String part1 = replaceDots(clazzName.substring(0, hashIndex));
 				String part2 = clazzName.substring(hashIndex);
 				// parentheses can be left out if there are no parameters
-				if (part2.indexOf("(") < 0) {
+				if (part2.indexOf('(') < 0) {
 					clazzName += "()";
 					part2 += "()";
 				}

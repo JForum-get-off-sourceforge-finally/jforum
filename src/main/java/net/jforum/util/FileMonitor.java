@@ -43,11 +43,12 @@
 package net.jforum.util;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -64,7 +65,7 @@ public class FileMonitor
     private Map<String, FileMonitorTask> timerEntries;
 
     private FileMonitor() {
-        this.timerEntries = new HashMap<String, FileMonitorTask>();
+        this.timerEntries = new ConcurrentHashMap<String, FileMonitorTask>();
         this.timer = new Timer("Timer-FileMonitor", true);
     }
 
@@ -82,7 +83,9 @@ public class FileMonitor
     public void addFileChangeListener(FileChangeListener listener, String filename, long period) {
         this.removeFileChangeListener(filename);
 
-        LOGGER.info("Watching " + filename);
+        if (LOGGER.isEnabledFor(Level.INFO)) {
+        	LOGGER.info("Watching " + filename);
+        }
 
         FileMonitorTask task = new FileMonitorTask(listener, filename);
 

@@ -46,6 +46,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 
@@ -64,7 +65,9 @@ public final class Executor
 			poolExecutor.execute(runnable);
 		}
 		catch (Exception e) {
-			LOGGER.error("Exception while running task: " + e, e);
+			if (LOGGER.isEnabledFor(Level.ERROR)) {
+				LOGGER.error("Exception while running task: " + e, e);
+			}
 		}
 	}
 	

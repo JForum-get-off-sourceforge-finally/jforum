@@ -45,10 +45,10 @@ package net.jforum.view.forum;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.Command;
 import net.jforum.ControllerUtils;
@@ -69,8 +69,8 @@ import net.jforum.repository.RankingRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.security.StopForumSpam;
-import net.jforum.util.I18n;
 import net.jforum.util.Hash;
+import net.jforum.util.I18n;
 import net.jforum.util.concurrent.Executor;
 import net.jforum.util.mail.ActivationKeySpammer;
 import net.jforum.util.mail.EmailSenderTask;
@@ -101,8 +101,8 @@ public class UserAction extends Command
 	private static final String MESSAGE = "message";
 	private static final String EMAIL = "email";
 
-	private final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
-	private final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
+	private transient final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+	private transient  final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
 
 	private boolean canEdit()
 	{
@@ -520,7 +520,7 @@ public class UserAction extends Command
 				}
 
 				SessionFacade.add(userSession);
-				SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new HashMap<Integer, Long>());
+				SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new ConcurrentHashMap<Integer, Long>());
 				ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_DATA), 
 					Integer.toString(user.getId()));
 

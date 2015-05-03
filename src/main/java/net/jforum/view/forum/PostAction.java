@@ -46,14 +46,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -102,6 +100,7 @@ import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
 import org.apache.commons.lang3.StringUtils;
+
 import freemarker.template.SimpleHash;
 
 /**
@@ -197,7 +196,7 @@ public class PostAction extends Command
 		}
 
 		boolean karmaEnabled = SecurityRepository.canAccess(SecurityConstants.PERM_KARMA_ENABLED);
-		Map<Integer, Integer> userVotes = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> userVotes = new ConcurrentHashMap<Integer, Integer>();
 
 		if (logged && karmaEnabled) {
 			userVotes = DataAccessDriver.getInstance().newKarmaDAO().getUserVotes(topic.getId(), us.getUserId());
@@ -350,8 +349,8 @@ public class PostAction extends Command
 		int totalMessages = pm.countUserPosts(user.getId());
 
 		// get list of forums
-		Map<Integer, Topic> topics = new HashMap<Integer, Topic>();
-		Map<Integer, Forum> forums = new HashMap<Integer, Forum>();
+		Map<Integer, Topic> topics = new ConcurrentHashMap<Integer, Topic>();
+		Map<Integer, Forum> forums = new ConcurrentHashMap<Integer, Forum>();
 
 		for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
 			Post post = iter.next();
@@ -502,21 +501,14 @@ public class PostAction extends Command
 			this.context.put("setType", true);
 			this.context.put("pageTitle", I18n.getMessage("PostForm.title"));
 		}
-
-		Forum forum = ForumRepository.getForum(forumId);
-
-		if (forum == null) {
-			throw new ForumException("Could not find a forum with id #" + forumId);
-		}
-
-		if (!TopicsCommon.isTopicAccessible(forumId)) {
-			return;
-		}
-
+		
 		if (!this.anonymousPost(forumId)
-				|| this.isForumReadonly(forumId, this.request.getParameter("topic_id") != null)) {
+				|| this.isForumReadonly(forumId, this.request.getParameter("topic_id") != null) 
+				|| !TopicsCommon.isTopicAccessible(forumId)) {
 			return;
 		}
+		
+		Forum forum = ForumRepository.getForum(forumId);
 
 		int userId = SessionFacade.getUserSession().getUserId();
 
@@ -778,7 +770,7 @@ public class PostAction extends Command
 		post = PostCommon.fillPostFromRequest(post, true);
 		// check for subject or body containing spam
 		String error = validatePost(post);
-        if ((error != null) && ! isModerator) {
+        if (error != null && ! isModerator) {
             this.context.put("post", post);
             this.context.put("errorMessage", error);
             this.edit(false, post);
@@ -827,7 +819,7 @@ public class PostAction extends Command
 
 			// If the corresponding setting is turned on, don't allow editing of posts after replies are available
 			// ... unless the user is a moderator, of course
-			if ((topic.getLastPostId() > post.getId())
+			if (topic.getLastPostId() > post.getId()
 				&& ! SystemGlobals.getBoolValue(ConfigKeys.POSTS_EDIT_AFTER_REPLY)
 				&& ! SessionFacade.getUserSession().isModerator(post.getForumId()))
 			{
@@ -988,7 +980,7 @@ public class PostAction extends Command
 		int forumId = this.request.getIntParameter("forum_id");
 		boolean firstPost = false;
 
-		boolean newTopic = (this.request.getParameter("topic_id") == null);
+		boolean newTopic = this.request.getParameter("topic_id") == null;
 
 		if (!this.anonymousPost(forumId) || !TopicsCommon.isTopicAccessible(forumId)
 				|| this.isForumReadonly(forumId, newTopic)) {
@@ -1060,7 +1052,7 @@ public class PostAction extends Command
 
 		// check for subject or body containing spam
 		String error = validatePost(post);
-        if ((error != null) && ! isModerator) {
+        if (error != null && ! isModerator) {
             this.context.put("post", post);
             this.context.put("errorMessage", error);
             this.insert();
@@ -1073,7 +1065,7 @@ public class PostAction extends Command
 		if (delay > 0) {
 			Long lastPostTime = (Long)SessionFacade.getAttribute(ConfigKeys.LAST_POST_TIME);
 
-			if ((lastPostTime != null) && (System.currentTimeMillis() < (lastPostTime.longValue() + delay))) {
+			if (lastPostTime != null && (System.currentTimeMillis() < (lastPostTime.longValue() + delay))) {
 				this.context.put("post", post);
 				this.context.put("start", this.request.getParameter("start"));
 				this.context.put("error", I18n.getMessage("PostForm.tooSoon"));
@@ -1122,9 +1114,9 @@ public class PostAction extends Command
 			PermissionControl pc = SecurityRepository.get(us.getUserId());
 
 			// Moderators and admins don't need to have their messages moderated
-			boolean moderate = (forum.isModerated() 
+			boolean moderate = forum.isModerated() 
 				&& !pc.canAccess(SecurityConstants.PERM_MODERATION)
-				&& !pc.canAccess(SecurityConstants.PERM_ADMINISTRATION));
+				&& !pc.canAccess(SecurityConstants.PERM_ADMINISTRATION);
 
 			if (newTopic) {
 				topic.setTime(new Date());
@@ -1264,7 +1256,7 @@ public class PostAction extends Command
 
 		int newStart = (topic.getTotalReplies() + 1) / postsPerPage * postsPerPage;
 
-		return (newStart > currentStart) ? newStart : currentStart;
+		return newStart > currentStart ? newStart : currentStart;
 	}
 
 	public void delete()

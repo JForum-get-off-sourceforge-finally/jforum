@@ -131,7 +131,7 @@ public class MessageId
 				try {
 					messageId.topicId = Integer.parseInt(str);
 				}
-				catch (Exception e) { 
+				catch (NumberFormatException e) { 
 					LOGGER.error(e); 
 				}
 			}

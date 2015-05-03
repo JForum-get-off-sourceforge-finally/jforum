@@ -16,7 +16,7 @@ public class SpamRepository {
 
 	public static void load() {
 		try {
-		    SpamDAO spamDao = DataAccessDriver.getInstance().newSpamDAO();
+		    final SpamDAO spamDao = DataAccessDriver.getInstance().newSpamDAO();
             cache =  spamDao.selectAll();
 		} catch (Exception e) {
 			throw new RuntimeException("Error loading spam patterns: ", e);
@@ -27,9 +27,9 @@ public class SpamRepository {
 		return (cache != null ? cache.size() : 0);
 	}
 
-	public static String findSpam (String text) {
+	public static String findSpam (final String text) {
 		if (text != null) {
-			for (String pattern : cache) {
+			for (final String pattern : cache) {
 				//LOGGER.info("checking text.size="+text.length()+" for "+pattern);
 				if (text.matches("(?si).*" + pattern + ".*")) {
 					// gather some stats about how pervasive spamming actually is

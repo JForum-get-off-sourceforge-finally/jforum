@@ -11,18 +11,24 @@ import javax.mail.Message;
  */
 public class POPConnectorMock extends POPConnector
 {
-	private Message[] messages;
+	private transient Message[] messages;
 	
-	public void setMessages(Message[] messages)
+	public void setMessages(final Message[] messages)
 	{
-		this.messages = messages;
+		this.messages = messages.clone();
 	}
 	
 	public Message[] listMessages()
 	{
-		return this.messages;
+		//  return a copy of the array
+		return this.messages.clone();
 	}
 	
-	public void openConnection() {}
-	public void closeConnection() {}
+	public void openConnection() {
+		// empty
+	}
+	
+	public void closeConnection() {
+		// empty
+	}
 } 

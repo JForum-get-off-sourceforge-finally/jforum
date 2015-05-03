@@ -61,7 +61,7 @@ public class POPListener implements Job
 {
 	private static final Logger LOGGER = Logger.getLogger(POPListener.class);
 	private static boolean working = false;
-	protected POPConnector connector = new POPConnector();
+	protected transient POPConnector connector = new POPConnector();
 	
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
@@ -69,7 +69,9 @@ public class POPListener implements Job
 	public void execute(final JobExecutionContext jobContext) throws JobExecutionException
 	{
 		if (working) {
-			LOGGER.debug("Already working. Leaving for now.");
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Already working. Leaving for now.");
+			}
 		} else {	
 			try {
 				working = true;
@@ -83,7 +85,9 @@ public class POPListener implements Job
 					connector.setMailIntegration(integration);
 					
 					try {
-						LOGGER.debug("Going to check " + integration);
+						if (LOGGER.isDebugEnabled()) {
+							LOGGER.debug("Going to check " + integration);
+						}
 						
 						connector.openConnection();
 						parser.parseMessages(connector);

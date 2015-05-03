@@ -46,15 +46,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -921,7 +919,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				String sql = SystemGlobals.getSql("TopicModel.getUserInformation");
 				sql = sql.replaceAll("#ID#", sbFirst.toString() + sbLast.toString());
 
-				Map<Integer, String> users = new HashMap<Integer, String>();
+				Map<Integer, String> users = new ConcurrentHashMap<Integer, String>();
 
 				pstmt2 = JForumExecutionContext.getConnection().prepareStatement(sql);
 				rs = pstmt2.executeQuery();
@@ -1103,7 +1101,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Map<String, Object> m = new HashMap<String, Object>();
+				Map<String, Object> m = new ConcurrentHashMap<String, Object>();
 				m.put("id", Integer.valueOf(rs.getInt("topic_id")));
 				m.put("title", rs.getString("topic_title"));
 
@@ -1124,7 +1122,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	public Map<Integer, User> topicPosters(int topicId)
 	{
-		Map<Integer, User> m = new HashMap<Integer, User>();
+		Map<Integer, User> m = new ConcurrentHashMap<Integer, User>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1195,17 +1193,17 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
     * Returns all topics that are watched by a given user.
     * @param userId The user id
     */
-    public List<Map<String, Object>> selectWatchesByUser(int userID) {
+    public List<Map<String, Object>> selectWatchesByUser(int userId) {
         List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
         PreparedStatement p = null;
         ResultSet rs = null;
         try {
             p = JForumExecutionContext.getConnection().prepareStatement(
                     SystemGlobals.getSql("TopicModel.selectWatchesByUser"));
-            p.setInt(1, userID);
+            p.setInt(1, userId);
             rs = p.executeQuery();
             while (rs.next()) {
-            	Map<String, Object> m = new HashMap<String, Object>();
+            	Map<String, Object> m = new ConcurrentHashMap<String, Object>();
                 m.put("id", Integer.valueOf(rs.getInt("topic_id")));
                 m.put("title", SafeHtml.escapeUnsafe(rs.getString("topic_title")));
                 m.put("forumName", rs.getString("forum_name"));

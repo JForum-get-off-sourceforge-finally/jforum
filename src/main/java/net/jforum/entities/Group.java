@@ -150,7 +150,7 @@ public class Group implements Serializable
 			return false;
 		}
 		
-		return (((Group)obj).getId() == this.id);
+		return ((Group)obj).getId() == this.id;
 	}
 
 	/* 

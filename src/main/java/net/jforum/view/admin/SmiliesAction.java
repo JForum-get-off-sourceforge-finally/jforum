@@ -44,6 +44,7 @@ package net.jforum.view.admin;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+
 import javax.imageio.ImageIO;
 
 import net.jforum.dao.DataAccessDriver;

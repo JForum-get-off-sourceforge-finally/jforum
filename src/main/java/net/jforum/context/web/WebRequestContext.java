@@ -105,8 +105,8 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		final boolean isPost = "POST".equals(requestType);
 		final boolean isGet = !isPost;		
 
-		final boolean isQueryStringEmpty = (superRequest.getQueryString() == null 
-			|| superRequest.getQueryString().length() == 0);
+		final boolean isQueryStringEmpty = superRequest.getQueryString() == null 
+			|| superRequest.getQueryString().length() == 0;
 		
 		if (isGet && isQueryStringEmpty && requestUri.endsWith(servletExtension)) {
 			superRequest.setCharacterEncoding(encoding);

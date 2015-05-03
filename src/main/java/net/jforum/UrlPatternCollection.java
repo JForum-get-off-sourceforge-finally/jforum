@@ -41,8 +41,8 @@
  */
 package net.jforum;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Keeps a collection of <code>UrlPattern</code> objects.
@@ -52,7 +52,7 @@ import java.util.Map;
  */
 public final class UrlPatternCollection
 {
-    private static Map<String, UrlPattern> patternsMap = new HashMap<String, UrlPattern>();
+    private static Map<String, UrlPattern> patternsMap = new ConcurrentHashMap<String, UrlPattern>();
 
     /**
      * Try to find a <code>UrlPattern</code> by its name.

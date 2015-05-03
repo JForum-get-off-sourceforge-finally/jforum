@@ -132,7 +132,7 @@ public class LuceneIndexer
 			}
 
 			this.ramDirectory = new RAMDirectory();
-			final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+			final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 			this.ramWriter = new IndexWriter(this.ramDirectory, conf);
 			this.ramNumDocs = SystemGlobals.getIntValue(ConfigKeys.LUCENE_INDEXER_RAM_NUMDOCS);
 		}
@@ -154,7 +154,7 @@ public class LuceneIndexer
 			IndexWriter writer = null;
 
 			try {
-				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 				this.ramWriter.commit();
 				this.ramWriter.close();
@@ -188,7 +188,7 @@ public class LuceneIndexer
 			IndexWriter writer = null;
 
 			try {
-				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 
 				final Document document = this.createDocument(post);
@@ -308,7 +308,7 @@ public class LuceneIndexer
 			boolean status = false;
 
 			try {
-				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.version, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 				writer.deleteDocuments(new Term(SearchFields.Keyword.POST_ID, String.valueOf(post.getId())));
 				status = true;

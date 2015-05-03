@@ -45,8 +45,8 @@ package net.jforum.context.standard;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.Cookie;
 
@@ -60,12 +60,12 @@ import net.jforum.context.SessionContext;
  */
 public class StandardRequestContext implements RequestContext
 {
-	private transient final Hashtable<String, Object> data;
+	private transient final ConcurrentHashMap<String, Object> data;
 	private transient final SessionContext sessionContext;
 	
 	public StandardRequestContext()
 	{
-		this.data = new Hashtable<String, Object>();
+		this.data = new ConcurrentHashMap<String, Object>();
 		this.sessionContext = new StandardSessionContext();
 	}
 	

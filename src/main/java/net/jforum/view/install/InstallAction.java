@@ -78,14 +78,15 @@ import net.jforum.entities.UserSession;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.DbUtils;
-import net.jforum.util.I18n;
 import net.jforum.util.Hash;
+import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import freemarker.template.SimpleHash;
@@ -138,7 +139,9 @@ public class InstallAction extends Command
                 }
             }
         }
-        LOGGER.info("lang="+lang);
+        if (LOGGER.isEnabledFor(Level.INFO)) {
+        	LOGGER.info("lang="+lang);
+        }
         if (lang != null) {
 	        I18n.load(lang);
 
@@ -217,7 +220,9 @@ public class InstallAction extends Command
             // Set user.hash.sequence before calling updateAdminPassword()
             SystemGlobals.setValue(ConfigKeys.USER_HASH_SEQUENCE, Hash.md5(this.getFromSession("dbPassword")
                     + System.currentTimeMillis()));
-            LOGGER.info("Generated user.hash.sequence = " + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE));
+            if (LOGGER.isEnabledFor(Level.INFO)) {
+            	LOGGER.info("Generated user.hash.sequence = " + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE));
+            }
             
             if (!this.updateAdminPassword(conn)) {
                 this.context.put("message", I18n.getMessage("Install.updateAdminError"));
@@ -316,7 +321,9 @@ public class InstallAction extends Command
             }
         }
         catch (Exception e) {
-            LOGGER.warn("Error while working on modulesMapping.properties: " + e);
+        	 if (LOGGER.isEnabledFor(Level.WARN)) {
+        		 LOGGER.warn("Error while working on modulesMapping.properties: " + e);
+        	 }
         }
         finally {
             if (fis != null) {
@@ -383,7 +390,9 @@ public class InstallAction extends Command
                 catch (SQLException ex) {
                     status = false;
                     conn.rollback();
-                    LOGGER.error("Error importing data for " + query + ": " + ex, ex);
+                    if (LOGGER.isEnabledFor(Level.ERROR)) {
+                    	LOGGER.error("Error importing data for " + query + ": " + ex, ex);
+                    }
                     this.context.put("exceptionMessage", ex.getMessage() + "\n" + query);
                     break;
                 }
@@ -446,7 +455,9 @@ public class InstallAction extends Command
                 catch (SQLException ex) {
                     status = false;
 
-                    LOGGER.error("Error executing query: " + query + ": " + ex, ex);
+                    if (LOGGER.isEnabledFor(Level.ERROR)) {
+                    	LOGGER.error("Error executing query: " + query + ": " + ex, ex);
+                    }
                     this.context.put("exceptionMessage", ex.getMessage() + "\n" + query);
 
                     break;
@@ -489,7 +500,9 @@ public class InstallAction extends Command
                     stmt.close();
                 }
                 catch (SQLException e) {
-                    LOGGER.warn("IGNORE: " + e.toString());
+                	if (LOGGER.isEnabledFor(Level.WARN)) {
+                		LOGGER.warn("IGNORE: " + e.toString());
+                	}
                 }
             }
             conn.setAutoCommit(autoCommit);
@@ -612,7 +625,9 @@ public class InstallAction extends Command
             properties.store(fos, null);
         }
         catch (Exception e) {
-            LOGGER.warn("Error while trying to write to " + type + ".properties: " + e);
+        	if (LOGGER.isEnabledFor(Level.WARN)) {
+        		LOGGER.warn("Error while trying to write to " + type + ".properties: " + e);
+        	}
         }
         finally {
             if (fos != null) {
@@ -635,7 +650,9 @@ public class InstallAction extends Command
 
             SystemGlobals.setValue(key, value);
 
-            LOGGER.info("Updating key " + key + " with value " + value);
+            if (LOGGER.isEnabledFor(Level.INFO)) {
+            	LOGGER.info("Updating key " + key + " with value " + value);
+            }
         }
 	}
 
@@ -704,7 +721,9 @@ public class InstallAction extends Command
             conn = source.getConnection();
         }
         catch (Exception e) {
-            LOGGER.warn("Error while trying to get a connection: " + e);
+        	if (LOGGER.isEnabledFor(Level.WARN)) {
+        		LOGGER.warn("Error while trying to get a connection: " + e);
+        	}
             this.context.put("exceptionMessage", e.getMessage());
         }
 
@@ -726,7 +745,9 @@ public class InstallAction extends Command
             status = true;
         }
         catch (Exception e) {
-            LOGGER.warn("Error while trying to update the administrator's password: " + e);
+        	if (LOGGER.isEnabledFor(Level.WARN)) {
+        		LOGGER.warn("Error while trying to update the administrator's password: " + e);
+        	}
             this.context.put("exceptionMessage", e.getMessage());
         }
         finally {

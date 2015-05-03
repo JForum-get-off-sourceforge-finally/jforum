@@ -60,6 +60,7 @@ public class LostPasswordSpammer extends Spammer
 {
 	public LostPasswordSpammer(final User user, final String mailTitle) 
 	{
+		super();
 		final String forumLink = ViewCommon.getForumLink();
 
 		final String url = new StringBuilder()

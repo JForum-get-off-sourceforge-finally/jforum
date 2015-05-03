@@ -54,6 +54,9 @@ import net.jforum.entities.UserSession;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -66,6 +69,7 @@ public class I18nTest extends TestCase
 	/**
 	 * @see TestCase#setUp()
 	 */
+	@Before
 	protected void setUp() throws Exception
 	{
 		TestCaseUtils.loadEnvironment();
@@ -91,11 +95,13 @@ public class I18nTest extends TestCase
 		I18n.load();
 	}
 	
+	@Test
 	public void testLoad() throws Exception
 	{
 		assertTrue(I18n.contains("default"));
 	}
 	
+	@Test
 	public void testDefaultKeys()
 	{
 		assertEquals("default value 1", I18n.getMessage("defaultKey1", this.us));
@@ -105,12 +111,14 @@ public class I18nTest extends TestCase
 		assertEquals("default value 5", I18n.getMessage("defaultKey5", this.us));
 	}
 	
+	@Test
 	public void testLoadCheese() throws Exception
 	{
 		I18n.load("cheese");
 		assertTrue(I18n.contains("cheese"));
 	}
 	
+	@Test
 	public void testCheeseKeys()
 	{
 		this.us.setLang("cheese");
@@ -121,12 +129,14 @@ public class I18nTest extends TestCase
 		assertEquals("default value 5", I18n.getMessage("defaultKey5", this.us));
 	}
 	
+	@Test
 	public void testLoadOrange() throws Exception
 	{
 		I18n.load("orange");
 		assertTrue(I18n.contains("orange"));
 	}
 	
+	@Test
 	public void testOrangeKeys()
 	{
 		this.us.setLang("orange");
@@ -138,6 +148,7 @@ public class I18nTest extends TestCase
 		assertEquals("orange is not cheese", I18n.getMessage("orange", this.us));
 	}
 	
+	@Test
 	public void testGetMessageWithLocale()
 	{
 		assertEquals("default value 1", I18n.getMessage("default", "defaultKey1"));
@@ -146,6 +157,7 @@ public class I18nTest extends TestCase
 		assertNull(I18n.getMessage("default", "orange"));
 	}
 	
+	@Test
 	public void testRest()
 	{
 		I18n.reset();
@@ -154,6 +166,7 @@ public class I18nTest extends TestCase
 		assertFalse(I18n.contains("cheese"));
 	}
 	
+	@Test
 	public void testMergeCheeseOrange() throws Exception
 	{
 		this.testRest();
@@ -164,6 +177,7 @@ public class I18nTest extends TestCase
 		assertEquals("orange is not cheese", I18n.getMessage("cheese", "orange"));
 	}
 	
+	@Test
 	public void testOrangeIsDefault() throws Exception
 	{
 		this.testRest();

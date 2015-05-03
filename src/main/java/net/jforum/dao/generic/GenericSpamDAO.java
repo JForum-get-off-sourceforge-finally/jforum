@@ -1,15 +1,17 @@
 package net.jforum.dao.generic;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.jforum.*;
-import net.jforum.dao.*;
-import net.jforum.exceptions.*;
+import net.jforum.JForumExecutionContext;
+import net.jforum.dao.SpamDAO;
+import net.jforum.exceptions.DatabaseException;
 import net.jforum.repository.SpamRepository;
-import net.jforum.util.*;
-import net.jforum.util.preferences.*;
+import net.jforum.util.DbUtils;
+import net.jforum.util.preferences.SystemGlobals;
 
 public class GenericSpamDAO implements SpamDAO {
 

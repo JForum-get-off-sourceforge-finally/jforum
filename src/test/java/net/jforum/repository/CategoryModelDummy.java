@@ -56,7 +56,7 @@ class CategoryModelDummy implements CategoryDAO
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#selectById(int)
 	 */
-	public Category selectById(int categoryId) {
+	public Category selectById(final int categoryId) {
 		return null;
 	}
 
@@ -70,39 +70,43 @@ class CategoryModelDummy implements CategoryDAO
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#canDelete(int)
 	 */
-	public boolean canDelete(int categoryId) {
+	public boolean canDelete(final int categoryId) {
 		return false;
 	}
 
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#delete(int)
 	 */
-	public void delete(int categoryId) {
+	public void delete(final int categoryId) {
+		// empty
 	}
 
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#update(net.jforum.entities.Category)
 	 */
-	public void update(Category category) {
-	}
+	public void update(final Category category) {
+		// empty
+	}	
 
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#addNew(net.jforum.entities.Category)
 	 */
-	public int addNew(Category category) {
+	public int addNew(final Category category) {
 		return 0;
 	}
 	
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#setOrderDown(net.jforum.entities.Category, net.jforum.entities.Category)
 	 */
-	public void setOrderDown(Category c, Category c2) {
+	public void setOrderDown(final Category c, final Category c2) {
+		// empty
 	}
 	
 	/** 
 	 * @see net.jforum.dao.CategoryDAO#setOrderUp(net.jforum.entities.Category, net.jforum.entities.Category) 
 	 */
-	public void setOrderUp(Category c, Category c2) {
+	public void setOrderUp(final Category c, final Category c2) {
+		// empty
 	}
 	
 }

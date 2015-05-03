@@ -283,7 +283,7 @@ public class TopicsCommon
 	/**
 	 * Updates the board status after a new post is inserted.
 	 * This method is used in conjunct with moderation manipulation. 
-	 * It will increase by 1 the number of replies of the tpoic, set the
+	 * It will increase by 1 the number of replies of the topic, set the
 	 * last post id for the topic and the forum and refresh the cache. 
 	 * 
 	 * @param topic Topic The topic to update

@@ -157,7 +157,7 @@ public class LuceneSearch implements NewDocumentAdded
 			if (criteria.length() == 0) {
 				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
 			} else {
-				Query query = new QueryParser(LuceneSettings.version, SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
+				Query query = new QueryParser(LuceneSettings.VERSION, SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
 				
 				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
 				TopFieldDocs tfd = searcher.search(query, filter, limit, getSorter(args));
@@ -223,7 +223,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private void filterByUser (SearchArgs args, StringBuilder criteria, int userID) {
+	private void filterByUser (SearchArgs args, StringBuilder criteria, int userId) {
 		int[] userIds = args.getUserIds();
 
 		// if searching by user id (as opposed to solely by keyword)
@@ -246,8 +246,8 @@ public class LuceneSearch implements NewDocumentAdded
 					criteria.append("+(")
 							.append(SearchFields.Keyword.TOPIC_STARTER_ID)
 							.append(':')
-							.append(userID<0 ? "\\" : "")
-							.append(userID)
+							.append(userId<0 ? "\\" : "")
+							.append(userId)
 							.append(')');
 				}
 			}*/

@@ -60,7 +60,7 @@ public class SortedProperties extends Properties
 	 */
 	public synchronized Enumeration<Object> keys() {
         Vector<String> v = new Vector<String>();
-        for (Object o : keySet()) {
+        for (final Object o : keySet()) {
             v.add(o.toString());
         }
         Collections.sort(v);

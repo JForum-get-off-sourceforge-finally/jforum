@@ -48,9 +48,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.entities.Attachment;
@@ -246,7 +246,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	 */
 	public Map<Integer, Integer> selectGroupsQuotaLimits()
 	{
-		final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		final Map<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
@@ -358,7 +358,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	 */
 	public Map<String, Boolean> extensionsForSecurity()
 	{
-		final Map<String, Boolean> map = new HashMap<String, Boolean>();
+		final Map<String, Boolean> map = new ConcurrentHashMap<String, Boolean>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

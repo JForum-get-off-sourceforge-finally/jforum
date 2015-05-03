@@ -43,8 +43,8 @@
 package net.jforum.api.integration.mail.pop;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -60,6 +60,7 @@ import net.jforum.entities.UserSession;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.view.forum.PostAction;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -83,7 +84,7 @@ public class POPPostAction
 
 			JForumExecutionContext.set(executionContext);
 
-			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new HashMap<Integer, Long>());
+			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new ConcurrentHashMap<Integer, Long>());
 
 			for (final Iterator<POPMessage> iter = parser.getMessages().iterator(); iter.hasNext(); ) {
 				final POPMessage message = (POPMessage)iter.next();
@@ -94,7 +95,9 @@ public class POPPostAction
 				final User user = this.findUser(message.getSender());
 
 				if (user == null) {
-					LOGGER.warn("Could not find user with email " + message.getSender() + ". Ignoring his message.");
+					if (LOGGER.isEnabledFor(Level.WARN)) {
+						LOGGER.warn("Could not find user with email " + message.getSender() + ". Ignoring his message.");
+					}
 					continue;
 				}
 

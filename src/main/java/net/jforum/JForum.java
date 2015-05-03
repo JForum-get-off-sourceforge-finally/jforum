@@ -398,12 +398,16 @@ public class JForum extends JForumBaseServlet
         closeFileMonitor();
 
         // invalidate all sessions to force SessionFacade.storeSessionData()		
-        LOGGER.debug("Current sessions: " + SessionFacade.size());
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug("Current sessions: " + SessionFacade.size());
+        }
         final List<UserSession> sessions = SessionFacade.getAllSessions();
         for (UserSession userSession: sessions) {
             final HttpSession session = (HttpSession)getServletContext().getAttribute(userSession.getSessionId());
             session.invalidate();
-            LOGGER.debug("Current sessions: " + SessionFacade.size());
+            if (LOGGER.isDebugEnabled()) {
+            	LOGGER.debug("Current sessions: " + SessionFacade.size());
+            }
         }
 
         // stop database and release all connections

@@ -45,11 +45,11 @@ package net.jforum.repository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
@@ -238,7 +238,7 @@ public class TopicRepository implements Cacheable {
 				Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 				if (m == null) {
-					m = new HashMap<Integer, Integer>();
+					m = new ConcurrentHashMap<Integer, Integer>();
 				}
 
 				Integer fId = Integer.valueOf(forumId);
@@ -308,7 +308,7 @@ public class TopicRepository implements Cacheable {
 			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 			if (m == null) {
-				m = new HashMap<Integer, Integer>();
+				m = new ConcurrentHashMap<Integer, Integer>();
 			}
 
 			m.put(Integer.valueOf(topic.getId()), Integer.valueOf(forumId));

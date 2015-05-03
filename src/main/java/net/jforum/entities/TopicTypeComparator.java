@@ -55,14 +55,18 @@ public class TopicTypeComparator implements Comparator<Topic>, Serializable
 
 	public int compare(final Topic topic1, final Topic topic2)
 	{
+		int result;
 		if (topic1.getType() < topic2.getType()) {
-			return 1;
+			result = 1;
 		}
 		else if (topic1.getType() == topic2.getType()) {
-			return topic2.getLastPostDate().compareTo(topic1.getLastPostDate());
+			result = topic2.getLastPostDate().compareTo(topic1.getLastPostDate());
+		} 
+		else {
+			result = -1;
 		}
 		
-		return -1;
+		return result;
 	}
 
 }

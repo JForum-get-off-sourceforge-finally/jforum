@@ -87,7 +87,7 @@ public class PermissionItem
 	 * @param type Tipo da permissao. <code>SINGLE</code> ou <code>MULTIPLE</code>
 	 * @param data ArrayList com itens do campo ( contendo objetos do tipo <code>FormSelectedData</code>
 	 * */
-	public PermissionItem(String name, String id, String type, List<FormSelectedData> data)
+	public PermissionItem(final String name, final String id, final String type, final List<FormSelectedData> data)
 	{
 		this.name = name;
 		this.id = id;

@@ -110,7 +110,7 @@ public class AutoKeys
 		return this.executeAutoKeysQuery(pstmt, JForumExecutionContext.getConnection());
 	}
 
-	protected int executeAutoKeysQuery(PreparedStatement pstmt, final Connection conn) throws SQLException
+	protected int executeAutoKeysQuery(final PreparedStatement pstmt, final Connection conn) throws SQLException
 	{
 		int id = -1;
 		pstmt.executeUpdate();

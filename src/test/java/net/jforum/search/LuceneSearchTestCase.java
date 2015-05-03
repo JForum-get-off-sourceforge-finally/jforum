@@ -56,6 +56,8 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Rafael Steil
@@ -69,6 +71,7 @@ public class LuceneSearchTestCase extends TestCase
     private LuceneSettings settings;
     private LuceneIndexer indexer;
 
+    @Test
     public void testFivePostsInTwoForumsSearchOneForumAndTwoValidTermsAndOneInvalidTermExpectThreeResults()
     {
         List<Post> l = this.createThreePosts();
@@ -104,6 +107,7 @@ public class LuceneSearchTestCase extends TestCase
         assertEquals(3, results.size());
     }
 
+    @Test
     public void testORExpressionUsingThreePostsSearchTwoTermsExpectThreeResults()
     {
         List<Post> l = this.createThreePosts();
@@ -144,6 +148,7 @@ public class LuceneSearchTestCase extends TestCase
         return l;
     }
 
+    @Test
     public void testANDExpressionUsingTwoPostsWithOneCommonWordSearchTwoTermsExpectOneResult()
     {
         // 1
@@ -166,6 +171,7 @@ public class LuceneSearchTestCase extends TestCase
         assertEquals(1, results.size());
     }
 
+    @Test
     public void testThreePostsSearchContentsExpectOneResult()
     {
         // 1
@@ -192,6 +198,7 @@ public class LuceneSearchTestCase extends TestCase
         assertEquals(1, results.size());
     }
 
+    @Test
     public void testTwoDifferentForumsSearchOneExpectOneResult()
     {
         Post post1 = this.newPost();
@@ -223,6 +230,7 @@ public class LuceneSearchTestCase extends TestCase
     }
 
     @Override
+    @Before
     protected void setUp() throws Exception
     {
         Logger logger = Logger.getLogger( this.getClass() );
@@ -233,7 +241,7 @@ public class LuceneSearchTestCase extends TestCase
         }
         TestCaseUtils.loadEnvironment();
 
-        this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.version));
+        this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.VERSION));
 
         this.settings.useRAMDirectory();
 

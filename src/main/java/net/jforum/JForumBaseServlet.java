@@ -57,6 +57,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import freemarker.cache.FileTemplateLoader;
@@ -81,16 +82,18 @@ public class JForumBaseServlet extends HttpServlet
 
 		try {
 			debug = "true".equals(config.getInitParameter("development"));
-			LOGGER.info("Starting JForum. Debug mode is " + debug);
+			if (LOGGER.isEnabledFor(Level.INFO)) {
+				LOGGER.info("Starting JForum. Debug mode is " + debug);
+			}
 
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
 			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_21);
-			if (!this.debug) {
-				templateCfg.setTemplateUpdateDelay(3600);
-			} else {
+			if (this.debug) {
 				templateCfg.setTemplateUpdateDelay(2);
+			} else {
+				templateCfg.setTemplateUpdateDelay(3600);
 			}
 			templateCfg.setSetting("number_format", "#");
 			templateCfg.setSharedVariable("startupTime", Long.valueOf(System.currentTimeMillis()));

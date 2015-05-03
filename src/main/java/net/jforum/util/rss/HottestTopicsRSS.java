@@ -57,6 +57,7 @@ public class HottestTopicsRSS extends TopicRSS
 {
 	public HottestTopicsRSS(final String title, final String description, final List<Post> posts)
 	{		
+		super();
 		super.posts = posts;
 		this.forumLink = ViewCommon.getForumLink();
 		

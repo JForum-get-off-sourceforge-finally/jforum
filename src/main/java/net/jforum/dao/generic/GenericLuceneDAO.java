@@ -46,7 +46,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.LuceneDAO;
@@ -189,7 +193,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	 * @return
 	 */
 	private List<Post> resortByPostId (int[] postIds, List<Post> posts) {
-		Map<Integer, Post> postsById = new HashMap<Integer, Post>(postIds.length);
+		Map<Integer, Post> postsById = new ConcurrentHashMap<Integer, Post>(postIds.length);
 		for (Post post : posts) {
 			postsById.put(post.getId(), post);
 		}

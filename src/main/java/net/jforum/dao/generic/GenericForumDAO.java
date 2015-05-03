@@ -48,13 +48,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -980,16 +978,16 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
     * Returns all forums that are watched by a given user.
     * @param userId The user id
     */
-    public List<Map<String, Object>> selectWatchesByUser(int userID) {
+    public List<Map<String, Object>> selectWatchesByUser(int userId) {
         List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
         PreparedStatement p = null;
         ResultSet rs = null;
         try {
 			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.selectWatchesByUser"));
-            p.setInt(1, userID);
+            p.setInt(1, userId);
             rs = p.executeQuery();
             while (rs.next()) {
-                Map<String, Object> m = new HashMap<String, Object>();
+                Map<String, Object> m = new ConcurrentHashMap<String, Object>();
                 m.put("id", rs.getInt("forum_id"));
                 m.put("forumName", rs.getString("forum_name"));
                 l.add(m);

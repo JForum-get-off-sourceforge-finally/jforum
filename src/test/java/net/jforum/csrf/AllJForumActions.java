@@ -1,8 +1,14 @@
 package net.jforum.csrf;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * Lists out unique action method names in JForum.
@@ -11,8 +17,8 @@ import java.util.*;
  * @version $Id: $
  */
 public class AllJForumActions {	
-	private static final String rootDir = AllJForumActions.class.getResource("/").getPath();	
-	private static final String JFORUM_DIRECTORY = rootDir.substring(0, rootDir.length() - "/target/test-classes/".length());	
+	private static final String ROOT_DIR = AllJForumActions.class.getResource("/").getPath();	
+	private static final String JFORUM_DIRECTORY = ROOT_DIR.substring(0, ROOT_DIR.length() - "/target/test-classes/".length());	
 	private Set<String> packagesWithActions;
 
 	public static void main(String[] args) throws Exception {

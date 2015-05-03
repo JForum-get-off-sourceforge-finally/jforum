@@ -11,6 +11,7 @@ public class POPListenerMock extends POPListener
 {
 	public POPListenerMock() 
 	{
+		super();
 		super.connector = new POPConnectorMock();
 	}
 }

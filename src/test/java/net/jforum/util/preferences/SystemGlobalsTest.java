@@ -45,6 +45,9 @@ package net.jforum.util.preferences;
 import junit.framework.TestCase;
 import net.jforum.TestCaseUtils;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -57,12 +60,14 @@ public class SystemGlobalsTest extends TestCase
 	/** 
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Before
 	public void setUp() throws Exception
 	{
 		SystemGlobals.initGlobals(TestCaseUtils.getRootDir(), 
 						TestCaseUtils.getRootDir() + GLOBALS);
 	}
 	
+	@Test
 	public void testLoadDefaults()
 	{
 		assertEquals(TestCaseUtils.getRootDir() + "/WEB-INF", 
@@ -72,14 +77,16 @@ public class SystemGlobalsTest extends TestCase
 		assertEquals("some value", SystemGlobals.getValue("some.key"));
 	}
 	
+	@Test
 	public void testTypes()
 	{
 		assertEquals(123, SystemGlobals.getIntValue("int.key"));
-		assertEquals(true, SystemGlobals.getBoolValue("bool.key"));
-		assertEquals(false, SystemGlobals.getBoolValue("bool.key.2"));
+		assertTrue(SystemGlobals.getBoolValue("bool.key"));
+		assertFalse(SystemGlobals.getBoolValue("bool.key.2"));
 		assertEquals("some string", SystemGlobals.getValue("string.key"));
 	}
 	
+	@Test
 	public void testUserDefaults() throws Exception
 	{
 		SystemGlobals.loadAdditionalDefaults(TestCaseUtils.getRootDir()

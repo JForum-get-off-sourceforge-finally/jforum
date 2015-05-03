@@ -175,7 +175,7 @@ public class Bookmark
 		return forumId;
 	}
 
-	public void setForumId(int forumId) {
+	public void setForumId(final int forumId) {
 		this.forumId = forumId;
 	}
 }

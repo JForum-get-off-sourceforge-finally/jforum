@@ -43,8 +43,8 @@
 package net.jforum.http;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -56,7 +56,7 @@ import javax.servlet.http.HttpSessionContext;
  */
 @SuppressWarnings("deprecation")
 public class FakeHttpSession implements HttpSession {
-	private Map<String, Object> attributes = new HashMap<String, Object>();
+	private transient final Map<String, Object> attributes = new ConcurrentHashMap<String, Object>();
 
 	/**
 	 * @see javax.servlet.http.HttpSession#getCreationTime()
@@ -89,7 +89,8 @@ public class FakeHttpSession implements HttpSession {
 	/**
 	 * @see javax.servlet.http.HttpSession#setMaxInactiveInterval(int)
 	 */
-	public void setMaxInactiveInterval(int interval) {
+	public void setMaxInactiveInterval(final int interval) {
+		// empty
 	}
 
 	/**
@@ -107,12 +108,12 @@ public class FakeHttpSession implements HttpSession {
 	/**
 	 * @see javax.servlet.http.HttpSession#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute(String name) {
+	public Object getAttribute(final String name) {
 		return this.attributes.get(name);
 	}
 
 	@Deprecated
-	public Object getValue(String name) {
+	public Object getValue(final String name) {
 		return null;
 	}
 
@@ -124,36 +125,39 @@ public class FakeHttpSession implements HttpSession {
 	}
 
 	public String[] getValueNames() {
-		return null;
+		return new String[0];
 	}
 
 	/**
 	 * @see javax.servlet.http.HttpSession#setAttribute(java.lang.String,
 	 *      java.lang.Object)
 	 */
-	public void setAttribute(String name, Object value) {
+	public void setAttribute(final String name, final Object value) {
 		this.attributes.put(name, value);
 	}
 
 	@Deprecated
-	public void putValue(String name, Object value) {
+	public void putValue(final String name, final Object value) {
+		// empty
 	}
 
 	/**
 	 * @see javax.servlet.http.HttpSession#removeAttribute(java.lang.String)
 	 */
-	public void removeAttribute(String name) {
+	public void removeAttribute(final String name) {
 		this.attributes.remove(name);
 	}
 
 	@Deprecated
-	public void removeValue(String name) {
+	public void removeValue(final String name) {
+		// empty
 	}
 
 	/**
 	 * @see javax.servlet.http.HttpSession#invalidate()
 	 */
 	public void invalidate() {
+		// empty
 	}
 
 	/**

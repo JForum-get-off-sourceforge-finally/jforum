@@ -64,6 +64,7 @@ import net.jforum.util.preferences.QueriesFileListener;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.SystemGlobalsListener;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 
@@ -212,7 +213,9 @@ public final class ConfigLoader
         // Start the dao.driver implementation
         final String driver = SystemGlobals.getValue(ConfigKeys.DAO_DRIVER);
 
-        LOGGER.info("Loading data access driver " + driver);
+        if (LOGGER.isEnabledFor(Level.INFO)) {
+        	LOGGER.info("Loading data access driver " + driver);
+        }
 
         try {
             final Class<?> clazz = Class.forName(driver);
@@ -228,7 +231,9 @@ public final class ConfigLoader
     {
         try {
             final String cacheImpl = SystemGlobals.getValue(ConfigKeys.CACHE_IMPLEMENTATION);
-            LOGGER.info("Using cache engine: " + cacheImpl);
+            if (LOGGER.isEnabledFor(Level.INFO)) {
+            	LOGGER.info("Using cache engine: " + cacheImpl);
+            }
 
             cache = (CacheEngine)Class.forName(cacheImpl).newInstance();
             cache.init();
@@ -241,14 +246,18 @@ public final class ConfigLoader
 
             final String[] cacheableObjects = str.split(",");
             for (int i = 0; i < cacheableObjects.length; i++) {
-                LOGGER.info("Creating an instance of " + cacheableObjects[i].trim());
+            	if (LOGGER.isEnabledFor(Level.INFO)) {
+            		LOGGER.info("Creating an instance of " + cacheableObjects[i].trim());
+            	}
                 final Object obj = Class.forName(cacheableObjects[i].trim()).newInstance();
 
                 if (obj instanceof Cacheable) {
                     ((Cacheable)obj).setCacheEngine(cache);
                 }
                 else {
-                    LOGGER.error(cacheableObjects[i] + " is not an instance of net.jforum.cache.Cacheable");
+                	if (LOGGER.isEnabledFor(Level.ERROR)) {
+                		LOGGER.error(cacheableObjects[i] + " is not an instance of net.jforum.cache.Cacheable");
+                	}
                 }
             }
         }

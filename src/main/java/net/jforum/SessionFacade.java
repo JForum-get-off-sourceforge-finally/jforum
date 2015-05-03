@@ -45,15 +45,16 @@ package net.jforum;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.UserSession;
+import net.jforum.exceptions.DatabaseException;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -286,7 +287,7 @@ public class SessionFacade implements Cacheable
 	public static void clear()
 	{
 		synchronized (MUTEX_FQN) {
-			cache.add(FQN, new HashMap<String, UserSession>());
+			cache.add(FQN, new ConcurrentHashMap<String, UserSession>());
 			cache.add(FQN_COUNT, LOGGED_COUNT, Integer.valueOf(0));
 			cache.add(FQN_COUNT, ANONYMOUS_COUNT, Integer.valueOf(0));
 			cache.remove(FQN_LOGGED);
@@ -414,7 +415,7 @@ public class SessionFacade implements Cacheable
 		Map<Integer, Long> tracking = (Map<Integer, Long>)getAttribute(ConfigKeys.TOPICS_READ_TIME);
 		
 		if (tracking == null) {
-			tracking = new HashMap<Integer, Long>();
+			tracking = new ConcurrentHashMap<Integer, Long>();
 			setAttribute(ConfigKeys.TOPICS_READ_TIME, tracking);
 		}
 		
@@ -454,7 +455,7 @@ public class SessionFacade implements Cacheable
 				try {
 					DBConnection.getImplementation().releaseConnection(conn);
 				}
-				catch (Exception e) {
+				catch (DatabaseException e) {
 					LOGGER.warn("Error while releasing a connection: " + e);
 				}
 			}

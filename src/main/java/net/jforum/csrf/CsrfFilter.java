@@ -17,6 +17,8 @@ import net.jforum.context.web.WebRequestContext;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.http.InterceptRedirectResponse;
 
@@ -29,6 +31,8 @@ import org.owasp.csrfguard.http.InterceptRedirectResponse;
  * @version $Id: $
  */
 public class CsrfFilter implements Filter {
+
+    private static final Logger LOGGER = Logger.getLogger(CsrfFilter.class);
     public static final String OWASP_CSRF_TOKEN_NAME = "OWASP_CSRFTOKEN";
     private FilterConfig filterConfig = null;
 
@@ -84,7 +88,9 @@ public class CsrfFilter implements Filter {
              */
             // bypass uri ends with /
            if (httpRequest.getRequestURI().endsWith("/")) {
-            	System.out.println("bypass uri="+httpRequest.getRequestURI());
+        	   if (LOGGER.isEnabledFor(Level.INFO)) {
+        		   LOGGER.info("bypass uri="+httpRequest.getRequestURI());
+        	   }
             	filterChain.doFilter(httpRequest, httpResponse);
             	return;            	
             }

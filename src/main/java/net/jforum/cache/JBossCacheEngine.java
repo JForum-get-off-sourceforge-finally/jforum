@@ -160,12 +160,9 @@ public class JBossCacheEngine implements CacheEngine
 		Map<String, Object> map = null;
 		if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
 			map = this.cache.getData(Fqn.fromString(fqn));
-		}		 
-		if (map == null) {
-			return new ArrayList<Object>();
 		}
 		
-		return map.values();
+		return map == null ? new ArrayList<Object>() : map.values();
 	}
 
 	/**

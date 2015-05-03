@@ -64,7 +64,7 @@ public class QuotaLimit
 	 * @return <code>true</code> if the size is greater than
 	 * quota's limit. 
 	 */
-	public boolean exceedsQuota(long size)
+	public boolean exceedsQuota(final long size)
 	{
 		if (this.type == QuotaLimit.KB) {
 			return (size > this.size * 1024);
@@ -93,7 +93,7 @@ public class QuotaLimit
 	/**
 	 * @param description The description to set.
 	 */
-	public void setDescription(String description)
+	public void setDescription(final String description)
 	{
 		this.description = description;
 	}
@@ -109,7 +109,7 @@ public class QuotaLimit
 	/**
 	 * @param id The id to set.
 	 */
-	public void setId(int id)
+	public void setId(final int id)
 	{
 		this.id = id;
 	}
@@ -125,7 +125,7 @@ public class QuotaLimit
 	/**
 	 * @param size The size to set.
 	 */
-	public void setSize(int size)
+	public void setSize(final int size)
 	{
 		this.size = size;
 	}
@@ -141,7 +141,7 @@ public class QuotaLimit
 	/**
 	 * @param type The type to set.
 	 */
-	public void setType(int type)
+	public void setType(final int type)
 	{
 		this.type = type;
 	}

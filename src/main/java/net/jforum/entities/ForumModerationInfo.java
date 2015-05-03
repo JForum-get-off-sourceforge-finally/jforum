@@ -52,8 +52,8 @@ public class ForumModerationInfo
 	private final String forumName;
 	private final int postsToModerate;
 	
-	public ForumModerationInfo(String forumName, int forumId, 
-			int postsToModerate)
+	public ForumModerationInfo(final String forumName, final int forumId, 
+			final int postsToModerate)
 	{
 		this.forumName = forumName;
 		this.forumId = forumId;

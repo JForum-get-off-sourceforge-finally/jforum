@@ -49,11 +49,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.imageio.ImageIO;
 
@@ -73,9 +73,8 @@ import net.jforum.exceptions.AttachmentSizeTooBigException;
 import net.jforum.exceptions.BadExtensionException;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
-import net.jforum.view.forum.common.Stats;
-import net.jforum.util.I18n;
 import net.jforum.util.Hash;
+import net.jforum.util.I18n;
 import net.jforum.util.image.ImageUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -95,7 +94,7 @@ public class AttachmentCommon
 	private final RequestContext request;
 	private AttachmentDAO attachmentDao;
 	private final boolean canProceed;
-	private final Map<UploadUtils, Attachment> filesToSave = new HashMap<UploadUtils, Attachment>();
+	private final Map<UploadUtils, Attachment> filesToSave = new ConcurrentHashMap<UploadUtils, Attachment>();
 	
 	public AttachmentCommon(final RequestContext request, final int forumId)
 	{

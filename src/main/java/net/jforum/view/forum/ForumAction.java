@@ -44,10 +44,9 @@ package net.jforum.view.forum;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -189,7 +188,7 @@ public class ForumAction extends Command
 		boolean canApproveMessages = (isLogged && isModerator 
 			&& SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_APPROVE_MESSAGES));
 
-		Map<Integer, TopicModerationInfo> topicsToApprove = new HashMap<Integer, TopicModerationInfo>();
+		Map<Integer, TopicModerationInfo> topicsToApprove = new ConcurrentHashMap<Integer, TopicModerationInfo>();
 
 		if (canApproveMessages) {
 			ModerationDAO mdao = DataAccessDriver.getInstance().newModerationDAO();
@@ -260,7 +259,7 @@ public class ForumAction extends Command
 			Map<Integer, Long> tracking = SessionFacade.getTopicsReadTimeByForum();
 			
 			if (tracking == null) {
-				tracking = new HashMap<Integer, Long>();
+				tracking = new ConcurrentHashMap<Integer, Long>();
 			}
 			
 			tracking.put(Integer.valueOf(forumId), Long.valueOf(System.currentTimeMillis()));

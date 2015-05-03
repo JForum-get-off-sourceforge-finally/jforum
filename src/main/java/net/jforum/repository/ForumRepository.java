@@ -42,16 +42,14 @@
  */
 package net.jforum.repository;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.ForumStartup;
 import net.jforum.SessionFacade;
@@ -77,7 +75,6 @@ import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.CategoryOrderComparator;
 import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
 
@@ -298,14 +295,15 @@ public class ForumRepository implements Cacheable
 
 	private static Category findCategoryByOrder(final int order)
 	{
+		Category category = null;
 		for (final Iterator<Category> iter = ((Set<Category>)cache.get(FQN, CATEGORIES_SET)).iterator(); iter.hasNext(); ) {
-			final Category category = iter.next();
+			category = iter.next();
 			if (category.getOrder() == order) {
-				return category;
+				break;
 			}
 		}
 
-		return null;
+		return category;
 	}
 
 	/**
@@ -406,7 +404,7 @@ public class ForumRepository implements Cacheable
 
 		Map<String, String> relation = (Map<String, String>)cache.get(FQN, RELATION);
 		if (relation == null) {
-			relation = new HashMap<String, String>();
+			relation = new ConcurrentHashMap<String, String>();
 		}
 
 		for (final Iterator<Forum> iter = category.getForums().iterator(); iter.hasNext(); ) {
@@ -437,7 +435,7 @@ public class ForumRepository implements Cacheable
             if (cachedCategoryMap != null) {
                 categoryId = (String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
             } else {
-                LOGGER.error("give up something is wrong with cache - check configuration");
+                LOGGER.error("Give up! Something is wrong with cache.  Please check configuration.");
             }
         }
 
@@ -780,7 +778,7 @@ public class ForumRepository implements Cacheable
 
 		Map<String, String> m = (Map<String, String>)cache.get(FQN, RELATION);
 		if (m == null) {
-			m = new HashMap<String, String>();
+			m = new ConcurrentHashMap<String, String>();
 		}
 
 		int lastId = 0;
@@ -885,11 +883,7 @@ public class ForumRepository implements Cacheable
 			}
 		}
 
-		if (n <= 0) {
-			return "-1";
-		}
-
-		return buf.toString();
+		return (n <= 0) ? "-1" : buf.toString();
 	}
 
 }

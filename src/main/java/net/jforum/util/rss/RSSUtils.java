@@ -76,13 +76,15 @@ public final class RSSUtils
 	 */
 	public static String formatDate(final String date)
 	{
+		String formattdDate;
 		try {
 			final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-			return formatDate(sdf.parse(date));
+			formattdDate = formatDate(sdf.parse(date));
 		}
 		catch (ParseException e) {
-			return date;
+			formattdDate = date;
 		}
+		return formattdDate;
 	}
 	
 	private RSSUtils() {}

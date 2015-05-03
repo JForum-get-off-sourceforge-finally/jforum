@@ -56,6 +56,7 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
@@ -125,14 +126,20 @@ public class LuceneReindexer
 			long processStart = System.currentTimeMillis();
 			
 			int firstPostId = args.filterByMessage() ? args.getFirstPostId() : dao.firstPostIdByDate(args.getFromDate());
-			LOGGER.debug("firstPostId="+firstPostId);					
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("firstPostId="+firstPostId);					
+			}
 			int lastPostId = args.filterByMessage()	? args.getLastPostId() : dao.lastPostIdByDate(args.getToDate());
-			LOGGER.debug("lastPostId="+lastPostId);	
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("lastPostId="+lastPostId);	
+			}
 
 			int dbFirstPostId = dao.firstPostIdByDate(new Date(0L));
 			int dbLastPostId = dao.lastPostIdByDate(new Date());
-			LOGGER.debug("dbFirstPostId="+dbFirstPostId);
-			LOGGER.debug("dbLastPostId="+dbLastPostId);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("dbFirstPostId="+dbFirstPostId);
+			    LOGGER.debug("dbLastPostId="+dbLastPostId);
+			}
 			if (args.filterByMessage()) {
 				if (firstPostId < dbFirstPostId) {
 					firstPostId = dbFirstPostId;
@@ -141,8 +148,10 @@ public class LuceneReindexer
 					lastPostId = dbLastPostId;
 				}
 			}
-			LOGGER.debug("firstPostId="+firstPostId);
-			LOGGER.debug("lastPostId="+lastPostId);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("firstPostId="+firstPostId);		
+			    LOGGER.debug("lastPostId="+lastPostId);
+			}
 			
 			int counter = 0;
 			int indexTotal = 0;
@@ -154,8 +163,10 @@ public class LuceneReindexer
 				int toPostId = firstPostId + fetchCount < lastPostId
 					? (firstPostId + fetchCount - 1)
 					: lastPostId;
-				LOGGER.debug("firstPostId="+firstPostId);
-				LOGGER.debug("toPostId="+toPostId);	
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("firstPostId="+firstPostId);
+					LOGGER.debug("toPostId="+toPostId);	
+				}				
 
 				try {
 					JForumExecutionContext ex = JForumExecutionContext.get();
@@ -165,8 +176,10 @@ public class LuceneReindexer
 
 					if (counter >= 5000) {
 						long end = System.currentTimeMillis();
-						LOGGER.info("Indexed ~5000 documents in " 
+						if (LOGGER.isEnabledFor(Level.INFO)) {
+							LOGGER.info("Indexed ~5000 documents in " 						
 							+ (end - indexRangeStart) + " ms (" + indexTotal + " so far)");
+						}
 						indexRangeStart = end;
 						counter = 0;
 					}
@@ -206,7 +219,9 @@ public class LuceneReindexer
 			
 			long end = System.currentTimeMillis();
 			
-			LOGGER.info("**** Total: " + (end - processStart) + " ms");
+			if (LOGGER.isEnabledFor(Level.INFO)) {
+				LOGGER.info("**** Total: " + (end - processStart) + " ms");
+			}
 		}
 		catch (IOException e) {
 			throw new ForumException(e);

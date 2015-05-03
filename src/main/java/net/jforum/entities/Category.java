@@ -45,12 +45,12 @@ package net.jforum.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.SessionFacade;
 import net.jforum.exceptions.ForumOrderChangedException;
@@ -58,6 +58,9 @@ import net.jforum.repository.SecurityRepository;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.ForumOrderComparator;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  * Represents a category in the System.
@@ -76,12 +79,13 @@ import net.jforum.util.ForumOrderComparator;
  */
 public class Category implements Serializable, Comparable<Category>
 {
+	private static final Logger LOGGER = Logger.getLogger(Category.class);
 	private static final long serialVersionUID = -4894230707020588049L;
 	private int id;
 	private int order;
 	private boolean moderated;
 	private String name;
-	private Map<Integer, Forum> forumsIdMap = new HashMap<Integer, Forum>();
+	private Map<Integer, Forum> forumsIdMap = new ConcurrentHashMap<Integer, Forum>();
 	private Set<Forum> forums = new TreeSet<Forum>(new ForumOrderComparator());
 		
 	public Category() {}
@@ -277,7 +281,9 @@ public class Category implements Serializable, Comparable<Category>
 		if (pc.canAccess(SecurityConstants.PERM_FORUM, Integer.toString(forumId))) {
 			return this.forumsIdMap.get(Integer.valueOf(forumId));
 		}
-		
+		if (LOGGER.isEnabledFor(Level.INFO)) {
+			LOGGER.info("User with userId " + userId + " failed to access forum with forumId " + forumId);
+		}
 		return null;
 	}
 

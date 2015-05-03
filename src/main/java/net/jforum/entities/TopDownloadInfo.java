@@ -128,7 +128,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param downloadCount the downloadCount to set
 	 */
-	public void setDownloadCount(int downloadCount) {
+	public void setDownloadCount(final int downloadCount) {
 		this.downloadCount = downloadCount;
 	}
 	/**
@@ -140,7 +140,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param filesize the filesize to set
 	 */
-	public void setFilesize(long filesize) {
+	public void setFilesize(final long filesize) {
 		this.filesize = filesize;
 	}
 	/**
@@ -152,7 +152,7 @@ public class TopDownloadInfo implements Serializable
 	/**
 	 * @param realFilename the realFilename to set
 	 */
-	public void setRealFilename(String realFilename) {
+	public void setRealFilename(final String realFilename) {
 		this.realFilename = realFilename;
 	}
 }

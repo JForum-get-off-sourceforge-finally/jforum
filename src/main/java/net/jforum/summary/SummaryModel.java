@@ -73,7 +73,7 @@ import freemarker.template.SimpleHash;
 public class SummaryModel extends Spammer
 {
 	private static final Logger LOGGER = Logger.getLogger(SummaryModel.class);
-	private final SummaryDAO dao;
+	private transient final SummaryDAO dao;
 
 	public SummaryModel()
 	{
@@ -83,7 +83,7 @@ public class SummaryModel extends Spammer
 
 	public void sendPostsSummary(final List<String> recipients)
 	{
-		if (recipients.size() > 0) { // make sure somebody want to receive it
+		if (!recipients.isEmpty()) { // make sure somebody want to receive it
 			// Gets a Date seven days before now
 			final int daysBefore = Integer.parseInt(SystemGlobals.getValue(ConfigKeys.SUMMARY_DAYS_BEFORE));
 
@@ -91,7 +91,7 @@ public class SummaryModel extends Spammer
 			final long dateBefore = Calendar.getInstance().getTimeInMillis() - (1000L * 60 * 60 * 24 * daysBefore);
 
 			final List<Post> posts = listPosts(new Date(dateBefore), new Date());
-			if (posts.size() > 0) { // make sure there is at least one new post
+			if (!posts.isEmpty()) { // make sure there is at least one new post
 
 				final String forumLink = ViewCommon.getForumLink();
 
@@ -117,8 +117,10 @@ public class SummaryModel extends Spammer
 	{
 		final List<User> list = new ArrayList<User>();
 
-		for (String email : recipients) {
-			LOGGER.debug("email="+email);
+		for (final String email : recipients) {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("email="+email);
+			}
 			final User user = new User();
 			user.setEmail(email);
 

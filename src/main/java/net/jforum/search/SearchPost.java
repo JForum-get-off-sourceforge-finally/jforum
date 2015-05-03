@@ -67,7 +67,7 @@ public class SearchPost extends Post
 	
     public boolean equals(final Object obj) 
     {
-        return (obj instanceof SearchPost) && super.equals(obj) && 
+        return obj instanceof SearchPost && super.equals(obj) && 
                ((SearchPost)obj).getForum().equals(this.forum);
     }
     

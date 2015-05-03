@@ -44,6 +44,7 @@ package net.jforum;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -67,10 +68,10 @@ public class SimpleConnection extends DBConnection
 	private static final Logger LOGGER = Logger.getLogger(SimpleConnection.class);
 	
 	/** 
-	 * @throws ClassNotFoundException  
 	 * @see net.jforum.DBConnection#init()
+	 * 	 @throws DatabaseException  
 	 */
-	public void init() throws ClassNotFoundException
+	public void init() throws DatabaseException
 	{
 		try {
 			Class.forName(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
@@ -84,9 +85,9 @@ public class SimpleConnection extends DBConnection
 			
 			this.databaseUp = true;
 		}
-		catch (ClassNotFoundException e) {
+		catch (Exception e) {
 			this.databaseUp = false;
-			throw e;
+			throw new DatabaseException(e);
 		}
 	}
 
@@ -98,7 +99,7 @@ public class SimpleConnection extends DBConnection
 		try {
 			return DriverManager.getConnection(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_STRING));
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DatabaseException(e);
 		}

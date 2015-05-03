@@ -49,8 +49,9 @@ import java.util.LinkedHashSet;
 
 /**
  * @author Rafael Steil
+ * @version $Id$
  */
-public class RoleValueCollection extends LinkedHashSet<Object> 
+public class RoleValueCollection extends LinkedHashSet<Object> implements Serializable 
 {
 	private static final long serialVersionUID = 4067802891802773419L;
 
@@ -60,32 +61,31 @@ public class RoleValueCollection extends LinkedHashSet<Object>
 	 * @param valueName The <code>RoleValue</code> name
 	 * @return The <code>RoleValue</code> object if found, or <code>null</code> if not found
 	 */
-	public RoleValue get(String valueName)
+	public RoleValue get(final String valueName)
 	{
-		for (Iterator<Object> iter = this.iterator(); iter.hasNext(); ) {
-			RoleValue v = (RoleValue)iter.next();
-
+		for (final Iterator<Object> iter = this.iterator(); iter.hasNext(); ) {
+			final RoleValue v = (RoleValue)iter.next();
+			
 			if (v.getValue().equals(valueName)) {
 				return v;
 			}
 		}
-
+		
 		return null;
 	}
-
+	
 	/** 
 	 * @see java.util.HashSet#contains(java.lang.Object)
 	 */
-	public boolean contains(Object o) 
+	public boolean contains(final Object o) 
 	{
-		boolean c = super.contains(o);
-		return c;
+		return super.contains(o);
 	}
-
+	
 	/** 
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	public boolean add(Object o) 
+	public boolean add(final Object o) 
 	{
 		if (!(o instanceof RoleValue)) {
 			throw new IllegalArgumentException("Object passed as parameter is not a RoleValue type");
@@ -97,14 +97,14 @@ public class RoleValueCollection extends LinkedHashSet<Object>
 	/** 
 	 * @see java.util.Collection#addAll(java.util.Collection)
 	 */
-	public boolean addAll(Collection<?> c) 
+	public boolean addAll(final Collection<?> c) 
 	{
 		boolean status = true;
-
-		for (Iterator<?> iter = c.iterator(); iter.hasNext(); ) {
+		
+		for (final Iterator<?> iter = c.iterator(); iter.hasNext(); ) {
 			status = this.add(iter.next());
 		}
-
+		
 		return status;
 	}
 }

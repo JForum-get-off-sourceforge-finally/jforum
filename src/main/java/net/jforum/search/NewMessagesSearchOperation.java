@@ -60,7 +60,7 @@ public class NewMessagesSearchOperation extends SearchOperation
 {
 	private transient List<Topic> results = new ArrayList<Topic>();
 	
-	public SearchResult<Topic> performSearch(final SearchArgs args, int userID)
+	public SearchResult<Topic> performSearch(final SearchArgs args, final int userId)
 	{
 		final TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
 		final SearchResult<Topic> searchResult = dao.findTopicsByDateRange(args);

@@ -60,7 +60,7 @@ public class URLNormalizer
 	 * @return the normalized url
 	 * @see #normalize(String, int, boolean)
 	 */
-	public static String normalize(String url)
+	public static String normalize(final String url)
 	{
 		return normalize(url, LIMIT, true);
 	}
@@ -74,11 +74,11 @@ public class URLNormalizer
 	 * special char
 	 * @return the normalized url
 	 */
-	public static String normalize(String url, int limit, boolean friendlyTruncate)
+	public static String normalize(final String url, final int limit, final boolean friendlyTruncate)
 	{
-		char[] chars = url.toCharArray();
+		final char[] chars = url.toCharArray();
 		
-		StringBuilder sb = new StringBuilder(url.length());
+		final StringBuilder sb = new StringBuilder(url.length());
 		
 		for (int i = 0; i < chars.length; i++) {
 			if (i <= limit || (friendlyTruncate && i > limit && sb.charAt(sb.length() - 1) != '_')) {

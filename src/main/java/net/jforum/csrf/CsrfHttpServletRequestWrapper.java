@@ -1,6 +1,7 @@
 package net.jforum.csrf;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  * Pass method instead of requestUri to match unportected logic from csrf.properties
@@ -9,9 +10,9 @@ import javax.servlet.http.*;
  */
 public class CsrfHttpServletRequestWrapper extends HttpServletRequestWrapper {
     
-    private String actionMethodName;
+    private final String actionMethodName;
 
-    public CsrfHttpServletRequestWrapper(HttpServletRequest request, String actionMethodName) {
+    public CsrfHttpServletRequestWrapper(final HttpServletRequest request, final String actionMethodName) {
         super(request);
         this.actionMethodName = actionMethodName;
     }

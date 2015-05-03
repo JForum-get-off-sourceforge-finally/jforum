@@ -281,6 +281,6 @@ public interface ForumDAO
 	 * Returns all forums that are watched by a given user.
 	 * @param userId The user id
 	 */
-	public List<Map<String, Object>> selectWatchesByUser(int userID);
+	List<Map<String, Object>> selectWatchesByUser(int userId);
 
 }

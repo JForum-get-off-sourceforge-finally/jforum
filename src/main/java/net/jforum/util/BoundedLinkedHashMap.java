@@ -46,13 +46,14 @@ import java.util.LinkedHashMap;
 public class BoundedLinkedHashMap<K, V> extends LinkedHashMap<K, V>
 {
 	private static final long serialVersionUID = 7060825863249235327L;
-	private int size;
-	public BoundedLinkedHashMap(int size)
+	private transient final int size;
+	public BoundedLinkedHashMap(final int size)
 	{
+	    super();
 	    this.size = size;
 	}
 
-	protected boolean removeEldestEntry(java.util.Map.Entry<K, V> eldest)
+	protected boolean removeEldestEntry(final java.util.Map.Entry<K, V> eldest)
 	{
 		return this.size() > size;
 	}

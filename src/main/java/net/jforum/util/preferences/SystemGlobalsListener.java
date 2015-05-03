@@ -44,6 +44,7 @@ package net.jforum.util.preferences;
 
 import net.jforum.util.FileChangeListener;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -64,7 +65,9 @@ public class SystemGlobalsListener implements FileChangeListener
      */
     public void fileChanged(final String filename)
     {
-        LOGGER.info("File change detected: "+ filename);
+    	if (LOGGER.isEnabledFor(Level.INFO)) {
+    		LOGGER.info("File change detected: "+ filename); 
+    	}
 
         SystemGlobals.initGlobals(SystemGlobals.getApplicationPath(),
                                   SystemGlobals.getValue(ConfigKeys.DEFAULT_CONFIG));

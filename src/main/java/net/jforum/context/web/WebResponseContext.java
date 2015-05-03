@@ -60,7 +60,7 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class WebResponseContext implements ResponseContext
 {
-	private final HttpServletResponse response;
+	private transient final HttpServletResponse response;
 
 	public WebResponseContext(final HttpServletResponse response)
 	{

@@ -20,6 +20,10 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -28,6 +32,7 @@ public class RESTAuthenticationTestCase extends TestCase
 {
 	public static final String API_KEY = "api.key.test";
 	
+	@Test
 	public void testInvalid() throws Exception
 	{
 		RESTAuthentication auth = new RESTAuthentication();
@@ -36,6 +41,7 @@ public class RESTAuthenticationTestCase extends TestCase
 		assertFalse("The api key should not be valid", isValid);
 	}
 	
+	@Test
 	public void testValid() throws Exception
 	{
 		RESTAuthentication auth = new RESTAuthentication();
@@ -84,6 +90,7 @@ public class RESTAuthenticationTestCase extends TestCase
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Before
 	protected void setUp() throws Exception
 	{
 		TestCaseUtils.loadEnvironment();
@@ -94,6 +101,7 @@ public class RESTAuthenticationTestCase extends TestCase
 	/**
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@After
 	protected void tearDown() throws Exception
 	{
 		this.deleteApiKey();

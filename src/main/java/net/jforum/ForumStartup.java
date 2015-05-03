@@ -67,22 +67,23 @@ public final class ForumStartup
 	 */
 	public static boolean startDatabase()
 	{
+		boolean result = false;
 		try {
 			if (DBConnection.createInstance()) {
 				DBConnection.getImplementation().init();
-				return true;
+				result = true;
 			}
 		}
 		catch (Exception e) {
 			throw new DatabaseException("Error while trying to start the database: " + e, e);
 		}
 		
-		return false;	
+		return result;	
 	}
 	
 	/**
 	 * Starts the cache control for forums and categories.
-	 * @throws RepositoryStartupException is something were wrong.
+	 * @throws RepositoryStartupException when something was wrong.
 	 */
 	public static void startForumRepository()
 	{

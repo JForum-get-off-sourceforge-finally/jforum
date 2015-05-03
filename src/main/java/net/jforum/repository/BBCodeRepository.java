@@ -78,12 +78,12 @@ public class BBCodeRepository implements Cacheable
 	public static BBCodeHandler getBBCollection()
 	{
         BBCodeHandler handler = null;
-        if (cache.get(FQN, BBCOLLECTION) != null) {
-           handler = (BBCodeHandler)cache.get(FQN, BBCOLLECTION);
-        } else {
+        if (cache.get(FQN, BBCOLLECTION) == null) {
             // cache flushed this, reload
             handler = new BBCodeHandler().parse();
             BBCodeRepository.setBBCollection(handler);
+        } else {
+            handler = (BBCodeHandler)cache.get(FQN, BBCOLLECTION);
         }
 
 		return handler;

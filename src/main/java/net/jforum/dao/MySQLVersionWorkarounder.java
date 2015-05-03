@@ -80,7 +80,9 @@ public class MySQLVersionWorkarounder extends DBVersionWorkarounder
     	
     	try {
     		final DatabaseMetaData meta = conn.getMetaData();
-    		LOGGER.debug("MySQL Version: " + meta.getDatabaseProductVersion());
+    		if (LOGGER.isDebugEnabled()) {
+    			LOGGER.debug("MySQL Version: " + meta.getDatabaseProductVersion());
+    		}
     		
     		final int major = meta.getDatabaseMajorVersion();
     		final int minor = meta.getDatabaseMinorVersion();

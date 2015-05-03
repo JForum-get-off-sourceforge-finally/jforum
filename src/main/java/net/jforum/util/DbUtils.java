@@ -70,7 +70,7 @@ public final class DbUtils
 			try {
 				resultSet.close();
 			}
-			catch (Exception e) {				
+			catch (SQLException e) {				
 				LOGGER.error(e.getMessage(), e);
 			}
 		}

@@ -59,7 +59,7 @@ import org.apache.log4j.Logger;
 
 /**
  * DataSource connection implementation for JForum.
- * The datasourcename should be set in the key 
+ * The datasource name should be set in the key 
  * <code>database.datasource.name</code> at 
  * SystemGlobals.properties.
  * 
@@ -88,12 +88,13 @@ public class DataSourceConnection extends DBConnection
 				this.releaseConnection(conn);
 				this.databaseUp = true;
 			}
-		} catch (Exception e) {
+		} catch (DatabaseException e) {
 			this.databaseUp = false;
 		}
 	}
 	/**
 	 * @see net.jforum.DBConnection#getConnection()
+	 * @throws DatabaseException
 	 */
 	public Connection getConnection()
 	{

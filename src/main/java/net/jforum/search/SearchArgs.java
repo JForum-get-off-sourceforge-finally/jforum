@@ -239,11 +239,6 @@ public class SearchArgs
 		this.forumId = forumId;
 	}
 
-	public void setUserID(int userID)
-	{
-		this.userId = userID;
-	}
-
 	public void setOrderBy(String orderBy)
 	{
 		this.orderBy = orderBy;

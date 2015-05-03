@@ -50,7 +50,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
@@ -61,7 +60,6 @@ import net.jforum.entities.PrivateMessageType;
 import net.jforum.entities.User;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
-import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 /**

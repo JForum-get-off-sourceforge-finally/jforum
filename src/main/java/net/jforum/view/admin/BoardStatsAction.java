@@ -43,21 +43,35 @@
  */
 package net.jforum.view.admin;
 
-import java.io.*;
+import java.io.UnsupportedEncodingException;
 import java.lang.management.ManagementFactory;
-import java.net.*;
+import java.net.URLDecoder;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import net.jforum.util.preferences.*;
-import net.jforum.view.forum.common.*;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
+import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.view.forum.common.Stats;
+
+import org.apache.log4j.Logger;
 
 public class BoardStatsAction extends AdminCommand {
 
-	 /**
+	private static final Logger LOGGER = Logger.getLogger(BoardStatsAction.class);
+	
+	/**
      * @see net.jforum.Command#list()
      */
     public void list() {
@@ -81,7 +95,7 @@ public class BoardStatsAction extends AdminCommand {
 			Double result = (Double) server.getAttribute(new ObjectName("java.lang:type=OperatingSystem"), "SystemLoadAverage");
 			sysInfo.add(new Item("System load average", nf.format(result.doubleValue())));
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
         Collections.sort(sysInfo);
         this.context.put("sysInfo", sysInfo);
@@ -92,7 +106,7 @@ public class BoardStatsAction extends AdminCommand {
         String tag = this.request.getParameter("tag");
         try {
             tag = URLDecoder.decode(tag, "UTF-8");
-            Map<Date, Object> values = new HashMap<Date, Object>();
+            Map<Date, Object> values = new ConcurrentHashMap<Date, Object>();
             if (tag != null && !Stats.ForbidDetailDisplay.isForbidden(tag)) {
                 tag = URLDecoder.decode(tag, "UTF-8");
                 Stats.Data data = Stats.getStatsFor(tag);

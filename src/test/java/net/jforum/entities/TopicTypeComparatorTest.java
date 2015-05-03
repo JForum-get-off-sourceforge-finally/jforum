@@ -10,12 +10,15 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
  */
 public class TopicTypeComparatorTest extends TestCase
 {
+	@Test
 	public void testPassRandomOrderExpectResultInCorrectOrder()
 	{
 		List<Topic> l = new ArrayList<Topic>();
@@ -41,6 +44,7 @@ public class TopicTypeComparatorTest extends TestCase
 		assertEquals("Regular day 1", this.extractTitle(l, 7));
 	}
 	
+	@Test
 	public void testCreateTwoTopicsThenAddAReply()
 	{
 		List<Topic> l = new ArrayList<Topic>();

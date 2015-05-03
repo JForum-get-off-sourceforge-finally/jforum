@@ -43,15 +43,16 @@
 package net.jforum.repository;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Properties;
 
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.exceptions.ConfigLoadException;
-
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -101,7 +102,7 @@ public class Tpl implements Cacheable
 				cache.add(FQN, key, properties.getProperty(key));
 			}
 		}
-		catch (Exception e) {
+		catch (IOException e) {
 			LOGGER.error("Error while trying to load " + filename + ": " + e);
 			LOGGER.error(e.getMessage(), e);			
 			throw new ConfigLoadException("Error while trying to load " + filename + ": " + e);
@@ -110,7 +111,7 @@ public class Tpl implements Cacheable
 			if (fis != null) {
 				try {
 					fis.close();
-				} catch (Exception e) {
+				} catch (IOException e) {
 					LOGGER.error(e.getMessage(), e);
 				}
 			}

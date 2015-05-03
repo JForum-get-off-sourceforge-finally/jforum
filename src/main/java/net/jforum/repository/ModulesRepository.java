@@ -42,15 +42,16 @@
  */
 package net.jforum.repository;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.ConfigLoader;
 import net.jforum.JForumExecutionContext;
-
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -61,7 +62,7 @@ public class ModulesRepository
 {
 	private static final Logger LOGGER = Logger.getLogger(ModulesRepository.class);
 	
-	private static Map<String, Properties> cache = new HashMap<String, Properties>();
+	private static Map<String, Properties> cache = new ConcurrentHashMap<String, Properties>();
 	private static final String ENTRIES = "entries";
 
 	/**
@@ -97,10 +98,9 @@ public class ModulesRepository
             if (properties == null) {
                 LOGGER.error("Null modules. Askes moduleName: " + moduleName
                         + ", url=" + JForumExecutionContext.getRequest().getQueryString());
-                return null;
             }
 		}
 		
-		return properties.getProperty(moduleName);
+		return properties == null ? null : properties.getProperty(moduleName);
 	}
 }

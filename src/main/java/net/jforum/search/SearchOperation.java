@@ -44,10 +44,10 @@
 package net.jforum.search;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.entities.Forum;
 import net.jforum.repository.ForumRepository;
@@ -58,7 +58,7 @@ import net.jforum.repository.ForumRepository;
  */
 public abstract class SearchOperation
 {
-	public abstract SearchResult<?> performSearch(SearchArgs args, int userID);
+	public abstract SearchResult<?> performSearch(SearchArgs args, int userId);
 	public abstract int totalRecords();
 	public abstract void prepareForDisplay();
 	public abstract List<?> getResults();
@@ -69,7 +69,7 @@ public abstract class SearchOperation
 	{
 		final List<T> output = new ArrayList<T>();
 		
-		final Map<Integer, ForumFilterResult> forums = new HashMap<Integer, ForumFilterResult>();
+		final Map<Integer, ForumFilterResult> forums = new ConcurrentHashMap<Integer, ForumFilterResult>();
 		
 		for (final Iterator<T> iter = input.iterator(); iter.hasNext(); ) {
 			final T currentObject = iter.next();

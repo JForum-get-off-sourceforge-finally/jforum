@@ -47,12 +47,11 @@ import java.io.IOException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-
-import org.apache.log4j.Logger;
 
 /**
  * StopForumSpam 
@@ -61,15 +60,15 @@ import org.apache.log4j.Logger;
  */
 public class StopForumSpam {
 	private static final Logger LOGGER = Logger.getLogger(StopForumSpam.class);
-	private static final String baseURL = SystemGlobals.getValue(ConfigKeys.STOPFORUMSPAM_API_URL);
+	private static final String BASE_URL = SystemGlobals.getValue(ConfigKeys.STOPFORUMSPAM_API_URL);
 	
 	public static boolean checkIp(String ip) {		
-		String url = baseURL + "ip=" + ip;		
+		String url = BASE_URL + "ip=" + ip;		
 		return getResult(url);
 	}
 	
 	public static boolean checkEmail(String email) {
-		String url = baseURL + "email=" + email;		
+		String url = BASE_URL + "email=" + email;		
 		return getResult(url);
 	}
 	

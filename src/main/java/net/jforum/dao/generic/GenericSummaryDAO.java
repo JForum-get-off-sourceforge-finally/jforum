@@ -44,13 +44,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import org.apache.log4j.Logger;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
@@ -58,8 +54,9 @@ import net.jforum.dao.SummaryDAO;
 import net.jforum.entities.Post;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
-import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Franklin Samir (franklin (at) portaljava [dot] com)

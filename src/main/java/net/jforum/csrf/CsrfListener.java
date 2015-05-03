@@ -1,12 +1,17 @@
 package net.jforum.csrf;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-import javax.servlet.*;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
-import org.owasp.csrfguard.*;
-import org.owasp.csrfguard.util.*;
+import org.owasp.csrfguard.CsrfGuard;
+import org.owasp.csrfguard.util.Streams;
 
 /**
  * Reads OWASP format property file with one exception. We add all the

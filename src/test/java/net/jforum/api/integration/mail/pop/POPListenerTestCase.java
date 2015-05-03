@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -40,6 +40,9 @@ import net.jforum.util.bbcode.BBCodeHandler;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
@@ -62,6 +65,7 @@ public class POPListenerTestCase extends TestCase
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Before
 	protected void setUp() throws Exception
 	{
 		if (!started) {			
@@ -102,6 +106,7 @@ public class POPListenerTestCase extends TestCase
 	/**
 	 * A single and simple message
 	 */
+	@Test
 	public void testSimple() throws Exception
 	{
 		int beforeTopicId = this.maxTopicId();
@@ -128,6 +133,7 @@ public class POPListenerTestCase extends TestCase
 	 * to create a new topic, instead of adding the message as a reply
 	 * to something else. 
 	 */
+	@Test
 	public void testInReplyToIncorrectShouldCreateNewTopic() throws Exception
 	{
 		int beforeTopicId = this.maxTopicId();		
@@ -154,6 +160,7 @@ public class POPListenerTestCase extends TestCase
 	 * which should create an answer to the previously created topic
 	 * @throws Exception
 	 */
+	@Test
 	public void testInReplyToCreateNewTopicThenReply() throws Exception
 	{
 		int beforeTopicId = this.maxTopicId();	

@@ -76,6 +76,7 @@ public class CookieUserSSO implements SSO {
 	public boolean isSessionValid(final UserSession userSession,
 			final RequestContext request) {
 		String remoteUser = null;
+		boolean result = true;
 		final Cookie SSOCookie = ControllerUtils.getCookie(
 				SystemGlobals.getValue(ConfigKeys.COOKIE_NAME_USER)); // myapp login cookie			
 		if (SSOCookie != null) {
@@ -85,16 +86,16 @@ public class CookieUserSSO implements SSO {
         // user has since logged out
         if (remoteUser == null && 
                 userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-			return false;
+			result = false;
         // user has since logged in
         } else if (remoteUser != null && 
                 userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-            return false;
+        	result = false;
         // user has changed user
         } else if (remoteUser != null && !remoteUser.equals(userSession.getUsername())) {
-            return false;
+        	result = false;
         }
-        return true; // myapp user and forum user the same
+        return result; // myapp user and forum user the same
 	}
 
 }

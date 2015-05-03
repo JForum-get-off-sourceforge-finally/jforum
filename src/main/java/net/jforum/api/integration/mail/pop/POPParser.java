@@ -67,7 +67,9 @@ public class POPParser
 			final POPMessage message = new POPMessage(connectorMessages[i]);
 			this.messages.add(message);
 			
-			LOGGER.debug("Retrieved message " + message);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Retrieved message " + message);
+			}
 		}
 	}
 	

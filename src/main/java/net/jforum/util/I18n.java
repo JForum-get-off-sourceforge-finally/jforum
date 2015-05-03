@@ -48,11 +48,11 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -61,9 +61,8 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleSequence;
 
 /**
  * I18n (Internationalization) class implementation. Does nothing of special, just loads the
@@ -78,7 +77,7 @@ public final class I18n
     private static final Logger LOGGER = Logger.getLogger(I18n.class);
 
     private static final I18n INSTANCE = new I18n();
-    private static final Map<String, Properties> MESSAGES_MAP = new HashMap<String, Properties>();
+    private static final Map<String, Properties> MESSAGES_MAP = new ConcurrentHashMap<String, Properties>();
     private static final Properties LOCAL_NAMES = new Properties();
     private static String defaultName;
     private static String baseDir;
@@ -246,7 +245,9 @@ public final class I18n
                      */
                     public void fileChanged(String filename)
                     {
-                        LOGGER.info("Reloading i18n for " + localeName);
+                    	if (LOGGER.isEnabledFor(Level.INFO)) {
+                    		LOGGER.info("Reloading i18n for " + localeName);
+                    	}
 
                         I18n.load(localeName, SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT), true);
                     }
@@ -399,7 +400,7 @@ public final class I18n
 
     public static void reset()
     {
-        //messagesMap = new HashMap<String, Properties>();
+        //messagesMap = new ConcurrentHashMap<String, Properties>();
         MESSAGES_MAP.clear();
         //localeNames = new Properties();
         LOCAL_NAMES.clear();

@@ -56,10 +56,10 @@ import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Logger;
 
-import freemarker.template.Configuration;
-import freemarker.template.SimpleHash;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
+import freemarker.template.Configuration;
+import freemarker.template.SimpleHash;
 
 /**
  * Data execution context. 
@@ -72,11 +72,11 @@ public class JForumExecutionContext
     private static ThreadLocal<JForumExecutionContext> userData = new ThreadLocal<JForumExecutionContext>();
 	private static final Logger LOGGER = Logger.getLogger(JForumExecutionContext.class);
 	private static Configuration templateConfig;
-	private static final BeansWrapper beansWrapper = new BeansWrapperBuilder(Configuration.VERSION_2_3_21).build();
+	private static final BeansWrapper BEANS_WRAPPER = new BeansWrapperBuilder(Configuration.VERSION_2_3_21).build();
 
 	private transient Connection conn;
     private ForumContext forumContext;
-    private transient final SimpleHash context = new SimpleHash(beansWrapper); 
+    private transient final SimpleHash context = new SimpleHash(BEANS_WRAPPER); 
     private transient String redirectTo;
     private String contentType;
     private transient boolean isCustomContent;
@@ -338,6 +338,6 @@ public class JForumExecutionContext
 	 * the FreeMarker version information to this class.
 	 */
 	public static SimpleHash newSimpleHash() {
-		return new SimpleHash(beansWrapper);
+		return new SimpleHash(BEANS_WRAPPER);
 	}
 }

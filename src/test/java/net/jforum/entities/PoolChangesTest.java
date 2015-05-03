@@ -7,12 +7,15 @@ package net.jforum.entities;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
 /**
  * @author Rafael Steil
  * @version $Id$
  */
 public class PoolChangesTest extends TestCase
 {
+	@Test
 	public void testLabelOnlyShouldHaveChanged()
 	{
 		Poll p1 = new Poll();
@@ -31,6 +34,7 @@ public class PoolChangesTest extends TestCase
 		assertEquals(0, changes.getNewOptions().size());
 	}
 	
+	@Test
 	public void testShouldHave1Update()
 	{
 		Poll p1 = new Poll();
@@ -50,6 +54,7 @@ public class PoolChangesTest extends TestCase
 		assertEquals(new PollOption(2, "Option 2 changed", 0), changes.getChangedOptions().get(0));
 	}
 	
+	@Test
 	public void testShouldHave3NewOptions()
 	{
 		Poll p1 = new Poll();
@@ -73,6 +78,7 @@ public class PoolChangesTest extends TestCase
 		assertEquals(new PollOption(4, "Option 4", 0), changes.getNewOptions().get(2));
 	}
 	
+	@Test
 	public void testShouldHave2DeletedOptions()
 	{
 		Poll p1 = new Poll();
@@ -96,6 +102,7 @@ public class PoolChangesTest extends TestCase
 		assertEquals(new PollOption(4, "Option 4", 0), changes.getDeletedOptions().get(1));
 	}
 	
+	@Test
 	public void testShouldHaveNoChanges()
 	{
 		Poll p1 = new Poll();

@@ -42,7 +42,10 @@
  */
 package net.jforum.view.forum;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import net.jforum.Command;
 import net.jforum.SessionFacade;
@@ -64,9 +67,9 @@ import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
-import freemarker.template.SimpleHash;
-
 import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil
@@ -75,7 +78,7 @@ import org.apache.log4j.Logger;
 
 public class SearchAction extends Command 
 {
-    private static final Logger log = Logger.getLogger(SearchAction.class);
+    private static final Logger LOGGER = Logger.getLogger(SearchAction.class);
 
 	public SearchAction() { }
 	
@@ -190,7 +193,7 @@ public class SearchAction extends Command
 				if (request instanceof WebRequestContext) {
 					ip = ((WebRequestContext) request).getRemoteAddr();
 				}
-				log.error(requestDateRange + " is not a date. Not possible through the UI. IP " + ip);
+				LOGGER.error(requestDateRange + " is not a date. Not possible through the UI. IP " + ip);
 				throw new RuntimeException("The search request was malformed. Please use sensible values only.");
             }
         }

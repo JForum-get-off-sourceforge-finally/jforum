@@ -66,23 +66,23 @@ public class LuceneSettings
 {
 	private Analyzer analyzer;
 	private Directory directory;
-	public static final Version version = Version.LUCENE_36;
+	public static final Version VERSION = Version.LUCENE_36;
 	
 	public LuceneSettings(final Analyzer analyzer)
 	{
 		this.analyzer = analyzer;
 	}
 	
-	public void useRAMDirectory() throws Exception
+	public void useRAMDirectory() throws IOException
 	{
 		this.directory = new RAMDirectory();
 
-		final IndexWriterConfig conf = new IndexWriterConfig(version, this.analyzer).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+		final IndexWriterConfig conf = new IndexWriterConfig(VERSION, this.analyzer).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 		final IndexWriter writer = new IndexWriter(this.directory, conf);
 		writer.close();
 	}
 	
-	public void useFSDirectory(final String indexDirectory) throws Exception
+	public void useFSDirectory(final String indexDirectory) throws IOException
 	{
 		if (!IndexReader.indexExists(FSDirectory.open(new File(indexDirectory)))) {
 			this.createIndexDirectory(indexDirectory);
@@ -94,8 +94,8 @@ public class LuceneSettings
 	public void createIndexDirectory(final String directoryPath) throws IOException 
 	{
 		final FSDirectory fsDir = FSDirectory.open(new File(directoryPath));		
-		final IndexWriterConfig conf = new IndexWriterConfig(version, this.analyzer).setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-		IndexWriter writer = new IndexWriter(fsDir, conf);
+		final IndexWriterConfig conf = new IndexWriterConfig(VERSION, this.analyzer).setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+		final IndexWriter writer = new IndexWriter(fsDir, conf);
 		writer.close();
 	}
 	

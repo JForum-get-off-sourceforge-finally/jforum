@@ -86,6 +86,8 @@ public class ForumSessionListener implements HttpSessionListener
 
         final ServletContext context = session.getServletContext(); 
         context.removeAttribute(sessionId);
-        LOGGER.debug("Session Destroyed: " +  sessionId);
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug("Session Destroyed: " +  sessionId);
+        }
 	}
 }

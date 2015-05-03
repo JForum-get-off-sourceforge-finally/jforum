@@ -44,6 +44,7 @@ package net.jforum.util.preferences;
 
 import net.jforum.util.FileChangeListener;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -67,7 +68,9 @@ public class QueriesFileListener implements FileChangeListener
      */
     public void fileChanged(final String filename)
     {
-        LOGGER.info("File change detected: "+ filename);
+    	if (LOGGER.isEnabledFor(Level.INFO)) {
+    		LOGGER.info("File change detected: "+ filename);
+    	}
         final String driverQueries = SystemGlobals.getValue(ConfigKeys.SQL_QUERIES_DRIVER);
         if (filename.equals(driverQueries)) {
             SystemGlobals.loadQueries(filename);

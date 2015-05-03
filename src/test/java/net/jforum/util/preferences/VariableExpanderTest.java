@@ -3,8 +3,11 @@
  */
 package net.jforum.util.preferences;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import junit.framework.TestCase;
 
@@ -14,9 +17,13 @@ import junit.framework.TestCase;
  */
 public class VariableExpanderTest extends TestCase
 {
+	private VariableExpander extapnder;
+	
+	private final String test = "${config.dir}/database/${database.driver.name}/${database.driver.name}.properties";
+		
 	private static class MyStore implements VariableStore
 	{
-		private Map<String, String> data = new HashMap<String, String>();
+		final private Map<String, String> data = new ConcurrentHashMap<String, String>();
 		
 		public MyStore()
 		{
@@ -29,27 +36,25 @@ public class VariableExpanderTest extends TestCase
 			this.data.put("database.driver.name", "mysql");
 		}
 		
-		public String getVariableValue(String variableName)
+		public String getVariableValue(final String variableName)
 		{
 			return (String)this.data.get(variableName);
 		}
 	}
 	
-	private VariableExpander extapnder;
-	
-	private String test = "${config.dir}/database/${database.driver.name}/${database.driver.name}.properties";
-	
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Before
 	protected void setUp() throws Exception
 	{
 		this.extapnder = new VariableExpander(new MyStore(), "${", "}");
 	}
 	
+	@Test
 	public void testExpand()
 	{
-		String result = this.extapnder.expandVariables(this.test);
+		final String result = this.extapnder.expandVariables(this.test);
 		assertEquals("/config/database/mysql/mysql.properties", result);
 	}
 }

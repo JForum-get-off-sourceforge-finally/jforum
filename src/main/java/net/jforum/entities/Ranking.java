@@ -136,7 +136,7 @@ public class Ranking implements Serializable
 		this.min = i;
 	}
 
-	public boolean equals(Object o)
+	public boolean equals(final Object o)
 	{
 		if (o == this) {
 			return true;

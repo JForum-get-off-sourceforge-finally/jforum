@@ -48,9 +48,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.entities.Karma;
@@ -273,7 +273,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	 */
 	public Map<Integer, Integer> getUserVotes(final int topicId, final int userId)
 	{
-		final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		final Map<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
