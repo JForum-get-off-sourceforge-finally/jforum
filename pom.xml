@@ -223,12 +223,12 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.34</version>
+			<version>5.1.35</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.3-1103-jdbc4</version>
+			<version>9.4-1201-jdbc4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -244,7 +244,7 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-parsers</artifactId>
-			<version>1.7</version>
+			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp</groupId>
