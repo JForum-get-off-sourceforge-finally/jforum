@@ -113,13 +113,11 @@ public class SummaryTest extends TestCase
     	// remove topic
 		TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
 		topicDao.delete(testTopic, true);
-	}
-    
+	}    
     
     /**
      * Tests only the scheduler and your frequency.
      * @throws Exception 
-     *
      */
 	@Test
 	public void testScheduler() throws Exception
