@@ -205,7 +205,7 @@ public class RSSAction extends Command
         String title = I18n.getMessage("RSS.UserPosts.title", 
 			new Object[] { SystemGlobals.getValue(ConfigKeys.FORUM_NAME), user.getUsername()});
         String description = I18n.getMessage("RSS.UserPosts.description", 
-			new Object[] { user.getName() });
+			new Object[] { user.getUsername() });
 
         PostDAO postDAO = DataAccessDriver.getInstance().newPostDAO();
         int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);

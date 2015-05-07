@@ -89,8 +89,6 @@ UserModel.addNewWithId = INSERT INTO jforum_users (username, user_password, user
 
 UserModel.update = UPDATE jforum_users SET user_aim = ?, \
 	user_avatar = ?,\
-	gender = ?, \
-	themes_id = ?,\
 	user_allow_pm = ?, \
 	user_allowavatar = ?, \
 	user_allowbbcode = ?, \

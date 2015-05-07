@@ -203,9 +203,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	{
 		user.setAim(rs.getString("user_aim"));
 		user.setAvatar(rs.getString("user_avatar"));
-		user.setGender(rs.getString("gender"));
 		user.setRankId(rs.getInt("rank_id"));
-		user.setThemeId(rs.getInt("themes_id"));
 		user.setPrivateMessagesEnabled(rs.getInt("user_allow_pm") == 1);
 		user.setNotifyOnMessagesEnabled(rs.getInt("user_notify") == 1);
 		user.setViewOnlineEnabled(rs.getInt("user_viewonline") == 1);
@@ -232,7 +230,6 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		user.setUsername(rs.getString("username"));
 		user.setAttachSignatureEnabled(rs.getInt("user_attachsig") == 1);
 		user.setMsnm(rs.getString("user_msnm"));
-		user.setLang(rs.getString("user_lang"));
 		user.setActive(rs.getInt("user_active"));
 		user.setKarma(new KarmaStatus(user.getId(), rs.getDouble("user_karma")));
 		user.setNotifyPrivateMessagesEnabled(rs.getInt("user_notify_pm") == 1);
@@ -277,42 +274,40 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 
 			pstmt.setString(1, user.getAim());
 			pstmt.setString(2, user.getAvatar());
-			pstmt.setString(3, user.getGender());
-			pstmt.setInt(4, user.getThemeId());
-			pstmt.setInt(5, user.isPrivateMessagesEnabled() ? 1 : 0);
-			pstmt.setInt(6, user.isAvatarEnabled() ? 1 : 0);
-			pstmt.setInt(7, user.isBbCodeEnabled() ? 1 : 0);
-			pstmt.setInt(8, user.isHtmlEnabled() ? 1 : 0);
-			pstmt.setInt(9, user.isSmiliesEnabled() ? 1 : 0);
-			pstmt.setString(10, user.getEmail());
-			pstmt.setString(11, user.getFrom());
-			pstmt.setString(12, user.getIcq());
-			pstmt.setString(13, user.getInterests());
-			pstmt.setString(14, user.getOccupation());
-			pstmt.setString(15, user.getSignature());
-			pstmt.setString(16, user.getWebSite());
-			pstmt.setString(17, user.getYim());
-			pstmt.setString(18, user.getMsnm());
-			pstmt.setString(19, user.getPassword());
-			pstmt.setInt(20, user.isViewEmailEnabled() ? 1 : 0);
-			pstmt.setInt(21, user.isViewOnlineEnabled() ? 1 : 0);
-			pstmt.setInt(22, user.isNotifyOnMessagesEnabled() ? 1 : 0);
-			pstmt.setInt(23, user.isAttachSignatureEnabled() ? 1 : 0);
-			pstmt.setString(24, user.getUsername());
-			pstmt.setString(25, user.getLang());
-			pstmt.setInt(26, user.isNotifyPrivateMessagesEnabled() ? 1 : 0);
-			pstmt.setString(27, user.getBiography());
+			pstmt.setInt(3, user.isPrivateMessagesEnabled() ? 1 : 0);
+			pstmt.setInt(4, user.isAvatarEnabled() ? 1 : 0);
+			pstmt.setInt(5, user.isBbCodeEnabled() ? 1 : 0);
+			pstmt.setInt(6, user.isHtmlEnabled() ? 1 : 0);
+			pstmt.setInt(7, user.isSmiliesEnabled() ? 1 : 0);
+			pstmt.setString(8, user.getEmail());
+			pstmt.setString(9, user.getFrom());
+			pstmt.setString(10, user.getIcq());
+			pstmt.setString(11, user.getInterests());
+			pstmt.setString(12, user.getOccupation());
+			pstmt.setString(13, user.getSignature());
+			pstmt.setString(14, user.getWebSite());
+			pstmt.setString(15, user.getYim());
+			pstmt.setString(16, user.getMsnm());
+			pstmt.setString(17, user.getPassword());
+			pstmt.setInt(18, user.isViewEmailEnabled() ? 1 : 0);
+			pstmt.setInt(19, user.isViewOnlineEnabled() ? 1 : 0);
+			pstmt.setInt(20, user.isNotifyOnMessagesEnabled() ? 1 : 0);
+			pstmt.setInt(21, user.isAttachSignatureEnabled() ? 1 : 0);
+			pstmt.setString(22, user.getUsername());
+			pstmt.setString(23, user.getLang());
+			pstmt.setInt(24, user.isNotifyPrivateMessagesEnabled() ? 1 : 0);
+			pstmt.setString(25, user.getBiography());
 
 			if (user.getLastVisit() == null) {
 				user.setLastVisit(new Date());
 			}
 
-			pstmt.setTimestamp(28, new Timestamp(user.getLastVisit().getTime()));
-			pstmt.setInt(29, user.notifyAlways() ? 1 : 0);
-			pstmt.setInt(30, user.notifyText() ? 1 : 0);
-            pstmt.setString(31, user.getTwitter());
-			pstmt.setInt(32, user.getRankId());
-			pstmt.setInt(33, user.getId());
+			pstmt.setTimestamp(26, new Timestamp(user.getLastVisit().getTime()));
+			pstmt.setInt(27, user.notifyAlways() ? 1 : 0);
+			pstmt.setInt(28, user.notifyText() ? 1 : 0);
+            pstmt.setString(29, user.getTwitter());
+			pstmt.setInt(30, user.getRankId());
+			pstmt.setInt(31, user.getId());
 
 			pstmt.executeUpdate();
 		}
@@ -707,7 +702,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#isUsernameRegistered(java.lang.String)
+	 * @see net.jforum.dao.UserDAO#isUsernameRegistered(String)
 	 */
 	public boolean isUsernameRegistered(String username)
 	{
@@ -735,7 +730,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#validateLogin(java.lang.String, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#validateLogin(String, String)
 	 */
 	public User validateLogin(String username, String password)
 	{
@@ -790,7 +785,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#saveNewPassword(java.lang.String, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#saveNewPassword(String, String)
 	 */
 	public void saveNewPassword(String password, String email)
 	{
@@ -811,7 +806,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#validateLostPasswordHash(java.lang.String, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#validateLostPasswordHash(String, String)
 	 */
 	public boolean validateLostPasswordHash(String email, String hash)
 	{
@@ -843,7 +838,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#writeLostPasswordHash(java.lang.String, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#writeLostPasswordHash(String, String)
 	 */
 	public void writeLostPasswordHash(String email, String hash)
 	{
@@ -864,7 +859,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#getUsernameByEmail(java.lang.String)
+	 * @see net.jforum.dao.UserDAO#getUsernameByEmail(String)
 	 */
 	public String getUsernameByEmail(String email)
 	{
@@ -893,7 +888,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#findByName(java.lang.String, boolean)
+	 * @see net.jforum.dao.UserDAO#findByName(String, boolean)
 	 */
 	public List<User> findByName(String input, boolean exactMatch)
 	{
@@ -927,7 +922,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#validateActivationKeyHash(int, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#validateActivationKeyHash(int, String)
 	 */
 	public boolean validateActivationKeyHash(int userId, String hash)
 	{
@@ -998,7 +993,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#hasUsernameChanged(int, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#hasUsernameChanged(int, String)
 	 */
 	public boolean hasUsernameChanged(int userId, String usernameToCheck)
 	{
@@ -1056,7 +1051,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#saveUserAuthHash(int, java.lang.String)
+	 * @see net.jforum.dao.UserDAO#saveUserAuthHash(int, String)
 	 */
 	public void saveUserAuthHash(int userId, String hash)
 	{
@@ -1106,7 +1101,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserDAO#findByEmail(java.lang.String)
+	 * @see net.jforum.dao.UserDAO#findByEmail(String)
 	 */
 	public User findByEmail(String email) {
 	    List<User> users = findAllUsersByEmail(email, 0, 1);

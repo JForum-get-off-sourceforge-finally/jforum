@@ -257,21 +257,6 @@ CREATE TABLE jforum_smilies (
 );
 
 --
--- Table structure for table 'jforum_themes'
---
-CREATE SEQUENCE jforum_themes_seq
-  INCREMENT BY 1
-  START WITH 1 MAXVALUE 2.0E9 MINVALUE 1 NOCYCLE
-  CACHE 200 ORDER;
-
-CREATE TABLE jforum_themes (
-  themes_id NUMBER(10) NOT NULL,
-  template_name VARCHAR2(30) DEFAULT ' ' NOT NULL,
-  style_name VARCHAR2(30) DEFAULT ' ' NOT NULL,
-  PRIMARY KEY (themes_id)
-);
-
---
 -- Table structure for table 'jforum_topics'
 --
 CREATE SEQUENCE jforum_topics_seq

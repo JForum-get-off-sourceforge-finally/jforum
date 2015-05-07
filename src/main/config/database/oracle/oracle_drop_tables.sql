@@ -55,10 +55,6 @@ DROP TABLE jforum_topics_watch;
 DROP SEQUENCE jforum_topics_seq;
 DROP TABLE jforum_topics;
 
--- Table structure for table 'jforum_themes'
-DROP SEQUENCE jforum_themes_seq;
-DROP TABLE jforum_themes;
-
 -- Table structure for table 'jforum_smilies'
 DROP SEQUENCE jforum_smilies_seq;
 DROP TABLE jforum_smilies;
@@ -84,7 +80,7 @@ DROP TABLE jforum_posts;
 
 -- Table structure for table 'jforum_role_values'
 DROP TABLE jforum_role_values;
-	
+
 -- Table structure for table 'jforum_roles'
 DROP SEQUENCE jforum_roles_seq;
 DROP TABLE jforum_roles;

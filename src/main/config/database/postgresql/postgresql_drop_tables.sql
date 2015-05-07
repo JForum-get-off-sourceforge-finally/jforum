@@ -23,8 +23,6 @@ DROP SEQUENCE jforum_roles_seq;
 DROP TABLE jforum_sessions;
 DROP TABLE jforum_smilies;
 DROP SEQUENCE jforum_smilies_seq;
-DROP TABLE jforum_themes;
-DROP SEQUENCE jforum_themes_seq;
 DROP TABLE jforum_topics;
 DROP SEQUENCE jforum_topics_seq;
 DROP TABLE jforum_topics_watch;

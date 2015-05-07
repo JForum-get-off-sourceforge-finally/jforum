@@ -72,7 +72,6 @@ public class User implements Serializable
 {
 	private static final long serialVersionUID = -2945794235180674465L;
 	private int id;
-	private int themeId;
 	private int level;
 	private int totalPosts;
 	private boolean attachSignatureEnabled = true;
@@ -105,8 +104,6 @@ public class User implements Serializable
 	private String occupation;
 	private String interests;
 	private String biography;
-	private String gender;
-	private String timeZone;
 	private String lang;
 	private String dateFormat;
 	private boolean viewEmailEnabled = true;
@@ -116,8 +113,6 @@ public class User implements Serializable
 	private int active;
 	private String activationKey;
 	private int deleted;
-	private String firstName;
-	private String lastName;
 	private Map<String, Object> extra = new ConcurrentHashMap<String, Object>();
 	
 	public User(int userId)
@@ -142,32 +137,7 @@ public class User implements Serializable
 	{
 		return this.extra.get(name);
 	}
-	
-	public void setFirstName(String name)
-	{
-		this.firstName = name;
-	}
-	
-	public String getFirstName()
-	{
-		return this.firstName;
-	}
-	
-	public void setLastName(String name)
-	{
-		this.lastName = name;
-	}
-	
-	public String getLastName()
-	{
-		return this.lastName;
-	}
-	
-	public String getName()
-	{
-		return this.firstName + " " + this.lastName;
-	}
-	
+
 	public boolean isDeleted() {
 		return this.deleted == 1;
 	}	
@@ -240,15 +210,6 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Gets the user gender
-	 * 
-	 * @return String value. Possible values are <code>M</code> or <code>F</code>
-	 */
-	public String getGender() {
-		return this.gender;
-	}
-
-	/**
 	 * Checks if HTML code is enabled by default in user messages
 	 * 
 	 * @return boolean value
@@ -307,7 +268,7 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Gets the user leve
+	 * Gets the user level
 	 * 
 	 * @return int value with the level
 	 */
@@ -388,24 +349,6 @@ public class User implements Serializable
 	 */
 	public boolean isSmiliesEnabled() {
 		return this.smiliesEnabled;
-	}
-	
-	/**
-	 * Gets the id of the theme chosen by the user
-	 * 
-	 * @return int value with the theme ID
-	 */
-	public int getThemeId() {
-		return this.themeId;
-	}
-
-	/**
-	 * Gets the timezone
-	 * 
-	 * @return String value with the timezone
-	 */
-	public String getTimeZone() {
-		return this.timeZone;
 	}
 
 	/**
@@ -547,15 +490,6 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Sets the gender.
-	 * 
-	 * @param gender The gender to set. Possible values must be <code>M</code> or <code>F</code>
-	 */
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	/**
 	 * Enable or not HTML code into the messages
 	 * 
 	 * @param htmlEnabled <code>true</code> or <code>false</code>
@@ -692,24 +626,6 @@ public class User implements Serializable
 	 */
 	public void setSmiliesEnabled(boolean smilesEnabled) {
 		this.smiliesEnabled = smilesEnabled;
-	}
-
-	/**
-	 * Sets the theme id
-	 * 
-	 * @param themeId The theme Id to set
-	 */
-	public void setThemeId(int themeId) {
-		this.themeId = themeId;
-	}
-
-	/**
-	 * Sets the Timezone.
-	 * 
-	 * @param timeZone The Timezone to set
-	 */
-	public void setTimeZone(String timeZone) {
-		this.timeZone = timeZone;
 	}
 
 	/**

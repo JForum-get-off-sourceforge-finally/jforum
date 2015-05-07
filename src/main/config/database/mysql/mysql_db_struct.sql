@@ -218,17 +218,6 @@ CREATE TABLE jforum_smilies (
 ) ENGINE=InnoDB;
 
 --
--- Table structure for table 'jforum_themes'
---
-DROP TABLE IF EXISTS jforum_themes;
-CREATE TABLE jforum_themes (
-  themes_id INT NOT NULL AUTO_INCREMENT,
-  template_name VARCHAR(30) NOT NULL DEFAULT '',
-  style_name VARCHAR(30) NOT NULL DEFAULT '',
-  PRIMARY KEY (themes_id)
-) ENGINE=InnoDB;
-
---
 -- Table structure for table 'jforum_topics'
 --
 DROP TABLE IF EXISTS jforum_topics;

@@ -43,9 +43,6 @@ DROP TABLE jforum_sessions;
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_smilies') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_smilies;
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_themes') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-DROP TABLE jforum_themes;
-
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_topics') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_topics;
 
@@ -301,15 +298,6 @@ CREATE TABLE jforum_smilies (
   code varchar(50) NOT NULL,
   url varchar(100) DEFAULT NULL,
   disk_name varchar(255) NULL 
-);
-
---
--- Table structure for table 'jforum_themes'
---
-CREATE TABLE jforum_themes (
-  themes_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL,
-  template_name varchar(30) DEFAULT ('') NOT NULL,
-  style_name varchar(30) DEFAULT ('') NOT NULL 
 );
 
 --
