@@ -389,8 +389,6 @@ CREATE TABLE jforum_users (
   user_interests nvarchar(255) DEFAULT NULL,
   user_biography ntext DEFAULT NULL,
   user_actkey varchar(32) DEFAULT NULL,
-  gender char(1) DEFAULT NULL,
-  themes_id bigint DEFAULT NULL,
   deleted tinyint NULL,
   user_viewonline tinyint DEFAULT (1) NULL,
   security_hash varchar(32) NULL,
