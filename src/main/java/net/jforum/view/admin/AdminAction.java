@@ -127,7 +127,12 @@ public class AdminAction extends Command {
 			ForumDAO dao = DataAccessDriver.getInstance().newForumDAO();
 			this.context.put("stats", dao.getBoardStatus());
 			
-			this.checkBoardVersion();
+			boolean versionCheckEnabled = SystemGlobals.getBoolValue(ConfigKeys.VERSION_CHECK_ENABLED);
+			if (versionCheckEnabled) {
+				this.checkBoardVersion();
+			} else {
+				this.context.put("developmentVersion", false);
+			}
 		}
 	}
 	
