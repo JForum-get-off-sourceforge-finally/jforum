@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE bbConfig [
+<!ELEMENT bbConfig (match+)>
+<!ELEMENT match (regex, (replace|class-name))>
+<!ATTLIST match name CDATA #REQUIRED>
+<!ATTLIST match removeQuotes CDATA "false" >
+<!ATTLIST match lockedForSmilies CDATA #IMPLIED>
+<!ATTLIST match alwaysProcess CDATA "false" >
+<!ELEMENT regex (#PCDATA)>
+<!ELEMENT replace (#PCDATA)>
+<!ELEMENT class-name (#PCDATA)>
+]>
 <bbConfig>
 	<!-- CODE -->
 	<match name="code">
