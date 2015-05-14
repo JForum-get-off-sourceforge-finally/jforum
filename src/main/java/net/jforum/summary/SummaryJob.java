@@ -42,7 +42,6 @@
  */
 package net.jforum.summary;
 
-import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -53,8 +52,6 @@ import org.quartz.JobExecutionException;
  */
 public class SummaryJob implements Job
 {
-	private static final Logger LOGGER = Logger.getLogger(SummaryJob.class);
-
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
