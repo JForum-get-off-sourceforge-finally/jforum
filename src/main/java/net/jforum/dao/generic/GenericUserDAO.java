@@ -228,6 +228,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		user.setWebSite(rs.getString("user_website"));
 		user.setYim(rs.getString("user_yim"));
 		user.setUsername(rs.getString("username"));
+		user.setLang(rs.getString("user_lang"));
 		user.setAttachSignatureEnabled(rs.getInt("user_attachsig") == 1);
 		user.setMsnm(rs.getString("user_msnm"));
 		user.setActive(rs.getInt("user_active"));
