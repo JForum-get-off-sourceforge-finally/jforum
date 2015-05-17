@@ -89,7 +89,7 @@ public class JForumBaseServlet extends HttpServlet
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
-			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_21);
+			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_22);
 			if (this.debug) {
 				templateCfg.setTemplateUpdateDelay(2);
 			} else {
