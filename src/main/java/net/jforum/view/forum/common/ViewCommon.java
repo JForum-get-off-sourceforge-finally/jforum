@@ -251,9 +251,11 @@ public final class ViewCommon
 		return sdf.format(date);
 	}
 
+	private static final Locale BRITISH = new Locale("en_gb");
+
 	public static String formatDateAsGmt(Date date) 
 	{
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), BRITISH);
 		TimeZone timeZone = TimeZone.getTimeZone("GMT");
 		df.setTimeZone(timeZone);
 		return df.format(date);
