@@ -61,12 +61,12 @@ import net.jforum.util.preferences.TemplateKeys;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import freemarker.template.SimpleHash;
+import freemarker.template.*;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
+
 public final class ViewCommon
 {
 	private static final Logger LOGGER = Logger.getLogger(ViewCommon.class);
@@ -253,12 +253,26 @@ public final class ViewCommon
 
 	private static final Locale BRITISH = new Locale("en_gb");
 
+	/**
+	 * GMT dates are used only if local dates are displayed ("uselocaltime" context variable, ConfigKeys.DATE_TIME_LOCAL,
+	 * see template/default/js/userLocalTime.js). Otherwise, just return the standard (non-GMT) date.
+	 */
 	public static String formatDateAsGmt(Date date) 
 	{
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), BRITISH);
-		TimeZone timeZone = TimeZone.getTimeZone("GMT");
-		df.setTimeZone(timeZone);
-		return df.format(date);
+		final SimpleHash context = JForumExecutionContext.getTemplateContext();
+		try {
+			boolean useLocalTime = ((TemplateBooleanModel) context.get("useLocalTime")).getAsBoolean();
+			if (! useLocalTime) {
+				return formatDate(date);
+			} else {
+				SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), BRITISH);
+				TimeZone timeZone = TimeZone.getTimeZone("GMT");
+				df.setTimeZone(timeZone);
+				return df.format(date);
+			}
+		} catch (TemplateModelException tmex) {
+			return formatDate(date);
+		}
 	}
 
 	/**
