@@ -23,7 +23,7 @@
 				<b><span class="gen">${I18n.getMessage("UserProfile.avatar")}</span></b><br />
 				<#if u.isExternalAvatar() || u.avatar.startsWith("http://") || u.avatar.startsWith("https://")>
 					<#if avatarAllowExternalUrl>
-						<img src="${u.avatar?html}" alt="avatar" />
+						<img src="${u.avatar?html}" alt="avatar" height="${avatarMaxHeight}" width="${avatarMaxWidth}" /><br />
 					</#if>
 				<#else>
 					<img src="${contextPath}/${avatarPath}/${u.avatar}" alt="avatar" /><br />

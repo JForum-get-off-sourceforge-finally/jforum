@@ -16,7 +16,7 @@
 <#if showAvatar && (user.avatar?exists && user.avatar?length > 0)>
 	<#if user.isExternalAvatar() || user.avatar.startsWith("http://") || user.avatar.startsWith("https://")>
 		<#if avatarAllowExternalUrl>
-			<img src="${user.avatar?html}" alt="[Avatar]" />
+			<img src="${user.avatar?html}" alt="[Avatar]" height="${avatarMaxHeight}" width="${avatarMaxWidth}" />
 		</#if>
 	<#else>
 		<img src="${contextPath}/${avatarPath}/${user.avatar}" alt="[Avatar]" /><br />

@@ -314,13 +314,13 @@ function validateForm()
 					<td class="row1" colspan="2">
 						<table cellspacing="2" cellpadding="0" width="70%" align="center">
 							<tr>
-								<td width="65%"><span class="gensmall">${I18n.getMessage("User.avatarDesc")}</span></td>
+								<td width="65%"><span class="gensmall">${I18n.getMessage("User.avatarDesc", [avatarMaxHeight, avatarMaxWidth])}</span></td>
 								<td align="center">
 									<#if (u.avatar?exists && u.avatar?length > 0)>
 										<span class="gensmall">${I18n.getMessage("User.currentAvatar")}</span><br />
 										<br />
 										<#if u.isExternalAvatar()>
-											<img src="${u.avatar?html}" alt="[Avatar]" />
+											<img src="${u.avatar?html}" alt="[Avatar]" height="${avatarMaxHeight}" width="${avatarMaxWidth}" />
 										<#else>
 											<img src="${contextPath}/${avatarPath}/${u.avatar}" alt="[Avatar]" /><br />
 										</#if>

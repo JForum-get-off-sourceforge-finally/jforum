@@ -121,6 +121,8 @@ public class ControllerUtils
             context.put("googleAnalyticsTracker", googleTracker.trim());
         }
         context.put("announcement", SystemGlobals.getValue(ConfigKeys.ANNOUNCEMENT));
+        context.put("avatarMaxHeight", SystemGlobals.getValue(ConfigKeys.AVATAR_MAX_HEIGHT));
+        context.put("avatarMaxWidth", SystemGlobals.getValue(ConfigKeys.AVATAR_MAX_WIDTH));
 	}
 
 	/**
