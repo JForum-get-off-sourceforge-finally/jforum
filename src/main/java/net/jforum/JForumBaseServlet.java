@@ -89,11 +89,11 @@ public class JForumBaseServlet extends HttpServlet
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
-			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_22);
+			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_23);
 			if (this.debug) {
-				templateCfg.setTemplateUpdateDelay(2);
+				templateCfg.setTemplateUpdateDelayMilliseconds(2000);
 			} else {
-				templateCfg.setTemplateUpdateDelay(3600);
+				templateCfg.setTemplateUpdateDelayMilliseconds(3600000);
 			}
 			templateCfg.setSetting("number_format", "#");
 			templateCfg.setSharedVariable("startupTime", Long.valueOf(System.currentTimeMillis()));
