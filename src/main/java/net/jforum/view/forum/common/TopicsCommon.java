@@ -117,7 +117,7 @@ public class TopicsCommon
 		
 		int size = topics.size();
 		
-		while (size < start) {
+		while (size <= start) {
 			start -= topicsPerPage;
 		}
 		if (start < 0) {
