@@ -1,39 +1,36 @@
-2.4.0
+2.4.1
 
-<p>Some features have been added, changed or fixed in JForum 2.4.0, like:</p>
+<p>Some features have been added, changed or fixed in JForum 2.4.1, like:</p>
 
 <ul>
-<li>Upgraded JForum minimum system requirement to Java 6</li>
-<li>Upgraded Apache Commons FileUpload from 1.3 to 1.3.1</li>
-<li>Upgraded Apache Tika from 1.4 to 1.7</li>
-<li>Upgraded FreeMarker from 2.3.20 to 2.3.21</li>
-<li>Upgraded JavaMail from 1.5.1 to 1.5.2</li>
-<li>Upgraded JUnit from 4.11 to 4.12</li>
-<li>Upgraded slf4j from 1.7.5 to 1.7.10</li>
-<li>Upgraded HSQLDB from 2.3.1 to 2.3.2</li>
-<li>Upgraded MySQL Connector/J JDBC Driver from 5.1.27 to 5.1.34</li>
-<li>Upgrade Microsoft JDBC Driver for SQL Server from 4.0 to 4.1</li>
-<li>Upgrade Oracle JDBC Driver from 10.2.0.4 to 12.1.0.2</li>
-<li>Upgraded PostgreSQL JDBC Driver from 9.3-1100 to 9.3-1102</li>
-<li>Upgraded jQuery from 1.10.2 to 1.11.2</li>
-<li>Upgraded Apache Commons Codec from 1.6 to 1.10</li>
-<li>Upgraded Quartz from 2.1.7 to 2.2.1</li>
-<li>Upgraded c3p0 from 0.9.2.1 to 0.9.5</li>
-<li>Fix  Issue 48  : tr_TR.properties new language add</li>
-<li>Fix  Issue 58  : Added Dutch (Nederlandse) translation properties file</li>
-<li>Fix  Issue 53  : Editing color or font size do not work</li>
-<li>Fix  Issue 54  : Cannot differ anchor for url and anchor for google</li>
-<li>Fix  Issue 55  : JForum: given folder is not classpath</li>
-<li>Fix locale does not change after selecting a different language from list box on install.page</li>
-<li>Update zh_TW.properties and zh_CN.properties for new I18n keys</li>
-<li>Fix  Issue 56  : org.hsqldb.HsqlException: data exception: invalid character value for cast</li>
-<li>Fix  Issue 57  : Oracle TopicModel.topicPosters missing user_twitter column</li>
-<li>Change bottom.htm copyright year from 2013 to 2015</li>
-<li>Fix pom.xml resources exclusion, don't package templates directory into jforum.jar</li>
-<li>Fix search_keywords encoding changed in Tomcat 8 for Chinese characters</li>
-<li>For forum administrators: ability to maintain a list of spam words and phrases that can not be used in posts</li>
-<li>Support Vimeo embedding analogous to Youtube embedding</li>
-<li>Various vulnerabilities have been fixed</li>
+<li>Upgraded JavaMail from 1.5.2 to 1.5.4</li>
+<li>Upgraded JDOM2 from 2.0.5 to 2.0.6</li>
+<li>Upgraded FreeMarker from 2.3.21 to 2.3.23</li>
+<li>Upgraded Apache Commons Lang3 from 3.3.2 to 3.4</li>
+<li>Upgraded JBoss Cache from 2.2.19 to 2.2.22</li>
+<li>Upgraded SLF4J from 1.7.10 to 1.7.12</li>
+<li>Upgraded C3P0 from 0.9.5 to 0.9.5.1</li>
+<li>Upgraded MySQL Connector/J JDBC Driver from 5.1.34 to 5.1.36</li>
+<li>Upgraded PostgreSQL JDBC Driver from 9.3-1102-jdbc4 to 9.4-1201-jdbc4</li>
+<li>Upgraded HSQLDB from 2.3.2 to 2.3.3</li>
+<li>Upgraded Apache Tika from 1.7 to 1.9</li>
+<li>Upgraded jQuery from 1.11.2 to 1.11.3</li>
+<li>Better fix for "Arbitrary File Upload and Remote Code Execution – Smileys"</li>
+<li>Only show number of edits of a post to logged-in users</li>
+<li>Don't ignore user's "Hide my online status" setting</li>
+<li>Salt the user password with an installation-specific value</li>
+<li>Fix problem where smilies could not be inserted into posts by clicking their icons</li>
+<li>Added some missing settings to the Configurations page</li>
+<li>Dates can be displayed in the local timezone of the forum visitor instead of the timezone of the forum server</li>
+<li>broken "can edit message" setting has been fixed</li>
+<li>Numerous code improvements suggested by FindBugs and PMD</li>
+<li>Fix  Issue 22 : Some user attributes not stored in DB</li>
+<li>Fix  Issue 35 : allow to disable version check by adding a version.check.enabled key to switch for check or not</li>
+<li>Fix  Issue 66 : Improve Automatic URL matching</li>
+<li>Fix  Issue 67 : When topic cache is disabled, all pages except first and last in a forum display 0 threads</li>
+<li>Enforce image height and width when using large external image URL as user avatar</li>
+<li>Add DTD for bb_config.xml</li>
+<li>Rearrange the sequence of filters in web.xml</li>
 </ul>
 
 <p>
