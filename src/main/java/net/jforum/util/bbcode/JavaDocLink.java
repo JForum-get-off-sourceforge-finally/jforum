@@ -118,7 +118,7 @@ public class JavaDocLink implements Substitution {
     private static final String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
     private static final String JAVAFX_URL = "http://docs.oracle.com/javafx/2/api/";
     private static final String COMMONDOM_URL = "http://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
-    private static final String JERSEY1_URL = "https://jersey.java.net/apidocs/1.18/jersey/";
+    private static final String JERSEY1_URL = "https://jersey.java.net/apidocs/1.19/jersey/";
     private static final String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
     private static final String COM_SUN_MAIL_URL = "https://javamail.java.net/nonav/docs/api/";
     private static final String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
@@ -129,13 +129,12 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/5_3_1/core/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/5_5_0/core/";
     private static final String POI_URL = "http://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
     private static final String STRUTS1_URL = "http://struts.apache.org/release/1.3.x/apidocs/";
-    private static final String STRUTS2_URL = "http://struts.apache.org/release/2.3.x/struts2-core/apidocs/";
-    private static final String XWORK_URL = "http://struts.apache.org/release/2.3.x/xwork-core/apidocs/";
+    private static final String STRUTS2_URL = "http://struts.apache.org/maven/struts2-core/apidocs/";
     private static final String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
     private static final String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.6.0/reference/";
     private static final String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
@@ -148,25 +147,25 @@ public class JavaDocLink implements Substitution {
     private static final String CLI_URL = ACP + "-cli/javadocs/api-release/";
     private static final String VALIDATOR_URL = ACP + "-validator/apidocs/";
     private static final String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
-    private static final String MATH_URL = ACP + "-math/javadocs/api-3.5/";
+    private static final String MATH_URL = ACP + "-math/javadocs/api-3.6/";
     private static final String JEXL_URL = ACP + "-jexl/apidocs/";
     private static final String JXPATH_URL = ACP + "-jxpath/apidocs/";
     private static final String IO_URL = ACP + "-io/javadocs/api-2.4/";
     private static final String FILEUPLOAD_URL = ACP + "-fileupload/apidocs/";
     private static final String DIGESTER_URL = ACP + "-digester/apidocs/";
-    private static final String DBCP_URL = ACP + "-dbcp/apidocs/";
+    private static final String DBCP_URL = ACP + "-dbcp/api-1.4/";
     private static final String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
-    private static final String CODEC_URL = ACP + "-codec/javadocs/api-release/";
+    private static final String CODEC_URL = ACP + "-codec/apidocs/";
     private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.2/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
 	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
     private static final String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
-    private static final String NET_URL = ACP + "-net/javadocs/api-3.3/";
+    private static final String NET_URL = ACP + "-net/javadocs/api-3.4/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-1.1.3/";
-    private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-1.9/";
+    private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-1.10/";
     private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
-    private static final String POOL_URL = ACP + "-pool/api-2.3/";
+    private static final String POOL_URL = ACP + "-pool/api-2.4.2/";
 
     // Other 3rd party
     private static final String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
@@ -311,7 +310,7 @@ public class JavaDocLink implements Substitution {
         {"org.apache.strutsel", STRUTS1_URL},
         {"org.apache.struts", STRUTS1_URL},
         {"org.apache.struts2", STRUTS2_URL},
-        {"com.opensymphony.xwork2", XWORK_URL},
+        {"com.opensymphony.xwork2", STRUTS2_URL},
         {"org.apache.wicket", WICKET_URL},
         {"org.apache.xmlbeans", XMLBEANS_URL},
         {"org.apache.shiro", SHIRO_URL},
