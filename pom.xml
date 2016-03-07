@@ -207,18 +207,18 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.13</version>
+			<version>1.7.18</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.13</version>
+			<version>1.7.18</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.9.5.1</version>
+			<version>0.9.5.2</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -244,12 +244,12 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-parsers</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp</groupId>
 			<artifactId>csrfguard</artifactId>
-			<version>3.0.0</version>
+			<version>3.1.0</version>
 		</dependency>
 	</dependencies>
 	<build>
