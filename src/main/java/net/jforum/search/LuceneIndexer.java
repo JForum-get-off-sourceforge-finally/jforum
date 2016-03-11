@@ -235,7 +235,16 @@ public class LuceneIndexer
 		doc.add(new Field(SearchFields.Keyword.DATE, this.settings.formatDateTime(post.getTime()), Store.YES, Index.NOT_ANALYZED));
 
 		doc.add(new Field(SearchFields.Indexed.SUBJECT, post.getSubject(), Store.NO, Index.ANALYZED));
-		doc.add(new Field(SearchFields.Indexed.CONTENTS, post.getText(), Store.NO, Index.ANALYZED));
+
+		// remove UBB tags so that searches for "quote" doesn't find posts that include a quote tag
+		String text = post.getText();
+		// remove [quote] and similar
+		text = text.replaceAll("\\[[^\\]=/]+?\\]", "");
+		// remove [/quote] and similar
+		text = text.replaceAll("\\[/[^\\]]+?\\]", "");
+		// replace [quote=foo bar] by "foo bar "
+		text = text.replaceAll("\\[[^\\]=]+?=([^\\]]+?)\\]", "$1 ");
+		doc.add(new Field(SearchFields.Indexed.CONTENTS, text, Store.NO, Index.ANALYZED));
 
 		if (indexAttachments && post.hasAttachments()) {
 			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
