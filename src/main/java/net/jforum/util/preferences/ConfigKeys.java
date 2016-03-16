@@ -170,6 +170,7 @@ public final class ConfigKeys
 
 	public static final String CAPTCHA_IGNORE_CASE = "captcha.ignore.case";
 	public static final String CAPTCHA_REGISTRATION = "captcha.registration";
+	public static final String CAPTCHA_ADMIN_MODERATORS = "captcha.admins.moderators";
 	public static final String CAPTCHA_POSTS = "captcha.posts";
 	public static final String CAPTCHA_WIDTH = "captcha.width";
 	public static final String CAPTCHA_HEIGHT = "captcha.height";

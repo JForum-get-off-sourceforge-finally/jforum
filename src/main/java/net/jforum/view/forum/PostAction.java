@@ -225,7 +225,7 @@ public class PostAction extends Command
 		this.context.put("avatarAllowExternalUrl", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_ALLOW_EXTERNAL_URL));
 		this.context.put("avatarPath", SystemGlobals.getValue(ConfigKeys.AVATAR_IMAGE_DIR));
 		this.context.put("moderationLoggingEnabled", SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED));
-		this.context.put("needCaptcha", SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS));
+		this.context.put("needCaptcha", User.needsCaptcha(us.getUserId()));
 
 		this.context.put("showAvatar", SystemGlobals.getBoolValue(ConfigKeys.AVATAR_SHOW));
 		this.context.put("showKarma", SystemGlobals.getBoolValue(ConfigKeys.KARMA_SHOW));
@@ -531,15 +531,13 @@ public class PostAction extends Command
 			this.context.put("maxAttachments", SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_MAX_POST));
 		}
 
-		boolean needCaptcha = SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS);
-
 		this.context.put("moderationLoggingEnabled", SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOGGING_ENABLED));
 		this.context.put("smilies", SmiliesRepository.getSmilies());
 		this.context.put("forum", forum);
 		this.context.put("action", "insertSave");
 		this.context.put("start", this.request.getParameter("start"));
 		this.context.put("isNewPost", true);
-		this.context.put("needCaptcha", needCaptcha);
+		this.context.put("needCaptcha", User.needsCaptcha(userId));
 		this.context.put("htmlAllowed",
 			SecurityRepository.canAccess(SecurityConstants.PERM_HTML_DISABLED, Integer.toString(forumId)));
 		this.context.put("canCreateStickyOrAnnouncementTopics",
@@ -730,9 +728,7 @@ public class PostAction extends Command
 		this.context.put("pageTitle", I18n.getMessage("PostForm.reply") + " " + topic.getTitle());
 		this.context.put("smilies", SmiliesRepository.getSmilies());
 
-		boolean needCaptcha = SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS);
-
-		this.context.put("needCaptcha", needCaptcha);
+		this.context.put("needCaptcha", User.needsCaptcha(userId));
 	}
 
 	/* check for spam in subject or body, except for admins */
@@ -1081,7 +1077,7 @@ public class PostAction extends Command
 			post.setSubject(topic.getTitle());
 		}
 
-		boolean needCaptcha = SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS)
+		boolean needCaptcha = User.needsCaptcha(us.getUserId())
 			&& request.getSessionContext().getAttribute(ConfigKeys.REQUEST_IGNORE_CAPTCHA) == null;
 
 		if (needCaptcha && !us.validateCaptchaResponse(this.request.getParameter("captcha_anwser"))) {

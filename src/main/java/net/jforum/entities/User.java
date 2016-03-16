@@ -870,4 +870,28 @@ public class User implements Serializable
 			&& (permissionControl.canAccess(SecurityConstants.PERM_MODERATION_FORUMS, 
 				Integer.toString(forumId)));
 	}
+
+	/**
+	 * Checks if the user needs to have captcha displayed.
+	 *
+	 * @return
+	 */
+	public static boolean needsCaptcha(int userId) {
+		final PermissionControl permissionControl = SecurityRepository.get(userId);
+
+		boolean showCaptchaForPosts = SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS);
+
+		// If captcha is not used, then user doesn't need it.
+		if (!showCaptchaForPosts) {
+			return false;
+		}
+
+		if (permissionControl.canAccess(SecurityConstants.PERM_ADMINISTRATION)
+				|| permissionControl.canAccess(SecurityConstants.PERM_MODERATION)) {
+			// If user is Admin or Moderator -> well, do we have captcha for them also ?
+			return SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_ADMIN_MODERATORS);
+		}
+
+		return true; // or showCaptchaForPosts, but here showCaptchaForPosts is true anyway.
+	}
 }
