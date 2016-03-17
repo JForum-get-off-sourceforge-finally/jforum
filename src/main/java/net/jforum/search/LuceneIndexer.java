@@ -94,7 +94,6 @@ public class LuceneIndexer
 	private int ramNumDocs;
 	private List<NewDocumentAdded> newDocumentAddedList = new ArrayList<NewDocumentAdded>();
 
-	private boolean indexAttachments = SystemGlobals.getBoolValue(ConfigKeys.LUCENE_INDEX_ATTACHMENTS);
 	private AttachmentDAO attachDAO;
 	private String attachDir = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR);
 
@@ -245,6 +244,8 @@ public class LuceneIndexer
 		// replace [quote=foo bar] by "foo bar "
 		text = text.replaceAll("\\[[^\\]=]+?=([^\\]]+?)\\]", "$1 ");
 		doc.add(new Field(SearchFields.Indexed.CONTENTS, text, Store.NO, Index.ANALYZED));
+
+		boolean indexAttachments = SystemGlobals.getBoolValue(ConfigKeys.LUCENE_INDEX_ATTACHMENTS);
 
 		if (indexAttachments && post.hasAttachments()) {
 			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
