@@ -66,37 +66,37 @@ function testEmail()
 </tr>
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ForumURL")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.link" value="${config.getProperty("forum.link")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.link" value="${config.getProperty("forum.link")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.SiteURL")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_homepage.link" value="${config.getProperty("homepage.link")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_homepage.link" value="${config.getProperty("homepage.link")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.forumName")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.name" value="${config.getProperty("forum.name")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.name" value="${config.getProperty("forum.name")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ForumPageTitle")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.page.title" value="${config.getProperty("forum.page.title")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.page.title" value="${config.getProperty("forum.page.title")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.MetaTag.description")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.page.metatag.description" value="${config.getProperty("forum.page.metatag.description")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.page.metatag.description" value="${config.getProperty("forum.page.metatag.description")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.MetaTag.keywords")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.page.metatag.keywords" value="${config.getProperty("forum.page.metatag.keywords")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_forum.page.metatag.keywords" value="${config.getProperty("forum.page.metatag.keywords")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.encoding")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="10" name="p_encoding" value="${config.getProperty("encoding")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="10" name="p_encoding" value="${config.getProperty("encoding")?html}" /></span></td>
 </tr>
 
 <tr>
@@ -139,7 +139,7 @@ function testEmail()
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.htmlTags")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_html.tags.welcome" value="${config.getProperty("html.tags.welcome")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_html.tags.welcome" value="${config.getProperty("html.tags.welcome")?html}" /></span></td>
 </tr>
 
 <tr>
@@ -183,7 +183,7 @@ function testEmail()
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DateFormat")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_dateTime.format" value="${config.getProperty("dateTime.format")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_dateTime.format" value="${config.getProperty("dateTime.format")?html}" /></span></td>
 </tr>
 
 <tr>
@@ -201,7 +201,7 @@ function testEmail()
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.Announcement")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><textarea rows="4" name="p_announcement">${config.getProperty("announcement")}</textarea></span></td>
+	<td class="row1" width="38%"><span class="gen"><textarea rows="4" name="p_announcement">${config.getProperty("announcement")?html}</textarea></span></td>
 </tr>
 
 <tr>
@@ -413,15 +413,15 @@ function testEmail()
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.Charset")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="10" name="p_mail.charset" value="${config.getProperty("mail.charset")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="10" name="p_mail.charset" value="${config.getProperty("mail.charset")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.Sender")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.sender" id="sender" value="${config.getProperty("mail.sender")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.sender" id="sender" value="${config.getProperty("mail.sender")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.MailHost")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.smtp.host" id="host" value="${config.getProperty("mail.smtp.host")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.smtp.host" id="host" value="${config.getProperty("mail.smtp.host")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.MailPort")}</span></td>
@@ -447,11 +447,11 @@ function testEmail()
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.SmtpUsername")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.smtp.username" id="username" value="${config.getProperty("mail.smtp.username")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.smtp.username" id="username" value="${config.getProperty("mail.smtp.username")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.SmtpPassword")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="password" name="p_mail.smtp.password" id="password" value="${config.getProperty("mail.smtp.password")}" autocomplete="off" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="password" name="p_mail.smtp.password" id="password" value="${config.getProperty("mail.smtp.password")?html}" autocomplete="off" /></span></td>
 </tr>
 <tr>
 	<td class="row1" width="38%"><span class="gen"><font color="green">${I18n.getMessage("Config.Form.SmtpTest")}</font></span></td>
@@ -464,41 +464,41 @@ function testEmail()
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.AnswerFile")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newAnswer.messageFile" value="${config.getProperty("mail.newAnswer.messageFile")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newAnswer.messageFile" value="${config.getProperty("mail.newAnswer.messageFile")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.AnswerSubject")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newAnswer.subject" value="${config.getProperty("mail.newAnswer.subject")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newAnswer.subject" value="${config.getProperty("mail.newAnswer.subject")?html}" /></span></td>
 </tr>
 
 <!-- Private Message -->
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.PmAnswerFile")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newPm.messageFile" value="${config.getProperty("mail.newPm.messageFile")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newPm.messageFile" value="${config.getProperty("mail.newPm.messageFile")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.PmAnswerSubject")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newPm.subject" value="${config.getProperty("mail.newPm.subject")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.newPm.subject" value="${config.getProperty("mail.newPm.subject")?html}" /></span></td>
 </tr>
 
 <!-- Activation -->
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ActivationAnswerFile")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.activationKey.messageFile" value="${config.getProperty("mail.activationKey.messageFile")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.activationKey.messageFile" value="${config.getProperty("mail.activationKey.messageFile")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ActivationAnswerSubject")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.activationKey.subject" value="${config.getProperty("mail.activationKey.subject")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.activationKey.subject" value="${config.getProperty("mail.activationKey.subject")?html}" /></span></td>
 </tr>
 
 <!-- Lost Password -->
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.LostPasswordFile")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.lostPassword.messageFile" value="${config.getProperty("mail.lostPassword.messageFile")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.lostPassword.messageFile" value="${config.getProperty("mail.lostPassword.messageFile")?html}" /></span></td>
 </tr>
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.LostPasswordSubject")}</span></td>
-	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.lostPassword.subject" value="${config.getProperty("mail.lostPassword.subject")}" /></span></td>
+	<td class="row2" width="38%"><span class="gen"><input type="text" size="50" name="p_mail.lostPassword.subject" value="${config.getProperty("mail.lostPassword.subject")?html}" /></span></td>
 </tr>
 
 <tr>
@@ -529,7 +529,6 @@ function testEmail()
 		</select>
 	</td>
 </tr>
-
 
 <tr>
 	<td class="catsides" colspan="2" align="center"><input type="submit" value="${I18n.getMessage("Update")}" class="mainoption" />

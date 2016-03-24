@@ -172,7 +172,7 @@ public class JavaDocLink implements Substitution {
     private static final String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
     private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
-    private static final String PDFBOX_URL = "http://pdfbox.apache.org/docs/1.8.10/javadocs/";
+    private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.0/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
