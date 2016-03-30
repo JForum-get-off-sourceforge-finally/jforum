@@ -109,6 +109,7 @@ public final class ConfigKeys
 	public static final String CONFIG_DIR = "config.dir";
 
 	public static final String GA_ID = "google.analytics.tracker";
+	public static final String JQUERY_URL = "jquery.url";
 
 	public static final String USER_POSTS_TOGGLE = "user.posts.toggle";
 

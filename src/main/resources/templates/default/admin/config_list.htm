@@ -1,6 +1,6 @@
 <#include "header.htm"/>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script type="text/javascript" src="${jQueryURL}"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -254,6 +254,11 @@ function testEmail()
 			</select>
 		</span>
 	</td>
+</tr>
+
+<tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.JQueryURL")}</span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="60" name="p_jquery.url" value="${config.getProperty("jquery.url")?html}" /></span></td>
 </tr>
 
 <!-- Captcha -->
