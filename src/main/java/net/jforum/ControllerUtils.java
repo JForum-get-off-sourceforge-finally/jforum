@@ -120,6 +120,7 @@ public class ControllerUtils
         if (googleTracker != null && googleTracker.trim().length() > 0) {
             context.put("googleAnalyticsTracker", googleTracker.trim());
         }
+		context.put("socialEnabled", SystemGlobals.getBoolValue(ConfigKeys.SOCIAL_SHARING_ENABLED));
 		context.put("jQueryURL", SystemGlobals.getValue(ConfigKeys.JQUERY_URL));
         context.put("announcement", SystemGlobals.getValue(ConfigKeys.ANNOUNCEMENT));
         context.put("avatarMaxHeight", SystemGlobals.getValue(ConfigKeys.AVATAR_MAX_HEIGHT));

@@ -209,7 +209,6 @@ public class PostAction extends Command
 		this.context.put("am", new AttachmentCommon(this.request, topic.getForumId()));
 		this.context.put("karmaVotes", userVotes);
 		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
-		this.context.put("socialEnabled", SystemGlobals.getBoolValue(ConfigKeys.SOCIAL_SHARING_ENABLED));
 		this.context.put("canRemove", pc.canAccess(SecurityConstants.PERM_MODERATION_POST_REMOVE));
 		this.context.put("moderatorCanEdit", moderatorCanEdit);
 		this.context.put("editAfterReply", SystemGlobals.getBoolValue(ConfigKeys.POSTS_EDIT_AFTER_REPLY));
