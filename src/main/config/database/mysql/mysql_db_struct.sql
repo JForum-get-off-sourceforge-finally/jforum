@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS jforum_banlist;
 CREATE TABLE jforum_banlist (
   banlist_id INT NOT NULL AUTO_INCREMENT,
   user_id INT,
-  banlist_ip VARCHAR(15),
+  banlist_ip VARCHAR(50),
   banlist_email VARCHAR(255),
   PRIMARY KEY (banlist_id),
   INDEX idx_user (user_id),
@@ -120,7 +120,7 @@ CREATE TABLE jforum_posts (
   forum_id INT NOT NULL DEFAULT 0,
   user_id INT NOT NULL DEFAULT 0,
   post_time DATETIME DEFAULT NULL,
-  poster_ip VARCHAR(15) DEFAULT NULL,
+  poster_ip VARCHAR(50) DEFAULT NULL,
   enable_bbcode TINYINT(1) NOT NULL DEFAULT 1,
   enable_html TINYINT(1) NOT NULL DEFAULT 1,
   enable_smilies TINYINT(1) NOT NULL DEFAULT 1,
@@ -159,7 +159,7 @@ CREATE TABLE jforum_privmsgs (
   privmsgs_from_userid INT NOT NULL DEFAULT 0,
   privmsgs_to_userid INT NOT NULL DEFAULT 0,
   privmsgs_date DATETIME DEFAULT NULL,
-  privmsgs_ip VARCHAR(15) NOT NULL DEFAULT '',
+  privmsgs_ip VARCHAR(50) NOT NULL DEFAULT '',
   privmsgs_enable_bbcode TINYINT(1) NOT NULL DEFAULT 1,
   privmsgs_enable_html TINYINT(1) NOT NULL DEFAULT 0,
   privmsgs_enable_smilies TINYINT(1) NOT NULL DEFAULT 1,
@@ -199,7 +199,7 @@ CREATE TABLE jforum_sessions (
   session_user_id INT NOT NULL DEFAULT 0,
   session_start DATETIME DEFAULT NULL,
   session_time BIGINT DEFAULT 0,
-  session_ip VARCHAR(15) NOT NULL DEFAULT '',
+  session_ip VARCHAR(50) NOT NULL DEFAULT '',
   session_page INT(11) NOT NULL DEFAULT 0,
   session_logged_int TINYINT(1) DEFAULT NULL,
   INDEX idx_sessions_users (session_user_id)
@@ -350,7 +350,7 @@ DROP TABLE IF EXISTS jforum_vote_voters;
 CREATE TABLE jforum_vote_voters (
   vote_id INT NOT NULL DEFAULT 0,
   vote_user_id INT NOT NULL DEFAULT 0,
-  vote_user_ip VARCHAR(15) NOT NULL DEFAULT '',
+  vote_user_ip VARCHAR(50) NOT NULL DEFAULT '',
   INDEX (vote_id),
   INDEX (vote_user_id)
 ) ENGINE=InnoDB;

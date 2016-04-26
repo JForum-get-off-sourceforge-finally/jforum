@@ -5,7 +5,7 @@ CREATE SEQUENCE jforum_banlist_seq;
 CREATE TABLE jforum_banlist (
   banlist_id INT NOT NULL DEFAULT nextval('jforum_banlist_seq'),
   user_id INT DEFAULT 0,
-  banlist_ip VARCHAR(15),
+  banlist_ip VARCHAR(50),
   banlist_email VARCHAR(255),
   PRIMARY KEY(banlist_id)
 );
@@ -116,7 +116,7 @@ CREATE TABLE jforum_posts (
   forum_id INT NOT NULL DEFAULT 0,
   user_id INT NOT NULL DEFAULT 0,
   post_time TIMESTAMP WITH TIME ZONE DEFAULT NULL,
-  poster_ip VARCHAR(15) DEFAULT NULL,
+  poster_ip VARCHAR(50) DEFAULT NULL,
   enable_bbcode INT NOT NULL DEFAULT 1,
   enable_html INT NOT NULL DEFAULT 1,
   enable_smilies INT NOT NULL DEFAULT 1,
@@ -155,7 +155,7 @@ CREATE TABLE jforum_privmsgs (
   privmsgs_from_userid INT NOT NULL DEFAULT 0,
   privmsgs_to_userid INT NOT NULL DEFAULT 0,
   privmsgs_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  privmsgs_ip VARCHAR(15) NOT NULL DEFAULT '',
+  privmsgs_ip VARCHAR(50) NOT NULL DEFAULT '',
   privmsgs_enable_bbcode INT NOT NULL DEFAULT 1,
   privmsgs_enable_html INT NOT NULL DEFAULT 0,
   privmsgs_enable_smilies INT NOT NULL DEFAULT 1,
@@ -193,7 +193,7 @@ CREATE TABLE jforum_sessions (
   session_user_id INT NOT NULL DEFAULT 0,
   session_start TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   session_time INT NOT NULL DEFAULT 0,
-  session_ip VARCHAR(15) NOT NULL DEFAULT '',
+  session_ip VARCHAR(50) NOT NULL DEFAULT '',
   session_page INT NOT NULL DEFAULT 0,
   session_logged_int INT DEFAULT NULL
 );
@@ -343,7 +343,7 @@ CREATE INDEX idx_vr_id ON jforum_vote_results(vote_id);
 CREATE TABLE jforum_vote_voters (
   vote_id INT NOT NULL DEFAULT 0,
   vote_user_id INT NOT NULL DEFAULT 0,
-  vote_user_ip VARCHAR(15) NOT NULL DEFAULT ''
+  vote_user_ip VARCHAR(50) NOT NULL DEFAULT ''
 );
 CREATE INDEX idx_vv_id ON jforum_vote_voters(vote_id);
 CREATE INDEX idx_vv_user ON jforum_vote_voters(vote_user_id);

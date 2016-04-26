@@ -112,7 +112,7 @@ DROP TABLE jforum_spam;
 CREATE TABLE jforum_banlist (
   banlist_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL,
   user_id bigint DEFAULT (0),
-  banlist_ip varchar(15),
+  banlist_ip varchar(50),
   banlist_email varchar(255) 
 );
 CREATE INDEX idx_banlist_user ON jforum_banlist(user_id);
@@ -213,7 +213,7 @@ CREATE TABLE jforum_posts (
   forum_id bigint DEFAULT (0) NOT NULL,
   user_id bigint DEFAULT (0) NOT NULL,
   post_time datetime DEFAULT NULL,
-  poster_ip varchar(15) DEFAULT NULL,
+  poster_ip varchar(50) DEFAULT NULL,
   enable_bbcode tinyint DEFAULT (1) NOT NULL,
   enable_html tinyint DEFAULT (1)  NOT NULL,
   enable_smilies tinyint DEFAULT (1) NOT NULL,
@@ -249,7 +249,7 @@ CREATE TABLE jforum_privmsgs (
   privmsgs_from_userid bigint DEFAULT (0) NOT NULL,
   privmsgs_to_userid bigint DEFAULT (0) NOT NULL,
   privmsgs_date datetime DEFAULT NULL,
-  privmsgs_ip varchar(15) DEFAULT ('') NOT NULL,
+  privmsgs_ip varchar(50) DEFAULT ('') NOT NULL,
   privmsgs_enable_bbcode tinyint DEFAULT (1) NOT NULL,
   privmsgs_enable_html tinyint DEFAULT (0) NOT NULL,
   privmsgs_enable_smilies tinyint DEFAULT (1) NOT NULL,
@@ -284,7 +284,7 @@ CREATE TABLE jforum_sessions (
   session_user_id bigint DEFAULT (0) NOT NULL,
   session_start datetime DEFAULT NULL,
   session_time bigint DEFAULT (0) NULL,
-  session_ip varchar(15) DEFAULT ('') NOT NULL,
+  session_ip varchar(50) DEFAULT ('') NOT NULL,
   session_page bigint DEFAULT (0) NOT NULL,
   session_logged_int tinyint DEFAULT NULL 
 );
@@ -426,7 +426,7 @@ CREATE INDEX idx_vr_id ON jforum_vote_results(vote_id);
 CREATE TABLE jforum_vote_voters (
   vote_id bigint DEFAULT (0) NOT NULL,
   vote_user_id bigint DEFAULT (0) NOT NULL,
-  vote_user_ip varchar(15) DEFAULT ('') NOT NULL 
+  vote_user_ip varchar(50) DEFAULT ('') NOT NULL 
 );
 CREATE INDEX idx_vv_id ON jforum_vote_voters(vote_id);
 CREATE INDEX idx_vv_user ON jforum_vote_voters(vote_user_id);
