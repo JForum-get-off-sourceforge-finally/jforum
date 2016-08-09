@@ -15,8 +15,9 @@
 	</issueManagement>
 	<scm>
 		<connection>svn</connection>
-		<url>http://jforum2.googlecode.com/svn/</url>
+		<url>https://sourceforge.net/p/jforum2/code/HEAD/tree/</url>
 	</scm>
+
 	<repositories>
 		<repository>
 			<id>jboss</id>
@@ -33,6 +34,7 @@
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>dumbster</groupId>
@@ -207,13 +209,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.18</version>
+			<version>1.7.21</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.18</version>
+			<version>1.7.21</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mchange</groupId>
@@ -223,17 +225,17 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
+			<version>5.1.39</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1206-jdbc4</version>
+			<version>9.4.1209.jre6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.3.3</version>
+			<version>2.3.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -244,7 +246,7 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-parsers</artifactId>
-			<version>1.12</version>
+			<version>1.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp</groupId>
