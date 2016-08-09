@@ -74,10 +74,10 @@ public class StandardRequestContext implements RequestContext
 	 */
 	public void addParameter(final String name, final Object value)
 	{
-		if (this.data.contains(name)) {
+		if (this.data.containsKey(name)) {
 			this.data.remove(name);
 		}
-		
+
 		this.data.put(name, value);
 	}
 	
@@ -94,7 +94,6 @@ public class StandardRequestContext implements RequestContext
 	 */
 	public String getAction()
 	{
-		
 		return null;
 	}
 
@@ -143,7 +142,6 @@ public class StandardRequestContext implements RequestContext
 	 */
 	public String getModule()
 	{
-		
 		return null;
 	}
 
@@ -193,7 +191,6 @@ public class StandardRequestContext implements RequestContext
 	 */
 	public String getRemoteAddr()
 	{
-		
 		return null;
 	}
 

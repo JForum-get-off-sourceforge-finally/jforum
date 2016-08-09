@@ -120,8 +120,6 @@ public class BoardStatsAction extends AdminCommand {
 					if (obj1.getTime() > obj2.getTime())	return -1;
 					else 									return 0;
 				}
-				@Override
-				public boolean equals (Object dt) { return dt == this; }
 			});
             this.context.put("tag", tag);
             this.context.put("times", times);     

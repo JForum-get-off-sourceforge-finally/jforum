@@ -815,6 +815,7 @@ public class UserAction extends Command
 	/**
 	 * @deprecated probably will be removed. Use KarmaAction to load Karma
 	 */
+	@Deprecated
 	public void searchKarma() 
 	{
 		int start = this.preparePagination(userDao.getTotalUsers());
