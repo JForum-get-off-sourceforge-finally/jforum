@@ -2,7 +2,7 @@
 <script type="text/javascript">
 /* <![CDATA[ */
 function checkemail(str) {
-    var filter=/^([\w]+(?:(?:-|\+|\.)[\w]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+    var filter=/^([\w]+(?:(?:-|\+|\.)[\w]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,20}(?:\.[a-z]{2})?)$/i
     if (filter.test(str)) return true;
     else return false;
 }
