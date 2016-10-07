@@ -59,9 +59,8 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Andowson Chang
- * @version $Id$
- *
  */
+
 public class ContextListener implements ServletContextListener {
 
     private static final Logger LOGGER = Logger.getLogger(ContextListener.class);
@@ -70,11 +69,11 @@ public class ContextListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent sce) {
         final ServletContext application = sce.getServletContext();
-        final String appPath = application.getRealPath("");		
+        final String appPath = application.getRealPath("");
         LoggerHelper.checkLoggerInitialization( appPath + "/WEB-INF", appPath + "/WEB-INF/classes" );
-        final String containerInfo = application.getServerInfo();		
-        LOGGER.info("Servlet Container is " + containerInfo);
-        ConfigLoader.startSystemglobals(appPath);			
+        final String containerInfo = application.getServerInfo();
+        //LOGGER.info("Servlet Container is " + containerInfo);
+        ConfigLoader.startSystemglobals(appPath);
         final String[] info = getAppServerNameAndVersion(containerInfo);
         SystemGlobals.setValue("container.app", info[0]);
         SystemGlobals.setValue("container.version", info[1]);
@@ -107,7 +106,7 @@ public class ContextListener implements ServletContextListener {
         final Pattern p = Pattern.compile("\\d+\\.\\d+(\\.\\d+)*");
         final Matcher matcher = p.matcher(serverInfo);
         String[] result = new String[2];
-        if (matcher.find()){			
+        if (matcher.find()){
             result[0] = serverInfo.substring(0, matcher.start()-1);
             String version = matcher.group();
             result[1] = version.substring(0, version.indexOf('.'));

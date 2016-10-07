@@ -64,7 +64,6 @@ import com.octo.captcha.image.ImageCaptcha;
  * Stores information about user's session.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class UserSession implements Serializable
 {
@@ -167,8 +166,6 @@ public class UserSession implements Serializable
 
 	/**
 	 * Set user's id
-	 * 
-	 * @param userId The user id
 	 */
 	public void setUserId(final int userId)
 	{
@@ -177,8 +174,6 @@ public class UserSession implements Serializable
 
 	/**
 	 * Set user's name
-	 * 
-	 * @param username The username
 	 */
 	public void setUsername(final String username)
 	{
@@ -265,8 +260,6 @@ public class UserSession implements Serializable
 
 	/**
 	 * Gets user's id
-	 * 
-	 * @return The user id
 	 */
 	public int getUserId()
 	{
@@ -275,8 +268,6 @@ public class UserSession implements Serializable
 
 	/**
 	 * Gets the username
-	 * 
-	 * @return The username
 	 */
 	public String getUsername()
 	{
@@ -309,8 +300,6 @@ public class UserSession implements Serializable
 
 	/**
 	 * Gets the session id related to this user session
-	 * 
-	 * @return A string with the session id
 	 */
 	public String getSessionId()
 	{
@@ -356,8 +345,7 @@ public class UserSession implements Serializable
 	 * Makes the user's session "anonymous" - eg, the user. This method sets the session's start and
 	 * last visit time to the current datetime, the user id to the return of a call to
 	 * <code>SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)</code> and finally sets
-	 * session attribute named "logged" to "0" will be considered a non-authenticated / anonymous
-	 * user
+	 * session attribute named "logged" to "0" will be considered a non-authenticated / anonymous user
 	 */
 	public void makeAnonymous()
 	{
@@ -420,28 +408,25 @@ public class UserSession implements Serializable
 	 * @param origUserResponse String the captcha response from user
 	 * @return boolean true if the answer is valid, otherwise return false
 	 */
-	public boolean validateCaptchaResponse(String origUserResponse)
+	public boolean validateCaptchaResponse (String origUserResponse)
 	{
 		String userResponse = origUserResponse;
-		if ((SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_REGISTRATION) 
-				|| SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS))
-				&& this.imageCaptcha != null) {
-			
+		if (this.imageCaptcha != null) {
+
 			if (SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_IGNORE_CASE)) {
 				userResponse = userResponse.toLowerCase(Locale.US);
 			}
-			
+
 			final boolean result =  this.imageCaptcha.validateResponse(userResponse).booleanValue();
 			this.destroyCaptcha();
 			return result;
 		}
-		
+
 		return false;
 	}
 
 	/**
 	 * create a new image captcha
-	 * 
 	 */
 	public void createNewCaptcha()
 	{
@@ -461,10 +446,9 @@ public class UserSession implements Serializable
 	}
 	
 	/**
+	 * Checks if it's a bot
      * use JForumExecutionContext.getForumContext().isBot() instead
      *
-     *
-	 * Checks if it's a bot
 	 * @return <code>true</code> if this user session is from any robot
 	 */
 	public boolean isBot()

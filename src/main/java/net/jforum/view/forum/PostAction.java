@@ -1077,6 +1077,7 @@ public class PostAction extends Command
 		}
 
 		boolean needCaptcha = User.needsCaptcha(us.getUserId())
+			&& SystemGlobals.getBoolValue(ConfigKeys.CAPTCHA_POSTS)
 			&& request.getSessionContext().getAttribute(ConfigKeys.REQUEST_IGNORE_CAPTCHA) == null;
 
 		if (needCaptcha && !us.validateCaptchaResponse(this.request.getParameter("captcha_anwser"))) {
