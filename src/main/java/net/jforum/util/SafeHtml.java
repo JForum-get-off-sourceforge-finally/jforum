@@ -65,7 +65,6 @@ import org.htmlparser.nodes.TextNode;
  * <li>http://quickwired.com/kallahar/smallprojects/php_xss_filter_function.php
  * <br>
  * @author Rafael Steil
- * @version $Id$
  */
 public class SafeHtml 
 {
@@ -77,12 +76,19 @@ public class SafeHtml
 		welcomeTags = new HashSet<String>();
 		welcomeAttributes = new HashSet<String>();
 		allowedProtocols = new HashSet<String>();
-		
+
+		updateConfiguration();
+	}
+
+	public static void updateConfiguration() {
+		welcomeTags.clear();
+		welcomeAttributes.clear();
+		allowedProtocols.clear();
 		splitAndTrim(ConfigKeys.HTML_TAGS_WELCOME, welcomeTags);
 		splitAndTrim(ConfigKeys.HTML_ATTRIBUTES_WELCOME, welcomeAttributes);
 		splitAndTrim(ConfigKeys.HTML_LINKS_ALLOW_PROTOCOLS, allowedProtocols);
 	}
-	
+
 	private static void splitAndTrim(String s, Set<String> data)
 	{
 		String value = SystemGlobals.getValue(s);

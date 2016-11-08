@@ -59,6 +59,7 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.TopicRepository;
 import net.jforum.util.I18n;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -66,7 +67,6 @@ import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ConfigAction extends AdminCommand 
 {
@@ -151,10 +151,13 @@ public class ConfigAction extends AdminCommand
 			
 			SystemGlobals.setValue((String)entry.getKey(), (String)entry.getValue());
 		}
-		
+
 		SystemGlobals.saveInstallation();
 		I18n.changeBoardDefault(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT));
-		
+
+		// list of welcome HTML tags and attributes
+		SafeHtml.updateConfiguration();
+
 		// If topicsPerPage has changed, force a reload in all forums
 		if (oldTopicsPerPage != SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)) {
 			List<Category> categories = ForumRepository.getAllCategories();
