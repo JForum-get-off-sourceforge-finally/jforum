@@ -832,7 +832,7 @@ public class InstallAction extends Command
         final File file = new File(filePath);
         String message = null;
         try {
-            message = FileUtils.readFileToString(file);
+            message = FileUtils.readFileToString(file, "UTF-8");
             message = message.trim();
             if (message.indexOf("\\n") != -1) {
                 message = message.replace("\\n", "\n");
