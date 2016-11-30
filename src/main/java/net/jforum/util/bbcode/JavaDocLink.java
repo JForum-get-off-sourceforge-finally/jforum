@@ -71,23 +71,21 @@ public class JavaDocLink implements Substitution {
 		versionedUrls = new ConcurrentHashMap<String, String>();
 
 		// JSE; "1.5" and "5" are synonyms
-		versionedUrls.put(JSE_KEY+":1.3", "http://download.oracle.com/javase/1.3/docs/api/");
-        versionedUrls.put(JSE_KEY+":1.4", "http://download.oracle.com/javase/1.4.2/docs/api/");
-        versionedUrls.put(JSE_KEY+":1.5", "http://download.oracle.com/javase/1.5.0/docs/api/");
-        versionedUrls.put(JSE_KEY+":5", "http://download.oracle.com/javase/1.5.0/docs/api/");
-        versionedUrls.put(JSE_KEY+":6", "http://download.oracle.com/javase/6/docs/api/");
-        versionedUrls.put(JSE_KEY+":7", "http://download.oracle.com/javase/7/docs/api/");
-        versionedUrls.put(JSE_KEY+":8", "http://download.oracle.com/javase/8/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "http://download.oracle.com/javase/8/docs/api/");
+        versionedUrls.put(JSE_KEY+":1.5", "http://docs.oracle.com/javase/1.5.0/docs/api/");
+        versionedUrls.put(JSE_KEY+":5", "http://docs.oracle.com/javase/1.5.0/docs/api/");
+        versionedUrls.put(JSE_KEY+":6", "http://docs.oracle.com/javase/6/docs/api/");
+        versionedUrls.put(JSE_KEY+":7", "http://docs.oracle.com/javase/7/docs/api/");
+        versionedUrls.put(JSE_KEY+":8", "http://docs.oracle.com/javase/8/docs/api/");
+        versionedUrls.put(JSE_KEY+":"+OTHER, "http://docs.oracle.com/javase/8/docs/api/");
 
 		// JEE
-		versionedUrls.put(JEE_KEY+":1.2", "http://download.oracle.com/javaee/1.2.1/api/");
-        versionedUrls.put(JEE_KEY+":1.3", "http://download.oracle.com/javaee/1.3/api/");
-        versionedUrls.put(JEE_KEY+":1.4", "http://download.oracle.com/javaee/1.4/api/");
-        versionedUrls.put(JEE_KEY+":5", "http://download.oracle.com/javaee/5/api/");
-        versionedUrls.put(JEE_KEY+":6", "http://download.oracle.com/javaee/6/api/");
-        versionedUrls.put(JEE_KEY+":7", "http://download.oracle.com/javaee/7/api/");
-        versionedUrls.put(JEE_KEY+":"+OTHER, "http://download.oracle.com/javaee/7/api/");
+		versionedUrls.put(JEE_KEY+":1.2", "http://docs.oracle.com/javaee/1.2.1/api/");
+        versionedUrls.put(JEE_KEY+":1.3", "http://docs.oracle.com/javaee/1.3/api/");
+        versionedUrls.put(JEE_KEY+":1.4", "http://docs.oracle.com/javaee/1.4/api/");
+        versionedUrls.put(JEE_KEY+":5", "http://docs.oracle.com/javaee/5/api/");
+        versionedUrls.put(JEE_KEY+":6", "http://docs.oracle.com/javaee/6/api/");
+        versionedUrls.put(JEE_KEY+":7", "http://docs.oracle.com/javaee/7/api/");
+        versionedUrls.put(JEE_KEY+":"+OTHER, "http://docs.oracle.com/javaee/7/api/");
 
 		// Tomcat
 		versionedUrls.put(JASPER_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
@@ -131,7 +129,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_1_0/core/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_3_0/core/";
     private static final String POI_URL = "http://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -152,29 +150,29 @@ public class JavaDocLink implements Substitution {
     private static final String MATH_URL = ACP + "-math/javadocs/api-3.6.1/";
     private static final String JEXL_URL = ACP + "-jexl/apidocs/";
     private static final String JXPATH_URL = ACP + "-jxpath/apidocs/";
-    private static final String IO_URL = ACP + "-io/javadocs/api-2.4/";
+    private static final String IO_URL = ACP + "-io/javadocs/api-2.5/";
     private static final String FILEUPLOAD_URL = ACP + "-fileupload/apidocs/";
     private static final String DIGESTER_URL = ACP + "-digester/apidocs/";
     private static final String DBCP_URL = ACP + "-dbcp/api-1.4/";
     private static final String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
-    private static final String CODEC_URL = ACP + "-codec/archives/1.10/apidocs/";
+    private static final String CODEC_URL = ACP + "-codec/apidocs/";
     private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.2/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
 	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
     private static final String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
     private static final String NET_URL = ACP + "-net/javadocs/api-3.5/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
-    private static final String LOGGING_URL = ACP + "-logging/javadocs/api-1.1.3/";
+    private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
     private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-1.12/";
     private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
     private static final String POOL_URL = ACP + "-pool/api-2.4.2/";
 
     // Other 3rd party
-    private static final String JUNIT_URL = "http://kentbeck.github.com/junit/javadoc/latest/";
+    private static final String JUNIT_URL = "http://junit.org/junit4/javadoc/latest/";
     private static final String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
     private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
-    private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.2/javadocs/";
+    private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.3/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
