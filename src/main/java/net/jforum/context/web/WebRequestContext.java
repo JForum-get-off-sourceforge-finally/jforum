@@ -73,7 +73,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 @SuppressWarnings("unchecked")
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
@@ -247,10 +246,8 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			}
 		}
 		catch (Exception e) {
-			// We won't log it because the directory
-			// creation failed for some reason - a SecurityException
-			// or something else. We don't care about it, as the
-			// code below tries to use java.io.tmpdir
+			// We won't log it because the directory creation failed for some reason - a SecurityException
+			// or something else. We don't care about it, as the code below tries to use java.io.tmpdir
 		}
 		
 		if (!success) {
@@ -272,9 +269,8 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				}
 				else {
 					if (item.getSize() > 0) {
-						// We really don't want to call addParameter(), as 
-						// there should not be possible to have multiple
-						// values for a InputStream data
+						// We really don't want to call addParameter(), as there should
+						// not be possible to have multiple values for a InputStream data
 						this.query.put(item.getFieldName(), item);
 					}
 				}
@@ -314,8 +310,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 		
 		// Remove the "jsessionid" (or similar) from the URI
-		// Probably this is not the right way to go, since we're
-		// discarding the value...
+		// Probably this is not the right way to go, since we're discarding the value...
 		int index = uri.indexOf(';');
 		
 		if (index > -1) {
@@ -349,8 +344,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 	/**
 	 * Gets a parameter that is a number.
-	 * A call to <code>Integer#parseInt(String)</code> is made
-	 * to do the conversion
+	 * A call to <code>Integer#parseInt(String)</code> is made to do the conversion
 	 * @param name The parameter name to get the value
 	 * @return int
 	 */
@@ -362,8 +356,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	/**
 	 * Gets some request parameter as <code>Object</code>.
 	 * This method may be used when you have to get some value
-	 * of a <i>multipart/form-data</i> request, like a image
-	 * of file. <br>
+	 * of a <i>multipart/form-data</i> request, like a image of file. <br>
 	 * 
 	 * @param name String
 	 * @return Object
@@ -411,21 +404,11 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * what next action should be done by the system. It may be
 	 * add or edit a post, editing the groups, whatever. In the URL, the
 	 * Action can the represented in two forms:
-	 * <p>
-	 * <blockquote>
-	 * <code>
+	 *
 	 * http://www.host.com/webapp/servletName?module=groups&action=list
-	 * </code>
-	 * </blockquote>
-	 * <p>
 	 * or
-	 * <p>
-	 * <blockquote>
-	 * <code>
 	 * http://www.host.com/webapp/servletName/groups/list
-	 * </code>
-	 * </blockquote>
-	 * <p>
+	 * 
 	 * In both situations, the action's name is "list".
 	 * 
 	 * @return String representing the action name
@@ -447,21 +430,11 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * what module the user is requesting. It may be the group
 	 * administration, the topics or anything else configured module.
 	 *In the URL, the Module can the represented in two forms:
-	 * <p>
-	 * <blockquote>
-	 * <code>
+	 *
 	 * http://www.host.com/webapp/servletName?module=groups&action=list
-	 * </code>
-	 * </blockquote>
-	 * <p>
 	 * or
-	 * <p>
-	 * <blockquote>
-	 * <code>
 	 * http://www.host.com/webapp/servletName/groups/list
-	 * </code>
-	 * </blockquote>
-	 * <p>
+	 * 
 	 * In both situations, the module's name is "groups".
 	 * 
 	 * @return String representing the module name
@@ -490,8 +463,10 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		
 		return contextPath;
 	}
-	
+
 	/**
+	 * This will generally retrieve the last non-local IP address.
+	 * The Ranch production server appends "192.168.30.240". Removing that one is the primary purpose. 
 	 * @see javax.servlet.ServletRequestWrapper#getRemoteAddr()
 	 */
 	public String getRemoteAddr()
@@ -502,28 +477,20 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
         
         if (ip == null) {
         	ip = super.getRemoteAddr();
-        }
-        else {
-        	// Process the IP to keep the last IP (real ip of the computer on the net)
-            StringTokenizer tokenizer = new StringTokenizer(ip, ",");
 
-            // Ignore all tokens, except the last one
-            for (int i = 0; i < tokenizer.countTokens() -1 ; i++) {
-            	tokenizer.nextElement();
-            }
-            
-            ip = tokenizer.nextToken().trim();
-            
-            if ("".equals(ip)) {
-            	ip = null;
-            }
+			// If the ip is still null, we put 0.0.0.0 to avoid null values
+			if (ip == null) {
+				ip = "0.0.0.0";
+			}
+        } else {
+			StringTokenizer tokenizer = new StringTokenizer(ip, ",");
+			while (tokenizer.hasMoreTokens()) {
+				String part = tokenizer.nextToken().trim();
+				if (!part.equals("127.0.0.1") && !part.equals("::1") && !part.startsWith("10.") && !part.startsWith("192.168."))
+					ip = part;
+			}
         }
-        
-        // If the ip is still null, we put 0.0.0.0 to avoid null values
-        if (ip == null) {
-        	ip = "0.0.0.0";
-        }
-        
+
         return ip;
 	}
 }
