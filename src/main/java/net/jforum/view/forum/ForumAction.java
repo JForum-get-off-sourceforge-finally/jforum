@@ -87,6 +87,7 @@ public class ForumAction extends Command
 
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(true));
 		this.context.put("topicsPerPage", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)));
+		this.context.put("postsPerPage", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE)));
 		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 
 		this.context.put("totalMessages", Integer.valueOf(ForumRepository.getTotalMessages()));

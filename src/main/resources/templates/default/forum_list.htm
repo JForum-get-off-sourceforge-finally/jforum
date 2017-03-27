@@ -79,8 +79,8 @@
 								<#if (lpi.userId > 0)><a href="${JForumContext.encodeURL("/user/profile/${lpi.userId}")}"></#if>${lpi.username}</a><br />
 
 								<#assign startPage = ""/>
-								<#if (lpi.topicReplies + 1 > topicsPerPage)>
-									<#assign startPage = ((lpi.topicReplies / topicsPerPage)?int * topicsPerPage) +"/"/>
+								<#if (lpi.topicReplies + 1 > postsPerPage)>
+									<#assign startPage = ((lpi.topicReplies / postsPerPage)?int * postsPerPage) +"/"/>
 								</#if>
 
 								<#assign url = JForumContext.encodeURL("/posts/list/${startPage}${lpi.topicId}") + "#p" + lpi.postId/>
