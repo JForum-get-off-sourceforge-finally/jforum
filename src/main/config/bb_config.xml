@@ -315,18 +315,18 @@
 		]]>
 		</replace>
 	</match>
-  
+
 	<!-- YouTube -->
 	<match name="youtube" lockedForSmilies="youtube">
-		<regex>(?i)\[youtube\]http[s]?\:\/\/(.*?)youtube.com\/watch\?v\=(.*?)\[/youtube\]</regex>
+		<regex>
+			<![CDATA[ (?i)\[youtube\]https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&#+%\w]*(?:['\"][^<>]*>|<\/a>))[?=&#+%\w\.\-]*\[/youtube\] ]]>
+		</regex>
 		<replace>
-		<![CDATA[
-        <object width="560" height="340" type="application/x-shockwave-flash" data="http://$1youtube.com/v/$2">
-            <param name="movie" value="http://$1youtube.com/v/$2" />
-            <param name="allowFullScreen" value="true" />
-            <param name="allowscriptaccess" value="always" />            
-        </object>        
-        ]]>
+			<![CDATA[
+                <div class="videoContainer">
+                	<iframe width="640" height="400" src="https://www.youtube-nocookie.com/embed/$1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                </div>
+                ]]>
 		</replace>
 	</match>
 
