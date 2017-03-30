@@ -129,7 +129,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_3_0/core/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_5_0/core/";
     private static final String POI_URL = "http://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -156,14 +156,14 @@ public class JavaDocLink implements Substitution {
     private static final String DBCP_URL = ACP + "-dbcp/api-1.4/";
     private static final String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
     private static final String CODEC_URL = ACP + "-codec/apidocs/";
-    private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.2/apidocs/";
+    private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.3/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
 	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
     private static final String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
-    private static final String NET_URL = ACP + "-net/javadocs/api-3.5/";
+    private static final String NET_URL = ACP + "-net/javadocs/api-3.6/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
-    private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-1.12/";
+    private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-release/";
     private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
     private static final String POOL_URL = ACP + "-pool/api-2.4.2/";
 
@@ -172,7 +172,7 @@ public class JavaDocLink implements Substitution {
     private static final String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
     private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
-    private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.3/javadocs/";
+    private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.5/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
