@@ -19,32 +19,36 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.http.InterceptRedirectResponse;
+import org.owasp.csrfguard.log.LogLevel;
 
 /**
- * Didn't use OWASP filter because couldn't map jforum actions to urls
- * consistently. Copied from OWASP and added getJForumMethodName() and changed
- * logic near isValidRequest line.
+ * Didn't use OWASP filter because couldn't map jforum actions to urls consistently.
+ * Copied from OWASP and added getJForumMethodName() and changed logic near isValidRequest line.
  * 
  * @author Jeanne Boyarsky
- * @version $Id: $
  */
+
 public class CsrfFilter implements Filter {
 
     public static final String OWASP_CSRF_TOKEN_NAME = "OWASP_CSRFTOKEN";
+
     private FilterConfig filterConfig = null;
 
     public void destroy() {
         filterConfig = null;
     }
 
-    private String getJForumMethodName(HttpServletRequest req) throws IOException {
+    public void init (FilterConfig filterConfig) throws ServletException {
+        this.filterConfig = filterConfig;
+    }
+
+    private String getJForumMethodName (HttpServletRequest req) throws IOException {
         String module = null;
         boolean multiPart = ServletFileUpload.isMultipartContent(new ServletRequestContext(req));
         /*
-         * If a multipart request, we know that CSRF protection is needed (it is
-         * a post/upload). Don't actually look up the module since that will
-         * cause the input stream to get read and then be unavailable for the
-         * real request.
+         * If a multipart request, we know that CSRF protection is needed (it is a post/upload).
+		 * Don't actually look up the module since that will cause the input stream
+		 * to get read and then be unavailable for the real request.
          */
         if (multiPart) {
             module = "multipart request: " + req.getRequestURI();
@@ -58,9 +62,9 @@ public class CsrfFilter implements Filter {
         
         return module;
     }
-   
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,
-            ServletException {
+
+    public void doFilter (ServletRequest request, ServletResponse response, FilterChain filterChain)
+			throws IOException, ServletException {
         /** only work with HttpServletRequest objects **/
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             CsrfGuard csrfGuard = CsrfGuard.getInstance();
@@ -74,9 +78,8 @@ public class CsrfFilter implements Filter {
                 csrfGuard.updateTokens(httpRequest);
                 return;
             }
-            csrfGuard.getLogger().log(String.format("CsrfGuard analyzing request %s", httpRequest.getRequestURI()));
-            InterceptRedirectResponse httpResponse = new InterceptRedirectResponse((HttpServletResponse) response,
-                    httpRequest, csrfGuard);
+            csrfGuard.getLogger().log(LogLevel.Debug, String.format("CsrfGuard analyzing request %s", httpRequest.getRequestURI()));
+            InterceptRedirectResponse httpResponse = new InterceptRedirectResponse((HttpServletResponse) response, httpRequest, csrfGuard);
             // if (MultipartHttpServletRequest.isMultipartRequest(httpRequest)) {
             //     httpRequest = new MultipartHttpServletRequest(httpRequest);
             // }
@@ -102,14 +105,9 @@ public class CsrfFilter implements Filter {
             csrfGuard.updateTokens(httpRequest);
         } else {
             filterConfig.getServletContext().log(
-                    String.format("[WARNING] CsrfGuard does not know how to work with requests of class %s ", request
-                            .getClass().getName()));
+				String.format("[WARNING] CsrfGuard does not know how to work with requests of class %s ", request.getClass().getName()));
             filterChain.doFilter(request, response);
         }
-    }
-    
-    public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
     }
 }
 
