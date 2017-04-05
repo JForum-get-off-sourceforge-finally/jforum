@@ -1,7 +1,7 @@
-<span class="genmed"><b>${user.username?html}</b></span>
+<span class="genmed"><nobr><b>${user.username?html}</b></nobr></span>
 <br />
 <#if showKarma && karmaEnabled && post.userId != 1>
-	<script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script>
+	<nobr><script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script></nobr>
 	<br />
 </#if>
 
@@ -9,7 +9,7 @@
 <#if post.userId != 1>
 	<#assign rankStr = rank.getRankTitle(user.rankId, user.totalPosts)/>
 	<#if rankStr?trim != "">
-		${rankStr?html}<br/>
+		<nobr>${rankStr?html}</nobr><br/>
 	</#if>
 </#if>
 
@@ -25,18 +25,18 @@
 <br /> 
 
 <#if post.userId != 1>
-	${I18n.getMessage("PostShow.userRegistrationDate")}: ${user.registrationDate}<br />
+	<nobr>${I18n.getMessage("PostShow.userRegistrationDate")}: ${user.registrationDate?date}</nobr><br />
 	<nobr>${I18n.getMessage("PostShow.userTotalMessages")}: ${user.totalPosts}</nobr>
 </#if>
 <br />
 
 <#if (user.from?exists && user.from?length > 0)>
-	${I18n.getMessage("PostShow.userFrom")}: ${user.from?html}
+	<nobr>${I18n.getMessage("PostShow.userFrom")}: ${user.from?html}</nobr>
 	<br />
 </#if>
 
 <#if showIP && post.userIp?exists && (isModerator || post.userId == session.userId)>
-	${I18n.getMessage("PostShow.userIP")}: <a href="http://whois.domaintools.com/${post.userIp}" target="_blank">${post.userIp}</a>
+	<nobr>${I18n.getMessage("PostShow.userIP")}: <a href="http://whois.domaintools.com/${post.userIp}" target="_blank">${post.userIp}</a></nobr>
 	<br />
 </#if>
 
