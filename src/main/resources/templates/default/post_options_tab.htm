@@ -35,6 +35,7 @@
 			<input type="radio" value="0" id="topic_type0" name="topic_type" <#if topic?exists && topic.type == 0>checked="checked"</#if>/><label for="topic_type0">${I18n.getMessage("PostForm.setTopicAsNormal")}</label>&nbsp;&nbsp;
 			<input type="radio" value="1" id="topic_type1" name="topic_type" <#if topic?exists && topic.type == 1>checked="checked"</#if>/><label for="topic_type1">${I18n.getMessage("PostForm.setTopicAsSticky")}</label>&nbsp;&nbsp;
 			<input type="radio" value="2" id="topic_type2" name="topic_type" <#if topic?exists && topic.type == 2>checked="checked"</#if>/><label for="topic_type2">${I18n.getMessage("PostForm.setTopicAsAnnounce")}</label>&nbsp;&nbsp;
+			<input type="radio" value="3" id="topic_type3" name="topic_type" <#if topic?exists && topic.type == 3>checked="checked"</#if>/><label for="topic_type2">${I18n.getMessage("PostForm.setTopicAsWiki")}</label>&nbsp;&nbsp;
 		</td>
 	</tr>
   </#if>

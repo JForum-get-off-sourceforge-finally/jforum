@@ -53,9 +53,12 @@ import java.util.regex.Pattern;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
+import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.PostDAO;
+import net.jforum.dao.TopicDAO;
 import net.jforum.entities.Post;
 import net.jforum.entities.Smilie;
+import net.jforum.entities.Topic;
 import net.jforum.repository.BBCodeRepository;
 import net.jforum.repository.PostRepository;
 import net.jforum.repository.SecurityRepository;
@@ -72,7 +75,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class PostCommon
 {
@@ -336,9 +338,15 @@ public class PostCommon
 
 	public static boolean canEditPost(Post post)
 	{
+		TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
+		Topic topic = dao.selectById(post.getTopicId());
+
 		return SessionFacade.isLogged()
-			&& (post.getUserId() == SessionFacade.getUserSession().getUserId() || SessionFacade.getUserSession().isModerator(post.getForumId()))
-			&& SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT);
+			&& (post.getUserId() == SessionFacade.getUserSession().getUserId()
+				|| SessionFacade.getUserSession().isModerator(post.getForumId())
+				|| topic.getType() == Topic.TYPE_WIKI
+				|| SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_EDIT)
+				);
 	}
 
 	public static List<Post> topicPosts(PostDAO dao, boolean canEdit, int userId, int topicId, int start, int count)

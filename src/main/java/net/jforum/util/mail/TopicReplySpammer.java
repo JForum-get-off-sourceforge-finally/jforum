@@ -92,6 +92,7 @@ public class TopicReplySpammer extends Spammer
 		params.put("path", path);
 		params.put("forumLink", forumLink);
 		params.put("unwatch", unwatch);
+		params.put("isWiki", topic.getType() == Topic.TYPE_WIKI);
 
 		this.setMessageId(MessageId.buildMessageId(post.getId(), topic.getId(), topic.getForumId()));
 

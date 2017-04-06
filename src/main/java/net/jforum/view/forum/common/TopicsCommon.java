@@ -55,6 +55,7 @@ import net.jforum.dao.TopicDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
+import net.jforum.entities.TopicTypeComparator;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.repository.ForumRepository;
@@ -76,7 +77,6 @@ import freemarker.template.SimpleHash;
  * General utilities methods for topic manipulation.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class TopicsCommon 
 {
@@ -84,8 +84,7 @@ public class TopicsCommon
 	
 	/**
 	 * List all first 'n' topics of a given forum.
-	 * This method returns no more than <code>ConfigKeys.TOPICS_PER_PAGE</code>
-	 * topics for the forum. 
+	 * This method returns no more than <code>ConfigKeys.TOPICS_PER_PAGE</code> topics for the forum. 
 	 * 
 	 * @param forumId The forum id to which the topics belongs to
 	 * @param start The start fetching index
@@ -114,16 +113,18 @@ public class TopicsCommon
 		else {
 			topics = tm.selectAllByForumByLimit(forumId, start, topicsPerPage);
 		}
-		
+
+		topics.sort(new TopicTypeComparator());
+
 		int size = topics.size();
-		
+
 		while (size <= start) {
 			start -= topicsPerPage;
 		}
 		if (start < 0) {
 			start = 0;
 		}
-		
+
 		return topics.subList(start, (size < start + topicsPerPage) ? size : start + topicsPerPage);
 	}
 	
@@ -207,6 +208,7 @@ public class TopicsCommon
 		context.put("TOPIC_ANNOUNCE", Integer.valueOf(Topic.TYPE_ANNOUNCE));
 		context.put("TOPIC_STICKY", Integer.valueOf(Topic.TYPE_STICKY));
 		context.put("TOPIC_NORMAL", Integer.valueOf(Topic.TYPE_NORMAL));
+		context.put("TOPIC_WIKI", Integer.valueOf(Topic.TYPE_WIKI));
 	
 		// Topic Status
 		context.put("STATUS_LOCKED", Integer.valueOf(Topic.STATUS_LOCKED));
@@ -316,8 +318,7 @@ public class TopicsCommon
 	/**
 	 * Deletes a topic.
 	 * This method will remove the topic from the database,
-	 * clear the entry from the cache and update the last 
-	 * post info for the associated forum.
+	 * clear the entry from the cache and update the last post info for the associated forum.
 	 * @param topicId The topic id to remove
 	 * @param fromModeration boolean 
      * @param forumId int

@@ -841,6 +841,11 @@ public class PostAction extends Command
 					topic.setType(newType);
 				}
 
+				// for wiki topics we send out notifications upon edits
+				if (topic.getType() == Topic.TYPE_WIKI) {
+					TopicsCommon.notifyUsers(topic, post);
+				}
+
 				// Poll
 				Poll poll = PollCommon.fillPollFromRequest();
 

@@ -76,20 +76,19 @@
 
 			<table cellspacing="2" cellpadding="2" width="100%">
 				<tr>
-					<#if !readonly>
+					<#if !readonly && topic.type != TOPIC_WIKI>
 					<td width="50" align="left" valign="bottom" nowrap="nowrap">
 					</#if>
-						<#if topic.status == STATUS_LOCKED>
-							<span class="icon_reply_locked"><img src="${contextPath}/images/transp.gif" alt="" /></span>
+					<#if topic.status == STATUS_LOCKED>
+						<span class="icon_reply_locked"><img src="${contextPath}/images/transp.gif" alt="" /></span>
+					<#else>
+						<#if !readonly && topic.type != TOPIC_WIKI>
+							<a href="${JForumContext.encodeURL("/posts/reply/${start}/${topic.id}")}" rel="nofollow" class="icon_reply nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 						<#else>
-							<#if !readonly>
-								<a href="${JForumContext.encodeURL("/posts/reply/${start}/${topic.id}")}" rel="nofollow" class="icon_reply nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
-							<#else>
-								<#assign colspan = "2"/>
-							</#if>
+							<#assign colspan = "2"/>
 						</#if>
+					</#if>
 					</td>
-
 					<td valign="middle" align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
 						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> 
@@ -134,7 +133,7 @@
 				</#if>
 				
 				<tr>
-					<th class="thleft" nowrap="nowrap" width="150">${I18n.getMessage("PostShow.author")}</th>
+					<th class="thleft" nowrap="nowrap">${I18n.getMessage("PostShow.author")}</th>
 					<th class="thright" nowrap="nowrap">${I18n.getMessage("PostShow.messageTitle")}</th>
 				</tr>
 
@@ -148,12 +147,8 @@
 					</#if>
 	
 					<#assign user = users.get(post.userId)/>
-					<#assign canEditCurrentMessage = isAdmin || isModerator || (logged && post.canEdit && (editAfterReply || !post_has_next) && topic.status != STATUS_LOCKED)/>
-					<tr>
-						<td colspan="2">
-							<#include "post_show_action_buttons_inc.htm"/>
-						</td>
-					</tr>
+					<#assign canEditCurrentMessage = isAdmin || isModerator || (logged && (topic.type==TOPIC_WIKI || (post.canEdit && (editAfterReply || !post_has_next))) && topic.status != STATUS_LOCKED)/>
+					<#include "post_show_action_buttons_inc.htm"/>
 
 					<tr>
 						<!-- Username -->
@@ -230,20 +225,20 @@
 		
 			<table cellspacing="2" cellpadding="2" width="100%" align="center">
 				<tr>
-					<#if !readonly>
+					<#if !readonly && topic.type != TOPIC_WIKI>
 					<td width="50" align="left" valign="bottom" nowrap="nowrap">
 					</#if>
 					<#if topic.status == STATUS_LOCKED>
 						<span class="icon_reply_locked"><img src="${contextPath}/images/transp.gif" alt="" /></span>
 					<#else>
-						<#if !readonly>
+						<#if !readonly && topic.type != TOPIC_WIKI>
 							<a href="${JForumContext.encodeURL("/posts/reply/${start}/${topic.id}")}" rel="nofollow" class="icon_reply nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 						<#else>
 							<#assign colspan = "2"/>
 						</#if>
 		  			</#if>
 					</td>
-					
+
 					<td valign="middle" align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
 						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> 
@@ -255,7 +250,7 @@
 				</tr>
 			</table>
 			
-			<#if (logged || anonymousPosts) && (topic.status != STATUS_LOCKED || isModerator || isAdmin) && !readonly>
+			<#if (logged || anonymousPosts) && (topic.status != STATUS_LOCKED || isModerator || isAdmin) && !readonly && topic.type != TOPIC_WIKI>
 			    <table width="100%" align="center">
 					<tr>
 						<td colspan="3">
@@ -318,7 +313,6 @@
 								</td>
 							</tr>
 						</table>
-						
 						<div align="center" style="display: none;" id="quickReply">
 							<table>
 								<tr>
@@ -348,12 +342,10 @@
 							</table>						
 					    </div>
 					</form>
-
 						</td>
 					</tr>
-				
-				<#if isModerator || isAdmin>					
 
+				<#if isModerator || isAdmin>
 					<tr>
 						<td align="left" colspan="3">
 						<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="formModeration" id="formModeration">
@@ -367,10 +359,9 @@
 					      <input type="hidden" id="moderationTodo" />
 					      <input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 					    </form>
-              <@presentation.moderationImages/>              
+					  <@presentation.moderationImages/>
 						</td>
 					</tr>
-					
 				</#if>
 			    </table>
 			</#if>

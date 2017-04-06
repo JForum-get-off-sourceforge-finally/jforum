@@ -22,7 +22,7 @@
 		<#assign start = postsPerPage * (page - 1)/>
 
 		<#assign link>${link}<a href="${contextPath}/posts/list<#if (start>0)>/${start}</#if>/${topicId}${extension}">${page}</a></#assign>
-		<#if (page < minTotal)><#assign link>${link}, </#assign></#if>		
+		<#if (page < minTotal)><#assign link>${link}, </#assign></#if>
 	</#list>
 
 	${link}

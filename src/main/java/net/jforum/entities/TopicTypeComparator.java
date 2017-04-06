@@ -44,23 +44,56 @@ package net.jforum.entities;
 
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.Date;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class TopicTypeComparator implements Comparator<Topic>, Serializable
 {
 	private static final long serialVersionUID = 4774281835148485281L;
 
+	private boolean ignoreStickyAnnounce = false;
+
+	public TopicTypeComparator() {
+		this(false);
+	}
+
+	// sticky and announce types are ignored for recent topics listings
+	public TopicTypeComparator (boolean ignoreStickyAnnounce) {
+		this.ignoreStickyAnnounce = ignoreStickyAnnounce;
+	}
+
 	public int compare(final Topic topic1, final Topic topic2)
 	{
 		int result;
-		if (topic1.getType() < topic2.getType()) {
+		int type1 = topic1.getType(), type2 = topic2.getType();
+		// Wiki pages are not sorted especially
+		if (type1 == Topic.TYPE_WIKI) {
+			type1 = Topic.TYPE_NORMAL;
+		}
+		if (type2 == Topic.TYPE_WIKI) {
+			type2 = Topic.TYPE_NORMAL;
+		}
+		if (ignoreStickyAnnounce) {
+			type1 = Topic.TYPE_NORMAL;
+			type2 = Topic.TYPE_NORMAL;
+		}
+
+		if (type1 < type2) {
 			result = 1;
 		}
-		else if (topic1.getType() == topic2.getType()) {
-			result = topic2.getLastPostDate().compareTo(topic1.getLastPostDate());
+		else if (type1 == type2) {
+			Date dt1 = topic1.getLastPostDate();
+			if (topic1.getLastEditTime() != null) {
+				dt1 = topic1.getLastEditTime();
+			}
+			Date dt2 = topic2.getLastPostDate();
+			if (topic2.getLastEditTime() != null) {
+				dt2 = topic2.getLastEditTime();
+			}
+
+			result = dt2.compareTo(dt1);
 		} 
 		else {
 			result = -1;

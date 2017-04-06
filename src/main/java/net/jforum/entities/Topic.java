@@ -58,6 +58,7 @@ public class Topic implements Serializable
 	public static final int TYPE_NORMAL = 0;
 	public static final int TYPE_STICKY = 1;
 	public static final int TYPE_ANNOUNCE = 2;
+	public static final int TYPE_WIKI = 3;
 
 	public static final int STATUS_UNLOCKED = 0;
 	public static final int STATUS_LOCKED = 1;
@@ -81,6 +82,7 @@ public class Topic implements Serializable
 
 	private Date firstPostTime;
 	private Date lastPostTime;
+	private Date lastEditTime; // for Wiki pages only
 	private String title;
 
 	private Date time;
@@ -156,18 +158,16 @@ public class Topic implements Serializable
 		return this.time;
 	}
 
-	/**
-	 * @param d
-	 */
 	public void setFirstPostTime(Date d) {
 		this.firstPostTime = d;
 	}
 
-	/**
-	 * @param d
-	 */
 	public void setLastPostTime(Date d) {
 		this.lastPostTime = d;
+	}
+
+	public void setLastEditTime(Date d) {
+		this.lastEditTime = d;
 	}
 
 	/**
@@ -393,6 +393,13 @@ public class Topic implements Serializable
     {
 		return ViewCommon.formatDateAsGmt(lastPostTime);
     }
+
+	/**
+	 * @return the lastEditTime
+	 */
+	public Date getLastEditTime() {
+        return lastEditTime;
+	}
 
 	/**
 	 * @param read

@@ -127,7 +127,7 @@ PollModel.lastGeneratedPollId = SELECT IDENT_CURRENT('jforum_vote_desc') AS vote
 # #############
 TopicModel.selectAllByForumByLimit = SELECT * \
 	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY t.topic_type DESC, t.topic_last_post_id DESC) - 1 AS rownumber, \
-	t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \
+	t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
 	AND p.post_id = t.topic_last_post_id \
@@ -136,7 +136,7 @@ TopicModel.selectAllByForumByLimit = SELECT * \
 	
 TopicModel.selectRecentTopicsByLimit = SELECT * \
 	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY t.topic_last_post_id DESC) - 1 AS rownumber, \
-	t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \
+	t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 ) AS tmp \
@@ -144,7 +144,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT * \
 
 TopicModel.selectHottestTopicsByLimit = SELECT * \
     FROM ( SELECT ROW_NUMBER() OVER (ORDER BY t.topic_views DESC) - 1 AS rownumber, \
-    t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \
+    t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
     FROM jforum_topics t, jforum_posts p \
     WHERE p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 ) AS tmp \
@@ -152,7 +152,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT * \
     
 TopicModel.selectByUserByLimit = SELECT * \
 	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY t.topic_last_post_id DESC) - 1 AS rownumber, \
-	t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \
+	t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND t.user_id = ? \

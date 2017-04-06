@@ -86,8 +86,8 @@ blockquote.uncited {
 .postbody { font-size: 12px; line-height: 1.5em; }
 
 .postinfo { font-size: 10px; color: #000000; background-color: #dee3e7; padding: 4px; height: 2em; }
-.postinfo .date { width: 170px; float: left; }
-.postinfo .subject { float: left; }
+.postinfo .date { float: left; }
+.postinfo .subject { float: left; padding-left: 50px;}
 .postinfo .action { float: right; }
 
 a.copyright { color: #444444; text-decoration: none; }
@@ -152,11 +152,13 @@ table.attachtable	{ font: normal 12px verdana, arial, helvetica, sans-serif; col
 #icon_saving { background-image: url(../images/indicator.gif); width: 16px; height: 16px; display: none;}
 .icon_folder_announce { background-image: url(../images/folder_announce.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_sticky { background-image: url(../images/folder_sticky.gif); width: 19px; height: 18px; display: inline; }
+.icon_folder_wiki { background-image: url(../images/folder_wiki.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_hot { background-image: url(../images/folder_hot.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder { background-image: url(../images/folder.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_lock { background-image: url(../images/folder_lock.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_announce_new { background-image: url(../images/folder_announce_new.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_sticky_new { background-image: url(../images/folder_sticky_new.gif); width: 19px; height: 18px; display: inline; }
+.icon_folder_wiki_new { background-image: url(../images/folder_wiki_new.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_new_hot { background-image: url(../images/folder_new_hot.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_new { background-image: url(../images/folder_new.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_lock_new { background-image: url(../images/folder_lock_new.gif); width: 19px; height: 18px; display: inline; }

@@ -5,7 +5,7 @@
 <#if !hasMessageContents>
 Hi, 
 
-You received this email because the topic "${topic.title}" has received an answer since your last visit. 
+You received this email because the topic "${topic.title}" has <#if isWiki>been updated<#else>received an answer</#if> since your last visit. 
 You may use the following URL to read the messages. You will not get more notifications until you read the topic. 
 
 ${path}

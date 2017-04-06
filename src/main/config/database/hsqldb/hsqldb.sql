@@ -96,7 +96,7 @@ ForumModel.lastGeneratedForumId = SELECT MAX(forum_id) FROM jforum_forums
 # #############
 # TopicModel
 # #############
-TopicModel.selectAllByForumByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
+TopicModel.selectAllByForumByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \
@@ -106,7 +106,7 @@ TopicModel.selectAllByForumByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_use
 	AND p.need_moderate = 0 \
 	ORDER BY t.topic_type DESC, t.topic_last_post_id DESC
 
-TopicModel.selectRecentTopicsByLimit = SELECT LIMIT 0 ? t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \
+TopicModel.selectRecentTopicsByLimit = SELECT LIMIT 0 ? t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 \
@@ -114,7 +114,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT LIMIT 0 ? t.*, p.user_id AS last_u
 	
 TopicModel.lastGeneratedTopicId = SELECT MAX(topic_id) FROM jforum_topics
 
-TopicModel.selectByUserByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
+TopicModel.selectByUserByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \

@@ -75,7 +75,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericTopicDAO extends AutoKeys implements TopicDAO
 {
@@ -543,6 +542,10 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		topic.setFirstPostId(rs.getInt("topic_first_post_id"));
 		topic.setLastPostId(rs.getInt("topic_last_post_id"));
 		topic.setType(rs.getInt("topic_type"));
+		if (topic.getType() == Topic.TYPE_WIKI) try {
+			Timestamp postEditTime = rs.getTimestamp("post_edit_time");
+			topic.setLastEditTime(postEditTime);
+		} catch (SQLException e) { /* ignore - not all resultsets have this field */ }
 		topic.setForumId(rs.getInt("forum_id"));
 		topic.setModerated(rs.getInt("moderated") == 1);
 		topic.setVoteId(rs.getInt("topic_vote_id"));

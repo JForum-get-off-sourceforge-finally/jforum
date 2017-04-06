@@ -166,7 +166,7 @@ TopicModel.addNew = INSERT INTO jforum_topics (topic_id, forum_id, topic_title, 
 # Ignores attachements (0 as attach), but goes two orders of magnitude higher...
 ##########################################################################################
 TopicModel.selectAllByForumByLimit = SELECT * FROM ( \
-       SELECT t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
+       SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
           FROM jforum_posts p \
           WHERE p.topic_id = t.topic_id \
           AND p.need_moderate = 0) AS attach, \
@@ -179,7 +179,7 @@ TopicModel.selectAllByForumByLimit = SELECT * FROM ( \
 	WHERE LINENUM >= ? AND LINENUM < ?
 
 TopicModel.selectRecentTopicsByLimit = SELECT * FROM ( \
-       SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach,  \
+       SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach,  \
        ROW_NUMBER() OVER(ORDER BY topic_type DESC, topic_last_post_id DESC) - 1 LINENUM \
        FROM jforum_topics t, jforum_posts p \
        WHERE p.post_id = t.topic_last_post_id \
@@ -188,7 +188,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT * FROM ( \
 	WHERE LINENUM < ?
 
 TopicModel.selectHottestTopicsByLimit = SELECT * FROM ( \
-	   SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach, \
+	   SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach, \
 	   ROW_NUMBER() OVER(ORDER BY topic_views DESC) - 1 LINENUM \
        FROM jforum_topics t, jforum_posts p \
        WHERE p.post_id = t.topic_last_post_id \
@@ -198,7 +198,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT * FROM ( \
 	WHERE LINENUM < ?
 
 TopicModel.selectByUserByLimit = SELECT * FROM ( \
-       SELECT t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
+       SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
            FROM jforum_posts p \
            WHERE p.topic_id = t.topic_id \
            AND p.need_moderate = 0) AS attach, \

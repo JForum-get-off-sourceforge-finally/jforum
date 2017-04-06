@@ -9,6 +9,8 @@
 					<img class="icon_folder_announce" src="${contextPath}/images/transp.gif" alt="" />
 				<#elseif topic.type == TOPIC_STICKY>
 					<img class="icon_folder_sticky" src="${contextPath}/images/transp.gif" alt="" />
+				<#elseif topic.type == TOPIC_WIKI>
+					<img class="icon_folder_wiki" src="${contextPath}/images/transp.gif" alt="" />
 				<#else>
 					<#if topic.isHot()>
 						<img class="icon_folder_hot" src="${contextPath}/images/transp.gif" alt="" />
@@ -25,6 +27,8 @@
 					<img class="icon_folder_announce_new" src="${contextPath}/images/transp.gif" alt="" />
 				<#elseif topic.type == TOPIC_STICKY>
 					<img class="icon_folder_sticky_new" src="${contextPath}/images/transp.gif" alt="" />
+				<#elseif topic.type == TOPIC_WIKI>
+					<img class="icon_folder_wiki_new" src="${contextPath}/images/transp.gif" alt="" />
 				<#else>
 					<#if topic.isHot()>
 						<img class="icon_folder_new_hot" src="${contextPath}/images/transp.gif" alt="" />
@@ -89,7 +93,7 @@
 	<script type="text/javascript">
 	/* <![CDATA[ */
 	function todo(name) { var todo = document.getElementById("moderationTodo"); todo.name = name; todo.value = "1"; }
-	
+
 	function deleteTopic() {
 		if (confirm("${I18n.getMessage("Moderation.ConfirmDelete")}")
 			&& askModerationReason()) {
@@ -118,12 +122,12 @@
 		<#if can_remove_posts?default(false)>
 			<a href="javascript:deleteTopic();"><img class="icon_topic_delete" src="${contextPath}/images/transp.gif" title="${I18n.getMessage("Delete")}" alt="" /></a>
 		</#if>
-		
+
 		<#if can_move_topics?default(false)>
 			<a href="javascript:moveTopic();"><img class="icon_topic_move" src="${contextPath}/images/transp.gif" title="${I18n.getMessage("move")}" alt="" /></a>
 		</#if>
 
-		<#if can_lockUnlock_topics?default(false)>			
+		<#if can_lockUnlock_topics?default(false)>
 			<#if topic.status == STATUS_LOCKED>
 				<a href="javascript:lockUnlock(false);"><img class="icon_topic_unlock" src="${contextPath}/images/transp.gif" title="${I18n.getMessage("Unlock")}" alt="" /></a>
 			<#else>
@@ -143,15 +147,15 @@
 				<form action="" name="f" id="f" accept-charset="${encoding}">
 					<span class="gensmall">${I18n.getMessage("ForumIndex.goTo")}:&nbsp;</span>
 					<select onchange="if(this.options[this.selectedIndex].value != -1){ document.location = '${contextPath}/forums/show/'+ this.options[this.selectedIndex].value +'${extension}'; }" name="select">
-						<option value="-1" selected="selected">${I18n.getMessage("ForumIndex.goToSelectAForum")}</option>				
-						
+						<option value="-1" selected="selected">${I18n.getMessage("ForumIndex.goToSelectAForum")}</option>
+
 						<#list allCategories as category>
                             <optgroup label="${category.name?html}">
-		
+
 							<#list category.getForums() as forum>
 								<option value="${forum.id}">${forum.name?html}</option>
 							</#list>
-							
+
                             </optgroup>
 						</#list>
 					</select>

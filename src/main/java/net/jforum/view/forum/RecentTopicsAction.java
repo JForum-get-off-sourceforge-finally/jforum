@@ -54,6 +54,7 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
+import net.jforum.entities.TopicTypeComparator;
 import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.TopicRepository;
@@ -70,7 +71,6 @@ import net.jforum.view.forum.common.ViewCommon;
  * 
  * @author James Yong
  * @author Rafael Steil
- * @version $Id$
  */
 public class RecentTopicsAction extends Command 
 {
@@ -96,76 +96,77 @@ public class RecentTopicsAction extends Command
 	{
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		final List<Topic> topics = TopicRepository.getRecentTopics();
-		
+		topics.sort(new TopicTypeComparator(true));
+
 		this.forums = new ArrayList<Forum>(postsPerPage);
 
 		for (final Iterator<Topic> iter = topics.iterator(); iter.hasNext(); ) {
 			final Topic topic = (Topic)iter.next();
-			
+
 			if (TopicsCommon.isTopicAccessible(topic.getForumId())) {
 				final Forum forum = ForumRepository.getForum(topic.getForumId());
 				forums.add(forum);
-			}
-			else {
+			} else {
 				iter.remove();
 			}
 		}
-		
+
 		JForumExecutionContext.getRequest().removeAttribute("template");
-		
+
 		return TopicsCommon.prepareTopics(topics);
 	}
 
 	public void showTopicsByUser() 
 	{
 		final DataAccessDriver dad = DataAccessDriver.getInstance();
-		
+
 		final UserDAO udao = dad.newUserDAO();
 		final User user = udao.selectById(this.request.getIntParameter("user_id"));
-		
+
 		if (user.getId() == 0) {
 			this.context.put("message", I18n.getMessage("User.notFound"));
 			this.setTemplateName(TemplateKeys.USER_NOT_FOUND);
 			return;
 		} 
-			
+
 		TopicsCommon.topicListingBase();
-		
+
 		final int start = ViewCommon.getStartPage();
 		final int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		
+
 		this.setTemplateName(TemplateKeys.RECENT_USER_TOPICS_SHOW);
-		
+
 		int totalTopics = dad.newTopicDAO().countUserTopics(user.getId());
-		
+
 		this.context.put("u", user);
 		this.context.put("pageTitle", I18n.getMessage("ForumListing.userTopics") + " " + user.getUsername());
-		
+
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
-		
+
 		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
+		topics.sort(new TopicTypeComparator(true));
 		
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);
 		final Map<Integer, Forum> forums = new ConcurrentHashMap<Integer, Forum>();
 		
 		for (final Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
 			final Topic topic = (Topic)iter.next();
-			
+
 			final Forum forum = ForumRepository.getForum(topic.getForumId());
-			
+
 			if (forum == null) {
 				iter.remove();
 				totalTopics--;
 				continue;
 			}
-			
+
 			forums.put(Integer.valueOf(topic.getForumId()), forum);
 		}
-		
+
 		this.context.put("topics", list);
 		this.context.put("forums", forums);
-		
+
 		ViewCommon.contextToPagination(start, totalTopics, topicsPerPage);
 	}
 }
