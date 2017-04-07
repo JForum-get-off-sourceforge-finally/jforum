@@ -121,6 +121,14 @@
 		</replace>
 	</match>
 
+	<!-- HR -->
+	<match name="hr">
+		<regex>\[hr\]</regex>
+		<replace>
+		<![CDATA[<hr>]]>
+		</replace>
+	</match>
+
 	<!-- IMG -->
 	<match name="img" removeQuotes="true" lockedForSmilies="img">
 		<regex>(?i)\[img\](.*?)\[/img\]</regex>
