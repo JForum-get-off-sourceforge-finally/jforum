@@ -43,6 +43,7 @@
 package net.jforum.entities;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -328,8 +329,13 @@ public class User implements Serializable
 	 */
 	public String getRegistrationDate() 
 	{
-		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-
+		Locale loc = Locale.getDefault();
+		if (SessionFacade.getUserSession() != null) {
+			String lang = SessionFacade.getUserSession().getLang();
+			if (lang.contains("_"))
+				loc = new Locale(SessionFacade.getUserSession().getLang().substring(0,2));
+		}
+		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), loc);
 		return df.format(this.registrationDate);
 	}
 
@@ -340,8 +346,13 @@ public class User implements Serializable
 	 */
 	public String getRegistrationDay() 
 	{
-		SimpleDateFormat df = new SimpleDateFormat("MMM d YYYY");
-
+		Locale loc = Locale.getDefault();
+		if (SessionFacade.getUserSession() != null) {
+			String lang = SessionFacade.getUserSession().getLang();
+			if (lang.contains("_"))
+				loc = new Locale(lang.substring(0,2));
+		}
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, loc);
 		return df.format(this.registrationDate);
 	}
 
