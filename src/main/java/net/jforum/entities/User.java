@@ -334,6 +334,18 @@ public class User implements Serializable
 	}
 
 	/**
+	 * Gets the registration day of the user. For use in posts where space is at a premium.
+	 * 
+	 * @return String value with the registration day
+	 */
+	public String getRegistrationDay() 
+	{
+		SimpleDateFormat df = new SimpleDateFormat("MMM d YYYY");
+
+		return df.format(this.registrationDate);
+	}
+
+	/**
 	 * Gets the user signature
 	 * 
 	 * @return String literal with the signature
