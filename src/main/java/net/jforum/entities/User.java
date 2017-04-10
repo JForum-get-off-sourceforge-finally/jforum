@@ -332,7 +332,7 @@ public class User implements Serializable
 		Locale loc = Locale.getDefault();
 		if (SessionFacade.getUserSession() != null) {
 			String lang = SessionFacade.getUserSession().getLang();
-			if (lang.contains("_"))
+			if (lang!=null && lang.contains("_"))
 				loc = new Locale(SessionFacade.getUserSession().getLang().substring(0,2));
 		}
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), loc);
@@ -349,7 +349,7 @@ public class User implements Serializable
 		Locale loc = Locale.getDefault();
 		if (SessionFacade.getUserSession() != null) {
 			String lang = SessionFacade.getUserSession().getLang();
-			if (lang.contains("_"))
+			if (lang!=null && lang.contains("_"))
 				loc = new Locale(lang.substring(0,2));
 		}
 		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, loc);

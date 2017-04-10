@@ -85,7 +85,7 @@ blockquote.uncited {
 /* posts */
 .postbody { font-size: 12px; line-height: 1.5em; }
 
-.postinfo { font-size: 10px; color: #000000; background-color: #dee3e7; padding: 4px; height: 2em; }
+.postinfo { font-size: 10px; color: #000000; background-color: #dee3e7; padding-right: 5px; height: 2em; }
 .postinfo .date { float: left; }
 .postinfo .subject { float: left; padding-left: 50px;}
 .postinfo .action { float: right; }
