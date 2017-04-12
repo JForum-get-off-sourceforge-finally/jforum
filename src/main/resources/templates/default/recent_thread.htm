@@ -54,7 +54,7 @@
 						</#if>
 					</td>
 
-					<td class="row2" valign="middle" align="center"><span class="postdetails">${topic.totalReplies}</span></td>
+					<td class="row2" valign="middle" align="center"><span class="postdetails"><#if topic.type == TOPIC_WIKI>W<#else>${topic.totalReplies}</#if></span></td>
 					<td class="row3" valign="middle" nowrap="nowrap" align="center">
 						<span class="name"><script>"${topic.firstPostTimeAsGmt}".toLocaleDateTime();</script><noscript>${topic.firstPostTime}</noscript><br />
 						<a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a></span>
