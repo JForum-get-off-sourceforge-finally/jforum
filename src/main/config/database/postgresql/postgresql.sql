@@ -89,7 +89,7 @@ TopicModel.selectAllByForumByLimit = SELECT t.*, p.user_id AS last_user_id, p.po
 	WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
 	AND p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 \
-	ORDER BY t.topic_type DESC, t.topic_last_post_id DESC \
+	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC \
 	OFFSET ? LIMIT ?
 
 TopicModel.selectByUserByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \

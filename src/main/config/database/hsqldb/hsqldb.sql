@@ -104,13 +104,13 @@ TopicModel.selectAllByForumByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_use
 	WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
 	AND p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 \
-	ORDER BY t.topic_type DESC, t.topic_last_post_id DESC
+	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC
 
 TopicModel.selectRecentTopicsByLimit = SELECT LIMIT 0 ? t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 \
-	ORDER BY t.topic_last_post_id DESC
+	ORDER BY CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END DESC 
 	
 TopicModel.lastGeneratedTopicId = SELECT MAX(topic_id) FROM jforum_topics
 

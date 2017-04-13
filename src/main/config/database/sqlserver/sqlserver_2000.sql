@@ -7,19 +7,19 @@
 
 # #############
 # UserModel
-# #############						
+# #############
 UserModel.selectAllByLimit = SELECT TOP %d \
 	user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail \
 	FROM jforum_users \
 	ORDER BY user_id ASC
 
-UserModel.selectAllByGroup = SELECT TOP %d \	
+UserModel.selectAllByGroup = SELECT TOP %d \
 	user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, \
 	user_website, user_viewemail \
 	FROM jforum_users u, jforum_user_groups ug \
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ?
-	
+
 # #############
 # PostModel
 # #############
@@ -43,7 +43,7 @@ PostModel.selectLatestForRSS = SELECT TOP %d \
 	AND p.post_id = pt.post_id \
 	AND p.need_moderate = 0  \
 	ORDER BY topic_last_post_id DESC
-	
+
 PostModel.selectHotForRSS = SELECT TOP %d \
     t.topic_id, t.topic_title AS subject, p.post_id, t.forum_id, pt.post_text, p.post_time, p.user_id, u.username \
 	FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u \
@@ -87,7 +87,7 @@ TopicModel.selectAllByForumByLimit =  SELECT TOP %d \
 	WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
 	AND p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 \
-	ORDER BY t.topic_type DESC, t.topic_last_post_id DESC
+	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC
 
 TopicModel.selectRecentTopicsByLimit = SELECT TOP %d \
 	t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
@@ -97,7 +97,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT TOP %d \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0  \
-	ORDER BY t.topic_last_post_id DESC
+	ORDER BY CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END DESC 
 
 TopicModel.selectHottestTopicsByLimit = SELECT TOP %d \
   t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \

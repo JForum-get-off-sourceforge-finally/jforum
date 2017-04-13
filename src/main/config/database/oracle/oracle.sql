@@ -170,7 +170,7 @@ TopicModel.selectAllByForumByLimit = SELECT * FROM ( \
           FROM jforum_posts p \
           WHERE p.topic_id = t.topic_id \
           AND p.need_moderate = 0) AS attach, \
-       ROW_NUMBER() OVER(ORDER BY topic_type DESC, topic_last_post_id DESC) - 1 LINENUM \
+       ROW_NUMBER() OVER(	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC) - 1 LINENUM \
        FROM jforum_topics t, jforum_posts p \
        WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
        AND p.post_id = t.topic_last_post_id \
@@ -180,7 +180,7 @@ TopicModel.selectAllByForumByLimit = SELECT * FROM ( \
 
 TopicModel.selectRecentTopicsByLimit = SELECT * FROM ( \
        SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach,  \
-       ROW_NUMBER() OVER(ORDER BY topic_type DESC, topic_last_post_id DESC) - 1 LINENUM \
+       ROW_NUMBER() OVER(ORDER BY CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END DESC) - 1 LINENUM \
        FROM jforum_topics t, jforum_posts p \
        WHERE p.post_id = t.topic_last_post_id \
        AND p.need_moderate = 0 \
