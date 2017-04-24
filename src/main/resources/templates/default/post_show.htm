@@ -17,14 +17,38 @@
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
 <script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
-<#if logged>
-	<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/watch.js?${startupTime}"></script>
-</#if>
-
 <script type="text/javascript">
-/* <![CDATA[ */
 <#include "js/karma.js">
 <#include "js/utils.js"/>
+
+<#if logged>
+	var watchURL = "${JForumContext.encodeURL("/posts/watch/${start}/${topic.id}")}";
+	var unwatchURL = "${JForumContext.encodeURL("/posts/unwatch/${start}/${topic.id}")}";
+	var unwatchHandler = function() { turnOn=false; toggleWatch(); return false; };
+	var watchHandler = function() { turnOn=true; toggleWatch(); return false; };
+	var turnOn;
+
+	function toggleWatch () {
+		$.ajax({
+			url: turnOn ? watchURL : unwatchURL,
+			type: 'POST',
+			dataType: 'json',
+			headers: {'OWASP_CSRFTOKEN': '${OWASP_CSRFTOKEN!""}'},
+			success: function (data) {
+				//$("#messages").html(data.message);
+				if (turnOn) {
+					$(".toggleWatchLink")[0].href = unwatchURL;
+					$(".toggleWatchLink")[0].onclick = unwatchHandler;
+					$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.unwatch")}';
+				} else {
+					$(".toggleWatchLink")[0].href = watchURL;
+					$(".toggleWatchLink")[0].onclick = watchHandler;
+					$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.watch")}';
+				}
+			}
+		});
+	}
+</#if>
 
 <#if canRemove || isModerator || isAdmin>
 	function confirmDelete(postId)
@@ -47,8 +71,6 @@
 		return false;
 	}
 </#if>
-
-/* ]]> */
 </script>
 
 <#if moderator>
@@ -374,15 +396,15 @@
 								<a href="#bookmark" onclick="addBookmark(2, ${topic.id});"><img src="${contextPath}/templates/${templateName}/images/icon_bookmark.gif" align="middle" alt="Bookmark" />&nbsp;${I18n.getMessage("Bookmarks.addTo")}</a>
 								<br />
 							</#if>
-						
 							<#if !watching>
-								<#assign watchMessage = I18n.getMessage("PostShow.watch")/>
-								<a href="#watch" onclick="watchTopic('${JForumContext.encodeURL("/posts/watch/${start}/${topic.id}")}', '${I18n.getMessage("PostShow.confirmWatch")}');">
+								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/posts/watch/${start}/${topic.id}")}"
+									onClick="turnOn=true; toggleWatch(); return false">
+									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.watch")}</a>
 							<#else>
-								<#assign watchMessage = I18n.getMessage("PostShow.unwatch")/>
-								<a href="${JForumContext.encodeURL("/posts/unwatch/${start}/${topic.id}")}">
+								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/posts/unwatch/${start}/${topic.id}")}"
+									onClick="turnOn=false; toggleWatch(); return false">
+									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.unwatch")}</a>
 							</#if>
-							<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${watchMessage}</a>
 						</#if>
 					</td>
 					<td align="right"><@presentation.forumsComboTable/></td>

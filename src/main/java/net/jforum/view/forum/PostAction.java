@@ -103,12 +103,15 @@ import org.apache.commons.lang3.StringUtils;
 
 import freemarker.template.SimpleHash;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class PostAction extends Command 
 {
+    private static final Logger LOGGER = Logger.getLogger(PostAction.class);
+
 	public PostAction() {
 	}
 
@@ -1373,40 +1376,49 @@ public class PostAction extends Command
 		}
 	}
 
-	public void watch()  
-	{
-		int topicId = this.request.getIntParameter("topic_id");
-		int userId = SessionFacade.getUserSession().getUserId();
+    public void watch()
+    {
+        if (!SessionFacade.isLogged()) {
+            this.list();
+        } else {
+            int topicId = this.request.getIntParameter("topic_id");
+            int userId = SessionFacade.getUserSession().getUserId();
+            this.watch(DataAccessDriver.getInstance().newTopicDAO(), topicId, userId);
 
-		this.watch(DataAccessDriver.getInstance().newTopicDAO(), topicId, userId);
-		this.list();
-	}
+            if ("XMLHttpRequest".equals(this.request.getHeader("X-Requested-With"))) {
+                this.setTemplateName(TemplateKeys.AJAX_JSON);
+                this.context.put("json", "{\"message\":\"" + I18n.getMessage("ForumBase.topicWatched.ajax") + "\"}");
+            } else {
+                this.list();
+            }
+        }
+    }
 
-	public void unwatch()  
-	{
-		if (!SessionFacade.isLogged()) {
-			this.setTemplateName(ViewCommon.contextToLogin());
-		}
-		else {
-			int topicId = this.request.getIntParameter("topic_id");
-			int userId = SessionFacade.getUserSession().getUserId();
-			int start = ViewCommon.getStartPage();
+    public void unwatch()
+    {
+        if (!SessionFacade.isLogged()) {
+        	this.setTemplateName(ViewCommon.contextToLogin());
+        } else {
+            int topicId = this.request.getIntParameter("topic_id");
+            int userId = SessionFacade.getUserSession().getUserId();
+            int start = ViewCommon.getStartPage();
+            DataAccessDriver.getInstance().newTopicDAO().removeSubscription(topicId, userId);
 
-			DataAccessDriver.getInstance().newTopicDAO().removeSubscription(topicId, userId);
+            if ("XMLHttpRequest".equals(this.request.getHeader("X-Requested-With"))) {
+                this.setTemplateName(TemplateKeys.AJAX_JSON);
+                this.context.put("json", "{\"message\":\""+I18n.getMessage("ForumBase.topicUnwatched.ajax")+"\"}");
+            } else {
+                String returnPath = request.getContextPath() + "/posts/list/";
+                if (start > 0)
+                    returnPath += start + "/";
+				returnPath += topicId + SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION);
 
-			String returnPath = this.request.getContextPath() + "/posts/list/";
-
-			if (start > 0) {
-				returnPath += start + "/";
-			}
-
-			returnPath += topicId + SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION);
-
-			this.setTemplateName(TemplateKeys.POSTS_UNWATCH);
-			this.context.put("pageTitle", I18n.getMessage("PostShow.unwatch"));
-			this.context.put("message", I18n.getMessage("ForumBase.unwatched", new String[] { returnPath }));
-		}
-	}
+                this.setTemplateName(TemplateKeys.POSTS_UNWATCH);
+                this.context.put("pageTitle", I18n.getMessage("PostShow.unwatch"));
+                this.context.put("message", I18n.getMessage("ForumBase.unwatched", new String[] { returnPath }));
+            }
+        }
+    }
 
 	public void downloadAttach()
 	{

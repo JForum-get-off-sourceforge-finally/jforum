@@ -1,11 +1,38 @@
 <#include "header.htm"/>
 <#import "../macros/pagination.ftl" as pagination/>
 <#import "../macros/presentation.ftl" as presentation/>
+<script type="text/javascript" src="${jQueryURL}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
 <script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <#if logged>
-	<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/watch.js?${startupTime}"></script>
+	<script type="text/javascript">
+		var watchURL = "${JForumContext.encodeURL("/forums/watchForum/${forum.id}")}";
+		var unwatchURL = "${JForumContext.encodeURL("/forums/unwatchForum/${forum.id}")}";
+		var unwatchHandler = function() { turnOn=false; toggleWatch(); return false; };
+		var watchHandler = function() { turnOn=true; toggleWatch(); return false; };
+		var turnOn;
+
+		function toggleWatch () {
+			$.ajax({
+				url: turnOn ? watchURL : unwatchURL,
+				type: 'POST',
+				dataType: 'json',
+				headers: {'OWASP_CSRFTOKEN': '${OWASP_CSRFTOKEN!""}'},
+				success: function (data) {
+					if (turnOn) {
+						$(".toggleWatchLink")[0].href = unwatchURL;
+						$(".toggleWatchLink")[0].onclick = unwatchHandler;
+						$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("ForumShow.unwatch")}';
+					} else {
+						$(".toggleWatchLink")[0].href = watchURL;
+						$(".toggleWatchLink")[0].onclick = watchHandler;
+						$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("ForumShow.watch")}';
+					}
+				}
+			});
+		}
+	</script>
 </#if>
 
 <#if moderator>
@@ -270,15 +297,12 @@
 					<#else>
 						<#assign colspan = "2"/>
 					</#if>
-
 					<td valign="middle" align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
 						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> &raquo;  <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></span>
 					</td>
-
 					<td nowrap="nowrap" align="right" class="nav">${paginationData}</td>
 				</tr>
-
 				<tr>
 					<td align="left" colspan="3"><span class="nav">&nbsp;</span></td>
 				</tr>
@@ -289,13 +313,14 @@
 					<td align="left" class="gensmall">
 						<#if logged>
 							<#if !watching>
-								<#assign watchMessage = I18n.getMessage("ForumShow.watch")/>
-								<a href="#watch" onclick="watchForum('${JForumContext.encodeURL("/forums/watchForum/${forum.id}")}', '${I18n.getMessage("ForumShow.confirmWatch")}');">
+								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/forums/watchForum/${forum.id}")}"
+									onClick="turnOn=true; toggleWatch(); return false">
+									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("ForumShow.watch")}</a>
 							<#else>
-								<#assign watchMessage = I18n.getMessage("ForumShow.unwatch")/>
-								<a href="${JForumContext.encodeURL("/forums/unwatchForum/${forum.id}")}">
+								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/forums/unwatchForum/${forum.id}")}"
+									onClick="turnOn=false; toggleWatch(); return false">
+									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("ForumShow.unwatch")}</a>
 							</#if>
-							<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${watchMessage}</a>
 						</#if>
 					</td>
 					<td align="right"><@presentation.forumsComboTable/></td>

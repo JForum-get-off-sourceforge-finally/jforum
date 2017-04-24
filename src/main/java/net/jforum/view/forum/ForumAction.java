@@ -236,7 +236,7 @@ public class ForumAction extends Command
 		String path = this.request.getContextPath() + "/forums/" + action + "/";
 		String thisPage = this.request.getParameter("start");
 
-		if (thisPage != null && !thisPage.equals("0")) {			
+		if (thisPage != null && !thisPage.equals("0")) {
 			path = new StringBuilder(path).append(thisPage).append('/').toString();
 		}
 
@@ -245,7 +245,7 @@ public class ForumAction extends Command
 		if (forumId == null) {
 			forumId = this.request.getParameter("persistData");
 		}
-		
+
 		path = new StringBuilder(path).append(forumId).append(SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION)).toString();
 
 		return path;
@@ -255,14 +255,14 @@ public class ForumAction extends Command
 	public void readAll()
 	{
 		String forumId = this.request.getParameter("forum_id");
-		
+
 		if (forumId != null) {
 			Map<Integer, Long> tracking = SessionFacade.getTopicsReadTimeByForum();
-			
+
 			if (tracking == null) {
 				tracking = new ConcurrentHashMap<Integer, Long>();
 			}
-			
+
 			tracking.put(Integer.valueOf(forumId), Long.valueOf(System.currentTimeMillis()));
 			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME_BY_FORUM, tracking);
 		}
@@ -284,7 +284,7 @@ public class ForumAction extends Command
 
 		SearchAction searchAction = new SearchAction(this.request, this.response, this.context);
 		searchAction.newMessages();
-		
+
 		this.setTemplateName(TemplateKeys.SEARCH_NEW_MESSAGES);
 	}
 
@@ -296,20 +296,6 @@ public class ForumAction extends Command
 
 		JForumExecutionContext.setRedirect(this.request.getContextPath() + "/forums/show/"
 			+ this.request.getParameter("forum_id") + SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
-	}
-
-	/**
-	 * Action when users click on "watch this forum"
-	 * It gets teh forum_id and userId, and put them into a watch_forum table in the database;
-	 */
-	public void watchForum()
-	{
-		int forumId = this.request.getIntParameter("forum_id");
-		int userId = SessionFacade.getUserSession().getUserId();
-
-		this.watchForum(DataAccessDriver.getInstance().newForumDAO(), forumId, userId);
-
-		JForumExecutionContext.setRedirect(this.redirectLinkToShowAction(forumId));
 	}
 
 	public void banned()
@@ -327,17 +313,25 @@ public class ForumAction extends Command
 	}
 
 	/**
-	 * 
-	 * @param dao ForumDAO
-	 * @param forumId int
-	 * @param userId int
+	 * Action when users click on "watch this forum"
+	 * It gets the forum_id and userId, and put them into a watch_forum table in the database;
 	 */
-	private void watchForum(ForumDAO dao, int forumId, int userId)
-	{
+    public void watchForum() {
+        int forumId = this.request.getIntParameter("forum_id");
+        int userId = SessionFacade.getUserSession().getUserId();
+		ForumDAO dao = DataAccessDriver.getInstance().newForumDAO();
+
 		if (SessionFacade.isLogged() && !dao.isUserSubscribed(forumId, userId)) {
 			dao.subscribeUser(forumId, userId);
 		}
-	}
+
+		if ("XMLHttpRequest".equals(this.request.getHeader("X-Requested-With"))) {
+            this.setTemplateName(TemplateKeys.AJAX_JSON);
+			this.context.put("json", "{\"message\":\"" + I18n.getMessage("ForumBase.forumWatched.ajax") + "\"}");
+        } else {
+            JForumExecutionContext.setRedirect(this.redirectLinkToShowAction(forumId));
+        }
+    }
 
 	/**
 	 * Unwatch the forum watched.
@@ -347,15 +341,17 @@ public class ForumAction extends Command
 		if (SessionFacade.isLogged()) {
 			int forumId = this.request.getIntParameter("forum_id");
 			int userId = SessionFacade.getUserSession().getUserId();
-
 			DataAccessDriver.getInstance().newForumDAO().removeSubscription(forumId, userId);
 
-			String returnPath = this.redirectLinkToShowAction(forumId);
-
-			this.setTemplateName(TemplateKeys.POSTS_UNWATCH);
-			this.context.put("message", I18n.getMessage("ForumBase.forumUnwatched", new String[] { returnPath }));
-		}
-		else {
+			if ("XMLHttpRequest".equals(this.request.getHeader("X-Requested-With"))) {
+                this.setTemplateName(TemplateKeys.AJAX_JSON);
+                this.context.put("json", "{\"message\":\"" + I18n.getMessage("ForumBase.forumUnwatched.ajax") + "\"}");
+            } else {
+				String returnPath = this.redirectLinkToShowAction(forumId);
+				this.setTemplateName(TemplateKeys.POSTS_UNWATCH);
+				this.context.put("message", I18n.getMessage("ForumBase.forumUnwatched", new String[] { returnPath }));
+			}
+		} else {
 			this.setTemplateName(ViewCommon.contextToLogin());
 		}
 	}
