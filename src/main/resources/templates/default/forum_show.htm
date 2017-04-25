@@ -20,6 +20,7 @@
 				dataType: 'json',
 				headers: {'OWASP_CSRFTOKEN': '${OWASP_CSRFTOKEN!""}'},
 				success: function (data) {
+					alert(data.message);
 					if (turnOn) {
 						$(".toggleWatchLink")[0].href = unwatchURL;
 						$(".toggleWatchLink")[0].onclick = unwatchHandler;
