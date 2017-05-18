@@ -270,7 +270,6 @@ public class LuceneIndexer
 					textualMetadataFields.add(TikaCoreProperties.COMMENTS.getName());
 					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
 					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION.getName());
-					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
 
 					parser.parse(is, handler, metadata, context);
 
