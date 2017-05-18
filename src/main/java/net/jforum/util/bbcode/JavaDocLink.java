@@ -103,25 +103,24 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(TOMCAT_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-9.0-doc/api/");
 	}
 
-    // Sun / java.net
+    // Sun / Oracle
     private static final String J2SE_URL = VERSIONED+":"+JSE_KEY;
     private static final String J2EE_URL = VERSIONED+":"+JEE_KEY;
     private static final String JME_URL = "http://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
 	// JOGL 1.1.1a
     // private static final String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
 	// JOGL 2.0
-    private static final String JOGL_URL = "http://download.java.net/media/jogl/jogl-2.x-docs/";
-    private static final String JAVA3D_URL = "http://download.java.net/media/java3d/javadoc/1.5.2/";
+    private static final String JOGL_URL = "https://www.jogamp.org/deployment/v2.3.2/javadoc/jogl/javadoc/";
+    private static final String JAVA3D_URL = "https://www.jogamp.org/deployment/java3d/1.6.0-final/javadoc/";
     private static final String JMF_URL = "http://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
-    private static final String JAI_URL = "http://download.java.net/media/jai/javadoc/1.1.3/jai-apidocs/";
+    private static final String JAI_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/jai/forDevelopers/jai-apidocs/";
     private static final String JAVAHELP_URL = "http://www.coderanch.com/how-to/javadoc/javahelp-2.0_05/";
     private static final String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
     private static final String JAVAFX_URL = "http://docs.oracle.com/javafx/2/api/";
     private static final String COMMONDOM_URL = "http://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
-    private static final String JERSEY1_URL = "https://jersey.java.net/apidocs/1.19/jersey/";
-    private static final String JERSEY2_URL = "https://jersey.java.net/apidocs/latest/jersey/";
-    private static final String COM_SUN_MAIL_URL = "https://javamail.java.net/nonav/docs/api/";
-    private static final String LWUIT_URL = "http://lwuit.java.net/nonav/javadocs/";
+    private static final String JERSEY1_URL = "https://jersey.github.io/apidocs/1.19.1/jersey/";
+    private static final String JERSEY2_URL = "https://jersey.github.io/apidocs/latest/jersey/";
+    private static final String COM_SUN_MAIL_URL = "https://javaee.github.io/javamail/docs/api/";
     private static final String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
     private static final String JAVAXJNLP_URL = "http://docs.oracle.com/javase/8/docs/jre/api/javaws/jnlp/";
 
@@ -129,7 +128,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_5_0/core/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_5_1/core/";
     private static final String POI_URL = "http://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -285,7 +284,6 @@ public class JavaDocLink implements Substitution {
         {"org.xml.sax", J2SE_URL},
 
         {"javax.microedition", JME_URL},
-        {"com.sun.lwuit", LWUIT_URL},
         {"javax.help", JAVAHELP_URL},
         {"javax.speech", JAVASPEECH_URL},
         {"javafx", JAVAFX_URL},
@@ -293,8 +291,7 @@ public class JavaDocLink implements Substitution {
         {"com.sun.j3d", JAVA3D_URL},
         {"javax.media.j3d", JAVA3D_URL},
         {"javax.vecmath", JAVA3D_URL},
-        {"com.sun.opengl", JOGL_URL},
-        {"com.sun.javafx.newt", JOGL_URL},
+        {"com.jogamp", JOGL_URL},
         {"javax.media.nativewindow", JOGL_URL},
         {"javax.media.opengl", JOGL_URL},
         {"javax.media", JMF_URL}, // after all the other javax.media subpackages in JAI, Java3D and JOGL
