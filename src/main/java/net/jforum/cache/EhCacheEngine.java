@@ -63,7 +63,6 @@ import org.apache.log4j.Logger;
  *
  * @author Jake Fear
  * @author Andowson Chang
- * @version $Id$
  */
 public class EhCacheEngine implements CacheEngine {
 
@@ -84,11 +83,11 @@ public class EhCacheEngine implements CacheEngine {
 		manager.shutdown();
 	}
 
-	public void add(final String key, final Object value) {
+	public void add (final String key, final Object value) {
 		add(DUMMY_FQN, key, value);
 	}
 
-	public void add(final String fqn, final String key, final Object value) {
+	public void add (final String fqn, final String key, final Object value) {
 		try {
 			if (!manager.cacheExists(fqn)) {
 				LOGGER.debug("cache "+ fqn +" doesn't exist, add one");
@@ -112,7 +111,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public Object get(final String fqn, final String key) {
+	public Object get (final String fqn, final String key) {
 		try {
 			if (!manager.cacheExists(fqn)) {				
 			    manager.addCache(fqn);
@@ -122,7 +121,7 @@ public class EhCacheEngine implements CacheEngine {
 			final Cache cache = manager.getCache(fqn);
 			final Element element = cache.get(key);
 			if (element != null) {
-				return element.getValue();
+				return element.getObjectValue();
 			} 
 			LOGGER.debug("cache " + fqn + " exists but " + key + " returns null");
 			return null;
@@ -132,7 +131,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public Object get(final String fqn) {	
+	public Object get (final String fqn) {	
 		try {
 			if (!manager.cacheExists(fqn)) {
 				manager.addCache(fqn);
@@ -148,7 +147,7 @@ public class EhCacheEngine implements CacheEngine {
 				
 	}
 
-	public Collection<Object> getValues(final String fqn) {
+	public Collection<Object> getValues (final String fqn) {
 		try {
 			if (!manager.cacheExists(fqn)) {
 				//manager.addCache(fqn);
@@ -164,7 +163,7 @@ public class EhCacheEngine implements CacheEngine {
 				if (element == null) {
 					LOGGER.debug("element is null");
 				} else {					
-					values.add(element.getValue());
+					values.add(element.getObjectValue());
 				}
 			}
 			
@@ -177,7 +176,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public void remove(final String fqn, final String key) {
+	public void remove (final String fqn, final String key) {
 		try {
 			final Cache cache = manager.getCache(fqn);
 
@@ -190,7 +189,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public void remove(final String fqn) {
+	public void remove (final String fqn) {
 		try {
 			if (manager.cacheExists(fqn)) {
 				//manager.removeCache(fqn);

@@ -74,7 +74,6 @@ import org.apache.lucene.search.TopFieldDocs;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneSearch implements NewDocumentAdded
 {
@@ -88,7 +87,7 @@ public class LuceneSearch implements NewDocumentAdded
 	private LuceneSettings settings;
 	private LuceneContentCollector collector;
 
-	public LuceneSearch(LuceneSettings settings, LuceneContentCollector collector)
+	public LuceneSearch (LuceneSettings settings, LuceneContentCollector collector)
 	{
 		this.settings = settings;
 		this.collector = collector;
@@ -114,7 +113,7 @@ public class LuceneSearch implements NewDocumentAdded
 	/**
 	 * @return the search result
 	 */
-	public SearchResult<Post> search(SearchArgs args, int userId)
+	public SearchResult<Post> search (SearchArgs args, int userId)
 	{
 		return this.performSearch(args, this.collector, null, userId);
 	}
@@ -139,7 +138,7 @@ public class LuceneSearch implements NewDocumentAdded
 		return doc;
 	}
 
-	private SearchResult<Post> performSearch(SearchArgs args, LuceneContentCollector resultCollector, Filter filter, int userId)
+	private SearchResult<Post> performSearch (SearchArgs args, LuceneContentCollector resultCollector, Filter filter, int userId)
 	{
 		SearchResult<Post> result;
 
@@ -152,7 +151,7 @@ public class LuceneSearch implements NewDocumentAdded
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
 
-			LOGGER.info("criteria=["+criteria.toString()+"]");
+			LOGGER.debug("criteria=["+criteria.toString()+"]");
 
 			if (criteria.length() == 0) {
 				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
@@ -169,7 +168,7 @@ public class LuceneSearch implements NewDocumentAdded
 					result = new SearchResult<Post>(new ArrayList<Post>(), 0);
 				}
 
-				LOGGER.info("hits="+numDocs);
+				LOGGER.debug("hits="+numDocs);
 			}
 		} catch (Exception e) {
 
@@ -207,7 +206,7 @@ public class LuceneSearch implements NewDocumentAdded
 		return sort;
 	}
 
-	private void filterByDateRange(SearchArgs args, StringBuilder criteria)
+	private void filterByDateRange (SearchArgs args, StringBuilder criteria)
 	{
 		if (args.getFromDate() != null) {
 			if (criteria.length() > 0) {
@@ -263,7 +262,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private void filterByKeywords(SearchArgs args, StringBuilder criteria)
+	private void filterByKeywords (SearchArgs args, StringBuilder criteria)
 	{
 		LOGGER.info("searching for: " + args.rawKeywords());
 		if (args.rawKeywords().length() > 0) {
@@ -339,7 +338,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private void filterByForum(SearchArgs args, StringBuilder criteria)
+	private void filterByForum (SearchArgs args, StringBuilder criteria)
 	{
 		if (args.getForumId() > 0) {
 			criteria.append("+(")
@@ -350,7 +349,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private String[] analyzeKeywords(String contents)
+	private String[] analyzeKeywords (String contents)
 	{
 		try {
 			TokenStream stream = this.settings.analyzer().tokenStream(SearchFields.Indexed.CONTENTS, new StringReader(contents));
