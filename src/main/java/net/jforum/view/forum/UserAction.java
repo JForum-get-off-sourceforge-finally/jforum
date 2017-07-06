@@ -75,6 +75,7 @@ import net.jforum.util.concurrent.Executor;
 import net.jforum.util.mail.ActivationKeySpammer;
 import net.jforum.util.mail.EmailSenderTask;
 import net.jforum.util.mail.LostPasswordSpammer;
+import net.jforum.util.mail.MailChecker;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -89,7 +90,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class UserAction extends Command 
 {
@@ -298,6 +298,12 @@ public class UserAction extends Command
 			this.context.put("error", I18n.getMessage("CaptchaResponseFails"));
 			error = true;
 		}
+
+        // check if the email is "well formed"
+        if (!MailChecker.checkEmail(email)) {
+            this.context.put("error", I18n.getMessage("User.emailInvalid", new String[] { email }));
+            error = true;
+        }
 
 		final BanlistDAO banlistDao = DataAccessDriver.getInstance().newBanlistDAO();
 		boolean stopForumSpamEnabled = SystemGlobals.getBoolValue(ConfigKeys.STOPFORUMSPAM_API_ENABLED);

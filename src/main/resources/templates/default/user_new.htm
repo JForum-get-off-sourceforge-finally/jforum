@@ -106,7 +106,7 @@ function newCaptcha()
 						
 	<#if error?exists>
 	<tr>
-		<td class="row2" colspan="2" align="center"><span class="gen"><font color="#ff0000"><b>${error}</b></font></span></td>
+		<td class="row2" colspan="2" align="center"><span class="gen"><font color="#ff0000"><b>${error?html}</b></font></span></td>
 	</tr>
 	</#if>
         
