@@ -175,12 +175,15 @@
 					<tr>
 						<!-- Username -->
 						<#assign rowspan = "3"/>
-						<#assign useSignature = (user.attachSignatureEnabled && user.signature?exists && user.signature?length > 0 && post.isSignatureEnabled())/>
-
+						<#assign useSignature = (topic.type != TOPIC_WIKI && user.attachSignatureEnabled && user.signature?exists && user.signature?length > 0 && post.isSignatureEnabled())/>
 						<#if useSignature>
 							<#assign rowspan = "3"/>
 						<#else>
-							<#assign rowspan = "2"/>
+							<#if topic.type != TOPIC_WIKI>
+								<#assign rowspan = "2"/>
+							<#else>
+								<#assign rowspan = "1"/>
+							</#if>
 						</#if>
 
 						<td class="${rowColor}" valign="top" align="left" rowspan="${rowspan}">
@@ -188,7 +191,7 @@
 						</td>
 		
 						<!-- Message -->
-						<td class="${rowColor}" valign="top" id="post_text_${post.id}">
+						<td class="${rowColor}" valign="top" id="post_text_${post.id}" width="100%">
 							<div class="postbody">
 								<#if canEditCurrentMessage>
 									<#assign canEditSomeMessage = true/>
@@ -222,11 +225,13 @@
 						</tr>
 					</#if>
 		
-					<tr> 
-						<td class="${rowColor}" valign="bottom" nowrap="nowrap" width="100%">
-							<#include "post_show_user_profile_inc.htm"/>					
-						</td>
-					</tr>
+					<#if topic.type != TOPIC_WIKI>
+						<tr> 
+							<td class="${rowColor}" valign="bottom" nowrap="nowrap" width="100%">
+								<#include "post_show_user_profile_inc.htm"/>					
+							</td>
+						</tr>
+					</#if>
 		
 					<tr>
 						<td class="spacerow" colspan="2"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" /></td>
