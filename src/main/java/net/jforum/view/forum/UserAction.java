@@ -552,9 +552,9 @@ public class UserAction extends Command
 	private void buildSucessfulLoginRedirect()
 	{
 		if (JForumExecutionContext.getRedirectTo() == null) {
-			String forwaredHost = request.getHeader("X-Forwarded-Host");
+			String forwardedHost = request.getHeader("X-Forwarded-Host");
 
-			if (forwaredHost == null 
+			if (forwardedHost == null 
 					|| SystemGlobals.getBoolValue(ConfigKeys.LOGIN_IGNORE_XFORWARDEDHOST)) {
 				JForumExecutionContext.setRedirect(this.request.getContextPath()
 					+ "/forums/list"
@@ -563,7 +563,7 @@ public class UserAction extends Command
 			else {
 				JForumExecutionContext.setRedirect(this.request.getScheme()
 					+ "://"
-					+ forwaredHost
+					+ forwardedHost
 					+ this.request.getContextPath()
 					+ "/forums/list"
 					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION)); 

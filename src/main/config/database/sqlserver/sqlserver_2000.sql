@@ -100,7 +100,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT TOP %d \
 	ORDER BY CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END DESC 
 
 TopicModel.selectHottestTopicsByLimit = SELECT TOP %d \
-  t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
+  t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \
