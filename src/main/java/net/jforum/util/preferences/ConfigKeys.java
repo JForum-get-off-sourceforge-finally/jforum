@@ -158,6 +158,7 @@ public final class ConfigKeys
 	public static final String RSS_DATE_TIME_FORMAT = "rss.datetime.format";
 	public static final String RSS_ENABLED = "rss.enabled";
 	public static final String SOCIAL_SHARING_ENABLED = "social.enabled";
+	public static final String SOCIAL_SHARING_SITES = "social.sites.list";
 	public static final String HOT_TOPIC_BEGIN = "hot.topic.begin";
 
 	public static final String TOPICS_PER_PAGE = "topicsPerPage";
