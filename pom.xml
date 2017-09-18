@@ -10,7 +10,7 @@
 	<description>JForum is a powerful and robust discussion board system implemented in Javatm. It provides an attractive interface, an efficient forum engine, an easy to use administrative panel, an advanced permission control system and much more. </description>
 	<url>https://sourceforge.net/projects/jforum2/</url>
 	<issueManagement>
-		<system>Google Code</system>
+		<system>SourceForge</system>
 		<url>https://sourceforge.net/p/jforum2/tickets/</url>
 	</issueManagement>
 	<scm>
@@ -225,7 +225,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.43</version>
+			<version>5.1.44</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
