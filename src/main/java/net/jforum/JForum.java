@@ -84,7 +84,8 @@ import net.jforum.util.I18n;
 import net.jforum.util.bbcode.BBCodeHandler;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.Stats;
+import net.jforum.util.stats.StatsEvent;
 
 import org.apache.log4j.Logger;
 import org.owasp.csrfguard.CsrfGuard;
@@ -97,7 +98,6 @@ import freemarker.template.Template;
  * Front Controller.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class JForum extends JForumBaseServlet 
 {
@@ -204,7 +204,7 @@ public class JForum extends JForumBaseServlet
                 ? null : ModulesRepository.getModuleClass(module);
 
             if (moduleClass == null) {
-                Stats.record("Bad module requests", req.getRequestURL());
+                new StatsEvent("Bad module requests", req.getRequestURL()).record();
                 // Module not found, send 404 not found response
                 //response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 response.sendRedirect(request.getContextPath());
@@ -225,7 +225,7 @@ public class JForum extends JForumBaseServlet
                 }
 
                 if (shouldBan && SystemGlobals.getBoolValue(ConfigKeys.BANLIST_SEND_403FORBIDDEN)) {
-                    Stats.record("Banned page requests", req.getRequestURL());
+                    new StatsEvent("Banned page requests", req.getRequestURL()).record();
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 }
                 else {
@@ -233,7 +233,7 @@ public class JForum extends JForumBaseServlet
                     context.put("session", SessionFacade.getUserSession());
                     context.put("request", req);
                     context.put("response", response);
-                    Stats.record("All page requests", req.getRequestURL());
+                    new StatsEvent("All page requests", req.getRequestURL()).record();
                     out = this.processCommand(out, request, response, encoding, context, moduleClass);
                 }
             }
@@ -315,7 +315,7 @@ public class JForum extends JForumBaseServlet
                                  final Exception exception, final RequestContext request) throws IOException
                                  {
         JForumExecutionContext.enableRollback();
-        Stats.record("Error page", exception.getMessage());
+        new StatsEvent("Error page", exception.getMessage()).record();
 
         if (exception.toString().indexOf("ClientAbortException") == -1) {
             if (response != null) {
@@ -351,6 +351,8 @@ public class JForum extends JForumBaseServlet
             ConfigLoader.startPop3Integration();
             // BB Code
             BBCodeRepository.setBBCollection(new BBCodeHandler().parse());
+
+			Stats.init();
         }
         catch (Exception e) {
             throw new ForumStartupException("Error while starting JForum", e);

@@ -63,13 +63,13 @@ import net.jforum.util.mail.PrivateMessageSpammer;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.util.stats.Stats;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.PostCommon;
-import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class PrivateMessageAction extends Command
 {
@@ -256,9 +256,9 @@ public class PrivateMessageAction extends Command
 				Executor.execute(new EmailSenderTask(new PrivateMessageSpammer(toUser)));
 			}
 
-			Stats.record(Stats.ForbidDetailDisplay.SENT_PMS.toString(),
+			new StatsEvent(Stats.ForbidDetailDisplay.SENT_PMS.toString(),
 					"From " + pm.getFromUser().getUsername() +
-					" to " + pm.getToUser().getUsername());
+					" to " + pm.getToUser().getUsername()).record();
 		}
 	}
 

@@ -66,10 +66,10 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.admin.ModerationAction;
 import net.jforum.view.forum.common.ForumCommon;
 import net.jforum.view.forum.common.PostCommon;
-import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -150,7 +150,7 @@ public class ForumAction extends Command
 		}
 
 		this.context.put("mostUsersEverOnline", mostUsersEverOnline);
-        Stats.record("Show index page", "");
+        new StatsEvent("Show index page", "").record();
 	}
 
 	public void moderation()
@@ -227,7 +227,7 @@ public class ForumAction extends Command
 
 		TopicsCommon.topicListingBase();
 		this.context.put("moderator", isLogged && isModerator);
-        Stats.record("Show forum listing", request.getRequestURL());
+        new StatsEvent("Show forum listing", request.getRequestURL()).record();
 	}
 
 	// Make a URL to some action

@@ -70,14 +70,13 @@ import net.jforum.util.rss.RecentTopicsRSS;
 import net.jforum.util.rss.TopicPostsRSS;
 import net.jforum.util.rss.TopicRSS;
 import net.jforum.util.rss.UserPostsRSS;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class RSSAction extends Command 
 {
@@ -113,7 +112,7 @@ public class RSSAction extends Command
 			posts);
 		
 		this.context.put(RSS_CONTENTS, rss.createRSS());
-        Stats.record("RSS forum", request.getRequestURL());
+        new StatsEvent("RSS forum", request.getRequestURL()).record();
 	}
 	
 	/**
@@ -150,7 +149,7 @@ public class RSSAction extends Command
 
 		final RSSAware rss = new TopicPostsRSS(title, description, topic.getForumId(), posts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
-        Stats.record("RSS single topic", request.getRequestURL());
+        new StatsEvent("RSS single topic", request.getRequestURL()).record();
 	}
 	
 	public void recentTopics()
@@ -172,7 +171,7 @@ public class RSSAction extends Command
 		 }  
 		RSSAware rss = new RecentTopicsRSS(title, description, authPosts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
-        Stats.record("RSS recent topics", request.getRequestURL());
+        new StatsEvent("RSS recent topics", request.getRequestURL()).record();
 	}
 
 	public void hottestTopics()
@@ -194,7 +193,7 @@ public class RSSAction extends Command
 		 }  
 		RSSAware rss = new HottestTopicsRSS(title, description, authPosts);
 		this.context.put(RSS_CONTENTS, rss.createRSS());
-        Stats.record("RSS hot topics", request.getRequestURL());
+        new StatsEvent("RSS hot topics", request.getRequestURL()).record();
 	}
 
     public void userPosts() {
@@ -216,7 +215,7 @@ public class RSSAction extends Command
 
         RSSAware rss = new UserPostsRSS(title, description, userId, posts);
         this.context.put("rssContents", rss.createRSS());
-        Stats.record("RSS user posts", request.getRequestURL());
+        new StatsEvent("RSS user posts", request.getRequestURL()).record();
     }
 
     /**

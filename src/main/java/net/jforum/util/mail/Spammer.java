@@ -63,7 +63,7 @@ import net.jforum.entities.User;
 import net.jforum.exceptions.MailException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -161,7 +161,7 @@ public class Spammer
 	                        		Address address = new InternetAddress(user.getEmail());	                        	
 	                        		LOGGER.debug("Sending mail to: " + user.getEmail());	                        	
 	                        		this.message.setRecipient(Message.RecipientType.TO, address);	                            
-									Stats.record("Sent email", user.getEmail());
+									new StatsEvent("Sent email", user.getEmail()).record();
 	                        		transport.sendMessage(this.message, new Address[] { address });
 	                        	}
 	                        	if (sendDelay > 0) {
@@ -195,7 +195,7 @@ public class Spammer
                 		Address address = new InternetAddress(user.getEmail());
                 		LOGGER.debug("Sending mail to: " + user.getEmail());
                 		this.message.setRecipient(Message.RecipientType.TO,address);
-						Stats.record("Sent email", user.getEmail());
+						new StatsEvent("Sent email", user.getEmail()).record();
                 		Transport.send(this.message, new Address[] { address });
                 	}
                     if (sendDelay > 0) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SpamDAO;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 
 public class SpamRepository {
 
@@ -33,7 +33,7 @@ public class SpamRepository {
 				//LOGGER.info("checking text.size="+text.length()+" for "+pattern);
 				if (text.matches("(?si).*" + pattern + ".*")) {
 					// gather some stats about how pervasive spamming actually is
-					Stats.record("Spam", pattern);
+					new StatsEvent("Spam", pattern).record();
 					return pattern;
 				}
 			}

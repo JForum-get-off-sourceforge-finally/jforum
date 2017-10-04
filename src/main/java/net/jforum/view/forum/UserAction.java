@@ -79,7 +79,7 @@ import net.jforum.util.mail.MailChecker;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.UserCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -642,7 +642,7 @@ public class UserAction extends Command
 			this.context.put("nposts", Integer.valueOf(da.newPostDAO().countUserPosts(user.getId())));
             this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 
-			Stats.record("User profile page", request.getRequestURL());
+			new StatsEvent("User profile page", request.getRequestURL()).record();
 		}
 	}
 

@@ -61,7 +61,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -71,7 +71,6 @@ import net.jforum.view.forum.common.ViewCommon;
  * @author James Yong
  * @author Rafael Steil
  * @author Andowson Chang 
- * @version $Id$
  */
 public class HottestTopicsAction extends Command 
 {
@@ -94,7 +93,7 @@ public class HottestTopicsAction extends Command
 	
 	private List<Topic> topics()
 	{
-        Stats.record("Hot topics page", request.getRequestURL());
+        new StatsEvent("Hot topics page", request.getRequestURL()).record();
 
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		final List<Topic> tmpTopics = TopicRepository.getHottestTopics();

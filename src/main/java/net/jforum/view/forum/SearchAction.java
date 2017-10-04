@@ -63,7 +63,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -73,7 +73,6 @@ import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 
 public class SearchAction extends Command 
@@ -121,7 +120,7 @@ public class SearchAction extends Command
 			filters();
 			return;
 		}
-		Stats.record("Search", args.rawKeywords());
+		new StatsEvent("Search", args.rawKeywords()).record();
 		this.search(new ContentSearchOperation(), args);
     }
 

@@ -39,7 +39,8 @@
  * The JForum Project
  * http://www.jforum.net
  */
-package net.jforum.view.forum.common;
+
+package net.jforum.util.stats;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,31 +53,42 @@ import net.jforum.util.BoundedLinkedHashMap;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 /**
  * Collect generic performance statistics. Stores timestamped records in a ring buffer.
  */
 public class Stats {
     
-    private static Map<String, Data> buffers = new ConcurrentHashMap<String, Data>();
-    private static Date restartTime = new Date();
+	private static Stats INSTANCE;
+    private Map<String, Data> buffers = new ConcurrentHashMap<String, Data>();
+    private Date restartTime = new Date();
 
-    private Stats() {/* Uninstantiable class */
-    }
+	public static void init() {
+		if (INSTANCE == null) {
+			INSTANCE = new Stats();
+			EventBus.getDefault().register(INSTANCE);
+		}
+	}
 
-    public static Data getStatsFor(String tag) {
-        Data buffer = buffers.get(tag);
+    public static Data getStatsFor (String tag) {
+        Data buffer = INSTANCE.buffers.get(tag);
         if (buffer == null) {
             buffer = new Data();
-            buffers.put(tag, buffer);
+            INSTANCE.buffers.put(tag, buffer);
         }
         return buffer;
     }
 
-    public static void record(String tag, Object data) {
+	/* called by EventBus */
+	@Subscribe
+	public void onEvent (StatsEvent event) {
         if (active()) {
-            getStatsFor(tag).record(data);
+            getStatsFor(event.getTag()).record(event.getData());
         }
-    }
+	}
 
     public static boolean active() {
         return SystemGlobals.getBoolValue(ConfigKeys.STATS_ACTIVE);
@@ -84,7 +96,7 @@ public class Stats {
 
     public static List<Record> getRecords() {
         List<Record> result = new ArrayList<Record>();
-        for (Map.Entry<String, Data> entry : buffers.entrySet()) {
+        for (Map.Entry<String, Data> entry : INSTANCE.buffers.entrySet()) {
             Record r = new Record();
             r.tag = entry.getKey();
             Data data = entry.getValue();
@@ -101,7 +113,7 @@ public class Stats {
     }
     
     public static Date getRestartTime() {
-        return restartTime;
+        return INSTANCE.restartTime;
     }
 
     public static class Record implements Comparable<Object> {
@@ -144,7 +156,7 @@ public class Stats {
             return count;
         }
 
-        void record(Object datum) {
+        void record (Object datum) {
             if (datum != null && datum.toString().startsWith("http")) {
                 datum = String.format(LINK, datum, datum);
             }
@@ -159,17 +171,17 @@ public class Stats {
     
     public static enum ForbidDetailDisplay {
         SENT_PMS ("Sent private message");
-        
+
         private String value;
-        
+
         private ForbidDetailDisplay(String value) {
             this.value = value;
         }
-        
+
         public String toString() {
             return value;
         }
-        
+
         public static boolean isForbidden(String candidate) {
             for (ForbidDetailDisplay forbidden : ForbidDetailDisplay.values()) {
                 if ( forbidden.toString().equals(candidate)) {

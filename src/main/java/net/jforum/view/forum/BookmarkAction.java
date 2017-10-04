@@ -65,7 +65,7 @@ import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import net.jforum.view.forum.common.Stats;
+import net.jforum.util.stats.StatsEvent;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -74,7 +74,6 @@ import freemarker.template.Template;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class BookmarkAction extends Command
 {
@@ -185,7 +184,7 @@ public class BookmarkAction extends Command
 
 		DataAccessDriver.getInstance().newBookmarkDAO().add(bookmark);
 		this.setTemplateName(TemplateKeys.BOOKMARKS_INSERT_SAVE);
-        Stats.record("Save bookmark", request.getRequestURL());
+        new StatsEvent("Save bookmark", request.getRequestURL()).record();
 	}
 
 	public void updateSave()
