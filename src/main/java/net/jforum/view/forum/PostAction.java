@@ -91,11 +91,11 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.AttachmentCommon;
 import net.jforum.view.forum.common.ForumCommon;
 import net.jforum.view.forum.common.PollCommon;
 import net.jforum.view.forum.common.PostCommon;
-import net.jforum.view.forum.common.Stats;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -255,7 +255,7 @@ public class PostAction extends Command
 		TopicsCommon.topicListingBase();
 		TopicRepository.updateTopic(topic);
 
-        Stats.record("View thread", request.getRequestURL());
+        new StatsEvent("View thread", request.getRequestURL()).record();
 	}
 
 	/**
