@@ -55,7 +55,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Collect generic performance statistics. Stores timestamped records in a ring buffer.
@@ -73,7 +72,7 @@ public class Stats {
 		}
 	}
 
-    public static Data getStatsFor (String tag) {
+    public static Data getStatsFor(String tag) {
         Data buffer = INSTANCE.buffers.get(tag);
         if (buffer == null) {
             buffer = new Data();
@@ -84,7 +83,7 @@ public class Stats {
 
 	/* called by EventBus */
 	@Subscribe
-	public void onEvent (StatsEvent event) {
+	public void onEvent(StatsEvent event) {
         if (active()) {
             getStatsFor(event.getTag()).record(event.getData());
         }
@@ -137,7 +136,7 @@ public class Stats {
             return ForbidDetailDisplay.isForbidden(tag);
         }
 
-		public int compareTo (Object rec) {
+		public int compareTo(Object rec) {
 			return tag.compareTo(((Record) rec).tag);
 		}
     }
@@ -156,7 +155,7 @@ public class Stats {
             return count;
         }
 
-        void record (Object datum) {
+        void record(Object datum) {
             if (datum != null && datum.toString().startsWith("http")) {
                 datum = String.format(LINK, datum, datum);
             }

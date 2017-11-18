@@ -48,6 +48,7 @@ import java.util.Random;
 import net.jforum.dao.BannerDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.Banner;
+import net.jforum.util.stats.StatsEvent;
 
 /**
  * @author Samuel Yung
@@ -128,7 +129,7 @@ public class BannerCommon
         // increment views by 1
 		result.setViews(result.getViews() + 1);
 		dao.update(result);
-        Stats.record("Banner fetch", result.getDescription());
+        new StatsEvent("Banner fetch", result.getDescription()).record();
 
 		return result;
 	}

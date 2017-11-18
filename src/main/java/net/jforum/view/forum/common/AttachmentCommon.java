@@ -78,6 +78,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.image.ImageUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+import net.jforum.util.stats.StatsEvent;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
@@ -248,7 +249,7 @@ public class AttachmentCommon
 				this.createSaveThumb(path);
 			}
 
-			Stats.record("File upload", entry.getKey().getOriginalName());
+			new StatsEvent("File upload", entry.getKey().getOriginalName()).record();
 		}
 	}
 	
