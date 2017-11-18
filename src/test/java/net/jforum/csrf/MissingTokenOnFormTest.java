@@ -17,6 +17,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
+
 /**
  * Tests each form has an OWASP token.
  * 
@@ -39,7 +42,7 @@ public class MissingTokenOnFormTest {
     @Before
     public void setUp() throws Exception {
         fileName = file.getAbsolutePath().replaceFirst(JFORUM_DIRECTORY, "");
-        content = FileUtils.readFileToString(file);
+        content = FileUtils.readFileToString(file, SystemGlobals.getValue(ConfigKeys.ENCODING));
     }
 
     @After

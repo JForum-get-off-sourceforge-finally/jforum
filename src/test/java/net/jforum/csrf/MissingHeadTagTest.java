@@ -14,6 +14,9 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
+
 /**
  * Lists any files missing HTML head section excluding those which are included
  * in another page. 
@@ -91,7 +94,7 @@ public class MissingHeadTagTest {
 			if (file.getName().endsWith(".htm")
 					|| file.getName().endsWith(".ftl")) {
 				// files missing </head>
-				String content = FileUtils.readFileToString(file);
+				String content = FileUtils.readFileToString(file, SystemGlobals.getValue(ConfigKeys.ENCODING));
 				if (!content.toLowerCase().contains("</head>")
 						&& !content.contains("header.htm")
 						&& !content.contains("header.ftl")) {
