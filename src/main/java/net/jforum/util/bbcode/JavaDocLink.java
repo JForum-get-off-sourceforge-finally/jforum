@@ -76,7 +76,8 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JSE_KEY+":6", "http://docs.oracle.com/javase/6/docs/api/");
         versionedUrls.put(JSE_KEY+":7", "http://docs.oracle.com/javase/7/docs/api/");
         versionedUrls.put(JSE_KEY+":8", "http://docs.oracle.com/javase/8/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "http://docs.oracle.com/javase/8/docs/api/");
+        versionedUrls.put(JSE_KEY+":9", "http://docs.oracle.com/javase/9/docs/api/");
+        versionedUrls.put(JSE_KEY+":"+OTHER, "http://docs.oracle.com/javase/9/docs/api/");
 
 		// JEE
 		versionedUrls.put(JEE_KEY+":1.2", "http://docs.oracle.com/javaee/1.2.1/api/");
@@ -106,6 +107,8 @@ public class JavaDocLink implements Substitution {
     // Sun / Oracle
     private static final String J2SE_URL = VERSIONED+":"+JSE_KEY;
     private static final String J2EE_URL = VERSIONED+":"+JEE_KEY;
+	// JME 8 is very different - removed some packages, added some new ones
+	// http://docs.oracle.com/javame/8.0/api/meep/api/index.html
     private static final String JME_URL = "http://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
 	// JOGL 1.1.1a
     // private static final String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
@@ -128,7 +131,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/6_6_0/core/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/7_1_0/core/";
     private static final String POI_URL = "http://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -149,10 +152,10 @@ public class JavaDocLink implements Substitution {
     private static final String MATH_URL = ACP + "-math/javadocs/api-3.6.1/";
     private static final String JEXL_URL = ACP + "-jexl/apidocs/";
     private static final String JXPATH_URL = ACP + "-jxpath/apidocs/";
-    private static final String IO_URL = ACP + "-io/javadocs/api-2.5/";
+	private static final String IO_URL = ACP + "-io/javadocs/api-release/";
     private static final String FILEUPLOAD_URL = ACP + "-fileupload/apidocs/";
     private static final String DIGESTER_URL = ACP + "-digester/apidocs/";
-    private static final String DBCP_URL = ACP + "-dbcp/api-1.4/";
+	private static final String DBCP_URL = ACP + "-dbcp/apidocs/";
     private static final String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
     private static final String CODEC_URL = ACP + "-codec/apidocs/";
     private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.3/apidocs/";
@@ -167,8 +170,8 @@ public class JavaDocLink implements Substitution {
     private static final String POOL_URL = ACP + "-pool/api-2.4.2/";
 
     // Other 3rd party
-    private static final String JUNIT_URL = "http://junit.org/junit4/javadoc/latest/";
-    private static final String JUNIT_OLD_URL = "http://www.junit.org/junit/javadoc/4.5/";
+    private static final String JUNIT_URL = "http://junit.org/junit5/docs/current/api/";
+    private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
     private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
     private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.7/javadocs/";
@@ -182,7 +185,7 @@ public class JavaDocLink implements Substitution {
     private static final String OPENCHART_URL = "http://www.coderanch.com/how-to/javadoc/openchart2-1.4.3/";
     private static final String QUICKTIME_URL = "http://www.coderanch.com/how-to/javadoc/qtjavadocs/";
     private static final String APPLEJAVA_URL = "http://www.coderanch.com/how-to/javadoc/appledoc/api/";
-    private static final String ANDROID_URL = "http://developer.android.com/reference/";
+    private static final String ANDROID_URL = "https://developer.android.com/reference/";
     private static final String JEXCEL_URL = "http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/";
     private static final String MPXJ_URL = "http://mpxj.sourceforge.net/apidocs/";
     private static final String HTTPUNIT_URL = "http://httpunit.sourceforge.net/doc/api/";
@@ -197,9 +200,9 @@ public class JavaDocLink implements Substitution {
     private static final String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
     private static final String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
     private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
-    private static final String OSGI_URL_CORE = "http://www.osgi.org/javadoc/r5/core/";
-    private static final String OSGI_URL_ENTERPRISE = "http://www.osgi.org/javadoc/r5/enterprise/";
-    private static final String GOOGLE_GUAVA_URL = "http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/";
+    private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
+    private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
+	private static final String GOOGLE_GUAVA_URL = "http://google.github.io/guava/releases/23.4-jre/api/docs/";
 	private static final String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
@@ -458,7 +461,8 @@ public class JavaDocLink implements Substitution {
 					clazzName += "()";
 					part2 += "()";
 				}
-				if (url.equals(versionedUrls.get(JSE_KEY+":8"))) {
+				if (url.equals(versionedUrls.get(JSE_KEY+":8"))
+						||  url.equals(versionedUrls.get(JSE_KEY+":9"))) {
 					// Java SE 8 introduces a new URL style
 					part2 = part2.replaceAll("[)(]", "-");
 				}
