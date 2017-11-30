@@ -42,7 +42,7 @@
  */
 package net.jforum.api.integration.mail.pop;
 
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +59,7 @@ import org.apache.log4j.Logger;
 public class MessageId
 {
 	private static final Logger LOGGER = Logger.getLogger(MessageId.class);
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
+	private static final SecureRandom RANDOM = new SecureRandom();
 	private transient int topicId;
 	
 	/**

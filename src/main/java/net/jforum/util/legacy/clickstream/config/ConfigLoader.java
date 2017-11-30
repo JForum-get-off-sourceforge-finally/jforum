@@ -3,13 +3,10 @@ package net.jforum.util.legacy.clickstream.config;
 import java.io.File;
 import java.io.IOException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import net.jforum.exceptions.ConfigLoadException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -17,6 +14,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import net.jforum.exceptions.ConfigLoadException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  *Loads clickstream.xml for JForum.
@@ -50,7 +51,9 @@ public class ConfigLoader
 			this.config = new ClickstreamConfig();
 	
 			try {
-				final SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+				final SAXParserFactory factory = SAXParserFactory.newInstance();
+				factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+	            final SAXParser parser = factory.newSAXParser();
 	
 				final String path = SystemGlobals.getValue(ConfigKeys.CLICKSTREAM_CONFIG);
 				

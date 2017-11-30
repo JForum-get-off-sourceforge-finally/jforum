@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Lists out unique action method names in JForum.
  * 
@@ -75,7 +77,7 @@ public class AllJForumActions {
 					return name.endsWith(".java");
 				}
 			});
-			for (File file : directoryContents) {
+			for (File file : (File[])ArrayUtils.nullToEmpty(directoryContents)) {
 				methodNames.addAll(getPublicMethodNamesIn(packageName,
 						file.getName()));
 			}

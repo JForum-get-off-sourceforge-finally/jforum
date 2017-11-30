@@ -45,6 +45,7 @@ package net.jforum.view.forum.common;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -52,10 +53,13 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.log4j.Logger;
 
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
@@ -79,9 +83,6 @@ import net.jforum.util.image.ImageUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.stats.StatsEvent;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -350,25 +351,24 @@ public class AttachmentCommon
 					if (f.exists()) {
 						boolean result = f.delete();
 						if (result != true) {
-							LOGGER.error("Delete file failed: " + f.getName());
+							LOGGER.error("Delete thumb file failed: " + f.getName());
 						}
 					}
 					
 					// Remove the empty parent directory
 					File parent = f.getParentFile();
-					if (parent.list().length == 0) {
+					if (parent != null && ArrayUtils.nullToEmpty(parent.list()).length == 0) {
 						boolean result = parent.delete();
 						if (result != true) {
-							LOGGER.error("Delete directory failed: " + parent.getName());
+							LOGGER.error("Delete parent directory failed: " + parent.getName());
 						}
-					}
-					
-					// Remove the empty grand parent directory
-					File grandparent = parent.getParentFile();
-					if (grandparent.list().length == 0) {
-						boolean result = grandparent.delete();
-						if (result != true) {
-							LOGGER.error("Delete directory failed: " +grandparent.getName());
+						// Remove the empty grand parent directory
+						File grandparent = parent.getParentFile();
+						if (grandparent != null && ArrayUtils.nullToEmpty(grandparent.list()).length == 0) {
+							result = grandparent.delete();
+							if (result != true) {
+								LOGGER.error("Delete grand parent directory failed: " + grandparent.getName());
+							}
 						}
 					}
 				}
@@ -429,7 +429,7 @@ public class AttachmentCommon
 		}		
 		
 		return dir
-			.append(Hash.md5(attInfo.getRealFilename() + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new Random().nextInt(999999)))
+			.append(Hash.md5(attInfo.getRealFilename() + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new SecureRandom().nextInt(999999)))
 			.append('_')
 			.append(SessionFacade.getUserSession().getUserId())
 			.append('.')

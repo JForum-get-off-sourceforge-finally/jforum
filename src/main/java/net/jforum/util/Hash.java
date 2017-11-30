@@ -91,14 +91,8 @@ public final class Hash
 			final MessageDigest msgDigest = MessageDigest.getInstance(algo);
 			msgDigest.update(str.getBytes());
 			final byte[] hash = msgDigest.digest();
-
-			for (int i = 0; i < hash.length; i++) {
-				if ((0xff & hash[i]) < 0x10) {
-					hexString.append('0').append(Integer.toHexString(0xFF & hash[i]));
-				}
-				else {
-					hexString.append(Integer.toHexString(0xFF & hash[i]));
-				}
+			for (byte b : hash) {
+				hexString.append(String.format("%02X", b));
 			}
 		}
 		catch (NoSuchAlgorithmException e) {

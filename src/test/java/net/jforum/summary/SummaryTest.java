@@ -136,8 +136,7 @@ public class SummaryTest extends TestCase
         Iterator<String> iter = model.listRecipients().iterator();
         while (iter.hasNext()) {            
             iter.next();            
-        }
-        assertTrue(model.listRecipients().size()>=0);       
+        }       
     }
     
     @Test

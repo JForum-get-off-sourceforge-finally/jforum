@@ -386,6 +386,9 @@ public class JForum extends JForumBaseServlet
         super.destroy();
         LOGGER.info("Destroying JForum...");
 
+        // stop Evnetbus
+        Stats.stop();
+        
         // stop Scheduler
         try {
             LOGGER.debug("Stop Quartz Scheduler ...");

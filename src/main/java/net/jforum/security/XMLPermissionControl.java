@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -132,7 +133,7 @@ public class XMLPermissionControl extends DefaultHandler
         {
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             factory.setValidating(false);
-
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             final SAXParser parser = factory.newSAXParser();
             final File fileInput = new File(xmlFile);
 

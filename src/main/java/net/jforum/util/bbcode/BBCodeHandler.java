@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -79,7 +80,9 @@ public class BBCodeHandler extends DefaultHandler implements Serializable
 	public BBCodeHandler parse()
 	{
 		try {
-			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			final SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            final SAXParser parser = factory.newSAXParser();
 			BBCodeHandler bbParser = new BBCodeHandler();
 
 			String path = SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/bb_config.xml";

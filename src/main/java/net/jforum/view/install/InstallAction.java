@@ -58,6 +58,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.Command;
 import net.jforum.ConfigLoader;
 import net.jforum.DBConnection;
@@ -83,14 +90,6 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * JForum Web Installer.

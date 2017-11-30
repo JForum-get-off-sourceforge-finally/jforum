@@ -42,8 +42,8 @@
  */
 package net.jforum.view.forum.common;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 import net.jforum.dao.BannerDAO;
 import net.jforum.dao.DataAccessDriver;
@@ -112,7 +112,7 @@ public class BannerCommon
 		}
 
 		// get correct banner based on weight
-		final int random = new Random().nextInt(99);
+		final int random = new SecureRandom().nextInt(99);
 		int weightFrom = 0;
 		int weightTo = 0;
 		for(int i = 0; i < banners.size(); i++)

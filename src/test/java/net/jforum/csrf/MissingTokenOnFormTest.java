@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -62,7 +63,7 @@ public class MissingTokenOnFormTest {
     private static Collection<Object[]> findHtmlFiles(String commonDirectory, File source) throws Exception {
         Collection<Object[]> result = new ArrayList<Object[]>();
         File[] dir = source.listFiles();
-        for (File file : dir) {
+        for (File file : (File[])ArrayUtils.nullToEmpty(dir)) {
             // if a directory other than version control, recurse
             if (file.isDirectory() && !file.getName().startsWith(".") && !file.getName().equals("macros")) {
                 result.addAll(findHtmlFiles(commonDirectory, file));

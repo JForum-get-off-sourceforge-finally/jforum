@@ -44,11 +44,16 @@ package net.jforum.view.forum;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import net.jforum.Command;
 import net.jforum.ControllerUtils;
@@ -82,11 +87,6 @@ import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.UserCommon;
 import net.jforum.view.forum.common.ViewCommon;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -345,7 +345,7 @@ public class UserAction extends Command
 		boolean needMailActivation = SystemGlobals.getBoolValue(ConfigKeys.MAIL_USER_EMAIL_AUTH);
 
 		if (needMailActivation) {
-			user.setActivationKey(Hash.md5(username + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new Random().nextInt(999999)));
+			user.setActivationKey(Hash.md5(username + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new SecureRandom().nextInt(999999)));
 		}
 
 		int newUserId = userDao.addNew(user);
@@ -723,7 +723,7 @@ public class UserAction extends Command
 		String hash = Hash.md5(user.getEmail() 
 				+ System.currentTimeMillis() 
 				+ SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) 
-				+ new Random().nextInt(999999));
+				+ new SecureRandom().nextInt(999999));
 		userDao.writeLostPasswordHash(user.getEmail(), hash);
 
 		user.setActivationKey(hash);

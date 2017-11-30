@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -152,7 +153,7 @@ public class CsrfTest {
 							return name.endsWith(".java");
 						}
 					});
-			for (File file : directoryContents) {
+			for (File file : (File[])ArrayUtils.nullToEmpty(directoryContents)) {
 				methodNames.addAll(getPublicMethodNamesIn(packageName,
 						file.getName()));
 			}

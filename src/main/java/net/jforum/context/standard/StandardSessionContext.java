@@ -42,8 +42,8 @@
  */
 package net.jforum.context.standard;
 
+import java.security.SecureRandom;
 import java.util.Enumeration;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.context.SessionContext;
@@ -55,8 +55,8 @@ import net.jforum.context.SessionContext;
  */
 public class StandardSessionContext implements SessionContext
 {
-	private static Random random = new Random();
-	public final static String SESSION_ID = "__sessionId";
+	private static final SecureRandom random = new SecureRandom();
+	public static final String SESSION_ID = "__sessionId";
 	private transient final ConcurrentHashMap<String, Object> data;
 	
 	public StandardSessionContext()

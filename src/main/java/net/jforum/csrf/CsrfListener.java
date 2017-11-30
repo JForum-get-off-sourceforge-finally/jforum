@@ -28,9 +28,9 @@ import org.owasp.csrfguard.util.Streams;
  * @version $Id: $
  */
 public class CsrfListener implements ServletContextListener {
-    private final static String CONFIG_PARAM = "Owasp.CsrfGuard.Config";
-    private final static String CONFIG_EXTENSIONS_PARAM = "Owasp.CsrfGuard.Config.Extensions";
-    private final static String CONFIG_PRINT_PARAM = "Owasp.CsrfGuard.Config.Print";
+    private static final String CONFIG_PARAM = "Owasp.CsrfGuard.Config";
+    private static final String CONFIG_EXTENSIONS_PARAM = "Owasp.CsrfGuard.Config.Extensions";
+    private static final String CONFIG_PRINT_PARAM = "Owasp.CsrfGuard.Config.Print";
 
     public void contextInitialized(ServletContextEvent event) {
         ServletContext context = event.getServletContext();

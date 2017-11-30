@@ -28,7 +28,7 @@ public class ClickstreamFilter implements Filter
 	/**
 	 * Attribute name indicating the filter has been applied to a given request.
 	 */
-	private final static String FILTER_APPLIED = "_clickstream_filter_applied";
+	private static final String FILTER_APPLIED = "_clickstream_filter_applied";
 
 	/**
 	 * Processes the given request and/or response.

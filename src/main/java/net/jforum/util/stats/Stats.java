@@ -61,15 +61,16 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class Stats {
     
-	private static Stats INSTANCE;
+	private static Stats INSTANCE = new Stats();
     private Map<String, Data> buffers = new ConcurrentHashMap<String, Data>();
     private Date restartTime = new Date();
 
 	public static void init() {
-		if (INSTANCE == null) {
-			INSTANCE = new Stats();
-			EventBus.getDefault().register(INSTANCE);
-		}
+		EventBus.getDefault().register(INSTANCE);
+	}
+	
+	public static void stop() {
+		EventBus.getDefault().unregister(INSTANCE);
 	}
 
     public static Data getStatsFor(String tag) {

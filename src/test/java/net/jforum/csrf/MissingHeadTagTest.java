@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,7 +86,7 @@ public class MissingHeadTagTest {
 	private void visitHtmlFiles(String commonDirectory, File source)
 			throws Exception {
 		File[] dir = source.listFiles();
-		for (File file : dir) {
+		for (File file : (File[])ArrayUtils.nullToEmpty(dir)) {
 			// if a directory other than version control, recurse
 			if (file.isDirectory() && !file.getName().startsWith(".")
 					&& !file.getName().equals("macros")) {
