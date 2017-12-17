@@ -46,6 +46,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
@@ -372,9 +373,9 @@ public class JForum extends JForumBaseServlet
         return BanlistRepository.shouldBan(banlist);
     }
 
-    private Command retrieveCommand(final String moduleClass) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+    private Command retrieveCommand(final String moduleClass) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
     {
-        return (Command)Class.forName(moduleClass).newInstance();
+        return (Command)Class.forName(moduleClass).getDeclaredConstructor().newInstance();
     }
 
     /** 

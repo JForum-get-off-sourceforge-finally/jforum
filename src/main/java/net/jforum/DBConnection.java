@@ -79,7 +79,7 @@ public abstract class DBConnection
 		boolean succ = true;
 		try {
 			instance = (DBConnection)Class.forName(SystemGlobals.getValue(
-					ConfigKeys.DATABASE_CONNECTION_IMPLEMENTATION)).newInstance();
+					ConfigKeys.DATABASE_CONNECTION_IMPLEMENTATION)).getDeclaredConstructor().newInstance();
 		}
 		catch (Exception e) {
 			 LOGGER.warn("Error creating the database connection implementation instance. " + e);

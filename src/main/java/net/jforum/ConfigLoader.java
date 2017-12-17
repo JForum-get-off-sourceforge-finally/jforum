@@ -124,7 +124,7 @@ public final class ConfigLoader
         final String className = SystemGlobals.getValue(ConfigKeys.LOGIN_AUTHENTICATOR);
 
         try {
-            final LoginAuthenticator authenticator = (LoginAuthenticator) Class.forName(className).newInstance();
+            final LoginAuthenticator authenticator = (LoginAuthenticator) Class.forName(className).getDeclaredConstructor().newInstance();
             SystemGlobals.setObjectValue(ConfigKeys.LOGIN_AUTHENTICATOR_INSTANCE, authenticator);
         }
         catch (Exception e) {
@@ -218,8 +218,7 @@ public final class ConfigLoader
         }
 
         try {
-            final Class<?> clazz = Class.forName(driver);
-            final DataAccessDriver dad = (DataAccessDriver)clazz.newInstance();
+            final DataAccessDriver dad = (DataAccessDriver)Class.forName(driver).getDeclaredConstructor().newInstance();
             DataAccessDriver.init(dad);
         }
         catch (Exception e) {
@@ -235,7 +234,7 @@ public final class ConfigLoader
             	LOGGER.info("Using cache engine: " + cacheImpl);
             }
 
-            cache = (CacheEngine)Class.forName(cacheImpl).newInstance();
+            cache = (CacheEngine)Class.forName(cacheImpl).getDeclaredConstructor().newInstance();
             cache.init();
 
             final String str = SystemGlobals.getValue(ConfigKeys.CACHEABLE_OBJECTS);
@@ -249,7 +248,7 @@ public final class ConfigLoader
             	if (LOGGER.isEnabledFor(Level.INFO)) {
             		LOGGER.info("Creating an instance of " + cacheableObjects[i].trim());
             	}
-                final Object obj = Class.forName(cacheableObjects[i].trim()).newInstance();
+                final Object obj = Class.forName(cacheableObjects[i].trim()).getDeclaredConstructor().newInstance();
 
                 if (obj instanceof Cacheable) {
                     ((Cacheable)obj).setCacheEngine(cache);

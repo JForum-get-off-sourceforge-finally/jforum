@@ -136,7 +136,7 @@ public class InstallServlet extends JForumBaseServlet
                 try {
                     if (moduleClass != null) {
                         // Here we go, baby
-                        final Command command = (Command)Class.forName(moduleClass).newInstance();
+                        final Command command = (Command)Class.forName(moduleClass).getDeclaredConstructor().newInstance();
                         final Template template = command.process(request, response, context);
 
                         if (JForumExecutionContext.getRedirectTo() == null) {

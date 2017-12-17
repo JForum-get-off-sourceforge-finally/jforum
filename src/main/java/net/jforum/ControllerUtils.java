@@ -238,7 +238,7 @@ public class ControllerUtils
 	protected void checkSSO(final UserSession userSession)
 	{
 		try {
-			final SSO sso = (SSO) Class.forName(SystemGlobals.getValue(ConfigKeys.SSO_IMPLEMENTATION)).newInstance();
+			final SSO sso = (SSO) Class.forName(SystemGlobals.getValue(ConfigKeys.SSO_IMPLEMENTATION)).getDeclaredConstructor().newInstance();
 			final String username = sso.authenticateUser(JForumExecutionContext.getRequest());
 
 			if (username == null || username.trim().equals("")) {
@@ -311,7 +311,7 @@ public class ControllerUtils
 			SSO sso;
 			
 			try {
-				sso = (SSO) Class.forName(SystemGlobals.getValue(ConfigKeys.SSO_IMPLEMENTATION)).newInstance();
+				sso = (SSO) Class.forName(SystemGlobals.getValue(ConfigKeys.SSO_IMPLEMENTATION)).getDeclaredConstructor().newInstance();
 			}
 			catch (Exception e) {
 				throw new ForumException(e);

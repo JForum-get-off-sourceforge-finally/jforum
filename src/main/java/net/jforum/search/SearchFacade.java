@@ -74,7 +74,7 @@ public final class SearchFacade
 		}
 		else {
 			try {
-				searchManager = (LuceneManager)Class.forName(clazz).newInstance();
+				searchManager = (LuceneManager)Class.forName(clazz).getDeclaredConstructor().newInstance();
 			}
 			catch (Exception e) {
 				LOGGER.warn(e.toString(), e);

@@ -212,7 +212,7 @@ public class PostCommon
                     } else {
                         // Java code-based text replacement
                         try {
-                            Substitution subst = (Substitution) Class.forName(bb.getClassName()).newInstance();
+                            Substitution subst = (Substitution) Class.forName(bb.getClassName()).getDeclaredConstructor().newInstance();
                             Pattern pat = Pattern.compile(bb.getRegex());
                             Matcher match = pat.matcher(text);
                             // the counter is just in case something goes wrong and the code enters a loop
