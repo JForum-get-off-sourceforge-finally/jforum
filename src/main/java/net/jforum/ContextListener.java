@@ -54,6 +54,7 @@ import javax.servlet.ServletContextListener;
 
 import net.jforum.util.log.LoggerHelper;
 import net.jforum.util.preferences.SystemGlobals;
+import net.jforum.util.stats.Stats;
 
 import org.apache.log4j.Logger;
 
@@ -67,7 +68,7 @@ public class ContextListener implements ServletContextListener {
     /* (non-Javadoc)
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
-    public void contextInitialized(ServletContextEvent sce) {
+    public void contextInitialized (ServletContextEvent sce) {
         final ServletContext application = sce.getServletContext();
         final String appPath = application.getRealPath("");
         LoggerHelper.checkLoggerInitialization( appPath + "/WEB-INF", appPath + "/WEB-INF/classes" );
@@ -80,13 +81,18 @@ public class ContextListener implements ServletContextListener {
         SystemGlobals.setValue("server.info", containerInfo);
         SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
         SystemGlobals.setValue("context.path", application.getContextPath());
+		// initialize EventBus
+		Stats.init();
         LOGGER.info(application.getContextPath() + " initialized");
     }
 
     /* (non-Javadoc)
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
-    public void contextDestroyed(ServletContextEvent sce) {
+    public void contextDestroyed (ServletContextEvent sce) {
+		// stop EventBus
+        Stats.stop();
+
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
             Driver driver = drivers.nextElement();
@@ -101,7 +107,7 @@ public class ContextListener implements ServletContextListener {
         LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
     }
 
-    public static String[] getAppServerNameAndVersion(String serverInfo)
+    public static String[] getAppServerNameAndVersion (String serverInfo)
     {
         final Pattern p = Pattern.compile("\\d+\\.\\d+(\\.\\d+)*");
         final Matcher matcher = p.matcher(serverInfo);

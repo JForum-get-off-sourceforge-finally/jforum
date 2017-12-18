@@ -85,7 +85,6 @@ import net.jforum.util.I18n;
 import net.jforum.util.bbcode.BBCodeHandler;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-import net.jforum.util.stats.Stats;
 import net.jforum.util.stats.StatsEvent;
 
 import org.apache.log4j.Logger;
@@ -352,8 +351,6 @@ public class JForum extends JForumBaseServlet
             ConfigLoader.startPop3Integration();
             // BB Code
             BBCodeRepository.setBBCollection(new BBCodeHandler().parse());
-
-			Stats.init();
         }
         catch (Exception e) {
             throw new ForumStartupException("Error while starting JForum", e);
@@ -387,9 +384,6 @@ public class JForum extends JForumBaseServlet
         super.destroy();
         LOGGER.info("Destroying JForum...");
 
-        // stop Evnetbus
-        Stats.stop();
-        
         // stop Scheduler
         try {
             LOGGER.debug("Stop Quartz Scheduler ...");
