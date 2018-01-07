@@ -70,6 +70,11 @@ public class Stats {
 	}
 	
 	public static void stop() {
+		for (Map.Entry<String, Data> entry : INSTANCE.buffers.entrySet()) {
+			entry.getValue().buffer.clear();
+		}
+		INSTANCE.buffers.clear();
+		
 		EventBus.getDefault().unregister(INSTANCE);
 	}
 
