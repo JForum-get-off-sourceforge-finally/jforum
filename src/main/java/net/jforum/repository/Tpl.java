@@ -57,7 +57,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class Tpl implements Cacheable
 {
@@ -87,37 +86,21 @@ public class Tpl implements Cacheable
 	 * @throws ConfigLoadException if the file is not found or
 	 * some other error occurs when loading the file.
 	 */
-	public static void load(final String filename)
+	public static void load (final String filename)
 	{
-		FileInputStream fis = null;
-		
-		try {
-			final Properties properties = new Properties();
-			fis = new FileInputStream(filename);
-			properties.load(fis);
-			
-			for (final Iterator<Object> iter = properties.keySet().iterator(); iter.hasNext(); ) {
-				final String key = (String)iter.next();
-				
-				cache.add(FQN, key, properties.getProperty(key));
-			}
-		}
-		catch (IOException e) {
-			LOGGER.error("Error while trying to load " + filename + ": " + e);
-			LOGGER.error(e.getMessage(), e);			
-			throw new ConfigLoadException("Error while trying to load " + filename + ": " + e);
-		}
-		finally {
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					LOGGER.error(e.getMessage(), e);
-				}
-			}
-		}
+        Properties p = new Properties();
+        try (FileInputStream fis = new FileInputStream(filename)) {
+            p.load(fis);
+            for (Iterator iter = p.keySet().iterator(); iter.hasNext();) {
+                String key = (String) iter.next();
+                cache.add(FQN, key, p.getProperty(key));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConfigLoadException("Error while trying to load " + filename + ": " + e);
+        }
 	}
-	
+
 	/**
 	 * Gets a template filename by its configuration's key
 	 * 
@@ -126,10 +109,16 @@ public class Tpl implements Cacheable
 	 */
 	public static String name(final String key)
 	{
-        if (cache.get(FQN, key) == null) {
-           // cache was flushed, reload
-           Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));
+        String result = (String) cache.get(FQN, key);
+
+        // not all pages have mobile versions, try regular page if can't find a mobile page
+        if (result == null) {
+            if (key.endsWith("mobile")) {
+                final String keyWithoutMobileSuffix = key.replaceFirst("\\.mobile$", "");
+                return name(keyWithoutMobileSuffix);
+            }
         }
-		return (String)cache.get(FQN, key);
+
+		return result;
 	}
 }

@@ -1,0 +1,96 @@
+<#include "header.htm"/>
+
+<div class="maintitle">${I18n.getMessage("ForumBase.search")}</div>
+<p>
+<div class="mobilePostText">
+
+<form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" 
+	method="get" id="formSearch" name="formSearch"><input
+	type="hidden" name="module" value="${moduleName}" /> <input
+	type="hidden" name="action" value="search" /> <input
+	type="hidden" name="forum_id" value="${forum_id?default(-1)}" />
+
+  <#if error?exists>
+    <font color="#ff0000"><b>${error}</b></font>
+  </#if>
+
+  ${I18n.getMessage("Search.terms")}:<br />
+  <input type="text" class="post" style="WIDTH: 300px" size="30" name="search_keywords" /><br /> 
+  <br />
+
+	<input type="radio" name="match_type" value="all" id="all_terms" checked="checked"/>
+	<label for="all_terms">${I18n.getMessage("Search.allTerms")}</label><br/>
+	<input type="radio" name="match_type" value="any" id="any_term"/>
+	<label for="any_term">${I18n.getMessage("Search.anyTerm")}</label><br/>
+	<input type="radio" name="match_type" value="phrase" id="phrase"/>
+	<label for="phrase">${I18n.getMessage("Search.exactPhrase")}</label><br/>
+	<input type="radio" name="match_type" value="raw" id="raw_term"/>
+	<label for="raw_term">${I18n.getMessage("Search.rawTerm")}</label>
+  <p />
+ 
+	<input name="search_in" type="radio" value="ALL" checked="checked" id="entireMessage" />
+	<label for="entireMessage">${I18n.getMessage("Search.entireMessage")}</label><br>
+	<input type="radio" value="SUBJECT" name="search_in" id="subjectOnly" />
+	<label for="subjectOnly">${I18n.getMessage("Search.subjectOnly")}</label><br>
+  <br />
+
+  ${I18n.getMessage("Search.forum")}:<br />
+  <select name="forum" size="6" multiple>
+			<#if (forum_id == -1) >
+			<option value="" selected="selected">${I18n.getMessage("Search.allAvailable")}</option>
+			<#else>
+			<option value="">${I18n.getMessage("Search.allAvailable")}</option>
+			</#if>
+			<#list categories as c>
+			<optgroup label="${c.name?html}">
+				<#list c.getForums() as f>
+                <#if (f.id == forum_id) >
+				<option value="${f.id}" selected="selected">${f.name?html}</option>
+                <#else>
+                <option value="${f.id}">${f.name?html}</option>
+                </#if>
+				</#list>
+			</optgroup>
+			</#list>
+		</select> <br />
+		<input type="checkbox" name="groupByForum" value="true" >${I18n.getMessage("Search.groupByForum")}<br />
+		<br />
+
+		${I18n.getMessage("Search.orderBy")}:<br />
+		<select name="sort_by" onChange="enableDisableOrderBy(this.value);">
+			<option value="time" selected="selected">${I18n.getMessage("Search.postDate")}</option>
+			<option value="relevance">${I18n.getMessage("Search.relevance")}</option>
+		</select><br />
+		<input type="radio" value="ASC" name="sort_dir" id="sort_asc" />
+		<label for="sort_asc">${I18n.getMessage("Search.ascending")}</label><br />
+		<input type="radio" checked="checked" value="DESC" name="sort_dir" id="sort_desc" />
+		<label for="sort_desc">${I18n.getMessage("Search.descending")}</label><br />
+		<br />
+
+		${I18n.getMessage("Search.searchByDate")}:<br />
+		<SELECT NAME="search_date">
+			<option value="ALL">${I18n.getMessage("Search.anyDate")}</option>
+			<option value="1">${I18n.getMessage("Search.sinceYesterday")}</option>
+			<option value="10">${I18n.getMessage("Search.since10days")}</option>
+			<option value="30">${I18n.getMessage("Search.since30days")}</option>
+			<option value="90">${I18n.getMessage("Search.since3Months")}</option>
+			<option value="180">${I18n.getMessage("Search.since6Months")}</option>
+			<option value="365">${I18n.getMessage("Search.since12Months")}</option>
+			<option value="730">${I18n.getMessage("Search.since24Months")}</option>
+	    </SELECT><br />
+	    <br />
+
+		${I18n.getMessage("Search.searchByUserId")}:<br />
+		 <input type="text" style="WIDTH: 100px" size="15" name="user_id" /> 
+		<br /><br />
+
+		${I18n.getMessage("Search.searchByUsername")}:<br />
+		<input type="text" style="WIDTH: 150px" size="35" name="username" /> <br />
+		<br />
+
+		<input type="submit" value="Search" />
+</form>
+</div>
+
+<script type="text/javascript"> document.formSearch.search_keywords.focus(); </script>
+<#include "bottom.htm"/>

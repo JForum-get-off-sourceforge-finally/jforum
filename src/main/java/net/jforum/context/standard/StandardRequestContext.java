@@ -282,4 +282,10 @@ public class StandardRequestContext implements RequestContext
 	public StringBuffer getRequestURL() {
 		throw new UnsupportedOperationException("this method only supported for web layer");
 	}
+
+    @Override
+    public boolean isMobileRequest() {
+        // since not a web request, can't be mobile
+        return false;
+    }
 }

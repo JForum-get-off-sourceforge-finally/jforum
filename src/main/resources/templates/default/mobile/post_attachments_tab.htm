@@ -1,0 +1,31 @@
+<#if attachmentsEnabled!false || attachments??>
+    <script type="text/javascript">
+        <#include "attachments-scripts.ftl"/>
+    </script>
+
+    <div>
+        <input type="hidden" name="edit_attach_ids" />
+        <input type="hidden" name="delete_attach" />
+        <input type="hidden" name="total_files" id="total_files" />
+        <label class="bold">${I18n.getMessage("Attachments.attach")}</label>
+        <div class="gensmall">${I18n.getMessage("Attachments.maxToAttach")}: ${maxAttachments}
+            <#assign maxSize = maxAttachmentsSize / 1024 />
+            <#if (maxSize > 1)>
+                ${I18n.getMessage("Attachments.maxSize")}: ${maxSize} kb
+            </#if>
+        </div>
+        <div id="edit_attach"></div>
+        <div id="attachmentFields"></div>
+        <#if attachmentsEnabled!false>
+            <input type="button" name="add_attach" value="Add another file" class="mainoption" onclick="showAttachmentsPanel();" />
+            <#if attachments??>
+                <script type="text/javascript">
+                    ignoreStart = true;
+                    showAttachmentsPanelForEdit();
+                </script>
+            <#else>
+                <script type="text/javascript">showAttachmentsPanel();</script>
+            </#if>
+        </#if>
+    </div>
+</#if>

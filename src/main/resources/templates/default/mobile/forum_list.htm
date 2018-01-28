@@ -1,0 +1,13 @@
+<#include "header.htm"/>
+ 
+<#list allCategories as category>
+  <div class="cattitle mobilelist">${category.name?html}</div>
+
+	<#list category.getForums() as forum>    
+		<div class="forumlink mobilelist"><a class="forumlink" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></div>				
+	</#list>
+
+	<br />
+</#list>
+
+<#include "bottom.htm"/>

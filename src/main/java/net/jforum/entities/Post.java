@@ -421,6 +421,19 @@ public class Post implements Serializable
 		return this.text;
 	}
 
+    /**
+     * Post processing for HTML differences in mobile view. In particular, if
+     * the post starts/ends with a quote, the mobile view needs a space to display the background.
+     *
+     * @return processed HTML string
+     */
+    public String getMobileText() {
+        String result = getText();
+        result = result.replaceFirst("^\\s*<blockquote", "&nbsp;<blockquote");
+        result = result.replaceFirst("</blockquote>$", "</blockquote>&nbsp;");
+        return result;
+    }
+
 	/**
 	 * Sets the text of the post
 	 * 

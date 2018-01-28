@@ -1,0 +1,42 @@
+<#include "header.htm"/>
+
+<div>  
+	<input type="button" value="${I18n.getMessage("PrivateMessage.title")}" onclick="location.href='${JForumContext.encodeURL("/pm/send")}'" />
+	<#if inbox?default(false)>
+		<input type="button" value="${I18n.getMessage("PrivateMessage.sentbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/sentbox")}'" />
+	<#else>
+		<input type="button" value="${I18n.getMessage("PrivateMessage.inbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/inbox")}'" />
+	</#if>
+</div>
+<br>
+<div class="subject row2">
+	<#if inbox?default(false)>
+		${I18n.getMessage("PrivateMessage.inbox")}
+	<#else>
+		${I18n.getMessage("PrivateMessage.sentbox")}
+	</#if>
+</div>
+
+<#list pmList as pm>
+	<div class="mobilePostBody row1">
+	  <#if pm.type == NEW>
+		<img src="${contextPath}/templates/${templateName}/images/folder_new.gif" alt="New Folder" />
+	  <#else>
+		<img src="${contextPath}/templates/${templateName}/images/folder.gif" alt="Folder" />
+	  </#if>
+	  <a class="topictitle" href="${JForumContext.encodeURL("/pm/read/${pm.id}")}">${pm.post.subject?html}</a>
+	</div>
+
+	<div class="mobilePostText row1">
+	  <#if inbox?default(false)>
+		
+		<span class="name">${I18n.getMessage("PrivateMessage.from")}: <a class="name" href="${JForumContext.encodeURL("/user/profile/${pm.fromUser.id}")}">${pm.fromUser.username}</a></span>
+	  <#else>
+		<span class="name">${I18n.getMessage("PrivateMessage.to")}: <a class="name" href="${JForumContext.encodeURL("/user/profile/${pm.toUser.id}")}">${pm.toUser.username}</a></span>
+	  </#if>  
+	  <br />
+	  ${I18n.getMessage("PrivateMessage.date")}: ${pm.formattedDate}
+	</div>
+</#list>
+
+<#include "bottom.htm"/>

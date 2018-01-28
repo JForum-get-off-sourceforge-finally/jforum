@@ -1,0 +1,107 @@
+<#include "header.htm"/>
+
+<script type="text/javascript" src="${jQueryURL}"></script>
+
+<#assign preview = preview?exists && preview/>
+<#assign isNewPost = isNewPost?exists && isNewPost/>
+<#assign isEdit = isEdit?if_exists/>
+<#assign isNewTopic = (!topic?exists || topic.id == -1)/>
+<#assign attachmentsEnabled = attachmentsEnabled?exists && attachmentsEnabled/>
+<#if !maxAttachments?exists>
+	<#assign maxAttachments = 0/>
+</#if>
+<#assign htmlChecked = "checked=\"checked\""/>
+<#assign bbChecked = ""/>
+<#assign signatureChecked = "checked=\"checked\""/>
+<#assign repliesChecked = "checked=\"checked\""/>
+<#assign smiliesChecked = ""/>
+
+<#if isNewPost && !preview && !post?exists>
+	<#if user.isHtmlEnabled()><#assign htmlChecked = ""/></#if>
+	<#if !user.isBbCodeEnabled()><#assign bbChecked = "checked=\"checked\""/></#if>
+	<#if !user.isSmiliesEnabled()><#assign smiliesChecked = "checked=\"checked\""/></#if>
+	<#if !user.isAttachSignatureEnabled()><#assign signatureChecked = ""/></#if>
+<#elseif post?exists>
+	<#if post.isHtmlEnabled()><#assign htmlChecked = ""/></#if>
+	<#if !post.isBbCodeEnabled()><#assign bbChecked = "checked=\"checked\""/></#if>
+	<#if !post.isSmiliesEnabled()><#assign smiliesChecked = "checked=\"checked\""/></#if>
+	<#if !post.isSignatureEnabled()><#assign signatureChecked = ""/></#if>
+</#if>
+
+<#if !user.isNotifyOnMessagesEnabled()><#assign repliesChecked = ""/></#if>
+
+<div class="maintitle"><a class="maintitle" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></div>
+<p>
+<div class="subject">
+	<b>
+		<#if (topic?exists && topic.id > -1)>
+		    <#if isEdit>
+		    	${I18n.getMessage("PostForm.edit")} "${topic.title?html}"
+		    <#else>
+				${I18n.getMessage("PostForm.reply")} "${topic.title?html}"
+		</#if>
+		<#else>
+				${I18n.getMessage("PostForm.title")}
+		</#if>
+						
+	</b>
+</div>
+
+<#if errorMessage?exists>
+  <p><font color="#ff0000"><b>${errorMessage}</b></font></p>
+</#if>
+
+<#if post?exists>
+	<#assign subject = post.subject?default("")?html/>
+<#elseif topic?exists>
+	<#assign subject = topic.title?default("")?html/>
+</#if>
+
+<form action="${JForumContext.encodeURL("/jforum")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" method="post" enctype="multipart/form-data" name="post" id="post" onsubmit="return validatePostForm(this)">
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+<input type="hidden" name="action" value="${action}" />
+<input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="preview" value="0"/>
+<#if forum?exists><input type="hidden" name="forum_id" value="${forum.id}" /></#if>
+<input type="hidden" name="start" value="${start?default("")}" />
+<#if isEdit><input type="hidden" name="post_id" value="${post.id}" /></#if>
+<#if !isNewTopic><input type="hidden" name="topic_id" value="${topic.id}" /></#if>
+
+<div class="mobilePostText">
+
+	<!--  if reply -->
+	<#if (topic?exists && topic.id > -1 && ! isEdit)>
+		<input type="hidden" name="subject" value="${subject?default("")}" />
+	<#else>
+	  <div class="row3">
+		<b>${I18n.getMessage("PostForm.subject")}: </b>
+		<input type="text" tabindex="2" maxlength="100" size="40" name="subject" value="${subject?default("")?html}" />
+	  </div>							
+	</#if>
+
+	<!-- Textarea -->	
+	<#if post?exists>
+		<#assign text = post.text?default("")/>
+	<#else>
+		<#assign text = ""/>
+	</#if>
+	<br>
+	<textarea style="width:100%" rows="10" class="message" tabindex="3" name="message"><#if quote?exists>[quote=${quoteUser}]${text?html}[/quote]<#else>${text?html}</#if></textarea>
+	<br /><br />
+	<!-- Options -->
+    <#include "post_options_tab.htm"/>
+    <br />
+
+    <#if attachmentsEnabled!false || attachments??>
+        <div id="postAttachments" class="postTabContents">
+            <#include "post_attachments_tab.htm"/>
+        </div>
+	</#if> 
+
+</div>
+
+<input class="mainoption" id="btnSubmit" accesskey="s" tabindex="6" type="submit" value="${I18n.getMessage("PostForm.submit")}" name="post" />
+<br>
+</form>
+
+<#include "bottom.htm"/>

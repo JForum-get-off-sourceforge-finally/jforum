@@ -1,0 +1,21 @@
+
+	<#if topic.status == STATUS_LOCKED>
+	  <span class="icon_reply_locked"><img src="${contextPath}/images/transp.gif" alt="" /></span>
+	<#else>
+	  <#if logged>
+       <#if !watching>
+		<a href="${JForumContext.encodeURL("/posts/watch/${start}/${topic.id}")}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN}" class="icon_watch nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+	  <#else>	    
+		<a href="${JForumContext.encodeURL("/posts/unwatch/${start}/${topic.id}")}" class="icon_unwatch nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+	  </#if>	  
+	  </#if>
+	</#if>
+
+		<#if !readonly && topic.type != TOPIC_WIKI>
+			<a href="${JForumContext.encodeURL("/posts/reply/${start}/${topic.id}")}" class="icon_reply nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+       </#if>
+
+	<a href="${JForumContext.encodeURL("/posts/insert/${forum.id}")}" class="icon_new_topic nav"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+
+<@pagination.doPagination "list", topic.id, 1/>
+

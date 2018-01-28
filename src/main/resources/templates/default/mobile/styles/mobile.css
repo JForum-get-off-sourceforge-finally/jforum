@@ -1,0 +1,100 @@
+.logo {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.subject, .cattitle {
+	font-weight:bold;
+	font-size: 110%;
+	background-color: #dee3e7;
+}
+
+.mobilePostBody, .forumlink, .boxBackground {
+	background-image: url(../../images/cellpic1.gif); 
+	font-size: 110%
+}
+
+.mobilePostText, .latestpost {
+	background-color: #fafafa;
+    padding: 0.625em;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.gensmall, { font-size: 11px; }
+.bold {font-weight: bold;}
+
+img { border: 0px; }
+
+a:link   { color: #01336b; text-decoration: none; }
+a:active { color: #01336b; }
+a:visited{ color: #01336b; text-decoration: none; }
+a:hover  { color: #dd6900; text-decoration: underline; }
+
+.mobileLabel { font-weight: bold; }
+
+.mobileLabel a { padding: 10px; font-size: 125%; }
+
+.mobileForumTitle { padding: 5px; }
+
+.maintitle{ font-weight: bold; font-size: 125%; color: #000000; line-height: 120%; font-family: "trebuchet ms",verdana, arial, helvetica, sans-serif; text-decoration: none }
+
+.center { text-align: center }
+
+.errorMessage { color : #ff0000; font-size: 1.1em}
+
+/* quote */
+blockquote {
+	background:#FFFFFF none no-repeat scroll 6px 8px;
+	border:1px dashed #DBDBDB;
+	font-size:0.95em;
+	margin:0.5em 10px 0pt 10px;
+	overflow:hidden;
+	padding:5px;
+	background-color:#FFFFFF;
+	background-image:url(../../images/quote.gif);
+	border-color:#DBDBCE;
+}
+
+blockquote cite {
+	display:block;
+	font-size:0.9em;
+	font-style:normal;
+	font-weight:bold;
+	margin-left:20px;
+}
+
+blockquote.uncited {
+	padding-top:25px;
+}
+
+.postTabContents { padding-top: 23px; }
+.postTabContents div { background-color: #dee3e7; }
+.postTabContents .warn { background-color: #FDFFAB; margin: 9px; padding: 6px; border: 1px dashed #F00; }
+
+/*Images in posts (added using <img> tag for example) should not be allowed to exceed the size of the containing element */
+img {
+    max-width: 100%; /* When images are too wide for containing element, force them to fit. */
+    height: auto; /* Override height to match resized width for correct aspect ratio. */
+}
+
+.mobilelist {padding: 5px; }
+
+/* Default buttons, in English. For localized ones, see <locale_name>.css in the "styles" directory */
+.icon_topic_delete { background-image: url(../../images/topic_delete.gif); width: 19px; height: 18px; display: inline; }
+.icon_topic_move { background-image: url(../../images/topic_move.gif); width: 19px; height: 18px; display: inline; }
+.icon_topic_unlock { background-image: url(../../images/topic_unlock.gif); width: 19px; height: 18px; display: inline; }
+.icon_topic_lock { background-image: url(../../images/topic_lock.gif); width: 19px; height: 18px; display: inline; }
+.icon_new_topic img { background-image: url(../../images/en_US/post.gif); width: 82px; height: 25px; }
+.icon_reply img { background-image: url(../../images/en_US/reply.gif); width: 82px; height: 25px; }
+.icon_reply_locked img { background-image: url(../../images/en_US/reply_locked.gif); width: 82px; height: 25px; }
+.icon_quote img { background-image: url(../../images/en_US/icon_quote.gif); width: 59px; height: 18px; }
+.icon_edit img { background-image: url(../../images/en_US/icon_edit.gif); width: 59px; height: 18px; }
+.icon_profile img { background-image: url(../../images/en_US/icon_profile.gif); width: 59px; height: 18px; }
+.icon_pm img { background-image: url(../../images/en_US/icon_pm.gif); width: 59px; height: 18px; }
+.icon_watch img { background-image: url(../../images/watch.gif); width: 16px; height: 16px; }
+.icon_unwatch img { background-image: url(../../images/unwatch.gif); width: 16px; height: 16px; }
+

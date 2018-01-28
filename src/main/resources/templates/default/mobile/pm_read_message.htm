@@ -1,0 +1,38 @@
+<#include "header.htm"/>
+
+<div>
+  <input type="button" value="${I18n.getMessage("PrivateMessage.inbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/inbox/")}'" />
+  <input type="button" value="${I18n.getMessage("PrivateMessage.sentbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/sentbox/")}'" />
+</div>
+
+<form action="${JForumContext.encodeURL("/jforum")}" method="post">
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+<input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="action" value="delete" />
+<input type="hidden" value="${pm.id}" name="id" />
+
+<div class="subject pmRow2">${I18n.getMessage("PrivateMessage.inboxMessage")}</div>
+
+<div class="mobilePostBody pmRow1">
+${I18n.getMessage("PrivateMessage.from")}: ${pm.fromUser.username}
+<br />
+${I18n.getMessage("PrivateMessage.to")}: ${pm.toUser.username}<br />
+${I18n.getMessage("PrivateMessage.date")}: ${pm.formattedDate}<br />
+${I18n.getMessage("PrivateMessage.subject")}: ${pm.post.subject?html}<br />
+</div>
+
+<div class="mobilePostText pmRow1">${pm.post.text}
+<#if (pm.fromUser.attachSignatureEnabled && pm.fromUser.signature?exists && pm.post.isSignatureEnabled())>
+  <hr/>
+  <span class="userSignature">${pm.fromUser.signature}</span>
+</#if>
+</div>
+			
+<div>
+  <input type="button" value="Reply" onclick="location.href='${JForumContext.encodeURL("/pm/reply/${pm.id}")}'" />
+  <input type="button" value="Quote" onclick="location.href='${JForumContext.encodeURL("/pm/quote/${pm.id}")}'" />
+  <input type="submit" value="Delete Message" />
+</div>
+
+<#include "../highlighter_js.htm"/>
+<#include "bottom.htm"/>

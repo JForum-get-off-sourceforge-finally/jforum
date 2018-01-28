@@ -24,7 +24,7 @@
 					if (turnOn) {
 						$(".toggleWatchLink")[0].href = unwatchURL;
 						$(".toggleWatchLink")[0].onclick = unwatchHandler;
-						$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("ForumShow.unwatch")}';
+						$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Unwatch" />&nbsp;${I18n.getMessage("ForumShow.unwatch")}';
 					} else {
 						$(".toggleWatchLink")[0].href = watchURL;
 						$(".toggleWatchLink")[0].onclick = watchHandler;
@@ -320,7 +320,7 @@
 							<#else>
 								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/forums/unwatchForum/${forum.id}")}"
 									onClick="turnOn=false; toggleWatch(); return false">
-									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("ForumShow.unwatch")}</a>
+									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Unwatch" />&nbsp;${I18n.getMessage("ForumShow.unwatch")}</a>
 							</#if>
 						</#if>
 					</td>

@@ -1,0 +1,41 @@
+<#include "header.htm"/>
+
+<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="loginform" id="loginform" accept-charset="${encoding}">
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+  <input type="hidden" name="module" value="user" />
+  <input type="hidden" name="action" value="validateLogin" />
+  
+  <#if returnPath?exists>
+  	<input type="hidden" name="returnPath" value="${returnPath?html}" />
+  </#if>
+  
+<div class="subject">
+  <a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("Login.enter")}</a>
+</div>  
+  
+<#if invalidLogin?exists>
+	<font color="red">${I18n.getMessage("Login.invalidLogin")}</font>
+</#if>
+
+<div class="boxBackground">
+  ${I18n.getMessage("Login.user")}:<br />
+  <input class="post" maxlength="40" size="25" name="username" type="text"/><br />
+				
+  ${I18n.getMessage("Login.password")}:</span> <br />
+  <input class="post" type="password" size="25" name="password" autocomplete="off" /><br />
+				
+  <#if autoLoginEnabled>
+	<label for="autologin">${I18n.getMessage("Login.autoLogon")}: </label><input type="checkbox" id="autologin" name="autologin" /></span><br />
+  </#if>
+  
+  <input type="hidden" name="redirect" />
+  <input class="mainoption" type="submit" value="${I18n.getMessage("Login.enter")}" name="login" />
+  
+  <br />
+  <a href="${JForumContext.encodeURL("/user/lostPassword")}">${I18n.getMessage("Login.lostPassword")}</a>
+   | 
+  <a href="${JForumContext.encodeURL("/user/activateManual")}">${I18n.getMessage("ActivateAccount.activate")}</a>				
+</div>
+
+</form>
+<#include "bottom.htm"/>

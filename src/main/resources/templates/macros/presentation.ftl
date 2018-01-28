@@ -95,11 +95,11 @@
 	function todo(name) { var todo = document.getElementById("moderationTodo"); todo.name = name; todo.value = "1"; }
 
 	function deleteTopic() {
-		if (confirm("${I18n.getMessage("Moderation.ConfirmDelete")}")
-			&& askModerationReason()) {
+		if (confirm("${I18n.getMessage("Moderation.ConfirmDelete")}")) {
 			todo("topicRemove");
 			document.formModeration.returnUrl.value = "${JForumContext.encodeURL("/forums/show/${topic.forumId}")}";
 			document.formModeration.log_type.value = "1";
+			document.formModeration.log_description.value = 'deleting thread';
 			document.formModeration.submit();
 		}
 	}
@@ -110,11 +110,15 @@
 	}
 
 	function lockUnlock(lock) {
-		if (askModerationReason()) {
-			document.formModeration.log_type.value = "3";
-			todo(lock ? "topicLock" : "topicUnlock");
-			document.formModeration.submit();
+		document.formModeration.log_type.value = "3";
+		if (lock) {
+			document.formModeration.log_description.value = 'locking thread';
+			todo("topicLock");
+		} else {
+			document.formModeration.log_description.value = 'unlocking thread';
+			todo("topicUnlock");
 		}
+		document.formModeration.submit();
 	}
 	/* ]]> */
 	</script>

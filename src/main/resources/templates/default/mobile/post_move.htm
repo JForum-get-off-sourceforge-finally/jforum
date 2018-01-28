@@ -1,0 +1,40 @@
+<#include "header.htm"/>
+
+<script type="text/JavaScript" src="${JForumContext.encodeURL("/js/list/moderation")}"></script>
+
+<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="formModeration" id="formModeration" onsubmit="return askModerationReason();" accept-charset="${encoding}">
+<input type="hidden" name="action" value="moveTopic" />
+<input type="hidden" name="module" value="${moduleName}" />
+<input type="hidden" name="returnUrl" value="${returnUrl?if_exists}" />
+<input type="hidden" name="topics" value="${topics}" />
+<input type="hidden" name="forum_id" value="${forum_id}" />
+<input type="hidden" name="log_type" value="0" />
+<input type="hidden" name="log_description" />
+<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+
+<div class="subject">${I18n.getMessage("PostForm.movingTopic")}</div>
+
+<div class="errorMessage">${message?default("")}</div>
+
+<div class="boxBackground">
+${I18n.getMessage("PostForm.moveToForum")}<br />
+<select name="to_forum">
+	<#list allCategories as category>
+		<optgroup label="${category.name?html}">
+		<#list category.getForums() as forum>
+			<option value="${forum.id}">${forum.name?html}</option>
+		</#list>
+		</optgroup>
+	</#list>
+</select>
+
+<br />
+
+<input type="submit" name="submit" value="${I18n.getMessage("move")}" onclick="return validatePostsMove()" />
+&nbsp;
+<input type="button" value="${I18n.getMessage("previousPage")}" onclick="history.go(-1)" />
+
+</div>
+
+</form>
+<#include "bottom.htm"/>

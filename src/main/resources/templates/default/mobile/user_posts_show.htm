@@ -1,0 +1,22 @@
+<#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination/>
+
+<div class="maintitle">${I18n.getMessage("PostShow.userPosts")} ${u.username?html}</div>
+<p>
+<#list posts as post>
+	<#assign topic = topics.get(post.topicId) />
+	<#assign forum = forums.get(post.forumId) />
+	<div class="subject">
+		<a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}">${topic.title?default("Empty")?html}</a>
+	</div>
+	<div class="mobilePostText">
+		${I18n.getMessage("Search.forum")}: <a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a> 
+		<BR>
+		${I18n.getMessage("ModerationLog.date")}: ${post.time?datetime}
+	</div>
+	<BR>
+</#list>
+
+<@pagination.doPagination "listByUser", u.id, 1/>
+
+<#include "bottom.htm"/>

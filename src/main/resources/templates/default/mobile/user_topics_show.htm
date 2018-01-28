@@ -1,0 +1,32 @@
+<#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination/>
+
+<div class="maintitle">${I18n.getMessage("ForumListing.userTopics")} <a href="${JForumContext.encodeURL("/user/profile/${u.id}")}">${u.username?html}</a></div>
+<p>
+
+<#list topics as topic>
+	<div class="subject">
+		<a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>&mdash;&mdash;&mdash;<#else>${topic.title?html}</#if><#if topic.type == TOPIC_WIKI> (Wiki)</#if></a>
+	</div>
+	<div class="mobilePostText">
+		${I18n.getMessage("Search.forum")}: <a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${topic.forumId}")}">${forums.get(topic.forumId).getName()}</a><br>
+		${I18n.getMessage("ForumIndex.answers")}: <#if topic.type == TOPIC_WIKI>W<#else>${topic.totalReplies}</#if><br />
+		<#assign startPage = ""/>
+		<#if (topic.totalReplies + 1 > postsPerPage?number)>
+			<#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
+		</#if>
+		${I18n.getMessage("ForumIndex.lastMessage")}: <a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}#p${topic.lastPostId}")}">${topic.lastPostTime}</a> ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username?html}</a><br />
+		<#if topic.paginate>
+			<br>
+			<span class="gensmall">
+			<@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>				
+			</span>
+		</#if>
+	</div>
+	<br />
+</#list>
+
+<@pagination.doPagination action, u.id, 1/>
+
+<#include "bottom.htm"/>
+

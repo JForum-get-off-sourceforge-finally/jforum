@@ -205,15 +205,14 @@ public class ForumAction extends Command
 
 		this.context.put("topics", TopicsCommon.prepareTopics(tmpTopics));
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(false));
+        this.context.put("category", ForumRepository.getCategory(forum.getCategoryId()));
 		this.context.put("forum", forum);
 		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 		this.context.put("pageTitle", forum.getName());
 		this.context.put("canApproveMessages", canApproveMessages);
-		this.context.put("replyOnly", !SecurityRepository.canAccess(SecurityConstants.PERM_REPLY_ONLY, Integer
-		        .toString(forum.getId())));
+		this.context.put("replyOnly", !SecurityRepository.canAccess(SecurityConstants.PERM_REPLY_ONLY, Integer.toString(forum.getId())));
 
-		this.context.put("readonly", !SecurityRepository.canAccess(SecurityConstants.PERM_READ_ONLY_FORUMS, Integer
-		        .toString(forumId)));
+		this.context.put("readonly", !SecurityRepository.canAccess(SecurityConstants.PERM_READ_ONLY_FORUMS, Integer.toString(forumId)));
 
 		this.context.put("watching", fm.isUserSubscribed(forumId, userSession.getUserId()));
 

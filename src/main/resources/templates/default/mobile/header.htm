@@ -1,0 +1,37 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="-1" />
+	<meta name="description" content="${metaDescription?html}" />
+	<meta name="keywords" content="${metaKeywords?html}" />
+	<meta name="viewport" content="width=device-width" />
+	<style type="text/css">
+	@import url( ${contextPath}/templates/${templateName}/mobile/styles/mobile.css ) ;
+	@import url( ${contextPath}/templates/${templateName}/mobile/styles/${language}.css ) ;
+	</style>
+    <title>${pageTitle?default("JForum")?html}</title>
+</head>
+<body class="${language}">
+
+<a name="top"></a>
+<table cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td class="logo" align="center">
+			<a href="${homepageLink}"><img src="${contextPath}/templates/${templateName}/mobile/images/logo.jpg" vspace="1" alt="[Logo]" /></a>
+		</td>
+		<td>
+			<div class="mobileForumTitle"><a class="maintitle" href="${forumLink}">${forumTitle?default("JForum")}</a></div>
+		</td>
+    </tr>
+</table>
+<p>
+<a href="#bottom"><img src="${contextPath}/templates/${templateName}/mobile/images/down_arrow.png" width="10" height="10" alt="Jump to bottom of page" /></a>
+&nbsp;|&nbsp;
+<#if logged>
+ <a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} </a>
+</#if>
+<#if !logged>
+  <a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a> /
+  <a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>
+</#if>

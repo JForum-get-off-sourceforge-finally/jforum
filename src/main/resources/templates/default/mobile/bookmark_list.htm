@@ -1,0 +1,104 @@
+<#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination/>
+
+<div class="maintitle">${I18n.getMessage("Bookmarks.for")} ${user.username}</div>
+<p>
+<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+	<#assign owner = loggedUserId == user.id/>  
+
+	<tr>
+		<td><b>
+			<div class="subject">
+				<#if bookmarks.size() == 0>
+					${I18n.getMessage("Bookmarks.empty")}
+				<#else>
+					${I18n.getMessage("Bookmarks.list")}
+				</#if>
+			</div>
+		</b></td>
+	</tr>
+
+	<#assign color = "row1"/>
+	<#list bookmarks as b> 
+		<#if b.relationType == topicType>
+			<#if b.isPublicVisible() || owner>
+				<tr>
+					<td class="${color}">
+						<div class="mobilePostText">
+							<a href="${JForumContext.encodeURL("/posts/list/${b.relationId}")}">${b.title}</a>
+							<#if (b.description?default("")?length > 0)> (${b.description})</#if>
+						</div>
+					</td>
+				</tr>
+				<#if color == "row1">
+					<#assign color = "row2"/>
+				<#else>
+					<#assign color = "row1"/>
+				</#if>
+			</#if>
+		</#if>
+	</#list>
+
+<#if owner>
+	<tr>
+	  <td nowrap="nowrap"><b>
+		<div class="subject">
+			<#if watchedForums.size() == 0>
+				${I18n.getMessage("Watches.forums.none")}
+			<#else>
+				${I18n.getMessage("Watches.forums")}
+			</#if>
+	  </b></td>
+	</tr>
+
+	<#assign color = "row1"/>
+	<#list watchedForums as f> 
+		<tr>
+			<td class="${color}" align="left">
+				<div class="mobilePostText">
+					<a href="${JForumContext.encodeURL("/forums/show/${f.id}")}">${f.forumName}</a>
+				</div>
+			</td>
+		</tr>
+		<#if color == "row1">
+			<#assign color = "row2"/>
+		<#else>
+			<#assign color = "row1"/>
+		</#if>
+	</#list>
+
+	<tr>
+	  <td nowrap="nowrap"><b>
+		<div class="subject">
+			<#if watchedTopics.size() == 0>
+				${I18n.getMessage("Watches.topics.none")}
+			<#else>
+				${I18n.getMessage("Watches.topics")}
+			</#if>
+		</div>
+	  </b></td>
+	</tr>
+
+	<#assign color = "row1"/>
+	<#list watchedTopics as t> 
+		<tr>
+			<td class="${color}" align="left">
+				<div class="mobilePostText">
+					<a href="${JForumContext.encodeURL("/posts/list/${t.id}")}">${t.title}</a>
+				</div>
+			</td>
+		</tr>
+		<#if color == "row1">
+			<#assign color = "row2"/>
+		<#else>
+			<#assign color = "row1"/>
+		</#if>
+	</#list>
+</#if>
+
+</table>
+
+<#if thisPage?exists><@pagination.doPagination "list", -1, 1/></#if>
+
+<#include "bottom.htm"/>
+

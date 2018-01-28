@@ -66,6 +66,7 @@ import net.jforum.dao.PostDAO;
 import net.jforum.dao.TopicDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Attachment;
+import net.jforum.entities.Category;
 import net.jforum.entities.Forum;
 import net.jforum.entities.KarmaStatus;
 import net.jforum.entities.ModerationLog;
@@ -205,6 +206,8 @@ public class PostAction extends Command
 			userVotes = DataAccessDriver.getInstance().newKarmaDAO().getUserVotes(topic.getId(), us.getUserId());
 		}
 
+        Category category = ForumRepository.getCategory(forum.getCategoryId());
+
 		this.setTemplateName(TemplateKeys.POSTS_LIST);
 		this.context.put("attachmentsEnabled", pc.canAccess(SecurityConstants.PERM_ATTACHMENTS_ENABLED, Integer.toString(topic.getForumId())));
 		this.context.put("canDownloadAttachments", pc.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
@@ -217,6 +220,7 @@ public class PostAction extends Command
 		this.context.put("editAfterReply", SystemGlobals.getBoolValue(ConfigKeys.POSTS_EDIT_AFTER_REPLY));
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(false));
 		this.context.put("topic", topic);
+        this.context.put("category", category);
 		this.context.put("poll", poll);
 		this.context.put("canVoteOnPoll", canVoteOnPoll);
 		this.context.put("rank", new RankingRepository());
@@ -359,7 +363,6 @@ public class PostAction extends Command
 
 			if (!topics.containsKey(Integer.valueOf(post.getTopicId()))) {
 				Topic topic = TopicRepository.getTopic(new Topic(post.getTopicId()));
-
 				if (topic == null) {
 					topic = tm.selectRaw(post.getTopicId());
 				}
@@ -397,6 +400,7 @@ public class PostAction extends Command
 		this.context.put("posts", posts);
 		this.context.put("topics", topics);
 		this.context.put("forums", forums);
+        this.context.put("repository", new ForumRepository());
 		this.context.put("u", user);
 		this.context.put("pageTitle", I18n.getMessage("PostShow.userPosts") + " " + user.getUsername());
 		this.context.put("karmaMin", Integer.valueOf(SystemGlobals.getValue(ConfigKeys.KARMA_MIN_POINTS)));

@@ -82,7 +82,7 @@ public class RecentTopicsAction extends Command
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 
 		this.setTemplateName(TemplateKeys.RECENT_LIST);
-		
+
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 		this.context.put("topics", this.topics());
 		this.context.put("forums", this.forums);

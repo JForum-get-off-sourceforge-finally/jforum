@@ -97,17 +97,17 @@ public class ExceptionWriter
 
 			final boolean canViewStackTrace = !SystemGlobals.getBoolValue(ConfigKeys.STACKTRACE_MODERATORS_ONLY)
 				|| (SessionFacade.isLogged() && SessionFacade.getUserSession().isModerator());
-			
+
 			final String filter = "[<>]";
 			String stackTrace = canViewStackTrace
 				? strWriter.toString()
 				: "Only moderators can view stack trace.";
-			
+
 			stackTrace = stackTrace.replaceAll(filter, "");
 			message = message.replaceAll(filter, "");
-			
+
 			final SimpleHash templateContext = JForumExecutionContext.getTemplateContext();
-			
+            templateContext.put("mobileRequest", request.isMobileRequest());
 			templateContext.put("stackTrace", stackTrace);
 			templateContext.put("message", message);
 

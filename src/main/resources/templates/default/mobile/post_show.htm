@@ -1,0 +1,98 @@
+<#include "header.htm"/>
+
+<#import "../../macros/pagination.ftl" as pagination/>
+<#import "../../macros/presentation.ftl" as presentation/>
+
+<script language="JavaScript">
+	function confirmDelete(postId)
+	{
+		if (confirm("${I18n.getMessage("Moderation.ConfirmPostDelete")}")) {
+			var reason = prompt("${I18n.getMessage("ModerationLog.changeReason")}");
+
+			if (reason == null || reason == "") {
+				alert("${I18n.getMessage("ModerationLog.reasonIsEmpty")}");
+				return false;
+			}
+			else {
+				var link = document.getElementById("delete" + postId);
+				link.href += "?log_description=" + encodeURIComponent(reason) + "&log_type=1";
+			}
+
+			return true;
+		}
+		
+		return false;
+	}
+</script>
+<p>
+<a class="maintitle" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
+</p>
+<#--  post -->
+<#assign fp = posts.get(0)/>
+<div class="subject">${fp.subject?default("")} <#if topic.type == TOPIC_WIKI>(Wiki)</#if></div>
+
+<#list posts as post>
+<#if (!(wikiTopic!false)) || (post_index == 0 || post.visibleInWiki) >
+
+  <#assign user = users.get(post.userId)/>
+  <#assign canEditCurrentMessage = (post.canEdit && topic.status != STATUS_LOCKED) || moderatorCanEdit/>
+ 
+  <div class="mobilePostBody">
+	<a name="${post.id}"></a>
+  ${I18n.getMessage("PostShow.author")}: <a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a>,
+  	${rank.getRankTitle(user.rankId, user.totalPosts)}<br />
+  <span class="lastPostTime">${post.formattedTime}</span>
+
+	<#if topic.status != STATUS_LOCKED && !readonly && topic.type != TOPIC_WIKI>
+		<a href="${JForumContext.encodeURL("/posts/quote/${start}/${post.id}")}" rel="nofollow" class="icon_quote"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+	</#if>
+
+	<#if canEditCurrentMessage>
+		<a href="${JForumContext.encodeURL("/${moduleName}/edit/${start}/${post.id}")}" rel="nofollow" class="icon_edit"><img src="${contextPath}/images/transp.gif" alt="" /></a>  
+	</#if>
+
+	<#if canRemove && ((post.userId == session.userId && session.userId != 1) || isModerator)>
+		<a href="${JForumContext.encodeURL("/${moduleName}/delete/${start}/${post.id}")}" id="delete${post.id}" onclick="return confirmDelete(${post.id});"><img src="${contextPath}/templates/${templateName}/images/icon_delete.gif" alt="[Delete]" /></a>  
+	</#if>
+  </div>
+
+    <div class="mobilePostText">
+		<#if (preformattedText?exists)>
+		<span class="postbody">${preformattedText}</span>
+		<#else>
+        <span class="postbody">${post.mobileText}</span>
+        </#if>
+		<#if post.hasAttachments() && (canDownloadAttachments || attachmentsEnabled)>
+			<#assign attachments = am.getAttachments(post.id, post.forumId)/>
+			<#include "post_show_attachments_inc.htm"/>
+		</#if>
+    </div>
+ <br />
+
+</#if>
+</#list>
+
+<br />
+
+<#if isModerator || isAdmin>
+	<form action="${JForumContext.encodeURL("/jforum")}" method="post" name="formModeration" id="formModeration">
+	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+		<input type="hidden" name="action" value="doModeration" />
+		<input type="hidden" name="module" value="moderation" />
+		<input type="hidden" name="returnUrl" value="${JForumContext.encodeURL("/${moduleName}/${action}/${start}/${topic.id}")}" />
+		<input type="hidden" name="forum_id" value="${topic.forumId}" />
+		<input type="hidden" name="topic_id" value="${topic.id}" />
+		<input type="hidden" name="log_type" value="0"/>
+		<input type="hidden" name="log_description">
+		<input type="hidden" id="moderationTodo" />
+	</form>
+
+  <@presentation.moderationImages/>
+</#if>
+
+<#include "post_show_thread_buttons.htm"/>
+
+<br />
+
+<#include "../highlighter_js.htm"/>
+<#include "bottom.htm"/>

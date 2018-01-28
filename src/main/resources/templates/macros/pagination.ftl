@@ -46,7 +46,7 @@
 <#-- ------------------------------------------------------------------------------- -->
 <#-- Pagination macro base code inspired from PHPBB's generate_pagination() function -->
 <#-- ------------------------------------------------------------------------------- -->
-<#macro doPagination action id=-1>
+<#macro doPagination action id=-1 mobile=0>
 	<#if (totalRecords > recordsPerPage)>
 		<div class="pagination">
 		<#assign link = ""/>
@@ -116,15 +116,17 @@
 			<a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}">&#9658;</a>
 		</#if>
 
-		<a href="#goto" onclick="return overlay(this, 'goToBox', 'rightbottom');">${I18n.getMessage("ForumIndex.goToGo")}</a>
-		<div id="goToBox">
-			<div class="title">${I18n.getMessage("goToPage")}...</div>
-			<div class="form">
-				<input type="text" style="width: 50px;" id="pageToGo" />
-				<input type="button" value=" ${I18n.getMessage("ForumIndex.goToGo")} " onclick="goToAnotherPage(${totalPages}, ${recordsPerPage}, '${contextPath}', '${moduleName}', '${action}', ${id}, '${extension}');" />
-				<input type="button" value="${I18n.getMessage("cancel")}" onclick="document.getElementById('goToBox').style.display = 'none';" />
+		<#if (mobile == 0)>
+			<a href="#goto" onclick="return overlay(this, 'goToBox', 'rightbottom');">${I18n.getMessage("ForumIndex.goToGo")}</a>
+			<div id="goToBox">
+				<div class="title">${I18n.getMessage("goToPage")}...</div>
+				<div class="form">
+					<input type="text" style="width: 50px;" id="pageToGo" />
+					<input type="button" value=" ${I18n.getMessage("ForumIndex.goToGo")} " onclick="goToAnotherPage(${totalPages}, ${recordsPerPage}, '${contextPath}', '${moduleName}', '${action}', ${id}, '${extension}');" />
+					<input type="button" value="${I18n.getMessage("cancel")}" onclick="document.getElementById('goToBox').style.display = 'none';" />
+				</div>
 			</div>
-		</div>
+		</#if>
 
 		</div>
 	</#if>

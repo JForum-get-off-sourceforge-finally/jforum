@@ -61,8 +61,11 @@ import net.jforum.UrlPatternCollection;
 import net.jforum.context.RequestContext;
 import net.jforum.context.SessionContext;
 import net.jforum.exceptions.MultipartHandlingException;
+import net.jforum.util.MobileStatus;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import org.apache.log4j.Logger;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -77,18 +80,23 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("unchecked")
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
 {
+	private static final Logger LOGGER = Logger.getLogger(WebRequestContext.class);
+
 	private static final String MODULE = "module";
 	private static final String ACTION = "action";
 	
 	private transient final Map<String, Object> query;
-	
+
+	// a mobile URL was requested
+	private boolean mobileRequest = false;
+
 	/**
 	 * Default constructor.
 	 * 
 	 * @param superRequest Original <code>HttpServletRequest</code> instance
 	 * @throws IOException
 	 */
-	public WebRequestContext(final HttpServletRequest superRequest) throws IOException
+	public WebRequestContext (final HttpServletRequest superRequest) throws IOException
 	{
 		super(superRequest);
 
@@ -100,7 +108,12 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		String requestUri = this.extractRequestUri(superRequest.getRequestURI(), contextPath);
 		final String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
 		final String servletExtension = SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION);
-		
+
+		MobileStatus mobileStatus = MobileStatus.getMobileRequest(superRequest, requestUri);
+		if (mobileStatus == MobileStatus.MOBILE_PAGES_WHERE_AVAILABLE) {
+		    mobileRequest = true;
+		}
+
 		final boolean isPost = "POST".equals(requestType);
 		final boolean isGet = !isPost;		
 
@@ -493,4 +506,9 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
         return ip;
 	}
+
+    @Override
+    public boolean isMobileRequest() {
+        return mobileRequest;
+    }
 }

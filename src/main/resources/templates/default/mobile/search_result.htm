@@ -1,0 +1,46 @@
+<#include "header.htm"/>
+
+<script type="text/javascript" src="${contextPath}/templates/default/js/pagination.js?${startupTime}"></script>
+
+<#import "../../macros/pagination.ftl" as topicPagination>
+<#import "../../macros/search_pagination.ftl" as pagination>
+<#import "../../macros/presentation.ftl" as presentation/>
+
+<div class="subject">
+${I18n.getMessage("Search.searchResults")}: ${totalRecords} 
+<#if (totalRecords == 1)>
+	${I18n.getMessage("Search.recordFound")}
+<#else>
+	${I18n.getMessage("Search.recordsFound")}
+</#if>
+</div>
+<P>
+
+<#if results.size() == 0>
+  ${I18n.getMessage("Search.noResults")} <a href="${JForumContext.encodeURL("/search/filters/${forum_id?default(-1)?html}")}">${I18n.getMessage("Search.clickHere")}</a> ${I18n.getMessage("Search.newSearch")}					
+<#else>
+  <#list results as post>
+	  <#assign forum = fr.getForum(post.forumId)/>
+	  <#assign postUrl = JForumContext.encodeURL("/posts/preList/${post.topicId}/${post.id}")/>
+  
+	<div class="subject">
+		<a href="${postUrl}">${post.subject?html}</a>
+	</div>
+	<div class="mobilePostText">
+		${I18n.getMessage("Search.author")}: <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a><br>
+		${I18n.getMessage("Search.forum")}: <a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${post.forum.name?html}</a><br /> 
+		${I18n.getMessage("Search.postDate")}: ${post.formattedTime}	<br />								
+	</div>
+	  <div class="latestpost">${post.mobileText}</div>  		
+  <br />
+  </#list>
+</#if>
+
+
+<#assign paginationLinks>
+	<@pagination.searchPagination/>
+</#assign>
+${paginationLinks}
+
+  <#include "../highlighter_js.htm"/>
+<#include "bottom.htm"/>

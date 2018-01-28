@@ -430,8 +430,12 @@ public interface RequestContext
 	Enumeration<Locale> getLocales();
 
 	/**
-	 * Return full request URL (including http://....)
-	 * @return
+	 * @return the full request URL (including http://....)
 	 */
 	StringBuffer getRequestURL();
+
+	/**
+	 * @return whether a mobile request or a "normal" request
+	 */
+	 public boolean isMobileRequest();
 }

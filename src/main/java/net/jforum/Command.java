@@ -61,7 +61,6 @@ import freemarker.template.Template;
  * presentation actions must extend this class. 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public abstract class Command 
 {
@@ -74,10 +73,14 @@ public abstract class Command
 	protected transient RequestContext request;
 	protected transient ResponseContext response;
 	protected transient SimpleHash context;
-	
+
 	protected void setTemplateName(final String templateName)
 	{
-		this.templateName = Tpl.name(templateName);
+        String templateToRequest = templateName;
+        if (request != null && request.isMobileRequest()) {
+            templateToRequest += ".mobile";
+        }
+		this.templateName = Tpl.name(templateToRequest);
 	}
 	
 	protected void enableIgnoreAction()

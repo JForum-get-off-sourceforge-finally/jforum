@@ -1,0 +1,51 @@
+<#list attachments as a>
+	<#assign hasThumb = a.hasThumb()/>
+
+	<P>
+	<table>
+		<#if hasThumb>
+			<tr>
+				<td width="100%" colspan="2">
+					<#if !thumbShowBox>
+						<a href="${JForumContext.encodeURL("/posts/downloadAttach/${a.id}")}">
+					</#if>
+					<img src="${contextPath}/${a.thumbPath()}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" alt="[Thumb - ${a.info.realFilename}]"/>
+					<#if !thumbShowBox></a></#if>
+				</td>
+			</tr>
+		</#if>
+
+		<#if !hasThumb || thumbShowBox>
+			<tr>
+				<td><span class="genmed">${I18n.getMessage("Attachments.filename")}</span></td>
+				<td><span class="genmed">${a.info.realFilename}</span></td>
+			</tr>
+			<tr>
+				<td><span class="genmed">${I18n.getMessage("Attachments.description")}</span></td>
+				<td><span class="genmed"><#if a.info.comment?? && (a.info.comment?trim?length > 0)>${a.info.comment}<#else>${I18n.getMessage("Attachments.noDescription")}</#if></span></td>
+			</tr>	
+			<tr>
+				<td><span class="genmed">${I18n.getMessage("Attachments.filesize")}</span></td>
+				<td>
+					<span class="genmed">
+						<#if (a.info.filesize < 1024)>
+							${a.info.filesize} bytes
+						<#else>
+							${a.info.filesize / 1024} Kbytes
+						</#if>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td><span class="genmed">${I18n.getMessage("Attachments.totalDownload")}</span></td>
+				<td><span class="genmed">${a.info.downloadCount} ${I18n.getMessage("Attachments.time")}</span></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<img src="${contextPath}/templates/${templateName}/images/icon_disk.gif" alt="[Disk]" />
+					<a href="${JForumContext.encodeURL("/posts/downloadAttach/${a.id}")}" class="gensmall"><b>${I18n.getMessage("Attachments.download")}</b></a>
+				</td>
+			</tr>
+		</#if>
+	</table>
+</#list>
