@@ -251,7 +251,7 @@ public interface UserDAO
 	
 	/***
 	 * Checks the existence of some username.
-	 * This method is used to ensure that will not be two equal usernames in the database.
+	 * This method is used to ensure that there will not be two equal usernames in the database.
 	 * 
 	 * @param username The username to verify
 	 * @return <code>true</code> or <code>false</code>, if the user was found or not, respectively
@@ -263,7 +263,7 @@ public interface UserDAO
 	 * 
 	 * @param username The username
 	 * @param password The password
-	 * @return The user object if the provided information was corret, <code>null</code> if the information was invalid 
+	 * @return The user object if the provided information was correct, <code>null</code> if the information was invalid 
 	 */
 	User validateLogin(String username, String password) ;
 	
@@ -321,8 +321,7 @@ public interface UserDAO
     /**
     * Finds a user by its email address.  If multiple found, it returns the first one.
     *
-    * @param email
-    *            the email address to search
+    * @param email the email address to search
     * @return the user instance if a match is found, or null otherwise
     */
     User findByEmail(String email);
