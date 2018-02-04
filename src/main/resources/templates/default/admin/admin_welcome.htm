@@ -100,7 +100,8 @@ function fetchMail()
 <div <#if (sessions.size() > 10)>style="overflow: auto; width: 100%; height: 280px;"</#if>>
 <table width="100%" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
-		<th width="25%" class="thcornerl">&nbsp;${I18n.getMessage("Login.user")}&nbsp;</th>
+		<th class="thcornerl">#</th>
+		<th width="25%" class="thtop">&nbsp;${I18n.getMessage("Login.user")}&nbsp;</th>
 		<th width="25%" class="thtop">&nbsp;${I18n.getMessage("Admin.welcome.logIn")}&nbsp;</th>
 		<th width="25%" class="thtop">&nbsp;${I18n.getMessage("Admin.welcome.lastUpdated")}&nbsp;</th>
 		<th width="25%" class="thcornerr">&nbsp;${I18n.getMessage("Admin.welcome.ipAddress")}&nbsp;</th>
@@ -116,6 +117,7 @@ function fetchMail()
 			</#if>
 
 			<tr>
+				<td class="${row}">${s?counter}</td>
 				<td width="25%" class="${row}">&nbsp;<span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/edit/${s.userId}")}" class="gen">${s.username}</a></span>&nbsp;</td>
 				<td width="25%" align="center" class="${row}">&nbsp;<span class="gen">${s.startTime?time}</span>&nbsp;</td>
 				<td width="25%" align="center" nowrap="nowrap" class="${row}">&nbsp;<span class="gen">${s.sessionLastUpdate()?time}</span>&nbsp;</td>
