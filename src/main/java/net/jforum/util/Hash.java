@@ -99,7 +99,7 @@ public final class Hash
 			throw new ForumException(e);
 		}
 
-		return hexString.toString();
+		return hexString.toString().toLowerCase();
 	}
 
 	private Hash() {}
