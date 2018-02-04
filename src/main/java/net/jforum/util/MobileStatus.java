@@ -93,16 +93,11 @@ public enum MobileStatus {
         UserAgentDetectionResult agent = cache.get(userAgent);
         if (agent == null) {
 			agent = new UserAgentDetector().parseUserAgent(userAgent); 
+			cache.put(userAgent, agent);
         }
 
-        // we need to allow the Facebook bot as non-mobile, but not the Google bot for implicit/auto-detected mobile view (Trac#216)
-        if (agent != null) {
-			DeviceType type = agent.getDevice().getDeviceType();
-            if (type == DeviceType.PHONE || type == DeviceType.TABLET || type == DeviceType.UNKNOWN_MOBILE) {
-                return true;
-            }
-        }
-        return false;
+		DeviceType type = agent.getDevice().getDeviceType();
+		return (type == DeviceType.PHONE || type == DeviceType.TABLET || type == DeviceType.UNKNOWN_MOBILE);
     }
 
 }
