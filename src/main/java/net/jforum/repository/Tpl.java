@@ -107,9 +107,10 @@ public class Tpl implements Cacheable
 	 * @param key The Key to load.
 	 * @return The html template filename
 	 */
-	public static String name(final String key)
+	public static String name (final String key)
 	{
         String result = (String) cache.get(FQN, key);
+		//LOGGER.info("name("+key+")="+result);
 
         // not all pages have mobile versions, try regular page if can't find a mobile page
         if (result == null) {
@@ -118,6 +119,12 @@ public class Tpl implements Cacheable
                 return name(keyWithoutMobileSuffix);
             }
         }
+
+		if (result == null) {
+			// cache was flushed, reload
+			Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));
+			return name(key);
+		}
 
 		return result;
 	}
