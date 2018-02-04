@@ -264,7 +264,7 @@ public class LuceneSearch implements NewDocumentAdded
 
 	private void filterByKeywords (SearchArgs args, StringBuilder criteria)
 	{
-		LOGGER.info("searching for: " + args.rawKeywords());
+		LOGGER.debug("searching for: " + args.rawKeywords());
 		if (args.rawKeywords().length() > 0) {
 			if (args.isMatchRaw()) {
 				if (criteria.length() >0) {
