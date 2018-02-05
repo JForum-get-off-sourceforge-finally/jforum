@@ -43,7 +43,6 @@
 package net.jforum.repository;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -91,7 +90,7 @@ public class Tpl implements Cacheable
         Properties p = new Properties();
         try (FileInputStream fis = new FileInputStream(filename)) {
             p.load(fis);
-            for (Iterator iter = p.keySet().iterator(); iter.hasNext();) {
+            for (Iterator<?> iter = p.keySet().iterator(); iter.hasNext();) {
                 String key = (String) iter.next();
                 cache.add(FQN, key, p.getProperty(key));
             }
