@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 enum MatchingRegion {
     REGULAR(true,false),
     PARENTHESIS(false,true),

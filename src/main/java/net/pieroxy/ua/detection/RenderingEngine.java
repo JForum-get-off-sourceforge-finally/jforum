@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * A RenderingEngine is made of a Brand, a RenderingEngineFamily and two versions.
 */

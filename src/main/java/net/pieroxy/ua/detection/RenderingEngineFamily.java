@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * Describes the family of an Operating System. This is a category of OSes which will make it easier to categorize them.
 */

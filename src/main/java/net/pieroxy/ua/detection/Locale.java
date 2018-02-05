@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * The Locale class is made of a Language and a Country. It can helpful to help build statistics about your audience. While not all user agents report these two values, some do and it can give a statistically significant trend.
 */

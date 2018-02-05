@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 class GeckoSpinoff {
     private String name;
     private String[]toRemove;

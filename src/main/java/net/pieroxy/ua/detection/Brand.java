@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * The brand can apply to Browsers, Devices or OSes.
 */

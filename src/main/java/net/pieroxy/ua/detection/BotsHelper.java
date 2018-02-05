@@ -1,5 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
 import java.util.*;
 class BotsHelper {
 

@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * Describes an Operating System. It is made of a Brand, a family, a description and a version.
 */

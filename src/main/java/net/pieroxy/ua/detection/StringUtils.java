@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 class StringUtils {
     public static boolean isNullOrEmpty(String s) {
         return s==null || s.length()==0;

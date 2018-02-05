@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * A Browser is made of a Brand, a BrowserFamily, a description and a rendering engine. Description is defined as a String as of today.
 */

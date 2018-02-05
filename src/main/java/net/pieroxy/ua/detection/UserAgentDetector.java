@@ -1,5 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
 import java.util.*;
 /**
 * This is the documentation for the version _DEV_VERSION_ of the library.

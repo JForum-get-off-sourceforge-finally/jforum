@@ -1,6 +1,5 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
+
 /**
 * Describe a bot, which is a program that access sites automatically rather than a human browsing the web.
 */

@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 /**
 * Describes the type of the device. You will mostly meet PHONEs, TABLETs and COMPUTERs out there on the web, along with BOTs.
 */

@@ -1,5 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
 import java.util.*;
 /**
 * Represents an extension of the system or browser. These extensions represent a piece of software that might be of some interest for the server (parental control, java version, etc).

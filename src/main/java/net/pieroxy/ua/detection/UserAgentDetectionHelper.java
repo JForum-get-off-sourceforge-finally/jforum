@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 class UserAgentDetectionHelper {
 
     public static void consumeMozilla(UserAgentContext context) {

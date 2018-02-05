@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 class GenericBot {
     public java.util.regex.Pattern pattern;
     public int[] groups;

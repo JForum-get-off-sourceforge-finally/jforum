@@ -1,6 +1,4 @@
 package net.pieroxy.ua.detection;
-import java.io.*;
-import java.util.*;
 public class VersionedObject {
     protected String version;
     protected String fullVersion;
