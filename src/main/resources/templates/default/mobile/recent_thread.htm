@@ -10,7 +10,7 @@
 		${I18n.getMessage("ForumIndex.answers")}: <#if topic.type == TOPIC_WIKI>W<#else>${topic.totalReplies}</#if><br />
 		${I18n.getMessage("ForumIndex.author")}: <a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username?html}</a><br />
 		${I18n.getMessage("ForumIndex.lastMessage")}: ${topic.lastPostTime} ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username?html}</a><br />
-		${I18n.getMessage("Search.forum")}: <a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${topic.forumId}")}">${forums.get(topic.forumId).getName()}</a>
+		${I18n.getMessage("Search.forum")}: <a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${topic.forumId}")}">${forums.get(topic_index).getName()}</a>
 	</div>
 	<br />
 </#list>
