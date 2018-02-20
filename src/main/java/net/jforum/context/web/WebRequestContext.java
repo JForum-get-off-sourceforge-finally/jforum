@@ -479,7 +479,8 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 	/**
 	 * This will generally retrieve the last non-local IP address.
-	 * The Ranch production server appends "192.168.30.240". Removing that one is the primary purpose. 
+	 * Proxies may append something like "192.168.x.x". Removing those is the primary purpose. 
+	 * TODO: https://tools.ietf.org/html/rfc7239 should be considered first, before anything else
 	 * @see javax.servlet.ServletRequestWrapper#getRemoteAddr()
 	 */
 	public String getRemoteAddr()

@@ -48,14 +48,13 @@ import net.jforum.entities.User;
 
 /**
  * Model interface for {@link net.jforum.entities.User}.
- * This interface defines methods which are expected to be
- * implemented by a specific data access driver. The intention is
- * to provide all functionality needed to update, insert, delete and
- * select some specific data.
+ * This interface defines methods which are expected to be implemented
+ * by a specific data access driver. The intention is to provide all
+ * functionality needed to update, insert, delete and select some specific data.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
+
 public interface UserDAO 
 {
 	/**
@@ -116,14 +115,12 @@ public interface UserDAO
 	 * Finds a user by matching an input string. 
 	 * 
 	 * @param input The username to search. May be part of the username. 
-	 * The method will match all users who have the input string as 
-	 * part of their usernames.
+	 * The method will match all users who have the input string as part of their usernames.
 	 * @param exactMath Set to <code>true</code> to get the user data related to 
 	 * the username passed as argument, and set it to <code>false</code> to 
 	 * search all users who match the criteria. 
 	 * @return a <code>List</code> with the found users. Each entry is a 
-	 * <code>User</code> object, where only the <i>id</i> and <i>username</i>
-	 * members are filled.
+	 * <code>User</code> object, where only the <i>id</i> and <i>username</i> members are filled.
 	 */
 	List<User> findByName(String input, boolean exactMath) ;
 	
@@ -149,8 +146,7 @@ public interface UserDAO
 	 * Undeletes a user.
 	 * The system allows user undeletation because when you 
 	 * call {@link #delete(int)} the user isn't physically deleted of the
-	 * database, but just marked as deleted. This is done to ensure
-	 * data integrity.
+	 * database, but just marked as deleted. This is done to ensure data integrity.
 	 * 
 	 * @param userId The user ID to undelete
 	 * @see #delete(int)
@@ -167,8 +163,7 @@ public interface UserDAO
 	/**
 	 * Adds a new User.
 	 * After successfully persisting the data, this method
-	 * <b>should</b> call <code>user.setId(theNewId);</code>, as well
-	 * return the new user id. 
+	 * <b>should</b> call <code>user.setId(theNewId);</code>, as well return the new user id. 
 	 * @param user Reference to a valid and configured <code>User</code> object
 	 * @return The new user id
 	 */
@@ -186,8 +181,7 @@ public interface UserDAO
 	 * Set the active status.
 	 * a user with the active status equals to false cannot be considered
 	 * a "official", "fully registered" user until its status is set to true. This is
-	 * interesting when you want to request user confirmation about registrations,
-	 * for example
+	 * interesting when you want to request user confirmation about registrations, for example
 	 * 
 	 * @param userId The user ID to change the status
 	 * @param active <code>true</code> or <code>false</code>
@@ -219,8 +213,7 @@ public interface UserDAO
 	/**
 	 * Gets some piece of information of the last user registered
 	 * 
-	 * @return <code>HashMap</code> containing the information. The map
-	 * has two keys:<br>
+	 * @return <code>HashMap</code> containing the information. The map has two keys:<br>
 	 * <li><b>userName</b>: The username
 	 * <li><b>userId</b>: The user's ID 
 	 */
@@ -329,22 +322,13 @@ public interface UserDAO
     /**
     * Returns the number of users who have the specified email address.<p>
     *
-    * While for a new installation this should always return 0 or 1, it is
-    * quite possible for the JavaRanch database to return a great many more,
-    * since the old forum software did not have a unique constraint on email
-    * addresses (which caused it's own problems - the new way is much nicer).
-    * However since there can be duplicates (in particular, there are 44,994
-    * "no_address_provided@" users), this will allow us to process
-    * users in batches (and not bring the system down!).
-    *
     * @param email the email address we will shortly be looking up.
     * @return the number of users who have that email address.
     */
     int getTotalUsersWithEmail(String email);
 
     /**
-    * Finds all users with matching e-mails. Users migrated from UBB may have
-    * the same e-mail.
+    * Finds all users with matching e-mails. Users migrated from UBB may have the same e-mail.
     *
     * @param email the email address we are looking up
     * @param start the offset to the 1st record we want to return from all matches
@@ -354,8 +338,7 @@ public interface UserDAO
     List<User> findAllUsersByEmail(String email, int start, int count);
 
     /**
-     * Finds all users with matching ip address. SQL style wildcards allowed
-     * (e.g. "192.168.1.%").
+     * Finds all users with matching ip address. SQL style wildcards allowed (e.g. "192.168.1.%").
      *
      * @param ip the IP address we want to look up.
      * @param start the offset to the 1st record we want to return from all matches
@@ -390,10 +373,9 @@ public interface UserDAO
 	
 	/**
 	 * Updates only the username. 
-	 * This method generally will be used in implementations
-	 * of <code>net.jforum.drivers.external.LoginAuthenticator</code> to 
-	 * update usernames which changed in the external source and therefore
-	 * should be updated in jforum's users table. 
+	 * This method generally will be used in implementations of
+	 * <code>net.jforum.drivers.external.LoginAuthenticator</code> to update usernames
+	 * which changed in the external source and therefore should be updated in jforum's users table. 
 	 * 
 	 * @param userId The user's id related to the username to update
 	 * @param username The new username to write
@@ -401,12 +383,10 @@ public interface UserDAO
 	void updateUsername(int userId, String username) ;
 	
 	/**
-	 * Check if the username passed as argument is different of
-	 * the username existent in the database. 
+	 * Check if the username passed as argument is different of the username existent in the database. 
 	 * 
 	 * @param userId The user's id to work with
-	 * @param usernameToCheck The username to compare with the existing
-	 * one in <i>jforum_users</i>
+	 * @param usernameToCheck The username to compare with the existing one in <i>jforum_users</i>
 	 * @return <code>true</code> if the usernames are different.
 	 */
 	boolean hasUsernameChanged(int userId, String usernameToCheck) ;
