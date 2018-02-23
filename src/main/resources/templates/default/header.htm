@@ -7,36 +7,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
-<meta http-equiv="Pragma" content="no-cache" />	
-<meta http-equiv="Expires" content="-1" />
-<meta name="description" content="${metaDescription?html}" />
-<meta name="keywords" content="${metaKeywords?html}" />
-<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/style.css" />
-<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/${language}.css" />
-<#if isNewPost?exists || isEdit?exists || htmlAllowed?exists>
-<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/tabs.css" />
-</#if>
-<#if hasCodeBlock?default(false) || isNewPost?exists || isEdit?exists || htmlAllowed?exists>
-	<#include "highlighter_css.htm"/>
-</#if>
-<title>${pageTitle?default("JForum")?html}</title>
-
-<#if googleAnalyticsTracker?exists >
-<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', '${googleAnalyticsTracker}']);
-	_gaq.push(['_gat._anonymizeIp']);
-	_gaq.push(['_setSiteSpeedSampleRate', 100]);
-	_gaq.push(['_trackPageview']);
-
-	(function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-</script>
-</#if>
+	<meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
+	<meta http-equiv="Pragma" content="no-cache" />	
+	<meta http-equiv="Expires" content="-1" />
+	<meta name="description" content="${metaDescription?html}" />
+	<meta name="keywords" content="${metaKeywords?html}" />
+	<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/style.css" />
+	<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/${language}.css" />
+	<#if isNewPost?exists || isEdit?exists || htmlAllowed?exists>
+	<link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/tabs.css" />
+	</#if>
+	<#if hasCodeBlock?default(false) || isNewPost?exists || isEdit?exists || htmlAllowed?exists>
+		<#include "highlighter_css.htm"/>
+	</#if>
+	<title>${pageTitle?default("JForum")?html}</title>
+	<#if googleAnalyticsTracker?exists >
+		<script type="text/javascript">
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', '${googleAnalyticsTracker}', 'auto', {'sampleRate': 100});
+			ga('set', 'anonymizeIp', true);
+			ga('send', 'pageview');
+		</script>
+	</#if>
 </head>
 <body class="${language}">
 <!--
