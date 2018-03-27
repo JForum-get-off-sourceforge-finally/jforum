@@ -175,6 +175,7 @@ CREATE TABLE jforum_posts_text (
   post_subject VARCHAR2(130) DEFAULT NULL,
   PRIMARY KEY (post_id)
 );
+CREATE INDEX idx_posts_text ON jforum_posts_text(post_id);
 
 --
 -- Table structure for table 'jforum_privmsgs'

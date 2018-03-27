@@ -145,7 +145,8 @@ DROP TABLE IF EXISTS jforum_posts_text;
 CREATE TABLE jforum_posts_text (
   post_id INT NOT NULL PRIMARY KEY,
   post_text TEXT,
-  post_subject VARCHAR(130)
+  post_subject VARCHAR(130),
+  INDEX idx_posts_text (post_id)
 ) ENGINE=InnoDB;
 
 --
