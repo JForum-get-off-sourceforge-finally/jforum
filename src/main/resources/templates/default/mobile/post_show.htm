@@ -33,24 +33,20 @@
 
 <#list posts as post>
 <#if (!(wikiTopic!false)) || (post_index == 0 || post.visibleInWiki) >
-
   <#assign user = users.get(post.userId)/>
   <#assign canEditCurrentMessage = (post.canEdit && topic.status != STATUS_LOCKED) || moderatorCanEdit/>
  
   <div class="mobilePostBody">
 	<a name="${post.id}"></a>
-  ${I18n.getMessage("PostShow.author")}: <a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a>,
-  	${rank.getRankTitle(user.rankId, user.totalPosts)}<br />
-  <span class="lastPostTime">${post.formattedTime}</span>
-
+	<#assign rankStr = rank.getRankTitle(user.rankId, user.totalPosts)/>
+	${I18n.getMessage("PostShow.author")}: <a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a><#if rankStr?trim != "">, ${rankStr?html}</#if><br />
+	<span class="lastPostTime">${post.formattedTime}</span>
 	<#if topic.status != STATUS_LOCKED && !readonly && topic.type != TOPIC_WIKI>
 		<a href="${JForumContext.encodeURL("/posts/quote/${start}/${post.id}")}" rel="nofollow" class="icon_quote"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 	</#if>
-
 	<#if canEditCurrentMessage>
 		<a href="${JForumContext.encodeURL("/${moduleName}/edit/${start}/${post.id}")}" rel="nofollow" class="icon_edit"><img src="${contextPath}/images/transp.gif" alt="" /></a>  
 	</#if>
-
 	<#if canRemove && ((post.userId == session.userId && session.userId != 1) || isModerator)>
 		<a href="${JForumContext.encodeURL("/${moduleName}/delete/${start}/${post.id}")}" id="delete${post.id}" onclick="return confirmDelete(${post.id});"><img src="${contextPath}/templates/${templateName}/images/icon_delete.gif" alt="[Delete]" /></a>  
 	</#if>
@@ -68,7 +64,6 @@
 		</#if>
     </div>
  <br />
-
 </#if>
 </#list>
 
@@ -86,12 +81,10 @@
 		<input type="hidden" name="log_description">
 		<input type="hidden" id="moderationTodo" />
 	</form>
-
   <@presentation.moderationImages/>
 </#if>
 
 <#include "post_show_thread_buttons.htm"/>
-
 <br />
 
 <#include "../highlighter_js.htm"/>

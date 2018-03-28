@@ -1,9 +1,7 @@
 <#include "header.htm"/>
 
 <script type="text/javascript">
-/* <![CDATA[ */
 <#include "../js/utils.js"/>
-/* ]]> */
 </script>
 
 <br>
@@ -11,41 +9,42 @@
 	${I18n.getMessage("UserProfile.profileFor")} <b>${u.username}</b>, # ${u.id} <br>
 </div>
 <div class="mobilePostText">
-${I18n.getMessage("PostShow.ranking")}: ${rank.getRankTitle(u.rankId, u.totalPosts)?html}<br>
-${I18n.getMessage("UserProfile.registrationDate")}: ${u.registrationDate}<br>
-${I18n.getMessage("UserProfile.totalMessages")}:
-<#if (nposts > 0)>
-	<a class="gen" href="${JForumContext.encodeURL("/posts/listByUser/${u.id}")}"> ${nposts} </a><br>
-<#else>
-	${I18n.getMessage("PostShow.noUserCreatedPosts")}<br>
-</#if>
-${I18n.getMessage("ForumListing.userCreatedTopics")}:
-<#if (ntopics > 0)>
-	<a class="gen" href="${JForumContext.encodeURL("/recentTopics/showTopicsByUser/${u.id}")}"> ${ntopics} </a><br>
-<#else>
-	${I18n.getMessage("ForumListing.noUserCreatedTopics")}<br>
-</#if>
-<br>
-<#if (!u.deleted && (ntopics > 0 || nposts > 0)) || (viewFullProfile!false)>
-	<#if (u.from?exists && u.from?length > 0)>
-		${I18n.getMessage("UserProfile.from")}: ${u.from}<br>
+	<#assign rankStr = rank.getRankTitle(u.rankId, u.totalPosts)/>
+	<#if rankStr?trim != "">${I18n.getMessage("PostShow.ranking")}: ${rankStr}<br></#if>
+	${I18n.getMessage("UserProfile.registrationDate")}: ${u.registrationDate}<br>
+	${I18n.getMessage("UserProfile.totalMessages")}:
+	<#if (nposts > 0)>
+		<a class="gen" href="${JForumContext.encodeURL("/posts/listByUser/${u.id}")}"> ${nposts} </a><br>
+	<#else>
+		${I18n.getMessage("PostShow.noUserCreatedPosts")}<br>
 	</#if>
-	<#if (u.webSite?exists && u.webSite?length > 0)>
-		${I18n.getMessage("UserProfile.webSite")}: <a href="${u.webSite}" target="_new">${u.webSite}</a><br>
+	${I18n.getMessage("ForumListing.userCreatedTopics")}:
+	<#if (ntopics > 0)>
+		<a class="gen" href="${JForumContext.encodeURL("/recentTopics/showTopicsByUser/${u.id}")}"> ${ntopics} </a><br>
+	<#else>
+		${I18n.getMessage("ForumListing.noUserCreatedTopics")}<br>
 	</#if>
-	<#if (u.occupation?exists && u.occupation?length > 0)>
-		${I18n.getMessage("UserProfile.occupation")}: ${u.occupation}<br>
+	<#if (!u.deleted && (ntopics > 0 || nposts > 0)) || (viewFullProfile!false)>
+		<br>
+		<#if (u.from?exists && u.from?length > 0)>
+			${I18n.getMessage("UserProfile.from")}: ${u.from}<br>
+		</#if>
+		<#if (u.webSite?exists && u.webSite?length > 0)>
+			${I18n.getMessage("UserProfile.webSite")}: <a href="${u.webSite}" target="_new">${u.webSite}</a><br>
+		</#if>
+		<#if (u.occupation?exists && u.occupation?length > 0)>
+			${I18n.getMessage("UserProfile.occupation")}: ${u.occupation}<br>
+		</#if>
+		<#if (u.interests?exists && u.interests?length > 0)>
+			${I18n.getMessage("UserProfile.interests")}: ${u.interests}<br>
+		</#if>
+		<#if (u.biography?exists && u.biography?length > 0)>
+			${I18n.getMessage("UserProfile.biography")}: ${u.biography}<br>
+		</#if>
 	</#if>
-	<#if (u.interests?exists && u.interests?length > 0)>
-		${I18n.getMessage("UserProfile.interests")}: ${u.interests}<br>
+	<#if bookmarksEnabled && (nbookmarks > 0)>
+		${I18n.getMessage("Permissions.bookmarks")}: <a class="gen" href="${JForumContext.encodeURL("/bookmarks/list/${u.id}")}"> ${nbookmarks} </a><br>
 	</#if>
-	<#if (u.biography?exists && u.biography?length > 0)>
-		${I18n.getMessage("UserProfile.biography")}: ${u.biography}<br>
-	</#if>
-</#if>
-<#if bookmarksEnabled && (nbookmarks > 0)>
-	${I18n.getMessage("Permissions.bookmarks")}: <a class="gen" href="${JForumContext.encodeURL("/bookmarks/list/${u.id}")}"> ${nbookmarks} </a><br>
-</#if>
 </div>
 
 <br>
