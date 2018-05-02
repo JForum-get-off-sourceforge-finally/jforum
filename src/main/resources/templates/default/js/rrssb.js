@@ -35,7 +35,7 @@
 			$(this).find('.rrssb-facebook a').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + settings.url);
 			$(this).find('.rrssb-linkedin a').attr('href', 'http://www.linkedin.com/shareArticle?mini=true&url=' + settings.url + (settings.title !== undefined ? '&title=' + settings.title : ''));
 			$(this).find('.rrssb-xing a').attr('href', 'https://www.xing.com/spi/shares/new?url=' + settings.url + (settings.title !== undefined ? '&title=' + settings.title : ''));
-			$(this).find('.rrssb-twitter a').attr('href', 'https://twitter.com/intent/tweet?text=' + (settings.title !== undefined ? '&title=' + settings.title + '%20' : '') + settings.url);
+			$(this).find('.rrssb-twitter a').attr('href', 'https://twitter.com/intent/tweet?text=' + (settings.title !== undefined ? settings.title + '%20' : '') + settings.url);
 			$(this).find('.rrssb-vk a').attr('href', 'https://vk.com/share.php?url=' + settings.url);
 			$(this).find('.rrssb-reddit a').attr('href', 'http://www.reddit.com/submit?url=' + settings.url + (settings.title !== undefined ? '&title=' + settings.title : ''));
 			$(this).find('.rrssb-googleplus a').attr('href', 'https://plus.google.com/share?url=' + settings.url);
