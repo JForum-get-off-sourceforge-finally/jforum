@@ -129,7 +129,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/7_2_1/core/";
+    private static final String LUCENE_URL = "http://lucene.apache.org/core/7_3_0/core/";
     private static final String POI_URL = "http://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
@@ -200,7 +200,7 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "http://google.github.io/guava/releases/23.4-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/24.1.1-jre/api/docs/";
 	private static final String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
