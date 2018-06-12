@@ -122,7 +122,7 @@ public class Tpl implements Cacheable
 		if (result == null) {
 			// cache was flushed, reload
 			Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));
-			return name(key);
+			result = (String) cache.get(FQN, key);
 		}
 
 		return result;
