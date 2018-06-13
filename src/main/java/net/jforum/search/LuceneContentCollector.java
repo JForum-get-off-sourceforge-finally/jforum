@@ -58,6 +58,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.highlight.GradientFormatter;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
@@ -66,18 +67,17 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneContentCollector 
 {
 	private LuceneSettings settings;
 
-	public LuceneContentCollector(LuceneSettings settings)
+	public LuceneContentCollector (LuceneSettings settings)
 	{
 		this.settings = settings;
 	}
 
-	public List<Post> collect(SearchArgs args, ScoreDoc[] results, Query query) {
+	public List<Post> collect (SearchArgs args, ScoreDoc[] results, Query query) {
 		try {
 			int[] postIds = new int[Math.min(args.fetchCount(), results.length)];
 
@@ -96,16 +96,18 @@ public class LuceneContentCollector
 		}		
 	}
 
-	private List<Post> retrieveRealPosts(int[] postIds, Query query) throws IOException, InvalidTokenOffsetsException
+	private List<Post> retrieveRealPosts (int[] postIds, Query query) throws IOException, InvalidTokenOffsetsException
 	{
 		List<Post> posts = DataAccessDriver.getInstance().newLuceneDAO().getPostsData(postIds);
 
 		for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
 			Post post = iter.next();
 
-			Scorer scorer = new QueryScorer(query);
-			SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<u><b><font color=\"red\">", "</font></b></u>");
-			Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);
+			QueryScorer scorer = new QueryScorer(query);
+			Formatter formatter = new SimpleHTMLFormatter("<u><b><font color=\"red\">", "</font></b></u>");
+			//Formatter formatter = new GradientFormatter(scorer.getMaxTermWeight(), null, null, null, null);
+				// doesn't work - no highlighting happens AFAIKT
+			Highlighter highlighter = new Highlighter(formatter, scorer);
 
 			// Highlight keyword in post text
 			TokenStream tokenStream = this.settings.analyzer().tokenStream(
@@ -116,7 +118,7 @@ public class LuceneContentCollector
 
 			// Highlight keyword in post subject
 			tokenStream = this.settings.analyzer().tokenStream(
-					SearchFields.Indexed.CONTENTS, new StringReader(post.getSubject()));
+					SearchFields.Indexed.SUBJECT, new StringReader(post.getSubject()));
 
 			fragment = highlighter.getBestFragment(tokenStream, post.getSubject());
 			post.setSubject(fragment != null ? fragment : post.getSubject());
