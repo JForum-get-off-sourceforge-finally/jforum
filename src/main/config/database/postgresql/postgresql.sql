@@ -7,23 +7,23 @@ CategoryModel.lastGeneratedCategoryId = SELECT CURRVAL('jforum_categories_seq')
 # UserModel
 # ##########
 UserModel.selectAllByLimit = SELECT user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail \
-	FROM jforum_users ORDER BY user_id OFFSET ? LIMIT ?
+    FROM jforum_users ORDER BY user_id OFFSET ? LIMIT ?
 
 UserModel.lastGeneratedUserId = SELECT CURRVAL('jforum_users_seq')
 
 UserModel.selectById = SELECT u.*, \
-	(SELECT COUNT(1) FROM jforum_privmsgs pm \
-	WHERE pm.privmsgs_to_userid = u.user_id \
-	AND pm.privmsgs_type = 1) AS private_messages \
-	FROM jforum_users u \
-	WHERE u.user_id = ?
+    (SELECT COUNT(1) FROM jforum_privmsgs pm \
+    WHERE pm.privmsgs_to_userid = u.user_id \
+    AND pm.privmsgs_type = 1) AS private_messages \
+    FROM jforum_users u \
+    WHERE u.user_id = ?
 
 UserModel.selectAllByGroup = SELECT user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail \
-	FROM jforum_users u, jforum_user_groups ug \
-	WHERE u.user_id = ug.user_id \
-	AND ug.group_id = ? \
-	ORDER BY username \
-	OFFSET ? LIMIT ?
+    FROM jforum_users u, jforum_user_groups ug \
+    WHERE u.user_id = ug.user_id \
+    AND ug.group_id = ? \
+    ORDER BY username \
+    OFFSET ? LIMIT ?
 
 UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?) OFFSET ? LIMIT ?
 
@@ -37,45 +37,40 @@ UserModel.findByIp = SELECT DISTINCT users.* \
 PostModel.lastGeneratedPostId = SELECT CURRVAL('jforum_posts_seq')
 
 PostModel.selectAllByTopicByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
-	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
-	WHERE p.post_id = pt.post_id \
-	AND topic_id = ? \
-	AND p.user_id = u.user_id \
-	AND p.need_moderate = 0 \
-	ORDER BY post_time ASC \
-	OFFSET ? LIMIT ?
+    enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+    FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
+    WHERE p.post_id IN (SELECT p.post_id FROM jforum_posts p WHERE p.topic_id = ? AND p.need_moderate = 0 \
+    ORDER BY post_time ASC OFFSET ? LIMIT ?) \
+    AND pt.post_id = p.post_id AND u.user_id = p.user_id \
+    ORDER BY post_time ASC
 
 PostModel.selectByUserByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
-	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
-	WHERE p.post_id = pt.post_id \
-	AND p.user_id = u.user_id \
-	AND p.user_id = ? \
-	AND p.need_moderate = 0 \
-	AND forum_id IN(:fids:) \
-	ORDER BY p.post_id DESC \
-	OFFSET ? LIMIT ?
+    enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+    FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
+    WHERE p.post_id IN \
+        (SELECT p.post_id FROM jforum_posts p WHERE p.need_moderate = 0 AND p.user_id = ? AND p.forum_id IN (:fids:) ORDER BY post_id DESC OFFSET ? LIMIT ?) \
+    AND p.post_id = pt.post_id and p.user_id = u.user_id \
+    ORDER BY p.post_id DESC
 
 # ##########
 # PollModel
 # ##########
 PollModel.lastGeneratedPollId = SELECT CURRVAL('jforum_vote_desc_seq')
-		
+
 # #############
 # ForumModel
 # #############
 ForumModel.getModeratorList = SELECT u.user_id AS id, u.username AS name \
-	FROM jforum_groups g, jforum_roles r, jforum_role_values rv, jforum_roles r2, jforum_users u, jforum_user_groups ug \
-	WHERE g.group_id = r.group_id \
-	AND r.role_id = rv.role_id \
-	AND r.name = 'perm_moderation_forums' \
-	AND rv.role_value = cast(? as varchar) \
-	AND r2.name = 'perm_moderation' \
-	AND r2.group_id = g.group_id \
-	AND g.group_id = ug.group_id \
-	AND ug.user_id = u.user_id	
-	
+    FROM jforum_groups g, jforum_roles r, jforum_role_values rv, jforum_roles r2, jforum_users u, jforum_user_groups ug \
+    WHERE g.group_id = r.group_id \
+    AND r.role_id = rv.role_id \
+    AND r.name = 'perm_moderation_forums' \
+    AND rv.role_value = cast(? as varchar) \
+    AND r2.name = 'perm_moderation' \
+    AND r2.group_id = g.group_id \
+    AND g.group_id = ug.group_id \
+    AND ug.user_id = u.user_id    
+    
 ForumModel.lastGeneratedForumId = SELECT CURRVAL('jforum_forums_seq');
 
 # #############
@@ -85,25 +80,25 @@ TopicModel.selectAllByForumByLimit = SELECT t.*, p.user_id AS last_user_id, p.po
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \
-	FROM jforum_topics t, jforum_posts p \
-	WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
-	AND p.post_id = t.topic_last_post_id \
-	AND p.need_moderate = 0 \
-	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC \
-	OFFSET ? LIMIT ?
+    FROM jforum_topics t, jforum_posts p \
+        WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
+        ORDER BY t.topic_last_post_id DESC OFFSET ? LIMIT ?) \
+    AND p.post_id = t.topic_last_post_id \
+    AND p.need_moderate = 0 \
+    ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC
 
 TopicModel.selectByUserByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \
-	FROM jforum_topics t, jforum_posts p \
-	WHERE p.post_id = t.topic_last_post_id \
-	AND t.user_id = ? \
-	AND p.need_moderate = 0 \
-	AND t.forum_id IN(:fids:) \
-	ORDER BY t.topic_last_post_id DESC \
-	OFFSET ? LIMIT ?
-		
+    FROM jforum_topics t, jforum_posts p \
+    WHERE p.post_id = t.topic_last_post_id \
+    AND t.user_id = ? \
+    AND p.need_moderate = 0 \
+    AND t.forum_id IN(:fids:) \
+    ORDER BY t.topic_last_post_id DESC \
+    OFFSET ? LIMIT ?
+
 TopicModel.lastGeneratedTopicId = SELECT CURRVAL('jforum_topics_seq')
 
 # #####################
@@ -137,8 +132,8 @@ BanlistModel.lastGeneratedBanlistId = SELECT CURRVAL('jforum_banlist_seq')
 ModerationLog.lastGeneratedModerationLogId = SELECT CURRVAL('jforum_moderation_log_seq')
 
 ModerationLog.selectAll = SELECT l.*, u.username, u2.username AS poster_username \
-	FROM jforum_moderation_log l \
-	LEFT JOIN jforum_users u2 ON u2.user_id = l.post_user_id \
-	LEFT JOIN jforum_users u ON l.user_id = u.user_id \
-	ORDER BY log_id DESC \
-	OFFSET ? LIMIT ?
+    FROM jforum_moderation_log l \
+    LEFT JOIN jforum_users u2 ON u2.user_id = l.post_user_id \
+    LEFT JOIN jforum_users u ON l.user_id = u.user_id \
+    ORDER BY log_id DESC \
+    OFFSET ? LIMIT ?
