@@ -184,7 +184,8 @@ public class ModerationHelper
 				
 				log.setTopicId(topic.getId());
 				log.setPosterUser(topic.getPostedBy());
-				
+				log.setOriginalMessage(I18n.getMessage("Config.Form.Forum")+" "+topic.getForumId()+": "+topic.getTitle());
+
 				this.saveModerationLog(log);
 				
 				if (!forumsList.contains(Integer.valueOf(topic.getForumId()))) {
