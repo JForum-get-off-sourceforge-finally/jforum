@@ -58,6 +58,7 @@ import net.jforum.entities.Forum;
 import net.jforum.exceptions.ForumException;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.TopicRepository;
+import net.jforum.search.SearchFacade;
 import net.jforum.util.I18n;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
@@ -157,6 +158,9 @@ public class ConfigAction extends AdminCommand
 
 		// list of welcome HTML tags and attributes
 		SafeHtml.updateConfiguration();
+
+		// languages for stop words might have changed
+		SearchFacade.manager().init();
 
 		// If topicsPerPage has changed, force a reload in all forums
 		if (oldTopicsPerPage != SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)) {

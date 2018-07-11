@@ -2,6 +2,7 @@ package net.jforum.search;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.lucene.analysis.LowerCaseFilter;
@@ -15,6 +16,8 @@ import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.util.Version;
 
+import org.apache.log4j.Logger;
+
 /**
  * Filters {@link StandardTokenizer} with {@link StandardFilter}, {@link LowerCaseFilter},
  * {@link PorterStemFilter} and {@link StopFilter}, using a list of English stop words.
@@ -23,34 +26,41 @@ import org.apache.lucene.util.Version;
 
 public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 
+	private static final Logger LOGGER = Logger.getLogger(PorterStandardAnalyzer.class);
+
 	/** Default maximum allowed token length */
 	public static final int DEFAULT_MAX_TOKEN_LENGTH = 255;
 
 	private int maxTokenLength = DEFAULT_MAX_TOKEN_LENGTH;
 
-	/** An unmodifiable set containing some common English words that are usually not useful for searching. */
-	public static final Set<?> STOP_WORDS_SET = StopAnalyzer.ENGLISH_STOP_WORDS_SET; 
+	/** An set containing some common words that are usually not useful for searching.
+	The lucene.analyzer.stopwords property determines the languages for which stop words are added. */
+	public static final Set<?> STOP_WORDS_SET = new HashSet<>(); 
+
+	public static boolean addStopWords (Set words) {
+		boolean result = STOP_WORDS_SET.addAll(words);
+		return result;
+	}
 
 	/** Builds an analyzer with the given stop words.
 	 * @param matchVersion Lucene version to match See {@link <a href="#version">above</a>}
 	 * @param stopWords stop words */
-	public PorterStandardAnalyzer(final Version matchVersion, final Set<?> stopWords) {
+	public PorterStandardAnalyzer (final Version matchVersion, final Set<?> stopWords) {
 		super(matchVersion, stopWords);
 	}
 
 	/** Builds an analyzer with the default stop words ({@link #STOP_WORDS_SET}).
 	 * @param matchVersion Lucene version to match See {@link <a href="#version">above</a>}
 	 */
-	public PorterStandardAnalyzer(final Version matchVersion) {
+	public PorterStandardAnalyzer (final Version matchVersion) {
 		this(matchVersion, STOP_WORDS_SET);
 	}
 
 	/** Builds an analyzer with the stop words from the given reader.
 	 * @see WordlistLoader#getWordSet(Reader, Version)
-	 * @param matchVersion Lucene version to match See {@link
-	 * <a href="#version">above</a>}
+	 * @param matchVersion Lucene version to match See {@link <a href="#version">above</a>}
 	 * @param stopwords Reader to read stop words from */
-	public PorterStandardAnalyzer(final Version matchVersion, final Reader stopwords) throws IOException {
+	public PorterStandardAnalyzer (final Version matchVersion, final Reader stopwords) throws IOException {
 		this(matchVersion, WordlistLoader.getWordSet(stopwords, matchVersion));
 	}
 
@@ -60,7 +70,7 @@ public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 	 * setting only takes effect the next time tokenStream or
 	 * reusableTokenStream is called.
 	 */
-	public void setMaxTokenLength(final int length) {
+	public void setMaxTokenLength (final int length) {
 		maxTokenLength = length;
 	}
 
@@ -72,7 +82,7 @@ public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 	}
 
 	@Override
-	protected TokenStreamComponents createComponents(final String fieldName, final Reader reader) {
+	protected TokenStreamComponents createComponents (final String fieldName, final Reader reader) {
 		final StandardTokenizer src = new StandardTokenizer(matchVersion, reader);
 		src.setMaxTokenLength(maxTokenLength);
 		TokenStream tok = new StandardFilter(matchVersion, src);

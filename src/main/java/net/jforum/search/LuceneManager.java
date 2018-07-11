@@ -55,12 +55,16 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.util.Version;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
+
 public class LuceneManager 
 {
+	private static final Logger LOGGER = Logger.getLogger(LuceneManager.class);
+
 	private LuceneSearch search;
 	private LuceneSettings settings;
 	private LuceneIndexer indexer;
@@ -68,6 +72,30 @@ public class LuceneManager
 	public void init()
 	{
 		try {
+			String stopWordLanguages = SystemGlobals.getValue(ConfigKeys.LUCENE_STOPWORDs);
+			for (String lang : stopWordLanguages.split(", ")) {
+				//LOGGER.debug("adding stop words for: "+lang);
+				switch (lang) {
+					case "br":
+						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.br.BrazilianAnalyzer.getDefaultStopSet());
+						break;
+					case "cz":
+						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.cz.CzechAnalyzer.getDefaultStopSet());
+						break;
+					case "de":
+						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.de.GermanAnalyzer.getDefaultStopSet());
+						break;
+					case "en":
+						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.en.EnglishAnalyzer.getDefaultStopSet());
+						break;
+					case "fr":
+						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.fr.FrenchAnalyzer.getDefaultStopSet());
+						break;
+					default:
+						LOGGER.info("Language '"+lang+"' - don't know about stop words");
+				}
+			}
+
 			Class<?> clazz = Class.forName(SystemGlobals.getValue(ConfigKeys.LUCENE_ANALYZER));
 			Constructor<?> con = clazz.getConstructor(Version.class);
 			Object obj = con.newInstance(new Object[]{LuceneSettings.VERSION});

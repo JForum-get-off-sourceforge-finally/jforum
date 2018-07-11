@@ -313,6 +313,11 @@ function testEmail()
 </tr>
 
 <tr>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.IndexLanguages")}</span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="30" name="p_lucene.analyzer.stopwords" value="${config.getProperty("lucene.analyzer.stopwords")?html}" /></span></td>
+</tr>
+
+<tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.JQueryURL")}</span></td>
 	<td class="row1" width="38%"><span class="gen"><input type="text" size="60" name="p_jquery.url" value="${config.getProperty("jquery.url")?html}" /></span></td>
 </tr>
