@@ -54,7 +54,6 @@ import net.jforum.repository.ForumRepository;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public abstract class SearchOperation
 {

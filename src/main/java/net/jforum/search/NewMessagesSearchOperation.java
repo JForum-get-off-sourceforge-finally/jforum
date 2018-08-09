@@ -54,7 +54,6 @@ import net.jforum.view.forum.common.TopicsCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class NewMessagesSearchOperation extends SearchOperation
 {

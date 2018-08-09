@@ -59,10 +59,9 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.Filter;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -98,10 +97,7 @@ public class LuceneSearch implements NewDocumentAdded
 	public void newDocumentAdded() {		
 		try {
 			write.lock();
-			if (searcher != null) {
-                searcher.close();
-            }
-            // re-open a new searcher
+            // open a new searcher
 			openSearch();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -115,19 +111,18 @@ public class LuceneSearch implements NewDocumentAdded
 	 */
 	public SearchResult<Post> search (SearchArgs args, int userId)
 	{
-		return this.performSearch(args, this.collector, null, userId);
+		return this.performSearch(args, this.collector, userId);
 	}
 
 	public Document findDocumentByPostId (int postId) {
 		Document doc = null;
-		
+
 		try {
 			read.lock();
-			TopDocs results = searcher.search(new TermQuery(
-					new Term(SearchFields.Keyword.POST_ID, String.valueOf(postId))), null, 1);
+			TopDocs results = searcher.search(new TermQuery(new Term(SearchFields.Keyword.POST_ID, String.valueOf(postId))), 1);
 			ScoreDoc[] hits = results.scoreDocs;
 			for (ScoreDoc hit : hits) {
-				doc = this.searcher.doc(hit.doc);
+				doc = searcher.doc(hit.doc);
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -138,7 +133,7 @@ public class LuceneSearch implements NewDocumentAdded
 		return doc;
 	}
 
-	private SearchResult<Post> performSearch (SearchArgs args, LuceneContentCollector resultCollector, Filter filter, int userId)
+	private SearchResult<Post> performSearch (SearchArgs args, LuceneContentCollector resultCollector, int userId)
 	{
 		SearchResult<Post> result;
 
@@ -156,12 +151,12 @@ public class LuceneSearch implements NewDocumentAdded
 			if (criteria.length() == 0) {
 				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
 			} else {
-				Query query = new QueryParser(LuceneSettings.VERSION, SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
-				
+				Query query = new QueryParser(SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
+
 				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
-				TopFieldDocs tfd = searcher.search(query, filter, limit, getSorter(args));
+				TopFieldDocs tfd = searcher.search(query, limit, getSorter(args));
 				ScoreDoc[] docs = tfd.scoreDocs;
-				int numDocs = tfd.totalHits;
+				int numDocs = (int) tfd.totalHits;
 				if (numDocs > 0) {
 					result = new SearchResult<Post>(resultCollector.collect(args, docs, query), numDocs);
 				} else {
@@ -171,7 +166,6 @@ public class LuceneSearch implements NewDocumentAdded
 				LOGGER.debug("hits="+numDocs);
 			}
 		} catch (Exception e) {
-
 			throw new SearchException(e);
 		} finally {
 			read.unlock();
@@ -184,8 +178,8 @@ public class LuceneSearch implements NewDocumentAdded
 	private Sort getSorter (SearchArgs args) {
 		Sort sort;
 
-		SortField forumGroupingSortField = new SortField(SearchFields.Keyword.FORUM_ID, SortField.INT, false);
-		SortField dateSortField = new SortField(SearchFields.Keyword.DATE, SortField.LONG, args.isOrderDirectionDescending());
+		SortField forumGroupingSortField = new SortField(SearchFields.Keyword.FORUM_ID, SortField.Type.INT, false);
+		SortField dateSortField = new SortField(SearchFields.Keyword.DATE, SortField.Type.LONG, args.isOrderDirectionDescending());
 
 		if ("time".equals(args.getOrderBy())) {
 			// sort by date
@@ -375,7 +369,7 @@ public class LuceneSearch implements NewDocumentAdded
 	private void openSearch()
 	{
 		try {
-			this.searcher = new IndexSearcher(IndexReader.open(this.settings.directory()));
+			this.searcher = new IndexSearcher(DirectoryReader.open(this.settings.directory()));
 		}
 		catch (IOException e) {
 			throw new SearchException(e.toString(), e);

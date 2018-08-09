@@ -270,8 +270,6 @@ public final class ConfigKeys
 	public static final String QUARTZ_CONTEXT = "org.quartz.context.";
 	
 	public static final String SEARCH_INDEXING_ENABLED = "search.indexing.enabled";
-	public static final String SEARCH_INDEXER_IMPLEMENTATION = "search.indexer.implementation";
-	public static final String SEARCH_INDEXER_CRON_EXPRESSON = "indexer.cron.expression";
 	public static final String SEARCH_RESULT_LIMIT = "search.result.limit";
 	public static final String EXTENSION_FIELD = "extension.field";
 	

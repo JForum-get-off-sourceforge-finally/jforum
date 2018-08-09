@@ -151,6 +151,9 @@ public class JForum extends JForumBaseServlet
         finally {
             JForumExecutionContext.finish();
         }
+
+		// may kick off reindexing, so needs the DB fully started up
+		ConfigLoader.startSearchIndexer();
     }
 
     /**
@@ -346,7 +349,6 @@ public class JForum extends JForumBaseServlet
             ConfigLoader.createLoginAuthenticator();
             ConfigLoader.loadDaoImplementation();
             ConfigLoader.listenForChanges();
-            ConfigLoader.startSearchIndexer();
             ConfigLoader.startSummaryJob();
             ConfigLoader.startPop3Integration();
             // BB Code

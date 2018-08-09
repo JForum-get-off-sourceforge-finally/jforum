@@ -47,23 +47,23 @@ import java.util.Date;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneReindexArgs
 {
 	public static final int TYPE_UNKNOWN = 0;
 	public static final int TYPE_DATE = 1;
 	public static final int TYPE_MESSAGE = 2;
-	
+    
 	private Date fromDate;
 	private Date toDate;
 	private int firstPostId;
 	private int lastPostId;
 	private int type;
 	private boolean avoidDuplicated;
-	
+	private boolean recreate;
+
 	public LuceneReindexArgs(Date fromDate, Date toDate, int firstPostId, 
-		int lastPostId, boolean avoidDuplicated, int type)
+		int lastPostId, boolean avoidDuplicated, int type, boolean recreate)
 	{
 		this.fromDate = fromDate;
 		this.toDate = toDate;
@@ -71,53 +71,44 @@ public class LuceneReindexArgs
 		this.lastPostId = lastPostId;
 		this.avoidDuplicated = avoidDuplicated;
 		this.type = type;
+		this.recreate = recreate;
 	}
 
-	/**
-	 * @return the from
-	 */
 	public Date getFromDate()
 	{
 		return this.fromDate;
 	}
 
-	/**
-	 * @return the to
-	 */
 	public Date getToDate()
 	{
 		return this.toDate;
 	}
 
-	/**
-	 * @return the fetchStart
-	 */
 	public int getFirstPostId()
 	{
 		return this.firstPostId;
 	}
 
-	/**
-	 * @return the avoidDuplicated
-	 */
 	public boolean avoidDuplicatedRecords()
 	{
 		return this.avoidDuplicated;
 	}
-	
-	/**
-	 * @return the fetchEnd
-	 */
+    
+	public boolean recreate()
+	{
+		return this.recreate;
+	}
+    
 	public int getLastPostId()
 	{
 		return this.lastPostId;
 	}
-	
+    
 	public boolean filterByDate()
 	{
 		return this.type == TYPE_DATE && this.getFromDate() != null && this.getToDate() != null;
 	}
-	
+    
 	public boolean filterByMessage()
 	{
 		return this.type == TYPE_MESSAGE && this.getLastPostId() >= this.getFirstPostId();

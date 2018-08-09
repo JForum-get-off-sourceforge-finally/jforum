@@ -65,8 +65,8 @@ import net.jforum.util.preferences.SystemGlobals;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
@@ -82,7 +82,6 @@ import org.xml.sax.ContentHandler;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneIndexer
 {
@@ -131,7 +130,7 @@ public class LuceneIndexer
 			}
 
 			this.ramDirectory = new RAMDirectory();
-			final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+			final IndexWriterConfig conf = new IndexWriterConfig(this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 			this.ramWriter = new IndexWriter(this.ramDirectory, conf);
 			this.ramNumDocs = SystemGlobals.getIntValue(ConfigKeys.LUCENE_INDEXER_RAM_NUMDOCS);
 		}
@@ -153,7 +152,7 @@ public class LuceneIndexer
 			IndexWriter writer = null;
 
 			try {
-				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				final IndexWriterConfig conf = new IndexWriterConfig(this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 				this.ramWriter.commit();
 				this.ramWriter.close();
@@ -187,7 +186,7 @@ public class LuceneIndexer
 			IndexWriter writer = null;
 
 			try {
-				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				final IndexWriterConfig conf = new IndexWriterConfig(this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 
 				final Document document = this.createDocument(post);
@@ -227,13 +226,13 @@ public class LuceneIndexer
 	{
 		Document doc = new Document();
 
-		doc.add(new Field(SearchFields.Keyword.POST_ID, String.valueOf(post.getId()), Store.YES, Index.NOT_ANALYZED));
-		doc.add(new Field(SearchFields.Keyword.FORUM_ID, String.valueOf(post.getForumId()), Store.YES, Index.NOT_ANALYZED));
-		doc.add(new Field(SearchFields.Keyword.TOPIC_ID, String.valueOf(post.getTopicId()), Store.YES, Index.NOT_ANALYZED));
-		doc.add(new Field(SearchFields.Keyword.USER_ID, String.valueOf(post.getUserId()), Store.YES, Index.NOT_ANALYZED));
-		doc.add(new Field(SearchFields.Keyword.DATE, this.settings.formatDateTime(post.getTime()), Store.YES, Index.NOT_ANALYZED));
+		doc.add(new StringField(SearchFields.Keyword.POST_ID, String.valueOf(post.getId()), Field.Store.YES));
+		doc.add(new StringField(SearchFields.Keyword.FORUM_ID, String.valueOf(post.getForumId()), Field.Store.YES));
+		doc.add(new StringField(SearchFields.Keyword.TOPIC_ID, String.valueOf(post.getTopicId()), Field.Store.YES));
+		doc.add(new StringField(SearchFields.Keyword.USER_ID, String.valueOf(post.getUserId()), Field.Store.YES));
+		doc.add(new StringField(SearchFields.Keyword.DATE, this.settings.formatDateTime(post.getTime()), Field.Store.YES));
 
-		doc.add(new Field(SearchFields.Indexed.SUBJECT, post.getSubject(), Store.NO, Index.ANALYZED));
+		doc.add(new TextField(SearchFields.Indexed.SUBJECT, post.getSubject(), Field.Store.NO));
 
 		// remove UBB tags so that searches for "quote" doesn't find posts that include a quote tag
 		String text = post.getText();
@@ -243,14 +242,14 @@ public class LuceneIndexer
 		text = text.replaceAll("\\[/[^\\]]+?\\]", "");
 		// replace [quote=foo bar] by "foo bar "
 		text = text.replaceAll("\\[[^\\]=]+?=([^\\]]+?)\\]", "$1 ");
-		doc.add(new Field(SearchFields.Indexed.CONTENTS, text, Store.NO, Index.ANALYZED));
+		doc.add(new TextField(SearchFields.Indexed.CONTENTS, text, Field.Store.NO));
 
 		boolean indexAttachments = SystemGlobals.getBoolValue(ConfigKeys.LUCENE_INDEX_ATTACHMENTS);
 
 		if (indexAttachments && post.hasAttachments()) {
 			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
 				AttachmentInfo info = att.getInfo();
-				doc.add(new Field(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO, Field.Index.ANALYZED));
+				doc.add(new TextField(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO));
 
 				File f = new File(attachDir + File.separatorChar + info.getPhysicalFilename());
 				LOGGER.debug("indexing "+f.getName());
@@ -273,14 +272,14 @@ public class LuceneIndexer
 
 					parser.parse(is, handler, metadata, context);
 
-					doc.add(new Field(SearchFields.Indexed.CONTENTS, handler.toString(), Field.Store.NO, Field.Index.ANALYZED));
+					doc.add(new TextField(SearchFields.Indexed.CONTENTS, handler.toString(), Field.Store.NO));
 
 					String[] names = metadata.names();
 					for (int j=0; j<names.length; j++) {
 						String value = metadata.get(names[j]);
 
 						if (textualMetadataFields.contains(names[j])) {
-							doc.add(new Field(SearchFields.Indexed.CONTENTS, value, Field.Store.NO, Field.Index.ANALYZED));
+							doc.add(new TextField(SearchFields.Indexed.CONTENTS, value, Field.Store.NO));
 						}
 					}
 				} catch (Exception ex) {
@@ -317,7 +316,7 @@ public class LuceneIndexer
 			boolean status = false;
 
 			try {
-				final IndexWriterConfig conf = new IndexWriterConfig(LuceneSettings.VERSION, this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+				final IndexWriterConfig conf = new IndexWriterConfig(this.settings.analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 				writer = new IndexWriter(this.settings.directory(), conf);
 				writer.deleteDocuments(new Term(SearchFields.Keyword.POST_ID, String.valueOf(post.getId())));
 				status = true;

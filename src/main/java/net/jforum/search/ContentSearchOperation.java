@@ -53,7 +53,6 @@ import net.jforum.view.forum.common.PostCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ContentSearchOperation extends SearchOperation
 {

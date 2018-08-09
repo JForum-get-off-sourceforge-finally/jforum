@@ -45,7 +45,6 @@ package net.jforum.search;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public interface NewDocumentAdded
 {

@@ -56,90 +56,68 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.IndexSearcher;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneReindexer
 {
 	private static final Logger LOGGER = Logger.getLogger(LuceneReindexer.class);
-	
+    
 	private LuceneSettings settings;
 	private LuceneReindexArgs args;
-	private boolean recreate;
-	
-	public LuceneReindexer(LuceneSettings settings, LuceneReindexArgs args, boolean recreate)
+    
+	public LuceneReindexer(LuceneSettings settings, LuceneReindexArgs args)
 	{
 		this.settings = settings;
 		this.args = args;
-		this.recreate = recreate;		
 	}
-	
+    
 	public void startProcess()
 	{
-		this.reindex();
+		reindex();
 	}
-	
+    
 	public void startBackgroundProcess()
 	{
-		Runnable indexingJob = new Runnable() {		
+		Runnable indexingJob = new Runnable() {	    
 			public void run() {
 				reindex();
 			}
 		};
-		
+
 		SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "1");
-		
-		Thread thread = new Thread(indexingJob);
-		thread.start();
+
+		new Thread(indexingJob).start();
 	}
 
 	private void reindex()
 	{
 		try {
-			if (recreate) {
-				this.settings.createIndexDirectory(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
+			if (args.recreate()) {
+				settings.createIndexDirectory(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
 			}
 		}
 		catch (IOException e) {
 			throw new ForumException(e);
 		}
-		
+
 		LuceneDAO dao = DataAccessDriver.getInstance().newLuceneDAO();
-		
-		IndexSearcher searcher = null;
+
 		LuceneSearch luceneSearch = ((LuceneManager)SearchFacade.manager()).luceneSearch();
 		LuceneIndexer luceneIndexer = ((LuceneManager)SearchFacade.manager()).luceneIndexer();
-		
+
 		int fetchCount = SystemGlobals.getIntValue(ConfigKeys.LUCENE_INDEXER_DB_FETCH_COUNT);
-		
+
 		try {
-			if (!recreate) {
-				searcher = new IndexSearcher(IndexReader.open(this.settings.directory()));
-			}			
-			
 			long processStart = System.currentTimeMillis();
-			
+
 			int firstPostId = args.filterByMessage() ? args.getFirstPostId() : dao.firstPostIdByDate(args.getFromDate());
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("firstPostId="+firstPostId);					
-			}
 			int lastPostId = args.filterByMessage()	? args.getLastPostId() : dao.lastPostIdByDate(args.getToDate());
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("lastPostId="+lastPostId);	
-			}
 
 			int dbFirstPostId = dao.firstPostIdByDate(new Date(0L));
 			int dbLastPostId = dao.lastPostIdByDate(new Date());
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("dbFirstPostId="+dbFirstPostId);
-			    LOGGER.debug("dbLastPostId="+dbLastPostId);
-			}
 			if (args.filterByMessage()) {
 				if (firstPostId < dbFirstPostId) {
 					firstPostId = dbFirstPostId;
@@ -148,61 +126,52 @@ public class LuceneReindexer
 					lastPostId = dbLastPostId;
 				}
 			}
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("firstPostId="+firstPostId);		
-			    LOGGER.debug("lastPostId="+lastPostId);
-			}
-			
+			System.out.println("LuceneReindexer: indexing posts "+firstPostId+ " through "+lastPostId);
+
 			int counter = 0;
 			int indexTotal = 0;
 			long indexRangeStart = System.currentTimeMillis();
 			boolean hasMorePosts = true;
 			while (hasMorePosts) {
 				boolean contextFinished = false;
-				
+
 				int toPostId = firstPostId + fetchCount < lastPostId
 					? (firstPostId + fetchCount - 1)
 					: lastPostId;
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("firstPostId="+firstPostId);
-					LOGGER.debug("toPostId="+toPostId);	
-				}				
 
 				try {
 					JForumExecutionContext ex = JForumExecutionContext.get();
 					JForumExecutionContext.set(ex);
-					
+
 					List<Post> l = dao.getPostsToIndex(firstPostId, toPostId);
 
-					if (counter >= 5000) {
+					if (counter >= 1000) {
 						long end = System.currentTimeMillis();
-						if (LOGGER.isEnabledFor(Level.INFO)) {
-							LOGGER.info("Indexed ~5000 documents in " 						
+						System.out.println("LuceneReindexer: indexed ~1000 documents in " 					    
 							+ (end - indexRangeStart) + " ms (" + indexTotal + " so far)");
-						}
 						indexRangeStart = end;
 						counter = 0;
 					}
-					
+
 					JForumExecutionContext.finish();
 					contextFinished = true;
-					
+
 					for (Iterator<Post> iter = l.iterator(); iter.hasNext(); ) {
 						if ("0".equals(SystemGlobals.getValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING))) {
-							hasMorePosts = false;							
+							hasMorePosts = false;						    
 							break;
 						}
-						
+
 						Post post = iter.next();
-						
-						if (!recreate && args.avoidDuplicatedRecords()) {
+
+						if (!args.recreate() && args.avoidDuplicatedRecords()) {
 							if (luceneSearch.findDocumentByPostId(post.getId()) != null) {
 								continue;
 							}
 						}
 
 						luceneIndexer.batchCreate(post);
-						
+
 						counter++;
 						indexTotal++;
 					}
@@ -216,25 +185,19 @@ public class LuceneReindexer
 					}
 				}
 			}
-			
+
 			long end = System.currentTimeMillis();
-			
-			if (LOGGER.isEnabledFor(Level.INFO)) {
-				LOGGER.info("**** Total: " + (end - processStart) + " ms");
-			}
+
+			System.out.println("LuceneReindexer: Total time " + (end - processStart) + " ms");
 		}
-		catch (IOException e) {
+		catch (Exception e) {
+			e.printStackTrace();
 			throw new ForumException(e);
 		}
 		finally {
 			SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "0");
 
 			luceneIndexer.flushRAMDirectory();
-			
-			if (searcher != null) {
-				try { searcher.close(); }
-				catch (Exception e) { LOGGER.error(e.getMessage(), e); }
-			}
 		}
 	}
 }

@@ -61,7 +61,6 @@ import org.junit.Test;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneSearchTestCase extends TestCase
 {
@@ -241,8 +240,7 @@ public class LuceneSearchTestCase extends TestCase
         }
         TestCaseUtils.loadEnvironment();
 
-        this.settings = new LuceneSettings(new StandardAnalyzer(LuceneSettings.VERSION));
-
+        this.settings = new LuceneSettings(Class.forName("net.jforum.search.PorterStandardAnalyzer"));
         this.settings.useRAMDirectory();
 
         this.indexer = new LuceneIndexer(this.settings);

@@ -53,7 +53,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public final class SearchFacade
 {
@@ -63,26 +62,11 @@ public final class SearchFacade
 	public static void init()
 	{
 		if (!isSearchEnabled()) {
-			LOGGER.info("Search indexing is disabled. Will try to create a LuceneSearch "
-				+ "instance for runtime configuration changes");
+			LOGGER.info("Search indexing is disabled. Will try to create a LuceneSearch instance for runtime configuration changes");
 		}
 
-		final String clazz = SystemGlobals.getValue(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION);
-
-		if (clazz == null || "".equals(clazz)) {
-			LOGGER.info(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION + " is not defined. Skipping.");
-		}
-		else {
-			try {
-				searchManager = (LuceneManager)Class.forName(clazz).getDeclaredConstructor().newInstance();
-			}
-			catch (Exception e) {
-				LOGGER.warn(e.toString(), e);
-				throw new SearchInstantiationException("Error while tring to start the search manager: " + e);
-			}
-
-			searchManager.init();
-		}
+		searchManager = new LuceneManager();
+		searchManager.init();
 	}
 
 	public static void create(final Post post)

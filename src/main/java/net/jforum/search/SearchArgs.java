@@ -53,7 +53,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class SearchArgs 
 {

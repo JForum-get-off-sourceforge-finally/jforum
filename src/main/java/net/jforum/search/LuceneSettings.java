@@ -45,71 +45,78 @@ package net.jforum.search;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneSettings
 {
-	private Analyzer analyzer;
+	private static final Logger LOGGER = Logger.getLogger(LuceneSettings.class);
+
+	private Class<?> clazz;
 	private Directory directory;
-	public static final Version VERSION = Version.LUCENE_36;
-	
-	public LuceneSettings(final Analyzer analyzer)
+
+	public LuceneSettings (final Class<?> clazz)
 	{
-		this.analyzer = analyzer;
+		this.clazz = clazz;
 	}
-	
+
 	public void useRAMDirectory() throws IOException
 	{
 		this.directory = new RAMDirectory();
 
-		final IndexWriterConfig conf = new IndexWriterConfig(VERSION, this.analyzer).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+		final IndexWriterConfig conf = new IndexWriterConfig(analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 		final IndexWriter writer = new IndexWriter(this.directory, conf);
 		writer.close();
 	}
-	
-	public void useFSDirectory(final String indexDirectory) throws IOException
+
+	public void useFSDirectory (final String indexDirectory) throws IOException
 	{
-		if (!IndexReader.indexExists(FSDirectory.open(new File(indexDirectory)))) {
+		if (!DirectoryReader.indexExists(FSDirectory.open(Paths.get(indexDirectory)))) {
 			this.createIndexDirectory(indexDirectory);
 		}
-		
-		this.directory = FSDirectory.open(new File(indexDirectory));
+
+		this.directory = FSDirectory.open(Paths.get(indexDirectory));
 	}
-	
-	public void createIndexDirectory(final String directoryPath) throws IOException 
+
+	public void createIndexDirectory (final String directoryPath) throws IOException 
 	{
-		final FSDirectory fsDir = FSDirectory.open(new File(directoryPath));		
-		final IndexWriterConfig conf = new IndexWriterConfig(VERSION, this.analyzer).setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+		final FSDirectory fsDir = FSDirectory.open(Paths.get(directoryPath));	    
+		final IndexWriterConfig conf = new IndexWriterConfig(analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 		final IndexWriter writer = new IndexWriter(fsDir, conf);
 		writer.close();
 	}
-	
+
 	public Directory directory()
 	{
 		return this.directory;
 	}
-	
+
 	public Analyzer analyzer()
 	{
-		return this.analyzer;
+		try {
+			return (Analyzer) clazz.newInstance();
+		} catch (InstantiationException | IllegalAccessException iex) {
+			LOGGER.error(iex.getMessage());
+			return null;
+		}
 	}
-	
-	public String formatDateTime(final Date date)
+
+	public String formatDateTime (final Date date)
 	{
 		return new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(date);
 	}

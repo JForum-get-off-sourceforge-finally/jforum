@@ -43,8 +43,10 @@
  */
 package net.jforum.search;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.Date;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.ForumException;
@@ -52,8 +54,14 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexFormatTooOldException;
+import org.apache.lucene.index.IndexUpgrader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.util.Version;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.util.InfoStream;
+
+import org.apache.commons.io.FileUtils;
 
 import org.apache.log4j.Logger;
 
@@ -71,95 +79,76 @@ public class LuceneManager
 
 	public void init()
 	{
+		String dirPath = SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH);
+
 		try {
-			String stopWordLanguages = SystemGlobals.getValue(ConfigKeys.LUCENE_STOPWORDs);
-			for (String lang : stopWordLanguages.split(", ")) {
-				//LOGGER.debug("adding stop words for: "+lang);
-				switch (lang) {
-					case "br":
-						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.br.BrazilianAnalyzer.getDefaultStopSet());
-						break;
-					case "cz":
-						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.cz.CzechAnalyzer.getDefaultStopSet());
-						break;
-					case "de":
-						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.de.GermanAnalyzer.getDefaultStopSet());
-						break;
-					case "en":
-						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.en.EnglishAnalyzer.getDefaultStopSet());
-						break;
-					case "fr":
-						PorterStandardAnalyzer.addStopWords(org.apache.lucene.analysis.fr.FrenchAnalyzer.getDefaultStopSet());
-						break;
-					default:
-						LOGGER.info("Language '"+lang+"' - don't know about stop words");
-				}
+			Class<?> clazz = Class.forName(SystemGlobals.getValue(ConfigKeys.LUCENE_ANALYZER));
+
+			settings = new LuceneSettings(clazz);
+			settings.useFSDirectory(dirPath);
+
+			boolean reindex = false;
+			try {
+				DirectoryReader.open(settings.directory());
+			} catch (IndexFormatTooOldException iftoex) {
+				LOGGER.warn("Search index format too old - reindexing all posts, which can take a while");
+
+				FileUtils.cleanDirectory(new File(dirPath));
+				settings.useFSDirectory(dirPath);
+
+				// create an empty directoy
+				settings.createIndexDirectory(dirPath);
+
+				reindex = true;
 			}
 
-			Class<?> clazz = Class.forName(SystemGlobals.getValue(ConfigKeys.LUCENE_ANALYZER));
-			Constructor<?> con = clazz.getConstructor(Version.class);
-			Object obj = con.newInstance(new Object[]{LuceneSettings.VERSION});
-			Analyzer analyzer = (Analyzer)obj;
+			indexer = new LuceneIndexer(settings);
 
-			this.settings = new LuceneSettings(analyzer);
+			search = new LuceneSearch(settings, new LuceneContentCollector(settings));
 
-			this.settings.useFSDirectory(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
+			indexer.watchNewDocuDocumentAdded(search);
 
-			this.removeLockFile();
+			SystemGlobals.setObjectValue(ConfigKeys.LUCENE_SETTINGS, settings);
 
-			this.indexer = new LuceneIndexer(this.settings);
-
-			this.search = new LuceneSearch(this.settings, new LuceneContentCollector(this.settings));
-
-			this.indexer.watchNewDocuDocumentAdded(this.search);
-
-			SystemGlobals.setObjectValue(ConfigKeys.LUCENE_SETTINGS, this.settings);
-		}
-
-		catch (Exception e) {
-			throw new ForumException(e);
+			// reindex everything - from Jan 1 1970 to now
+			if (reindex) {
+				LuceneReindexArgs args = new LuceneReindexArgs(new Date(70, 0, 1), new Date(),
+											0, 0, false, LuceneReindexArgs.TYPE_DATE, true);
+				LuceneReindexer reindexer = new LuceneReindexer(settings, args);
+				reindexer.startBackgroundProcess();
+			}
+		} catch (Exception ex) {
+			throw new ForumException(ex);
 		}
 	}
 
 	public LuceneSearch luceneSearch()
 	{
-		return this.search;
+		return search;
 	}
 
 	public LuceneIndexer luceneIndexer()
 	{
-		return this.indexer;
-	}
-
-	public void removeLockFile()
-	{
-		try {
-			if (IndexWriter.isLocked(this.settings.directory())) {
-				IndexWriter.unlock(this.settings.directory());
-			}
-		}
-		catch (IOException e) {
-			throw new ForumException(e);
-		}
+		return indexer;
 	}
 
 	public void create(final Post post)
 	{
-		this.indexer.create(post);
+		indexer.create(post);
 	}
 
 	public void update(final Post post)
 	{
-		this.indexer.update(post);
+		indexer.update(post);
 	}
 
 	public SearchResult<Post> search(final SearchArgs args, int userId)
 	{
-		return this.search.search(args, userId);
+		return search.search(args, userId);
 	}
 
 	public void delete(final Post post)
 	{
-		this.indexer.delete(post);
+		indexer.delete(post);
 	}
 }

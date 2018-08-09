@@ -43,8 +43,9 @@
  */
 package net.jforum.view.admin;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -61,20 +62,25 @@ import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReaderContext;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.LockObtainFailedException;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LuceneStatsAction extends AdminCommand
 {
+	private static final Logger LOGGER = Logger.getLogger(LuceneStatsAction.class);
+
 	static {
 		SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "0");
 	}
@@ -84,40 +90,45 @@ public class LuceneStatsAction extends AdminCommand
 	 */
 	public void list()
 	{
-		IndexReader reader = null;
+		DirectoryReader reader = null;
 
 		try {
-			File indexDir = new File(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
+			Path indexDir = Paths.get(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
 			Directory fsDir = FSDirectory.open(indexDir);
 
 			this.setTemplateName(TemplateKeys.SEARCH_STATS_LIST);
 			boolean isInformationAvailable = true;
 
 			try {
-				reader = IndexReader.open(fsDir);
+				reader = DirectoryReader.open(fsDir);
 			} catch (IOException e) {
 				isInformationAvailable = false;
 			}
 
 			this.context.put("isInformationAvailable", isInformationAvailable);
-			this.context.put("indexExists", IndexReader.indexExists(fsDir));
+			this.context.put("indexExists", DirectoryReader.indexExists(fsDir));
 			this.context.put("currentlyIndexing", "1".equals(SystemGlobals.getValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING)));
 
 			if (isInformationAvailable) {
-				this.context.put("isLocked", IndexWriter.isLocked(fsDir));
+				this.context.put("isLocked", isWriterLocked(fsDir));
 				this.context.put("isUpToDate", reader.isCurrent());
-				this.context.put("indexLocation", indexDir.getAbsolutePath());
+				this.context.put("indexLocation", indexDir.toAbsolutePath().toString());
 				this.context.put("totalMessages", Integer.valueOf(ForumRepository.getTotalMessages()));
 				this.context.put("indexVersion", Long.valueOf(reader.getVersion()));
 				this.context.put("numberOfDocs", Integer.valueOf(reader.numDocs()));
 				this.context.put("numberDeletedDocs", Integer.valueOf(reader.numDeletedDocs()));
 				this.context.put("refCount", Integer.valueOf(reader.getRefCount()));
+
+				// getUniqueTermCount no longer exists, and I haven't found a way to replicate its behavior
+				// https://stackoverflow.com/questions/8910008/how-can-i-get-the-list-of-unique-terms-from-a-specific-field-in-lucene
+				/*
 				long uniqueTermCount = 0;
-				for (IndexReader r : reader.getSequentialSubReaders()) {
-					if (r != null)
-						uniqueTermCount += r.getUniqueTermCount();
+				for (IndexReaderContext c : reader.getContext().children()) {
+					if (c != null)
+						uniqueTermCount += c.reader().getUniqueTermCount();
 				}
 				this.context.put("uniqueTermCount", uniqueTermCount);
+				*/
 			}
 		}
 		catch (IOException e) {
@@ -130,90 +141,82 @@ public class LuceneStatsAction extends AdminCommand
 			}
 		}
 	}
-	
+
+	private static boolean isWriterLocked (Directory directory) throws IOException {
+		try {
+			directory.obtainLock(IndexWriter.WRITE_LOCK_NAME).close();
+			return false;
+		} catch (LockObtainFailedException failed) {
+			return true;
+		}
+	}
+
 	public void createIndexDirectory() throws Exception
 	{
-		this.settings().createIndexDirectory(
-			SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
+		this.settings().createIndexDirectory(SystemGlobals.getValue(ConfigKeys.LUCENE_INDEX_WRITE_PATH));
 		this.list();
 	}
-	
+    
 	public void reconstructIndexFromScratch()
 	{
 		LuceneReindexArgs args = this.buildReindexArgs();
-		boolean recreate = "recreate".equals(this.request.getParameter("indexOperationType"));
-		
-		LuceneReindexer reindexer = new LuceneReindexer(this.settings(), args, recreate);
+		LuceneReindexer reindexer = new LuceneReindexer(this.settings(), args);
 		reindexer.startBackgroundProcess();
-		
+
 		this.list();
 	}
-	
+
 	public void cancelIndexing()
 	{
 		SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "0");
 		this.list();
 	}
-	
-	public void luceneNotEnabled()
-	{
-		this.setTemplateName(TemplateKeys.SEARCH_STATS_NOT_ENABLED);
-	}
-	
+
 	public Template process(RequestContext request, ResponseContext response, SimpleHash context)
 	{
-		if (!this.isSearchEngineLucene()) {
-			this.enableIgnoreAction();
-			this.luceneNotEnabled();
-		}
-		
 		return super.process(request, response, context);
 	}
-	
-	private boolean isSearchEngineLucene()
-	{
-		return LuceneManager.class.getName()
-			.equals(SystemGlobals.getValue(ConfigKeys.SEARCH_INDEXER_IMPLEMENTATION))
-			|| this.settings() == null;
-	}
-	
+
 	private LuceneSettings settings()
 	{
 		return (LuceneSettings)SystemGlobals.getObjectValue(ConfigKeys.LUCENE_SETTINGS);
 	}
-	
+
 	private LuceneReindexArgs buildReindexArgs()
 	{
 		Date fromDate = this.buildDateFromRequest("from");
 		Date toDate = this.buildDateFromRequest("to");
-		
+
 		int firstPostId = 0;
 		int lastPostId = 0;
-		
+
 		if (StringUtils.isNotEmpty(this.request.getParameter("firstPostId"))) {
 			firstPostId = this.request.getIntParameter("firstPostId");
 		}
-		
+
 		if (StringUtils.isNotEmpty(this.request.getParameter("lastPostId"))) {
 			lastPostId = this.request.getIntParameter("lastPostId");
 		}
-		
-		return new LuceneReindexArgs(fromDate, toDate, firstPostId, 
-			lastPostId, "yes".equals(this.request.getParameter("avoidDuplicatedRecords")), 
-			this.request.getIntParameter("type"));
+
+		boolean avoidDuplicatedRecords = "yes".equals(this.request.getParameter("avoidDuplicatedRecords"));
+
+		boolean recreate = "operationTypeRecreate".equals(this.request.getParameter("indexOperationType"));
+
+		return new LuceneReindexArgs(fromDate, toDate, firstPostId, lastPostId,
+				avoidDuplicatedRecords, this.request.getIntParameter("type"), recreate);
 	}
-	
+    
 	private Date buildDateFromRequest(String prefix)
 	{
 		String day = this.request.getParameter(prefix + "Day");
 		String month = this.request.getParameter(prefix + "Month");
 		String year = this.request.getParameter(prefix + "Year");
-		
+	    
 		String hour = this.request.getParameter(prefix + "Hour");
 		String minutes = this.request.getParameter(prefix + "Minutes");
-		
+	    
 		Date date = null;
-		
+	    
 		if (StringUtils.isNotEmpty(day) 
 			&& StringUtils.isNotEmpty(month) 
 			&& StringUtils.isNotEmpty(year) 
@@ -226,7 +229,7 @@ public class LuceneStatsAction extends AdminCommand
 				Integer.parseInt(hour), 
 				Integer.parseInt(minutes), 0).getTime();
 		}
-		
+	    
 		return date;
 	}
 }

@@ -181,10 +181,12 @@ function checkIfPostExists()
 				<td><strong>${I18n.getMessage("SearchStats.refCount")}:</strong></td>
 				<td><i>${refCount}</i></td>
 			</tr>
+			<#--
 			<tr>
 				<td><strong>${I18n.getMessage("SearchStats.uniqueTermCount")}:</strong></td>
 				<td><i>${uniqueTermCount}</i></td>
 			</tr>
+			-->
 			<tr>
 				<td class="row3"><strong>${I18n.getMessage("SearchStats.indexVersion")}:</strong> </td>
 				<td class="row3"><i>${indexVersion}</i></td>
@@ -319,7 +321,7 @@ function checkIfPostExists()
 						</tr>
 
 						<tr>
-							<td><input type="radio" name="indexOperationType" id="operationTypeRecreate" value="recreate" /><label for="operationTypeRecreate">${I18n.getMessage("SearchStats.recreateIndex")}</label></td>
+							<td><input type="radio" name="indexOperationType" id="operationTypeRecreate" value="operationTypeRecreate" /><label for="operationTypeRecreate">${I18n.getMessage("SearchStats.recreateIndex")}</label></td>
 							<td class="leftLine gensmall">${I18n.getMessage("SearchStats.recreateIndexDesc")}</td>
 						</tr>
 					</table>
