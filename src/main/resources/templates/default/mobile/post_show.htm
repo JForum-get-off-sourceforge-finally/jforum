@@ -1,7 +1,7 @@
 <#include "header.htm"/>
-
 <#import "../../macros/pagination.ftl" as pagination/>
 <#import "../../macros/presentation.ftl" as presentation/>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <script language="JavaScript">
 	function confirmDelete(postId)
@@ -40,7 +40,7 @@
 	<a name="${post.id}"></a>
 	<#assign rankStr = rank.getRankTitle(user.rankId, user.totalPosts)/>
 	${I18n.getMessage("PostShow.author")}: <a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a><#if rankStr?trim != "">, ${rankStr?html}</#if><br />
-	<span class="lastPostTime">${post.formattedTime}</span>
+	<span class="lastPostTime"><script>"${post.formattedTime}".toLocaleDateTime();</script><noscript>${post.formattedTime}</noscript></span>
 	<#if topic.status != STATUS_LOCKED && !readonly && topic.type != TOPIC_WIKI>
 		<a href="${JForumContext.encodeURL("/posts/quote/${start}/${post.id}")}" rel="nofollow" class="icon_quote"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 	</#if>

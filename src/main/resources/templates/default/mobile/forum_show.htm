@@ -1,8 +1,7 @@
 <#include "header.htm"/>
-
 <#import "../../macros/pagination.ftl" as pagination>
-
 <script type="text/javascript" src="${contextPath}/templates/default/js/pagination.js?${startupTime}"></script>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <div class="maintitle">${forum.name?html}</div>
 <p>
@@ -19,7 +18,7 @@
   <div class="mobilePostText">
      ${I18n.getMessage("ForumIndex.answers")}: ${topic.totalReplies}<br />
      ${I18n.getMessage("ForumIndex.author")}: <a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a><br />
-     ${I18n.getMessage("ForumIndex.lastMessage")}: ${topic.lastPostTime} ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+     ${I18n.getMessage("ForumIndex.lastMessage")}: <script>"${topic.lastPostTime}".toLocaleDateTime();</script><noscript>${topic.lastPostTime}</noscript> ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
      <#if topic.paginate>
 		 <span class="gensmall">
 		  <br /><@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>

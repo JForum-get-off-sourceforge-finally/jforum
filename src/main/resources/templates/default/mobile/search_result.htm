@@ -1,7 +1,6 @@
 <#include "header.htm"/>
-
 <script type="text/javascript" src="${contextPath}/templates/default/js/pagination.js?${startupTime}"></script>
-
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 <#import "../../macros/pagination.ftl" as topicPagination>
 <#import "../../macros/search_pagination.ftl" as pagination>
 <#import "../../macros/presentation.ftl" as presentation/>
@@ -29,7 +28,7 @@ ${I18n.getMessage("Search.searchResults")}: ${totalRecords}
 	<div class="mobilePostText">
 		${I18n.getMessage("Search.author")}: <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a><br>
 		${I18n.getMessage("Search.forum")}: <a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${post.forum.name?html}</a><br /> 
-		${I18n.getMessage("Search.postDate")}: ${post.formattedTime}	<br />								
+		${I18n.getMessage("Search.postDate")}: <script>"${post.formattedTime}".toLocaleDateTime();</script><noscript>${post.formattedTime}</noscript><br />								
 	</div>
 	  <div class="latestpost">${post.mobileText}</div>  		
   <br />

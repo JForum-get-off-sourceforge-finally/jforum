@@ -91,6 +91,20 @@
 		<input type="submit" value="Search" />
 </form>
 </div>
+<script type="text/javascript">
+	document.formSearch.search_keywords.focus();
 
-<script type="text/javascript"> document.formSearch.search_keywords.focus(); </script>
+	function enableDisableOrderBy(type)
+	{
+		var isDisabled = type == "relevance";
+		document.formSearch.sort_dir[0].disabled = isDisabled;
+		document.formSearch.sort_dir[1].disabled = isDisabled;
+		
+		if (isDisabled) {
+			document.formSearch.sort_dir[1].checked = true;
+		}
+	}
+
+	enableDisableOrderBy("relevance");
+</script>
 <#include "bottom.htm"/>
