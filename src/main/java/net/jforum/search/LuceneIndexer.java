@@ -65,6 +65,8 @@ import net.jforum.util.preferences.SystemGlobals;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
@@ -72,6 +74,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.parser.AutoDetectParser;
@@ -226,13 +229,13 @@ public class LuceneIndexer
 	{
 		Document doc = new Document();
 
+		doc.add(new TextField(SearchFields.Indexed.SUBJECT, post.getSubject(), Field.Store.NO));
 		doc.add(new StringField(SearchFields.Keyword.POST_ID, String.valueOf(post.getId()), Field.Store.YES));
 		doc.add(new StringField(SearchFields.Keyword.FORUM_ID, String.valueOf(post.getForumId()), Field.Store.YES));
 		doc.add(new StringField(SearchFields.Keyword.TOPIC_ID, String.valueOf(post.getTopicId()), Field.Store.YES));
 		doc.add(new StringField(SearchFields.Keyword.USER_ID, String.valueOf(post.getUserId()), Field.Store.YES));
-		doc.add(new StringField(SearchFields.Keyword.DATE, this.settings.formatDateTime(post.getTime()), Field.Store.YES));
-
-		doc.add(new TextField(SearchFields.Indexed.SUBJECT, post.getSubject(), Field.Store.NO));
+		doc.add(new NumericDocValuesField(SearchFields.Keyword.DATE, post.getTime().getTime()));
+		doc.add(new StoredField(SearchFields.Keyword.DATE, post.getTime().getTime()));
 
 		// remove UBB tags so that searches for "quote" doesn't find posts that include a quote tag
 		String text = post.getText();
