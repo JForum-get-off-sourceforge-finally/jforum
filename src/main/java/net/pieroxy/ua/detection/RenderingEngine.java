@@ -84,7 +84,7 @@ public class RenderingEngine extends VersionedObject {
         return res;
     }
 
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o == null) return false;
         if (! (o instanceof RenderingEngine)) return false;
         RenderingEngine d = (RenderingEngine) o;
@@ -99,7 +99,7 @@ public class RenderingEngine extends VersionedObject {
             ( (d.fullVersion==null && fullVersion==null) || d.fullVersion.equals(fullVersion) ) ;
     }
 
-    public int hashCode() {
+    @Override public int hashCode() {
         int res = 0;
         if (family != null) {
             res *= 3;

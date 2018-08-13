@@ -22,7 +22,7 @@ public class OS {
         vendor = _brand;
     }
 
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o == null) return false;
         if (! (o instanceof OS)) return false;
         OS d = (OS) o;
@@ -33,7 +33,7 @@ public class OS {
             ( (d.version==null && version==null) || d.version.equals(version) );
     }
 
-    public int hashCode() {
+    @Override public int hashCode() {
         int res = 0;
         if (family != null) {
             res *= 3;

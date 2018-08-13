@@ -243,7 +243,7 @@ public final class I18n
                     /**
                      * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
                      */
-                    public void fileChanged(String filename)
+                    @Override public void fileChanged(String filename)
                     {
                     	if (LOGGER.isEnabledFor(Level.INFO)) {
                     		LOGGER.info("Reloading i18n for " + localeName);

@@ -90,7 +90,7 @@ public class LDAPAuthenticator implements LoginAuthenticator
 	/**
 	 * @see net.jforum.sso.LoginAuthenticator#validateLogin(java.lang.String, java.lang.String, java.util.Map)
 	 */
-	public User validateLogin(String username, String password, Map<?, ?> extraParams)
+	@Override public User validateLogin(String username, String password, Map<?, ?> extraParams)
 	{
 		Hashtable<String, String> environment = this.prepareEnvironment();
 		
@@ -156,7 +156,7 @@ public class LDAPAuthenticator implements LoginAuthenticator
 	/**
 	 * @see net.jforum.sso.LoginAuthenticator#setUserModel(net.jforum.dao.UserDAO)
 	 */
-	public void setUserModel(UserDAO dao) 
+	@Override public void setUserModel(UserDAO dao) 
 	{
 	}
 }

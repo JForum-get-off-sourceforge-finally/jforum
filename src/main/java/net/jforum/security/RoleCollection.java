@@ -72,7 +72,7 @@ public class RoleCollection extends LinkedHashMap<String, Role>
 	/** 
 	 * @see java.util.AbstractCollection#toString()
 	 */
-	public String toString() 
+	@Override public String toString() 
 	{
 		final StringBuilder stringBuffer = new StringBuilder(512);
 

@@ -75,7 +75,7 @@ public class DataSourceConnection extends DBConnection
 	/**
 	 * @see net.jforum.DBConnection#init()
 	 */
-	public void init() throws NamingException 
+	@Override public void init() throws NamingException 
 	{
 		final Context context = new InitialContext();
 		this.dataSource = (DataSource)context.lookup(SystemGlobals.getValue(
@@ -96,7 +96,7 @@ public class DataSourceConnection extends DBConnection
 	 * @see net.jforum.DBConnection#getConnection()
 	 * @throws DatabaseException
 	 */
-	public Connection getConnection()
+	@Override public Connection getConnection()
 	{
 		try {
 			return this.dataSource.getConnection();

@@ -71,7 +71,7 @@ public class SimpleConnection extends DBConnection
 	 * @see net.jforum.DBConnection#init()
 	 * 	 @throws DatabaseException  
 	 */
-	public void init() throws DatabaseException
+	@Override public void init() throws DatabaseException
 	{
 		try {
 			Class.forName(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
@@ -94,7 +94,7 @@ public class SimpleConnection extends DBConnection
 	/** 
 	 * @see net.jforum.DBConnection#getConnection()
 	 */
-	public Connection getConnection()
+	@Override public Connection getConnection()
 	{
 		try {
 			return DriverManager.getConnection(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_STRING));

@@ -60,7 +60,7 @@ public class ForumSessionListener implements HttpSessionListener
 	/** 
 	 * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
 	 */
-	public void sessionCreated(final HttpSessionEvent event) {
+	@Override public void sessionCreated(final HttpSessionEvent event) {
 		final HttpSession session = event.getSession(); 
         final ServletContext context = session.getServletContext(); 
         context.setAttribute(session.getId(), session);
@@ -70,7 +70,7 @@ public class ForumSessionListener implements HttpSessionListener
 	/** 
 	 * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
 	 */
-	public void sessionDestroyed(final HttpSessionEvent event) 
+	@Override public void sessionDestroyed(final HttpSessionEvent event) 
 	{
 		final HttpSession session = event.getSession();	
 		final String sessionId = session.getId();

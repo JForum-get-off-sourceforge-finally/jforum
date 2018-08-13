@@ -272,7 +272,7 @@ public class AttachmentsAction extends AdminCommand
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.configurations();
 	}

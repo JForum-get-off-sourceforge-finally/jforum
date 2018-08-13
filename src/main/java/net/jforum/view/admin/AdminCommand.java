@@ -54,7 +54,7 @@ import freemarker.template.Template;
  */
 public abstract class AdminCommand extends Command
 {
-	public Template process(final RequestContext request, final ResponseContext response,
+	@Override public Template process(final RequestContext request, final ResponseContext response,
 			final SimpleHash context)
 	{
 		if (!new AdminAction().checkAdmin()) {

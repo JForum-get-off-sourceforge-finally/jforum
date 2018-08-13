@@ -63,7 +63,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	/**
 	 * @see net.jforum.dao.RankingDAO#selectById(int)
 	 */
-	public Ranking selectById(int rankingId)
+	@Override public Ranking selectById(int rankingId)
 	{
 		Ranking ranking = new Ranking();
 
@@ -93,7 +93,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	/**
 	 * @see net.jforum.dao.RankingDAO#selectAll()
 	 */
-	public List<Ranking> selectAll()
+	@Override public List<Ranking> selectAll()
 	{
 		List<Ranking> l = new ArrayList<Ranking>();
 		PreparedStatement pstmt = null;
@@ -120,7 +120,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	/**
 	 * @see net.jforum.dao.RankingDAO#delete(int)
 	 */
-	public void delete(int rankingId)
+	@Override public void delete(int rankingId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -140,7 +140,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	/**
 	 * @see net.jforum.dao.RankingDAO#update(net.jforum.entities.Ranking)
 	 */
-	public void update(Ranking ranking)
+	@Override public void update(Ranking ranking)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -165,7 +165,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	/**
 	 * @see net.jforum.dao.RankingDAO#addNew(net.jforum.entities.Ranking)
 	 */
-	public void addNew(Ranking ranking)
+	@Override public void addNew(Ranking ranking)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -185,7 +185,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 		}
 	}
 	
-	public List<Ranking> selectSpecials()
+	@Override public List<Ranking> selectSpecials()
 	{
 		List<Ranking> l = new ArrayList<Ranking>();
 		

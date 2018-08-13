@@ -59,7 +59,7 @@ public class BannerAction extends AdminCommand
 	/**
 	 * Listing
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.context.put("banners",
 			DataAccessDriver.getInstance().newBannerDAO().selectAll());

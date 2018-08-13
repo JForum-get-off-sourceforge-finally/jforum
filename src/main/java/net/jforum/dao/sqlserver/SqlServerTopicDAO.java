@@ -57,7 +57,7 @@ public class SqlServerTopicDAO extends GenericTopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
 	 */
-	public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
+	@Override public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
 	{		
 		return super.selectAllByForumByLimit(forumId, startFrom, startFrom + count);
 	}
@@ -65,7 +65,7 @@ public class SqlServerTopicDAO extends GenericTopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count)
+	@Override public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count)
 	{
 		return super.selectByUserByLimit(userId, startFrom, startFrom + count);
 	}

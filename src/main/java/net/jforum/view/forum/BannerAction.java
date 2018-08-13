@@ -58,7 +58,7 @@ public class BannerAction extends Command
 	/**
 	 * dummy listing... there's no need to list in banners
 	 */
-	public void list()
+	@Override public void list()
 	{
 		// Empty method
 	}

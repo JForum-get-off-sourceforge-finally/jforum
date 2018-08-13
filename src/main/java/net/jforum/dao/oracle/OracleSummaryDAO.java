@@ -56,7 +56,7 @@ public class OracleSummaryDAO extends GenericSummaryDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericSummaryDAO#getPostTextFromResultSet(java.sql.ResultSet)
 	 */
-	protected String getPostTextFromResultSet(final ResultSet resultSet) throws SQLException
+	@Override protected String getPostTextFromResultSet(final ResultSet resultSet) throws SQLException
     {
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "post_text");
 	}

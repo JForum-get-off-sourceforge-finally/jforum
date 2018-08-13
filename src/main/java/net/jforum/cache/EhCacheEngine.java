@@ -70,7 +70,7 @@ public class EhCacheEngine implements CacheEngine {
 	
 	private transient CacheManager manager;
 	
-	public void init() {
+	@Override public void init() {
 		try {
 			manager = CacheManager.create(SystemGlobals.getValue("ehcache.cache.properties"));
 		} catch (CacheException ce) {
@@ -79,15 +79,15 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public void stop() {
+	@Override public void stop() {
 		manager.shutdown();
 	}
 
-	public void add (final String key, final Object value) {
+	@Override public void add (final String key, final Object value) {
 		add(DUMMY_FQN, key, value);
 	}
 
-	public void add (final String fqn, final String key, final Object value) {
+	@Override public void add (final String fqn, final String key, final Object value) {
 		try {
 			if (!manager.cacheExists(fqn)) {
 				LOGGER.debug("cache "+ fqn +" doesn't exist, add one");
@@ -111,7 +111,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public Object get (final String fqn, final String key) {
+	@Override public Object get (final String fqn, final String key) {
 		try {
 			if (!manager.cacheExists(fqn)) {				
 			    manager.addCache(fqn);
@@ -131,7 +131,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public Object get (final String fqn) {	
+	@Override public Object get (final String fqn) {	
 		try {
 			if (!manager.cacheExists(fqn)) {
 				manager.addCache(fqn);
@@ -147,7 +147,7 @@ public class EhCacheEngine implements CacheEngine {
 				
 	}
 
-	public Collection<Object> getValues (final String fqn) {
+	@Override public Collection<Object> getValues (final String fqn) {
 		try {
 			if (!manager.cacheExists(fqn)) {
 				//manager.addCache(fqn);
@@ -176,7 +176,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public void remove (final String fqn, final String key) {
+	@Override public void remove (final String fqn, final String key) {
 		try {
 			final Cache cache = manager.getCache(fqn);
 
@@ -189,7 +189,7 @@ public class EhCacheEngine implements CacheEngine {
 		}
 	}
 
-	public void remove (final String fqn) {
+	@Override public void remove (final String fqn) {
 		try {
 			if (manager.cacheExists(fqn)) {
 				//manager.removeCache(fqn);

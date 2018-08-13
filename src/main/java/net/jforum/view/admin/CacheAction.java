@@ -68,7 +68,7 @@ public class CacheAction extends AdminCommand
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.setTemplateName(TemplateKeys.CACHE_LIST);
 		

@@ -71,7 +71,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectById(int)
 	 */
-	public Post selectById(int postId)
+	@Override public Post selectById(int postId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -147,7 +147,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#delete(Post)
 	 */
-	public void delete(Post post)
+	@Override public void delete(Post post)
 	{
 		List<Post> l = new ArrayList<Post>();
 		l.add(post);
@@ -192,7 +192,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#deleteByTopic(int)
 	 */
-	public void deleteByTopic(int topicId)
+	@Override public void deleteByTopic(int topicId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -226,7 +226,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#update(net.jforum.entities.Post)
 	 */
-	public void update(Post post)
+	@Override public void update(Post post)
 	{
 		this.updatePostsTable(post);
 		this.updatePostsTextTable(post);
@@ -285,7 +285,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#addNew(net.jforum.entities.Post)
 	 */
-	public int addNew(Post post)
+	@Override public int addNew(Post post)
 	{
 		try {
 			this.addNewPost(post);
@@ -298,7 +298,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		}
 	}
 
-	public void index (Post post)
+	@Override public void index (Post post)
 	{
 		SearchFacade.create(post);
 	}
@@ -351,7 +351,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopic(int)
 	 */
-	public List<Post> selectAllByTopic(int topicId)
+	@Override public List<Post> selectAllByTopic(int topicId)
 	{
 		return this.selectAllByTopicByLimit(topicId, 0, Integer.MAX_VALUE - 1);
 	}
@@ -359,7 +359,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 */
-	public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
+	@Override public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
 	{
 		List<Post> l = new ArrayList<Post>();
 
@@ -393,7 +393,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Post> selectByUserByLimit(int userId, int startFrom, int count)
+	@Override public List<Post> selectByUserByLimit(int userId, int startFrom, int count)
 	{
 		String sql = SystemGlobals.getSql("PostModel.selectByUserByLimit");
 		sql = sql.replaceAll(":fids:", ForumRepository.getListAllowedForums());
@@ -424,7 +424,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		}
 	}
 
-	public int countUserPosts(int userId)
+	@Override public int countUserPosts(int userId)
 	{
 		int total = 0;
 
@@ -455,7 +455,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#countPreviousPosts(int)
 	 */
-	public int countPreviousPosts(int postId)
+	@Override public int countPreviousPosts(int postId)
 	{
 		int total = 0;
 
@@ -483,7 +483,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		}
 	}
 
-	public List<Post> selectLatestByForumForRSS(int forumId, int limit)
+	@Override public List<Post> selectLatestByForumForRSS(int forumId, int limit)
 	{
 		List<Post> l = new ArrayList<Post>();
 
@@ -514,7 +514,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		return l;
 	}
 
-	public List<Post> selectLatestForRSS(int limit) {
+	@Override public List<Post> selectLatestForRSS(int limit) {
 		List<Post> l = new ArrayList<Post>();
 
 		PreparedStatement pstmt = null;
@@ -543,7 +543,7 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		return l;
 	}
 
-	public List<Post> selectHotForRSS(int limit)
+	@Override public List<Post> selectHotForRSS(int limit)
 	{
 		List<Post> l = new ArrayList<Post>();
 

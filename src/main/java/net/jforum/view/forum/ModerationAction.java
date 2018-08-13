@@ -76,7 +76,7 @@ public class ModerationAction extends Command
 	 * @throws UnsupportedOperationException always
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		throw new UnsupportedOperationException();
 	}

@@ -63,7 +63,7 @@ public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieD
 	/**
 	 * @see net.jforum.dao.SmilieDAO#addNew(net.jforum.entities.Smilie)
 	 */
-	public int addNew(Smilie smilie)
+	@Override public int addNew(Smilie smilie)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -88,7 +88,7 @@ public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieD
 	/**
 	 * @see net.jforum.dao.SmilieDAO#delete(int)
 	 */
-	public void delete(int id)
+	@Override public void delete(int id)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -107,7 +107,7 @@ public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieD
 	/**
 	 * @see net.jforum.dao.SmilieDAO#update(net.jforum.entities.Smilie)
 	 */
-	public void update(Smilie smilie)
+	@Override public void update(Smilie smilie)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -142,7 +142,7 @@ public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieD
 	/**
 	 * @see net.jforum.dao.SmilieDAO#selectAll()
 	 */
-	public List<Smilie> selectAll()
+	@Override public List<Smilie> selectAll()
 	{
 		List<Smilie> l = new ArrayList<Smilie>();
 
@@ -168,7 +168,7 @@ public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieD
 	/**
 	 * @see net.jforum.dao.SmilieDAO#selectById(int)
 	 */
-	public Smilie selectById(int id)
+	@Override public Smilie selectById(int id)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

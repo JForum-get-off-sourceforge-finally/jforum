@@ -73,7 +73,7 @@ public class Device {
         brand=b;
         manufacturer=b;
     }
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o == null) return false;
         if (! (o instanceof Device)) return false;
         Device d = (Device) o;
@@ -85,7 +85,7 @@ public class Device {
             ( (d.manufacturer==null && manufacturer==null) || d.manufacturer.equals(manufacturer) ) &&
             ( d.touch == touch );
     }
-    public int hashCode() {
+    @Override public int hashCode() {
         int res = 0;
         if (deviceType!= null) {
             res *= 3;

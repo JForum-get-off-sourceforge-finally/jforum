@@ -85,7 +85,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#selectById(int)
 	 */
-	public Forum selectById(final int forumId)
+	@Override public Forum selectById(final int forumId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -155,7 +155,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#selectAll()
 	 */
-	public List<Forum> selectAll()
+	@Override public List<Forum> selectAll()
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -182,7 +182,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#setOrderUp(Forum, Forum)
 	 */
-	public Forum setOrderUp(final Forum forum, final Forum related)
+	@Override public Forum setOrderUp(final Forum forum, final Forum related)
 	{
 		return this.changeForumOrder(forum, related);
 	}
@@ -190,7 +190,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#setOrderDown(Forum, Forum)
 	 */
-	public Forum setOrderDown(final Forum forum, final Forum related)
+	@Override public Forum setOrderDown(final Forum forum, final Forum related)
 	{
 		return this.changeForumOrder(forum, related);
 	}
@@ -229,7 +229,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#delete(int)
 	 */
-	public void delete(final int forumId)
+	@Override public void delete(final int forumId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -252,7 +252,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#update(net.jforum.entities.Forum)
 	 */
-	public void update(final Forum forum)
+	@Override public void update(final Forum forum)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -277,7 +277,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#addNew(net.jforum.entities.Forum)
 	 */
-	public int addNew(final Forum forum)
+	@Override public int addNew(final Forum forum)
 	{
 		// Gets the higher order
 		PreparedStatement pOrder = null;
@@ -319,7 +319,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#setLastPost(int, int)
 	 */
-	public void setLastPost(final int forumId, final int postId)
+	@Override public void setLastPost(final int forumId, final int postId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -342,7 +342,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#incrementTotalTopics(int, int)
 	 */
-	public void incrementTotalTopics(final int forumId, final int count)
+	@Override public void incrementTotalTopics(final int forumId, final int count)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -363,7 +363,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#decrementTotalTopics(int, int)
 	 */
-	public void decrementTotalTopics(final int forumId, final int count)
+	@Override public void decrementTotalTopics(final int forumId, final int count)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -482,7 +482,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#getLastPostInfo(int)
 	 */
-	public LastPostInfo getLastPostInfo(final int forumId)
+	@Override public LastPostInfo getLastPostInfo(final int forumId)
 	{
 		return this.getLastPostInfo(forumId, true);
 	}
@@ -490,7 +490,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#getModeratorList(int)
 	 */
-	public List<ModeratorInfo> getModeratorList(final int forumId)
+	@Override public List<ModeratorInfo> getModeratorList(final int forumId)
 	{
 		List<ModeratorInfo> list = new ArrayList<ModeratorInfo>();
 
@@ -534,7 +534,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#getTotalMessages()
 	 */
-	public int getTotalMessages()
+	@Override public int getTotalMessages()
 	{
 		int totalMessages = 0;
 		PreparedStatement pstmt = null;
@@ -561,7 +561,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#getTotalTopics(int)
 	 */
-	public int getTotalTopics(final int forumId)
+	@Override public int getTotalTopics(final int forumId)
 	{
 		int total = 0;
 		PreparedStatement pstmt = null;
@@ -589,7 +589,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#getMaxPostId(int)
 	 */
-	public int getMaxPostId(final int forumId)
+	@Override public int getMaxPostId(final int forumId)
 	{
 		int id = -1;
 
@@ -618,7 +618,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#moveTopics(java.lang.String[], int, int)
 	 */
-	public void moveTopics(final String[] topics, final int fromForumId, final int toForumId)
+	@Override public void moveTopics(final String[] topics, final int fromForumId, final int toForumId)
 	{
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
@@ -664,7 +664,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#checkUnreadTopics(int, long)
 	 */
-	public List<Topic> checkUnreadTopics(final int forumId, final long lastVisit)
+	@Override public List<Topic> checkUnreadTopics(final int forumId, final long lastVisit)
 	{
 		final List<Topic> list = new ArrayList<Topic>();
 
@@ -698,7 +698,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#setModerated(int, boolean)
 	 */
-	public void setModerated(final int categoryId, final boolean status)
+	@Override public void setModerated(final int categoryId, final boolean status)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -719,7 +719,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#getBoardStatus()
 	 */
-	public ForumStats getBoardStatus()
+	@Override public ForumStats getBoardStatus()
 	{
 		ForumStats forumStats = new ForumStats();
 		forumStats.setPosts(this.getTotalMessages());
@@ -814,7 +814,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	 * 
 	 * @see net.jforum.dao.ForumDAO#notifyUsers(Forum)
 	 */
-	public List<User> notifyUsers(final Forum forum)
+	@Override public List<User> notifyUsers(final Forum forum)
 	{
 		int posterId = SessionFacade.getUserSession().getUserId();
 		int anonUser = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
@@ -856,7 +856,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 
 	}
 
-	public void subscribeUser(final int forumId, final int userId)
+	@Override public void subscribeUser(final int forumId, final int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -877,7 +877,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 
 	}
 
-	public boolean isUserSubscribed(int forumId, int userId)
+	@Override public boolean isUserSubscribed(int forumId, int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -900,7 +900,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 		}
 	}
 
-	public void removeSubscription(int forumId, int userId)
+	@Override public void removeSubscription(int forumId, int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -925,7 +925,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	 * 
 	 * @param forumId int
 	 */
-	public void removeSubscriptionByForum(int forumId)
+	@Override public void removeSubscriptionByForum(int forumId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -947,7 +947,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	/**
 	 * @see net.jforum.dao.ForumDAO#discoverForumId(java.lang.String)
 	 */
-	public int discoverForumId(String listEmail)
+	@Override public int discoverForumId(String listEmail)
 	{
 		int forumId = 0;
 		
@@ -978,7 +978,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
     * Returns all forums that are watched by a given user.
     * @param userId The user id
     */
-    public List<Map<String, Object>> selectWatchesByUser(int userId) {
+    @Override public List<Map<String, Object>> selectWatchesByUser(int userId) {
         List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
         PreparedStatement p = null;
         ResultSet rs = null;

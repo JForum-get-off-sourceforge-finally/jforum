@@ -61,7 +61,7 @@ public class GenericApiDAO implements ApiDAO
 	/**
 	 * @see net.jforum.dao.ApiDAO#isValid(java.lang.String)
 	 */
-	public boolean isValid(final String apiKey)
+	@Override public boolean isValid(final String apiKey)
 	{
 		boolean status = false;
 		

@@ -75,7 +75,7 @@ public class PostRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	@Override public void setCacheEngine(CacheEngine engine)
 	{
 		PostRepository.setEngine(engine);
 	}
@@ -130,7 +130,7 @@ public class PostRepository implements Cacheable
 					topics = new LinkedHashMap<String, List<Post>>(topics) {
 						private static final long serialVersionUID = -4868402767486935543L;
 
-						protected boolean removeEldestEntry(java.util.Map.Entry<String, List<Post>> eldest) {
+						@Override protected boolean removeEldestEntry(java.util.Map.Entry<String, List<Post>> eldest) {
 							return this.size() > CACHE_SIZE;
 						}
 					};

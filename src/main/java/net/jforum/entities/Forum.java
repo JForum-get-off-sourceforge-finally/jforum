@@ -267,7 +267,7 @@ public class Forum implements Serializable
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(final Object obj) 
+	@Override public boolean equals(final Object obj) 
 	{
 		return ((obj instanceof Forum) && (((Forum)obj).getId() == this.id));
 	}
@@ -275,7 +275,7 @@ public class Forum implements Serializable
 	/** 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() 
+	@Override public int hashCode() 
 	{
 		return this.id;
 	}
@@ -283,7 +283,7 @@ public class Forum implements Serializable
 	/** 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	@Override public String toString() {
 		return "[" + this.name + ", id=" + this.id + ", order=" + this.order + "]";
 	}
 }

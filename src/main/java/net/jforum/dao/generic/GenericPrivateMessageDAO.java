@@ -70,7 +70,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#send(net.jforum.entities.PrivateMessage)
 	 */
-	public void send(PrivateMessage pm)
+	@Override public void send(PrivateMessage pm)
 	{
 		// We should store 2 copies: one for the sendee's sent box
 		// and another for the target user's inbox.
@@ -133,7 +133,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#delete(net.jforum.entities.PrivateMessage[], int)
 	 */
-	public void delete(PrivateMessage[] pm, int userId)
+	@Override public void delete(PrivateMessage[] pm, int userId)
 	{
 		PreparedStatement deleteMessage = null;
 		PreparedStatement deleteText = null;
@@ -185,7 +185,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectFromInbox(net.jforum.entities.User)
 	 */
-	public List<PrivateMessage> selectFromInbox(User user)
+	@Override public List<PrivateMessage> selectFromInbox(User user)
 	{
 		String query = SystemGlobals.getSql("PrivateMessageModel.baseListing");
 		query = query.replaceAll("#FILTER#", SystemGlobals.getSql("PrivateMessageModel.inbox"));
@@ -224,7 +224,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectFromSent(net.jforum.entities.User)
 	 */
-	public List<PrivateMessage> selectFromSent(User user)
+	@Override public List<PrivateMessage> selectFromSent(User user)
 	{
 		String query = SystemGlobals.getSql("PrivateMessageModel.baseListing");
 		query = query.replaceAll("#FILTER#", SystemGlobals.getSql("PrivateMessageModel.sent"));
@@ -301,7 +301,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectById(net.jforum.entities.PrivateMessage)
 	 */
-	public PrivateMessage selectById(PrivateMessage origPrivMsg)
+	@Override public PrivateMessage selectById(PrivateMessage origPrivMsg)
 	{
 		PrivateMessage pm = origPrivMsg;
 		PreparedStatement pstmt = null;
@@ -329,7 +329,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#updateType(net.jforum.entities.PrivateMessage)
 	 */
-	public void updateType(PrivateMessage pm)
+	@Override public void updateType(PrivateMessage pm)
 	{
 		PreparedStatement pstmt = null;
 		try {

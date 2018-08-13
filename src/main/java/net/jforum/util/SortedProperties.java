@@ -58,7 +58,7 @@ public class SortedProperties extends Properties
 	/**
 	 * Overrides, called by the store method.
 	 */
-	public synchronized Enumeration<Object> keys() {
+	@Override public synchronized Enumeration<Object> keys() {
         Vector<String> v = new Vector<String>();
         for (final Object o : keySet()) {
             v.add(o.toString());

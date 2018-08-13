@@ -82,7 +82,7 @@ public class AdminAction extends Command {
 	/** 
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()  
+	@Override public void list()  
 	{
 		this.login();
 	}
@@ -139,7 +139,7 @@ public class AdminAction extends Command {
 	public void fetchMail() throws Exception
 	{
 		new Thread(new Runnable() {
-			public void run() {
+			@Override public void run() {
 				try {
 					new POPListener().execute(null);
 				}
@@ -262,7 +262,7 @@ public class AdminAction extends Command {
 		return false;
 	}
 
-	public Template process(RequestContext request, ResponseContext response, 
+	@Override public Template process(RequestContext request, ResponseContext response, 
 			SimpleHash context)
 	{
 		return super.process(request, response, context);

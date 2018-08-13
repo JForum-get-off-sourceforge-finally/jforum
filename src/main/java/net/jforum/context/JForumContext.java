@@ -84,17 +84,17 @@ public class JForumContext implements ForumContext
 		this.isBot = (isBotObject != null && isBotObject.booleanValue());
 	}
 
-	public boolean isBot()
+	@Override public boolean isBot()
 	{
 		return isBot;
 	}
 
-	public String encodeURL(final String url)
+	@Override public String encodeURL(final String url)
 	{
 		return this.encodeURL(url, servletExtension);
 	}
 
-	public String encodeURL(final String url, final String extension)
+	@Override public String encodeURL(final String url, final String extension)
 	{
 		String ucomplete = contextPath + url + extension;
 
@@ -105,17 +105,17 @@ public class JForumContext implements ForumContext
 		return ucomplete;
 	}
 
-	public boolean isEncodingDisabled()
+	@Override public boolean isEncodingDisabled()
 	{
 		return this.encodingDisabled;
 	}
 
-	public RequestContext getRequest()
+	@Override public RequestContext getRequest()
 	{
 		return request;
 	}
 
-	public ResponseContext getResponse()
+	@Override public ResponseContext getResponse()
 	{
 		return response;
 	}

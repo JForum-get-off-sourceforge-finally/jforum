@@ -62,7 +62,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 	/**
 	 * @see net.jforum.dao.UserSessionDAO#add(net.jforum.entities.UserSession, java.sql.Connection)
 	 */
-	public void add(UserSession us, Connection conn)
+	@Override public void add(UserSession us, Connection conn)
 	{
 		this.add(us, conn, false);
 	}
@@ -95,7 +95,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 	 * @see net.jforum.dao.UserSessionDAO#update(net.jforum.entities.UserSession,
 	 *      java.sql.Connection)
 	 */
-	public void update(UserSession us, Connection conn)
+	@Override public void update(UserSession us, Connection conn)
 	{
 		if (this.selectById(us, conn) == null) {
 			this.add(us, conn, true);
@@ -125,7 +125,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 	 * @see net.jforum.dao.UserSessionDAO#selectById(net.jforum.entities.UserSession,
 	 *      java.sql.Connection)
 	 */
-	public UserSession selectById(UserSession us, Connection conn)
+	@Override public UserSession selectById(UserSession us, Connection conn)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

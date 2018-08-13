@@ -126,7 +126,7 @@ public class BBCodeHandler extends DefaultHandler implements Serializable
 		return this.bbMap.get(tagName);
 	}
 
-	public void startElement (String uri, String localName, String tag, Attributes attrs)
+	@Override public void startElement (String uri, String localName, String tag, Attributes attrs)
 	{
 		if ("match".equals(tag)) {
 			this.sb = new StringBuilder();
@@ -157,7 +157,7 @@ public class BBCodeHandler extends DefaultHandler implements Serializable
 		this.tagName = tag;
 	}
 
-	public void endElement (String uri, String localName, String tag)
+	@Override public void endElement (String uri, String localName, String tag)
 	{
 		if (tag.equals("match")) {
 			this.addBb(this.bb);
@@ -182,7 +182,7 @@ public class BBCodeHandler extends DefaultHandler implements Serializable
 		this.tagName = "";
 	}
 
-	public void characters (char ch[], int start, int length)
+	@Override public void characters (char ch[], int start, int length)
 	{
 		if (this.tagName.equals("replace")
 				|| this.tagName.equals("rssReplace")
@@ -192,7 +192,7 @@ public class BBCodeHandler extends DefaultHandler implements Serializable
         }
 	}
 
-	public void error (SAXParseException saxpe) throws SAXException
+	@Override public void error (SAXParseException saxpe) throws SAXException
 	{
 		throw saxpe;
 	}

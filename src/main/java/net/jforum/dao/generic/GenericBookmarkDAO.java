@@ -64,7 +64,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#add(net.jforum.entities.Bookmark)
 	 */
-	public void add(final Bookmark bookmark)
+	@Override public void add(final Bookmark bookmark)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -88,7 +88,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#update(net.jforum.entities.Bookmark)
 	 */
-	public void update(final Bookmark bookmark)
+	@Override public void update(final Bookmark bookmark)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -110,7 +110,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#remove(int)
 	 */
-	public void remove(final int bookmarkId)
+	@Override public void remove(final int bookmarkId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -129,7 +129,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectByUser(int, int)
 	 */
-	public List<Bookmark> selectByUser(final int userId, final int relationType)
+	@Override public List<Bookmark> selectByUser(final int userId, final int relationType)
 	{
 		List<Bookmark> list = null;
 		
@@ -151,7 +151,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectByUser(int)
 	 */
-	public List<Bookmark> selectByUser(final int userId)
+	@Override public List<Bookmark> selectByUser(final int userId)
 	{
 		final List<Bookmark> list = new ArrayList<Bookmark>();
 
@@ -183,7 +183,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectById(int)
 	 */
-	public Bookmark selectById(final int bookmarkId)
+	@Override public Bookmark selectById(final int bookmarkId)
 	{
 		Bookmark bookmark = null;
 
@@ -212,7 +212,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	/**
 	 * @see net.jforum.dao.BookmarkDAO#selectForUpdate(int, int, int)
 	 */
-	public Bookmark selectForUpdate(final int relationId, final int relationType, final int userId)
+	@Override public Bookmark selectForUpdate(final int relationId, final int relationType, final int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

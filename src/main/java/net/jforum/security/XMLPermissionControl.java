@@ -156,7 +156,7 @@ public class XMLPermissionControl extends DefaultHandler
 	/**
 	 * @see org.xml.sax.ContentHandler#endElement(String, String, String)
 	 */
-	public void endElement(final String namespaceURI, final String localName, final String tag)
+	@Override public void endElement(final String namespaceURI, final String localName, final String tag)
 		throws SAXException 
 	{
 		if ("section".equals(tag)) {
@@ -172,7 +172,7 @@ public class XMLPermissionControl extends DefaultHandler
 	/**
 	 * @see org.xml.sax.ErrorHandler#error(SAXParseException)
 	 */
-	public void error(final SAXParseException exception) throws SAXException 
+	@Override public void error(final SAXParseException exception) throws SAXException 
 	{
 		throw exception;
 	}
@@ -180,7 +180,7 @@ public class XMLPermissionControl extends DefaultHandler
 	/**
 	 * @see org.xml.sax.ContentHandler#startElement(String, String, String, Attributes)
 	 */
-	public void startElement(
+	@Override public void startElement(
 		final String namespaceURI,
 		final String localName,
 		final String tag,

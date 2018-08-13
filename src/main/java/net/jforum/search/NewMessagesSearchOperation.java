@@ -59,7 +59,7 @@ public class NewMessagesSearchOperation extends SearchOperation
 {
 	private transient List<Topic> results = new ArrayList<Topic>();
 	
-	public SearchResult<Topic> performSearch(final SearchArgs args, final int userId)
+	@Override public SearchResult<Topic> performSearch(final SearchArgs args, final int userId)
 	{
 		final TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
 		final SearchResult<Topic> searchResult = dao.findTopicsByDateRange(args);
@@ -69,27 +69,27 @@ public class NewMessagesSearchOperation extends SearchOperation
 		return searchResult;
 	}
 
-	public void prepareForDisplay()
+	@Override public void prepareForDisplay()
 	{
 		this.results = TopicsCommon.prepareTopics(this.results);
 	}
 
-	public List<Topic> getResults()
+	@Override public List<Topic> getResults()
 	{
 		return this.results;
 	}
 
-	public int totalRecords()
+	@Override public int totalRecords()
 	{
 		return this.results.size();
 	}
 	
-	public String viewTemplate()
+	@Override public String viewTemplate()
 	{
 		return TemplateKeys.SEARCH_NEW_MESSAGES;
 	}
 	
-	public int extractForumId(final Object value)
+	@Override public int extractForumId(final Object value)
 	{
 		return ((Topic)value).getForumId();
 	}

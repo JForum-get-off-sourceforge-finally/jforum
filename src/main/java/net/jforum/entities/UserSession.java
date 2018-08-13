@@ -459,7 +459,7 @@ public class UserSession implements Serializable
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(final Object obj)
+	@Override public boolean equals(final Object obj)
 	{
 		if (!(obj instanceof UserSession)) {
 			return false;
@@ -471,7 +471,7 @@ public class UserSession implements Serializable
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode()
+	@Override public int hashCode()
 	{
 		return this.sessionId.hashCode();
 	}

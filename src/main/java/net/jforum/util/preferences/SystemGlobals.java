@@ -321,7 +321,7 @@ public final class SystemGlobals implements VariableStore
      * @param field The field name to retrieve
      * @return The value of the field if present or null if not  
      */
-    public String getVariableValue(String field)
+    @Override public String getVariableValue(String field)
     {
         String preExpansion = globals.installation.getProperty(field);
 

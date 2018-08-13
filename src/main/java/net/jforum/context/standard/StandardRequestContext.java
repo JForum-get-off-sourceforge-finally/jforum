@@ -72,7 +72,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#addParameter(java.lang.String, java.lang.Object)
 	 */
-	public void addParameter(final String name, final Object value)
+	@Override public void addParameter(final String name, final Object value)
 	{
 		if (this.data.containsKey(name)) {
 			this.data.remove(name);
@@ -84,7 +84,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#addOrReplaceParameter(java.lang.String, java.lang.Object)
 	 */
-	public void addOrReplaceParameter(final String name, final Object value) 
+	@Override public void addOrReplaceParameter(final String name, final Object value) 
 	{
 		this.addParameter(name, value);
 	}
@@ -92,7 +92,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getAction()
 	 */
-	public String getAction()
+	@Override public String getAction()
 	{
 		return null;
 	}
@@ -100,7 +100,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute(final String name)
+	@Override public Object getAttribute(final String name)
 	{
 		return this.getParameter(name);
 	}
@@ -108,7 +108,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getContextPath()
+	@Override public String getContextPath()
 	{
 		return null;
 	}
@@ -116,7 +116,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public Cookie[] getCookies()
+	@Override public Cookie[] getCookies()
 	{
 		return new Cookie[0];
 	}
@@ -124,7 +124,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getHeader(final String name)
+	@Override public String getHeader(final String name)
 	{
 		return null;
 	}
@@ -132,7 +132,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getIntParameter(java.lang.String)
 	 */
-	public int getIntParameter(final String parameter)
+	@Override public int getIntParameter(final String parameter)
 	{
 		return Integer.parseInt(this.getParameter(parameter));
 	}
@@ -140,7 +140,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getModule()
 	 */
-	public String getModule()
+	@Override public String getModule()
 	{
 		return null;
 	}
@@ -148,7 +148,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getObjectParameter(java.lang.String)
 	 */
-	public Object getObjectParameter(final String parameter)
+	@Override public Object getObjectParameter(final String parameter)
 	{
 		return this.data.get(parameter);
 	}
@@ -156,7 +156,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getParameter(java.lang.String)
 	 */
-	public String getParameter(final String name)
+	@Override public String getParameter(final String name)
 	{
 		final Object value = this.data.get(name);
 		return value == null ? null : value.toString();
@@ -165,7 +165,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getParameterNames()
 	 */
-	public Enumeration<String> getParameterNames()
+	@Override public Enumeration<String> getParameterNames()
 	{
 		return this.data.keys();
 	}
@@ -173,7 +173,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null;
 	 */
-	public String[] getParameterValues(final String name)
+	@Override public String[] getParameterValues(final String name)
 	{
 		return new String[0];
 	}
@@ -181,7 +181,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getQueryString()
+	@Override public String getQueryString()
 	{
 		return null;
 	}
@@ -189,7 +189,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getRemoteAddr()
 	 */
-	public String getRemoteAddr()
+	@Override public String getRemoteAddr()
 	{
 		return null;
 	}
@@ -197,7 +197,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getRemoteUser()
+	@Override public String getRemoteUser()
 	{
 		return null;
 	}
@@ -205,7 +205,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getRequestURI()
+	@Override public String getRequestURI()
 	{
 		return null;
 	}
@@ -213,7 +213,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getScheme()
+	@Override public String getScheme()
 	{
 		return null;
 	}
@@ -221,7 +221,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return null
 	 */
-	public String getServerName()
+	@Override public String getServerName()
 	{
 		return null;
 	}
@@ -229,7 +229,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method will always return 0
 	 */
-	public int getServerPort()
+	@Override public int getServerPort()
 	{
 		return 0;
 	}
@@ -237,7 +237,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#getSessionContext()
 	 */
-	public SessionContext getSessionContext()
+	@Override public SessionContext getSessionContext()
 	{
 		return this.sessionContext;
 	}
@@ -245,7 +245,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method is equal to {@link #getSessionContext()}
 	 */
-	public SessionContext getSessionContext(final boolean create)
+	@Override public SessionContext getSessionContext(final boolean create)
 	{
 		return this.getSessionContext();
 	}
@@ -253,7 +253,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * @see net.jforum.context.RequestContext#removeAttribute(java.lang.String)
 	 */
-	public void removeAttribute(final String name)
+	@Override public void removeAttribute(final String name)
 	{
 		this.data.remove(name);
 	}
@@ -261,7 +261,7 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method is equal to {@link #addParameter(String, Object)}
 	 */
-	public void setAttribute(final String name, final Object obj)
+	@Override public void setAttribute(final String name, final Object obj)
 	{
 		this.addParameter(name, obj);
 	}
@@ -269,17 +269,17 @@ public class StandardRequestContext implements RequestContext
 	/**
 	 * This method does nothing 
 	 */
-	public void setCharacterEncoding(final String env) throws UnsupportedEncodingException {
+	@Override public void setCharacterEncoding(final String env) throws UnsupportedEncodingException {
 		// Empty method
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override @SuppressWarnings("unchecked")
 	public Enumeration<Locale> getLocales() {
 		return (Enumeration<Locale>) Collections.enumeration(Collections.EMPTY_LIST);
 		
 	}
 
-	public StringBuffer getRequestURL() {
+	@Override public StringBuffer getRequestURL() {
 		throw new UnsupportedOperationException("this method only supported for web layer");
 	}
 

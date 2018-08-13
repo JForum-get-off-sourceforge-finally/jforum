@@ -34,11 +34,11 @@ public class CsrfFilter implements Filter {
 
     private FilterConfig filterConfig = null;
 
-    public void destroy() {
+    @Override public void destroy() {
         filterConfig = null;
     }
 
-    public void init (FilterConfig filterConfig) throws ServletException {
+    @Override public void init (FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
     }
 
@@ -63,7 +63,7 @@ public class CsrfFilter implements Filter {
         return module;
     }
 
-    public void doFilter (ServletRequest request, ServletResponse response, FilterChain filterChain)
+    @Override public void doFilter (ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
         /** only work with HttpServletRequest objects **/
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {

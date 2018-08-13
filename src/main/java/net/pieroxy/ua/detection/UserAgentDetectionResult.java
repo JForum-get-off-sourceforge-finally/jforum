@@ -27,7 +27,7 @@ public class UserAgentDetectionResult {
         return a.equals(b);
     }
 
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o == null) return false;
         if (! (o instanceof UserAgentDetectionResult)) return false;
         UserAgentDetectionResult d = (UserAgentDetectionResult) o;
@@ -55,7 +55,7 @@ public class UserAgentDetectionResult {
         if (!objectEquals(d.operatingSystem,operatingSystem)) return "os";
         return "==";
     }
-    public int hashCode() {
+    @Override public int hashCode() {
         int res = 0;
         if (getExtensions()!= null) {
             res *= 3;
@@ -147,7 +147,7 @@ public class UserAgentDetectionResult {
         ArrayList<Extension> le = new ArrayList<Extension>();
         le.addAll(getExtensions());
         Collections.sort(le, new Comparator<Extension>() {
-            public int compare(Extension a, Extension b) {
+            @Override public int compare(Extension a, Extension b) {
                 return a.serialize().compareTo(b.serialize());
             }
         });

@@ -92,7 +92,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#pendingActivations()
 	 */
-	public List<User> pendingActivations() 
+	@Override public List<User> pendingActivations() 
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -128,7 +128,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectById(int)
 	 */
-	public User selectById(int userId)
+	@Override public User selectById(int userId)
 	{
 		String q = SystemGlobals.getSql("UserModel.selectById");
 		PreparedStatement pstmt = null;
@@ -173,7 +173,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		}
 	}
 
-	public User selectByName(String username)
+	@Override public User selectByName(String username)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -245,7 +245,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#delete(int)
 	 */
-	public void delete(int userId)
+	@Override public void delete(int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -267,7 +267,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#update(net.jforum.entities.User)
 	 */
-	public void update(User user)
+	@Override public void update(User user)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -323,7 +323,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#addNew(net.jforum.entities.User)
 	 */
-	public int addNew(User user)
+	@Override public int addNew(User user)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -359,7 +359,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#addNewWithId(net.jforum.entities.User)
 	 */
-	public void addNewWithId(User user)
+	@Override public void addNewWithId(User user)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -383,7 +383,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#decrementPosts(int)
 	 */
-	public void decrementPosts(int userId)
+	@Override public void decrementPosts(int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -404,7 +404,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#incrementPosts(int)
 	 */
-	public void incrementPosts(int userId)
+	@Override public void incrementPosts(int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -425,7 +425,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#setRanking(int, int)
 	 */
-	public void setRanking(int userId, int rankingId)
+	@Override public void setRanking(int userId, int rankingId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -446,7 +446,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#setActive(int, boolean)
 	 */
-	public void setActive(int userId, boolean active)
+	@Override public void setActive(int userId, boolean active)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -467,7 +467,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#undelete(int)
 	 */
-	public void undelete(int userId)
+	@Override public void undelete(int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -489,7 +489,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAll()
 	 */
-	public List<User> selectAll()
+	@Override public List<User> selectAll()
 	{
 		return selectAll(0, 0);
 	}
@@ -497,7 +497,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAll(int, int)
 	 */
-	public List<User> selectAll(int startFrom, int count)
+	@Override public List<User> selectAll(int startFrom, int count)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -529,7 +529,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllWithKarma()
 	 */
-	public List<User> selectAllWithKarma()
+	@Override public List<User> selectAllWithKarma()
 	{
 		return this.selectAllWithKarma(0, 0);
 	}
@@ -537,7 +537,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllWithKarma(int, int)
 	 */
-	public List<User> selectAllWithKarma(int startFrom, int count)
+	@Override public List<User> selectAllWithKarma(int startFrom, int count)
 	{
 		return this.loadKarma(this.selectAll(startFrom, count));
 	}
@@ -571,7 +571,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllByGroup(int, int, int)
 	 */
-	public List<User> selectAllByGroup(int groupId, int start, int count)
+	@Override public List<User> selectAllByGroup(int groupId, int start, int count)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -597,7 +597,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#getLastUserInfo()
 	 */
-	public User getLastUserInfo()
+	@Override public User getLastUserInfo()
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -625,7 +625,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#getTotalUsers()
 	 */
-	public int getTotalUsers()
+	@Override public int getTotalUsers()
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -644,7 +644,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#getTotalUsersByGroup(int)
 	 */
-	public int getTotalUsersByGroup(int groupId)
+	@Override public int getTotalUsersByGroup(int groupId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -677,7 +677,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#isDeleted(int userId)
 	 */
-	public boolean isDeleted(int userId)
+	@Override public boolean isDeleted(int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -705,7 +705,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#isUsernameRegistered(String)
 	 */
-	public boolean isUsernameRegistered(String username)
+	@Override public boolean isUsernameRegistered(String username)
 	{
 		boolean status = false;
 
@@ -733,7 +733,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#validateLogin(String, String)
 	 */
-	public User validateLogin(String username, String password)
+	@Override public User validateLogin(String username, String password)
 	{
 		return loginAuthenticator.validateLogin(username, password, null);
 	}
@@ -741,7 +741,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#addToGroup(int, int[])
 	 */
-	public void addToGroup(int userId, int[] groupId)
+	@Override public void addToGroup(int userId, int[] groupId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -764,7 +764,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#removeFromGroup(int, int[])
 	 */
-	public void removeFromGroup(int userId, int[] groupId)
+	@Override public void removeFromGroup(int userId, int[] groupId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -788,7 +788,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#saveNewPassword(String, String)
 	 */
-	public void saveNewPassword(String password, String email)
+	@Override public void saveNewPassword(String password, String email)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -809,7 +809,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#validateLostPasswordHash(String, String)
 	 */
-	public boolean validateLostPasswordHash(String email, String hash)
+	@Override public boolean validateLostPasswordHash(String email, String hash)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -841,7 +841,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#writeLostPasswordHash(String, String)
 	 */
-	public void writeLostPasswordHash(String email, String hash)
+	@Override public void writeLostPasswordHash(String email, String hash)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -862,7 +862,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#getUsernameByEmail(String)
 	 */
-	public String getUsernameByEmail(String email)
+	@Override public String getUsernameByEmail(String email)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -891,7 +891,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#findByName(String, boolean)
 	 */
-	public List<User> findByName(String input, boolean exactMatch)
+	@Override public List<User> findByName(String input, boolean exactMatch)
 	{
 		List<User> namesList = new ArrayList<User>();
 
@@ -925,7 +925,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#validateActivationKeyHash(int, String)
 	 */
-	public boolean validateActivationKeyHash(int userId, String hash)
+	@Override public boolean validateActivationKeyHash(int userId, String hash)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -955,7 +955,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#writeUserActive(int)
 	 */
-	public void writeUserActive(int userId)
+	@Override public void writeUserActive(int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -975,7 +975,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#updateUsername(int, String)
 	 */
-	public void updateUsername(int userId, String username)
+	@Override public void updateUsername(int userId, String username)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -996,7 +996,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#hasUsernameChanged(int, String)
 	 */
-	public boolean hasUsernameChanged(int userId, String usernameToCheck)
+	@Override public boolean hasUsernameChanged(int userId, String usernameToCheck)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1054,7 +1054,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#saveUserAuthHash(int, String)
 	 */
-	public void saveUserAuthHash(int userId, String hash)
+	@Override public void saveUserAuthHash(int userId, String hash)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -1075,7 +1075,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#getUserAuthHash(int)
 	 */
-	public String getUserAuthHash(int userId)
+	@Override public String getUserAuthHash(int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1104,7 +1104,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#findByEmail(String)
 	 */
-	public User findByEmail(String email) {
+	@Override public User findByEmail(String email) {
 	    List<User> users = findAllUsersByEmail(email, 0, 1);
 		if (users.isEmpty()) {
 			return null;
@@ -1115,7 +1115,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
     /**
      * @see net.jforum.dao.UserDAO#getTotalUsersWithEmail(String)
      */
-    public int getTotalUsersWithEmail(String email) {
+    @Override public int getTotalUsersWithEmail(String email) {
         PreparedStatement p = null;
         ResultSet rs = null;
 
@@ -1142,7 +1142,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
      * @see net.jforum.dao.UserDAO#findAllUsersByEmail(String, int, int)
 	 */
-	public List<User> findAllUsersByEmail(String email, int start, int count) {
+	@Override public List<User> findAllUsersByEmail(String email, int start, int count) {
 		List<User> result = new ArrayList<User>();
 		PreparedStatement p = null;
 		ResultSet rs = null;
@@ -1174,7 +1174,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#getTotalUsersByIp(String)
 	 */
-	public int getTotalUsersByIp(String ip) {
+	@Override public int getTotalUsersByIp(String ip) {
         PreparedStatement p = null;
         ResultSet rs = null;
 
@@ -1200,7 +1200,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
      * @see net.jforum.dao.UserDAO#findAllUsersByIp(String, int, int)
 	 */
-	public List<User> findAllUsersByIp(String ip, int start, int count) {
+	@Override public List<User> findAllUsersByIp(String ip, int start, int count) {
         List<User> result = new ArrayList<User>();
         PreparedStatement p = null;
         ResultSet rs = null;

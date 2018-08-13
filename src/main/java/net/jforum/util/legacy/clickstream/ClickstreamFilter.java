@@ -39,7 +39,7 @@ public class ClickstreamFilter implements Filter
 	 * @throws IOException If an error occurs
 	 * @throws ServletException If an error occurs
 	 */
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException,
+	@Override public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException,
 			ServletException
 	{
 		// Ensure that filter is only applied once per request.
@@ -65,14 +65,14 @@ public class ClickstreamFilter implements Filter
 	 * @param filterConfig The filter configuration
 	 * @throws ServletException If an error occurs
 	 */
-	public void init(final FilterConfig filterConfig) throws ServletException {
+	@Override public void init(final FilterConfig filterConfig) throws ServletException {
 		// Do nothing
 	}
 
 	/**
 	 * Destroys this filter.
 	 */
-	public void destroy() {
+	@Override public void destroy() {
 		// Do nothing
 	}
 }

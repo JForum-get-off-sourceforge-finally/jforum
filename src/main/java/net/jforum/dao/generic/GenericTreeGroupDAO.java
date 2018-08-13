@@ -63,7 +63,7 @@ public class GenericTreeGroupDAO implements net.jforum.dao.TreeGroupDAO
 	/**
 	 * @see net.jforum.dao.TreeGroupDAO#selectGroups(int)
 	 */
-	public List<GroupNode> selectGroups(final int parentId)
+	@Override public List<GroupNode> selectGroups(final int parentId)
 	{
 		final List<GroupNode> list = new ArrayList<GroupNode>();
 

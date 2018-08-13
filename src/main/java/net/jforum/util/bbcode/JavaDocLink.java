@@ -416,7 +416,7 @@ public class JavaDocLink implements Substitution {
 	}
 
 	// @Override
-    public String substitute (String clazzName)
+    @Override public String substitute (String clazzName)
     {
 		// remove any leading or trailing whitespace
 		clazzName = clazzName.trim();

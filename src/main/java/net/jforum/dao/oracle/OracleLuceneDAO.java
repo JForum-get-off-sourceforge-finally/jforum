@@ -56,7 +56,7 @@ public class OracleLuceneDAO extends GenericLuceneDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericLuceneDAO#readPostTextFromResultSet(java.sql.ResultSet)
 	 */
-	protected String readPostTextFromResultSet(final ResultSet resultSet) throws SQLException 
+	@Override protected String readPostTextFromResultSet(final ResultSet resultSet) throws SQLException 
 	{
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "post_text");
 	}

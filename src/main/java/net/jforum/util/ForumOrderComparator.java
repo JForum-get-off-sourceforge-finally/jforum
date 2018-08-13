@@ -55,7 +55,7 @@ public class ForumOrderComparator implements Comparator<Forum>, Serializable
 {
 	private static final long serialVersionUID = 2955347143299797587L;
 
-	public final int compare(final Forum forum1, final Forum forum2)
+	@Override public final int compare(final Forum forum1, final Forum forum2)
 	{		
 		int result;
 		if (forum1.getOrder() > forum2.getOrder()) {

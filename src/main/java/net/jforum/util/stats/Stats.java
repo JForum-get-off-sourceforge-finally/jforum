@@ -142,7 +142,7 @@ public class Stats {
             return ForbidDetailDisplay.isForbidden(tag);
         }
 
-		public int compareTo(Object rec) {
+		@Override public int compareTo(Object rec) {
 			return tag.compareTo(((Record) rec).tag);
 		}
     }
@@ -177,17 +177,17 @@ public class Stats {
     public static enum ForbidDetailDisplay {
         SENT_PMS ("Sent private message");
 
-        private String value;
+        private final String value;
 
-        private ForbidDetailDisplay(String value) {
+        private ForbidDetailDisplay (String value) {
             this.value = value;
         }
 
-        public String toString() {
+        @Override public String toString() {
             return value;
         }
 
-        public static boolean isForbidden(String candidate) {
+        public static boolean isForbidden (String candidate) {
             for (ForbidDetailDisplay forbidden : ForbidDetailDisplay.values()) {
                 if ( forbidden.toString().equals(candidate)) {
                     return true;

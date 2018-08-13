@@ -65,7 +65,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#selectById(int)
 	 */
-	public Group selectById(final int groupId)
+	@Override public Group selectById(final int groupId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -94,7 +94,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#canDelete(int)
 	 */
-	public boolean canDelete(final int groupId)
+	@Override public boolean canDelete(final int groupId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -122,7 +122,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#delete(int)
 	 */
-	public void delete(final int groupId)
+	@Override public void delete(final int groupId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -145,7 +145,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#update(net.jforum.entities.Group)
 	 */
-	public void update(final Group group)
+	@Override public void update(final Group group)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -168,7 +168,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#addNew(net.jforum.entities.Group)
 	 */
-	public void addNew(final Group group)
+	@Override public void addNew(final Group group)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -190,7 +190,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#selectUsersIds(int)
 	 */
-	public List<Integer> selectUsersIds(final int groupId)
+	@Override public List<Integer> selectUsersIds(final int groupId)
 	{
 		final ArrayList<Integer> list = new ArrayList<Integer>();
 
@@ -242,7 +242,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	/**
 	 * @see net.jforum.dao.GroupDAO#selectAll()
 	 */
-	public List<Group> selectAll()
+	@Override public List<Group> selectAll()
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

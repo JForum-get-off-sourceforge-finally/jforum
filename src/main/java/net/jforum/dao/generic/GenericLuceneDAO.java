@@ -71,7 +71,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	/**
 	 * @see net.jforum.dao.LuceneDAO#getPostsToIndex(int, int)
 	 */
-	public List<Post> getPostsToIndex(int fromPostId, int toPostId)
+	@Override public List<Post> getPostsToIndex(int fromPostId, int toPostId)
 	{
 		List<Post> l = new ArrayList<Post>();
 		
@@ -104,7 +104,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	/**
 	 * @see net.jforum.dao.LuceneDAO#firstPostIdByDate(java.util.Date)
 	 */
-	public int firstPostIdByDate(Date date) 
+	@Override public int firstPostIdByDate(Date date) 
 	{
 		return this.getPostIdByDate(date, SystemGlobals.getSql("SearchModel.firstPostIdByDate"));
 	}
@@ -112,7 +112,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	/**
 	 * @see net.jforum.dao.LuceneDAO#lastPostIdByDate(java.util.Date)
 	 */
-	public int lastPostIdByDate(Date date) 
+	@Override public int lastPostIdByDate(Date date) 
 	{
 		return this.getPostIdByDate(date, SystemGlobals.getSql("SearchModel.lastPostIdByDate"));
 	}
@@ -148,7 +148,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	/**
 	 * @see net.jforum.dao.LuceneDAO#getPostsData(int[])
 	 */
-	public List<Post> getPostsData(int[] postIds)
+	@Override public List<Post> getPostsData(int[] postIds)
 	{
 		if (postIds.length == 0) {
 			return new ArrayList<Post>();

@@ -60,21 +60,21 @@ public class HsqldbDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newPostDAO()
 	 */
-	public PostDAO newPostDAO() {
+	@Override public PostDAO newPostDAO() {
 		return postDao;
 	}
 
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newTopicDAO()
 	 */
-	public TopicDAO newTopicDAO() {
+	@Override public TopicDAO newTopicDAO() {
 		return topicDao;
 	}
 	
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newUserDAO()
 	 */
-	public UserDAO newUserDAO() {
+	@Override public UserDAO newUserDAO() {
 		return userDao;
 	}
 }

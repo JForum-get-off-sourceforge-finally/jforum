@@ -74,7 +74,7 @@ public class IdentifiableMimeMessage extends MimeMessage
 	/**
 	 * @see javax.mail.internet.MimeMessage#updateMessageID()
 	 */
-	protected void updateMessageID() throws MessagingException 
+	@Override protected void updateMessageID() throws MessagingException 
 	{
 		if (this.messageId == null) {
 			super.updateMessageID();	

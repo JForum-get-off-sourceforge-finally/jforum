@@ -64,7 +64,7 @@ public class OraclePrivateMessageDAO extends GenericPrivateMessageDAO
 	 * @throws IOException 
 	 * @see net.jforum.dao.generic.GenericPrivateMessageDAO#addPmText(net.jforum.entities.PrivateMessage)
 	 */
-	protected void addPmText(final PrivateMessage privMsg) throws SQLException, IOException
+	@Override protected void addPmText(final PrivateMessage privMsg) throws SQLException, IOException
     {
 		PreparedStatement pstmt = null;
 		try {
@@ -83,7 +83,7 @@ public class OraclePrivateMessageDAO extends GenericPrivateMessageDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPrivateMessageDAO#getPmText(java.sql.ResultSet)
 	 */
-	protected String getPmText(final ResultSet resultSet) throws SQLException
+	@Override protected String getPmText(final ResultSet resultSet) throws SQLException
 	{
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "privmsgs_text");
 	}

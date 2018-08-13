@@ -69,7 +69,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 	/**
 	 * @see net.jforum.dao.SummaryDAO#selectLastPosts(Date, Date)
 	 */
-	public List<Post> selectLastPosts(Date firstDate, Date lastDate)
+	@Override public List<Post> selectLastPosts(Date firstDate, Date lastDate)
 	{
 		String query = SystemGlobals.getSql("SummaryDAO.selectPosts");
 		PreparedStatement pstmt = null;
@@ -117,7 +117,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 		return post;
 	}
 
-	public List<String> listRecipients()
+	@Override public List<String> listRecipients()
 	{
 		String query = SystemGlobals.getSql("SummaryDAO.selectAllRecipients");
 		PreparedStatement pstmt = null;

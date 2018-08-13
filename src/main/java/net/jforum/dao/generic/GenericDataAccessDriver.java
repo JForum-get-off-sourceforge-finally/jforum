@@ -106,7 +106,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newForumDAO()
 	 */
-	public ForumDAO newForumDAO() 
+	@Override public ForumDAO newForumDAO() 
 	{
 		return forumDao;
 	}
@@ -114,7 +114,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newGroupDAO()
 	 */
-	public GroupDAO newGroupDAO() 
+	@Override public GroupDAO newGroupDAO() 
 	{
 		return groupDao;
 	}
@@ -122,7 +122,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newPostDAO()
 	 */
-	public PostDAO newPostDAO() 
+	@Override public PostDAO newPostDAO() 
 	{
 		return postDao;
 	}
@@ -130,7 +130,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newPollDAO()
 	 */
-	public PollDAO newPollDAO() 
+	@Override public PollDAO newPollDAO() 
 	{
 		return pollDao;
 	}
@@ -138,7 +138,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newRankingDAO()
 	 */
-	public RankingDAO newRankingDAO() 
+	@Override public RankingDAO newRankingDAO() 
 	{
 		return rankingDao;
 	}
@@ -146,7 +146,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newTopicDAO()
 	 */
-	public TopicDAO newTopicDAO() 
+	@Override public TopicDAO newTopicDAO() 
 	{
 		return topicDao;
 	}
@@ -154,7 +154,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newUserDAO()
 	 */
-	public UserDAO newUserDAO() 
+	@Override public UserDAO newUserDAO() 
 	{
 		return userDao;
 	}
@@ -162,7 +162,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newCategoryDAO()
 	 */
-	public CategoryDAO newCategoryDAO() 
+	@Override public CategoryDAO newCategoryDAO() 
 	{
 		return categoryDao;
 	}
@@ -170,7 +170,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newTreeGroupDAO()
 	 */
-	public TreeGroupDAO newTreeGroupDAO() 
+	@Override public TreeGroupDAO newTreeGroupDAO() 
 	{
 		return treeGroupDao;
 	}
@@ -178,7 +178,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newSmilieDAO()
 	 */
-	public SmilieDAO newSmilieDAO() 
+	@Override public SmilieDAO newSmilieDAO() 
 	{
 		return smilieDao;
 	}
@@ -186,7 +186,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newGroupSecurityDAO()
 	 */
-	public GroupSecurityDAO newGroupSecurityDAO() 
+	@Override public GroupSecurityDAO newGroupSecurityDAO() 
 	{
 		return groupSecurityDao;
 	}
@@ -194,7 +194,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newPrivateMessageDAO()
 	 */
-	public PrivateMessageDAO newPrivateMessageDAO() 
+	@Override public PrivateMessageDAO newPrivateMessageDAO() 
 	{
 		return privateMessageDao;
 	}
@@ -202,7 +202,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newUserSessionDAO()
 	 */
-	public UserSessionDAO newUserSessionDAO()
+	@Override public UserSessionDAO newUserSessionDAO()
 	{
 		return userSessionDao;
 	}
@@ -210,7 +210,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newConfigDAO()
 	 */
-	public ConfigDAO newConfigDAO()
+	@Override public ConfigDAO newConfigDAO()
 	{
 		return configDao;
 	}
@@ -218,7 +218,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newKarmaDAO()
 	 */
-	public KarmaDAO newKarmaDAO()
+	@Override public KarmaDAO newKarmaDAO()
 	{
 		return karmaDao;
 	}
@@ -226,7 +226,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newBookmarkDAO()
 	 */
-	public BookmarkDAO newBookmarkDAO()
+	@Override public BookmarkDAO newBookmarkDAO()
 	{
 		return bookmarkDao;
 	}
@@ -234,7 +234,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newAttachmentDAO()
 	 */
-	public AttachmentDAO newAttachmentDAO()
+	@Override public AttachmentDAO newAttachmentDAO()
 	{
 		return attachmentDao;
 	}
@@ -242,7 +242,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newModerationDAO()
 	 */
-	public ModerationDAO newModerationDAO()
+	@Override public ModerationDAO newModerationDAO()
 	{
 		return moderationDao;
 	}
@@ -250,7 +250,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newBannerDAO()
      */
-	public BannerDAO newBannerDAO()
+	@Override public BannerDAO newBannerDAO()
 	{
 		return bannerDao;
 	}
@@ -258,7 +258,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newSummaryDAO()
      */
-    public SummaryDAO newSummaryDAO()
+    @Override public SummaryDAO newSummaryDAO()
     {
         return summaryDao;
     }
@@ -266,7 +266,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newMailIntegrationDAO()
      */
-    public MailIntegrationDAO newMailIntegrationDAO()
+    @Override public MailIntegrationDAO newMailIntegrationDAO()
     {
     	return mailIntegrationDao;
     }
@@ -274,7 +274,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newApiDAO()
      */
-    public ApiDAO newApiDAO()
+    @Override public ApiDAO newApiDAO()
     {
     	return apiDAO;
     }
@@ -282,7 +282,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newBanlistDAO()
      */
-    public BanlistDAO newBanlistDAO()
+    @Override public BanlistDAO newBanlistDAO()
     {
     	return banlistDao;
     }
@@ -290,7 +290,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newModerationLogDAO()
      */
-    public ModerationLogDAO newModerationLogDAO()
+    @Override public ModerationLogDAO newModerationLogDAO()
     {
     	return moderationLogDao;
     }
@@ -298,7 +298,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newLuceneDAO()
      */
-    public LuceneDAO newLuceneDAO()
+    @Override public LuceneDAO newLuceneDAO()
     {
     	return luceneDao;
     }
@@ -306,7 +306,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     /**
      * @see net.jforum.dao.DataAccessDriver#newSpamDAO()
      */
-    public SpamDAO newSpamDAO()
+    @Override public SpamDAO newSpamDAO()
     {
     	return spamDao;
     }

@@ -74,7 +74,7 @@ public class BoardStatsAction extends AdminCommand {
 	/**
      * @see net.jforum.Command#list()
      */
-    public void list() {
+    @Override public void list() {
         this.setTemplateName(TemplateKeys.BOARD_STATS_LIST);
         this.context.put("records", Stats.getRecords());
 
@@ -115,7 +115,7 @@ public class BoardStatsAction extends AdminCommand {
 			List<Date> times = new ArrayList<Date>(values.keySet());
 			// sort list of descending time
 			Collections.sort(times, new Comparator<Date>() {
-				public int compare (Date obj1, Date obj2) {
+				@Override public int compare (Date obj1, Date obj2) {
 					if (obj1.getTime() < obj2.getTime())	return 1;
 					if (obj1.getTime() > obj2.getTime())	return -1;
 					else 									return 0;
@@ -145,7 +145,7 @@ public class BoardStatsAction extends AdminCommand {
             return value;
         }
 
-		public int compareTo (Object rec) {
+		@Override public int compareTo (Object rec) {
 			return name.compareTo(((Item) rec).name);
 		}
     }

@@ -66,7 +66,7 @@ public class SqlServer2000UserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAll(int, int)
 	 */
-	public List<User> selectAll(final int startFrom, final int count)
+	@Override public List<User> selectAll(final int startFrom, final int count)
 	{
         String sql = SystemGlobals.getSql("UserModel.selectAllByLimit");
         sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
@@ -101,7 +101,7 @@ public class SqlServer2000UserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllByGroup(int, int, int)
 	 */
-	public List<User> selectAllByGroup(final int groupId, final int startFrom, final int count)
+	@Override public List<User> selectAllByGroup(final int groupId, final int startFrom, final int count)
 	{
 	    String sql = SystemGlobals.getSql("UserModel.selectAllByGroup");
         sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
@@ -127,7 +127,7 @@ public class SqlServer2000UserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.UserDAO#selectAllWithKarma(int, int)
 	 */
-	public List<User> selectAllWithKarma(final int startFrom, final int count)
+	@Override public List<User> selectAllWithKarma(final int startFrom, final int count)
 	{
 		return super.loadKarma(this.selectAll(startFrom, count));
 	}

@@ -73,7 +73,7 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute(final String name)
+	@Override public Object getAttribute(final String name)
 	{
 		return this.data.get(name);
 	}
@@ -81,7 +81,7 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#getAttributeNames()
 	 */
-	public Enumeration<String> getAttributeNames()
+	@Override public Enumeration<String> getAttributeNames()
 	{
 		return this.data.keys();
 	}
@@ -89,7 +89,7 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#getId()
 	 */
-	public String getId()
+	@Override public String getId()
 	{
 		return (String)this.getAttribute(SESSION_ID);
 	}
@@ -97,7 +97,7 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#invalidate()
 	 */
-	public void invalidate()
+	@Override public void invalidate()
 	{
 		this.data.clear();
 		this.createSessionId();
@@ -106,7 +106,7 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#removeAttribute(java.lang.String)
 	 */
-	public void removeAttribute(final String name)
+	@Override public void removeAttribute(final String name)
 	{
 		this.data.remove(name);
 	}
@@ -114,7 +114,7 @@ public class StandardSessionContext implements SessionContext
 	/**
 	 * @see net.jforum.context.SessionContext#setAttribute(java.lang.String, java.lang.Object)
 	 */
-	public void setAttribute(final String name, final Object value)
+	@Override public void setAttribute(final String name, final Object value)
 	{
 		if (this.data.containsKey(name)) {
 			this.data.remove(name);

@@ -64,7 +64,7 @@ public class SqlServer2000ModerationLogDAO extends GenericModerationLogDAO {
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#selectAll(int, int)
 	 */
-	public List<ModerationLog> selectAll(final int startFrom, final int count) 
+	@Override public List<ModerationLog> selectAll(final int startFrom, final int count) 
 	{
 		final List<ModerationLog> list = new ArrayList<ModerationLog>();
 

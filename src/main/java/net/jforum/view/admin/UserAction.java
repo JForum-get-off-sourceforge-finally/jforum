@@ -73,7 +73,7 @@ public class UserAction extends AdminCommand
 	private final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 	private final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
 	
-	public void list()
+	@Override public void list()
 	{
 		final int start = this.preparePagination(userDao.getTotalUsers());
 		final int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);

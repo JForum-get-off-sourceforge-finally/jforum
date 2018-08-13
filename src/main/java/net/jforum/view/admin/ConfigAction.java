@@ -82,7 +82,7 @@ public class ConfigAction extends AdminCommand
 		this.context = context;
 	}
 	
-	public void list() {
+	@Override public void list() {
 		Properties p = new Properties();
 		Iterator<Object> iter = SystemGlobals.fetchConfigKeyIterator();
 
@@ -94,22 +94,14 @@ public class ConfigAction extends AdminCommand
 
 		Properties locales = new Properties();
 		
-		FileInputStream fis = null;
-		
-		try {
-			fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
-				+ "/languages/locales.properties");
+		try (FileInputStream fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/languages/locales.properties"))
+		{
 			locales.load(fis);
 		}
 		catch (IOException e) {
 			throw new ForumException(e);
 		}
-		finally {
-			if (fis != null) {
-				try { fis.close(); } catch (Exception e) { e.printStackTrace(); }
-			}
-		}
-		
+
 		List<Object> localesList = new ArrayList<Object>();
 
 		for (Enumeration<Object> e = locales.keys(); e.hasMoreElements();) {

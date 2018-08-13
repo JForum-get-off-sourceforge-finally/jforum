@@ -62,7 +62,7 @@ public class HsqldbTopicDAO extends GenericTopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
 	 */
-	public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
+	@Override public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
 	{
 		final String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
 
@@ -88,7 +88,7 @@ public class HsqldbTopicDAO extends GenericTopicDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericTopicDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count) 
+	@Override public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count) 
 	{
 		return super.selectByUserByLimit(startFrom, count, userId);
 	}

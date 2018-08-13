@@ -82,7 +82,7 @@ public class LuceneReindexer
 	public void startBackgroundProcess()
 	{
 		Runnable indexingJob = new Runnable() {	    
-			public void run() {
+			@Override public void run() {
 				reindex();
 			}
 		};

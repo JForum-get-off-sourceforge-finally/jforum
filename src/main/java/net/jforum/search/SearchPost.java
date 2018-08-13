@@ -65,13 +65,13 @@ public class SearchPost extends Post
 		return this.forum;
 	}
 	
-    public boolean equals(final Object obj) 
+    @Override public boolean equals(final Object obj) 
     {
         return obj instanceof SearchPost && super.equals(obj) && 
                ((SearchPost)obj).getForum().equals(this.forum);
     }
     
-    public int hashCode() 
+    @Override public int hashCode() 
     {
         return super.hashCode();
     }	

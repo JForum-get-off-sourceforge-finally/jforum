@@ -94,7 +94,7 @@ public class LuceneSearch implements NewDocumentAdded
 		this.openSearch();
 	}
 
-	public void newDocumentAdded() {		
+	@Override public void newDocumentAdded() {		
 		try {
 			write.lock();
             // open a new searcher

@@ -65,7 +65,7 @@ public class SqlServerDataAccessDriver extends net.jforum.dao.generic.GenericDat
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newPostDAO()
 	 */
-	public net.jforum.dao.PostDAO newPostDAO()
+	@Override public net.jforum.dao.PostDAO newPostDAO()
 	{
 		return postDao;
 	}
@@ -73,7 +73,7 @@ public class SqlServerDataAccessDriver extends net.jforum.dao.generic.GenericDat
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newTopicDAO()
 	 */
-	public net.jforum.dao.TopicDAO newTopicDAO()
+	@Override public net.jforum.dao.TopicDAO newTopicDAO()
 	{
 		return topicDao;
 	}
@@ -81,7 +81,7 @@ public class SqlServerDataAccessDriver extends net.jforum.dao.generic.GenericDat
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newUserDAO()
 	 */
-	public net.jforum.dao.UserDAO newUserDAO()
+	@Override public net.jforum.dao.UserDAO newUserDAO()
 	{
 		return userDao;
 	}	
@@ -89,7 +89,7 @@ public class SqlServerDataAccessDriver extends net.jforum.dao.generic.GenericDat
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newKarmaDAO()
 	 */
-	public net.jforum.dao.KarmaDAO newKarmaDAO()
+	@Override public net.jforum.dao.KarmaDAO newKarmaDAO()
 	{
 		return karmaDao;
 	}
@@ -97,7 +97,7 @@ public class SqlServerDataAccessDriver extends net.jforum.dao.generic.GenericDat
 	/**
      * @see net.jforum.dao.generic.GenericDataAccessDriver#newModerationLogDAO()
      */
-    public ModerationLogDAO newModerationLogDAO() 
+    @Override public ModerationLogDAO newModerationLogDAO() 
     {
         return moderationLogDao;
     }

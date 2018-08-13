@@ -107,7 +107,7 @@ public class Captcha extends ListImageCaptchaEngine
 		return classInstance;
 	}
 
-	protected void buildInitialFactories()
+	@Override protected void buildInitialFactories()
 	{
 		this.initializeChars();
 		

@@ -58,7 +58,7 @@ public class RankingAction extends AdminCommand
 	/**
 	 * List
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.context.put("ranks", DataAccessDriver.getInstance().newRankingDAO().selectAll());
 		this.setTemplateName(TemplateKeys.RANKING_LIST);

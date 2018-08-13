@@ -232,7 +232,7 @@ public class Banner implements Serializable
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode()
+	@Override public int hashCode()
 	{
 		return this.id;
 	}
@@ -240,7 +240,7 @@ public class Banner implements Serializable
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o)
+	@Override public boolean equals(Object o)
 	{
 		return((o instanceof Banner) && (((Banner)o).getId() == this.id));
 	}
@@ -248,7 +248,7 @@ public class Banner implements Serializable
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
+	@Override public String toString()
 	{
 		return "[comment=" + this.comment + ", id=" + this.id +
 			", type=" + this.type + ", name=" + this.name +

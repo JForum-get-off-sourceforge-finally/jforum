@@ -32,7 +32,7 @@ public class CsrfListener implements ServletContextListener {
     private static final String CONFIG_EXTENSIONS_PARAM = "Owasp.CsrfGuard.Config.Extensions";
     private static final String CONFIG_PRINT_PARAM = "Owasp.CsrfGuard.Config.Print";
 
-    public void contextInitialized(ServletContextEvent event) {
+    @Override public void contextInitialized(ServletContextEvent event) {
         ServletContext context = event.getServletContext();
         String appPath = event.getServletContext().getRealPath("");
         String config = context.getInitParameter(CONFIG_PARAM);
@@ -82,7 +82,7 @@ public class CsrfListener implements ServletContextListener {
         }
     }
 
-    public void contextDestroyed(ServletContextEvent event) {
+    @Override public void contextDestroyed(ServletContextEvent event) {
         /** nothing to do **/
     }
 

@@ -60,7 +60,7 @@ public class BBCodeRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(final CacheEngine engine)
+	@Override public void setCacheEngine(final CacheEngine engine)
 	{
 		BBCodeRepository.setEngine(engine);
 	}	

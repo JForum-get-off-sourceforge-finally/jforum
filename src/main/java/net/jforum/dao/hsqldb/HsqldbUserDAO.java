@@ -65,7 +65,7 @@ public class HsqldbUserDAO extends GenericUserDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericUserDAO#selectAllByGroup(int, int, int)
 	 */
-	public List<User> selectAllByGroup(final int groupId, final int start, final int count)
+	@Override public List<User> selectAllByGroup(final int groupId, final int start, final int count)
 	{
 		return super.selectAllByGroup(start, count, groupId);
 	}
@@ -73,7 +73,7 @@ public class HsqldbUserDAO extends GenericUserDAO
 	/**
      * @see net.jforum.dao.UserDAO#findAllUsersByEmail(String, int, int)
 	 */
-	public List<User> findAllUsersByEmail(final String email, final int start, final int count) {
+	@Override public List<User> findAllUsersByEmail(final String email, final int start, final int count) {
 		final List<User> result = new ArrayList<User>();
 		PreparedStatement p = null;
 		ResultSet rs = null;
@@ -105,7 +105,7 @@ public class HsqldbUserDAO extends GenericUserDAO
 	/**
      * @see net.jforum.dao.UserDAO#findAllUsersByIp(String, int, int)
 	 */
-	public List<User> findAllUsersByIp(final String ip, final int start, final int count) {
+	@Override public List<User> findAllUsersByIp(final String ip, final int start, final int count) {
 		final List<User> result = new ArrayList<User>();
         PreparedStatement p = null;
         ResultSet rs = null;

@@ -3501,7 +3501,7 @@ public class UserAgentDetector implements IUserAgentDetector {
      * @param ua The user agent string as sent by the browser
      * @return   The result of the detection
      */
-    public UserAgentDetectionResult parseUserAgent(String ua) {
+    @Override public UserAgentDetectionResult parseUserAgent(String ua) {
         UserAgentDetectionResult res = null;
         if (ua == null || ua.length()<3) {
             res = new UserAgentDetectionResult();

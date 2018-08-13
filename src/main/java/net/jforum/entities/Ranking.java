@@ -136,7 +136,7 @@ public class Ranking implements Serializable
 		this.min = i;
 	}
 
-	public boolean equals(final Object o)
+	@Override public boolean equals(final Object o)
 	{
 		if (o == this) {
 			return true;
@@ -152,7 +152,7 @@ public class Ranking implements Serializable
 	/**
 	 * @return the id as hasCode
 	 */
-	public int hashCode()
+	@Override public int hashCode()
 	{
 		return this.getId();
 	}

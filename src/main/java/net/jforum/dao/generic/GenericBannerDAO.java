@@ -60,7 +60,7 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerDAO
 {
-	public Banner selectById(final int bannerId)
+	@Override public Banner selectById(final int bannerId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -86,7 +86,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		return banner;
 	}
 
-	public List<Banner> selectAll()
+	@Override public List<Banner> selectAll()
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -130,7 +130,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		return banner;
 	}
 
-	public boolean canDelete(final int bannerId)
+	@Override public boolean canDelete(final int bannerId)
 	{
 		boolean result = true;
 		PreparedStatement pstmt = null;
@@ -154,7 +154,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		}
 	}
 
-	public void delete(final int bannerId)
+	@Override public void delete(final int bannerId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -170,7 +170,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		}
 	}
 
-	public void update(final Banner banner)
+	@Override public void update(final Banner banner)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -187,7 +187,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		}
 	}
 
-	public int addNew(final Banner banner)
+	@Override public int addNew(final Banner banner)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -222,7 +222,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		pstmt.setInt(12, banner.getHeight());
 	}
 
-	public List<Banner> selectActiveBannerByPlacement(final int placement)
+	@Override public List<Banner> selectActiveBannerByPlacement(final int placement)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

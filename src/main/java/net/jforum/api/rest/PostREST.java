@@ -215,7 +215,7 @@ public class PostREST extends Command {
 		}
 	}
 
-	public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
+	@Override public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
 	{
 		JForumExecutionContext.setContentType("text/xml");
 		return super.process(request, response, context);

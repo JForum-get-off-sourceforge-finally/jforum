@@ -187,7 +187,7 @@ public class SmiliesAction extends AdminCommand
 	/** 
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()  
+	@Override public void list()  
 	{
 		this.context.put("smilies", SmiliesRepository.getSmilies());
 		this.setTemplateName(TemplateKeys.SMILIES_LIST);

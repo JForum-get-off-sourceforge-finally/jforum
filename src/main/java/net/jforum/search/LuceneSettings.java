@@ -109,9 +109,9 @@ public class LuceneSettings
 	public Analyzer analyzer()
 	{
 		try {
-			return (Analyzer) clazz.newInstance();
-		} catch (InstantiationException | IllegalAccessException iex) {
-			LOGGER.error(iex.getMessage());
+			return (Analyzer) clazz.getDeclaredConstructor().newInstance();
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 	}

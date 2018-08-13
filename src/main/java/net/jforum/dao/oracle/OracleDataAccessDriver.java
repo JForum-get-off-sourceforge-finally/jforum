@@ -70,7 +70,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.generic.GenericDataAccessDriver#newModerationLogDAO()
 	 */
-	public ModerationLogDAO newModerationLogDAO() 
+	@Override public ModerationLogDAO newModerationLogDAO() 
 	{
 		return moderationLogDao;
 	}
@@ -78,7 +78,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newModerationDAO()
 	 */
-	public ModerationDAO newModerationDAO()
+	@Override public ModerationDAO newModerationDAO()
 	{
 		return moderationDao;
 	}
@@ -86,7 +86,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newPostDAO()
 	 */
-	public PostDAO newPostDAO()
+	@Override public PostDAO newPostDAO()
 	{
 		return postDao;
 	}
@@ -94,7 +94,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newTopicDAO()
 	 */
-	public TopicDAO newTopicDAO()
+	@Override public TopicDAO newTopicDAO()
 	{
 		return topicDao;
 	}
@@ -102,7 +102,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newUserDAO()
 	 */
-	public UserDAO newUserDAO()
+	@Override public UserDAO newUserDAO()
 	{
 		return userDao;
 	}
@@ -110,7 +110,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newPrivateMessageDAO()
 	 */
-	public PrivateMessageDAO newPrivateMessageDAO()
+	@Override public PrivateMessageDAO newPrivateMessageDAO()
 	{
 		return pmDao;
 	}
@@ -118,7 +118,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.generic.GenericDataAccessDriver#newLuceneDAO()
 	 */
-	public LuceneDAO newLuceneDAO() 
+	@Override public LuceneDAO newLuceneDAO() 
 	{
 		return luceneDao;
 	}
@@ -126,7 +126,7 @@ public class OracleDataAccessDriver extends GenericDataAccessDriver
 	/**
 	 * @see net.jforum.dao.generic.GenericDataAccessDriver#newSummaryDAO()
 	 */
-	public SummaryDAO newSummaryDAO() 
+	@Override public SummaryDAO newSummaryDAO() 
 	{
 		return summaryDao;
 	}

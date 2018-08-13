@@ -66,7 +66,7 @@ public class POPListener implements Job
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
-	public void execute(final JobExecutionContext jobContext) throws JobExecutionException
+	@Override public void execute(final JobExecutionContext jobContext) throws JobExecutionException
 	{
 		if (working) {
 			if (LOGGER.isDebugEnabled()) {

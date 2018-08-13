@@ -58,7 +58,7 @@ public class ContentSearchOperation extends SearchOperation
 {
     private transient List<Post> results = new ArrayList<Post>();
 	
-	public SearchResult<Post> performSearch(final SearchArgs args, final int userId)
+	@Override public SearchResult<Post> performSearch(final SearchArgs args, final int userId)
 	{
         final SearchResult<Post> searchResult =
 				(args.getKeywords().length > 0 || args.getUserIds().length > 0)
@@ -70,29 +70,29 @@ public class ContentSearchOperation extends SearchOperation
 		return searchResult;
 	}
 	
-	public void prepareForDisplay()
+	@Override public void prepareForDisplay()
 	{
 		for (final Iterator<Post> iter = this.results.iterator(); iter.hasNext(); ) {
 			PostCommon.preparePostForDisplay(iter.next());
 		}
 	}
 
-	public List<Post> getResults()
+	@Override public List<Post> getResults()
 	{
 		return this.results;
 	}
 
-	public int totalRecords()
+	@Override public int totalRecords()
 	{
 		return this.results.size();
 	}
 
-	public String viewTemplate()
+	@Override public String viewTemplate()
 	{
 		return TemplateKeys.SEARCH_SEARCH;
 	}
 	
-	public int extractForumId(final Object value)
+	@Override public int extractForumId(final Object value)
 	{
 		return ((Post)value).getForumId();
 	}

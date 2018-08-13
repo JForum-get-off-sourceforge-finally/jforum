@@ -36,4 +36,4 @@
  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
  
  The JForum Project
- http://www.jforum.net
+ https://sourceforge.net/projects/jforum2/

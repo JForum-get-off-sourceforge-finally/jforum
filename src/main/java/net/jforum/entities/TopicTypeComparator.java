@@ -64,7 +64,7 @@ public class TopicTypeComparator implements Comparator<Topic>, Serializable
 		this.ignoreStickyAnnounce = ignoreStickyAnnounce;
 	}
 
-	public int compare(final Topic topic1, final Topic topic2)
+	@Override public int compare(final Topic topic1, final Topic topic2)
 	{
 		int result;
 		int type1 = topic1.getType(), type2 = topic2.getType();

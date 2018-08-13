@@ -340,7 +340,7 @@ public class Category implements Serializable, Comparable<Category>
 	/** 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() 
+	@Override public int hashCode() 
 	{
 		return this.id;
 	}
@@ -348,7 +348,7 @@ public class Category implements Serializable, Comparable<Category>
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) 
+	@Override public boolean equals(Object o) 
 	{
 		return ((o instanceof Category) && (((Category)o).getId() == this.id));
 	}
@@ -356,11 +356,11 @@ public class Category implements Serializable, Comparable<Category>
 	/** 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	@Override public String toString() {
 		return "[" + this.name + ", id=" + this.id + ", order=" + this.order + "]"; 
 	}
 
-	public int compareTo(Category o) {
+	@Override public int compareTo(Category o) {
 		return this.getOrder() - ((Category)o).getOrder();
 	}
 

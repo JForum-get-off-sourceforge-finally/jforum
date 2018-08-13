@@ -134,11 +134,11 @@ public class AjaxAction extends Command
 				this.prepareMessage("JForum Test Mail", null);
 			}
 
-			protected String processTemplate() {
+			@Override protected String processTemplate() {
 				return ("Test mail from JForum Admin Panel. Sent at " + new Date());
 			}
 
-			protected void createTemplate(String messageFile) throws IOException {}
+			@Override protected void createTemplate(String messageFile) throws IOException {}
 		}
 
 		Spammer s = new TestSpammer(to);
@@ -258,7 +258,7 @@ public class AjaxAction extends Command
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.enableIgnoreAction();
 	}

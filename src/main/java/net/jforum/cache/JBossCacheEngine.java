@@ -69,7 +69,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#init()
 	 */
-	public void init()
+	@Override public void init()
 	{
 		try {
 			final CacheFactory<String, Object> factory = new DefaultCacheFactory<String, Object>();			
@@ -85,7 +85,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#stop()
 	 */
-	public void stop()
+	@Override public void stop()
 	{		
 		this.cache.stop();
 		this.cache.destroy();
@@ -94,7 +94,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.Object)
 	 */
-	public void add(final String key, final Object value)
+	@Override public void add(final String key, final Object value)
 	{
 		this.add(CacheEngine.DUMMY_FQN, key, value);
 	}
@@ -102,7 +102,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.String, java.lang.Object)
 	 */
-	public void add(final String fqn, final String key, final Object value)
+	@Override public void add(final String fqn, final String key, final Object value)
 	{
 		try {
 			if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
@@ -117,7 +117,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String, java.lang.String)
 	 */
-	public Object get(final String fqn, final String key)
+	@Override public Object get(final String fqn, final String key)
 	{		
 		Object value = null;
 		
@@ -136,7 +136,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String)
 	 */
-	public Object get(final String fqn)
+	@Override public Object get(final String fqn)
 	{
 		Object value = null;
 		
@@ -155,7 +155,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#getValues(java.lang.String)
 	 */
-	public Collection<Object> getValues(final String fqn)
+	@Override public Collection<Object> getValues(final String fqn)
 	{		
 		Map<String, Object> map = null;
 		if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {
@@ -168,7 +168,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String, java.lang.String)
 	 */
-	public void remove(final String fqn, final String key)
+	@Override public void remove(final String fqn, final String key)
 	{
 		try {
 			if (key == null) {
@@ -188,7 +188,7 @@ public class JBossCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String)
 	 */
-	public void remove(final String fqn)
+	@Override public void remove(final String fqn)
 	{
 		try {
 			if (this.cache.getCacheStatus() != CacheStatus.DESTROYED) {

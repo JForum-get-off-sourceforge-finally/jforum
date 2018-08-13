@@ -6,10 +6,10 @@ public class Locale {
     private Language lang;
     private Country country;
 
-    public int hashCode() {
+    @Override public int hashCode() {
         return (lang +"-"+ country).hashCode();
     }
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o==null) return false;
         if (o instanceof Locale) {
             Locale r = (Locale)o;

@@ -55,12 +55,12 @@ public class Extension {
         }
     }
 
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (!(o instanceof Extension)) return false;
         Extension oo = (Extension)o;
         return oo.name.equals(name) && oo.version.equals(version);
     }
-    public int hashCode() {
+    @Override public int hashCode() {
         return name.hashCode()  + 3 * version.hashCode();
     }
 

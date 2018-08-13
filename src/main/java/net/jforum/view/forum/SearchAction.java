@@ -201,7 +201,7 @@ public class SearchAction extends Command
 	/** 
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()  
+	@Override public void list()  
 	{
 		this.filters();
 	}

@@ -61,33 +61,33 @@ public class WebSessionContext implements SessionContext
 		this.httpSession = httpSession;
 	}
 
-	public void setAttribute(final String name, final Object value)
+	@Override public void setAttribute(final String name, final Object value)
 	{
 		httpSession.setAttribute(name, value);
 	}
 
-	public void removeAttribute(final String name)
+	@Override public void removeAttribute(final String name)
 	{
 		httpSession.removeAttribute(name);
 	}
 
-	public Object getAttribute(final String name)
+	@Override public Object getAttribute(final String name)
 	{
 		return httpSession.getAttribute(name);
 	}
 
-	public String getId()
+	@Override public String getId()
 	{
 		return httpSession.getId();
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override @SuppressWarnings("unchecked")
 	public Enumeration<String> getAttributeNames()
 	{
 		return httpSession.getAttributeNames();
 	}
 
-	public void invalidate()
+	@Override public void invalidate()
 	{
 		httpSession.invalidate();
 	}

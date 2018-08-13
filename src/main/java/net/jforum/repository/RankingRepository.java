@@ -67,7 +67,7 @@ public class RankingRepository implements Cacheable
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
-	public void setCacheEngine(CacheEngine engine)
+	@Override public void setCacheEngine(CacheEngine engine)
 	{
 		RankingRepository.setEngine(engine);
 	}

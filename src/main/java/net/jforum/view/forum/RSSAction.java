@@ -238,7 +238,7 @@ public class RSSAction extends Command
 	 *  
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		// Empty method
 	}
@@ -246,7 +246,7 @@ public class RSSAction extends Command
 	/** 
 	 * @see net.jforum.Command#process(net.jforum.context.RequestContext, net.jforum.context.ResponseContext, freemarker.template.SimpleHash) 
 	 */
-	public Template process(final RequestContext request,
+	@Override public Template process(final RequestContext request,
 			final ResponseContext response,
 			final SimpleHash context)
 	{

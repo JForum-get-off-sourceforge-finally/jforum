@@ -15,7 +15,7 @@ import net.jforum.util.preferences.SystemGlobals;
 
 public class GenericSpamDAO implements SpamDAO {
 
-	public List<String> selectAll() {
+	@Override public List<String> selectAll() {
 		List<String> result = new ArrayList<String>();
 		PreparedStatement p = null;
 		ResultSet rs = null;
@@ -36,7 +36,7 @@ public class GenericSpamDAO implements SpamDAO {
 		}
 	}
 
-    public void addSpam (String pattern) {
+    @Override public void addSpam (String pattern) {
         PreparedStatement p = null;
         try {
             p = preparedStatementFromSqlKey("Spam.create");
@@ -55,7 +55,7 @@ public class GenericSpamDAO implements SpamDAO {
         }
     }
 
-    public void deleteSpam (String pattern) {
+    @Override public void deleteSpam (String pattern) {
         PreparedStatement p = null;
         try {
             p = preparedStatementFromSqlKey("Spam.delete");

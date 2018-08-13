@@ -81,7 +81,7 @@ public class ForumAction extends Command
 	/**
 	 * List all the forums (first page of forum index)?
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.setTemplateName(TemplateKeys.FORUMS_LIST);
 

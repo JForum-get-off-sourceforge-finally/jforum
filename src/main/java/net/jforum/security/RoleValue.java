@@ -86,7 +86,7 @@ public class RoleValue implements Serializable
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(final Object obj) 
+	@Override public boolean equals(final Object obj) 
 	{
 		if (obj == this) {
 			return true;
@@ -102,7 +102,7 @@ public class RoleValue implements Serializable
 	/** 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() 
+	@Override public int hashCode() 
 	{
 		return this.value.hashCode();
 	}
@@ -110,7 +110,7 @@ public class RoleValue implements Serializable
 	/** 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() 
+	@Override public String toString() 
 	{
 		return this.value; 
 	}

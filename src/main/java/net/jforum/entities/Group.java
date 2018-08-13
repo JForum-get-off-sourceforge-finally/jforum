@@ -144,7 +144,7 @@ public class Group implements Serializable
 	/* 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(final Object obj) 
+	@Override public boolean equals(final Object obj) 
 	{
 		if (!(obj instanceof Group)) {
 			return false;
@@ -156,7 +156,7 @@ public class Group implements Serializable
 	/* 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() 
+	@Override public int hashCode() 
 	{
 		return this.id;
 	}
@@ -164,7 +164,7 @@ public class Group implements Serializable
 	/* 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() 
+	@Override public String toString() 
 	{
 		return this.name +" - "+ this.id;
 	}

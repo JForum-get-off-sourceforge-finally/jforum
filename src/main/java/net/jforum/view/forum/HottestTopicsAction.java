@@ -76,7 +76,7 @@ public class HottestTopicsAction extends Command
 {
 	private transient List<Forum> forums;
 
-	public void list()
+	@Override public void list()
 	{
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 

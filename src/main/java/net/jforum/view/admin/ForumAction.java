@@ -76,7 +76,7 @@ public class ForumAction extends AdminCommand
 	/**
 	 * Listing
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.context.put("categories", DataAccessDriver.getInstance().newCategoryDAO().selectAll());
 		this.context.put("repository", new ForumRepository());

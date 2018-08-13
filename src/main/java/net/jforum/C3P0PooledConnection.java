@@ -71,7 +71,7 @@ public class C3P0PooledConnection extends DBConnection
 	 * 
 	 * @see net.jforum.DBConnection#init()
 	 */
-	public void init() throws PropertyVetoException
+	@Override public void init() throws PropertyVetoException
 	{
 		this.dataSource = new ComboPooledDataSource();
 		
@@ -150,7 +150,7 @@ public class C3P0PooledConnection extends DBConnection
 	/**
 	 * @see net.jforum.DBConnection#getConnection()
 	 */
-	public Connection getConnection()
+	@Override public Connection getConnection()
 	{
 		try {
 			return this.dataSource.getConnection();
@@ -164,7 +164,7 @@ public class C3P0PooledConnection extends DBConnection
 	/**
 	 * @see net.jforum.DBConnection#realReleaseAllConnections()
 	 */
-	public void realReleaseAllConnections()
+	@Override public void realReleaseAllConnections()
 	{
 		try {
 			DataSources.destroy(this.dataSource);

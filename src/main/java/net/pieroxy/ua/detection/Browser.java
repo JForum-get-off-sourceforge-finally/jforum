@@ -66,7 +66,7 @@ public class Browser extends VersionedObject {
         setFullVersionOneShot(_oneVersion, _nbChunks);
     }
 
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o == null) return false;
         if (! (o instanceof Browser)) return false;
         Browser d = (Browser) o;
@@ -86,7 +86,7 @@ public class Browser extends VersionedObject {
             d.inWebView == inWebView;
     }
 
-    public int hashCode() {
+    @Override public int hashCode() {
         int res = 0;
         if (family != null) {
             res *= 3;

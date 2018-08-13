@@ -73,7 +73,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#addQuotaLimit(net.jforum.entities.QuotaLimit)
 	 */
-	public void addQuotaLimit(final QuotaLimit limit)
+	@Override public void addQuotaLimit(final QuotaLimit limit)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -95,7 +95,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateQuotaLimit(net.jforum.entities.QuotaLimit)
 	 */
-	public void updateQuotaLimit(final QuotaLimit limit)
+	@Override public void updateQuotaLimit(final QuotaLimit limit)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -118,7 +118,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#cleanGroupQuota()
 	 */
-	public void cleanGroupQuota()
+	@Override public void cleanGroupQuota()
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -137,7 +137,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#setGroupQuota(int, int)
 	 */
-	public void setGroupQuota(final int groupId, final int quotaId)
+	@Override public void setGroupQuota(final int groupId, final int quotaId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -158,7 +158,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeQuotaLimit(int)
 	 */
-	public void removeQuotaLimit(final int id)
+	@Override public void removeQuotaLimit(final int id)
 	{
 		this.removeQuotaLimit(new String[] { Integer.toString(id) });
 	}
@@ -166,7 +166,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeQuotaLimit(java.lang.String[])
 	 */
-	public void removeQuotaLimit(final String[] ids)
+	@Override public void removeQuotaLimit(final String[] ids)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -189,7 +189,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectQuotaLimit()
 	 */
-	public List<QuotaLimit> selectQuotaLimit()
+	@Override public List<QuotaLimit> selectQuotaLimit()
 	{
 		final List<QuotaLimit> list = new ArrayList<QuotaLimit>();
 		PreparedStatement pstmt = null;
@@ -216,7 +216,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectQuotaLimit()
 	 */
-	public QuotaLimit selectQuotaLimitByGroup(final int groupId)
+	@Override public QuotaLimit selectQuotaLimitByGroup(final int groupId)
 	{
 		QuotaLimit quotaLimit = null;
 
@@ -244,7 +244,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectGroupsQuotaLimits()
 	 */
-	public Map<Integer, Integer> selectGroupsQuotaLimits()
+	@Override public Map<Integer, Integer> selectGroupsQuotaLimits()
 	{
 		final Map<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
 		PreparedStatement pstmt = null;
@@ -282,7 +282,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#addExtensionGroup(net.jforum.entities.AttachmentExtensionGroup)
 	 */
-	public void addExtensionGroup(final AttachmentExtensionGroup aeg)
+	@Override public void addExtensionGroup(final AttachmentExtensionGroup aeg)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -305,7 +305,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeExtensionGroups(java.lang.String[])
 	 */
-	public void removeExtensionGroups(final String[] ids)
+	@Override public void removeExtensionGroups(final String[] ids)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -328,7 +328,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectExtensionGroups()
 	 */
-	public List<AttachmentExtensionGroup> selectExtensionGroups()
+	@Override public List<AttachmentExtensionGroup> selectExtensionGroups()
 	{
 		final List<AttachmentExtensionGroup> list = new ArrayList<AttachmentExtensionGroup>();
 
@@ -356,7 +356,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#extensionsForSecurity()
 	 */
-	public Map<String, Boolean> extensionsForSecurity()
+	@Override public Map<String, Boolean> extensionsForSecurity()
 	{
 		final Map<String, Boolean> map = new ConcurrentHashMap<String, Boolean>();
 
@@ -389,7 +389,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateExtensionGroup(net.jforum.entities.AttachmentExtensionGroup)
 	 */
-	public void updateExtensionGroup(final AttachmentExtensionGroup aeg)
+	@Override public void updateExtensionGroup(final AttachmentExtensionGroup aeg)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -425,7 +425,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#addExtension(net.jforum.entities.AttachmentExtension)
 	 */
-	public void addExtension(final AttachmentExtension extension)
+	@Override public void addExtension(final AttachmentExtension extension)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -449,7 +449,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeExtensions(java.lang.String[])
 	 */
-	public void removeExtensions(final String[] ids)
+	@Override public void removeExtensions(final String[] ids)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -471,7 +471,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectExtensions()
 	 */
-	public List<AttachmentExtension> selectExtensions()
+	@Override public List<AttachmentExtension> selectExtensions()
 	{
 		final List<AttachmentExtension> list = new ArrayList<AttachmentExtension>();
 
@@ -499,7 +499,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateExtension(net.jforum.entities.AttachmentExtension)
 	 */
-	public void updateExtension(final AttachmentExtension extension)
+	@Override public void updateExtension(final AttachmentExtension extension)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -524,7 +524,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectExtension(java.lang.String)
 	 */
-	public AttachmentExtension selectExtension(final String extension)
+	@Override public AttachmentExtension selectExtension(final String extension)
 	{
 		return this.searchExtension(SystemGlobals.getValue(ConfigKeys.EXTENSION_FIELD), extension);
 	}
@@ -587,7 +587,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#addAttachment(net.jforum.entities.Attachment)
 	 */
-	public void addAttachment(final Attachment attachment)
+	@Override public void addAttachment(final Attachment attachment)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -644,7 +644,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeAttachment(int, int)
 	 */
-	public void removeAttachment(final int id, final int postId)
+	@Override public void removeAttachment(final int id, final int postId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -681,7 +681,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateAttachment(net.jforum.entities.Attachment)
 	 */
-	public void updateAttachment(final Attachment attachment)
+	@Override public void updateAttachment(final Attachment attachment)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -703,7 +703,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectAttachments(int)
 	 */
-	public List<Attachment> selectAttachments(final int postId)
+	@Override public List<Attachment> selectAttachments(final int postId)
 	{
 		final List<Attachment> list = new ArrayList<Attachment>();
 
@@ -754,7 +754,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectAttachmentById(int)
 	 */
-	public Attachment selectAttachmentById(final int attachId)
+	@Override public Attachment selectAttachmentById(final int attachId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -780,7 +780,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 		}
 	}
 
-	public boolean isPhysicalDownloadMode(final int extensionGroupId)
+	@Override public boolean isPhysicalDownloadMode(final int extensionGroupId)
 	{
 		boolean result = true;
 
@@ -807,7 +807,7 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 		}
 	}
 
-	public List<TopDownloadInfo> selectTopDownloads(int limit) {
+	@Override public List<TopDownloadInfo> selectTopDownloads(int limit) {
 		final List<TopDownloadInfo> list = new ArrayList<TopDownloadInfo>();
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

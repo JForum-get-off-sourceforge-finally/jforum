@@ -69,7 +69,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#addKarma(net.jforum.entities.Karma)
 	 */
-	public void addKarma(final Karma karma)
+	@Override public void addKarma(final Karma karma)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -95,7 +95,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#getUserKarma(int)
 	 */
-	public KarmaStatus getUserKarma(final int userId)
+	@Override public KarmaStatus getUserKarma(final int userId)
 	{
 		final KarmaStatus status = new KarmaStatus();
 
@@ -124,7 +124,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#updateUserKarma(int)
 	 */
-	public void updateUserKarma(final int userId)
+	@Override public void updateUserKarma(final int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -172,7 +172,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#update(net.jforum.entities.Karma)
 	 */
-	public void update(final Karma karma)
+	@Override public void update(final Karma karma)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -192,7 +192,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#getPostKarma(int)
 	 */
-	public KarmaStatus getPostKarma(final int postId)
+	@Override public KarmaStatus getPostKarma(final int postId)
 	{
 		final KarmaStatus karma = new KarmaStatus();
 
@@ -221,7 +221,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
     /**
      * @see net.jforum.dao.KarmaDAO#deletePostKarma(int)
      */
-    public void deletePostKarma(final int postId)
+    @Override public void deletePostKarma(final int postId)
     {
         PreparedStatement pstmt = null;
         try {
@@ -241,7 +241,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#userCanAddKarma(int, int)
 	 */
-	public boolean userCanAddKarma(final int userId, final int postId)
+	@Override public boolean userCanAddKarma(final int userId, final int postId)
 	{
 		boolean status = true;
 
@@ -271,7 +271,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	/**
 	 * @see net.jforum.dao.KarmaDAO#getUserVotes(int, int)
 	 */
-	public Map<Integer, Integer> getUserVotes(final int topicId, final int userId)
+	@Override public Map<Integer, Integer> getUserVotes(final int topicId, final int userId)
 	{
 		final Map<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
 
@@ -298,7 +298,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 		}
 	}
 
-	public void getUserTotalKarma(final User user)
+	@Override public void getUserTotalKarma(final User user)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -357,7 +357,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	 * @see net.jforum.dao.KarmaDAO#getMostRatedUserByPeriod(int, java.util.Date, java.util.Date,
 	 *      String)
 	 */
-	public List<User> getMostRatedUserByPeriod(final int start, final Date firstPeriod, final Date lastPeriod, final String orderField)
+	@Override public List<User> getMostRatedUserByPeriod(final int start, final Date firstPeriod, final Date lastPeriod, final String orderField)
 	{
 		String sql = SystemGlobals.getSql("KarmaModel.getMostRatedUserByPeriod");
 		sql = new StringBuilder(sql).append(" ORDER BY ").append(orderField).append(" DESC").toString();

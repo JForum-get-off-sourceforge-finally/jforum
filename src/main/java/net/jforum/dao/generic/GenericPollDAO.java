@@ -68,7 +68,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#addNew(net.jforum.entities.Poll)
 	 */
-	public int addNew(Poll poll)
+	@Override public int addNew(Poll poll)
 	{
 		this.addNewPoll(poll);
 		this.addNewPollOptions(poll.getId(), poll.getOptions());
@@ -138,7 +138,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#selectById(int)
 	 */
-	public Poll selectById(int pollId)
+	@Override public Poll selectById(int pollId)
 	{
 		PreparedStatement pstmt = null;
 		PreparedStatement optionPstmt = null;
@@ -200,7 +200,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#voteOnPoll(int, int, int, java.lang.String)
 	 */
-	public void voteOnPoll(int pollId, int optionId, int userId, String ipAddress)
+	@Override public void voteOnPoll(int pollId, int optionId, int userId, String ipAddress)
 	{
 		Connection connection = JForumExecutionContext.getConnection();
 
@@ -232,7 +232,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#hasUserVotedOnPoll(int, int)
 	 */
-	public boolean hasUserVotedOnPoll(int pollId, int userId)
+	@Override public boolean hasUserVotedOnPoll(int pollId, int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -262,7 +262,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	 *            the IP address of the anonymoususer to check the vote for
 	 * @return true if the user has already voted on the given poll
 	 */
-	public boolean hasUserVotedOnPoll(int pollId, String ipAddress)
+	@Override public boolean hasUserVotedOnPoll(int pollId, String ipAddress)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -287,7 +287,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#delete(int)
 	 */
-	public void deleteByTopicId(int topicId)
+	@Override public void deleteByTopicId(int topicId)
 	{
 		// first, lookup the poll id, then delete it
 		PreparedStatement pstmt = null;
@@ -320,7 +320,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#delete(int)
 	 */
-	public void delete(int pollId)
+	@Override public void delete(int pollId)
 	{
 		this.deletePollVotes(pollId);
 		this.deleteAllPollOptions(pollId);
@@ -426,7 +426,7 @@ public class GenericPollDAO extends AutoKeys implements PollDAO
 	/**
 	 * @see net.jforum.dao.PollDAO#update(net.jforum.entities.Poll)
 	 */
-	public void update(Poll poll)
+	@Override public void update(Poll poll)
 	{
 		try {
 			this.updatePoll(poll);

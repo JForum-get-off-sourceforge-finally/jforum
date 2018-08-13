@@ -81,7 +81,7 @@ public class ModerationAction extends AdminCommand
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.setTemplateName(TemplateKeys.MODERATION_ADMIN_LIST);
 		this.context.put("infoList", DataAccessDriver.getInstance().newModerationDAO().categoryPendingModeration());

@@ -229,11 +229,11 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 	}
 
-    public SessionContext getSessionContext(final boolean create) {
+    @Override public SessionContext getSessionContext(final boolean create) {
         return new WebSessionContext(this.getSession(true));
     }
 
-    public SessionContext getSessionContext() {
+    @Override public SessionContext getSessionContext() {
         return new WebSessionContext(this.getSession());
     }
 
@@ -297,7 +297,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	/**
 	 * @see javax.servlet.ServletRequestWrapper#getParameterValues(java.lang.String)
 	 */
-	public String[] getParameterValues(final String name) 
+	@Override public String[] getParameterValues(final String name) 
 	{
 		Object value = this.getObjectParameter(name);
 		
@@ -350,7 +350,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
      * @param name String
 	 * @return String
 	 */
-	public String getParameter(final String name) 
+	@Override public String getParameter(final String name) 
 	{
 		return (String)this.query.get(name);
 	}
@@ -361,7 +361,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param name The parameter name to get the value
 	 * @return int
 	 */
-	public int getIntParameter(final String name)
+	@Override public int getIntParameter(final String name)
 	{
 		return Integer.parseInt(this.getParameter(name));
 	}
@@ -374,12 +374,12 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * @param name String
 	 * @return Object
 	 */
-	public Object getObjectParameter(final String name)
+	@Override public Object getObjectParameter(final String name)
 	{
 		return this.query.get(name);
 	}
 	
-	public void addParameter(final String name, final Object value)
+	@Override public void addParameter(final String name, final Object value)
 	{
 		if (MODULE.equals(name) || ACTION.equals(name)) {
 			addOrReplaceParameter(name, value);
@@ -405,7 +405,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 	}
 	
-	public void addOrReplaceParameter(final String name, final Object value)
+	@Override public void addOrReplaceParameter(final String name, final Object value)
 	{
 		this.query.put(name, value);
 	}
@@ -426,7 +426,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * 
 	 * @return String representing the action name
 	 */
-	public String getAction()
+	@Override public String getAction()
 	{
 		return this.getParameter(ACTION);
 	}
@@ -452,7 +452,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * 
 	 * @return String representing the module name
 	 */
-	public String getModule()
+	@Override public String getModule()
 	{
 		return this.getParameter(MODULE);
 	}
@@ -465,7 +465,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	/**
 	 * @see javax.servlet.http.HttpServletRequestWrapper#getContextPath()
 	 */
-	public String getContextPath() 
+	@Override public String getContextPath() 
 	{
 		String contextPath = super.getContextPath();
 		String proxiedContextPath = SystemGlobals.getValue(ConfigKeys.PROXIED_CONTEXT_PATH);
@@ -483,7 +483,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	 * TODO: https://tools.ietf.org/html/rfc7239 should be considered first, before anything else
 	 * @see javax.servlet.ServletRequestWrapper#getRemoteAddr()
 	 */
-	public String getRemoteAddr()
+	@Override public String getRemoteAddr()
 	{
 		// We look if the request is forwarded
 		// If it is not call the older function.

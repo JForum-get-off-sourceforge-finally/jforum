@@ -63,7 +63,7 @@ public class OracleModerationLogDAO extends GenericModerationLogDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#add(net.jforum.entities.ModerationLog)
 	 */
-	public void add(final ModerationLog log) 
+	@Override public void add(final ModerationLog log) 
 	{
 		PreparedStatement pstmt = null;
 		
@@ -104,7 +104,7 @@ public class OracleModerationLogDAO extends GenericModerationLogDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#selectAll(int, int)
 	 */
-	public List<ModerationLog> selectAll(final int start, final int count) 
+	@Override public List<ModerationLog> selectAll(final int start, final int count) 
 	{
 		return super.selectAll(start, start + count);
 	}
@@ -112,7 +112,7 @@ public class OracleModerationLogDAO extends GenericModerationLogDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#readDesriptionFromResultSet(java.sql.ResultSet)
 	 */
-	protected String readDesriptionFromResultSet(final ResultSet resultSet) throws SQLException 
+	@Override protected String readDesriptionFromResultSet(final ResultSet resultSet) throws SQLException 
 	{
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "log_description");
 	}
@@ -120,7 +120,7 @@ public class OracleModerationLogDAO extends GenericModerationLogDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#readOriginalMessageFromResultSet(java.sql.ResultSet)
 	 */
-	protected String readOriginalMessageFromResultSet(final ResultSet resultSet) throws SQLException 
+	@Override protected String readOriginalMessageFromResultSet(final ResultSet resultSet) throws SQLException 
 	{
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "log_original_message");
 	}

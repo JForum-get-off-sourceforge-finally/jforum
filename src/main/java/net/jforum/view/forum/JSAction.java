@@ -19,7 +19,7 @@ public class JSAction extends Command
 	 * have the extension ".js".
 	 * @see net.jforum.Command#list()
 	 */
-	public void list() 
+	@Override public void list() 
 	{
 		JForumExecutionContext.setContentType("text/javascript");
 		

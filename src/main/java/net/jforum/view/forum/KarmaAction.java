@@ -148,7 +148,7 @@ public class KarmaAction extends Command
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list() 
+	@Override public void list() 
 	{
 		this.setTemplateName(TemplateKeys.KARMA_LIST);
 		this.context.put("message", I18n.getMessage("invalidAction"));

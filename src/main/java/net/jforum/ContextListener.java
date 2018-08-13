@@ -68,7 +68,7 @@ public class ContextListener implements ServletContextListener {
     /* (non-Javadoc)
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
-    public void contextInitialized (ServletContextEvent sce) {
+    @Override public void contextInitialized (ServletContextEvent sce) {
         final ServletContext application = sce.getServletContext();
         final String appPath = application.getRealPath("");
         LoggerHelper.checkLoggerInitialization(appPath + "/WEB-INF", appPath + "/WEB-INF/classes");
@@ -88,7 +88,7 @@ public class ContextListener implements ServletContextListener {
     /* (non-Javadoc)
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
-    public void contextDestroyed (ServletContextEvent sce) {
+    @Override public void contextDestroyed (ServletContextEvent sce) {
 		// stop EventBus
         Stats.stop();
 

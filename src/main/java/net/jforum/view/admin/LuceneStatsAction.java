@@ -88,7 +88,7 @@ public class LuceneStatsAction extends AdminCommand
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		DirectoryReader reader = null;
 
@@ -136,8 +136,7 @@ public class LuceneStatsAction extends AdminCommand
 		}
 		finally {
 			if (reader != null) {
-				try { reader.close(); }
-				catch (Exception e) { e.printStackTrace(); }
+				try { reader.close(); } catch (Exception e) { }
 			}
 		}
 	}
@@ -172,7 +171,7 @@ public class LuceneStatsAction extends AdminCommand
 		this.list();
 	}
 
-	public Template process(RequestContext request, ResponseContext response, SimpleHash context)
+	@Override public Template process(RequestContext request, ResponseContext response, SimpleHash context)
 	{
 		return super.process(request, response, context);
 	}

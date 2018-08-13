@@ -93,7 +93,7 @@ public class ConfigLoader
 	 */
 	private class ConfigHandler extends DefaultHandler
 	{
-		public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException
+		@Override public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException
 		{
 			if ("bot-host".equals(qName)) {
 				config.addBotHost(attributes.getValue("name"));

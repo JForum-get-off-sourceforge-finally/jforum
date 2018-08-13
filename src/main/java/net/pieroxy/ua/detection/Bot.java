@@ -37,7 +37,7 @@ public class Bot {
         vendor = _brand;
         url = "";
     }
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (o == null) return false;
         if (! (o instanceof Bot)) return false;
         Bot d = (Bot) o;
@@ -53,7 +53,7 @@ public class Bot {
             ( (d.url==null && url==null) || d.url.equals(url) ) &&
             ( (d.version==null && version==null) || d.version.equals(version) );
     }
-    public int hashCode() {
+    @Override public int hashCode() {
         int res = 0;
         if (family != null) {
             res *= 3;

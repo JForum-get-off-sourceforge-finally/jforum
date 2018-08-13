@@ -67,32 +67,32 @@ public class WebResponseContext implements ResponseContext
 		this.response = response;
 	}
 
-	public void setContentLength(final int len)
+	@Override public void setContentLength(final int len)
 	{
 		response.setContentLength(len);
 	}
 
-	public boolean containsHeader(final String name)
+	@Override public boolean containsHeader(final String name)
 	{
 		return response.containsHeader(name);
 	}
 
-	public void setHeader(final String name, final String value)
+	@Override public void setHeader(final String name, final String value)
 	{
 		response.setHeader(name, value);
 	}
 
-	public void addCookie(final Cookie cookie)
+	@Override public void addCookie(final Cookie cookie)
 	{
 		response.addCookie(cookie);
 	}
 
-	public String encodeRedirectURL(final String url)
+	@Override public String encodeRedirectURL(final String url)
 	{
 		return response.encodeRedirectURL(url);
 	}
 
-	public void sendRedirect(final String location) throws IOException
+	@Override public void sendRedirect(final String location) throws IOException
 	{
 		String newLocation = location;
 		if (SystemGlobals.getBoolValue(ConfigKeys.REDIRECT_ABSOLUTE_PATHS)) {
@@ -106,37 +106,37 @@ public class WebResponseContext implements ResponseContext
 		response.sendRedirect(newLocation);
 	}
 
-	public String getCharacterEncoding()
+	@Override public String getCharacterEncoding()
 	{
 		return response.getCharacterEncoding();
 	}
 
-	public void setContentType(final String type)
+	@Override public void setContentType(final String type)
 	{
 		response.setContentType(type);
 	}
 
-	public ServletOutputStream getOutputStream() throws IOException
+	@Override public ServletOutputStream getOutputStream() throws IOException
 	{
 		return response.getOutputStream();
 	}
 
-	public PrintWriter getWriter() throws IOException
+	@Override public PrintWriter getWriter() throws IOException
 	{
 		return response.getWriter();
 	}
 
-	public String encodeURL(final String url)
+	@Override public String encodeURL(final String url)
 	{
 		return response.encodeURL(url);
 	}
 
-	public void sendError(final int statusCode) throws IOException
+	@Override public void sendError(final int statusCode) throws IOException
 	{
 		response.sendError(statusCode);
 	}
 
-	public void addHeader(final String name, final String value)
+	@Override public void addHeader(final String name, final String value)
 	{
 		response.addHeader(name, value);
 	}

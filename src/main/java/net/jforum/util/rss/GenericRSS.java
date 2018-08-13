@@ -64,7 +64,7 @@ public class GenericRSS implements RSSAware
 		this.rss = rss;
 	}
 	
-	public String createRSS()
+	@Override public String createRSS()
 	{
 		try
 		{

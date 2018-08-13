@@ -77,7 +77,7 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 	/** 
 	 * @see java.util.HashSet#contains(java.lang.Object)
 	 */
-	public boolean contains(final Object o) 
+	@Override public boolean contains(final Object o) 
 	{
 		return super.contains(o);
 	}
@@ -85,7 +85,7 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 	/** 
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
-	public boolean add(final Object o) 
+	@Override public boolean add(final Object o) 
 	{
 		if (!(o instanceof RoleValue)) {
 			throw new IllegalArgumentException("Object passed as parameter is not a RoleValue type");
@@ -97,7 +97,7 @@ public class RoleValueCollection extends LinkedHashSet<Object> implements Serial
 	/** 
 	 * @see java.util.Collection#addAll(java.util.Collection)
 	 */
-	public boolean addAll(final Collection<?> c) 
+	@Override public boolean addAll(final Collection<?> c) 
 	{
 		boolean status = true;
 		

@@ -64,7 +64,7 @@ public class GenericBanlistDAO extends AutoKeys implements BanlistDAO
 	/**
 	 * @see net.jforum.dao.BanlistDAO#delete(int)
 	 */
-	public void delete(final int banlistId)
+	@Override public void delete(final int banlistId)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -85,7 +85,7 @@ public class GenericBanlistDAO extends AutoKeys implements BanlistDAO
 	/**
 	 * @see net.jforum.dao.BanlistDAO#insert(net.jforum.entities.Banlist)
 	 */
-	public void insert(final Banlist banlist)
+	@Override public void insert(final Banlist banlist)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -113,7 +113,7 @@ public class GenericBanlistDAO extends AutoKeys implements BanlistDAO
 	/**
 	 * @see net.jforum.dao.BanlistDAO#selectAll()
 	 */
-	public List<Banlist> selectAll()
+	@Override public List<Banlist> selectAll()
 	{
 		ResultSet resultSet = null;
 		PreparedStatement pstmt = null;

@@ -63,7 +63,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#selectById(int)
 	 */
-	public Category selectById(final int categoryId)
+	@Override public Category selectById(final int categoryId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -92,7 +92,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#selectAll()
 	 */
-	public List<Category> selectAll()
+	@Override public List<Category> selectAll()
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -130,7 +130,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#canDelete(int)
 	 */
-	public boolean canDelete(final int categoryId)
+	@Override public boolean canDelete(final int categoryId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -154,7 +154,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#delete(int)
 	 */
-	public void delete(final int categoryId)
+	@Override public void delete(final int categoryId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -173,7 +173,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#update(net.jforum.entities.Category)
 	 */
-	public void update(final Category category)
+	@Override public void update(final Category category)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -194,7 +194,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#addNew(net.jforum.entities.Category)
 	 */
-	public int addNew(final Category category)
+	@Override public int addNew(final Category category)
 	{
 		int order = 1;
 		ResultSet resultSet = null;
@@ -232,7 +232,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#setOrderUp(Category, Category)
 	 */
-	public void setOrderUp(final Category category, final Category relatedCategory)
+	@Override public void setOrderUp(final Category category, final Category relatedCategory)
 	{
 		this.setOrder(category, relatedCategory);
 	}
@@ -240,7 +240,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 	/**
 	 * @see net.jforum.dao.CategoryDAO#setOrderDown(Category, Category)
 	 */
-	public void setOrderDown(final Category category, final Category relatedCategory)
+	@Override public void setOrderDown(final Category category, final Category relatedCategory)
 	{
 		this.setOrder(category, relatedCategory);
 	}

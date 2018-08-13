@@ -45,12 +45,12 @@ package net.jforum.view.forum;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -587,10 +587,9 @@ public class UserAction extends Command
 			String auth = request.getHeader("Authorization");
 			String decoded;
 
-			decoded = String.valueOf(new Base64().decode(auth.substring(6)));
+			decoded = new String(Base64.getDecoder().decode(auth.substring(6)));
 
 			int p = decoded.indexOf(':');
-
 			if (p != -1) {
 				request.setAttribute(USERNAME, decoded.substring(0, p));
 				request.setAttribute("password", decoded.substring(p + 1));
@@ -797,7 +796,7 @@ public class UserAction extends Command
 		this.context.put(MESSAGE, message);
 	}
 
-	public void list()
+	@Override public void list()
 	{
 		int start = this.preparePagination(userDao.getTotalUsers());
 		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);

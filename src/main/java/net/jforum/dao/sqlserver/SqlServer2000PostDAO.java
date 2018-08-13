@@ -67,7 +67,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 */
-	public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
+	@Override public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
 	{
 		List<Post> l = new ArrayList<Post>();
 
@@ -100,7 +100,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Post> selectByUserByLimit(int userId, int startFrom, int count)
+	@Override public List<Post> selectByUserByLimit(int userId, int startFrom, int count)
 	{
 		String sql = SystemGlobals.getSql("PostModel.selectByUserByLimit");
 		sql = sql.replaceAll(":fids:", ForumRepository.getListAllowedForums());
@@ -130,7 +130,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 		}
 	}
 
-    public List<Post> selectLatestByForumForRSS(int forumId, int limit) 
+    @Override public List<Post> selectLatestByForumForRSS(int forumId, int limit) 
     {
         List<Post> l = new ArrayList<Post>();
 
@@ -162,7 +162,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
         return l;
     }
 
-    public List<Post> selectLatestForRSS(int limit) 
+    @Override public List<Post> selectLatestForRSS(int limit) 
     {
         List<Post> l = new ArrayList<Post>();
 
@@ -193,7 +193,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
         return l;
     } 
     
-    public List<Post> selectHotForRSS(int limit) 
+    @Override public List<Post> selectHotForRSS(int limit) 
     {
         List<Post> l = new ArrayList<Post>();
 

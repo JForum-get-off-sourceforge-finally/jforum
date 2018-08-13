@@ -59,7 +59,7 @@ public class SqlServer2000DataAccessDriver extends SqlServerDataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newPostDAO()
 	 */
-	public net.jforum.dao.PostDAO newPostDAO()
+	@Override public net.jforum.dao.PostDAO newPostDAO()
 	{
 		return postDao;
 	}
@@ -67,7 +67,7 @@ public class SqlServer2000DataAccessDriver extends SqlServerDataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newTopicDAO()
 	 */
-	public net.jforum.dao.TopicDAO newTopicDAO()
+	@Override public net.jforum.dao.TopicDAO newTopicDAO()
 	{
 		return topicDao;
 	}
@@ -75,7 +75,7 @@ public class SqlServer2000DataAccessDriver extends SqlServerDataAccessDriver
 	/** 
 	 * @see net.jforum.dao.DataAccessDriver#newUserDAO()
 	 */
-	public net.jforum.dao.UserDAO newUserDAO()
+	@Override public net.jforum.dao.UserDAO newUserDAO()
 	{
 		return userDao;
 	}

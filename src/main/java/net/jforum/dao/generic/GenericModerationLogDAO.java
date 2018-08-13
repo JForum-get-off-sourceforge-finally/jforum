@@ -64,7 +64,7 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDAO
 {
-	public void add(ModerationLog log)
+	@Override public void add(ModerationLog log)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -93,7 +93,7 @@ public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDA
 		}
 	}
 
-	public List<ModerationLog> selectAll(int start, int count)
+	@Override public List<ModerationLog> selectAll(int start, int count)
 	{
 		List<ModerationLog> l = new ArrayList<ModerationLog>();
 
@@ -160,7 +160,7 @@ public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDA
 		return rs.getString("log_original_message");
 	}
 	
-	public int totalRecords()
+	@Override public int totalRecords()
 	{
 		int total = 0;
 		

@@ -82,7 +82,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#findTopicsByDateRange(net.jforum.search.SearchArgs)
 	 */
-	public SearchResult<Topic> findTopicsByDateRange(final SearchArgs args) 
+	@Override public SearchResult<Topic> findTopicsByDateRange(final SearchArgs args) 
 	{
 		SearchResult<Topic> result = null;
 		
@@ -124,7 +124,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#fixFirstLastPostId(int)
 	 */
-	public void fixFirstLastPostId(final int topicId)
+	@Override public void fixFirstLastPostId(final int topicId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -160,7 +160,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectById(int)
 	 */
-	public Topic selectById(final int topicId)
+	@Override public Topic selectById(final int topicId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -187,7 +187,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectRaw(int)
 	 */
-	public Topic selectRaw(final int topicId)
+	@Override public Topic selectRaw(final int topicId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -214,14 +214,14 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#delete(net.jforum.entities.Topic, boolean)
 	 */
-	public void delete(final Topic topic, final boolean fromModeration)
+	@Override public void delete(final Topic topic, final boolean fromModeration)
 	{
 		final List<Topic> list = new ArrayList<Topic>();
 		list.add(topic);
 		this.deleteTopics(list, fromModeration);
 	}
 
-	public void deleteTopics(List<Topic> topics, boolean fromModeration)
+	@Override public void deleteTopics(List<Topic> topics, boolean fromModeration)
 	{
 		// Topic
 		PreparedStatement pstmt = null;
@@ -265,7 +265,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#deleteByForum(int)
 	 */
-	public void deleteByForum(int forumId)
+	@Override public void deleteByForum(int forumId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -299,7 +299,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#update(net.jforum.entities.Topic)
 	 */
-	public void update(Topic topic)
+	@Override public void update(Topic topic)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -326,7 +326,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#addNew(net.jforum.entities.Topic)
 	 */
-	public int addNew(Topic topic)
+	@Override public int addNew(Topic topic)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -361,7 +361,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#incrementTotalViews(int)
 	 */
-	public void incrementTotalViews(int topicId)
+	@Override public void incrementTotalViews(int topicId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -381,7 +381,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#incrementTotalReplies(int)
 	 */
-	public void incrementTotalReplies(int topicId)
+	@Override public void incrementTotalReplies(int topicId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -401,7 +401,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#decrementTotalReplies(int)
 	 */
-	public void decrementTotalReplies(int topicId)
+	@Override public void decrementTotalReplies(int topicId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -421,7 +421,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#setLastPostId(int, int)
 	 */
-	public void setLastPostId(int topicId, int postId)
+	@Override public void setLastPostId(int topicId, int postId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -442,7 +442,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForum(int)
 	 */
-	public List<Topic> selectAllByForum(int forumId)
+	@Override public List<Topic> selectAllByForum(int forumId)
 	{
 		return this.selectAllByForumByLimit(forumId, 0, Integer.MAX_VALUE);
 	}
@@ -450,7 +450,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
 	 */
-	public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count)
+	@Override public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count)
 	{
 		String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
 
@@ -476,7 +476,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Topic> selectByUserByLimit(int userId, int startFrom, int count)
+	@Override public List<Topic> selectByUserByLimit(int userId, int startFrom, int count)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -501,7 +501,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#countUserTopics(int)
 	 */
-	public int countUserTopics(int userId)
+	@Override public int countUserTopics(int userId)
 	{
 		int total = 0;
 
@@ -562,7 +562,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#getMaxPostId(int)
 	 */
-	public int getMaxPostId(int topicId)
+	@Override public int getMaxPostId(int topicId)
 	{
 		int id = -1;
 
@@ -591,7 +591,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#getTotalPosts(int)
 	 */
-	public int getTotalPosts(int topicId)
+	@Override public int getTotalPosts(int topicId)
 	{
 		int total = 0;
 
@@ -620,7 +620,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#notifyUsers(net.jforum.entities.Topic)
 	 */
-	public List<User> notifyUsers(Topic topic)
+	@Override public List<User> notifyUsers(Topic topic)
 	{
 		int posterId = SessionFacade.getUserSession().getUserId();
 		int anonUser = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
@@ -677,7 +677,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#subscribeUsers(int, java.util.List)
 	 */
-	public void subscribeUsers(int topicId, List<User> users)
+	@Override public void subscribeUsers(int topicId, List<User> users)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -705,7 +705,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#subscribeUser(int, int)
 	 */
-	public void subscribeUser(int topicId, int userId)
+	@Override public void subscribeUser(int topicId, int userId)
 	{
 		User user = new User();
 		user.setId(userId);
@@ -719,7 +719,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#isUserSubscribed(int, int)
 	 */
-	public boolean isUserSubscribed(int topicId, int userId)
+	@Override public boolean isUserSubscribed(int topicId, int userId)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -746,7 +746,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#removeSubscription(int, int)
 	 */
-	public void removeSubscription(int topicId, int userId)
+	@Override public void removeSubscription(int topicId, int userId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -768,7 +768,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#removeSubscriptionByTopic(int)
 	 */
-	public void removeSubscriptionByTopic(int topicId)
+	@Override public void removeSubscriptionByTopic(int topicId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -789,7 +789,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#updateReadStatus(int, int, boolean)
 	 */
-	public void updateReadStatus(int topicId, int userId, boolean read)
+	@Override public void updateReadStatus(int topicId, int userId, boolean read)
 	{
 		if (this.isUserSubscribed(topicId, userId)) {
 			PreparedStatement pstmt = null;
@@ -814,7 +814,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#lockUnlock(int[], int)
 	 */
-	public void lockUnlock(int[] topicId, int status)
+	@Override public void lockUnlock(int[] topicId, int status)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -952,7 +952,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectRecentTopics(int)
 	 */
-	public List<Topic> selectRecentTopics(int limit)
+	@Override public List<Topic> selectRecentTopics(int limit)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -973,7 +973,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectHottestTopics(int)
 	 */
-	public List<Topic> selectHottestTopics(int limit)
+	@Override public List<Topic> selectHottestTopics(int limit)
 	{
 	    PreparedStatement pstmt = null;
 	    try {
@@ -994,7 +994,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#setFirstPostId(int, int)
 	 */
-	public void setFirstPostId(int topicId, int postId)
+	@Override public void setFirstPostId(int topicId, int postId)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -1015,7 +1015,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#getMinPostId(int)
 	 */
-	public int getMinPostId(int topicId)
+	@Override public int getMinPostId(int topicId)
 	{
 		int id = -1;
 
@@ -1043,7 +1043,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#setModerationStatus(int, boolean)
 	 */
-	public void setModerationStatus(int forumId, boolean status)
+	@Override public void setModerationStatus(int forumId, boolean status)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -1064,7 +1064,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#setModerationStatusByTopic(int, boolean)
 	 */
-	public void setModerationStatusByTopic(int topicId, boolean status)
+	@Override public void setModerationStatusByTopic(int topicId, boolean status)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -1085,7 +1085,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectTopicTitlesByIds(java.util.Collection)
 	 */
-	public List<Map<String, Object>> selectTopicTitlesByIds(Collection<?> idList)
+	@Override public List<Map<String, Object>> selectTopicTitlesByIds(Collection<?> idList)
 	{
 		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
 		String sql = SystemGlobals.getSql("TopicModel.selectTopicTitlesByIds");
@@ -1123,7 +1123,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#topicPosters(int)
 	 */
-	public Map<Integer, User> topicPosters(int topicId)
+	@Override public Map<Integer, User> topicPosters(int topicId)
 	{
 		Map<Integer, User> m = new ConcurrentHashMap<Integer, User>();
 		
@@ -1196,7 +1196,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
     * Returns all topics that are watched by a given user.
     * @param userId The user id
     */
-    public List<Map<String, Object>> selectWatchesByUser(int userId) {
+    @Override public List<Map<String, Object>> selectWatchesByUser(int userId) {
         List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
         PreparedStatement p = null;
         ResultSet rs = null;

@@ -63,7 +63,7 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#addNewPostText(net.jforum.entities.Post)
 	 */
-	protected void addNewPostText(final Post post) throws Exception
+	@Override protected void addNewPostText(final Post post) throws Exception
 	{
 		PreparedStatement pstmt = null;
 		
@@ -85,7 +85,7 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#updatePostsTextTable(net.jforum.entities.Post)
 	 */
-	protected void updatePostsTextTable(final Post post)
+	@Override protected void updatePostsTextTable(final Post post)
 	{
 		PreparedStatement pstmt = null;
 
@@ -111,7 +111,7 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#getPostTextFromResultSet(java.sql.ResultSet)
 	 */
-	protected String getPostTextFromResultSet(final ResultSet resultSet) throws SQLException
+	@Override protected String getPostTextFromResultSet(final ResultSet resultSet) throws SQLException
 	{
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "post_text");
 	}
@@ -119,7 +119,7 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 */
-	public List<Post> selectAllByTopicByLimit(final int topicId, final int startFrom, final int count)
+	@Override public List<Post> selectAllByTopicByLimit(final int topicId, final int startFrom, final int count)
 	{
 		return super.selectAllByTopicByLimit(topicId, startFrom, startFrom + count);
 	}
@@ -127,7 +127,7 @@ public class OraclePostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Post> selectByUserByLimit(final int userId, final int startFrom, final int count)
+	@Override public List<Post> selectByUserByLimit(final int userId, final int startFrom, final int count)
 	{
 		return super.selectByUserByLimit(userId, startFrom, startFrom + count);
 	}

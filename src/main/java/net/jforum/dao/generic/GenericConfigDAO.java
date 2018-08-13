@@ -63,7 +63,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#insert(net.jforum.entities.Config)
 	 */
-	public void insert(final Config config)
+	@Override public void insert(final Config config)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -83,7 +83,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#update(net.jforum.entities.Config)
 	 */
-	public void update(final Config config)
+	@Override public void update(final Config config)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -103,7 +103,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#delete(net.jforum.entities.Config)
 	 */
-	public void delete(final Config config)
+	@Override public void delete(final Config config)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -122,7 +122,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#selectAll()
 	 */
-	public List<Config> selectAll()
+	@Override public List<Config> selectAll()
 	{
 		final List<Config> list = new ArrayList<Config>();
 
@@ -148,7 +148,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#selectByName(java.lang.String)
 	 */
-	public Config selectByName(final String name)
+	@Override public Config selectByName(final String name)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

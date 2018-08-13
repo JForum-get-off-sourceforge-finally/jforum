@@ -56,7 +56,7 @@ public class HsqldbPostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#selectLatestByForumForRSS(int, int)
 	 */
-	public List<Post> selectLatestByForumForRSS(final int forumId, final int limit) 
+	@Override public List<Post> selectLatestByForumForRSS(final int forumId, final int limit) 
 	{
 		return super.selectLatestByForumForRSS(limit, forumId);
 	}
@@ -64,7 +64,7 @@ public class HsqldbPostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 */
-	public List<Post> selectAllByTopicByLimit(final int topicId, final int startFrom, final int count)
+	@Override public List<Post> selectAllByTopicByLimit(final int topicId, final int startFrom, final int count)
 	{
 		return super.selectAllByTopicByLimit(startFrom, count, topicId);
 	}
@@ -72,7 +72,7 @@ public class HsqldbPostDAO extends GenericPostDAO
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#selectByUserByLimit(int, int, int)
 	 */
-	public List<Post> selectByUserByLimit(final int userId, final int startFrom, final int count) 
+	@Override public List<Post> selectByUserByLimit(final int userId, final int startFrom, final int count) 
 	{
 		return super.selectByUserByLimit(startFrom, count, userId);
 	}

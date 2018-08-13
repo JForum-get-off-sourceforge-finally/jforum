@@ -66,7 +66,7 @@ public class QueriesFileListener implements FileChangeListener
     /** 
      * @see net.jforum.util.FileChangeListener#fileChanged(java.lang.String)
      */
-    public void fileChanged(final String filename)
+    @Override public void fileChanged(final String filename)
     {
     	if (LOGGER.isEnabledFor(Level.INFO)) {
     		LOGGER.info("File change detected: "+ filename);

@@ -111,7 +111,7 @@ public class PollOption implements Serializable
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
+	@Override public String toString()
 	{
 		return new StringBuilder(128)
 			.append('[')
@@ -127,7 +127,7 @@ public class PollOption implements Serializable
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o)
+	@Override public boolean equals(Object o)
 	{
 		if (!(o instanceof PollOption)) {
 			return false;
@@ -142,7 +142,7 @@ public class PollOption implements Serializable
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode()
+	@Override public int hashCode()
 	{
 		int result = 17;
 		

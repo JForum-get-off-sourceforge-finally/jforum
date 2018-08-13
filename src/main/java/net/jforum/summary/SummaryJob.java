@@ -55,7 +55,7 @@ public class SummaryJob implements Job
 	/**
 	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
 	 */
-	public void execute(final JobExecutionContext context) throws JobExecutionException
+	@Override public void execute(final JobExecutionContext context) throws JobExecutionException
 	{
 		final SummaryModel model = new SummaryModel();
 		

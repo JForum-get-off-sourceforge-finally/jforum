@@ -115,7 +115,7 @@ public class BanlistAction extends AdminCommand
 	/**
 	 * @see net.jforum.Command#list()
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.setTemplateName(TemplateKeys.BANLIST_LIST);
 		

@@ -294,7 +294,7 @@ public class BookmarkAction extends Command
 		}
 	}
 	*/
-	public void list()
+	@Override public void list()
 	{
 		int userId = 0;
 		try {
@@ -342,7 +342,7 @@ public class BookmarkAction extends Command
 	/**
 	 * @see net.jforum.Command#process(net.jforum.context.RequestContext, net.jforum.context.ResponseContext, freemarker.template.SimpleHash) 
 	 */
-	public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
+	@Override public Template process(final RequestContext request, final ResponseContext response, final SimpleHash context)
 	{
 		if (SessionFacade.getUserSession().getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)
 				&& !request.getAction().equals("list")) {

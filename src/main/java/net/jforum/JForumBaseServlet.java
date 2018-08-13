@@ -75,7 +75,7 @@ public class JForumBaseServlet extends HttpServlet
 	private static final long serialVersionUID = -587702931480527827L;
 	protected transient boolean debug;
 
-	public void init(final ServletConfig config) throws ServletException
+	@Override public void init(final ServletConfig config) throws ServletException
 	{
 		super.init(config);
 

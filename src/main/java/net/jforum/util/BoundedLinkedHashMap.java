@@ -53,7 +53,7 @@ public class BoundedLinkedHashMap<K, V> extends LinkedHashMap<K, V>
 	    this.size = size;
 	}
 
-	protected boolean removeEldestEntry(final java.util.Map.Entry<K, V> eldest)
+	@Override protected boolean removeEldestEntry(final java.util.Map.Entry<K, V> eldest)
 	{
 		return this.size() > size;
 	}

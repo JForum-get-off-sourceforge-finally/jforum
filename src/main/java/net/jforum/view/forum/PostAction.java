@@ -121,7 +121,7 @@ public class PostAction extends Command
 		super.request = request;
 	}
 
-	public void list()
+	@Override public void list()
 	{
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		PollDAO pollDao = DataAccessDriver.getInstance().newPollDAO();
@@ -1468,15 +1468,11 @@ public class PostAction extends Command
 			return;
 		}
 
-		FileInputStream fis = null;
-		OutputStream os = null;
-
-		try {
+		try (FileInputStream fis = new FileInputStream(filename);
+				OutputStream os = response.getOutputStream())
+			{
 			a.getInfo().setDownloadCount(a.getInfo().getDownloadCount() + 1);
 			am.updateAttachment(a);
-
-			fis = new FileInputStream(filename);
-			os = response.getOutputStream();
 
 			if (am.isPhysicalDownloadMode(a.getInfo().getExtension().getExtensionGroupId())) {
 				this.response.setContentType("application/octet-stream");
@@ -1508,17 +1504,6 @@ public class PostAction extends Command
 		}
 		catch (IOException e) {
 			throw new ForumException(e);
-		}
-		finally {
-			if (fis != null) {
-				try { fis.close(); }
-				catch (Exception e) { e.printStackTrace(); }
-			}
-
-			if (os != null) {
-				try { os.close(); }
-				catch (Exception e) { e.printStackTrace(); }
-			}
 		}
 	}
 

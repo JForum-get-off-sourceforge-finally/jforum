@@ -70,7 +70,7 @@ public class GenericModerationDAO implements ModerationDAO
     /**
 	 * @see net.jforum.dao.ModerationDAO#approvePost(int)
 	 */
-	public void approvePost(int postId)
+	@Override public void approvePost(int postId)
 	{
 		PreparedStatement pstmt = null;
         try
@@ -92,7 +92,7 @@ public class GenericModerationDAO implements ModerationDAO
 	/**
 	 * @see net.jforum.dao.ModerationDAO#topicsByForum(int)
 	 */
-	public Map<Integer, TopicModerationInfo> topicsByForum(int forumId)
+	@Override public Map<Integer, TopicModerationInfo> topicsByForum(int forumId)
 	{
 		Map<Integer, TopicModerationInfo> m = new ConcurrentHashMap<Integer, TopicModerationInfo>();
 
@@ -168,7 +168,7 @@ public class GenericModerationDAO implements ModerationDAO
 	/**
 	 * @see net.jforum.dao.ModerationDAO#categoryPendingModeration()
 	 */
-	public List<ModerationPendingInfo> categoryPendingModeration()
+	@Override public List<ModerationPendingInfo> categoryPendingModeration()
 	{
 		List<ModerationPendingInfo> l = new ArrayList<ModerationPendingInfo>();
 		int lastId = 0;

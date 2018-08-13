@@ -74,7 +74,7 @@ public class GroupAction extends AdminCommand
 	/**
 	 * Listing
 	 */
-	public void list()
+	@Override public void list()
 	{
 		this.context.put("groups", new TreeGroup().getNodes());
 		this.setTemplateName(TemplateKeys.GROUP_LIST);

@@ -58,7 +58,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#init()
 	 */
-	public void init()
+	@Override public void init()
 	{
 		this.cache = new HashMap<String, Object>();
 	}
@@ -66,7 +66,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#stop()
 	 */
-	public void stop() 
+	@Override public void stop() 
 	{
 		this.cache.clear();
 	}
@@ -74,7 +74,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.Object)
 	 */
-	public void add(final String key, final Object value)
+	@Override public void add(final String key, final Object value)
 	{
 		this.cache.put(key, value);
 	}
@@ -82,7 +82,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#add(java.lang.String, java.lang.String, java.lang.Object)
 	 */
-	public void add(final String fqn, final String key, final Object value)
+	@Override public void add(final String fqn, final String key, final Object value)
 	{
 		Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
 		if (map == null) {
@@ -96,7 +96,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String, java.lang.String)
 	 */
-	public Object get(final String fqn, final String key)
+	@Override public Object get(final String fqn, final String key)
 	{
 		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
 		
@@ -106,7 +106,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#get(java.lang.String)
 	 */
-	public Object get(final String fqn)
+	@Override public Object get(final String fqn)
 	{
 		return this.cache.get(fqn);
 	}
@@ -114,7 +114,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#getValues(java.lang.String)
 	 */
-	public Collection<Object> getValues(final String fqn)
+	@Override public Collection<Object> getValues(final String fqn)
 	{
 		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
 		if (map == null) {
@@ -127,7 +127,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String, java.lang.String)
 	 */
-	public void remove(final String fqn, final String key)
+	@Override public void remove(final String fqn, final String key)
 	{
 		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
 		if (map != null) {
@@ -138,7 +138,7 @@ public class DefaultCacheEngine implements CacheEngine
 	/**
 	 * @see net.jforum.cache.CacheEngine#remove(java.lang.String)
 	 */
-	public void remove(final String fqn)
+	@Override public void remove(final String fqn)
 	{
 		this.cache.remove(fqn);
 	}

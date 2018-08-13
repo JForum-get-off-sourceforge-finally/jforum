@@ -64,7 +64,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	/**
 	 * @see net.jforum.dao.MailIntegrationDAO#add(net.jforum.entities.MailIntegration)
 	 */
-	public void add(MailIntegration integration)
+	@Override public void add(MailIntegration integration)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -85,7 +85,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	/**
 	 * @see net.jforum.dao.MailIntegrationDAO#delete(int)
 	 */
-	public void delete(int forumId)
+	@Override public void delete(int forumId)
 	{
 		PreparedStatement pstmt = null;
 		
@@ -106,7 +106,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	/**
 	 * @see net.jforum.dao.MailIntegrationDAO#find(int)
 	 */
-	public MailIntegration find(int forumId)
+	@Override public MailIntegration find(int forumId)
 	{
 		MailIntegration m = null;
 		
@@ -136,7 +136,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	/**
 	 * @see net.jforum.dao.MailIntegrationDAO#findAll()
 	 */
-	public List<MailIntegration> findAll()
+	@Override public List<MailIntegration> findAll()
 	{
 		List<MailIntegration> l = new ArrayList<MailIntegration>();
 		
@@ -165,7 +165,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	/**
 	 * @see net.jforum.dao.MailIntegrationDAO#update(net.jforum.entities.MailIntegration)
 	 */
-	public void update(MailIntegration integration)
+	@Override public void update(MailIntegration integration)
 	{
 		PreparedStatement pstmt = null;
 		
