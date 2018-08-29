@@ -3,6 +3,8 @@
 	<a id="search" href="${JForumContext.encodeURL("/search/filters")}">${I18n.getMessage("ForumBase.search")}</a>
 	  |
 	<a href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
+	  |
+	<a href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
 	<#if logged>
 	  | <a id="search" href="${JForumContext.encodeURL("/pm/inbox")}">${I18n.getMessage("ForumBase.privateMessages")}</a>
 	</#if>

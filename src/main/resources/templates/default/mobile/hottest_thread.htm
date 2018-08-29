@@ -1,0 +1,19 @@
+<#include "header.htm"/>
+<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
+
+<div class="maintitle">${pageTitle?default(I18n.getMessage("ForumBase.hottestTopics"))?html}</div>
+<p>
+<#list topics as topic>
+	<div class="subject">
+		<a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>&mdash;&mdash;&mdash;<#else>${topic.title?html}</#if><#if topic.type == TOPIC_WIKI> (Wiki)</#if></a>
+	</div>
+	<div class="mobilePostText">
+		${I18n.getMessage("ForumIndex.answers")}: <#if topic.type == TOPIC_WIKI>W<#else>${topic.totalReplies}</#if><br />
+		${I18n.getMessage("ForumIndex.author")}: <a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username?html}</a><br />
+		${I18n.getMessage("ForumIndex.lastMessage")}: <script>"${topic.lastPostTime}".toLocaleDateTime();</script><noscript>${topic.lastPostTime}</noscript> ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username?html}</a><br />
+		${I18n.getMessage("Search.forum")}: <a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${topic.forumId}")}">${forums.get(topic_index).getName()}</a>
+	</div>
+	<br />
+</#list>
+
+<#include "bottom.htm"/>
