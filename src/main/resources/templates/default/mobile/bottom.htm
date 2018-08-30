@@ -36,6 +36,14 @@
 <a name="bottom"></a>
 <a href="#top"><img src="${contextPath}/templates/default/mobile/images/up_arrow.png" width="10" height="10" alt="Jump to top of page" /></a>
 &nbsp;|&nbsp;
+<#if logged>
+	<a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} </a>
+</#if>
+<#if !logged>
+	<a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a> /
+	<a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>
+</#if>
+&nbsp;|&nbsp;
 <a href="?nonMobile=true">${I18n.getMessage("ForumBase.desktopView")}</a>
 </body>
 </html>
