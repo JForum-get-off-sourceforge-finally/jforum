@@ -26,19 +26,19 @@
 	<#if (!u.deleted && (ntopics > 0 || nposts > 0)) || (viewFullProfile!false)>
 		<br>
 		<#if (u.from?exists && u.from?length > 0)>
-			${I18n.getMessage("UserProfile.from")}: ${u.from}<br>
+			${I18n.getMessage("UserProfile.from")}: ${u.from?html}<br>
 		</#if>
 		<#if (u.webSite?exists && u.webSite?length > 0)>
-			${I18n.getMessage("UserProfile.webSite")}: <a href="${u.webSite}" target="_new">${u.webSite}</a><br>
+			${I18n.getMessage("UserProfile.webSite")}: <a href="${u.webSite?html}" target="_new">${u.webSite}</a><br>
 		</#if>
 		<#if (u.occupation?exists && u.occupation?length > 0)>
-			${I18n.getMessage("UserProfile.occupation")}: ${u.occupation}<br>
+			${I18n.getMessage("UserProfile.occupation")}: ${u.occupation?html}<br>
 		</#if>
 		<#if (u.interests?exists && u.interests?length > 0)>
-			${I18n.getMessage("UserProfile.interests")}: ${u.interests}<br>
+			${I18n.getMessage("UserProfile.interests")}: ${u.interests?html}<br>
 		</#if>
 		<#if (u.biography?exists && u.biography?length > 0)>
-			${I18n.getMessage("UserProfile.biography")}: ${u.biography}<br>
+			${I18n.getMessage("UserProfile.biography")}: ${u.biography?html}<br>
 		</#if>
 	</#if>
 	<#if bookmarksEnabled && (nbookmarks > 0)>
@@ -57,26 +57,26 @@
 		<td class="row1" valign="middle" width="100%">
 			<b><span class="gen">
 			<#assign e = u.email.split("@")/>
-			<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]}', '${e[1]}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
+			<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
 			</span></b>
 		<#if (isModerator || isAdmin) >
-			<a class="gen" href="http://stopforumspam.com/search/${u.email}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
+			<a class="gen" href="http://stopforumspam.com/search/${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
 		</#if>
 		</td>
 	</tr></table>
 	</#if>
 	${I18n.getMessage("UserProfile.privateMessage")}: <a href="${JForumContext.encodeURL("/pm/sendTo/${u.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a><br>
 	<#if (u.twitter?exists && u.twitter?length > 0)>
-		${I18n.getMessage("User.twitter")}: <a href="http://twitter.com/${u.twitter}" target="_new">@${u.twitter}</a><br>
+		${I18n.getMessage("User.twitter")}: <a href="http://twitter.com/${u.twitter?html}" target="_new">@${u.twitter}</a><br>
 	</#if>
 	<#if (u.msnm?exists && u.msnm?length > 0)>
-		${I18n.getMessage("User.msn")}: ${u.msnm}<br>
+		${I18n.getMessage("User.msn")}: ${u.msnm?html}<br>
 	</#if>
 	<#if (u.yim?exists && u.yim?length > 0)>
-		${I18n.getMessage("User.yahoo")}: ${u.yim}<br>
+		${I18n.getMessage("User.yahoo")}: ${u.yim?html}<br>
 	</#if>
 	<#if (u.icq?exists && u.icq?length > 0)>
-		${I18n.getMessage("User.icq")}: ${u.icq}<br>
+		${I18n.getMessage("User.icq")}: ${u.icq?html}<br>
 	</#if>
 </div>
 

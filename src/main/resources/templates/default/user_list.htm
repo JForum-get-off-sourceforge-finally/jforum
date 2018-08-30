@@ -31,7 +31,7 @@
 					<#if (user.isViewEmailEnabled() && user.email?exists && user.email?length > 0)>
 						<#assign e = user.email.split("@")/>
 						<#if e?size == 2>
-							<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")}', '${e[1]?default("")}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="[Email]" /></a>
+							<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="[Email]" /></a>
 						<#else>
 							&nbsp;
 						</#if>

@@ -71,35 +71,35 @@
 				<#if (u.from?exists && u.from?length > 0)>
 				<tr>
 					<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.from")}:</span></td>
-					<td><b><span class="gen">${u.from}</span></b></td>
+					<td><b><span class="gen">${u.from?html}</span></b></td>
 				</tr>
 				</#if>
             
 				<#if (u.webSite?exists && u.webSite?length > 0)>
 				<tr>
 					<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.webSite")}:</span></td>
-					<td><span class="gen"><b><a href="${u.webSite}" target="_blank">${u.webSite}</a></b></span></td>
+					<td><span class="gen"><b><a href="${u.webSite?html}" target="_blank">${u.webSite}</a></b></span></td>
 				</tr>
 				</#if>
             
 				<#if (u.occupation?exists && u.occupation?length > 0)>
 				<tr>
 					<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.occupation")}:</span></td>
-					<td><b><span class="gen">${u.occupation}</span></b></td>
+					<td><b><span class="gen">${u.occupation?html}</span></b></td>
 				</tr>
 				</#if>
             
 				<#if (u.interests?exists && u.interests?length > 0)>
 				<tr>
 					<td valign="top" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.interests")}:</span></td>
-					<td><b><span class="gen">${u.interests}</span></b></td>
+					<td><b><span class="gen">${u.interests?html}</span></b></td>
 				</tr>
 				</#if>
             
 				<#if (u.biography?exists && u.biography?length > 0)>
 				<tr>
 					<td valign="top" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.biography")}:</span></td>
-					<td><b><span class="gen">${u.biography}</span></b></td>
+					<td><b><span class="gen">${u.biography?html}</span></b></td>
 				</tr>
 				</#if>
 
@@ -133,8 +133,11 @@
 				<td class="row1" valign="middle" width="100%">
 					<b><span class="gen">
 					<#assign e = u.email.split("@")/>
-					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]}', '${e[1]}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
+					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
 					</span></b>
+					<#if (isModerator || isAdmin) >
+						<a class="gen" href="http://stopforumspam.com/search/${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
+					</#if>
 				</td>
 			</tr>
 			</#if>
@@ -151,7 +154,7 @@
                     <td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
                     <td class="row1">
                         <b><span class="gen">
-                        <a href="http://twitter.com/${u.twitter}"" target="_blank">@${u.twitter}</a>
+                        <a href="http://twitter.com/${u.twitter?html}"" target="_blank">@${u.twitter}</a>
                         </span></b>
                     </td>
                 </tr>
@@ -159,20 +162,20 @@
 			<#if (u.msnm?exists && u.msnm?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.msn")}:</span></td>
-				<td class="row1" valign="middle"><span class="gen">${u.msnm}</span></td>
+				<td class="row1" valign="middle"><span class="gen">${u.msnm?html}</span></td>
 			</tr>
 			</#if>
 			<#if (u.yim?exists && u.yim?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.yahoo")}:</span></td>
-				<td class="row1" valign="middle"><span class="gen">${u.yim}</span></td>
+				<td class="row1" valign="middle"><span class="gen">${u.yim?html}</span></td>
 			</tr>
 			</#if>
 			<#if (u.icq?exists && u.icq?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
 				<td class="row1">
-					<a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="ICQ" /></a>
+					<a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq?html}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="ICQ" /></a>
 				</td>
 			</tr>
 			</#if>
