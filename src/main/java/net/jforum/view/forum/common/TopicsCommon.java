@@ -43,7 +43,6 @@
 package net.jforum.view.forum.common;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -115,10 +114,9 @@ public class TopicsCommon
 			topics = tm.selectAllByForumByLimit(forumId, start, topicsPerPage);
 		}
 
-		Collections.sort(topics, new TopicTypeComparator());
+		topics.sort(new TopicTypeComparator());
 
 		int size = topics.size();
-
 		while (size <= start) {
 			start -= topicsPerPage;
 		}

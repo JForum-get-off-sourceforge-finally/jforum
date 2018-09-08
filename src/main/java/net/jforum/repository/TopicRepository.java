@@ -43,7 +43,6 @@
 package net.jforum.repository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -299,8 +298,7 @@ public class TopicRepository implements Cacheable {
 				}
 
 				forumTopicsList.add(topic);
-
-				Collections.sort(forumTopicsList, TYPE_COMPARATOR);
+				forumTopicsList.sort(TYPE_COMPARATOR);
 			}
 
 			cache.add(FQN_FORUM, forumId, forumTopicsList);

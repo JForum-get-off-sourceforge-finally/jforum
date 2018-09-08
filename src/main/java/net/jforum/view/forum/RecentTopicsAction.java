@@ -43,7 +43,6 @@
 package net.jforum.view.forum;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +96,7 @@ public class RecentTopicsAction extends Command
 	{
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		final List<Topic> topics = TopicRepository.getRecentTopics();
-		Collections.sort(topics, new TopicTypeComparator(true));
+		topics.sort(new TopicTypeComparator(true));
 
 		this.forums = new ArrayList<Forum>(postsPerPage);
 
@@ -146,7 +145,7 @@ public class RecentTopicsAction extends Command
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 
 		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
-		Collections.sort(topics, new TopicTypeComparator(true));
+		topics.sort(new TopicTypeComparator(true));
 		
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);
 		final Map<Integer, Forum> forums = new ConcurrentHashMap<Integer, Forum>();

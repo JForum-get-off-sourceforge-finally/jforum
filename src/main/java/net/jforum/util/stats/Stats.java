@@ -113,10 +113,10 @@ public class Stats {
             }
 			result.add(r);
 		}
-		Collections.sort(result);
+		result.sort(null);
         return result;
     }
-    
+
     public static Date getRestartTime() {
         return INSTANCE.restartTime;
     }

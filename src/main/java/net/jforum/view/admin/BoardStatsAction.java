@@ -49,7 +49,6 @@ import java.net.URLDecoder;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -97,7 +96,7 @@ public class BoardStatsAction extends AdminCommand {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        Collections.sort(sysInfo);
+        sysInfo.sort(null);
         this.context.put("sysInfo", sysInfo);
     }
 
@@ -114,7 +113,7 @@ public class BoardStatsAction extends AdminCommand {
             }
 			List<Date> times = new ArrayList<Date>(values.keySet());
 			// sort list of descending time
-			Collections.sort(times, new Comparator<Date>() {
+			times.sort(new Comparator<Date>() {
 				@Override public int compare (Date obj1, Date obj2) {
 					if (obj1.getTime() < obj2.getTime())	return 1;
 					if (obj1.getTime() > obj2.getTime())	return -1;

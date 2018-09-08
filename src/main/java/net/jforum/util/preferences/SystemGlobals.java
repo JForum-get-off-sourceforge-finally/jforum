@@ -55,10 +55,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.exceptions.ForumException;
-import net.jforum.util.SortedProperties;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -253,14 +253,24 @@ public final class SystemGlobals implements VariableStore
      */
     public static void saveInstallation()
     {
-        // We need this temporary "p" because, when
-        // new FileOutputStream() is called, it will 
-        // raise an event to the TimerTask who is listening
-        // for file modifications, which then reloads the
-        // configurations from the filesystem, overwriting
-        // our new keys. 
+        // We need this temporary "p" because, when new FileOutputStream()
+		// is called, it will raise an event to the TimerTask who is
+		// listening for file modifications, which then reloads the
+        // configurations from the filesystem, overwriting our new keys. 
 
-        Properties p = new SortedProperties();
+        Properties p = new Properties() {
+			/**
+			 * Called by the store method
+			 */
+			@Override public synchronized Enumeration<Object> keys() {
+				Vector<String> v = new Vector<String>();
+				for (final Object o : keySet()) {
+					v.add(o.toString());
+				}
+				v.sort(null);
+				return new Vector<Object>(v).elements();
+			}
+		};
         p.putAll(globals.installation);
 
         try {
