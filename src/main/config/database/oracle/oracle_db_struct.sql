@@ -408,21 +408,6 @@ CREATE INDEX idx_vv_id ON jforum_vote_voters(vote_id);
 CREATE INDEX idx_vv_user ON jforum_vote_voters(vote_user_id);
 
 --
--- Table structure for table 'jforum_words'
---
-CREATE SEQUENCE jforum_words_seq
-  INCREMENT BY 1
-  START WITH 1 MAXVALUE 2.0E9 MINVALUE 1 NOCYCLE
-  CACHE 200 ORDER;
-
-CREATE TABLE jforum_words (
-  word_id NUMBER(10) NOT NULL,
-  word VARCHAR2(100) DEFAULT ' ' NOT NULL,
-  replacement VARCHAR2(100) DEFAULT ' ' NOT NULL,
-  PRIMARY KEY (word_id)
-);
-
---
 -- Table structure for table 'jforum_karma'
 --
 CREATE SEQUENCE jforum_karma_seq

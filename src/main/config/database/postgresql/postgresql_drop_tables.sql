@@ -33,8 +33,6 @@ DROP TABLE jforum_vote_desc;
 DROP SEQUENCE jforum_vote_desc_seq;
 DROP TABLE jforum_vote_results;
 DROP TABLE jforum_vote_voters;
-DROP TABLE jforum_words;
-DROP SEQUENCE jforum_words_seq;
 DROP TABLE jforum_karma;
 DROP SEQUENCE jforum_karma_seq;
 DROP TABLE jforum_bookmarks; 

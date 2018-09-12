@@ -64,9 +64,6 @@ DROP TABLE jforum_vote_results;
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_vote_voters') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_vote_voters;
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_words') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
-DROP TABLE jforum_words;
-
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_karma') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_karma;
 
@@ -430,15 +427,6 @@ CREATE TABLE jforum_vote_voters (
 );
 CREATE INDEX idx_vv_id ON jforum_vote_voters(vote_id);
 CREATE INDEX idx_vv_user ON jforum_vote_voters(vote_user_id);
-
---
--- Table structure for table 'jforum_words'
---
-CREATE TABLE jforum_words (
-  word_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL,
-  word nvarchar(100) DEFAULT ('') NOT NULL,
-  replacement nvarchar(100) DEFAULT ('') NOT NULL 
-);
 
 --
 -- Table structure for table 'jforum_karma'

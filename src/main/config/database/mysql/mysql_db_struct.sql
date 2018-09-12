@@ -356,17 +356,6 @@ CREATE TABLE jforum_vote_voters (
 ) ENGINE=InnoDB;
 
 --
--- Table structure for table 'jforum_words'
---
-DROP TABLE IF EXISTS jforum_words;
-CREATE TABLE jforum_words (
-  word_id INT NOT NULL AUTO_INCREMENT,
-  word VARCHAR(100) NOT NULL DEFAULT '',
-  replacement VARCHAR(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (word_id)
-) ENGINE=InnoDB;
-
---
 -- Table structure for table 'jforum_karma'
 --
 DROP TABLE IF EXISTS jforum_karma;
