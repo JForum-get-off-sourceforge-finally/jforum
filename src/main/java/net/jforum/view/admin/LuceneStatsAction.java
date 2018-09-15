@@ -57,14 +57,16 @@ import net.jforum.search.LuceneManager;
 import net.jforum.search.LuceneReindexArgs;
 import net.jforum.search.LuceneReindexer;
 import net.jforum.search.LuceneSettings;
+import net.jforum.search.SearchFields;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReaderContext;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.Terms;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
@@ -119,16 +121,19 @@ public class LuceneStatsAction extends AdminCommand
 				this.context.put("numberDeletedDocs", Integer.valueOf(reader.numDeletedDocs()));
 				this.context.put("refCount", Integer.valueOf(reader.getRefCount()));
 
-				// getUniqueTermCount no longer exists, and I haven't found a way to replicate its behavior
-				// https://stackoverflow.com/questions/8910008/how-can-i-get-the-list-of-unique-terms-from-a-specific-field-in-lucene
-				/*
+				// This may not be quite right, the number is probably too high.
+				// Terms.size() is I think what is wanted, but it's not available for some reason
+				// http://blog.mikemccandless.com/2012/03/new-index-statistics-in-lucene-40.html
 				long uniqueTermCount = 0;
-				for (IndexReaderContext c : reader.getContext().children()) {
-					if (c != null)
-						uniqueTermCount += c.reader().getUniqueTermCount();
+				Terms terms = MultiFields.getTerms(reader, SearchFields.Indexed.SUBJECT);
+				if (terms != null && terms.getSumDocFreq() != -1) {
+					uniqueTermCount += terms.getSumDocFreq();
+				}
+				terms = MultiFields.getTerms(reader, SearchFields.Indexed.CONTENTS);
+				if (terms != null && terms.getSumDocFreq() != -1) {
+					uniqueTermCount += terms.getSumDocFreq();
 				}
 				this.context.put("uniqueTermCount", uniqueTermCount);
-				*/
 			}
 		}
 		catch (IOException e) {
