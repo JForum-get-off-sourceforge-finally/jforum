@@ -46,7 +46,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.entities.Config;
@@ -54,16 +56,20 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 {
+    private static final Logger LOGGER = Logger.getLogger(GenericConfigDAO.class);
+
 	/**
 	 * @see net.jforum.dao.ConfigDAO#insert(net.jforum.entities.Config)
 	 */
-	@Override public void insert(final Config config)
+	@Override public void insert (final Config config)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -83,7 +89,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#update(net.jforum.entities.Config)
 	 */
-	@Override public void update(final Config config)
+	@Override public void update (final Config config)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -101,9 +107,37 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	}
 
 	/**
+	 * @see net.jforum.dao.ConfigDAO#update(java.util.Properties)
+	 */
+	@Override public void update (Properties props) {
+		List<Config> configs = selectAll();
+		for (Config cnfg : configs) {
+			String name = cnfg.getName().trim();
+			if (props.containsKey(name)) {
+				// don't update settings which haven't changed
+				if (! cnfg.getValue().trim().equals(props.get(name))) {
+					cnfg.setValue((String) props.get(name));
+					update(cnfg);
+					LOGGER.debug("updated config " + name);
+				}
+				props.remove(name);
+			}
+		}
+		// now props contains only settings which aren't in the DB yet
+		Enumeration e = props.propertyNames();
+		while (e.hasMoreElements()) {
+			String key = (String) e.nextElement();
+			Config newConfig = new Config();
+			newConfig.setName(key);
+			newConfig.setValue(props.getProperty(key));
+			insert(newConfig);
+		}
+	}
+
+	/**
 	 * @see net.jforum.dao.ConfigDAO#delete(net.jforum.entities.Config)
 	 */
-	@Override public void delete(final Config config)
+	@Override public void delete (final Config config)
 	{
 		PreparedStatement pstmt = null;
 		try {
@@ -148,13 +182,12 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#selectByName(java.lang.String)
 	 */
-	@Override public Config selectByName(final String name)
+	@Override public Config selectByName (final String name)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
-			pstmt = JForumExecutionContext.getConnection().prepareStatement(
-					SystemGlobals.getSql("ConfigModel.selectByName"));
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ConfigModel.selectByName"));
 			pstmt.setString(1, name);
 			resultSet = pstmt.executeQuery();
 			Config config = null;
@@ -173,7 +206,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 		}
 	}
 
-	protected Config makeConfig(final ResultSet resultSet) throws SQLException
+	protected Config makeConfig (final ResultSet resultSet) throws SQLException
 	{
 		final Config config = new Config();
 		config.setId(resultSet.getInt("config_id"));

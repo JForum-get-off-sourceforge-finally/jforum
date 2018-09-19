@@ -58,6 +58,7 @@ import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.jforum.dao.DataAccessDriver;
 import net.jforum.exceptions.ForumException;
 
 import org.apache.log4j.Level;
@@ -277,6 +278,9 @@ public final class SystemGlobals implements VariableStore
             FileOutputStream out = new FileOutputStream(globals.installationConfig);
             p.store(out, "Installation specific configuration options");
             out.close();
+
+			// store in DB
+			DataAccessDriver.getInstance().newConfigDAO().update(p);
         }
         catch (IOException e) {
             throw new ForumException(e);

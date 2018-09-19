@@ -43,6 +43,7 @@
 package net.jforum.dao;
 
 import java.util.List;
+import java.util.Properties;
 
 import net.jforum.entities.Config;
 
@@ -50,7 +51,6 @@ import net.jforum.entities.Config;
  * Model interface for the {@link net.jforum.entities.Config} class. 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public interface ConfigDAO 
 {
@@ -59,21 +59,29 @@ public interface ConfigDAO
 	 * 
 	 * @param config The data to store.
 	 */
-	void insert(Config config);
+	void insert (Config config);
 	
 	/**
 	 * Updates some config entry
 	 * 
 	 * @param config The entry to update
 	 */
-	void update(Config config);
+	void update (Config config);
+
+	/**
+	 * Updates all the config entries in the Properties
+	 * Called from SystemGlobals whenever the custom settings file is saved.
+	 * 
+	 * @param props The Properties object containing config name/value pairs
+	 */
+	void update (Properties props);
 
 	/**
 	 * Deletes some specific configuration
 	 * 
 	 * @param config The config to delete
 	 */
-	void delete(Config config) ;
+	void delete (Config config);
 	
 	/**
 	 * Gets all existing configuration entries
@@ -81,7 +89,7 @@ public interface ConfigDAO
 	 * @return <code>java.util.List</code> with all records found. 
 	 * Each entry is a <code>net.jforum.entities.Config</code> instance.
 	 */
-	List<Config> selectAll() ;
+	List<Config> selectAll();
 	
 	/**
 	 * Gets a config by its name
@@ -89,5 +97,5 @@ public interface ConfigDAO
 	 * @param name The name to search for.
 	 * @return Config
 	 */
-	Config selectByName(String name) ;
+	Config selectByName (String name);
 }
