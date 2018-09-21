@@ -44,9 +44,11 @@ package net.jforum.util;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
+import org.apache.commons.io.monitor.FileAlterationMonitor;
+import org.apache.commons.io.monitor.FileAlterationObserver;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -55,18 +57,16 @@ import org.apache.log4j.Logger;
  * Monitor class for file changes.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
+
 public class FileMonitor
 {
     private static final Logger LOGGER = Logger.getLogger(FileMonitor.class);
     private static final FileMonitor INSTANCE = new FileMonitor();
-    private Timer timer;
-    private Map<String, FileMonitorTask> timerEntries;
+    private Map<String, FileAlterationMonitor> timerEntries;
 
     private FileMonitor() {
-        this.timerEntries = new ConcurrentHashMap<String, FileMonitorTask>();
-        this.timer = new Timer("Timer-FileMonitor", true);
+        this.timerEntries = new ConcurrentHashMap<String, FileAlterationMonitor>();
     }
 
     public static FileMonitor getInstance() {
@@ -80,17 +80,30 @@ public class FileMonitor
      * @param filename The filename to watch
      * @param period The watch interval (in milli seconds)
      */
-    public void addFileChangeListener(FileChangeListener listener, String filename, long period) {
-        this.removeFileChangeListener(filename);
+    public void addFileChangeListener (final FileChangeListener listener, final String filename, final long period) {
+		final String absoluteFilename = new File(filename).getAbsolutePath();
+        this.removeFileChangeListener(absoluteFilename);
+       	LOGGER.info("Watching " + absoluteFilename);
 
-        if (LOGGER.isEnabledFor(Level.INFO)) {
-        	LOGGER.info("Watching " + filename);
-        }
+		FileAlterationObserver observer = new FileAlterationObserver(new File(filename).getParent());
+		observer.addListener(new FileAlterationListenerAdaptor() {
+			@Override
+			public void onFileChange (File file) {
+                String absPath = file.getAbsolutePath();
+				if (absPath.equals(absoluteFilename)) {
+					//System.out.println("File changed: " + absoluteFilename);
+					listener.fileChanged(absPath);
+				}
+			}
+		});
 
-        FileMonitorTask task = new FileMonitorTask(listener, filename);
-
-        this.timerEntries.put(filename, task);
-        this.timer.schedule(task, period, period);
+		FileAlterationMonitor monitor = new FileAlterationMonitor(period, observer);
+		try {
+			monitor.start();
+			this.timerEntries.put(filename, monitor);
+		} catch (Exception ex) {
+        	LOGGER.error("Error watching " + filename + ": " + ex.getMessage());
+		}
     }
 
     /**
@@ -98,42 +111,15 @@ public class FileMonitor
      * 
      * @param filename The filename to keep watch
      */
-    public void removeFileChangeListener(String filename) {
-        FileMonitorTask task = this.timerEntries.remove(filename);
-
-        if (task != null) {
-            task.cancel();
-        }
-    }
-
-    public Timer getTimer() {
-        return timer;
-    }
-
-    private static class FileMonitorTask extends TimerTask {
-        private FileChangeListener listener;
-        private String filename;
-        private File monitoredFile;
-        private long lastModified;
-
-        public FileMonitorTask(FileChangeListener listener, String filename) {
-            this.listener = listener;
-            this.filename = filename;
-
-            this.monitoredFile = new File(filename);
-            if (this.monitoredFile.exists()) {
-                this.lastModified = this.monitoredFile.lastModified();
-            }
-        }
-
-        @Override
-        public void run() {
-            long latestChange = this.monitoredFile.lastModified();
-            if (this.lastModified != latestChange) {
-                this.lastModified = latestChange;
-
-                this.listener.fileChanged(this.filename);
-            }
+    public void removeFileChangeListener (final String filename) {
+		final String absoluteFilename = new File(filename).getAbsolutePath();
+        FileAlterationMonitor monitor = this.timerEntries.remove(absoluteFilename);
+        if (monitor != null) {
+			try {
+				monitor.stop();
+			} catch (Exception ex) {
+				LOGGER.error("Error unwatching " + absoluteFilename + ": " + ex.getMessage());
+			}
         }
     }
 }

@@ -449,6 +449,5 @@ public class JForum extends JForumBaseServlet
         final Properties localeNames = I18n.getLocaleNames();
         FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT)));
         FileMonitor.getInstance().removeFileChangeListener(baseDir + localeNames.getProperty(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT_ADMIN)));		
-        FileMonitor.getInstance().getTimer().cancel();
     }	
 }
