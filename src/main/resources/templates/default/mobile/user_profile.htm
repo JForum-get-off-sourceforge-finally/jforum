@@ -10,7 +10,7 @@
 <div class="mobilePostText">
 	<#assign rankStr = rank.getRankTitle(u.rankId, u.totalPosts)/>
 	<#if rankStr?trim != "">${I18n.getMessage("PostShow.ranking")}: ${rankStr}<br></#if>
-	${I18n.getMessage("UserProfile.registrationDate")}: ${u.registrationDate?date}<br>
+	${I18n.getMessage("UserProfile.registrationDate")}: ${u.registrationDay}<br>
 	${I18n.getMessage("UserProfile.totalMessages")}:
 	<#if (nposts > 0)>
 		<a class="gen" href="${JForumContext.encodeURL("/posts/listByUser/${u.id}")}"> ${nposts} </a><br>
