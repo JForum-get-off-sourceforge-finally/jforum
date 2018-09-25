@@ -353,17 +353,22 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	 */
 	@Override public List<Post> selectAllByTopic(int topicId)
 	{
-		return this.selectAllByTopicByLimit(topicId, 0, Integer.MAX_VALUE - 1);
+		return this.selectAllByTopicByLimit(topicId, 0, -1);
 	}
 
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
+	 *
+	 * A count smaller than zero means no limit - simplied SQL is used
+	 * for that in order to avoid a limit of Integer.MAX_VALUE
 	 */
 	@Override public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
 	{
 		List<Post> l = new ArrayList<Post>();
 
-		String sql = SystemGlobals.getSql("PostModel.selectAllByTopicByLimit");
+		String sql = (count < 0)
+					? SystemGlobals.getSql("PostModel.selectAllByTopic")
+					: SystemGlobals.getSql("PostModel.selectAllByTopicByLimit");
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -371,8 +376,10 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, topicId);
-			pstmt.setInt(2, startFrom);
-			pstmt.setInt(3, count);
+			if (count >= 0) {
+				pstmt.setInt(2, startFrom);
+				pstmt.setInt(3, count);
+			}
 
 			rs = pstmt.executeQuery();
 

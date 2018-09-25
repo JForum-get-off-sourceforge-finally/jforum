@@ -444,15 +444,20 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	@Override public List<Topic> selectAllByForum(int forumId)
 	{
-		return this.selectAllByForumByLimit(forumId, 0, Integer.MAX_VALUE);
+		return this.selectAllByForumByLimit(forumId, 0, -1);
 	}
 
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
+	 *
+	 * A count smaller than zero means no limit - simplied SQL is used
+	 * for that in order to avoid a limit of Integer.MAX_VALUE
 	 */
 	@Override public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count)
 	{
-		String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
+		String sql = (count < 0)
+					? SystemGlobals.getSql("TopicModel.selectAllByForum")
+					: SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
 
 		PreparedStatement pstmt = null;
 
@@ -460,8 +465,10 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, forumId);
 			pstmt.setInt(2, forumId);
-			pstmt.setInt(3, startFrom);
-			pstmt.setInt(4, count);
+			if (count >= 0) {
+				pstmt.setInt(3, startFrom);
+				pstmt.setInt(4, count);
+			}
 
 			return this.fillTopicsData(pstmt);
 		}

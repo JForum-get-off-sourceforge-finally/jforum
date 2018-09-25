@@ -81,7 +81,7 @@ TopicModel.selectAllByForumByLimit = SELECT t.*, p.user_id AS last_user_id, p.po
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \
     FROM jforum_topics t, jforum_posts p \
-        WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
+    WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
         ORDER BY t.topic_last_post_id DESC OFFSET ? LIMIT ?) \
     AND p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 \
@@ -98,6 +98,26 @@ TopicModel.selectByUserByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_t
     AND t.forum_id IN(:fids:) \
     ORDER BY t.topic_last_post_id DESC \
     OFFSET ? LIMIT ?
+
+TopicModel.selectRecentTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, \
+        (SELECT SUM(p.attach) \
+        FROM jforum_posts p \
+        WHERE p.topic_id = t.topic_id \
+        AND p.need_moderate = 0) AS attach \
+    FROM jforum_topics t, jforum_posts p \
+    WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t ORDER BY t.topic_last_post_id DESC LIMIT ?) \
+    AND p.post_id = t.topic_last_post_id \
+    AND p.need_moderate = 0 \
+    ORDER BY CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END DESC
+
+TopicModel.selectHottestTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
+        FROM jforum_posts p \
+        WHERE p.topic_id = t.topic_id \
+        AND p.need_moderate = 0) AS attach \
+    FROM jforum_topics t, jforum_posts p \
+    WHERE p.post_id IN (SELECT topic_last_post_id FROM jforum_topics ORDER BY topic_views DESC LIMIT ?) \
+    AND p.post_id = t.topic_last_post_id \
+    AND p.need_moderate = 0
 
 TopicModel.lastGeneratedTopicId = SELECT CURRVAL('jforum_topics_seq')
 
