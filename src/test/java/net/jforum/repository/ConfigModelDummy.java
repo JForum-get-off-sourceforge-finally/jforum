@@ -43,13 +43,13 @@
 package net.jforum.repository;
 
 import java.util.List;
+import java.util.Properties;
 
 import net.jforum.dao.ConfigDAO;
 import net.jforum.entities.Config;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ConfigModelDummy implements ConfigDAO
 {
@@ -57,27 +57,33 @@ public class ConfigModelDummy implements ConfigDAO
 	/**
 	 * @see net.jforum.dao.ConfigDAO#insert(net.jforum.entities.Config)
 	 */
-	public void insert(final Config config) 	{
+	public void insert (final Config config)
+	{
 		// empty
-
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#update(net.jforum.entities.Config)
 	 */
-	public void update(final Config config)
+	public void update (final Config config)
 	{
 		// empty
+	}
 
+	/**
+	 * @see net.jforum.dao.ConfigDAO#update(net.jforum.entities.Config)
+	 */
+	public void update (Properties props)
+	{
+		// empty
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#delete(net.jforum.entities.Config)
 	 */
-	public void delete(final Config config)
+	public void delete (final Config config)
 	{
 		// empty
-
 	}
 
 	/**
@@ -85,17 +91,14 @@ public class ConfigModelDummy implements ConfigDAO
 	 */
 	public List<Config> selectAll()
 	{
-		
 		return null;
 	}
 
 	/**
 	 * @see net.jforum.dao.ConfigDAO#selectByName(java.lang.String)
 	 */
-	public Config selectByName(final String name) 
+	public Config selectByName (final String name) 
 	{
-		
 		return null;
 	}
-
 }
