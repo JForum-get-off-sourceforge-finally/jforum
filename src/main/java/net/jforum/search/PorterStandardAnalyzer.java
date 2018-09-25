@@ -12,14 +12,13 @@ import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.StopwordAnalyzerBase;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.en.PorterStemFilter;
-import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.util.Version;
 
 import org.apache.log4j.Logger;
 
 /**
- * Filters {@link StandardTokenizer} with {@link StandardFilter}, {@link LowerCaseFilter},
+ * Filters {@link StandardTokenizer} with {@link LowerCaseFilter},
  * {@link PorterStemFilter} and {@link StopFilter}, using a list of stop words.
  * Basically a StandardAnalyzer that also does Porter stemming.
  */
@@ -39,12 +38,11 @@ public final class PorterStandardAnalyzer extends StopwordAnalyzerBase {
 
 	@Override
 	protected TokenStreamComponents createComponents (final String fieldName) {
-		// Filters StandardTokenizer with StandardFilter, LowerCaseFilter, PorterStemFilter
+		// Filters StandardTokenizer with LowerCaseFilter, PorterStemFilter
 		// and StopFilter, using a list of given stop words 
 		// Basically a StandardAnalyzer that also does Porter stemming 
 		final StandardTokenizer src = new StandardTokenizer();
-		TokenStream tok = new StandardFilter(src);
-		tok = new LowerCaseFilter(tok);
+		TokenStream tok = new LowerCaseFilter(src);
 		tok = new StopFilter(tok, cas);
 		tok = new PorterStemFilter(tok);
 		return new TokenStreamComponents(src, tok);

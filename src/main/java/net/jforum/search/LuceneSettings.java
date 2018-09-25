@@ -56,7 +56,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.RAMDirectory;
 
 import org.apache.log4j.Logger;
 
@@ -73,15 +72,6 @@ public class LuceneSettings
 	public LuceneSettings (final Class<?> clazz)
 	{
 		this.clazz = clazz;
-	}
-
-	public void useRAMDirectory() throws IOException
-	{
-		this.directory = new RAMDirectory();
-
-		final IndexWriterConfig conf = new IndexWriterConfig(analyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-		final IndexWriter writer = new IndexWriter(this.directory, conf);
-		writer.close();
 	}
 
 	public void useFSDirectory (final String indexDirectory) throws IOException
