@@ -48,7 +48,6 @@ package net.jforum.util.preferences;
 * configuration keys under eclipse ;-)
 * 
 * @author Pieter Olivier
-* @version $Id$
 */
 
 public final class ConfigKeys 
@@ -59,7 +58,7 @@ public final class ConfigKeys
 	public static final String INSTALLED = "installed";
 	public static final String INSTALLATION_CONFIG = "installation.config";
 	public static final String CACHEABLE_OBJECTS = "cacheable.objects";
-	
+
 	public static final String FILECHANGES_DELAY = "file.changes.delay";
 
 	public static final String DAO_DRIVER = "dao.driver";
@@ -67,7 +66,7 @@ public final class ConfigKeys
 	public static final String DATABASE_CONNECTION_IMPLEMENTATION = "database.connection.implementation";
 	public static final String DATABASE_DRIVER_NAME = "database.driver.name";
 	public static final String DATABASE_DRIVER_CONFIG = "database.driver.config";
-	public static final String DATABASE_DRIVER_PROPERTIES = "database.driver.properties";	
+	public static final String DATABASE_DRIVER_PROPERTIES = "database.driver.properties";
 	public static final String DATABASE_CONNECTION_HOST = "database.connection.host";
 	public static final String DATABASE_CONNECTION_USERNAME = "database.connection.username";
 	public static final String DATABASE_CONNECTION_PASSWORD = "database.connection.password";
@@ -90,7 +89,7 @@ public final class ConfigKeys
 
 	public static final String SQL_QUERIES_GENERIC = "sql.queries.generic";
 	public static final String SQL_QUERIES_DRIVER = "sql.queries.driver";
-	
+
 	public static final String AUTHENTICATION_TYPE = "authentication.type";
 	public static final String SSO_IMPLEMENTATION = "sso.implementation";
 	public static final String LOGIN_AUTHENTICATOR = "login.authenticator";
@@ -98,13 +97,13 @@ public final class ConfigKeys
 	public static final String TYPE_DEFAULT = "default";
 	public static final String TYPE_SSO = "sso";
 	public static final String AUTO_LOGIN_ENABLED = "auto.login.enabled";
-	
+
 	public static final String SSO_PASSWORD_ATTRIBUTE = "sso.password.attribute";
 	public static final String SSO_EMAIL_ATTRIBUTE = "sso.email.attribute";
 	public static final String SSO_DEFAULT_PASSWORD = "sso.default.password";
 	public static final String SSO_DEFAULT_EMAIL = "sso.default.email";
 	public static final String SSO_REDIRECT = "sso.redirect";
-	
+
 	public static final String RESOURCE_DIR = "resource.dir";
 	public static final String CONFIG_DIR = "config.dir";
 
@@ -126,18 +125,17 @@ public final class ConfigKeys
 	public static final String COOKIE_AUTO_LOGIN = "cookie.name.autologin";
 	public static final String COOKIE_USER_HASH = "cookie.name.userHash";
 
-    public static final String STATS_RING_SIZE = "statistics.ringSize";
-    public static final String STATS_ACTIVE = "statistics.active";
+	public static final String STATS_RING_SIZE = "statistics.ringSize";
+	public static final String STATS_ACTIVE = "statistics.active";
 
 	public static final String ANONYMOUS_USER_ID = "anonymous.userId";
 	public static final String DEFAULT_USER_GROUP = "defaultUserGroup";
 	public static final String USER_HASH_SEQUENCE = "user.hash.sequence";
 	public static final String TOPICS_READ_TIME = "topics.tracking";
 	public static final String TOPICS_READ_TIME_BY_FORUM = "topics.tracking.byforum";
-	
+
 	public static final String TOPIC_CACHE_ENABLED = "topic.cache.enabled";
 	public static final String TOPIC_CACHE_SIZE = "topic.cache.size";
-	public static final String SECURITY_CACHE_ENABLED = "security.cache.enabled";
 
 	public static final String VERSION = "version";
 	public static final String VERSION_CHECK_ENABLED = "version.check.enabled";
@@ -180,7 +178,7 @@ public final class ConfigKeys
 	public static final String CAPTCHA_MAX_FONT_SIZE = "captcha.max.font.size";
 	public static final String CAPTCHA_MIN_WORDS = "captcha.min.words";
 	public static final String CAPTCHA_MAX_WORDS = "captcha.max.words";
-	
+
 	public static final String I18N_DEFAULT = "i18n.board.default";
 	public static final String I18N_DEFAULT_ADMIN = "i18n.internal";
 	public static final String I18N_IMAGES_DIR = "i18n.images.dir";
@@ -198,27 +196,27 @@ public final class ConfigKeys
 	public static final String MAIL_NEW_PM_SUBJECT = "mail.newPm.subject";
 	public static final String MAIL_NEW_PM_MESSAGE_FILE = "mail.newPm.messageFile";
 	public static final String MAIL_MESSSAGE_FORMAT = "mail.messageFormat";
-	
+
 	public static final String MAIL_POP3_DEBUG_KEEP_MESSAGES = "mail.pop3.debug.keep.messages";
 	public static final String MAIL_POP3_INTEGRATION_ENABLED = "mail.pop3.integration.enabled";
 	public static final String MAIL_POP3_DISABLETOP = "mail.pop3.disabletop";
-	
+
 	public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
 	public static final String MAIL_SMTP_HOST = "mail.smtp.host";
 	public static final String MAIL_SMTP_PORT = "mail.smtp.port";
-	
+
 	public static final String MAIL_SMTP_SSL_AUTH = "mail.smtps.auth";
 	public static final String MAIL_SMTP_SSL_HOST = "mail.smtps.host";
 	public static final String MAIL_SMTP_SSL_PORT = "mail.smtps.port";
 	public static final String MAIL_SMTP_SSL_LOCALHOST = "mail.smtps.localhost";
-	
+
 	public static final String MAIL_SMTP_SSL = "mail.smtp.ssl";
-	
+
 	public static final String MAIL_SMTP_LOCALHOST = "mail.smtp.localhost";
 	public static final String MAIL_SMTP_USERNAME = "mail.smtp.username";
 	public static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
 	public static final String MAIL_SMTP_DELAY = "mail.smtp.delay";
-	
+
 	public static final String MAIL_USER_EMAIL_AUTH = "mail.user.email.auth";
 	public static final String MAIL_ACTIVATION_KEY_MESSAGE_FILE = "mail.activationKey.messageFile";
 	public static final String MAIL_ACTIVATION_KEY_SUBJECT = "mail.activationKey.subject";
@@ -242,11 +240,11 @@ public final class ConfigKeys
 
 	public static final String MOST_USERS_EVER_ONLINE = "most.users.ever.online";
 	public static final String MOST_USER_EVER_ONLINE_DATE = "most.users.ever.online.date";
-	
+
 	public static final String JBOSS_CACHE_PROPERTIES = "jboss.cache.properties";
 	public static final String EHCACHE_CACHE_PROPERTIES = "ehcache.cache.properties";
 	public static final String CACHE_IMPLEMENTATION = "cache.engine.implementation";
-	
+
 	public static final String ATTACHMENTS_MAX_POST = "attachments.max.post";
 	public static final String ATTACHMENTS_IMAGES_CREATE_THUMB = "attachments.images.createthumb";
 	public static final String ATTACHMENTS_IMAGES_MAX_THUMB_W = "attachments.images.thumb.maxsize.w";
@@ -258,7 +256,7 @@ public final class ConfigKeys
 	public static final String ATTACHMENTS_ANONYMOUS = "attachments.anonymous";
 
 	public static final String ANNOUNCEMENT = "announcement";
-	
+
 	public static final String AGREEMENT_SHOW = "agreement.show";
 	public static final String AGREEMENT_ACCEPTED = "agreement.accepted";
 	public static final String AGREEMENT_DEFAULT_FILE = "agreement.default.file";
@@ -266,13 +264,13 @@ public final class ConfigKeys
 	public static final String REGISTRATION_ENABLED = "registration.enabled";
 	public static final String USERNAME_MAX_LENGTH = "username.max.length";
 
-	public static final String QUARTZ_CONFIG = "quartz.config";	
+	public static final String QUARTZ_CONFIG = "quartz.config";
 	public static final String QUARTZ_CONTEXT = "org.quartz.context.";
-	
+
 	public static final String SEARCH_INDEXING_ENABLED = "search.indexing.enabled";
 	public static final String SEARCH_RESULT_LIMIT = "search.result.limit";
 	public static final String EXTENSION_FIELD = "extension.field";
-	
+
 	public static final String LDAP_SECURITY_PROTOCOL = "ldap.security.protocol";
 	public static final String LDAP_AUTHENTICATION = "ldap.authentication";
 	public static final String LDAP_FACTORY = "ldap.factory";
@@ -282,7 +280,7 @@ public final class ConfigKeys
 	public static final String LDAP_FIELD_EMAIL = "ldap.field.email";
 	public static final String LDAP_LOOKUP_PREFIX = "ldap.lookup.prefix";
 	public static final String LDAP_LOOKUP_SUFFIX = "ldap.lookup.suffix";
-	
+
 	public static final String CLICKSTREAM_CONFIG = "clickstream.config";
 	public static final String IS_BOT = "clickstream.is.bot";
 
@@ -306,14 +304,14 @@ public final class ConfigKeys
     public static final String STACKTRACE_MODERATORS_ONLY = "stacktrace.moderators.only";
     public static final String JFORUM_VERSION_URL = "jforum.version.url";
 	public static final String REQUEST_IGNORE_CAPTCHA = "request.ignore.captcha";
-	
+
 	public static final String API_SECURITY_KEY = "api.security.key";
 	public static final String BANLIST_SEND_403FORBIDDEN = "banlist.send.403forbidden";
 	public static final String HTTP_XFRAMEOPTIONS = "http.x-frame-options";
-	
+
 	public static final String LOGIN_IGNORE_XFORWARDEDHOST = "login.ignore.xforwardedhost";
 	public static final String LOGIN_IGNORE_REFERER = "login.ignore.referer";
-	
+
 	public static final String LUCENE_ANALYZER = "lucene.analyzer";
 	public static final String LUCENE_INDEX_WRITE_PATH = "lucene.index.write.path";
 	public static final String LUCENE_SETTINGS = "lucene.settings";
@@ -322,14 +320,14 @@ public final class ConfigKeys
 	public static final String LUCENE_INDEXER_DB_FETCH_COUNT = "lucene.indexer.db.fetch.count";
 	public static final String LUCENE_INDEX_ATTACHMENTS = "lucene.index.attachments";
 	public static final String LUCENE_STOPWORDs = "lucene.analyzer.stopwords";
-	
+
 	public static final String MODERATION_LOGGING_ENABLED = "moderation.logging.enabled";
 	public static final String PROXIED_CONTEXT_PATH = "proxied.context.path";
 	public static final String REDIRECT_ABSOLUTE_PATHS = "redirect.absolute.paths";
 	public static final String REDIRECT_BASE_URL = "redirect.base.url";
     
 	public static final String FREEMARKER_EXTRA_TEMPLATE_PATH = "freemarker.extra.template.path";
-	
+
 	public static final String STOPFORUMSPAM_API_ENABLED = "stopForumSpam.api.enabled";
 	public static final String STOPFORUMSPAM_API_URL = "stopForumSpam.api.url";
 
