@@ -44,6 +44,15 @@ PostModel.selectAllByTopicByLimit = SELECT p.post_id, topic_id, forum_id, p.user
     AND pt.post_id = p.post_id AND u.user_id = p.user_id \
     ORDER BY post_time ASC
 
+PostModel.selectAllByTopic = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
+       enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+       FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
+       WHERE p.post_id IN (SELECT p.post_id FROM jforum_posts p WHERE p.topic_id = ? AND p.need_moderate = 0 \
+       ORDER BY post_time ASC) \
+       AND pt.post_id = p.post_id \
+       AND p.user_id = u.user_id \
+       ORDER BY post_time ASC
+
 PostModel.selectByUserByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
     enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
     FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
