@@ -108,6 +108,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		String requestUri = this.extractRequestUri(superRequest.getRequestURI(), contextPath);
 		final String encoding = SystemGlobals.getValue(ConfigKeys.ENCODING);
 		final String servletExtension = SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION);
+		superRequest.setCharacterEncoding(encoding);
 
 		MobileStatus mobileStatus = MobileStatus.getMobileRequest(superRequest, requestUri);
 		if (mobileStatus == MobileStatus.MOBILE_PAGES_WHERE_AVAILABLE) {
