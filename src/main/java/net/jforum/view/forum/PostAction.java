@@ -434,8 +434,6 @@ public class PostAction extends Command
 		List<Post> helperList = PostCommon.topicPosts(postDao, false, userId, topic.getId(), start, count);
 		Collections.reverse(helperList);
 
-		this.setTemplateName(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR) + "/empty.htm");
-
 		this.setTemplateName(TemplateKeys.POSTS_REVIEW);
 		this.context.put("posts", helperList);
 		this.context.put("users", usersMap);

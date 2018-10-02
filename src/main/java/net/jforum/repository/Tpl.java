@@ -115,14 +115,14 @@ public class Tpl implements Cacheable
         if (result == null) {
             if (key.endsWith("mobile")) {
                 final String keyWithoutMobileSuffix = key.replaceFirst("\\.mobile$", "");
-                return name(keyWithoutMobileSuffix);
+                result = name(keyWithoutMobileSuffix);
             }
         }
 
 		if (result == null) {
 			// cache was flushed, reload
 			Tpl.load(SystemGlobals.getValue(ConfigKeys.TEMPLATES_MAPPING));
-			result = (String) cache.get(FQN, key);
+			result = name(key);
 		}
 
 		return result;
