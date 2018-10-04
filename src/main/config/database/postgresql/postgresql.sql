@@ -91,7 +91,7 @@ TopicModel.selectAllByForumByLimit = SELECT t.*, p.user_id AS last_user_id, p.po
         AND p.need_moderate = 0) AS attach \
     FROM jforum_topics t, jforum_posts p \
     WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t WHERE (t.forum_id = ? OR t.topic_moved_id = ?) \
-        ORDER BY t.topic_last_post_id DESC OFFSET ? LIMIT ?) \
+        ORDER BY (CASE WHEN t.topic_type IN (1,2) THEN t.topic_type END ASC, t.topic_last_post_id DESC OFFSET ? LIMIT ?)) \
     AND p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 \
     ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC
