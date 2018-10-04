@@ -25,12 +25,10 @@
 	}
 </script>
 <p>
-<a class="maintitle" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
-</p>
-<#--  post -->
 <#assign fp = posts.get(0)/>
-<div class="subject">${fp.subject?default("")} <#if topic.type == TOPIC_WIKI>(Wiki)</#if></div>
-
+<div class="maintitle"><a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
+	&raquo; <span style="font-weight: normal">${fp.subject?default("")} <#if topic.type == TOPIC_WIKI>(Wiki)</#if></span></div>
+</p>
 <#list posts as post>
 <#if (!(wikiTopic!false)) || (post_index == 0 || post.visibleInWiki) >
   <#assign user = users.get(post.userId)/>

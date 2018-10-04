@@ -87,7 +87,7 @@ blockquote.uncited {
 
 .postinfo { font-size: 10px; color: #000000; background-color: #dee3e7; padding-right: 5px; height: 2em; }
 .postinfo .date { float: left; }
-.postinfo .subject { float: left; padding-left: 50px;}
+.postinfo .subject { float: left; }
 .postinfo .action { float: right; }
 
 a.copyright { color: #444444; text-decoration: none; }
