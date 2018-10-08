@@ -233,23 +233,35 @@ public class PrivateMessageAction extends Command
 
 			this.send();			
 		}
-		else {			
+		else {
+			// Check the elapsed time since the last post (or private message) from the user
+			int delay = SystemGlobals.getIntValue(ConfigKeys.POSTS_NEW_DELAY);
+
+			if (delay > 0) {
+				Long lastPostTime = (Long) SessionFacade.getAttribute(ConfigKeys.LAST_POST_TIME);
+
+				if (lastPostTime != null && (System.currentTimeMillis() < (lastPostTime.longValue() + delay))) {
+					this.setTemplateName(TemplateKeys.PM_SENDSAVE_USER_NOTFOUND);
+					this.context.put("message", I18n.getMessage("PostForm.tooSoon"));
+					return;
+				}
+			}
+
             DataAccessDriver.getInstance().newPrivateMessageDAO().send(pm);
-			
+
 			this.setTemplateName(TemplateKeys.PM_SENDSAVE);
 			this.context.put("message", I18n.getMessage("PrivateMessage.messageSent", 
 				new String[] { this.request.getContextPath() 
 					+ "/pm/inbox"
 					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION)}));
-			
-			// If the target user if in the forum, then increments its 
-			// private message count
+
+			// If the target user is in the forum, then increment his private message count
 			String sid = SessionFacade.isUserInSession(toUserId);
 			if (sid != null) {
 				UserSession us = SessionFacade.getUserSession(sid);
 				us.setPrivateMessages(us.getPrivateMessages() + 1);
 			}
-			
+
 			if (toUser.getEmail() != null 
 				&& toUser.getEmail().trim().length() > 0
 				&& SystemGlobals.getBoolValue(ConfigKeys.MAIL_NOTIFY_ANSWERS)) {
@@ -259,6 +271,10 @@ public class PrivateMessageAction extends Command
 			new StatsEvent(Stats.ForbidDetailDisplay.SENT_PMS.toString(),
 					"From " + pm.getFromUser().getUsername() +
 					" to " + pm.getToUser().getUsername()).record();
+
+			if (delay > 0) {
+				SessionFacade.setAttribute(ConfigKeys.LAST_POST_TIME, new Long(System.currentTimeMillis()));
+			}
 		}
 	}
 
