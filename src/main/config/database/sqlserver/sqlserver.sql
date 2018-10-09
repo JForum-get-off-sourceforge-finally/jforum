@@ -167,6 +167,13 @@ TopicModel.lastGeneratedTopicId = SELECT IDENT_CURRENT('jforum_topics') AS topic
 # #############
 PrivateMessagesModel.lastGeneratedPmId = SELECT IDENT_CURRENT('jforum_privmsgs') AS privmsgs_id 
 
+PrivateMessageModel.baseListing = SELECT * \
+    FROM ( SELECT ROW_NUMBER() OVER (ORDER BY pm.privmsgs_date DESC) - 1 AS rownumber, \
+    pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username \
+    FROM jforum_privmsgs pm, jforum_users u \
+    #FILTER# \
+    WHERE rownumber >= ? and rownumber < ?
+
 # #############
 # SmiliesModel
 # #############

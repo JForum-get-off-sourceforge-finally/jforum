@@ -86,7 +86,7 @@ public interface PrivateMessageDAO
 	 * @return A <code>List</code> with all messages found. Each 
 	 * entry is a <code>PrivateMessage</code> entry.
 	 */
-	List<PrivateMessage> selectFromInbox(User user) ;
+	List<PrivateMessage> selectFromInbox(User user, int startFrom, int count) ;
 	
 	/**
 	 * Selects all messages from the user's sent box. 
@@ -95,7 +95,7 @@ public interface PrivateMessageDAO
 	 * @return A <code>List</code> with all messages found. Each 
 	 * entry is a <code>PrivateMessage</code> entry.
 	 */
-	List<PrivateMessage> selectFromSent(User user) ;
+	List<PrivateMessage> selectFromSent(User user, int startFrom, int count) ;
 	
 	/**
 	 * Gets a <code>PrivateMessage</code> by its id.
@@ -105,4 +105,20 @@ public interface PrivateMessageDAO
 	 * @return The privMsg contents
 	 */
 	PrivateMessage selectById(PrivateMessage privMsg) ;
+	
+	/**
+	 * Gets the number of messages from the user's sent box.
+	 * 
+	 * @param userId
+	 * @return The number of messages
+	 */
+	int getTotalSent(int userId) ;
+	
+	/**
+	 * Gets the number of messages from the user's inbox.
+	 * 
+	 * @param userId
+	 * @return The number of messages
+	 */
+	int getTotalInbox(int userId) ;
 }

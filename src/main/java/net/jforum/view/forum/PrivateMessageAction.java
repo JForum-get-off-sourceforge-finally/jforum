@@ -82,14 +82,24 @@ public class PrivateMessageAction extends Command
 		
 		User user = new User();
 		user.setId(SessionFacade.getUserSession().getUserId());
-		
-		List<PrivateMessage> pmList = DataAccessDriver.getInstance().newPrivateMessageDAO().selectFromInbox(user);
+
+ 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+ 		int start = ViewCommon.getStartPage();
+ 		
+ 		PrivateMessageDAO pmdao = DataAccessDriver.getInstance().newPrivateMessageDAO();
+ 		
+ 		int totalMessages = pmdao.getTotalInbox(user.getId());
+ 		
+ 		List<PrivateMessage> pmList = pmdao.selectFromInbox(user, start, postsPerPage);
 
 		this.setTemplateName(TemplateKeys.PM_INBOX);
 		this.context.put("inbox", true);
 		this.context.put("pmList", pmList);
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.privateMessages")+" "+I18n.getMessage("PrivateMessage.inbox"));
 		this.putTypes();		
+ 
+ 		ViewCommon.contextToPagination(start, totalMessages, postsPerPage);
+ 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 	}
 	
 	public void sentbox()
@@ -102,13 +112,23 @@ public class PrivateMessageAction extends Command
 		User user = new User();
 		user.setId(SessionFacade.getUserSession().getUserId());
 		
-		List<PrivateMessage> pmList = DataAccessDriver.getInstance().newPrivateMessageDAO().selectFromSent(user);
+		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+		int start = ViewCommon.getStartPage();
+		
+		PrivateMessageDAO pmdao = DataAccessDriver.getInstance().newPrivateMessageDAO();
+		
+		int totalMessages = pmdao.getTotalSent(user.getId());
+		
+		List<PrivateMessage> pmList = DataAccessDriver.getInstance().newPrivateMessageDAO().selectFromSent(user, start, postsPerPage);
 
 		this.context.put("sentbox", true);
 		this.context.put("pmList", pmList);
 		this.setTemplateName(TemplateKeys.PM_SENTBOX);
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.privateMessages")+" "+I18n.getMessage("PrivateMessage.sentbox"));
 		this.putTypes();
+
+		ViewCommon.contextToPagination(start, totalMessages, postsPerPage);
+		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 	}
 	
 	private void putTypes()

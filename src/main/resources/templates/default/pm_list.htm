@@ -1,5 +1,7 @@
 <#include "header.htm"/>
+<#import "../macros/pagination.ftl" as pagination/>
 <script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
+<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
 <table cellspacing="0" cellpadding="10" width="100%" align="center">
 	<tbody>
 		<tr>
@@ -81,6 +83,9 @@
 									 <a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
 									 </span>
 								</td>
+								<td class="nav" nowrap="nowrap" align="right">
+									<@pagination.doPagination action/>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -132,6 +137,8 @@
 							</#list>
 							<tr>
 								<td class="catbottom" align="right" colspan="5">
+									<b><span class="gensmall"><a class="gensmall" href="javascript:select_switch(true);">${I18n.getMessage("PrivateMessage.checkAll")}</a> :: 
+									<a class="gensmall" href="javascript:select_switch(false);">${I18n.getMessage("PrivateMessage.uncheckAll")}</a></span></b>
 									&nbsp; <input class="liteoption" type="submit" value="${I18n.getMessage("PrivateMessage.deleteSelected")}" name="delete" />
 									<!--
 									&nbsp; <input class="liteoption" type="submit" value="${I18n.getMessage("PrivateMessage.deleteAll")}" name="deleteall" />
@@ -147,9 +154,7 @@
 								</td>
 								<td valign="middle" align="left" width="100%"><span class="nav">&nbsp;</span></td>
 								<td valign="top" nowrap="nowrap" align="right">
-									<b><span class="gensmall"><a class="gensmall" href="javascript:select_switch(true);">${I18n.getMessage("PrivateMessage.checkAll")}</a> :: 
-									<a class="gensmall" href="javascript:select_switch(false);">${I18n.getMessage("PrivateMessage.uncheckAll")}</a></span></b>
-									<br />
+									<@pagination.doPagination action/>
 									<span class="nav">
 										<br />
 									</span>

@@ -130,6 +130,11 @@ TopicModel.selectByUserByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id
 # #####################
 PrivateMessagesModel.lastGeneratedPmId = SELECT MAX(privmsgs_id) FROM jforum_privmsgs
 
+PrivateMessageModel.baseListing = SELECT LIMIT ? ? pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username \
+    FROM jforum_privmsgs pm, jforum_users u \
+    #FILTER# \
+    ORDER BY pm.privmsgs_date DESC
+
 # #############
 # SmiliesModel
 # #############

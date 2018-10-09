@@ -1,21 +1,19 @@
 <#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination/>
 <script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 <div>  
-	<input type="button" value="${I18n.getMessage("PrivateMessage.title")}" onclick="location.href='${JForumContext.encodeURL("/pm/send")}'" />
+	<input type="button" value="${I18n.getMessage("PrivateMessage.title")}" onclick="location.href='${JForumContext.encodeURL("/pm/send")}'" /> |
 	<#if inbox?default(false)>
+		<b>${I18n.getMessage("PrivateMessage.inbox")}</b> |
 		<input type="button" value="${I18n.getMessage("PrivateMessage.sentbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/sentbox")}'" />
 	<#else>
-		<input type="button" value="${I18n.getMessage("PrivateMessage.inbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/inbox")}'" />
+		<input type="button" value="${I18n.getMessage("PrivateMessage.inbox")}" onclick="location.href='${JForumContext.encodeURL("/pm/inbox")}'" /> |
+		<b>${I18n.getMessage("PrivateMessage.sentbox")}</b>
 	</#if>
 </div>
 <br>
-<div class="subject row2">
-	<#if inbox?default(false)>
-		${I18n.getMessage("PrivateMessage.inbox")}
-	<#else>
-		${I18n.getMessage("PrivateMessage.sentbox")}
-	</#if>
-</div>
+<@pagination.doPagination action, -1, 1/>
+<br>
 <#list pmList as pm>
 	<div class="mobilePostBody row1">
 	  <#if pm.type == NEW>
@@ -37,4 +35,6 @@
 	  ${I18n.getMessage("PrivateMessage.date")}: <script>"${pm.formattedDate}".toLocaleDateTime();</script><noscript>${pm.formattedDate}</noscript>
 	</div>
 </#list>
+<br>
+<@pagination.doPagination action, -1, 1/>
 <#include "bottom.htm"/>

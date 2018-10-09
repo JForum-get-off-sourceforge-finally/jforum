@@ -135,6 +135,12 @@ TopicModel.lastGeneratedTopicId = SELECT CURRVAL('jforum_topics_seq')
 # #####################
 PrivateMessagesModel.lastGeneratedPmId = SELECT CURRVAL('jforum_privmsgs_seq')
 
+PrivateMessageModel.baseListing = SELECT pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username \
+    FROM jforum_privmsgs pm, jforum_users u \
+    #FILTER# \
+    ORDER BY pm.privmsgs_date DESC \
+    OFFSET ? LIMIT ?
+
 # #############
 # SmiliesModel
 # #############

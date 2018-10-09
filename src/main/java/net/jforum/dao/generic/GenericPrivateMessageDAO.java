@@ -185,7 +185,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectFromInbox(net.jforum.entities.User)
 	 */
-	@Override public List<PrivateMessage> selectFromInbox(User user)
+	@Override public List<PrivateMessage> selectFromInbox(User user, int startFrom, int count)
 	{
 		String query = SystemGlobals.getSql("PrivateMessageModel.baseListing");
 		query = query.replaceAll("#FILTER#", SystemGlobals.getSql("PrivateMessageModel.inbox"));
@@ -195,6 +195,8 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
 			pstmt.setInt(1, user.getId());
+			pstmt.setInt(2, startFrom);
+			pstmt.setInt(3, count);
 
 			List<PrivateMessage> pmList = new ArrayList<PrivateMessage>();
 
@@ -224,7 +226,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectFromSent(net.jforum.entities.User)
 	 */
-	@Override public List<PrivateMessage> selectFromSent(User user)
+	@Override public List<PrivateMessage> selectFromSent(User user, int startFrom, int count)
 	{
 		String query = SystemGlobals.getSql("PrivateMessageModel.baseListing");
 		query = query.replaceAll("#FILTER#", SystemGlobals.getSql("PrivateMessageModel.sent"));
@@ -234,6 +236,8 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
 			pstmt.setInt(1, user.getId());
+			pstmt.setInt(2, startFrom);
+			pstmt.setInt(3, count);
 
 			List<PrivateMessage> pmList = new ArrayList<PrivateMessage>();
 
@@ -344,6 +348,64 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 		}
 		finally {
 			DbUtils.close(pstmt);
+		}
+	}
+
+	/**
+	 * @see net.jforum.dao.PrivateMessageDAO#getTotalSent(int)
+	 */
+	@Override public int getTotalSent(int userId)
+	{
+		int total = 0;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("PrivateMessageModel.sentTotal"));
+			pstmt.setInt(1, userId);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("total");
+			}
+
+			return total;
+		}
+		catch (SQLException e) {
+			throw new DatabaseException(e);
+		}
+		finally {
+			DbUtils.close(rs, pstmt);
+		}
+	}
+
+	/**
+	 * @see net.jforum.dao.PrivateMessageDAO#getTotalInbox(int)
+	 */
+	@Override public int getTotalInbox(int userId)
+	{
+		int total = 0;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("PrivateMessageModel.inboxTotal"));
+			pstmt.setInt(1, userId);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("total");
+			}
+
+			return total;
+		}
+		catch (SQLException e) {
+			throw new DatabaseException(e);
+		}
+		finally {
+			DbUtils.close(rs, pstmt);
 		}
 	}
 }

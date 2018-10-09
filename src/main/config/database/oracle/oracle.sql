@@ -226,6 +226,15 @@ PrivateMessagesModel.addText = INSERT INTO jforum_privmsgs_text ( privmsgs_id, p
 PrivateMessagesModel.addTextField = SELECT privmsgs_text from jforum_privmsgs_text WHERE privmsgs_id = ? FOR UPDATE
 PrivateMessagesModel.lastGeneratedPmId = SELECT jforum_privmsgs_seq.currval FROM dual
 
+PrivateMessageModel.baseListing = SELECT * FROM ( \
+    SELECT pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username, \
+    ROW_NUMBER() OVER(ORDER BY privmsgs_id) - 1 LINENUM \
+    FROM jforum_privmsgs pm, jforum_users u \
+    #FILTER# \
+    ORDER BY pm.privmsgs_date DESC \
+    ) \
+    WHERE LINENUM >= ? AND LINENUM < ?
+
 # #############
 # SmiliesModel
 # #############
