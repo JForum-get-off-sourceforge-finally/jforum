@@ -95,8 +95,8 @@ public class ForumAction extends Command
 		this.context.put("lastUser", ForumRepository.lastRegisteredUser());
 
 		GregorianCalendar gc = new GregorianCalendar();
-		this.context.put("now", ViewCommon.formatDateAsGmt(gc.getTime()));
-		this.context.put("lastVisit", ViewCommon.formatDateAsGmt(SessionFacade.getUserSession().getLastVisit()));
+               this.context.put("now", ViewCommon.formatDatePatternOnly(gc.getTime()));
+               this.context.put("lastVisit", ViewCommon.formatDate(SessionFacade.getUserSession().getLastVisit()));
 		this.context.put("forumRepository", new ForumRepository());
 
 		// Online Users

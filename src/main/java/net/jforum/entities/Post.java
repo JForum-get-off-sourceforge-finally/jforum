@@ -165,21 +165,18 @@ public class Post implements Serializable
 		return this.editTime;
 	}
 
-    public String getFormattedEditTime() {
-        String result = "";
-        if (this.time != null) {
-            result = ViewCommon.formatDate(this.editTime);
-        }
-        return result;
-    }
-
-    public String getFormattedEditTimeAsGmt() {
-        String result = "";
-        if (this.time != null) {
-			result = ViewCommon.formatDateAsGmt(this.editTime);
-        }
-        return result;
-    }
+       /**
+        * Gets formated formatted post edit time
+        * 
+        * @return String value representing the time
+        */
+       public String getFormattedEditTime() {
+               String result = "";
+               if (this.time != null) {
+                       result = ViewCommon.formatDate(this.editTime);
+               }
+               return result;
+       }
 
 	/**
 	 * Gets the forum's id the post is associated
@@ -377,22 +374,19 @@ public class Post implements Serializable
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	
-    public String getFormattedTime() {
-        String result = "";
-        if (this.time != null) {
-            result = ViewCommon.formatDate(this.time);
-        }
-        return result;
-    }
 
-    public String getFormattedTimeAsGmt() {
-        String result = "";
-        if (this.time != null) {
-			result = ViewCommon.formatDateAsGmt(this.time);
-        }
-        return result;
-    }
+       /**
+        * Gets formated formatted post time
+        * 
+        * @return String value representing the time
+        */
+       public String getFormattedTime() {
+               String result = "";
+               if (this.time != null) {
+                       result = ViewCommon.formatDate(this.time);
+               }
+               return result;
+       }
 
 	/**
 	 * Sets the id of the topic that the message belongs to

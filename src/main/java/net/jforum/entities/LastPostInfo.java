@@ -78,10 +78,6 @@ public class LastPostInfo implements Serializable
 		return this.postDate == null ? null : ViewCommon.formatDate(this.postDate);
 	}
 
-	public String getPostDateAsGmt() {
-		return ViewCommon.formatDateAsGmt(this.postDate);
-	}
-
 	/**
 	 * @param postDate The postDate to set.
 	 */

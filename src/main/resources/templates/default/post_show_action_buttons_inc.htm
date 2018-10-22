@@ -5,8 +5,7 @@
 				<#assign startStr = ""/>
 				<#if (start > 0)><#assign startStr = "${start}/"/></#if>
 				<nobr><a href="${JForumContext.encodeURL("/posts/list/${startStr}${post.topicId}")}#p${post.id}">
-				<img src="${contextPath}/templates/${templateName}/images/icon_minipost_new.gif" alt="[Post New]" /></a>
-				<script>"${post.formattedTimeAsGmt}".toLocaleDateTime();</script><noscript>${post.formattedTime}</noscript></nobr>
+                               <img src="${contextPath}/templates/${templateName}/images/icon_minipost_new.gif" alt="[Post New]" /></a>${post.formattedTime}
 			</div>
 		</div>
 	</td>

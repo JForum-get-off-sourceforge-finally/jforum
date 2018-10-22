@@ -48,7 +48,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.context.RequestContext;
@@ -57,11 +56,14 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.SessionFacade;
+import net.jforum.entities.UserSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import freemarker.template.*;
+import org.ocpsoft.prettytime.*;
 
 /**
  * @author Rafael Steil
@@ -242,37 +244,41 @@ public final class ViewCommon
 	/**
 	 * Formats a date using the pattern defined in the configuration file.
 	 * The key is the value of {@link net.jforum.util.preferences.ConfigKeys#DATE_TIME_FORMAT}
+     * Pretty dates are shown together with local, which are shown as a tooltip text (ConfigKeys.DATE_TIME_PRETTY).
 	 * @param date the date to format
 	 * @return the string with the formatted date
 	 */
 	public static String formatDate(final Date date) 
 	{
+		final SimpleHash context = JForumExecutionContext.getTemplateContext();
+		boolean usecode = SystemGlobals.getBoolValue(ConfigKeys.DATE_TIME_PRETTY);
 		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-		return sdf.format(date);
-	}
+               if (!usecode) {
+                       return sdf.format(date);
+               } else {
+                       String lang = "en";
+                       UserSession us = SessionFacade.getUserSession();
 
-	private static final Locale BRITISH = new Locale("en_gb");
+                       if (us != null && us.getLang() != null) {
+                               lang = us.getLang().length() < 2 ? us.getLang() : us.getLang().substring(0, 2);
+                       }
+
+                       PrettyTime pt = new PrettyTime(new Locale(lang));
+
+                       return "<span title=\""+sdf.format(date)+"\">"+pt.format(date)+"</span>";
+               }
+       }
 
 	/**
-	 * GMT dates are used only if local dates are displayed ("uselocaltime" context variable, ConfigKeys.DATE_TIME_LOCAL,
-	 * see template/default/js/userLocalTime.js). Otherwise, just return the standard (non-GMT) date.
+        * Formats a date using ONLY the pattern defined in the configuration file.
+        * For places where pretty dates are not needed
+        * @param date the date to format
+        * @return the string with the formatted date
 	 */
-	public static String formatDateAsGmt(Date date) 
+	public static String formatDatePatternOnly(final Date date) 
 	{
-		final SimpleHash context = JForumExecutionContext.getTemplateContext();
-		try {
-			boolean useLocalTime = ((TemplateBooleanModel) context.get("useLocalTime")).getAsBoolean();
-			if (! useLocalTime) {
-				return formatDate(date);
-			} else {
-				SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), BRITISH);
-				TimeZone timeZone = TimeZone.getTimeZone("GMT");
-				df.setTimeZone(timeZone);
-				return df.format(date);
-			}
-		} catch (TemplateModelException tmex) {
-			return formatDate(date);
-		}
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
+		return sdf.format(date);
 	}
 
 	/**

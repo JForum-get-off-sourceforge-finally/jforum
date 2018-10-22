@@ -193,7 +193,6 @@ public class JForum extends JForumBaseServlet
             utils.refreshSession();
 
             context.put("logged", SessionFacade.isLogged());
-            context.put("useLocalTime", SystemGlobals.getBoolValue(ConfigKeys.DATE_TIME_LOCAL));
 
             // Process security data
             SecurityRepository.load(SessionFacade.getUserSession().getUserId());

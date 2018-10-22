@@ -169,8 +169,4 @@ public class PrivateMessage
         return ViewCommon.formatDate(postDate);
 	}
 
-    public String getFormattedDateAsGmt()
-    {
-		return ViewCommon.formatDateAsGmt(postDate);
-    }
 }

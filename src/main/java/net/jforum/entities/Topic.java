@@ -377,22 +377,12 @@ public class Topic implements Serializable
         return ViewCommon.formatDate(firstPostTime);
 	}
 
-    public String getFirstPostTimeAsGmt()
-    {
-		return ViewCommon.formatDateAsGmt(firstPostTime);
-    }
-
 	/**
 	 * @return the lastPostTime
 	 */
 	public String getLastPostTime() {
         return ViewCommon.formatDate(lastPostTime);
 	}
-
-    public String getLastPostTimeAsGmt()
-    {
-		return ViewCommon.formatDateAsGmt(lastPostTime);
-    }
 
 	/**
 	 * @return the lastEditTime

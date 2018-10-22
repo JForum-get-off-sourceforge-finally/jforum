@@ -1,6 +1,5 @@
 <#include "header.htm"/>
 <#import "../../macros/pagination.ftl" as pagination/>
-<script type="text/javascript" src="${JForumContext.encodeURL("/js/list/userLocalTime")}?${startupTime}"></script>
 
 <div class="maintitle">${I18n.getMessage("PostShow.userPosts")} ${u.username?html}</div>
 <p>
@@ -13,7 +12,7 @@
 	<div class="mobilePostText">
 		${I18n.getMessage("Search.forum")}: <a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a> 
 		<BR>
-		${I18n.getMessage("ModerationLog.date")}: <script>"${post.time?datetime}".toLocaleDateTime();</script><noscript>${post.time?datetime}</noscript>
+		${I18n.getMessage("ModerationLog.date")}: ${post.time}
 	</div>
 	<BR>
 </#list>
