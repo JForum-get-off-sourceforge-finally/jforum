@@ -1,4 +1,4 @@
-<span class="genmed"><nobr><b>${user.username?html}</b></nobr></span>
+<span class="genmed"><nobr><b><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username?html}</a></b></nobr></span>
 <br />
 <#if showKarma && karmaEnabled && post.userId != 1>
 	<nobr><script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script></nobr>
