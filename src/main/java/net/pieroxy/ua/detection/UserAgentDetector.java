@@ -58,7 +58,8 @@ public class UserAgentDetector implements IUserAgentDetector {
 
     static OS getOS(UserAgentContext context) {
         String userAgent = context.getUA();
-        OS res = null;
+        OS res = new OS(Brand.MICROSOFT,OSFamily.WINDOWS,"Windows","Unknown");
+			// just the default, should get replaced further down
         String ver;
         String[] mt=null;
         if (context.contains("Series40", MatchingType.BEGINS, MatchingRegion.PARENTHESIS)) {
@@ -283,9 +284,7 @@ public class UserAgentDetector implements IUserAgentDetector {
                 res = new OS(Brand.MICROSOFT,OSFamily.WINDOWS,"Windows","Unknown");
             } else if (context.consume("Win",MatchingType.EQUALS, MatchingRegion.PARENTHESIS)) {
                 res = new OS(Brand.MICROSOFT,OSFamily.WINDOWS,"Windows","Unknown");
-            } else
-                // Should not happen at this point
-                res = new OS(Brand.MICROSOFT,OSFamily.WINDOWS,"Windows","Unknown");
+			}
 
             if (res.getFamily() == OSFamily.WINDOWS_MOBILE) {
                 context.consume("OpVer [0-9\\.]+", MatchingType.REGEXP, MatchingRegion.PARENTHESIS);

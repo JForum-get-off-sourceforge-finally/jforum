@@ -293,7 +293,7 @@ public class PrivateMessageAction extends Command
 					" to " + pm.getToUser().getUsername()).record();
 
 			if (delay > 0) {
-				SessionFacade.setAttribute(ConfigKeys.LAST_POST_TIME, new Long(System.currentTimeMillis()));
+				SessionFacade.setAttribute(ConfigKeys.LAST_POST_TIME, Long.valueOf(System.currentTimeMillis()));
 			}
 		}
 	}
