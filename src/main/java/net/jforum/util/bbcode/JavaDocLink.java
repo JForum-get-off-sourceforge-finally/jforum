@@ -71,78 +71,81 @@ public class JavaDocLink implements Substitution {
 		versionedUrls = new ConcurrentHashMap<String, String>();
 
 		// JSE; "1.5" and "5" are synonyms
-        versionedUrls.put(JSE_KEY+":1.5", "http://docs.oracle.com/javase/1.5.0/docs/api/");
-        versionedUrls.put(JSE_KEY+":5", "http://docs.oracle.com/javase/1.5.0/docs/api/");
-        versionedUrls.put(JSE_KEY+":6", "http://docs.oracle.com/javase/6/docs/api/");
-        versionedUrls.put(JSE_KEY+":7", "http://docs.oracle.com/javase/7/docs/api/");
-        versionedUrls.put(JSE_KEY+":8", "http://docs.oracle.com/javase/8/docs/api/");
-        versionedUrls.put(JSE_KEY+":9", "http://docs.oracle.com/javase/9/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "http://docs.oracle.com/javase/9/docs/api/");
+        versionedUrls.put(JSE_KEY+":1.5", "https://docs.oracle.com/javase/1.5.0/docs/api/");
+        versionedUrls.put(JSE_KEY+":5", "https://docs.oracle.com/javase/1.5.0/docs/api/");
+        versionedUrls.put(JSE_KEY+":6", "https://docs.oracle.com/javase/6/docs/api/");
+        versionedUrls.put(JSE_KEY+":7", "https://docs.oracle.com/javase/7/docs/api/");
+        versionedUrls.put(JSE_KEY+":8", "https://docs.oracle.com/javase/8/docs/api/");
+        versionedUrls.put(JSE_KEY+":9", "https://docs.oracle.com/javase/9/docs/api/");
+        versionedUrls.put(JSE_KEY+":10", "https://docs.oracle.com/javase/10/docs/api/");
+        versionedUrls.put(JSE_KEY+":11", "https://docs.oracle.com/en/java/javase/11/docs/api/");
+        versionedUrls.put(JSE_KEY+":"+OTHER, "https://docs.oracle.com/en/java/javase/11/docs/api/");
 
 		// JEE
-		versionedUrls.put(JEE_KEY+":1.2", "http://docs.oracle.com/javaee/1.2.1/api/");
-        versionedUrls.put(JEE_KEY+":1.3", "http://docs.oracle.com/javaee/1.3/api/");
-        versionedUrls.put(JEE_KEY+":1.4", "http://docs.oracle.com/javaee/1.4/api/");
-        versionedUrls.put(JEE_KEY+":5", "http://docs.oracle.com/javaee/5/api/");
-        versionedUrls.put(JEE_KEY+":6", "http://docs.oracle.com/javaee/6/api/");
-        versionedUrls.put(JEE_KEY+":7", "http://docs.oracle.com/javaee/7/api/");
-        versionedUrls.put(JEE_KEY+":"+OTHER, "http://docs.oracle.com/javaee/7/api/");
+		versionedUrls.put(JEE_KEY+":1.2", "https://docs.oracle.com/javaee/1.2.1/api/");
+        versionedUrls.put(JEE_KEY+":1.3", "https://docs.oracle.com/javaee/1.3/api/");
+        versionedUrls.put(JEE_KEY+":1.4", "https://docs.oracle.com/javaee/1.4/api/");
+        versionedUrls.put(JEE_KEY+":5", "https://docs.oracle.com/javaee/5/api/");
+        versionedUrls.put(JEE_KEY+":6", "https://docs.oracle.com/javaee/6/api/");
+        versionedUrls.put(JEE_KEY+":7", "https://docs.oracle.com/javaee/7/api/");
+        versionedUrls.put(JEE_KEY+":"+OTHER, "https://docs.oracle.com/javaee/7/api/");
 
 		// Tomcat
-		versionedUrls.put(JASPER_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
-        versionedUrls.put(JASPER_KEY+":6", "http://tomcat.apache.org/tomcat-6.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":7", "http://tomcat.apache.org/tomcat-7.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":8", "http://tomcat.apache.org/tomcat-8.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":9", "http://tomcat.apache.org/tomcat-9.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-9.0-doc/api/");
+		versionedUrls.put(JASPER_KEY+":5.5", "https://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
+        versionedUrls.put(JASPER_KEY+":6", "https://tomcat.apache.org/tomcat-6.0-doc/api/");
+        versionedUrls.put(JASPER_KEY+":7", "https://tomcat.apache.org/tomcat-7.0-doc/api/");
+        versionedUrls.put(JASPER_KEY+":8", "https://tomcat.apache.org/tomcat-8.0-doc/api/");
+        versionedUrls.put(JASPER_KEY+":9", "https://tomcat.apache.org/tomcat-9.0-doc/api/");
+        versionedUrls.put(JASPER_KEY+":"+OTHER, "https://tomcat.apache.org/tomcat-9.0-doc/api/");
 
-		versionedUrls.put(TOMCAT_KEY+":5.5", "http://tomcat.apache.org/tomcat-5.5-doc/catalina/docs/api/");
-        versionedUrls.put(TOMCAT_KEY+":6", "http://tomcat.apache.org/tomcat-6.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":7", "http://tomcat.apache.org/tomcat-7.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":8", "http://tomcat.apache.org/tomcat-8.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":9", "http://tomcat.apache.org/tomcat-9.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":"+OTHER, "http://tomcat.apache.org/tomcat-9.0-doc/api/");
+		versionedUrls.put(TOMCAT_KEY+":5.5", "https://tomcat.apache.org/tomcat-5.5-doc/catalina/docs/api/");
+        versionedUrls.put(TOMCAT_KEY+":6", "https://tomcat.apache.org/tomcat-6.0-doc/api/");
+        versionedUrls.put(TOMCAT_KEY+":7", "https://tomcat.apache.org/tomcat-7.0-doc/api/");
+        versionedUrls.put(TOMCAT_KEY+":8", "https://tomcat.apache.org/tomcat-8.0-doc/api/");
+        versionedUrls.put(TOMCAT_KEY+":9", "https://tomcat.apache.org/tomcat-9.0-doc/api/");
+        versionedUrls.put(TOMCAT_KEY+":"+OTHER, "https://tomcat.apache.org/tomcat-9.0-doc/api/");
 	}
 
     // Sun / Oracle
     private static final String J2SE_URL = VERSIONED+":"+JSE_KEY;
     private static final String J2EE_URL = VERSIONED+":"+JEE_KEY;
 	// JME 8 is very different - removed some packages, added some new ones
-	// http://docs.oracle.com/javame/8.0/api/meep/api/index.html
-    private static final String JME_URL = "http://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
+	// https://docs.oracle.com/javame/8.0/api/meep/api/index.html
+    private static final String JME_URL = "https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
 	// JOGL 1.1.1a
     // private static final String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
 	// JOGL 2.0
+	private static final String JAVAFX_URL = "https://docs.oracle.com/javafx/2/api/";
     private static final String JOGL_URL = "https://www.jogamp.org/deployment/v2.3.2/javadoc/jogl/javadoc/";
     private static final String JAVA3D_URL = "https://www.jogamp.org/deployment/java3d/1.6.0-final/javadoc/";
-    private static final String JMF_URL = "http://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
-    private static final String JAI_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/jai/forDevelopers/jai-apidocs/";
+    private static final String JMF_URL = "https://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
+    private static final String JAI_URL = "https://docs.oracle.com/cd/E17802_01/products/products/java-media/jai/forDevelopers/jai-apidocs/";
     private static final String JAVAHELP_URL = "http://www.coderanch.com/how-to/javadoc/javahelp-2.0_05/";
-    private static final String JAVASPEECH_URL = "http://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
-    private static final String COMMONDOM_URL = "http://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
+    private static final String JAVASPEECH_URL = "https://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
+    private static final String COMMONDOM_URL = "https://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
     private static final String JERSEY1_URL = "https://jersey.github.io/apidocs/1.19.1/jersey/";
     private static final String JERSEY2_URL = "https://jersey.github.io/apidocs/latest/jersey/";
     private static final String COM_SUN_MAIL_URL = "https://javaee.github.io/javamail/docs/api/";
-    private static final String JAVAXCOMM_URL = "http://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
+    private static final String JAVAXCOMM_URL = "https://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
 
     // Apache
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
-    private static final String LOG4J_URL = "http://logging.apache.org/log4j/docs/api/";
-    private static final String LUCENE_URL = "http://lucene.apache.org/core/7_3_0/core/";
-    private static final String POI_URL = "http://poi.apache.org/apidocs/";
-    private static final String AXIS2_URL = "http://axis.apache.org/axis2/java/core/api/";
-    private static final String XML_CRYPTO_URL = "http://santuario.apache.org/Java/api/";
-    private static final String STRUTS1_URL = "http://struts.apache.org/release/1.3.x/apidocs/";
-    private static final String STRUTS2_URL = "http://struts.apache.org/maven/struts2-core/apidocs/";
-    private static final String WICKET_URL = "http://ci.apache.org/projects/wicket/apidocs/6.x/";
-    private static final String XMLBEANS_URL = "http://xmlbeans.apache.org/docs/2.6.0/reference/";
-    private static final String TAPESTRY5_URL = "http://tapestry.apache.org/current/apidocs/";
-    private static final String WSS4J_URL = "http://ws.apache.org/wss4j/apidocs/";
-    private static final String SHIRO_URL = "http://shiro.apache.org/static/current/apidocs/";
+    private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/7_6_0/core/";
+    private static final String POI_URL = "https://poi.apache.org/apidocs/";
+    private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
+    private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
+    private static final String STRUTS1_URL = "https://struts.apache.org/release/1.3.x/apidocs/";
+    private static final String STRUTS2_URL = "https://struts.apache.org/maven/struts2-core/apidocs/";
+    private static final String WICKET_URL = "https://ci.apache.org/projects/wicket/apidocs/6.x/";
+    private static final String XMLBEANS_URL = "https://xmlbeans.apache.org/docs/2.6.0/reference/";
+    private static final String TAPESTRY5_URL = "https://tapestry.apache.org/current/apidocs/";
+    private static final String WSS4J_URL = "https://ws.apache.org/wss4j/apidocs/";
+    private static final String SHIRO_URL = "https://shiro.apache.org/static/current/apidocs/";
 
     // Apache Commons
-    private static final String ACP = "http://commons.apache.org/proper/commons";
+    private static final String ACP = "https://commons.apache.org/proper/commons";
     private static final String COLLECTIONS_URL = ACP + "-collections/javadocs/api-release/";
     private static final String CLI_URL = ACP + "-cli/javadocs/api-release/";
     private static final String VALIDATOR_URL = ACP + "-validator/apidocs/";
@@ -158,21 +161,21 @@ public class JavaDocLink implements Substitution {
     private static final String CODEC_URL = ACP + "-codec/apidocs/";
     private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.3/apidocs/";
 	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
-	// with no easy pattern to separate: http://hc.apache.org/user-docs.html
-    private static final String HTTPCLIENT_URL = "http://hc.apache.org/httpclient-3.x/apidocs/";
+	// with no easy pattern to separate: https://hc.apache.org/user-docs.html
+    private static final String HTTPCLIENT_URL = "https://hc.apache.org/httpclient-3.x/apidocs/";
     private static final String NET_URL = ACP + "-net/javadocs/api-3.6/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
     private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-release/";
     private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
-    private static final String POOL_URL = ACP + "-pool/api-2.4.2/";
+	private static final String POOL_URL = ACP + "-pool/api-2.6.0/";
 
     // Other 3rd party
     private static final String JUNIT_URL = "http://junit.org/junit5/docs/current/api/";
     private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
     private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
-    private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.8/javadocs/";
+	private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.13/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
     private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
@@ -200,7 +203,7 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/24.1.1-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/27.0.1-jre/api/docs/";
 	private static final String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
@@ -287,7 +290,7 @@ public class JavaDocLink implements Substitution {
         {"javax.microedition", JME_URL},
         {"javax.help", JAVAHELP_URL},
         {"javax.speech", JAVASPEECH_URL},
-        {"javafx", J2SE_URL},
+		{"javafx", JAVAFX_URL},
         {"javax.media.jai", JAI_URL},
         {"com.sun.j3d", JAVA3D_URL},
         {"javax.media.j3d", JAVA3D_URL},

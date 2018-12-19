@@ -64,7 +64,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * 
  * @author Rafael Steil
  * @author James Yong
- * @version $Id$
  */
 public class TopicRepository implements Cacheable {
 	private static final String FQN = "topics";
@@ -102,8 +101,7 @@ public class TopicRepository implements Cacheable {
 	/**
 	 * Add topic to the FIFO stack
 	 * 
-	 * @param topic
-	 *            The topic to add to stack
+	 * @param topic The topic to add to stack
 	 */
 	public static void pushTopic(Topic topic) {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
@@ -158,7 +156,6 @@ public class TopicRepository implements Cacheable {
 
 	/**
 	 * Get all cached recent topics.
-	 * 
 	 */
 	public static List<Topic> getRecentTopics() {
 		List<Topic> latestList = (List<Topic>) cache.get(FQN, RECENT);
@@ -175,7 +172,6 @@ public class TopicRepository implements Cacheable {
 
 	/**
 	 * Get all cached hottest topics.
-	 * 
 	 */
 	public static List<Topic> getHottestTopics() {
 		List<Topic> hottestList = (List<Topic>) cache.get(FQN, HOTTEST);
@@ -223,16 +219,13 @@ public class TopicRepository implements Cacheable {
 	/**
 	 * Add topics to the cache
 	 * 
-	 * @param forumId
-	 *            The forum id to which the topics are related
-	 * @param topics
-	 *            The topics to add
+	 * @param forumId The forum id to which the topics are related
+	 * @param topics The topics to add
 	 */
 	public static void addAll(int forumId, List<Topic> topics) {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			synchronized (MUTEX_FQN_FORUM) {
-				cache.add(FQN_FORUM, Integer.toString(forumId),
-						new LinkedList<Topic>(topics));
+				cache.add(FQN_FORUM, Integer.toString(forumId), new LinkedList<Topic>(topics));
 
 				Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
@@ -257,22 +250,21 @@ public class TopicRepository implements Cacheable {
 	/**
 	 * Clears the cache
 	 * 
-	 * @param forumId
-	 *            The forum id to clear the cache
+	 * @param forumId The forum id to clear the cache
 	 */
 	public static void clearCache(int forumId) {
 		synchronized (MUTEX_FQN_FORUM) {
-			cache.add(FQN_FORUM, Integer.toString(forumId),
-					new LinkedList<Topic>());
-			cache.remove(FQN, RELATION);
+			cache.add(FQN_FORUM, Integer.toString(forumId), new LinkedList<Topic>());
+			cache.remove(FQN, RELATION); 
+			// TODO: is the next line necessary or not? https://coderanch.com/t/425011#1887278
+			// cache.remove(FQN_LOADED, Integer.toString(forumId));
 		}
 	}
 
 	/**
 	 * Adds a new topic to the cache
 	 * 
-	 * @param topic
-	 *            The topic to add
+	 * @param topic The topic to add
 	 */
 	public static void addTopic(Topic topic) {
 		if (!SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
@@ -318,8 +310,7 @@ public class TopicRepository implements Cacheable {
 	/**
 	 * Updates a cached topic
 	 * 
-	 * @param topic
-	 *            The topic to update
+	 * @param topic The topic to update
 	 */
 	public static void updateTopic(Topic topic) {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
@@ -418,10 +409,8 @@ public class TopicRepository implements Cacheable {
 	/**
 	 * Checks if a topic is cached
 	 * 
-	 * @param topic
-	 *            The topic to verify
-	 * @return <code>true</code> if the topic is cached, or <code>false</code>
-	 *         if not.
+	 * @param topic The topic to verify
+	 * @return <code>true</code> if the topic is cached, or <code>false</code> if not.
 	 */
 	public static boolean isTopicCached(Topic topic) {
 		if (!SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
@@ -437,8 +426,7 @@ public class TopicRepository implements Cacheable {
 	/**
 	 * Get all cached topics related to a forum.
 	 * 
-	 * @param forumid
-	 *            The forum id
+	 * @param forumid The forum id
 	 * @return <code>ArrayList</code> with the topics.
 	 */
 	public static List<Topic> getTopics(int forumid) {
