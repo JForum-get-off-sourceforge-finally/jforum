@@ -61,13 +61,10 @@ Modifications by JForum Team
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Top Downloads]" /> <a id="topdownload" class="mainmenu" href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Members]" /> <a id="userlist" class="mainmenu" href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_groups.gif" alt="[Groups]" /> <a id="backtosite" class="mainmenu" href="${homepageLink}">${I18n.getMessage("ForumBase.backToSite")}</a>&nbsp;
-									
 									<br />
-
 									<#if canAccessModerationLog?default(false)>										
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Moderation Log]" /> <a id="moderationlog" class="mainmenu" href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a> &nbsp;
 									</#if>
-
 									<#if logged>										
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" alt="[Profile]" /> <a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>&nbsp; 
 										<#if bookmarksEnabled>
@@ -87,13 +84,11 @@ Modifications by JForum Team
 											<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" alt="[Login]" /> <a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} [${session.username}]</a>
 										</#if>
 									</#if>
-	
 									<#if !logged && !sso>
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_register.gif" alt="[Register]" /> <a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a>&nbsp;/&nbsp;
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" alt="[Login]" /> <a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>&nbsp;
 									</#if>
-
-									</span>									
+									</span>
 								</td>
 							</tr>
 							<#if announcement?exists && announcement?length != 0>
