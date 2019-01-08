@@ -60,14 +60,14 @@
 			<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
 			</span></b>
 		<#if (isModerator || isAdmin) >
-			<a class="gen" href="http://stopforumspam.com/search/${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
+			<a class="gen" href="${stopForumSpamURL}${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
 		</#if>
 		</td>
 	</tr></table>
 	</#if>
 	${I18n.getMessage("UserProfile.privateMessage")}: <a href="${JForumContext.encodeURL("/pm/sendTo/${u.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a><br>
 	<#if (u.twitter?exists && u.twitter?length > 0)>
-		${I18n.getMessage("User.twitter")}: <a href="http://twitter.com/${u.twitter?html}" target="_new">@${u.twitter}</a><br>
+		${I18n.getMessage("User.twitter")}: <a href="https://twitter.com/${u.twitter?html}" target="_new">@${u.twitter}</a><br>
 	</#if>
 	<#if (u.msnm?exists && u.msnm?length > 0)>
 		${I18n.getMessage("User.msn")}: ${u.msnm?html}<br>

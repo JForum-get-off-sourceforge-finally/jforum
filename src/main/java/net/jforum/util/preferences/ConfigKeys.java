@@ -330,6 +330,7 @@ public final class ConfigKeys
 
 	public static final String STOPFORUMSPAM_API_ENABLED = "stopForumSpam.api.enabled";
 	public static final String STOPFORUMSPAM_API_URL = "stopForumSpam.api.url";
+	public static final String WHOIS_API_URL = "whois.api.url";
 
 	private ConfigKeys() {}
 }

@@ -36,7 +36,7 @@
 </#if>
 
 <#if showIP && post.userIp?exists && (isModerator || post.userId == session.userId)>
-	<nobr>${I18n.getMessage("PostShow.userIP")}: <a href="http://whois.domaintools.com/${post.userIp}" target="_blank">${post.userIp}</a></nobr>
+	<nobr>${I18n.getMessage("PostShow.userIP")}: <a href="${whoisUrl}${post.userIp}" target="_blank">${post.userIp}</a></nobr>
 	<br />
 </#if>
 

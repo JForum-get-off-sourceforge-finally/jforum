@@ -136,7 +136,7 @@
 					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
 					</span></b>
 					<#if (isModerator || isAdmin) >
-						<a class="gen" href="http://stopforumspam.com/search/${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
+						<a class="gen" href="${stopForumSpamURL}${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
 					</#if>
 				</td>
 			</tr>
@@ -154,7 +154,7 @@
                     <td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
                     <td class="row1">
                         <b><span class="gen">
-                        <a href="http://twitter.com/${u.twitter?html}"" target="_blank">@${u.twitter}</a>
+                        <a href="https://twitter.com/${u.twitter?html}" target="_blank">@${u.twitter}</a>
                         </span></b>
                     </td>
                 </tr>
@@ -174,9 +174,7 @@
 			<#if (u.icq?exists && u.icq?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
-				<td class="row1">
-					<a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq?html}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="ICQ" /></a>
-				</td>
+				<td class="row1" valign="middle"><span class="gen">${u.icq?html}</span></td>
 			</tr>
 			</#if>
 			</table>
