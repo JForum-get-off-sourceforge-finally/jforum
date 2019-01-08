@@ -300,7 +300,7 @@
 		<regex>(?i)\[google\](.*?)\[/google\]</regex>
 		<replace>
 		<![CDATA[
-		<a class="snap_shots" href="http://www.google.com/search?q=$1" target="_blank">$1</a>(google)
+		<a class="snap_shots" href="https://www.google.com/search?q=$1" target="_blank">$1</a>(google)
 		]]>
 		</replace>
 	</match>
@@ -310,7 +310,7 @@
 		<regex>(?i)\[wikipedia\](.*?)\[/wikipedia\]</regex>
 		<replace>
 		<![CDATA[
-		<a class="snap_shots" href="http://en.wikipedia.org/wiki/$1" target="_blank">$1</a>(wikipedia)
+		<a class="snap_shots" href="https://en.wikipedia.org/wiki/$1" target="_blank">$1</a>(wikipedia)
 		]]>
 		</replace>
 	</match>
@@ -319,7 +319,7 @@
 		<regex>(?i)\[wikipedia=([a-z]+)\](.*?)\[/wikipedia\]</regex>
 		<replace>
 		<![CDATA[
-		<a class="snap_shots" href="http://$1.wikipedia.org/wiki/$2" target="_blank">$2</a>(wikipedia)
+		<a class="snap_shots" href="https://$1.wikipedia.org/wiki/$2" target="_blank">$2</a>(wikipedia)
 		]]>
 		</replace>
 	</match>
@@ -346,7 +346,7 @@
 		<replace>
 			<![CDATA[
 				<iframe width="640" height="480"
-					src="http://player.vimeo.com/video/$1?title=0&amp;byline=0&amp;portrait=0&amp;badge=0">
+					src="https://player.vimeo.com/video/$1?title=0&amp;byline=0&amp;portrait=0&amp;badge=0">
 				</iframe>
                 ]]>
 		</replace>
