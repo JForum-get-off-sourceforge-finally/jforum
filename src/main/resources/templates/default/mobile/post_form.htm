@@ -2,6 +2,25 @@
 
 <script type="text/javascript" src="${jQueryURL}"></script>
 
+<#if needCaptcha?default(false)>
+<script type="text/javascript">
+	// disable submit button first and enable it after captcha img full loaded
+	$(document).ready(function() {
+		$("#btnSubmit").attr("disabled", "true");
+		$('#captcha_img').load(function() {
+			if ($(this).height() == 75) {  // captcha.height = 75
+				$("#btnSubmit").removeAttr("disabled");
+			}
+		});
+	});
+
+	function newCaptcha() {
+		$("#btnSubmit").attr("disabled", "true");
+		$("#captcha_img").attr("src", "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime());
+	}
+</script>
+</#if>
+
 <#assign preview = preview?exists && preview/>
 <#assign isNewPost = isNewPost?exists && isNewPost/>
 <#assign isEdit = isEdit?if_exists/>
@@ -35,9 +54,9 @@
 <div class="subject">
 	<b>
 		<#if (topic?exists && topic.id > -1)>
-		    <#if isEdit>
-		    	${I18n.getMessage("PostForm.edit")} "${topic.title?html}"
-		    <#else>
+			<#if isEdit>
+				${I18n.getMessage("PostForm.edit")} "${topic.title?html}"
+			<#else>
 				${I18n.getMessage("PostForm.reply")} "${topic.title?html}"
 		</#if>
 		<#else>
@@ -89,15 +108,26 @@
 	<textarea style="width:100%" rows="10" class="message" tabindex="3" name="message"><#if quote?exists>[quote=${quoteUser}]${text?html}[/quote]<#else>${text?html}</#if></textarea>
 	<br /><br />
 	<!-- Options -->
-    <#include "post_options_tab.htm"/>
-    <br />
+	<#include "post_options_tab.htm"/>
+	<br />
 
-    <#if attachmentsEnabled!false || attachments??>
-        <div id="postAttachments" class="postTabContents">
-            <#include "post_attachments_tab.htm"/>
-        </div>
+	<#if attachmentsEnabled!false || attachments??>
+		<div id="postAttachments" class="postTabContents">
+			<#include "post_attachments_tab.htm"/>
+		</div>
 	</#if> 
 
+	<#if needCaptcha?default(false)>
+		<tr>
+			<td class="row1" valign="middle"><span class="gensmall"><b>${I18n.getMessage("User.captchaResponse")}:</b></span></td>
+			<td class="row2">
+				<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser" onkeyup="enableSubmit(this)"/>
+				<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" align="middle" id="captcha_img" alt="Captcha unavailable" />
+				<br />
+				<span class="gensmall">${I18n.getMessage("User.hardCaptchaPart1")} <a href="#newCaptcha" onclick="newCaptcha()"><b>${I18n.getMessage("User.hardCaptchaPart2")}</b></a></span>
+			</td>
+		</tr>
+	</#if>
 </div>
 
 <input class="mainoption" id="btnSubmit" accesskey="s" tabindex="6" type="submit" value="${I18n.getMessage("PostForm.submit")}" name="post" />

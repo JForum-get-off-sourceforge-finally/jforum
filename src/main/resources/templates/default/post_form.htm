@@ -8,7 +8,7 @@
 <script type="text/javascript">
 /* <![CDATA[ */
 var CONTEXTPATH = "${contextPath}";
-var SERVLET_EXTENSION  = "${extension}";
+var SERVLET_EXTENSION = "${extension}";
 /* ]]> */
 </script>
 
@@ -24,12 +24,12 @@ var SERVLET_EXTENSION  = "${extension}";
 <#if needCaptcha?default(false)>
 // disable submit button first and enable it after captcha img full loaded
 $(document).ready(function() {
-  $("#btnSubmit").attr("disabled", "true");
-  $('#captcha_img').load(function() {
-     if ($(this).height() == 75) {  // captcha.height = 75
-       $("#btnSubmit").removeAttr("disabled");
-     }
-  });
+	$("#btnSubmit").attr("disabled", "true");
+	$('#captcha_img').load(function() {
+		if ($(this).height() == 75) { // captcha.height = 75
+			$("#btnSubmit").removeAttr("disabled");
+		}
+	});
 });
 </#if>
 
@@ -207,9 +207,9 @@ function cancelOperation()
 						<b>
 						<#if forum?exists>
 							<#if (topic?exists && topic.id > -1)>
-							    <#if isEdit>
-							    	${I18n.getMessage("PostForm.edit")} "${topic.title?html}"
-							    <#else>
+								<#if isEdit>
+									${I18n.getMessage("PostForm.edit")} "${topic.title?html}"
+								<#else>
 									${I18n.getMessage("PostForm.reply")} "${topic.title?html}"
 								</#if>
 							<#else>
@@ -330,8 +330,8 @@ function cancelOperation()
 										<input class="button" onmouseover="helpline('b')" style="width:30px; font-weight: bold" accesskey="b" onclick="bbstyle(0)" type="button" value=" B " name="addbbcode0" />
 										<input class="button" onmouseover="helpline('i')" style="width:30px; font-style: italic" accesskey="i" onclick="bbstyle(2)" type="button" value=" i " name="addbbcode2" />
 										<input class="button" onmouseover="helpline('u')" style="width:30px; text-decoration: underline" accesskey="u" onclick="bbstyle(4)" type="button" value=" u " name="addbbcode4" />
-                                        <input class="button" onmouseover="helpline('st')" style="width:50px; text-decoration: line-through" onclick="bbstyle(26)" type="button" value="strike" name="addbbcode26" />
-                                        <input class="button" onmouseover="helpline('t')" style="width:36px" accesskey="t" onclick="bbstyle(24)" type="button" value="tt" name="addbbcode24" />
+										<input class="button" onmouseover="helpline('st')" style="width:50px; text-decoration: line-through" onclick="bbstyle(26)" type="button" value="strike" name="addbbcode26" />
+										<input class="button" onmouseover="helpline('t')" style="width:36px" accesskey="t" onclick="bbstyle(24)" type="button" value="tt" name="addbbcode24" />
 										<input class="button" onmouseover="helpline('q')" style="width:55px" accesskey="q" onclick="bbstyle(6)" type="button" value="Quote" name="addbbcode6" />
 										<input class="button" onmouseover="helpline('c')" style="width:50px" accesskey="c" onclick="bbstyle(8)" type="button" value="Code" name="addbbcode8" />
 										<input class="button" onmouseover="helpline('l')" style="width:40px" accesskey="l" onclick="bbstyle(10)" type="button" value="List" name="addbbcode10" />
@@ -404,13 +404,13 @@ function cancelOperation()
 					<td class="row2">
 						<div id="tabs10">
 							<ul>
-							    <li title="postOptions" class="current"><a href="#" onclick="activateTab('postOptions', this); return false;"><span>${I18n.getMessage("PostForm.options")}</span></a></li>
+								<li title="postOptions" class="current"><a href="#" onclick="activateTab('postOptions', this); return false;"><span>${I18n.getMessage("PostForm.options")}</span></a></li>
 
 								<#if allowPoll>
 									<li title="postPoll"><a href="#" onclick="activateTab('postPoll', this); return false;"><span>${I18n.getMessage("PostForm.poll")}</span></a></li>
 								</#if>
 								<#if attachmentsEnabled>
-								    <li title="postAttachments"><a href="#" onclick="activateTab('postAttachments', this); return false;"><span>${I18n.getMessage("PostForm.attachments")}</span></a></li>
+									<li title="postAttachments"><a href="#" onclick="activateTab('postAttachments', this); return false;"><span>${I18n.getMessage("PostForm.attachments")}</span></a></li>
 								</#if>
 							</ul>
 						</div>
@@ -440,7 +440,7 @@ function cancelOperation()
 					<tr>
 						<td class="row1" valign="middle"><span class="gensmall"><b>${I18n.getMessage("User.captchaResponse")}:</b></span></td>
 						<td class="row2">
-							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser"  onkeyup="enableSubmit(this)"/>
+							<input type="text" class="post" style="width: 100px; font-weight: bold;" maxlength="25" size="25" name="captcha_anwser" onkeyup="enableSubmit(this)"/>
 							<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" align="middle" id="captcha_img" alt="Captcha unavailable" />
 							<br />
 							<span class="gensmall">${I18n.getMessage("User.hardCaptchaPart1")} <a href="#newCaptcha" onclick="newCaptcha()"><b>${I18n.getMessage("User.hardCaptchaPart2")}</b></a></span>
