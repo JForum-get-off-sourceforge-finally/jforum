@@ -100,6 +100,8 @@ public class PrivateMessageAction extends Command
  
  		ViewCommon.contextToPagination(start, totalMessages, postsPerPage);
  		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
+
+		new StatsEvent("PM inbox page", request.getRequestURL()).record();
 	}
 	
 	public void sentbox()
@@ -129,6 +131,8 @@ public class PrivateMessageAction extends Command
 
 		ViewCommon.contextToPagination(start, totalMessages, postsPerPage);
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
+
+		new StatsEvent("PM sent page", request.getRequestURL()).record();
 	}
 	
 	private void putTypes()

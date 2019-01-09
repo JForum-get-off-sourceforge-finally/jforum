@@ -337,6 +337,8 @@ public class BookmarkAction extends Command
 		this.context.put("loggedUserId", Integer.valueOf(SessionFacade.getUserSession().getUserId()));
 		this.context.put("pageTitle", I18n.getMessage("Bookmarks.for")+" "+u.getUsername());
 		this.context.put("fr", new ForumRepository());
+
+		new StatsEvent("Bookmarks page", request.getRequestURL()).record();
 	}
 
 	/**

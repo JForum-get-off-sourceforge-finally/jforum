@@ -259,7 +259,7 @@ public class PostAction extends Command
 		TopicsCommon.topicListingBase();
 		TopicRepository.updateTopic(topic);
 
-        new StatsEvent("View thread", request.getRequestURL()).record();
+        new StatsEvent("View topic", request.getRequestURL()).record();
 	}
 
 	/**

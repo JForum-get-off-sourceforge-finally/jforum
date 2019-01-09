@@ -40,6 +40,7 @@
  * The JForum Project
  * http://www.jforum.net
  */
+
 package net.jforum.view.forum;
 
 import java.util.ArrayList;
@@ -59,17 +60,18 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 
 /**
  * @author Andowson
- *
  */
+
 public class TopDownloadsAction extends Command 
 {
 	private transient List<Forum> forums;
 	private transient List<Topic> topics;
-	
+
 	/* (non-Javadoc)
 	 * @see net.jforum.Command#list()
 	 */
@@ -78,7 +80,7 @@ public class TopDownloadsAction extends Command
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 
 		this.setTemplateName(TemplateKeys.TOP_DOWNLOADS_LIST);
-		
+
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 		this.context.put("topDownloads", this.topDownloads());
 		this.context.put("forums", this.forums);
@@ -86,23 +88,25 @@ public class TopDownloadsAction extends Command
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.topDownloads"));
 
 		this.request.removeAttribute("template");
+
+		new StatsEvent("Top downloads page", request.getRequestURL()).record();
 	}
-	
+
 	private List<TopDownloadInfo> topDownloads()
 	{
 		final int limit = SystemGlobals.getIntValue(ConfigKeys.TOP_DOWNLOADS);
 		final AttachmentDAO dao = DataAccessDriver.getInstance().newAttachmentDAO();
 		final List<TopDownloadInfo> tmpTopDownloads = dao.selectTopDownloads(limit);
-		
+
 		this.forums = new ArrayList<Forum>(limit);
 		this.topics = new ArrayList<Topic>(limit);
 
 		for (final Iterator<TopDownloadInfo> iter = tmpTopDownloads.iterator(); iter.hasNext(); ) {
 			final TopDownloadInfo tdi = iter.next();
-			
+
 			if (TopicsCommon.isTopicAccessible(tdi.getForumId())) {
 				// Get name of forum that the topic refers to
-				final Forum forum = ForumRepository.getForum(tdi.getForumId());				
+				final Forum forum = ForumRepository.getForum(tdi.getForumId());
 				Topic topic = new Topic();
 				topic.setForumId(tdi.getForumId());
 				topic.setId(tdi.getTopicId());
@@ -114,9 +118,9 @@ public class TopDownloadsAction extends Command
 				iter.remove();
 			}
 		}
-		
+
 		JForumExecutionContext.getRequest().removeAttribute("template");
-		
+
 		return tmpTopDownloads;
-	}	
+	}
 }
