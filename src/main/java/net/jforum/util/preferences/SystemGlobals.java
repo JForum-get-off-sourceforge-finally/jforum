@@ -251,8 +251,9 @@ public final class SystemGlobals implements VariableStore
 
     /**
      * Save installation defaults
+     * @param saveToDB false during installation, true during normal use
      */
-    public static void saveInstallation()
+    public static void saveInstallation (boolean saveToDB)
     {
         // We need this temporary "p" because, when new FileOutputStream()
 		// is called, it will raise an event to the TimerTask who is
@@ -280,7 +281,9 @@ public final class SystemGlobals implements VariableStore
             out.close();
 
 			// store in DB
-			DataAccessDriver.getInstance().newConfigDAO().update(p);
+			if (saveToDB) {
+				DataAccessDriver.getInstance().newConfigDAO().update(p);
+			}
         }
         catch (IOException e) {
             throw new ForumException(e);

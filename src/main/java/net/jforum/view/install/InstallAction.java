@@ -342,7 +342,7 @@ public class InstallAction extends Command
         SystemGlobals.setValue(ConfigKeys.I18N_DEFAULT, this.getFromSession("language"));
         SystemGlobals.setValue(ConfigKeys.INSTALLED, "true");
 
-        SystemGlobals.saveInstallation();
+        SystemGlobals.saveInstallation(false);
     }
 
     private boolean importTablesData(final Connection conn)

@@ -145,7 +145,7 @@ public class ConfigAction extends AdminCommand
 			SystemGlobals.setValue((String)entry.getKey(), (String)entry.getValue());
 		}
 
-		SystemGlobals.saveInstallation();
+		SystemGlobals.saveInstallation(true);
 		I18n.changeBoardDefault(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT));
 
 		// list of welcome HTML tags and attributes
