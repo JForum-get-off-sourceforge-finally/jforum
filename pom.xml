@@ -139,22 +139,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
-			<version>7.6.0</version>
+			<version>7.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-highlighter</artifactId>
-			<version>7.6.0</version>
+			<version>7.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-memory</artifactId>
-			<version>7.6.0</version>
+			<version>7.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>7.6.0</version>
+			<version>7.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.beanshell</groupId>
