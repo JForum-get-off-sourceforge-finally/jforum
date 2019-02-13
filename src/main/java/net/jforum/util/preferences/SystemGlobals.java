@@ -280,10 +280,12 @@ public final class SystemGlobals implements VariableStore
             p.store(out, "Installation specific configuration options");
             out.close();
 
-			// store in DB
+			// store in DB, as a workaround for #64, see ticket why it's currently commented out 
+			/*
 			if (saveToDB) {
 				DataAccessDriver.getInstance().newConfigDAO().update(p);
 			}
+			*/
         }
         catch (IOException e) {
             throw new ForumException(e);
