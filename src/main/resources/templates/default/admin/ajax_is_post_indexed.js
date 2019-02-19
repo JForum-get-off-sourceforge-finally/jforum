@@ -1,18 +1,26 @@
 <#if !doc?exists>
-	alert("${I18n.getMessage("no")}");
+	alert("${I18n.getMessage("No")}");
 <#else>
 	var message = "Post ID: ${doc.get("post.id")}\n";
 	message += "Topic ID: ${doc.get("topic.id")}\n";
-	
-	var date = "${doc.get("date")}";
-	date = date.substring(0, 4) + "/"
-		+ date.substring(4, 6) + "/"
-		+ date.substring(6, 8) + " "
-		+ date.substring(8, 10) + ":"
-		+ date.substring(10, 12) + ":"
-		+ date.substring(12, 14);
-		
-	message += "Date (yyyy/MM/dd HH:mm:ss): " + date;
-	
-	alert(message);
+
+	var date = new Date(${doc.get("date")});
+	var month = date.getMonth();
+	if (month < 10)
+		month = "0" + month;
+	var day = date.getDate();
+	if (day < 10)
+		day = "0" + day;
+	var hours = date.getHours();
+	if (hours < 10)
+		hours = "0" + hours;
+	var minutes = date.getMinutes();
+	if (minutes < 10)
+		minutes = "0" + minutes;
+	var seconds = date.getMinutes();
+	if (seconds < 10)
+		seconds = "0" + seconds;
+	var date2 = date.getFullYear() + "/" + month + "/" + day + " " + hours + ":" + minutes + ":" + seconds;
+
+	alert(message + "Date (yyyy/MM/dd HH:mm:ss): " + date2);
 </#if>
