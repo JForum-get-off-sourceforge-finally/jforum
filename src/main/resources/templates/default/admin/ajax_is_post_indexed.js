@@ -5,7 +5,7 @@
 	message += "Topic ID: ${doc.get("topic.id")}\n";
 
 	var date = new Date(${doc.get("date")});
-	var month = date.getMonth();
+	var month = 1 + date.getMonth();
 	if (month < 10)
 		month = "0" + month;
 	var day = date.getDate();
