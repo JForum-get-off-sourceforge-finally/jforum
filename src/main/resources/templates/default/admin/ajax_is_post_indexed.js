@@ -17,7 +17,7 @@
 	var minutes = date.getMinutes();
 	if (minutes < 10)
 		minutes = "0" + minutes;
-	var seconds = date.getMinutes();
+	var seconds = date.getSeconds();
 	if (seconds < 10)
 		seconds = "0" + seconds;
 	var date2 = date.getFullYear() + "/" + month + "/" + day + " " + hours + ":" + minutes + ":" + seconds;
