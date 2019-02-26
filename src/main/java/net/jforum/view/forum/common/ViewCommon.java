@@ -109,12 +109,12 @@ public final class ViewCommon
 		final RequestContext request = JForumExecutionContext.getRequest();
 
 		String uri = request.getRequestURI();
-        final String ctxPath = request.getContextPath() + "/";
-        
-        if (uri != null && uri.startsWith(ctxPath)) {
-            uri = uri.substring(ctxPath.length());
-        }
-        
+		final String ctxPath = request.getContextPath() + "/";
+		
+		if (uri != null && uri.startsWith(ctxPath)) {
+			uri = uri.substring(ctxPath.length());
+		}
+		
 		final String query = request.getQueryString();
 		final String returnPath = query == null ? uri : uri + "?" + query;
 
@@ -166,7 +166,7 @@ public final class ViewCommon
 
 	/**
 	 * Returns the initial page to start fetching records from.
-	 *   
+	 * 
 	 * @return The initial page number
 	 */
 	public static int getStartPage()
@@ -244,36 +244,37 @@ public final class ViewCommon
 	/**
 	 * Formats a date using the pattern defined in the configuration file.
 	 * The key is the value of {@link net.jforum.util.preferences.ConfigKeys#DATE_TIME_FORMAT}
-     * Pretty dates are shown together with local, which are shown as a tooltip text (ConfigKeys.DATE_TIME_PRETTY).
+	 * Pretty dates are shown together with local, which are shown as a tooltip text (ConfigKeys.DATE_TIME_PRETTY).
 	 * @param date the date to format
 	 * @return the string with the formatted date
 	 */
 	public static String formatDate(final Date date) 
 	{
-		final SimpleHash context = JForumExecutionContext.getTemplateContext();
-		boolean usecode = SystemGlobals.getBoolValue(ConfigKeys.DATE_TIME_PRETTY);
 		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-               if (!usecode) {
-                       return sdf.format(date);
-               } else {
-                       String lang = "en";
-                       UserSession us = SessionFacade.getUserSession();
+		if (SystemGlobals.getBoolValue(ConfigKeys.DATE_TIME_PRETTY)) {
+			UserSession us = SessionFacade.getUserSession();
+			Locale locale = new Locale ("en");
 
-                       if (us != null && us.getLang() != null) {
-                               lang = us.getLang().length() < 2 ? us.getLang() : us.getLang().substring(0, 2);
-                       }
+			if (us != null && us.getLang() != null) {
+				// JForum only uses locales that are 5 characters long, except for the default locale
+				if (us.getLang().length() == 5) {
+					locale = new Locale(us.getLang().substring(0, 2), us.getLang().substring(3));
+				}
+			}
 
-                       PrettyTime pt = new PrettyTime(new Locale(lang));
+			PrettyTime pt = new PrettyTime(locale);
 
-                       return "<span title=\""+sdf.format(date)+"\">"+pt.format(date)+"</span>";
-               }
-       }
+			return "<span title=\""+sdf.format(date)+"\">"+pt.format(date)+"</span>";
+		} else {
+			return sdf.format(date);
+		}
+	}
 
 	/**
-        * Formats a date using ONLY the pattern defined in the configuration file.
-        * For places where pretty dates are not needed
-        * @param date the date to format
-        * @return the string with the formatted date
+	* Formats a date using ONLY the pattern defined in the configuration file.
+	* For places where pretty dates are not needed
+	* @param date the date to format
+	* @return the string with the formatted date
 	 */
 	public static String formatDatePatternOnly(final Date date) 
 	{
