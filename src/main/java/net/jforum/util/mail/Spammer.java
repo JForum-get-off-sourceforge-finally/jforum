@@ -42,41 +42,31 @@
  */
 package net.jforum.util.mail;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import net.jforum.JForumExecutionContext;
 import net.jforum.entities.User;
 import net.jforum.exceptions.MailException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.stats.StatsEvent;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Dispatch emails to the world. 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class Spammer
 {
@@ -84,7 +74,10 @@ public class Spammer
 
 	private static final int MESSAGE_HTML = 0;
 	private static final int MESSAGE_TEXT = 1;
-	
+
+	// the regex looks for a property in form "prop_key.name=propValue"
+	private static final Pattern EXTRA_PROPS_PATTERN = Pattern.compile("([\\p{IsAlphabetic}0-9_\\-\\.]*)=(.*)$");
+
 	private static int messageFormat;
 	private Session session;
 	private String username;
@@ -102,12 +95,12 @@ public class Spammer
 	protected Spammer() throws MailException
 	{
 		final boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
-		
+
 		final String hostProperty = this.hostProperty(ssl);
 		final String portProperty = this.portProperty(ssl);
 		final String authProperty = this.authProperty(ssl);
 		final String localhostProperty = this.localhostProperty(ssl);
-		
+
 		mailProps.put(hostProperty, SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST));
 		mailProps.put(portProperty, SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PORT));
 
@@ -118,9 +111,9 @@ public class Spammer
 			mailProps.put(localhostProperty, localhost);
 		}
 		
-		mailProps.put("mail.mime.address.strict", "false");
 		mailProps.put("mail.mime.charset", SystemGlobals.getValue(ConfigKeys.MAIL_CHARSET));
 		mailProps.put(authProperty, SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_AUTH));
+		applyExtraMailProperties();
 
 		username = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_USERNAME);
 		password = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PASSWORD);
@@ -130,6 +123,30 @@ public class Spammer
 			: MESSAGE_TEXT;
 
 		this.session = Session.getInstance(mailProps);
+	}
+
+	/**
+	 * Check if there any extra mail parameters to be applied to mailProps before attempting to
+	 * connect to the mail server. Uses a regex matcher to avoid malformed strings.
+	 */
+	private void applyExtraMailProperties() {
+		String mailProperties = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_ADDITIONAL_PROPERTIES);
+
+		// if there are extra SMTP parameters to process
+		if (!StringUtils.isEmpty(mailProperties)) {
+			String[] propKeyVals = mailProperties.split(",");
+			for (String keyVal : propKeyVals) {
+				Matcher keyValMatcher = EXTRA_PROPS_PATTERN.matcher(keyVal);
+				if (keyValMatcher.matches()) {
+					String key = keyValMatcher.group(1).trim();
+					String value = keyValMatcher.group(2).trim();
+					LOGGER.debug("Additional SMTP property: " + key + "=" + value);
+					mailProps.put(key, value);
+				} else {
+					LOGGER.warn("Property " + keyVal + " is not valid");
+				}
+			}
+		}
 	}
 
 	public boolean dispatchMessages()
@@ -167,15 +184,13 @@ public class Spammer
 	                        	if (sendDelay > 0) {
 		                        	try {
 		                            	Thread.sleep(sendDelay);
-		                            } 
-		                        	catch (InterruptedException ie) {
+		                            } catch (InterruptedException ie) {
 		                            	LOGGER.error("Error while Thread.sleep." + ie, ie);
 		                            }
 	                        	}
 	                        }
 	                    }
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                     	throw new MailException(e);
                     }
                     finally {
@@ -270,8 +285,7 @@ public class Spammer
 				String text = this.processTemplate();
 				this.defineMessageText(text);
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new MailException(e);
 		}
 	}
@@ -287,8 +301,7 @@ public class Spammer
 		
 		if (messageFormat == MESSAGE_HTML) {
 			this.message.setContent(text.replaceAll("\n", "<br>"), "text/html; charset=" + charset);
-		}
-		else {
+		} else {
 			this.message.setText(text);
 		}
 	}

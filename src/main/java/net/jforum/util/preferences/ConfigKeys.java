@@ -216,6 +216,7 @@ public final class ConfigKeys
 	public static final String MAIL_SMTP_USERNAME = "mail.smtp.username";
 	public static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
 	public static final String MAIL_SMTP_DELAY = "mail.smtp.delay";
+	public static final String MAIL_SMTP_ADDITIONAL_PROPERTIES = "mail.smtp.additional.properties";
 
 	public static final String MAIL_USER_EMAIL_AUTH = "mail.user.email.auth";
 	public static final String MAIL_ACTIVATION_KEY_MESSAGE_FILE = "mail.activationKey.messageFile";

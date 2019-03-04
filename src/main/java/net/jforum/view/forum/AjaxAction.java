@@ -72,7 +72,6 @@ import org.apache.lucene.document.Document;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class AjaxAction extends Command
 {
@@ -97,6 +96,7 @@ public class AjaxAction extends Command
 		String username = this.request.getParameter("username");
 		String password = this.request.getParameter("password");
 		String to = this.request.getParameter("to");
+		String additionalProperties = this.request.getParameter("additionalProperties");
 
 		// Save the current values
 		String originalHost = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST);
@@ -106,6 +106,7 @@ public class AjaxAction extends Command
 		String originalSender = SystemGlobals.getValue(ConfigKeys.MAIL_SENDER);
 		String originalSSL = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_SSL);
 		String originalPort = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PORT);
+		String originalAdditionalProps = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_ADDITIONAL_PROPERTIES);
 
 		// Now put the new ones
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_HOST, host);
@@ -115,6 +116,7 @@ public class AjaxAction extends Command
 		SystemGlobals.setValue(ConfigKeys.MAIL_SENDER, sender);
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_SSL, ssl);
 		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_PORT, port);
+		SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_ADDITIONAL_PROPERTIES, additionalProperties);
 
 		String status = "OK";
 
@@ -159,6 +161,7 @@ public class AjaxAction extends Command
 			SystemGlobals.setValue(ConfigKeys.MAIL_SENDER, originalSender);
 			SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_SSL, originalSSL);
 			SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_PORT, originalPort);
+			SystemGlobals.setValue(ConfigKeys.MAIL_SMTP_ADDITIONAL_PROPERTIES, originalAdditionalProps);
 		}
 
 		this.setTemplateName(TemplateKeys.AJAX_TEST_MAIL);
