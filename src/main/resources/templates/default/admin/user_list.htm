@@ -52,7 +52,7 @@
 	<#list users as user>
 		<tr>
 			<td class="row1" align="center"><span class="gen">${user.id}</span></td>
-			<td class="row1"><span class="gen">${user.username}</span></td>
+			<td class="row1"><span class="gen"><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a></span></td>
 			<td class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/edit/${user.id}")}">${I18n.getMessage("Edit")}</a></span></td>
 			<td class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/groups/${user.id}")}">${I18n.getMessage("User.Groups")}</a></span></td>
 			<#if user.deleted>
