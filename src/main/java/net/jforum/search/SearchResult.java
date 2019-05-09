@@ -47,26 +47,23 @@ import java.util.List;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class SearchResult<T>
 {
 	private transient final List<T> records;
-	private transient final int numberOfHits;
-	
-	public SearchResult(final List<T> records, final int numberOfHits)
+
+	public SearchResult (final List<T> records)
 	{
 		this.records = records;
-		this.numberOfHits = numberOfHits;
 	}
-	
+
 	public List<T> getRecords()
 	{
 		return this.records;
 	}
-	
+
 	public int getNumberOfHits()
 	{
-		return this.numberOfHits;
+		return records.size();
 	}
 }

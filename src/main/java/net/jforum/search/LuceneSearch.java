@@ -70,6 +70,7 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
+import org.apache.lucene.search.TotalHits;
 
 /**
  * @author Rafael Steil
@@ -149,21 +150,21 @@ public class LuceneSearch implements NewDocumentAdded
 			LOGGER.debug("criteria=["+criteria.toString()+"]");
 
 			if (criteria.length() == 0) {
-				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
+				result =  new SearchResult<Post>(new ArrayList<Post>());
 			} else {
 				Query query = new QueryParser(SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
 
 				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
 				TopFieldDocs tfd = searcher.search(query, limit, getSorter(args));
 				ScoreDoc[] docs = tfd.scoreDocs;
-				int numDocs = (int) tfd.totalHits;
-				if (numDocs > 0) {
-					result = new SearchResult<Post>(resultCollector.collect(args, docs, query), numDocs);
+				TotalHits th = tfd.totalHits;
+				if (th.value > 0) {
+					result = new SearchResult<Post>(resultCollector.collect(args, docs, query));
 				} else {
-					result = new SearchResult<Post>(new ArrayList<Post>(), 0);
+					result = new SearchResult<Post>(new ArrayList<Post>());
 				}
 
-				LOGGER.debug("hits="+numDocs);
+				LOGGER.debug((th.relation == TotalHits.Relation.EQUAL_TO ? "" : "minimum ") + "number of hits="+th.value);
 			}
 		} catch (Exception e) {
 			throw new SearchException(e);

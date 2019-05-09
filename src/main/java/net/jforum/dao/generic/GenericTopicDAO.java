@@ -109,7 +109,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				counter++;
 			}
 			
-			result = new SearchResult<Topic>(this.newMessages(list), counter);
+			result = new SearchResult<Topic>(this.newMessages(list));
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);

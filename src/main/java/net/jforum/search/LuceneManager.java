@@ -90,8 +90,9 @@ public class LuceneManager
 			boolean reindex = false;
 			try {
 				DirectoryReader.open(settings.directory());
-			} catch (IndexFormatTooOldException iftoex) {
-				LOGGER.warn("Search index format too old - reindexing all posts, which can take a while");
+			} catch (IOException | RuntimeException ex) {
+				LOGGER.warn("Index can't be opened, possibly because of an old index format: " + ex.getMessage());
+				LOGGER.warn("Reindexing all posts, which can take a while");
 
 				FileUtils.cleanDirectory(new File(dirPath));
 				settings.useFSDirectory(dirPath);

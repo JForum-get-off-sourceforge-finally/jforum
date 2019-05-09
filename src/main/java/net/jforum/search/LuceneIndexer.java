@@ -144,7 +144,7 @@ public class LuceneIndexer
 
 	private void flushRAMDirectoryIfNecessary()
 	{
-		if (this.ramWriter.maxDoc() >= this.ramNumDocs) {
+		if (this.ramWriter.getDocStats().maxDoc >= this.ramNumDocs) {
 			this.flushRAMDirectory();
 		}
 	}

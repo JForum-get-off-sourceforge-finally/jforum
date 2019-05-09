@@ -120,20 +120,9 @@ public class LuceneStatsAction extends AdminCommand
 				this.context.put("numberOfDocs", Integer.valueOf(reader.numDocs()));
 				this.context.put("numberDeletedDocs", Integer.valueOf(reader.numDeletedDocs()));
 				this.context.put("refCount", Integer.valueOf(reader.getRefCount()));
-
-				// This may not be quite right, the number is probably too high.
-				// Terms.size() is I think what is wanted, but it's not available for some reason
-				// http://blog.mikemccandless.com/2012/03/new-index-statistics-in-lucene-40.html
-				long uniqueTermCount = 0;
-				Terms terms = MultiFields.getTerms(reader, SearchFields.Indexed.SUBJECT);
-				if (terms != null && terms.getSumDocFreq() != -1) {
-					uniqueTermCount += terms.getSumDocFreq();
-				}
-				terms = MultiFields.getTerms(reader, SearchFields.Indexed.CONTENTS);
-				if (terms != null && terms.getSumDocFreq() != -1) {
-					uniqueTermCount += terms.getSumDocFreq();
-				}
-				this.context.put("uniqueTermCount", uniqueTermCount);
+				long totalTermCount = reader.getSumTotalTermFreq(SearchFields.Indexed.SUBJECT)
+									+ reader.getSumTotalTermFreq(SearchFields.Indexed.CONTENTS);
+				this.context.put("totalTermCount", totalTermCount);
 			}
 		}
 		catch (IOException e) {
