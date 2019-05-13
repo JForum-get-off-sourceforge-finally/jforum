@@ -151,7 +151,7 @@ public class SearchAction extends Command
 
 	private SearchArgs buildSearchArgs() {
         SearchArgs args = new SearchArgs();
-
+        LOGGER.debug("search_keywords = " + this.request.getParameter("search_keywords"));
         args.setKeywords(this.request.getParameter("search_keywords"));
 
         args.setSearchIn(request.getParameter("search_in"));

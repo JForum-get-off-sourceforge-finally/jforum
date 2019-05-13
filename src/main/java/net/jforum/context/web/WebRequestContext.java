@@ -162,9 +162,10 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				}
 				else {					
 					final String value = superRequest.getParameter(name);
+					LOGGER.debug("value = " + value);
 					final String containerApp = SystemGlobals.getValue("container.app");
 					final String containerVersion = SystemGlobals.getValue("container.version");					
-					if (!"Apache Tomcat".equals(containerApp) || "4".equals(containerVersion) || "8".equals(containerVersion)) {
+					if (!"Apache Tomcat".equals(containerApp) || "4".equals(containerVersion) || "8".equals(containerVersion) || "9".equals(containerVersion)) {
 						this.addParameter(name, value);
 			        } else {			            
 			            this.addParameter(name, new String(value.getBytes(containerEncoding), encoding));

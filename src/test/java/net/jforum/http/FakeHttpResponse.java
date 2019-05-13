@@ -67,26 +67,28 @@ public class FakeHttpResponse implements HttpServletResponse
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public String encodeURL(String url)
+    @Deprecated
+    public String encodeRedirectUrl(String url)
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
+    
     public String encodeRedirectURL(String url)
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Deprecated
     public String encodeUrl(String url)
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public String encodeRedirectUrl(String url)
+    public String encodeURL(String url)
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
+    
     public void sendError(int sc, String msg) throws IOException
     {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -137,6 +139,7 @@ public class FakeHttpResponse implements HttpServletResponse
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Deprecated
     public void setStatus(int sc, String sm)
     {
         //To change body of implemented methods use File | Settings | File Templates.
