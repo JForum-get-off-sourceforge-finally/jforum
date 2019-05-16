@@ -46,16 +46,15 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

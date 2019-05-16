@@ -55,6 +55,12 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.exceptions.ForumException;
@@ -62,12 +68,6 @@ import net.jforum.util.DbUtils;
 import net.jforum.util.FormSelectedData;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Manipulates XML permission control file definition 

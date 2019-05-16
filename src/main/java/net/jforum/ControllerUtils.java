@@ -48,6 +48,10 @@ import java.util.Date;
 
 import javax.servlet.http.Cookie;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
 import net.jforum.context.ForumContext;
 import net.jforum.context.RequestContext;
 import net.jforum.context.SessionContext;
@@ -67,11 +71,6 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.common.BannerCommon;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleHash;
 
 /**
  * Common methods used by the controller.

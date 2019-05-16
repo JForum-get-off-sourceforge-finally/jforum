@@ -44,12 +44,11 @@ package net.jforum.search;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.entities.Post;
-import net.jforum.exceptions.SearchInstantiationException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

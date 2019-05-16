@@ -51,6 +51,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.ForumStartup;
 import net.jforum.SessionFacade;
 import net.jforum.cache.CacheEngine;
@@ -75,8 +77,6 @@ import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.CategoryOrderComparator;
 import net.jforum.util.preferences.ConfigKeys;
-
-import org.apache.log4j.Logger;
 
 /**
  * Repository for the forums of the System.

@@ -45,25 +45,17 @@ package net.jforum.search;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.apache.lucene.index.DirectoryReader;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexFormatTooOldException;
-import org.apache.lucene.index.IndexUpgrader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.util.InfoStream;
-
-import org.apache.commons.io.FileUtils;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -113,7 +105,7 @@ public class LuceneManager
 
 			// reindex everything - from Jan 1 1970 to now
 			if (reindex) {
-				LuceneReindexArgs args = new LuceneReindexArgs(new Date(70, 0, 1), new Date(),
+				LuceneReindexArgs args = new LuceneReindexArgs(new GregorianCalendar(1970, 0, 1).getTime(), new Date(),
 											0, 0, false, LuceneReindexArgs.TYPE_DATE, true);
 				LuceneReindexer reindexer = new LuceneReindexer(settings, args);
 				reindexer.startBackgroundProcess();

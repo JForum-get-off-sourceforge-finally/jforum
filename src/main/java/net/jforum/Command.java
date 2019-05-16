@@ -44,6 +44,8 @@ package net.jforum;
 
 import java.io.IOException;
 
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
 import net.jforum.exceptions.ForumException;
@@ -52,8 +54,6 @@ import net.jforum.repository.Tpl;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * <code>Command</code> Pattern implementation.

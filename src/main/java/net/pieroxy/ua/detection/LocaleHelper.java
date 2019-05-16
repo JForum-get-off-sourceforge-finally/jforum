@@ -1,5 +1,6 @@
 package net.pieroxy.ua.detection;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 class LocaleHelper {
     static Map<String,Language> allLangs;
     static Map<String,Country> allCountries;

@@ -45,6 +45,10 @@ package net.jforum.view.forum;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -66,11 +70,6 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.util.stats.StatsEvent;
-
-import org.apache.commons.lang3.StringUtils;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

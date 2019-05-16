@@ -1,9 +1,8 @@
 package net.jforum.csrf;
 
+import org.apache.log4j.Logger;
 import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.log.LogLevel;
-
-import org.apache.log4j.Logger;
 
 public class CsrfLogger implements ILogger {
 

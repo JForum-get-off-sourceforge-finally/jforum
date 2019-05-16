@@ -52,15 +52,15 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import net.jforum.SessionFacade;
 import net.jforum.exceptions.ForumOrderChangedException;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.ForumOrderComparator;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 /**
  * Represents a category in the System.

@@ -48,6 +48,11 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -64,12 +69,6 @@ import net.jforum.security.SecurityConstants;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

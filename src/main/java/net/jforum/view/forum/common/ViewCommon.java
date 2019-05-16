@@ -49,21 +49,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.ocpsoft.prettytime.PrettyTime;
+
+import freemarker.template.SimpleHash;
 import net.jforum.JForumExecutionContext;
+import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.entities.User;
+import net.jforum.entities.UserSession;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import net.jforum.SessionFacade;
-import net.jforum.entities.UserSession;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-
-import freemarker.template.*;
-import org.ocpsoft.prettytime.*;
 
 /**
  * @author Rafael Steil

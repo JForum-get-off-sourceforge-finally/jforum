@@ -47,6 +47,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import freemarker.template.SimpleHash;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
@@ -71,7 +72,6 @@ import net.jforum.util.mail.TopicReplySpammer;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.ModerationHelper;
-import freemarker.template.SimpleHash;
 
 /**
  * General utilities methods for topic manipulation.

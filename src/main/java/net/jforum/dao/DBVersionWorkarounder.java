@@ -48,11 +48,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.ConfigLoader;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 public class DBVersionWorkarounder {
 

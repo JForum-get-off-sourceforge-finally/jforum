@@ -47,15 +47,15 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
-import net.jforum.exceptions.ForumException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.htmlparser.Attribute;
 import org.htmlparser.Node;
 import org.htmlparser.Tag;
 import org.htmlparser.lexer.Lexer;
 import org.htmlparser.nodes.TextNode;
+
+import net.jforum.exceptions.ForumException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * Process text with html and remove possible malicious tags and attributes.

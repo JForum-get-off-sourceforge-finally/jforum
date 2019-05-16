@@ -47,15 +47,15 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import net.jforum.exceptions.DatabaseException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
+
+import net.jforum.exceptions.DatabaseException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil

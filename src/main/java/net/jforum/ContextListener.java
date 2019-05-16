@@ -45,18 +45,16 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.util.log.LoggerHelper;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.stats.Stats;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Andowson Chang

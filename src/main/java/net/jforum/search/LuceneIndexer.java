@@ -53,15 +53,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.jforum.dao.AttachmentDAO;
-import net.jforum.dao.DataAccessDriver;
-import net.jforum.entities.Attachment;
-import net.jforum.entities.AttachmentInfo;
-import net.jforum.entities.Post;
-import net.jforum.exceptions.SearchException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -74,7 +65,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.BytesRef;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.parser.AutoDetectParser;
@@ -82,6 +72,15 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
+
+import net.jforum.dao.AttachmentDAO;
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.entities.Attachment;
+import net.jforum.entities.AttachmentInfo;
+import net.jforum.entities.Post;
+import net.jforum.exceptions.SearchException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil

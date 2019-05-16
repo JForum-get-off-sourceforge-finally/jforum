@@ -2,11 +2,11 @@ package net.jforum.view.admin;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SpamDAO;
 import net.jforum.util.preferences.TemplateKeys;
-
-import org.apache.log4j.Logger;
 
 public class SpamBlockAction extends AdminCommand {
 

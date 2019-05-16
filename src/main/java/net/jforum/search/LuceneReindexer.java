@@ -48,6 +48,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.LuceneDAO;
@@ -55,8 +57,6 @@ import net.jforum.entities.Post;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

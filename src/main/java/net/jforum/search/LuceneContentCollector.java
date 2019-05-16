@@ -48,10 +48,6 @@ import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 
-import net.jforum.dao.DataAccessDriver;
-import net.jforum.entities.Post;
-import net.jforum.exceptions.ForumException;
-
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -59,12 +55,14 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.highlight.Formatter;
-import org.apache.lucene.search.highlight.GradientFormatter;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.Scorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.entities.Post;
+import net.jforum.exceptions.ForumException;
 
 /**
  * @author Rafael Steil

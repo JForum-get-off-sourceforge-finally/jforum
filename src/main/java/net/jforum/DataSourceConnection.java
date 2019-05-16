@@ -51,11 +51,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * DataSource connection implementation for JForum.

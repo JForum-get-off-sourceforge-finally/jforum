@@ -1,5 +1,10 @@
 package net.pieroxy.ua.detection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 class UserAgentContext {
     private static final boolean DEBUG = false;
     private String debug = "";

@@ -48,6 +48,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.log4j.Logger;
+import org.apache.lucene.document.Document;
+
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -65,10 +69,6 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.PostCommon;
-
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 
 /**
  * @author Rafael Steil

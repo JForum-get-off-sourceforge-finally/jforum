@@ -53,6 +53,10 @@ import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
@@ -66,10 +70,6 @@ import net.jforum.util.SafeHtml;
 import net.jforum.util.image.ImageUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

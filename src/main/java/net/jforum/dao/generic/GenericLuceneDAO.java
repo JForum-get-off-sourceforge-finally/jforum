@@ -52,6 +52,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.LuceneDAO;
 import net.jforum.entities.Post;
@@ -59,8 +61,6 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.search.SearchPost;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

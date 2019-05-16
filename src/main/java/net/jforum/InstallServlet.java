@@ -50,6 +50,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.csrfguard.CsrfGuard;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.context.ForumContext;
 import net.jforum.context.JForumContext;
 import net.jforum.context.RequestContext;
@@ -61,11 +65,6 @@ import net.jforum.repository.ModulesRepository;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.owasp.csrfguard.CsrfGuard;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

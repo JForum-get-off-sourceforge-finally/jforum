@@ -42,11 +42,11 @@
  */
 package net.jforum.view.admin;
 
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.Command;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

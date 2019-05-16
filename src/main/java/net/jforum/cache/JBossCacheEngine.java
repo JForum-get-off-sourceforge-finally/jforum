@@ -46,16 +46,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import net.jforum.exceptions.CacheException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.apache.log4j.Logger;
 import org.jboss.cache.Cache;
 import org.jboss.cache.CacheFactory;
 import org.jboss.cache.CacheStatus;
 import org.jboss.cache.DefaultCacheFactory;
 import org.jboss.cache.Fqn;
+
+import net.jforum.exceptions.CacheException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil

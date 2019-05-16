@@ -1,5 +1,8 @@
 package net.pieroxy.ua.detection;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 class BotsHelper {
 
     public static String[] getGroups(String regexp, String ua, int ... groups) {

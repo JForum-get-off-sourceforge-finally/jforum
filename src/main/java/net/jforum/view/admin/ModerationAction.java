@@ -42,6 +42,7 @@
  */
 package net.jforum.view.admin;
 
+import freemarker.template.SimpleHash;
 import net.jforum.context.RequestContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.PostDAO;
@@ -59,7 +60,6 @@ import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.AttachmentCommon;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.TopicsCommon;
-import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil

@@ -53,6 +53,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -99,12 +103,6 @@ import net.jforum.view.forum.common.PollCommon;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
-
-import org.apache.commons.lang3.StringUtils;
-
-import freemarker.template.SimpleHash;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

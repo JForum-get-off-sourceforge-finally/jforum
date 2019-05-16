@@ -47,6 +47,9 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.log4j.Logger;
+
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SmilieDAO;
 import net.jforum.entities.Smilie;
@@ -56,9 +59,6 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.UploadUtils;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

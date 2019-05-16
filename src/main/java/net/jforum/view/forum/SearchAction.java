@@ -47,6 +47,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
 import net.jforum.Command;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
@@ -66,10 +69,6 @@ import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
-
-import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil

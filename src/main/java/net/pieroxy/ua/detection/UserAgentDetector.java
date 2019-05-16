@@ -1,5 +1,7 @@
 package net.pieroxy.ua.detection;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 /**
 * This is the documentation for the version _DEV_VERSION_ of the library.
 */

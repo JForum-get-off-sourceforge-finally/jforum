@@ -42,10 +42,10 @@
  */
 package net.jforum.util.preferences;
 
-import net.jforum.util.FileChangeListener;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
+import net.jforum.util.FileChangeListener;
 
 /**
  * Listener for changed file events.

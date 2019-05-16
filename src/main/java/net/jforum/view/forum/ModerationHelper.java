@@ -46,6 +46,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import freemarker.template.SimpleHash;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
@@ -64,10 +67,6 @@ import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.ForumCommon;
-
-import org.apache.log4j.Logger;
-
-import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil

@@ -49,13 +49,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import net.jforum.exceptions.ForumStartupException;
-import net.jforum.repository.ModulesRepository;
-import net.jforum.repository.Tpl;
-import net.jforum.util.I18n;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -65,6 +58,12 @@ import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
+import net.jforum.exceptions.ForumStartupException;
+import net.jforum.repository.ModulesRepository;
+import net.jforum.repository.Tpl;
+import net.jforum.util.I18n;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil

@@ -51,10 +51,10 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * Try to fix some database configuration problems.

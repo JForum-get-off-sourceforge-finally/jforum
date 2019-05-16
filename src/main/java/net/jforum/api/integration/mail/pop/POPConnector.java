@@ -51,12 +51,12 @@ import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.entities.MailIntegration;
 import net.jforum.exceptions.MailException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * Handles the connection to the POP server.

@@ -48,6 +48,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.security.PermissionControl;
@@ -57,8 +59,6 @@ import net.jforum.security.RoleValue;
 import net.jforum.security.RoleValueCollection;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

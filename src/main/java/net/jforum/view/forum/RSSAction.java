@@ -46,6 +46,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -72,8 +74,6 @@ import net.jforum.util.rss.TopicRSS;
 import net.jforum.util.rss.UserPostsRSS;
 import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

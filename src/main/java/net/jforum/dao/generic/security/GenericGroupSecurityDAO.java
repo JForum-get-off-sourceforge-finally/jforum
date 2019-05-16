@@ -50,6 +50,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.GroupSecurityDAO;
 import net.jforum.dao.generic.AutoKeys;
@@ -63,8 +65,6 @@ import net.jforum.security.RoleValue;
 import net.jforum.security.RoleValueCollection;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

@@ -47,19 +47,18 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.jforum.context.ForumContext;
-import net.jforum.context.RequestContext;
-import net.jforum.context.ResponseContext;
-import net.jforum.exceptions.ForumException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.apache.log4j.Logger;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
+import net.jforum.context.ForumContext;
+import net.jforum.context.RequestContext;
+import net.jforum.context.ResponseContext;
+import net.jforum.exceptions.ForumException;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * Data execution context. 

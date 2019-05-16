@@ -49,11 +49,20 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.LockObtainFailedException;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
 import net.jforum.exceptions.ForumException;
 import net.jforum.repository.ForumRepository;
-import net.jforum.search.LuceneManager;
 import net.jforum.search.LuceneReindexArgs;
 import net.jforum.search.LuceneReindexer;
 import net.jforum.search.LuceneSettings;
@@ -61,20 +70,6 @@ import net.jforum.search.SearchFields;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.MultiFields;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.LockObtainFailedException;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

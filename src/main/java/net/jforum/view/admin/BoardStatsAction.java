@@ -59,12 +59,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.util.stats.Stats;
-
-import org.apache.log4j.Logger;
 
 public class BoardStatsAction extends AdminCommand {
 

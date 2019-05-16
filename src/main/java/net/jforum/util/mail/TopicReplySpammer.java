@@ -45,6 +45,7 @@ package net.jforum.util.mail;
 import java.text.MessageFormat;
 import java.util.List;
 
+import freemarker.template.SimpleHash;
 import net.jforum.JForumExecutionContext;
 import net.jforum.api.integration.mail.pop.MessageId;
 import net.jforum.entities.Post;
@@ -54,7 +55,6 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.ViewCommon;
-import freemarker.template.SimpleHash;
 
 /**
  * Notify users of replies to existing topics

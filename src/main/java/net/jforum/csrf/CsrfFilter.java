@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.jforum.context.RequestContext;
-import net.jforum.context.web.WebRequestContext;
-
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.http.InterceptRedirectResponse;
 import org.owasp.csrfguard.log.LogLevel;
+
+import net.jforum.context.RequestContext;
+import net.jforum.context.web.WebRequestContext;
 
 /**
  * Didn't use OWASP filter because couldn't map jforum actions to urls consistently.

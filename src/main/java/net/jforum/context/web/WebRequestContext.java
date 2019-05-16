@@ -56,6 +56,14 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
 import net.jforum.UrlPattern;
 import net.jforum.UrlPatternCollection;
 import net.jforum.context.RequestContext;
@@ -64,15 +72,6 @@ import net.jforum.exceptions.MultipartHandlingException;
 import net.jforum.util.MobileStatus;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

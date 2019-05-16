@@ -48,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.SummaryDAO;
@@ -55,8 +57,6 @@ import net.jforum.entities.Post;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Franklin Samir (franklin (at) portaljava [dot] com)

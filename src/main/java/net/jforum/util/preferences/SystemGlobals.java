@@ -58,11 +58,10 @@ import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.jforum.dao.DataAccessDriver;
-import net.jforum.exceptions.ForumException;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
+import net.jforum.exceptions.ForumException;
 
 /**
  * <p>Store global configurations used in the system.
@@ -261,6 +260,11 @@ public final class SystemGlobals implements VariableStore
         // configurations from the filesystem, overwriting our new keys. 
 
         Properties p = new Properties() {
+			/**
+			 * serialization
+			 */
+			private static final long serialVersionUID = 1L;
+
 			/**
 			 * Called by the store method
 			 */

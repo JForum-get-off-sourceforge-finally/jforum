@@ -58,9 +58,9 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.InternetAddress;
 
-import net.jforum.exceptions.MailException;
-
 import org.apache.log4j.Logger;
+
+import net.jforum.exceptions.MailException;
 
 /**
  * Represents a pop message. 

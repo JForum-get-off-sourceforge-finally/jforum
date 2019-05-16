@@ -42,6 +42,8 @@
  */
 package net.jforum.repository;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.cache.CacheEngine;
@@ -53,8 +55,6 @@ import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.exceptions.SecurityLoadException;
 import net.jforum.security.PermissionControl;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

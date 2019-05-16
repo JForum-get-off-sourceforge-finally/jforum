@@ -46,13 +46,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.util.preferences.SystemGlobals;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-
-import org.apache.log4j.Logger;
 /**
  * The rest of the application seems to make some invalid assumptions about how
  * things are cached. Those assumptions might be benign, but it is hard to tell

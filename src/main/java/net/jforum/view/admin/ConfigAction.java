@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import freemarker.template.SimpleHash;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
 import net.jforum.entities.Category;
@@ -64,7 +65,6 @@ import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
-import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil

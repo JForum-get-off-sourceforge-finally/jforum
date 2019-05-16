@@ -46,9 +46,9 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import net.jforum.exceptions.ForumException;
-
 import org.apache.commons.fileupload.FileItem;
+
+import net.jforum.exceptions.ForumException;
 
 /**
  * @author Rafael Steil

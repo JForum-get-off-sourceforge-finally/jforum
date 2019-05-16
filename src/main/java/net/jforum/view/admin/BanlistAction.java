@@ -44,14 +44,14 @@ package net.jforum.view.admin;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.jforum.dao.BanlistDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.Banlist;
 import net.jforum.exceptions.ForumException;
 import net.jforum.repository.BanlistRepository;
 import net.jforum.util.preferences.TemplateKeys;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Rafael Steil

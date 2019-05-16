@@ -54,15 +54,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.entities.UserSession;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 /**
  * I18n (Internationalization) class implementation. Does nothing of special, just loads the

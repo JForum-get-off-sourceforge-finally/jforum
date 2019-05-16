@@ -44,12 +44,12 @@ package net.jforum.util.rss;
 
 import java.io.StringWriter;
 
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.JForumExecutionContext;
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * @author Rafael Steil

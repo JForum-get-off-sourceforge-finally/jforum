@@ -49,6 +49,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.quartz.SchedulerException;
+
 import net.jforum.api.integration.mail.pop.POPJobStarter;
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
@@ -63,10 +67,6 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.QueriesFileListener;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.SystemGlobalsListener;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.quartz.SchedulerException;
 
 /**
  * General utilities methods for loading configurations for JForum.

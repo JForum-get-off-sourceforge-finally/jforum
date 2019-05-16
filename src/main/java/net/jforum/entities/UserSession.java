@@ -47,6 +47,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 
+import com.octo.captcha.image.ImageCaptcha;
+
 import net.jforum.ControllerUtils;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -57,8 +59,6 @@ import net.jforum.util.Captcha;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import com.octo.captcha.image.ImageCaptcha;
 
 /**
  * Stores information about user's session.

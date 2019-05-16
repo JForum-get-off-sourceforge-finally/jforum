@@ -45,13 +45,13 @@ package net.jforum.api.integration.mail.pop;
 import java.util.Iterator;
 import java.util.List;
 
-import net.jforum.dao.DataAccessDriver;
-import net.jforum.entities.MailIntegration;
-
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.entities.MailIntegration;
 
 /**
  * @author Rafael Steil

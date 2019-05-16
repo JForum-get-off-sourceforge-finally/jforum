@@ -52,11 +52,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import net.jforum.JForumExecutionContext;
-import net.jforum.SessionFacade;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
-
 import org.apache.log4j.Logger;
 
 import com.octo.captcha.component.image.backgroundgenerator.BackgroundGenerator;
@@ -74,6 +69,11 @@ import com.octo.captcha.component.word.wordgenerator.WordGenerator;
 import com.octo.captcha.engine.image.ListImageCaptchaEngine;
 import com.octo.captcha.image.ImageCaptchaFactory;
 import com.octo.captcha.image.gimpy.GimpyFactory;
+
+import net.jforum.JForumExecutionContext;
+import net.jforum.SessionFacade;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author James Yong

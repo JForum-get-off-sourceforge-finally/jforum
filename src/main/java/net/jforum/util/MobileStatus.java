@@ -41,10 +41,14 @@
  */
 package net.jforum.util;
 
-import java.util.*;
-import javax.servlet.http.*;
+import java.util.WeakHashMap;
 
-import net.pieroxy.ua.detection.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import net.pieroxy.ua.detection.DeviceType;
+import net.pieroxy.ua.detection.UserAgentDetectionResult;
+import net.pieroxy.ua.detection.UserAgentDetector;
 
 /**
  * If this object is in the session, it represents the state of whether to user has made any mobile requests.

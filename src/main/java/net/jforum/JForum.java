@@ -58,6 +58,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.owasp.csrfguard.CsrfGuard;
+import org.quartz.SchedulerException;
+
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 import net.jforum.api.integration.mail.pop.POPJobStarter;
 import net.jforum.context.JForumContext;
 import net.jforum.context.RequestContext;
@@ -86,13 +92,6 @@ import net.jforum.util.bbcode.BBCodeHandler;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.stats.StatsEvent;
-
-import org.apache.log4j.Logger;
-import org.owasp.csrfguard.CsrfGuard;
-import org.quartz.SchedulerException;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
 /**
  * Front Controller.

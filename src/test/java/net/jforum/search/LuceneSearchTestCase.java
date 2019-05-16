@@ -47,17 +47,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
-import net.jforum.TestCaseUtils;
-import net.jforum.entities.Post;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.TestCase;
+import net.jforum.TestCaseUtils;
+import net.jforum.entities.Post;
 
 /**
  * @author Rafael Steil

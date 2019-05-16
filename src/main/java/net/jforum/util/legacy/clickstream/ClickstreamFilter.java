@@ -10,9 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import net.jforum.util.preferences.ConfigKeys;
-
 import org.apache.log4j.Logger;
+
+import net.jforum.util.preferences.ConfigKeys;
 
 /**
  * The filter that keeps track of a new entry in the clickstream for <b>every request</b>.

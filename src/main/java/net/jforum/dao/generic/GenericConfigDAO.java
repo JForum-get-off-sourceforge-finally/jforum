@@ -50,14 +50,13 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.entities.Config;
 import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
@@ -124,7 +123,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 			}
 		}
 		// now props contains only settings which aren't in the DB yet
-		Enumeration e = props.propertyNames();
+		Enumeration<?> e = props.propertyNames();
 		while (e.hasMoreElements()) {
 			String key = (String) e.nextElement();
 			Config newConfig = new Config();

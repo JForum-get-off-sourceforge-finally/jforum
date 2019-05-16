@@ -46,6 +46,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.JForumContext;
@@ -59,9 +62,6 @@ import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.view.forum.PostAction;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

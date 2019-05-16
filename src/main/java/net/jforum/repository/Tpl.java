@@ -46,13 +46,13 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.exceptions.ConfigLoadException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil

@@ -46,13 +46,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.dao.BanlistDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.Banlist;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
