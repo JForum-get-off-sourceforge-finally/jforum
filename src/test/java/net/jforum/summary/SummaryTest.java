@@ -67,8 +67,7 @@ public class SummaryTest extends TestCase
     }
 
 	private void createTestPost() {
-		UserDAO userDAO = DataAccessDriver.getInstance().newUserDAO();
-		User user = userDAO.findByName("Admin", true).get(0); // there's only one "Admin"
+		User user = new User(1); // Administrator's userId
 		
 		int forumId = 1;
 		String topic = "test topic";

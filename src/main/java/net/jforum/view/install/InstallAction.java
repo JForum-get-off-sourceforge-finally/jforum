@@ -731,15 +731,16 @@ public class InstallAction extends Command
 
     private boolean updateAdminPassword(final Connection conn)
     {
-        LOGGER.info("Going to update the administrator's password");
+        LOGGER.info("Going to update the administrator's username and password");
 
         boolean status = false;
 
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = conn.prepareStatement("UPDATE jforum_users SET user_password = ? WHERE username = 'Admin'");
-            pstmt.setString(1, Hash.sha512(this.getFromSession("adminPassword")+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
+            pstmt = conn.prepareStatement("UPDATE jforum_users SET username= ?, user_password = ? WHERE username = 'Admin'");
+            pstmt.setString(1, this.getFromSession("adminUser"));
+            pstmt.setString(2, Hash.sha512(this.getFromSession("adminPassword")+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
             pstmt.executeUpdate();
             status = true;
         }
@@ -771,6 +772,7 @@ public class InstallAction extends Command
         String dbEncodingOther = this.request.getParameter("dbencoding_other");
         final String usePool = this.request.getParameter("use_pool");
         String forumLink = this.request.getParameter("forum_link");
+        final String adminUser = this.request.getParameter("admin_user");
         final String adminPassword = this.request.getParameter("admin_pass1");
 
         dbHost = this.notNullDefault(dbHost, "localhost");
@@ -794,6 +796,7 @@ public class InstallAction extends Command
         this.addToSessionAndContext("usePool", usePool);
         this.addToSessionAndContext("forumLink", forumLink);
         this.addToSessionAndContext("siteLink", this.request.getParameter("site_link"));
+        this.addToSessionAndContext("adminUser", adminUser);
         this.addToSessionAndContext("adminPassword", adminPassword);
         this.addToSessionAndContext("dbdatasource", this.request.getParameter("dbdatasource"));
         this.addToSessionAndContext("db_connection_type", this.request.getParameter("db_connection_type"));
