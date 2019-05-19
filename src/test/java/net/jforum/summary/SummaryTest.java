@@ -67,7 +67,7 @@ public class SummaryTest extends TestCase
     }
 
 	private void createTestPost() {
-		User user = new User(1); // Administrator's userId
+		User user = new User(2); // Administrator's userId
 		
 		int forumId = 1;
 		String topic = "test topic";
