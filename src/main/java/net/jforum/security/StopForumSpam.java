@@ -86,10 +86,10 @@ public class StopForumSpam {
 			return root;
 		} catch (JDOMException e) {
             // indicates a well-formedness error
-			LOGGER.error("The result XML is not well-formed." + e.getMessage());
+			LOGGER.error("The result XML is not well-formed. " + e.getMessage());
 			LOGGER.error("url="+url);
 		} catch (IOException ioe) {
-			LOGGER.error("Oh no!...IOException" + ioe.getMessage());
+			LOGGER.error("Oh no!...IOException " + ioe.getMessage());
 		}
 		return null;
 	}
