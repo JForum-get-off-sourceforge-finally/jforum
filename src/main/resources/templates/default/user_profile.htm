@@ -136,7 +136,7 @@
 					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="email" /></a>
 					</span></b>
 					<#if (isModerator || isAdmin) >
-						<a class="gen" href="${stopForumSpamURL}email=${u.email?default("")?html}&json" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
+						<a class="gen" href="${stopForumSpamWebURL}email=${u.email?default("")?html}" target="_new"> (${I18n.getMessage("SearchStats.check")} StopForumSpam)</a>
 					</#if>
 				</td>
 			</tr>
