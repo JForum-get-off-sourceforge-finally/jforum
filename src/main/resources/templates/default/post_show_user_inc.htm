@@ -35,7 +35,7 @@
 	<br />
 </#if>
 
-<#if showIP && post.userIp?exists && (isModerator || post.userId == session.userId)>
+<#if showIP && post.userIp?exists && (isModerator || isAdmin)>
 	<nobr>${I18n.getMessage("PostShow.userIP")}: <a href="${whoisUrl}${post.userIp}" target="_blank">${post.userIp}</a></nobr>
 	<br />
 </#if>

@@ -36,7 +36,7 @@
 				if (turnOn) {
 					$(".toggleWatchLink")[0].href = unwatchURL;
 					$(".toggleWatchLink")[0].onclick = unwatchHandler;
-					$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.unwatch")}';
+					$("#toggleWatchLinkID")[0].innerHTML = '<img src="${contextPath}/templates/${templateName}/images/unwatch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.unwatch")}';
 				} else {
 					$(".toggleWatchLink")[0].href = watchURL;
 					$(".toggleWatchLink")[0].onclick = watchHandler;
@@ -431,7 +431,8 @@
 					<td align="left" valign="top" class="gensmall">
 						<#if logged>
 							<#if bookmarksEnabled>
-								<a href="#bookmark" onclick="addBookmark(2, ${topic.id});"><img src="${contextPath}/templates/${templateName}/images/icon_bookmark.gif" align="middle" alt="Bookmark" />&nbsp;${I18n.getMessage("Bookmarks.addTo")}</a>
+								<img src="${contextPath}/templates/${templateName}/images/icon_bookmark.gif" align="middle" alt="Bookmark" />
+								<a href="#bookmark" onclick="addBookmark(2, ${topic.id});">${I18n.getMessage("Bookmarks.addTo")}</a>
 								<br />
 							</#if>
 							<#if !watching>
@@ -441,7 +442,7 @@
 							<#else>
 								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/posts/unwatch/${start}/${topic.id}")}"
 									onClick="turnOn=false; toggleWatch(); return false">
-									<img src="${contextPath}/templates/${templateName}/images/watch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.unwatch")}</a>
+									<img src="${contextPath}/templates/${templateName}/images/unwatch.gif" align="middle" alt="Watch" />&nbsp;${I18n.getMessage("PostShow.unwatch")}</a>
 							</#if>
 						</#if>
 					</td>
