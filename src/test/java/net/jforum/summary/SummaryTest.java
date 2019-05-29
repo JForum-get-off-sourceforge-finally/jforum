@@ -15,7 +15,6 @@ import net.jforum.TestCaseUtils;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.PostDAO;
 import net.jforum.dao.TopicDAO;
-import net.jforum.dao.UserDAO;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;

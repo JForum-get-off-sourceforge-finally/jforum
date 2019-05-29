@@ -50,7 +50,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
@@ -76,8 +75,6 @@ import net.jforum.util.preferences.TemplateKeys;
  */
 public class LuceneStatsAction extends AdminCommand
 {
-	private static final Logger LOGGER = Logger.getLogger(LuceneStatsAction.class);
-
 	static {
 		SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "0");
 	}

@@ -46,8 +46,6 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
 import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.exceptions.ConfigLoadException;
@@ -59,8 +57,6 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class Tpl implements Cacheable
 {
-	private static final Logger LOGGER = Logger.getLogger(Tpl.class);
-	
 	private static final String FQN = "templates";
 	
 	private static CacheEngine cache;

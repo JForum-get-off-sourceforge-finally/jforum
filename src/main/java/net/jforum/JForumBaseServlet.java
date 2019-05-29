@@ -97,7 +97,7 @@ public class JForumBaseServlet extends HttpServlet
 			templateCfg.setSharedVariable("startupTime", Long.valueOf(System.currentTimeMillis()));
 
 			// Create the default template loader
-			final String defaultTemplatePath = SystemGlobals.getApplicationPath() + "/templates";
+			final String defaultTemplatePath = SystemGlobals.getApplicationPath() + File.separator + "templates";
 			final FileTemplateLoader defaultLoader = new FileTemplateLoader(new File(defaultTemplatePath));
 
 			final String extraTemplatePath = SystemGlobals.getValue(ConfigKeys.FREEMARKER_EXTRA_TEMPLATE_PATH);

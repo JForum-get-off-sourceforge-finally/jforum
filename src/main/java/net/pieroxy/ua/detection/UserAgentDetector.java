@@ -59,7 +59,6 @@ public class UserAgentDetector implements IUserAgentDetector {
     }
 
     static OS getOS(UserAgentContext context) {
-        String userAgent = context.getUA();
         OS res = new OS(Brand.MICROSOFT,OSFamily.WINDOWS,"Windows","Unknown");
 			// just the default, should get replaced further down
         String ver;
@@ -218,10 +217,6 @@ public class UserAgentDetector implements IUserAgentDetector {
             res = new OS(Brand.MICROSOFT,OSFamily.WINDOWS,"Windows","Millenium Edition (ME)");
         } else if (context.contains("Win",MatchingType.BEGINS, MatchingRegion.PARENTHESIS)
                    && !context.contains("X11",MatchingType.EQUALS, MatchingRegion.PARENTHESIS)) {
-            // Some User-Agents include two references to Windows
-            // Ex: Mozilla/5.0 (Windows; U; Win98; en-US; rv:1.5)
-            boolean foundWindows = context.consume("Windows",MatchingType.EQUALS, MatchingRegion.PARENTHESIS);
-
             if (context.getcNextTokens(new Matcher[] {new Matcher("Windows 98",MatchingType.EQUALS),
                 new Matcher("Win 9x 4.90",MatchingType.EQUALS)
             }, MatchingRegion.PARENTHESIS) != null ||
@@ -597,9 +592,9 @@ public class UserAgentDetector implements IUserAgentDetector {
             res = new OS(Brand.NINTENDO,OSFamily.OTHER,"OS for Nintendo 3DS","");
         }
 
-        if (res == null) {
-            res = new OS(Brand.UNKNOWN,OSFamily.UNKNOWN,"","");
-        }
+        //if (res == null) {
+        //    res = new OS(Brand.UNKNOWN,OSFamily.UNKNOWN,"","");
+        //}
 
         if (res.getFamily() == OSFamily.WINDOWS_NT) {
             context.consume("Windows", MatchingType.EQUALS, MatchingRegion.PARENTHESIS);
@@ -1463,7 +1458,6 @@ public class UserAgentDetector implements IUserAgentDetector {
     }
 
     static Device getDevice(UserAgentContext context, Browser b, OS o) {
-        String ua = context.getUA();
         String arm = "ARM";
         String atom = "Intel Atom";
 

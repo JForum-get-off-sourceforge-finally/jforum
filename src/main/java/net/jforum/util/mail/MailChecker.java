@@ -1,7 +1,5 @@
 package net.jforum.util.mail;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -17,11 +15,6 @@ public class MailChecker
 	private static final Logger log = Logger.getLogger(MailChecker.class);
 
 	private static Pattern validEmail;
-
-	// This list os obsolete, since there are now hundreds of TLDs
-	private static List<String> gTLD = Arrays.asList(new String[] {
-		"aero", "arpa", "asia", "biz", "cat", "com", "coop", "edu", "gov", "info", "int",
-		"jobs", "mobi", "mil", "museum", "name", "net", "org", "pro", "tel", "travel" });
 
 	static
 	{

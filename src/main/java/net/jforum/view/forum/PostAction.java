@@ -54,8 +54,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-
 import freemarker.template.SimpleHash;
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -109,9 +107,7 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class PostAction extends Command 
 {
-    private static final Logger LOGGER = Logger.getLogger(PostAction.class);
-
-	public PostAction() {
+    public PostAction() {
 	}
 
 	public PostAction(RequestContext request, SimpleHash templateContext) {

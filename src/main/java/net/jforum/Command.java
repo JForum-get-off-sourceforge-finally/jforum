@@ -42,7 +42,11 @@
  */
 package net.jforum;
 
+import java.io.File;
 import java.io.IOException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
@@ -64,6 +68,7 @@ import net.jforum.util.preferences.TemplateKeys;
  */
 public abstract class Command 
 {
+	private static final Logger LOGGER = Logger.getLogger(Command.class);
 	private static final Class<?>[] NO_ARGS_CLASS = new Class[0];
 	private static final Object[] NO_ARGS_OBJECT = new Object[0];
 	
@@ -140,7 +145,26 @@ public abstract class Command
 			throw new TemplateNotFoundException("Template for action " + action + " is not defined");
 		}
 
-        try {
+		final String defaultTemplatePath = SystemGlobals.getApplicationPath() + File.separator + "templates";
+		final String extraTemplatePath = SystemGlobals.getValue(ConfigKeys.FREEMARKER_EXTRA_TEMPLATE_PATH);
+		
+		final String templateFile = new StringBuilder(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)).
+                append('/').append(this.templateName).toString();
+        
+		if (StringUtils.isNotBlank(extraTemplatePath)) {
+			LOGGER.debug("Template file is " + extraTemplatePath + File.separator + templateFile);
+			if (!new File(extraTemplatePath, templateFile).isFile()) {
+	        	throw new TemplateNotFoundException("Template file " + templateFile + " doesn't exist");
+	        }
+		}
+		else {
+			LOGGER.debug("Template file is " + defaultTemplatePath + File.separator + templateFile);
+	        if (!new File(defaultTemplatePath, templateFile).isFile()) {
+	        	throw new TemplateNotFoundException("Template file " + templateFile + " doesn't exist");
+	        }			
+		}
+        
+		try {
             return JForumExecutionContext.getTemplateConfig().getTemplate(
                 new StringBuilder(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR)).
                 append('/').append(this.templateName).toString(),

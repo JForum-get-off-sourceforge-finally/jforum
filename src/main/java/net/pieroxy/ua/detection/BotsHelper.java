@@ -644,7 +644,6 @@ class BotsHelper {
 
         }
         else if ((ver=context.getcVersionAfterPattern("Twiceler-", MatchingType.BEGINS, MatchingRegion.PARENTHESIS)) != null) {
-            String browser = "Twiceler " + ver;
             return new Bot(Brand.CUIL, BotFamily.CRAWLER, "Twiceler", ver, consumeUrlAndMozilla(context,"http://"));
         } else if ((ver=context.getcVersionAfterPattern("emefgebot/", MatchingType.BEGINS, MatchingRegion.BOTH)) != null) {
             return new Bot(Brand.OTHER, BotFamily.CRAWLER, "emefge bot", "", consumeUrlAndMozilla(context,"http://"));
@@ -737,7 +736,6 @@ class BotsHelper {
     }
 
     public static UserAgentDetectionResult getLibraries(UserAgentContext context) {
-        String ua = context.getUA();
         int pos=0;
         String ver,token;
         String[]groups;

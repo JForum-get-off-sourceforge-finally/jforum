@@ -12,7 +12,6 @@ import java.util.Set;
 */
 
 public class UserAgentDetectionResult {
-    private String debug;
     private Set<Extension> extensions = new HashSet<Extension>();
 
     private String ignoredTokens;
@@ -145,7 +144,7 @@ public class UserAgentDetectionResult {
     UserAgentDetectionResult wrapUp (UserAgentContext context) {
         this.ignoredTokens = context.getIgnoredTokens();
         this.unknownTokens = context.getRemainingTokens();
-        this.debug = context.getDebug();
+        context.getDebug();
         return this;
     }
 

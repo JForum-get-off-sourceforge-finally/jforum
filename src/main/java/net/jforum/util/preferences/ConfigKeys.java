@@ -181,7 +181,6 @@ public final class ConfigKeys
 
 	public static final String I18N_DEFAULT = "i18n.board.default";
 	public static final String I18N_DEFAULT_ADMIN = "i18n.internal";
-	public static final String I18N_IMAGES_DIR = "i18n.images.dir";
 	public static final String LOCALES_DIR = "locales.dir";
 	public static final String LOCALES_NAMES = "locales.names";
 

@@ -3,16 +3,12 @@ package net.jforum.csrf;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.apache.log4j.Logger;
-
 /**
  * Pass method instead of requestUri to match unprotected logic from csrf.properties
  * @author Jeanne Boyarsky
  */
 
 public class CsrfHttpServletRequestWrapper extends HttpServletRequestWrapper {
-
-    private static final Logger LOGGER = Logger.getLogger(CsrfHttpServletRequestWrapper.class);
 
     private final String actionMethodName;
 	private HttpServletRequest originalRequest;

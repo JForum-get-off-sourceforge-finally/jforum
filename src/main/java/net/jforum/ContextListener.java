@@ -41,6 +41,7 @@
  */
 package net.jforum;
 
+import java.io.File;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -68,7 +69,10 @@ public class ContextListener implements ServletContextListener {
      */
     @Override public void contextInitialized (ServletContextEvent sce) {
         final ServletContext application = sce.getServletContext();
-        final String appPath = application.getRealPath("");
+        String appPath = application.getRealPath("");
+        if (appPath != null) {
+        	appPath = appPath.substring(0, appPath.lastIndexOf(File.separator));
+        }
         LoggerHelper.checkLoggerInitialization(appPath + "/WEB-INF", appPath + "/WEB-INF/classes");
         final String containerInfo = application.getServerInfo();
         ConfigLoader.startSystemglobals(appPath);

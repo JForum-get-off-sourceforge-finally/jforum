@@ -126,7 +126,7 @@ public class LuceneReindexer
 					lastPostId = dbLastPostId;
 				}
 			}
-			System.out.println("LuceneReindexer: indexing posts "+firstPostId+ " through "+lastPostId);
+			LOGGER.info("LuceneReindexer: indexing posts "+firstPostId+ " through "+lastPostId);
 
 			int counter = 0;
 			int indexTotal = 0;
@@ -147,7 +147,7 @@ public class LuceneReindexer
 
 					if (counter >= 1000) {
 						long end = System.currentTimeMillis();
-						System.out.println("LuceneReindexer: indexed ~1000 documents in " 					    
+						LOGGER.info("LuceneReindexer: indexed ~1000 documents in " 					    
 							+ (end - indexRangeStart) + " ms (" + indexTotal + " so far)");
 						indexRangeStart = end;
 						counter = 0;
@@ -188,7 +188,7 @@ public class LuceneReindexer
 
 			long end = System.currentTimeMillis();
 
-			System.out.println("LuceneReindexer: Total time " + (end - processStart) + " ms");
+			LOGGER.info("LuceneReindexer: Total time " + (end - processStart) + " ms");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
