@@ -139,7 +139,6 @@ public final class ConfigKeys
 
 	public static final String VERSION = "version";
 	public static final String VERSION_CHECK_ENABLED = "version.check.enabled";
-	public static final String BACKGROUND_TASKS = "background.tasks";
 
 	public static final String FORUM_LINK = "forum.link";
 	public static final String HOMEPAGE_LINK = "homepage.link";
