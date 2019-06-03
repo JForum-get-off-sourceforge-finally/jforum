@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.jforum.Command;
+import net.jforum.SessionFacade;
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.ModerationLogDAO;
@@ -54,6 +55,7 @@ import net.jforum.dao.TopicDAO;
 import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
+import net.jforum.entities.UserSession;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
@@ -66,7 +68,6 @@ import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ModerationAction extends Command
 {
@@ -87,7 +88,15 @@ public class ModerationAction extends Command
 			this.denied();
 			return;
 		}
-		
+
+		UserSession userSession = SessionFacade.getUserSession();
+		// only logged-in users get to see the moderation log
+		if (userSession == null
+				|| userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+			this.denied();
+			return;
+		}
+
 		final ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
 		
 		final int start = ViewCommon.getStartPage();
