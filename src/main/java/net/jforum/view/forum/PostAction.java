@@ -641,6 +641,8 @@ public class PostAction extends Command
 					SecurityRepository.canAccess(SecurityConstants.PERM_CREATE_STICKY_ANNOUNCEMENT_TOPICS));
 			this.context.put("canCreatePolls",
 					SecurityRepository.canAccess(SecurityConstants.PERM_CREATE_POLL));
+
+			new StatsEvent("Edit topic", request.getRequestURL()).record();
 		}
 
 		UserDAO udao = DataAccessDriver.getInstance().newUserDAO();
@@ -1171,6 +1173,8 @@ public class PostAction extends Command
 
 			if (newTopic) {
 				topic.setFirstPostId(postId);
+			} else {
+				new StatsEvent("Reply topic", request.getRequestURL()).record();
 			}
 
 			if (!moderate) {
