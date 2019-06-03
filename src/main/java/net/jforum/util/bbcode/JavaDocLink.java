@@ -79,7 +79,8 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JSE_KEY+":9", "https://docs.oracle.com/javase/9/docs/api/");
         versionedUrls.put(JSE_KEY+":10", "https://docs.oracle.com/javase/10/docs/api/");
         versionedUrls.put(JSE_KEY+":11", "https://docs.oracle.com/en/java/javase/11/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "https://docs.oracle.com/en/java/javase/11/docs/api/");
+        versionedUrls.put(JSE_KEY+":12", "https://docs.oracle.com/en/java/javase/12/docs/api/");
+        versionedUrls.put(JSE_KEY+":"+OTHER, "https://docs.oracle.com/en/java/javase/12/docs/api/");
 
 		// JEE
 		versionedUrls.put(JEE_KEY+":1.2", "https://docs.oracle.com/javaee/1.2.1/api/");
@@ -88,7 +89,8 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JEE_KEY+":5", "https://docs.oracle.com/javaee/5/api/");
         versionedUrls.put(JEE_KEY+":6", "https://docs.oracle.com/javaee/6/api/");
         versionedUrls.put(JEE_KEY+":7", "https://docs.oracle.com/javaee/7/api/");
-        versionedUrls.put(JEE_KEY+":"+OTHER, "https://docs.oracle.com/javaee/7/api/");
+        versionedUrls.put(JEE_KEY+":8", "https://javaee.github.io/javaee-spec/javadocs/");
+        versionedUrls.put(JEE_KEY+":"+OTHER, "https://javaee.github.io/javaee-spec/javadocs/");
 
 		// Tomcat
 		versionedUrls.put(JASPER_KEY+":5.5", "https://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
@@ -132,7 +134,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/7_6_0/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_1_1/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
