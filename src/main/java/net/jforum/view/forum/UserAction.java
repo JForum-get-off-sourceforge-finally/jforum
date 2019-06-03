@@ -798,13 +798,21 @@ public class UserAction extends Command
 
 	@Override public void list()
 	{
-		int start = this.preparePagination(userDao.getTotalUsers());
-		int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+		UserSession userSession = SessionFacade.getUserSession();
+		// only logged-in users get to see the member list
+		if (userSession != null
+				&& userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
 
-		List<User> users = userDao.selectAll(start ,usersPerPage);
-		this.context.put("users", users);
-		this.context.put(PAGE_TITLE, I18n.getMessage("ForumBase.usersList"));
-		this.setTemplateName(TemplateKeys.USER_LIST);
+			int start = this.preparePagination(userDao.getTotalUsers());
+			int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
+
+			List<User> users = userDao.selectAll(start, usersPerPage);
+			this.context.put("users", users);
+			this.context.put(PAGE_TITLE, I18n.getMessage("ForumBase.usersList"));
+			this.setTemplateName(TemplateKeys.USER_LIST);
+		} else {
+			JForumExecutionContext.setRedirect(this.request.getContextPath());
+		}
 	}
 
 	public void listGroup()
