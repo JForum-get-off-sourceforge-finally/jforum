@@ -70,7 +70,6 @@ import net.jforum.context.RequestContext;
 import net.jforum.context.SessionContext;
 import net.jforum.exceptions.MultipartHandlingException;
 import net.jforum.util.MobileStatus;
-import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -81,8 +80,6 @@ import net.jforum.util.preferences.SystemGlobals;
 public class WebRequestContext extends HttpServletRequestWrapper implements RequestContext
 {
 	private static final Logger LOGGER = Logger.getLogger(WebRequestContext.class);
-
-	private static final SafeHtml safeHtml = new SafeHtml();
 
 	private static final String MODULE = "module";
 	private static final String ACTION = "action";
@@ -415,7 +412,11 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	@Override public void addOrReplaceParameter(final String name, final Object value)
 	{
 		// only called for "action" and "module" - which have String values
-		this.query.put(name, safeHtml.makeSafe(value.toString()));
+		String val = (String) value;
+		if (val != null) {
+			val = val.replaceAll("[^\\p{Alpha}]", "");
+		}
+		this.query.put(name, val);
 	}
 
 	/**
