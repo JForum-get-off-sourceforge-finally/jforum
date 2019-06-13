@@ -63,6 +63,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
@@ -143,6 +144,8 @@ public class ModerationAction extends Command
 		int totalRecords = dao.totalRecords();
 		
 		ViewCommon.contextToPagination(start, totalRecords, recordsPerPage);
+
+		new StatsEvent("Moderation log", request.getRequestURL()).record();
 	}
 	
 	private void denied() {

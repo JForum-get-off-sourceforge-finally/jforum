@@ -810,6 +810,8 @@ public class UserAction extends Command
 			this.context.put("users", users);
 			this.context.put(PAGE_TITLE, I18n.getMessage("ForumBase.usersList"));
 			this.setTemplateName(TemplateKeys.USER_LIST);
+
+			new StatsEvent("Member list", request.getRequestURL()).record();
 		} else {
 			JForumExecutionContext.setRedirect(this.request.getContextPath());
 		}
