@@ -26,7 +26,7 @@
 		<#list times as time>
 			<#if data.get(time)??>
 				<tr>
-					<td valign="left">${data.get(time)}</td>
+					<td valign="left">${data.get(time)?html}</td>
 					<td valign="left">${time?datetime}</td>
 				</tr>
 			</#if>
