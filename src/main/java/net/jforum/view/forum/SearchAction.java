@@ -63,6 +63,7 @@ import net.jforum.search.SearchArgs;
 import net.jforum.search.SearchOperation;
 import net.jforum.search.SearchResult;
 import net.jforum.util.I18n;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -119,7 +120,7 @@ public class SearchAction extends Command
 			filters();
 			return;
 		}
-		new StatsEvent("Search", args.rawKeywords()).record();
+		new StatsEvent("Search", new SafeHtml().makeSafe(args.rawKeywords())).record();
 		this.search(new ContentSearchOperation(), args);
     }
 
