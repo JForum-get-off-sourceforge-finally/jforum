@@ -102,9 +102,10 @@ public class LuceneContentCollector
 			Post post = iter.next();
 
 			QueryScorer scorer = new QueryScorer(query);
-			Formatter formatter = new SimpleHTMLFormatter("<u><b><font color=\"red\">", "</font></b></u>");
-			//Formatter formatter = new GradientFormatter(scorer.getMaxTermWeight(), null, null, null, null);
-				// doesn't work - no highlighting happens AFAIKT
+
+			// see also ContentSearchOperation.prepareForDisplay
+			Formatter formatter = new SimpleHTMLFormatter("<span class='sr'>", "</span>");
+			//Formatter formatter = new SimpleHTMLFormatter("<u><b><font color=\"red\">", "</font></b></u>");
 			Highlighter highlighter = new Highlighter(formatter, scorer);
 
 			// Highlight keyword in post text

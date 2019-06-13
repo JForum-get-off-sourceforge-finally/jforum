@@ -149,6 +149,13 @@ table.attachtable	{ font: normal 12px verdana, arial, helvetica, sans-serif; col
 	padding-left:17px;
 }
 
+/* highlighting search results */
+.sr {
+	color: #ff0000;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
 #icon_saving { background-image: url(../images/indicator.gif); width: 16px; height: 16px; display: none;}
 .icon_folder_announce { background-image: url(../images/folder_announce.gif); width: 19px; height: 18px; display: inline; }
 .icon_folder_sticky { background-image: url(../images/folder_sticky.gif); width: 19px; height: 18px; display: inline; }

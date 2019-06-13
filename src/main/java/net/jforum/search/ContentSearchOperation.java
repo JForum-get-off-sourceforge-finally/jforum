@@ -73,7 +73,16 @@ public class ContentSearchOperation extends SearchOperation
 	@Override public void prepareForDisplay()
 	{
 		for (final Iterator<Post> iter = this.results.iterator(); iter.hasNext(); ) {
-			PostCommon.preparePostForDisplay(iter.next());
+			Post post = iter.next();
+			PostCommon.preparePostForDisplay(post);
+			// enable highlighting in CODE blocks
+			// must match what is used in LuceneContentCollector.retrieveRealPosts
+			// Transforms
+			//     &lt;span class='sr'&gt;foo&lt;/span&gt;
+			// back to
+			//     <span class='sr'>foo</span>
+			post.setSubject(post.getSubject().replaceAll("&lt;span class='sr'&gt;(.*?)&lt;/span&gt;", "<span class='sr'>$1</span>"));
+			post.setText(post.getText().replaceAll("&lt;span class='sr'&gt;(.*?)&lt;/span&gt;", "<span class='sr'>$1</span>"));
 		}
 	}
 
