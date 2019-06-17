@@ -87,10 +87,13 @@ public class PostCommon
 		}
 
 		String text = post.getText();
+		String subject = post.getSubject();
 
 		if (!post.isHtmlEnabled()) {
 			text = text.replaceAll("<", "&lt;");
 			text = text.replaceAll(">", "&gt;");
+			subject = subject.replaceAll("<", "&lt;");
+			subject = subject.replaceAll(">", "&gt;");
 		}
 
 		// Do not remove the trailing blank space, as it would
@@ -100,7 +103,7 @@ public class PostCommon
 		SafeHtml safeHtml = new SafeHtml();
 
 		post.setText(safeHtml.makeSafe(text));
-		post.setSubject(safeHtml.makeSafe(post.getSubject()));
+		post.setSubject(safeHtml.makeSafe(subject));
 		processText(post);
 		post.setText(safeHtml.ensureAllAttributesAreSafe(post.getText()));
 		return post;
