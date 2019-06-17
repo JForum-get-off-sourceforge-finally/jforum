@@ -506,9 +506,11 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				ip = "0.0.0.0";
 			}
         } else {
+			// sanitize to avoid XSS attacks because the header can be manipulated en route
+			ip = ip.replaceAll("[^0-9a-f:,\\.]", "");
 			StringTokenizer tokenizer = new StringTokenizer(ip, ",");
 			while (tokenizer.hasMoreTokens()) {
-				String part = tokenizer.nextToken().trim();
+				String part = tokenizer.nextToken();
 				if (!part.equals("127.0.0.1") && !part.equals("::1") && !part.startsWith("10.") && !part.startsWith("192.168."))
 					ip = part;
 			}
