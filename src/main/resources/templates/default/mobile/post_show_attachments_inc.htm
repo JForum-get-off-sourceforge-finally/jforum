@@ -22,7 +22,7 @@
 			</tr>
 			<tr>
 				<td><span class="genmed">${I18n.getMessage("Attachments.description")}</span></td>
-				<td><span class="genmed"><#if a.info.comment?? && (a.info.comment?trim?length > 0)>${a.info.comment}<#else>${I18n.getMessage("Attachments.noDescription")}</#if></span></td>
+				<td><span class="genmed"><#if a.info.comment?? && (a.info.comment?trim?length > 0)>${a.info.comment?html}<#else>${I18n.getMessage("Attachments.noDescription")}</#if></span></td>
 			</tr>	
 			<tr>
 				<td><span class="genmed">${I18n.getMessage("Attachments.filesize")}</span></td>
