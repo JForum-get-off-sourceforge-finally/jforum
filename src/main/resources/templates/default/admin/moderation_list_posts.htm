@@ -21,7 +21,7 @@
 				<td class="row1">
 					<table width="100%" align="center" cellpadding="0" cellspacing="1">
 						<tr>
-							<td colspan="2" class="catleft">&nbsp;<span class="gen"><b>${info.topicTitle}</b></span></td>
+							<td colspan="2" class="catleft">&nbsp;<span class="gen"><b>${info.topicTitle?html}</b></span></td>
 						</tr>
 
 						<tr>
@@ -57,7 +57,7 @@
 													</tr>
 													<tr>
 														<td colspan="2">
-															<div class="postbody">${post.text}</div>
+															<div class="postbody">${post.text?html}</div>
 														</td>
 													</tr>
 												</table>
