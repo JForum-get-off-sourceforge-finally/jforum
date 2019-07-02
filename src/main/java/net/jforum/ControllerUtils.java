@@ -121,6 +121,7 @@ public class ControllerUtils
         }
 		context.put("socialEnabled", SystemGlobals.getBoolValue(ConfigKeys.SOCIAL_SHARING_ENABLED));
 		context.put("socialSites", SystemGlobals.getValue(ConfigKeys.SOCIAL_SHARING_SITES));
+		context.put("bannerPages", SystemGlobals.getValue(ConfigKeys.BANNER_PAGES_LIST));
 		context.put("jQueryURL", SystemGlobals.getValue(ConfigKeys.JQUERY_URL));
 		context.put("stopForumSpamWebURL", SystemGlobals.getValue(ConfigKeys.STOPFORUMSPAM_WEB_URL));
 		context.put("whoisUrl", SystemGlobals.getValue(ConfigKeys.WHOIS_API_URL));
@@ -133,8 +134,7 @@ public class ControllerUtils
 	 * Checks user credential / automatic login.
 	 * 
 	 * @param userSession The UserSession instance associated to the user's session
-	 * @return <code>true</code> if auto login was enabled and the user was successfully 
-	 * logged in.
+	 * @return <code>true</code> if auto login was enabled and the user was successfully logged in.
 	 * @throws DatabaseException
 	 */
 	protected boolean checkAutoLogin(final UserSession userSession)

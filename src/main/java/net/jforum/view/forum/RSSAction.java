@@ -159,7 +159,7 @@ public class RSSAction extends Command
 		final String description = I18n.getMessage("RSS.RecentTopics.description");
 		
 		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestForRSS(
-			SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS));
+			SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE));
 
 		final List<Post> authPosts = new ArrayList<Post>();  
 		final Iterator<Post> iter = posts.iterator();  

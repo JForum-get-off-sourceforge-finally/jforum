@@ -52,7 +52,6 @@ import net.jforum.util.stats.StatsEvent;
 
 /**
  * @author Samuel Yung
- * @version $Id$
  */
 public class BannerCommon
 {
@@ -64,23 +63,12 @@ public class BannerCommon
 		this.dao = DataAccessDriver.getInstance().newBannerDAO();
 	}
 
-    /**
-     * Check whether the banner will be displayed based on user rights and
-     * banner filter settings.
-     * @return boolean
-     * @param bannerId int
-     */
-    public boolean canBannerDisplay(final int bannerId)
-	{
-    	return true;
-	}
-
 	/**
 	 * Test whether any active banner exist at the placement indicated.
 	 * @param placement int
 	 * @return boolean
 	 */
-	public boolean isActiveBannerExist(final int placement) 
+	public boolean activeBannerExists (final int placement) 
 	{
 		banners = dao.selectActiveBannerByPlacement(placement);
 		if (banners == null || banners.isEmpty())
@@ -92,13 +80,12 @@ public class BannerCommon
 	}
 
 	/**
-	 * Retrieves the correct banner based on weight. Before calling this
-	 * function the isBannerExist(int placement) must be called. The total
-	 * weight for all the same position banners should be equal to 99. If
-	 * the total weight is smaller than 99 and the random number is larger
-	 * than the total weight of all the same position banners, the highest
-	 * weight's banner will be chosen. After a correct banner is found, its
-	 * views variable will be incremented by 1.
+	 * Retrieves the correct banner based on weight. Before calling this function the
+	 * activeBannerExists(int placement) must be called. The total weight for all the same
+	 * position banners should be equal to 99. If the total weight is smaller than 99
+	 * and the random number is larger than the total weight of all the same position
+	 * banners, the highest weight's banner will be chosen. After a correct banner
+	 * is found, its views variable will be incremented by 1.
 	 *
 	 * @return Banner
 	 */
@@ -129,7 +116,7 @@ public class BannerCommon
         // increment views by 1
 		result.setViews(result.getViews() + 1);
 		dao.update(result);
-        new StatsEvent("Banner fetch", result.getDescription()).record();
+        new StatsEvent("Banner fetch", result.getComment()).record();
 
 		return result;
 	}

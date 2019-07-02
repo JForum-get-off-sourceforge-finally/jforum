@@ -69,14 +69,11 @@
 	<#if (u.twitter?exists && u.twitter?length > 0)>
 		${I18n.getMessage("User.twitter")}: <a href="https://twitter.com/${u.twitter?html}" target="_new">@${u.twitter}</a><br>
 	</#if>
-	<#if (u.msnm?exists && u.msnm?length > 0)>
-		${I18n.getMessage("User.msn")}: ${u.msnm?html}<br>
-	</#if>
-	<#if (u.yim?exists && u.yim?length > 0)>
-		${I18n.getMessage("User.yahoo")}: ${u.yim?html}<br>
-	</#if>
 	<#if (u.icq?exists && u.icq?length > 0)>
 		${I18n.getMessage("User.icq")}: ${u.icq?html}<br>
+	</#if>
+	<#if (u.skype?exists && u.skype?length > 0)>
+		${I18n.getMessage("User.skype")}: ${u.skype?html}<br>
 	</#if>
 </div>
 

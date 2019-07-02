@@ -112,16 +112,13 @@ public final class UserCommon
 		user.setId(userId);
 		user.setIcq(safeHtml.makeSafe(request.getParameter("icq")));
 		user.setTwitter(safeHtml.makeSafe(request.getParameter("twitter")));
-		user.setAim(safeHtml.makeSafe(request.getParameter("aim")));
-		user.setMsnm(safeHtml.makeSafe(request.getParameter("msn")));
-		user.setYim(safeHtml.makeSafe(request.getParameter("yim")));
+		user.setSkype(safeHtml.makeSafe(request.getParameter("skype")));
 		user.setFrom(safeHtml.makeSafe(request.getParameter("location")));
 		user.setOccupation(checkForSpam(safeHtml, request.getParameter("occupation"), isAdmin));
 		user.setInterests(checkForSpam(safeHtml, request.getParameter("interests"), isAdmin));
 		user.setBiography(checkForSpam(safeHtml, request.getParameter("biography"), isAdmin));
 		user.setSignature(checkForSpam(safeHtml, request.getParameter("signature"), isAdmin));
 		user.setViewEmailEnabled(request.getParameter("viewemail").equals("1"));
-		user.setViewOnlineEnabled(request.getParameter("hideonline").equals("0"));
 		user.setNotifyPrivateMessagesEnabled(request.getParameter("notifypm").equals("1"));
 		user.setNotifyOnMessagesEnabled(request.getParameter("notifyreply").equals("1"));
 		user.setAttachSignatureEnabled(request.getParameter("attachsig").equals("1"));

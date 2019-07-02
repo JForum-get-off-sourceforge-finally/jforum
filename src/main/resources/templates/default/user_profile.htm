@@ -149,33 +149,29 @@
 					</span></b>
 				</td>
 			</tr>
-		   <#if (nposts > 0 && u.twitter?exists && u.twitter?length > 0)>
-                <tr>
-                    <td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
-                    <td class="row1">
-                        <b><span class="gen">
-                        <a href="https://twitter.com/${u.twitter?html}" target="_blank">@${u.twitter}</a>
-                        </span></b>
-                    </td>
-                </tr>
-			</#if>
-			<#if (nposts > 0 && u.msnm?exists && u.msnm?length > 0)>
-			<tr>
-				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.msn")}:</span></td>
-				<td class="row1" valign="middle"><span class="gen">${u.msnm?html}</span></td>
-			</tr>
-			</#if>
-			<#if (nposts > 0 && u.yim?exists && u.yim?length > 0)>
-			<tr>
-				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.yahoo")}:</span></td>
-				<td class="row1" valign="middle"><span class="gen">${u.yim?html}</span></td>
-			</tr>
-			</#if>
-			<#if (nposts > 0 && u.icq?exists && u.icq?length > 0)>
-			<tr>
-				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
-				<td class="row1" valign="middle"><span class="gen">${u.icq?html}</span></td>
-			</tr>
+		   <#if (nposts > 0) >
+			   <#if (u.twitter?exists && u.twitter?length > 0)>
+					<tr>
+						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
+						<td class="row1">
+							<b><span class="gen">
+							<a href="https://twitter.com/${u.twitter?html}" target="_blank">@${u.twitter}</a>
+							</span></b>
+						</td>
+					</tr>
+				</#if>
+				<#if (u.icq?exists && u.icq?length > 0)>
+					<tr>
+						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
+						<td class="row1" valign="middle"><span class="gen">${u.icq?html}</span></td>
+					</tr>
+				</#if>
+				<#if (u.skype?exists && u.skype?length > 0)>
+					<tr>
+						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.skype")}:</span></td>
+						<td class="row1" valign="middle"><span class="gen">${u.skype?html}</span></td>
+					</tr>
+				</#if>
 			</#if>
 			</table>
 			</#if>

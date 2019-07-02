@@ -1,4 +1,5 @@
 <#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination>
 
 <div class="maintitle">${pageTitle?default(I18n.getMessage("ForumBase.recentTopics"))?html}</div>
 <p>
@@ -14,5 +15,7 @@
 	</div>
 	<br />
 </#list>
+
+<@pagination.doPagination "list" /><br />
 
 <#include "bottom.htm"/>

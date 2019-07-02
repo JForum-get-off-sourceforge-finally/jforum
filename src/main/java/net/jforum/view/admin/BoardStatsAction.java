@@ -89,6 +89,8 @@ public class BoardStatsAction extends AdminCommand {
         sysInfo.add(new Item("Server info", SystemGlobals.getValue("server.info")));
         sysInfo.add(new Item("Servlet API version", SystemGlobals.getValue("servlet.version")));
         sysInfo.add(new Item("Last board restart", sdf.format(Stats.getRestartTime())));
+        sysInfo.add(new Item("Database", SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DBNAME)
+										+" @ "+SystemGlobals.getValue(ConfigKeys.DATABASE_DRIVER_NAME)));
 		try {
 			MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 			Double result = (Double) server.getAttribute(new ObjectName("java.lang:type=OperatingSystem"), "SystemLoadAverage");

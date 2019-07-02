@@ -73,10 +73,7 @@
 								<tr>
 									<td>
 										<span class="gen">
-											<#if toggleMessageBody>
-											<span id="a_${post.topicId}_${post.id}">
-												[<a href="javascript:showDetails('${post.topicId}_${post.id}')" >${I18n.getMessage("PostShow.showMessage")}</a>]</span>
-											</#if>
+											<span id="a_${post.topicId}_${post.id}">[<a href="javascript:showDetails('${post.topicId}_${post.id}')" >${I18n.getMessage("PostShow.showMessage")}</a>]</span>
 											<a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a> 
 											&raquo; <a href="${JForumContext.encodeURL("/posts/list/${post.topicId}")}">${topic.title?default("Empty")?html}</a>, ${post.formattedTime}
 											&raquo; <a href="${JForumContext.encodeURL("/posts/preList/${post.topicId}/${post.id}")}">${I18n.getMessage("PostShow.goToMessage")}</a>
@@ -92,7 +89,7 @@
 					<tr>
 						<!-- Message -->
 						<td class="${rowColor}" valign="top" colspan="2">
-							<div id="${post.topicId}_${post.id}" <#if toggleMessageBody>style="display:none;"</#if>>
+							<div id="${post.topicId}_${post.id}" style="display:none;">
 								<div class="postbody">${post.text}</div>
 							</div>
 						</td>

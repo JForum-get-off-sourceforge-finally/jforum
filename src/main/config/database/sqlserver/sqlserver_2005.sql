@@ -92,7 +92,7 @@ PostModel.lastGeneratedPostId = SELECT IDENT_CURRENT('jforum_posts') AS post_id
 PostModel.selectAllByTopicByLimit = SELECT * \
 	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY p.post_time ASC) - 1 AS rownumber, \
 	p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND topic_id = ? \
@@ -103,7 +103,7 @@ PostModel.selectAllByTopicByLimit = SELECT * \
 PostModel.selectByUserByLimit = SELECT * \
 	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY p.post_id DESC) - 1 AS rownumber, \
 	p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND p.user_id = u.user_id \
@@ -140,16 +140,16 @@ TopicModel.selectRecentTopicsByLimit = SELECT * \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 ) AS tmp \
-	WHERE rownumber < ?
+	WHERE rownumber >= ? and rownumber < ?
 
 TopicModel.selectHottestTopicsByLimit = SELECT * \
-    FROM ( SELECT ROW_NUMBER() OVER (ORDER BY t.topic_views DESC) - 1 AS rownumber, \
+    FROM ( SELECT ROW_NUMBER() OVER (ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC) - 1 AS rownumber, \
     t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
     FROM jforum_topics t, jforum_posts p \
     WHERE p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 ) AS tmp \
     WHERE rownumber < ?
-    
+
 TopicModel.selectByUserByLimit = SELECT * \
 	FROM ( SELECT ROW_NUMBER() OVER (ORDER BY t.topic_last_post_id DESC) - 1 AS rownumber, \
 	t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach \

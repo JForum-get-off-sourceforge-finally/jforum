@@ -52,7 +52,6 @@ import net.jforum.util.preferences.TemplateKeys;
  * ViewHelper class for banner administration.
  *
  * @author Samuel Yung
- * @version $Id$
  */
 public class BannerAction extends AdminCommand
 {
@@ -61,8 +60,7 @@ public class BannerAction extends AdminCommand
 	 */
 	@Override public void list()
 	{
-		this.context.put("banners",
-			DataAccessDriver.getInstance().newBannerDAO().selectAll());
+		this.context.put("banners", DataAccessDriver.getInstance().newBannerDAO().selectAll());
 		this.setTemplateName(TemplateKeys.BANNER_LIST);
 	}
 
@@ -121,7 +119,7 @@ public class BannerAction extends AdminCommand
 	public void delete() 
 	{
 		final String bannerId = this.request.getParameter("banner_id");
-		if(bannerId == null)
+		if (bannerId == null)
 		{
 			this.list();
 			return;
@@ -130,7 +128,7 @@ public class BannerAction extends AdminCommand
 		final BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
 
 		final int id = Integer.parseInt(bannerId);
-		if(dao.canDelete(id))
+		if (dao.canDelete(id))
 		{
 			dao.delete(id);
 		}
@@ -154,8 +152,7 @@ public class BannerAction extends AdminCommand
 		banner.setWidth(Integer.parseInt(request.getParameter("width")));
 		banner.setHeight(Integer.parseInt(request.getParameter("height")));
 		banner.setUrl(request.getParameter("url"));
-		banner.setPlacement(Integer.parseInt(request.getParameter(
-			"placement")));
+		banner.setPlacement(Integer.parseInt(request.getParameter("placement")));
 		banner.setWeight(Integer.parseInt(request.getParameter("weight")));
 		banner.setViews(Integer.parseInt(request.getParameter("views")));
 		banner.setClicks(Integer.parseInt(request.getParameter("clicks")));

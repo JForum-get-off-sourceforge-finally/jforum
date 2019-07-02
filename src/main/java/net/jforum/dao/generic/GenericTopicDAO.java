@@ -73,11 +73,15 @@ import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
  */
 public class GenericTopicDAO extends AutoKeys implements TopicDAO
 {
+	private static final Logger LOGGER = Logger.getLogger(GenericTopicDAO.class);
+
 	private static final String USER_ID = "user_id";
 	/**
 	 * @see net.jforum.dao.TopicDAO#findTopicsByDateRange(net.jforum.search.SearchArgs)
@@ -536,6 +540,36 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		}
 	}
 
+	/**
+	 * @see net.jforum.dao.TopicDAO#countAllTopics()
+	 */
+	@Override public int countAllTopics()
+	{
+		int total = 0;
+
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		try {
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("TopicModel.countAllTopics").replaceAll(":fids:",
+							ForumRepository.getListAllowedForums()));
+
+			resultSet = pstmt.executeQuery();
+
+			if (resultSet.next()) {
+				total = resultSet.getInt(1);
+			}
+
+			return total;
+		}
+		catch (SQLException e) {
+			throw new DatabaseException(e);
+		}
+		finally {
+			DbUtils.close(resultSet, pstmt);
+		}
+	}
+
 	protected Topic getBaseTopicData(ResultSet rs) throws SQLException
 	{
 		Topic topic = new Topic();
@@ -959,13 +993,22 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectRecentTopics(int)
 	 */
-	@Override public List<Topic> selectRecentTopics(int limit)
+	@Override public List<Topic> selectRecentTopics (int limit)
+	{
+		return selectRecentTopics(0, limit);
+	}
+
+	/**
+	 * @see net.jforum.dao.TopicDAO#selectRecentTopics(int, int)
+	 */
+	@Override public List<Topic> selectRecentTopics (int start, int limit)
 	{
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("TopicModel.selectRecentTopicsByLimit"));
-			pstmt.setInt(1, limit);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, limit);
 
 			return this.fillTopicsData(pstmt);			
 		}
@@ -980,13 +1023,34 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectHottestTopics(int)
 	 */
-	@Override public List<Topic> selectHottestTopics(int limit)
+	@Override public List<Topic> selectHottestTopics (int limit)
 	{
+		int percentViews = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS_PERCENT_VIEW);
+		if (percentViews < 0)
+			percentViews = 0;
+		else if (percentViews > 100)
+			percentViews = 100;
+
 	    PreparedStatement pstmt = null;
 	    try {
 	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
+	        	SystemGlobals.getSql("TopicModel.selectMaxViewsMaxReplies"));
+			ResultSet rs = pstmt.executeQuery();
+			int maxViews = 100;
+			int maxReplies = 0;
+			if (rs.next()) {
+				maxViews = rs.getInt("max_views");
+				maxReplies = rs.getInt("max_replies");
+				//LOGGER.info("maxViews="+maxViews+", maxReplies="+maxReplies);
+			}
+
+	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
 	        	SystemGlobals.getSql("TopicModel.selectHottestTopicsByLimit"));
-	        pstmt.setInt(1, limit);
+	        pstmt.setInt(1, percentViews);
+	        pstmt.setInt(2, maxViews);
+	        pstmt.setInt(3, 100 - percentViews);
+	        pstmt.setInt(4, maxReplies);
+	        pstmt.setInt(5, limit);
 	  
 	        return this.fillTopicsData(pstmt);
 	    }
@@ -1180,10 +1244,8 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				user.setIcq(rs.getString("user_icq"));
 				user.setTwitter(rs.getString("user_twitter"));
 				user.setAttachSignatureEnabled(rs.getInt("user_attachsig") == 1);
-				user.setMsnm(rs.getString("user_msnm"));
-				user.setYim(rs.getString("user_yim"));
+				user.setSkype(rs.getString("user_skype"));
 				user.setWebSite(rs.getString("user_website"));
-				user.setAim(rs.getString("user_aim"));
 				user.setSignature(rs.getString("user_sig"));
 
 				m.put(Integer.valueOf(user.getId()), user);

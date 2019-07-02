@@ -76,7 +76,6 @@ public class Topic implements Serializable
 
 	private boolean read = true;
 	private boolean moderated;
-	private boolean isHot;
 	private boolean hasAttach;
 	private boolean paginate;
 
@@ -445,20 +444,6 @@ public class Topic implements Serializable
 	 */
 	public Double getTotalPages() {
 		return this.totalPages;
-	}
-
-	/**
-	 * @param hot
-	 */
-	public void setHot(boolean hot) {
-		this.isHot = hot;
-	}
-
-	/**
-	 * @return the isHot
-	 */
-	public boolean isHot() {
-		return this.isHot;
 	}
 
 	/**

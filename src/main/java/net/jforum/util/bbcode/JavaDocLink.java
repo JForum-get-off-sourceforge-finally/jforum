@@ -77,10 +77,7 @@ public class JavaDocLink implements Substitution {
         versionedUrls.put(JSE_KEY+":7", "https://docs.oracle.com/javase/7/docs/api/");
         versionedUrls.put(JSE_KEY+":8", "https://docs.oracle.com/javase/8/docs/api/");
         versionedUrls.put(JSE_KEY+":9", "https://docs.oracle.com/javase/9/docs/api/");
-        versionedUrls.put(JSE_KEY+":10", "https://docs.oracle.com/javase/10/docs/api/");
-        versionedUrls.put(JSE_KEY+":11", "https://docs.oracle.com/en/java/javase/11/docs/api/");
-        versionedUrls.put(JSE_KEY+":12", "https://docs.oracle.com/en/java/javase/12/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "https://docs.oracle.com/en/java/javase/12/docs/api/");
+        versionedUrls.put(JSE_KEY+":"+OTHER, "https://docs.oracle.com/javase/9/docs/api/");
 
 		// JEE
 		versionedUrls.put(JEE_KEY+":1.2", "https://docs.oracle.com/javaee/1.2.1/api/");
@@ -170,7 +167,7 @@ public class JavaDocLink implements Substitution {
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
     private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-release/";
     private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
-	private static final String POOL_URL = ACP + "-pool/api-2.6.0/";
+	private static final String POOL_URL = ACP + "-pool/api-2.6.2/";
 
     // Other 3rd party
     private static final String JUNIT_URL = "http://junit.org/junit5/docs/current/api/";
@@ -202,11 +199,11 @@ public class JavaDocLink implements Substitution {
     private static final String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
     private static final String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
     private static final String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
-    private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.2.1/";
+    private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/27.0.1-jre/api/docs/";
-	private static final String JAXEN_URL = "http://jaxen.codehaus.org/apidocs/";
+	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.0-jre/api/docs/";
+	private static final String JAXEN_URL = "http://www.ulfdittmer.com/javadoc/jaxen-1.2.0/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
     private static final String[][] URL_MAP = new String[][] {
@@ -470,10 +467,10 @@ public class JavaDocLink implements Substitution {
 					part2 = part2.replaceAll("[)(]", "-");
 				}
 
-				return "<a href=\"" + url + part1 + ".html" + part2 
+				return "<a class=\"snap_shots\" href=\"" + url + part1 + ".html" + part2 
 					+ "\" target=\"_blank\" rel=\"nofollow\">" + clazzName + "</a>";
 			} else {
-				return "<a href=\"" + url + replaceDots(clazzName)
+				return "<a class=\"snap_shots\" href=\"" + url + replaceDots(clazzName)
 					+ ".html\" target=\"_blank\" rel=\"nofollow\">" + clazzName + "</a>";
 			}
 		}

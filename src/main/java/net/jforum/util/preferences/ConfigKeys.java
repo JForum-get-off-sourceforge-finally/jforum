@@ -110,8 +110,6 @@ public final class ConfigKeys
 	public static final String GA_ID = "google.analytics.tracker";
 	public static final String JQUERY_URL = "jquery.url";
 
-	public static final String USER_POSTS_TOGGLE = "user.posts.toggle";
-
 	public static final String TEMPLATES_MAPPING = "templates.mapping";
 	public static final String TEMPLATE_DIR = "template.dir";
 	public static final String ENCODING = "encoding";
@@ -156,13 +154,12 @@ public final class ConfigKeys
 	public static final String RSS_ENABLED = "rss.enabled";
 	public static final String SOCIAL_SHARING_ENABLED = "social.enabled";
 	public static final String SOCIAL_SHARING_SITES = "social.sites.list";
-	public static final String HOT_TOPIC_BEGIN = "hot.topic.begin";
 
 	public static final String TOPICS_PER_PAGE = "topicsPerPage";
 	public static final String POSTS_PER_PAGE = "postsPerPage";
 	public static final String USERS_PER_PAGE = "usersPerPage";
-	public static final String RECENT_TOPICS = "topic.recent";
 	public static final String HOTTEST_TOPICS = "topic.hottest";
+	public static final String HOTTEST_TOPICS_PERCENT_VIEW = "topic.hottest.percent.views";
 	public static final String POSTS_CACHE_SIZE = "posts.cache.size";
 	public static final String POSTS_CACHE_ENABLED = "posts.cache.enabled";
 	public static final String TOP_DOWNLOADS = "top.downloads";
@@ -331,6 +328,8 @@ public final class ConfigKeys
 	public static final String STOPFORUMSPAM_API_URL = "stopForumSpam.api.url";
 	public static final String STOPFORUMSPAM_WEB_URL = "stopForumSpam.web.url";
 	public static final String WHOIS_API_URL = "whois.api.url";
+
+	public static final String BANNER_PAGES_LIST = "banner.pages.list";
 
 	private ConfigKeys() {}
 }

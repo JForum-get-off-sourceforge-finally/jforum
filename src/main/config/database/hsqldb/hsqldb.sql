@@ -65,7 +65,7 @@ PostModel.selectHotForRSS = SELECT LIMIT 0 ? t.topic_id, t.topic_title AS subjec
 	ORDER BY topic_views DESC
 
 PostModel.selectAllByTopicByLimit = SELECT LIMIT ? ? p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND topic_id = ? \
@@ -74,7 +74,7 @@ PostModel.selectAllByTopicByLimit = SELECT LIMIT ? ? p.post_id, topic_id, forum_
 	ORDER BY post_time ASC 
 
 PostModel.selectByUserByLimit = SELECT LIMIT ? ? p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND p.user_id = u.user_id \
@@ -106,7 +106,7 @@ TopicModel.selectAllByForumByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_use
 	AND p.need_moderate = 0 \
 	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC
 
-TopicModel.selectRecentTopicsByLimit = SELECT LIMIT 0 ? t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
+TopicModel.selectRecentTopicsByLimit = SELECT LIMIT ? ? t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
 	FROM jforum_topics t, jforum_posts p \
 	WHERE p.post_id = t.topic_last_post_id \
 	AND p.need_moderate = 0 \
@@ -159,6 +159,11 @@ AttachmentModel.lastGeneratedAttachmentId = SELECT MAX(attach_id) FROM jforum_at
 # BanlistModel
 # ###############
 BanlistModel.lastGeneratedBanlistId = SELECT MAX(banlist_id) FROM jforum_banlist
+
+# ###############
+# BannerModel
+# ###############
+BannerModel.lastGeneratedBanlistId = SELECT MAX(banner_id) from jforum_banners
 
 # ################
 # ModerationLog

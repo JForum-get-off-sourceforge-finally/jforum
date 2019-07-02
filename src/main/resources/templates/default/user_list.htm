@@ -16,7 +16,6 @@
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("User.username")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.privateMessage")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("email")}&nbsp;</th>
-	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.from")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("UserProfile.registrationDate")}&nbsp;</th>
 	  <th class="thtop" nowrap="nowrap">&nbsp;${I18n.getMessage("User.numMessages")}&nbsp;</th>
 	</tr>
@@ -40,7 +39,6 @@
 					</#if>
 					</span>
 				</td>
-				<td class="row2"><span class="gen"><#if (user.from?exists && user.from?length > 0)>${user.from}<#else>&nbsp;</#if></span></td>
 				<td class="row2"><span class="gen">${user.registrationDate}</span></td>
 				<td class="row2"><span class="gen">${user.totalPosts}</span></td>
 			</tr>

@@ -62,7 +62,7 @@
 	  <tr>
 	    <td class="row1" width="38%"><span class="gen"><b>${I18n.getMessage("Banner.clicks")}</b></span><br />
 	      <span class="gensmall">${I18n.getMessage("Banner.clicksDesc")}</span></td>
-	      <td class="row2"><span class="gen">${banner.clicks}</span></td>
+          <td class="row2"><span class="gen"><#if banner.type != 4>${banner.clicks}<#else>&mdash;</#if></span></td>
 	    </tr>
 	</#if>
 	<tr>

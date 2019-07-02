@@ -4,6 +4,11 @@
 <script type="text/javascript" src="${jQueryURL}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
 
+<#if bannerPages?contains("forum")>
+	<#assign position = 0 />
+	<#include "banner.htm"/>
+</#if>
+
 <#if logged>
 	<script type="text/javascript">
 		var watchURL = "${JForumContext.encodeURL("/forums/watchForum/${forum.id}")}";
@@ -344,6 +349,11 @@
 					</#if>
 				</tr>
 			</table>
+
+			<#if bannerPages?contains("forum")>
+				<#assign position = 3 />
+				<#include "banner.htm"/>
+			</#if>
 		</td>
 	</tr>
 </table>

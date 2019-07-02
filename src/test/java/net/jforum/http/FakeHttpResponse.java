@@ -44,15 +44,19 @@ package net.jforum.http;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.WebConnection;
 
 /**
  * @author SergeMaslyukov
- * @version $Id$
  */
 public class FakeHttpResponse implements HttpServletResponse
 {
@@ -219,4 +223,33 @@ public class FakeHttpResponse implements HttpServletResponse
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public String getHeader (String name)
+	{
+		return new String();
+	}
+
+	@Override
+	public Collection<String> getHeaders (String name)
+	{
+		return new ArrayList<String>();
+	}
+
+	@Override
+	public Collection<String> getHeaderNames()
+	{
+		return new ArrayList<String>();
+	}
+
+	@Override
+	public int getStatus()
+	{
+		return 42;
+	}
+
+	@Override
+	public void setContentLengthLong (long len)
+	{
+	}
 }

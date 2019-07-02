@@ -79,8 +79,8 @@ public class TopicRepository implements Cacheable {
 	private static final Object MUTEX_RECENT = new Object();
 	private static final Object MUTEX_HOTTEST = new Object();
 	private static final Object MUTEX_FQN_FORUM = new Object();
-	
-	private static int maxRecentTopics = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);
+
+	private static int maxRecentTopics = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 	private static int maxHottestTopics = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
 	/**
@@ -105,7 +105,7 @@ public class TopicRepository implements Cacheable {
 	 */
 	public static void pushTopic(Topic topic) {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
-			int limit = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);
+			int limit = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 
 			LinkedList<Topic> latestList = (LinkedList<Topic>) cache.get(FQN, RECENT);
 			if (latestList == null || latestList.isEmpty()) {
@@ -158,16 +158,27 @@ public class TopicRepository implements Cacheable {
 	 * Get all cached recent topics.
 	 */
 	public static List<Topic> getRecentTopics() {
-		List<Topic> latestList = (List<Topic>) cache.get(FQN, RECENT);
-		int limit = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);		
+		int limit = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);		
+		return getRecentTopics(0, limit);
+	}
 
-		if (limit != maxRecentTopics || latestList == null || latestList.isEmpty()
-				|| !SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
-			latestList = loadMostRecentTopics();
-			maxRecentTopics = limit;
+	/**
+	 * Get all cached recent topics.
+	 */
+	public static List<Topic> getRecentTopics (int start, int limit) {
+		if (start == 0) {
+			List<Topic> latestList = (List<Topic>) cache.get(FQN, RECENT);
+
+			if (limit != maxRecentTopics || latestList == null || latestList.isEmpty()
+					|| !SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
+				latestList = loadMostRecentTopics();
+				maxRecentTopics = limit;
+			}
+
+			return new ArrayList<Topic>(latestList);
+		} else {
+			return loadMostRecentTopics(start, limit);
 		}
-
-		return new ArrayList<Topic>(latestList);
 	}
 
 	/**
@@ -191,7 +202,7 @@ public class TopicRepository implements Cacheable {
 	 */
 	public static List<Topic> loadMostRecentTopics() {
 		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
-		int limit = SystemGlobals.getIntValue(ConfigKeys.RECENT_TOPICS);
+		int limit = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 
 		List<Topic> latestList = tm.selectRecentTopics(limit);
 		synchronized (MUTEX_RECENT) {
@@ -199,6 +210,15 @@ public class TopicRepository implements Cacheable {
 		}
 
 		return latestList;
+	}
+
+	/**
+	 * Add recent topics to the cache
+	 */
+	public static List<Topic> loadMostRecentTopics (int start, int limit) {
+		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
+
+		return tm.selectRecentTopics(start, limit);
 	}
 
 	/**

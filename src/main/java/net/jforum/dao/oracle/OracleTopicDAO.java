@@ -49,7 +49,6 @@ import net.jforum.entities.Topic;
 /**
  * @author Dmitriy Kiriy 
  * @author Jake Fear
- * @version $Id$
  */
 public class OracleTopicDAO extends net.jforum.dao.generic.GenericTopicDAO
 {
@@ -68,5 +67,13 @@ public class OracleTopicDAO extends net.jforum.dao.generic.GenericTopicDAO
 	@Override public List<Topic> selectByUserByLimit(final int userId, final int startFrom, final int count) 
 	{
 		return super.selectByUserByLimit(userId, startFrom, startFrom + count);
+	}
+
+	/**
+	 * @see net.jforum.dao.TopicDAO#selectRecentTopics(int, int)
+	 */
+	@Override public List<Topic> selectRecentTopics(final int startFrom, final int count)
+	{
+		return super.selectRecentTopics(startFrom, startFrom + count);
 	}
 }

@@ -162,15 +162,54 @@ function bbstyle(eltag) {
 
    if (eltag == -1) { tmCloseTags(); return; }
 
+      if (!tmIsTagOpen(eltag) || bbtags[eltag+1] == '') {
+			if (eltag == 8) {
+				// special case for the CODE tag
+				var select = document.getElementById("languageSelect");
+				var language = select.options[select.selectedIndex].value;	
+				if (language != "plain") {
+					txtarea.value += "[code=" + language + "]";
+				} else {
+					txtarea.value += bbtags[eltag];
+				}
+			} else {
+				txtarea.value += bbtags[eltag];
+			}
+         tmOpenTag(eltag);
+      }
+      else {
+         txtarea.value += bbtags[eltag+1];
+         tmQuitTag(eltag);
+      }
+      txtarea.focus();
+}
+
+function getOpeningTag (eltag) {
+	// special case for the CODE tag
+	if (eltag == 8) {
+		var select = document.getElementById("languageSelect");
+		var language = select.options[select.selectedIndex].value;	
+		if (language != "plain") {
+			return "[code=" + language + "]";
+		}
+	}
+	return bbtags[eltag];
+}
+
+function bbstyle(eltag) {
+   var txtarea = document.post.message;
+
+   if (eltag == -1) { tmCloseTags(); return; }
+
    //IE
    if (document.selection) {
        txtarea.focus();
        sel = document.selection.createRange();
-      if (sel.text.length > 0) { sel.text = bbtags[eltag] + sel.text + bbtags[eltag+1]; }
+      if (sel.text.length > 0) { sel.text = getOpeningTag(eltag) + sel.text + bbtags[eltag+1]; }
       else {
             if (!tmIsTagOpen(eltag) || bbtags[eltag+1] == '') {
-            sel.text = bbtags[eltag];
-            tmOpenTag(eltag);
+				sel.text = getOpeningTag(eltag);
+				tmOpenTag(eltag);
           }
           else {
                sel.text = bbtags[eltag+1];
@@ -188,19 +227,19 @@ function bbstyle(eltag) {
 
       if (startPos != endPos) {
          txtarea.value = txtarea.value.substring(0, startPos)
-                       + bbtags[eltag]
+                       + getOpeningTag(eltag)
                        + txtarea.value.substring(startPos, endPos)
                        + bbtags[eltag+1]
                        + txtarea.value.substring(endPos, txtarea.value.length);
-         cursorPos += bbtags[eltag].length + bbtags[eltag+1].length;
+         cursorPos += getOpeningTag(eltag).length + bbtags[eltag+1].length;
       }
       else {
          if (!tmIsTagOpen(eltag) || bbtags[eltag+1] == '') {
             txtarea.value = txtarea.value.substring(0, startPos)
-                          + bbtags[eltag]
+                          + getOpeningTag(eltag)
                           + txtarea.value.substring(endPos, txtarea.value.length);
             tmOpenTag(eltag);
-            cursorPos = startPos + bbtags[eltag].length;
+            cursorPos = startPos + getOpeningTag(eltag).length;
          }
          else {
             txtarea.value = txtarea.value.substring(0, startPos)
@@ -217,7 +256,7 @@ function bbstyle(eltag) {
    }
    else {
       if (!tmIsTagOpen(eltag) || bbtags[eltag+1] == '') {
-         txtarea.value += bbtags[eltag];
+         txtarea.value += getOpeningTag(eltag);
          tmOpenTag(eltag);
       }
       else {

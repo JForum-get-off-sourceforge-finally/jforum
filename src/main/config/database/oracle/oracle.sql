@@ -102,6 +102,7 @@ PostModel.selectHotForRSS = SELECT * FROM ( \
 		AND p.user_id = u.user_id \
 		AND p.post_id = pt.post_id \
 		AND p.need_moderate = 0  \
+        AND t.topic_views >= ? \
 		ORDER BY topic_views DESC \
 	) \
 	WHERE LINENUM < ?
@@ -117,7 +118,7 @@ PostModel.lastGeneratedPostId = SELECT jforum_posts_seq.currval FROM dual
 
 PostModel.selectAllByTopicByLimit = SELECT * FROM ( \
        SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, p.need_moderate, \
-   	   enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline, \
+   	   enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, \
    	   ROW_NUMBER() OVER(ORDER BY p.post_time ASC) - 1 LINENUM \
    	   FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	   WHERE p.post_id = pt.post_id  \
@@ -130,7 +131,7 @@ PostModel.selectAllByTopicByLimit = SELECT * FROM ( \
 
 PostModel.selectByUserByLimit = SELECT * FROM ( \
        SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	   enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline, \
+	   enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, \
 	   ROW_NUMBER() OVER(ORDER BY p.post_id DESC) - 1 LINENUM \
 	   FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	   WHERE p.post_id = pt.post_id \
@@ -185,7 +186,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT * FROM ( \
        WHERE p.post_id = t.topic_last_post_id \
        AND p.need_moderate = 0 \
 	) \
-	WHERE LINENUM < ?
+	WHERE LINENUM >= ? AND LINENUM < ?
 
 TopicModel.selectHottestTopicsByLimit = SELECT * FROM ( \
 	   SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach, \
@@ -193,7 +194,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT * FROM ( \
        FROM jforum_topics t, jforum_posts p \
        WHERE p.post_id = t.topic_last_post_id \
        AND p.need_moderate = 0 \
-       ORDER BY topic_views DESC \
+		ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC \
 	) \
 	WHERE LINENUM < ?
 
@@ -298,6 +299,11 @@ ApiModel.insert = INSERT INTO jforum_api (api_id, api_key, api_validity) VALUES 
 # ###############
 BanlistModel.lastGeneratedBanlistId = SELECT jforum_banlist_seq.currval FROM dual
 BanlistModel.insert = INSERT INTO jforum_banlist (banlist_id, user_id, banlist_ip, banlist_email) VALUES (jforum_banlist_seq.nextval, ?, ?, ?)
+
+# ###############
+# BannerModel
+# ###############
+BannerModel.lastGeneratedBanlistId = SELECT jforum_banner_seq.currval FROM dual
 
 # ################
 # ModerationLog

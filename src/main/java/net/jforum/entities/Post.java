@@ -51,7 +51,6 @@ import net.jforum.view.forum.common.ViewCommon;
  * Represents every message post in the system.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class Post implements Serializable 
 {
@@ -68,7 +67,6 @@ public class Post implements Serializable
 	private boolean htmlEnabled = true;
 	private boolean smiliesEnabled = true;
 	private boolean signatureEnabled = true;
-	private boolean viewOnline = true;
 	private Date editTime;
 	private int editCount;
 	private String userIp;
@@ -100,7 +98,6 @@ public class Post implements Serializable
 		this.id = post.getId();
 		this.postUsername = post.getPostUsername();
 		this.signatureEnabled = post.isSignatureEnabled();
-		this.viewOnline = post.isViewOnline();
 		this.smiliesEnabled = post.isSmiliesEnabled();
 		this.subject = post.getSubject();
 		this.text = post.getText();
@@ -221,15 +218,6 @@ public class Post implements Serializable
 	 */
 	public boolean isSignatureEnabled() {
 		return this.signatureEnabled;
-	}
-
-	/**
-	 * Checks if user who posted this wants online status to be shown
-	 * 
-	 * @return boolean representing the result
-	 */
-	public boolean isViewOnline() {
-		return this.viewOnline;
 	}
 
 	/**
@@ -359,15 +347,6 @@ public class Post implements Serializable
 	 */
 	public void setSignatureEnabled(boolean signatureEnabled) {
 		this.signatureEnabled = signatureEnabled;
-	}
-
-	/**
-	 * Sets the view online status for the user who posted this
-	 * 
-	 * @param viewOnline <code>true</code> or <code>false</code>, depending the intention
-	 */
-	public void setViewOnline(boolean viewOnline) {
-		this.viewOnline = viewOnline;
 	}
 
 	/**

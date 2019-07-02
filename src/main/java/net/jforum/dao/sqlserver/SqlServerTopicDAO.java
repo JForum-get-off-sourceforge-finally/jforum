@@ -50,7 +50,6 @@ import net.jforum.entities.Topic;
 /**
  * @author Andre de Andrade da Silva (<a href="mailto:andre.de.andrade@gmail.com">andre.de.andrade@gmail.com</a>)
  * @author Dirk Rasmussen (<a href="mailto:d.rasmussen@bevis.de">d.rasmussen@bevis.de</a>)
- * @version $Id$
  */
 public class SqlServerTopicDAO extends GenericTopicDAO
 {
@@ -70,4 +69,11 @@ public class SqlServerTopicDAO extends GenericTopicDAO
 		return super.selectByUserByLimit(userId, startFrom, startFrom + count);
 	}
 
+	/**
+	 * @see net.jforum.dao.TopicDAO#selectRecentTopics(int, int)
+	 */
+	@Override public List<Topic> selectRecentTopics(final int startFrom, final int count)
+	{
+		return super.selectRecentTopics(startFrom, startFrom + count);
+	}
 }

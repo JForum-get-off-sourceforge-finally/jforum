@@ -37,7 +37,7 @@ UserModel.findByIp = SELECT DISTINCT users.* \
 PostModel.lastGeneratedPostId = SELECT CURRVAL('jforum_posts_seq')
 
 PostModel.selectAllByTopicByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-    enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+    enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
     FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
     WHERE p.post_id IN (SELECT p.post_id FROM jforum_posts p WHERE p.topic_id = ? AND p.need_moderate = 0 \
     ORDER BY post_time ASC OFFSET ? LIMIT ?) \
@@ -45,7 +45,7 @@ PostModel.selectAllByTopicByLimit = SELECT p.post_id, topic_id, forum_id, p.user
     ORDER BY post_time ASC
 
 PostModel.selectAllByTopic = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-       enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+       enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
        FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
        WHERE p.post_id IN (SELECT p.post_id FROM jforum_posts p WHERE p.topic_id = ? AND p.need_moderate = 0 \
        ORDER BY post_time ASC) \
@@ -54,7 +54,7 @@ PostModel.selectAllByTopic = SELECT p.post_id, topic_id, forum_id, p.user_id, po
        ORDER BY post_time ASC
 
 PostModel.selectByUserByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-    enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+    enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
     FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
     WHERE p.post_id IN \
         (SELECT p.post_id FROM jforum_posts p WHERE p.need_moderate = 0 AND p.user_id = ? AND p.forum_id IN (:fids:) ORDER BY post_id DESC OFFSET ? LIMIT ?) \
@@ -114,19 +114,10 @@ TopicModel.selectRecentTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.
         WHERE p.topic_id = t.topic_id \
         AND p.need_moderate = 0) AS attach \
     FROM jforum_topics t, jforum_posts p \
-    WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t ORDER BY t.topic_last_post_id DESC LIMIT ?) \
+    WHERE p.post_id IN (SELECT t.topic_last_post_id FROM jforum_topics t ORDER BY t.topic_last_post_id DESC OFFSET ? LIMIT ?) \
     AND p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 \
     ORDER BY CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END DESC
-
-TopicModel.selectHottestTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
-        FROM jforum_posts p \
-        WHERE p.topic_id = t.topic_id \
-        AND p.need_moderate = 0) AS attach \
-    FROM jforum_topics t, jforum_posts p \
-    WHERE p.post_id IN (SELECT topic_last_post_id FROM jforum_topics ORDER BY topic_views DESC LIMIT ?) \
-    AND p.post_id = t.topic_last_post_id \
-    AND p.need_moderate = 0
 
 TopicModel.lastGeneratedTopicId = SELECT CURRVAL('jforum_topics_seq')
 
@@ -160,6 +151,11 @@ AttachmentModel.lastGeneratedAttachmentId = SELECT CURRVAL('jforum_attach_seq')
 # BanlistModel
 # ###############
 BanlistModel.lastGeneratedBanlistId = SELECT CURRVAL('jforum_banlist_seq')
+
+# ###############
+# BannerModel
+# ###############
+BannerModel.lastGeneratedBannerId = SELECT CURRVAL('jforum_banner_seq')
 
 # ################
 # ModerationLog

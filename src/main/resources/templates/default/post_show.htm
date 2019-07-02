@@ -2,10 +2,12 @@
 <#import "../macros/pagination.ftl" as pagination/>
 <#import "../macros/presentation.ftl" as presentation/>
 
-<#assign canEditSomeMessage = false/>
+<#if bannerPages?contains("topic")>
+	<#assign position = 0 />
+	<#include "banner.htm"/>
+</#if>
 
 <script type="text/javascript" src="${jQueryURL}"></script>
-<script type="text/javascript" src="${contextPath}/javascript/jquery.jeditable.pack.js"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post_show.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/post.js?${startupTime}"></script>
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/pagination.js?${startupTime}"></script>
@@ -225,14 +227,7 @@
 		
 						<!-- Message -->
 						<td class="${rowColor}" valign="top" id="post_text_${post.id}" width="100%">
-							<div class="postbody">
-								<#if canEditCurrentMessage>
-									<#assign canEditSomeMessage = true/>
-									<div class="edit_area" id="x${post.id}">${post.text}</div>
-								<#else>
-									${post.text}
-								</#if>								
-							</div>
+							<div class="postbody">${post.text}</div>
 
 							<!-- Attachments -->
 							<#if post.hasAttachments() && (canDownloadAttachments || attachmentsEnabled)>
@@ -453,52 +448,17 @@
 	</tr>
 </table>
 
+<#if bannerPages?contains("topic")>
+	<#assign position = 3 />
+	<#include "banner.htm"/>
+</#if>
+
 <a name="quick"></a>
 
 <script type="text/javascript">
 /* <![CDATA[ */
 $(document).ready(function() {
 	limitURLSize();
-
-	<#if canEditSomeMessage>
-		$(".edit_area").editable('${JForumContext.encodeURL("/ajax/savePost")}', {
-			submit: '${I18n.getMessage("Update")}',
-			cancel: '${I18n.getMessage("cancel")}',
-			type: 'textarea',
-			tooltip: '${I18n.getMessage("PostShow.doubleClickEdit")}',
-			rows: 15,
-			width: '100%',
-			event: 'dblclick',
-			indicator: "<img src='${contextPath}/templates/${templateName}/images/indicator.gif' alt='indicator'/>",
-			postload: '${JForumContext.encodeURL("/ajax/loadPostContents")}',
-			cssclass: 'inlineedit',
-			loadtext: '${I18n.getMessage("PostShow.loading")}...',
-			beforesubmit: function(submitdata) { 
-				<#if moderationLoggingEnabled>
-					var message = prompt("${I18n.getMessage("ModerationLog.changeReason")}");
-
-					if (message == null || message == "") {
-						alert("${I18n.getMessage("ModerationLog.reasonIsEmpty")}");
-						return false;
-					} else {
-						submitdata["log_description"] = message;
-						submitdata["log_type"] = 2;
-					}
-				</#if>
-
-				return true;
-			}
-		}, function(s) {
-			<#if hasCodeBlock>
-				SyntaxHighlighter.all();
-				dp.SyntaxHighlighter.HighlightAll('code');
-			<#else>
-				if (s.indexOf("name=\"code\"") > -1) {
-					document.location.reload(true);
-				}
-			</#if>
-		});
-	</#if>
 
 	<#if socialEnabled>
 		$(".rrssb-buttons").rrssb({

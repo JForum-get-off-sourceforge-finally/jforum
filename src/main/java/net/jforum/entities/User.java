@@ -67,7 +67,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * about some user configuration options and preferences.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class User implements Serializable
 {
@@ -82,7 +81,6 @@ public class User implements Serializable
 	private boolean smiliesEnabled = true;
 	private boolean avatarEnabled = true;
 	private boolean privateMessagesEnabled = true;
-	private boolean viewOnlineEnabled = true;
 	private boolean notifyPrivateMessagesEnabled = true;
 	private boolean notifyOnMessagesEnabled = true;
 	private boolean notifyAlways;
@@ -99,9 +97,7 @@ public class User implements Serializable
 	private String webSite;
 	private String from;
 	private String signature;
-	private String aim;
-	private String yim;
-	private String msnm; 
+	private String skype; 
 	private String occupation;
 	private String interests;
 	private String biography;
@@ -146,15 +142,6 @@ public class User implements Serializable
 	public void setDeleted(int deleted){
 		this.deleted = deleted;
 	}	
-	
-	/**
-	 * Gets the AIM identification
-	 * 
-	 * @return String with the AIM ID
-	 */
-	public String getAim() {
-		return this.aim;
-	}
 
 	/**
 	 * Gets the avatar of the user
@@ -393,30 +380,12 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Checks if the user permits other people to see he online
-	 * 
-	 * @return boolean value
-	 */
-	public boolean isViewOnlineEnabled() {
-		return this.viewOnlineEnabled;
-	}
-
-	/**
 	 * Gets the user website address
 	 * 
 	 * @return String with the URL
 	 */
 	public String getWebSite() {
 		return this.webSite;
-	}
-
-	/**
-	 * Gets the Yahoo messenger ID
-	 * 
-	 * @return String with the ID
-	 */
-	public String getYim() {
-		return this.yim;
 	}
 
 	/**
@@ -435,15 +404,6 @@ public class User implements Serializable
 	 */	
 	public String getActivationKey(){
 		return this.activationKey;
-	}
-	
-	/**
-	 * Sets the aim.
-	 * 
-	 * @param aim The aim ID to set
-	 */
-	public void setAim(String aim) {
-		this.aim = aim;
 	}
 
 	/**
@@ -670,14 +630,6 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Sets the viewOnlineEnabled.
-	 * @param viewOnlineEnabled The viewOnlineEnabled to set
-	 */
-	public void setViewOnlineEnabled(boolean viewOnlineEnabled) {
-		this.viewOnlineEnabled = viewOnlineEnabled;
-	}
-
-	/**
 	 * Sets the webSite.
 	 * 
 	 * @param webSite The webSite to set
@@ -687,26 +639,17 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Sets the Yahoo messenger ID
-	 * 
-	 * @param yim The yim to set
+	 * @return the Skype ID
 	 */
-	public void setYim(String yim) {
-		this.yim = yim;
-	}
-
-	/**
-	 * @return the msnm
-	 */
-	public String getMsnm() {
-		return this.msnm;
+	public String getSkype() {
+		return this.skype;
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setMsnm(String string) {
-		this.msnm = string;
+	public void setSkype(String string) {
+		this.skype = string;
 	}
 
 	/**

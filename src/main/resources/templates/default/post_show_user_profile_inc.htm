@@ -13,20 +13,14 @@
 		<#if (user.webSite?exists && user.webSite?length > 0)>
 			<a href="${user.webSite?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_www.gif" alt="[WWW]"/></a>
 		</#if>
-		<#if (user.yim?exists && user.yim?length > 0)>
-			<a href="http://edit.yahoo.com/config/send_webmesg?.target=${user.yim?html}&amp;.src=pg" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_yim.gif" alt="[Yahoo!]" /></a>
-		</#if>
-		<#if (user.aim?exists && user.aim?length > 0)>
-			<a target="_blank" href="https://my.screenname.aol.com/_cqr/login/login.psp" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_aim.gif" alt="aim icon"/></a>
-		</#if>
-		<#if (user.msnm?exists && user.msnm?length > 0)>
-			<a href="${JForumContext.encodeURL("/user/profile/${user.id}")}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_msnm.gif" alt="[MSN]" /></a>
-		</#if>
 		<#if (user.icq?exists && user.icq?length > 0)>
 			<a href="http://wwp.icq.com/scripts/search.dll?to=${user.icq?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="[ICQ]" /></a>
 		</#if>
+		<#if (user.skype?exists && user.skype?length > 0)>
+			<a href="skype:${user.skype}")}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_skype.png" alt="[Skype]"/></a>
+		</#if>
 		<#if (user.twitter?exists && user.twitter?length > 0)>
-			<a href="https://twitter.com/${user.twitter?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_twitter.jpg" alt="[Twitter!]" /></a>
+			<a href="https://twitter.com/${user.twitter?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_twitter.jpg" alt="[Twitter]" /></a>
 		</#if>
 	</td>
 	<#if karmaEnabled && post.userId != session.userId && logged>

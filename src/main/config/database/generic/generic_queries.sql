@@ -87,8 +87,7 @@ UserModel.findByIp = SELECT DISTINCT u.* \
 UserModel.selectByName = SELECT * FROM jforum_users WHERE LOWER(username) = LOWER(?)
 UserModel.addNewWithId = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, user_id) VALUES (?, ?, ?, ?, ?, ?)
 
-UserModel.update = UPDATE jforum_users SET user_aim = ?, \
-    user_avatar = ?,\
+UserModel.update = UPDATE jforum_users SET user_avatar = ?,\
     user_allow_pm = ?, \
     user_allowavatar = ?, \
     user_allowbbcode = ?, \
@@ -101,11 +100,9 @@ UserModel.update = UPDATE jforum_users SET user_aim = ?, \
     user_occ = ?, \
     user_sig = ?, \
     user_website = ?, \
-    user_yim = ?, \
-    user_msnm = ?, \
+    user_skype = ?, \
     user_password = ?, \
     user_viewemail = ?, \
-    user_viewonline = ?, \
     user_notify = ?, \
     user_attachsig = ?, \
     username = ?, \
@@ -201,7 +198,7 @@ PostModel.addNewPost = INSERT INTO jforum_posts (topic_id, forum_id, user_id, po
 PostModel.addNewPostText = INSERT INTO jforum_posts_text ( post_id, post_text, post_subject ) VALUES (?, ?, ?)
 
 PostModel.selectAllByTopicByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND topic_id = ? \
@@ -211,7 +208,7 @@ PostModel.selectAllByTopicByLimit = SELECT p.post_id, topic_id, forum_id, p.user
 	LIMIT ?, ?
 
 PostModel.selectAllByTopic = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND topic_id = ? \
@@ -220,7 +217,7 @@ PostModel.selectAllByTopic = SELECT p.post_id, topic_id, forum_id, p.user_id, po
 	ORDER BY post_time ASC
 
 PostModel.selectByUserByLimit = SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND p.user_id = u.user_id \
@@ -381,8 +378,8 @@ TopicModel.selectAllByForum = SELECT t.*, p.user_id AS last_user_id, p.post_time
 	ORDER BY t.topic_type DESC, (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC
 
 TopicModel.topicPosters = SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, \
-    user_icq, user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, \
-    user_sig, user_aim, user_twitter \
+    user_icq, user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_skype, user_website, \
+    user_sig, user_twitter \
     FROM jforum_users \
     WHERE user_id IN (:ids:)
 
@@ -435,7 +432,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.
     WHERE p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 \
     ORDER BY (CASE WHEN t.topic_type=3 AND p.post_edit_time IS NOT NULL THEN p.post_edit_time ELSE p.post_time END) DESC \
-    LIMIT ?
+    LIMIT ?, ?
 
 TopicModel.selectForNewMessages = SELECT t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
@@ -447,6 +444,8 @@ TopicModel.selectForNewMessages = SELECT t.*, p.user_id AS last_user_id, p.post_
     AND p.post_id = t.topic_last_post_id \
     ORDER BY topic_last_post_id DESC
 
+TopicModel.selectMaxViewsMaxReplies = SELECT MAX(topic_views) as max_views, MAX(topic_replies) as max_replies from jforum_topics
+
 TopicModel.selectHottestTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
@@ -454,7 +453,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p
     FROM jforum_topics t, jforum_posts p \
     WHERE p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 \
-    ORDER BY topic_views DESC \
+    ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC \
     LIMIT ?
 
 TopicModel.getUserInformation = SELECT user_id, username FROM jforum_users WHERE user_id IN (#ID#)
@@ -479,6 +478,7 @@ TopicModel.selectWatchesByUser = SELECT w.topic_id, t.topic_title, f.forum_name 
     ORDER BY f.forum_name, t.topic_title
 
 TopicModel.countUserTopics = SELECT COUNT(1) AS total FROM jforum_topics t, jforum_posts p WHERE t.user_id = ? AND t.forum_id IN (:fids:) AND p.post_id = t.topic_first_post_id AND p.need_moderate = 0
+TopicModel.countAllTopics = SELECT COUNT(1) AS total FROM jforum_topics t, jforum_posts p WHERE t.forum_id IN (:fids:) AND p.post_id = t.topic_first_post_id AND p.need_moderate = 0
     
 TopicModel.getFirstLastPostId = SELECT MIN(post_id) AS first_post_id, MAX(post_id) AS last_post_id FROM jforum_posts WHERE topic_id = ?
 TopicModel.fixFirstLastPostId = UPDATE jforum_topics SET topic_first_post_id = ?, topic_last_post_id = ? WHERE topic_id = ?

@@ -128,6 +128,12 @@ public interface TopicDAO
 	int countUserTopics(int userId) ;
 	
 	/**
+	 * How many topics were created
+	 * @return the number of topics created
+	 */
+	int countAllTopics() ;
+
+	/**
 	 * Delete a Topic.
 	 * 
 	 * @param topic The Topic ID to delete
@@ -282,6 +288,15 @@ public interface TopicDAO
      * @return List
 	 */
 	List<Topic> selectRecentTopics (int limit) ;
+
+	/**
+	 * Selects recent topics 
+	 *
+     * @param start the index of topics where to start
+	 * @param limit The number of topics to retrieve
+     * @return List
+	 */
+	List<Topic> selectRecentTopics (int start, int limit) ;
 
 	/**
 	 * Selects hottest topics

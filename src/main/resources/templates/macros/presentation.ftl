@@ -12,11 +12,7 @@
 				<#elseif topic.type == TOPIC_WIKI>
 					<img class="icon_folder_wiki" src="${contextPath}/images/transp.gif" alt="" />
 				<#else>
-					<#if topic.isHot()>
-						<img class="icon_folder_hot" src="${contextPath}/images/transp.gif" alt="" />
-					<#else>
-						<img class="icon_folder" src="${contextPath}/images/transp.gif" alt="" />
-					</#if>
+					<img class="icon_folder" src="${contextPath}/images/transp.gif" alt="" />
 				</#if>
 			<#else>
 				<img class="icon_folder_lock" src="${contextPath}/images/transp.gif" alt="" />
@@ -30,11 +26,7 @@
 				<#elseif topic.type == TOPIC_WIKI>
 					<img class="icon_folder_wiki_new" src="${contextPath}/images/transp.gif" alt="" />
 				<#else>
-					<#if topic.isHot()>
-						<img class="icon_folder_new_hot" src="${contextPath}/images/transp.gif" alt="" />
-					<#else>
-						<img class="icon_folder_new" src="${contextPath}/images/transp.gif" alt="" />
-					</#if>
+					<img class="icon_folder_new" src="${contextPath}/images/transp.gif" alt="" />
 				</#if>
 			<#else>
 				<img class="icon_folder_lock_new" src="${contextPath}/images/transp.gif" alt="" />

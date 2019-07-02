@@ -50,7 +50,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
+import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
+import net.jforum.dao.TopicDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
@@ -66,6 +68,8 @@ import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
+import org.apache.log4j.Logger;
+
 /**
  * Display a list of recent Topics
  * 
@@ -74,28 +78,36 @@ import net.jforum.view.forum.common.ViewCommon;
  */
 public class RecentTopicsAction extends Command 
 {
+	private static final Logger LOGGER = Logger.getLogger(RecentTopicsAction.class);
+
 	private transient List<Forum> forums;
 
 	@Override public void list()
 	{
-		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+		final TopicDAO tdao = DataAccessDriver.getInstance().newTopicDAO();
+		int totalTopics = tdao.countAllTopics();
 
-		this.setTemplateName(TemplateKeys.RECENT_LIST);
+		int start = ViewCommon.getStartPage();
+		int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
+		List<Topic> topics = topics(start, topicsPerPage);
 
-		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
-		this.context.put("topics", this.topics());
+		TopicsCommon.topicListingBase();
+		this.context.put("topicsPerPage", Integer.valueOf(topicsPerPage));
+		this.context.put("topics", topics);
 		this.context.put("forums", this.forums);
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.recentTopics"));
 
-		TopicsCommon.topicListingBase();
-		this.request.removeAttribute("template");
+		ViewCommon.contextToPagination(start, totalTopics, topicsPerPage);
+
+		this.setTemplateName(TemplateKeys.RECENT_LIST);
+
 		new StatsEvent("Recent topics page", request.getRequestURL()).record();
 	}
-	
-	private List<Topic> topics()
+
+	private List<Topic> topics (int start, int limit)
 	{
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		final List<Topic> topics = TopicRepository.getRecentTopics();
+		final List<Topic> topics = TopicRepository.getRecentTopics(start, limit);
 		topics.sort(new TopicTypeComparator(true));
 
 		this.forums = new ArrayList<Forum>(postsPerPage);
@@ -119,8 +131,8 @@ public class RecentTopicsAction extends Command
 	public void showTopicsByUser() 
 	{
 		final DataAccessDriver dad = DataAccessDriver.getInstance();
-
 		final UserDAO udao = dad.newUserDAO();
+		final TopicDAO tdao = dad.newTopicDAO();
 		final User user = udao.selectById(this.request.getIntParameter("user_id"));
 
 		if (user.getId() == 0) {
@@ -137,14 +149,14 @@ public class RecentTopicsAction extends Command
 
 		this.setTemplateName(TemplateKeys.RECENT_USER_TOPICS_SHOW);
 
-		int totalTopics = dad.newTopicDAO().countUserTopics(user.getId());
+		int totalTopics = tdao.countUserTopics(user.getId());
 
 		this.context.put("u", user);
 		this.context.put("pageTitle", I18n.getMessage("ForumListing.userTopics") + " " + user.getUsername());
 
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 
-		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
+		final List<Topic> topics = tdao.selectByUserByLimit(user.getId(), start, topicsPerPage);
 		topics.sort(new TopicTypeComparator(true));
 		
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);

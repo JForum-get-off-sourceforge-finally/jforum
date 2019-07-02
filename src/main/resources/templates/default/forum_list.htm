@@ -1,6 +1,11 @@
 <#include "header.htm"/>
 <script type="text/javascript" src="${jQueryURL}"></script>
 
+<#if bannerPages?contains("index")>
+	<#assign position = 0 />
+	<#include "banner.htm"/>
+</#if>
+
 <table width="100%" align="center">
 	<tr>
 		<td width="100%" valign="top">
@@ -51,7 +56,7 @@
 								<#if forum.isModerated()><br />
 									<#assign moderators = forumRepository.getModeratorList(forum.id)/>
 									<#if (moderators.size() > 0)>
-										${I18n.getMessage("ForumIndex.moderators")}
+										${I18n.getMessage("ForumIndex.moderators")}:
 										<#list moderators as m>
 											<a href="${JForumContext.encodeURL("/user/profile/${m.id}")}">${m.name?html}</a>
 										</#list>
@@ -112,29 +117,18 @@
 				</tr>
 				<tr>
 					<td class="row1 gensmall" align="left">
-						<#assign adminColor = "class='admin'"/>
-						<#assign moderatorColor = "class='moderator'"/>
-						<#assign color = ""/>
-
 						${I18n.getMessage("ForumListing.numberOfUsersOnline", [ totalOnlineUsers, totalRegisteredOnlineUsers, totalAnonymousUsers ])}&nbsp;&nbsp;
-
-						[ <span ${adminColor}>${I18n.getMessage("Administrator")}</span> ]&nbsp;[ <span ${moderatorColor}>${I18n.getMessage("Moderator")}</span> ]
 						<br />
 						${I18n.getMessage("ForumListing.mostUsersEverOnline", [ mostUsersEverOnline.getTotal(), mostUsersEverOnline.getDate()?string ])}
-
 						<#if showOnline >
 							<br />
 							${I18n.getMessage("ForumListing.connectedUsers")}:
 							<#list userSessions as us>
-								<#if us.isViewOnline()>
-									<#if us.isAdmin()>
-										<#assign color = adminColor/>
-									<#elseif us.isModerator()>
-										<#assign color = moderatorColor/>
-									<#else>
-										<#assign color = ""/>
-									</#if>
-									<a href="${JForumContext.encodeURL("/user/profile/${us.userId}")}"><span ${color}>${us.username}</span></a>&nbsp;
+								<a href="${JForumContext.encodeURL("/user/profile/${us.userId}")}">${us.username}</a>&nbsp;
+								<#if us.isAdmin()>
+									(${I18n.getMessage("Administrator")})&nbsp;
+								<#elseif us.isModerator()>
+									({I18n.getMessage("Moderator")})&nbsp;
 								</#if>
 							</#list>
 						</#if>
@@ -171,6 +165,11 @@
 					</tr>
 				</table>
 			</form>
+			</#if>
+
+			<#if bannerPages?contains("index")>
+				<#assign position = 3 />
+				<#include "banner.htm"/>
 			</#if>
 
 			<table cellspacing="3" cellpadding="0" align="center">

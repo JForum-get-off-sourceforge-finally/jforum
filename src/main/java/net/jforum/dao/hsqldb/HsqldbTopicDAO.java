@@ -92,4 +92,13 @@ public class HsqldbTopicDAO extends GenericTopicDAO
 	{
 		return super.selectByUserByLimit(startFrom, count, userId);
 	}
+
+	/**
+	 * @see net.jforum.dao.TopicDAO#selectRecentTopics(int, int)
+	 */
+	@Override public List<Topic> selectRecentTopics(final int startFrom, final int count)
+	{
+		return super.selectRecentTopics(startFrom, startFrom + count);
+	}
+
 }

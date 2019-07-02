@@ -51,7 +51,6 @@ import net.jforum.view.forum.common.BannerCommon;
 
 /**
  * @author Samuel Yung
- * @version $Id$
  */
 public class BannerAction extends Command
 {	
@@ -69,12 +68,6 @@ public class BannerAction extends Command
 	public void redirect() 
 	{
 		final int bannerId = this.request.getIntParameter("banner_id");
-		if(!(new BannerCommon()).canBannerDisplay(bannerId))
-		{
-			JForumExecutionContext.setRedirect("");
-			return;
-		}
-
 		final BannerDAO dao = DataAccessDriver.getInstance().newBannerDAO();
 		final Banner banner = dao.selectById(bannerId);
 		banner.setClicks(banner.getClicks() + 1);

@@ -46,20 +46,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
+import javax.servlet.http.WebConnection;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class FakeHttpRequest implements HttpServletRequest {
 	private HttpSession session = new FakeHttpSession();
@@ -281,5 +292,101 @@ public class FakeHttpRequest implements HttpServletRequest {
 	}
 
 	public void setCharacterEncoding(String enc) throws UnsupportedEncodingException {
+	}
+
+	@Override
+	public Collection<Part> getParts()
+		  throws IOException, ServletException
+	{
+		return new ArrayList<Part>();
+	}
+
+	@Override
+	public Part getPart (String name)
+            throws IOException, ServletException
+	{
+		return (Part) null;
+	}
+
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade (Class<T> handlerClass)
+		throws IOException, ServletException
+	{
+		return null;
+	}
+
+	@Override
+	public void login (String username, String password)
+		throws ServletException
+	{
+	}
+
+	@Override
+	public void logout()
+		throws ServletException
+	{
+	}
+
+	@Override
+	public boolean authenticate (HttpServletResponse response)
+		throws IOException, ServletException
+	{
+		return true;
+	}
+
+	@Override
+	public String changeSessionId()
+	{
+		return new String();
+	}
+
+	@Override
+	public ServletContext getServletContext()
+	{
+		return (ServletContext) null;
+	}
+
+	@Override
+	public AsyncContext startAsync()
+		throws IllegalStateException
+	{
+		return (AsyncContext) null;
+	}
+
+	@Override
+	public AsyncContext startAsync (ServletRequest servletRequest, ServletResponse servletResponse)
+		throws IllegalStateException
+	{
+		return (AsyncContext) null;
+	}
+
+	@Override
+	public boolean isAsyncStarted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isAsyncSupported()
+	{
+		return false;
+	}
+
+	@Override
+	public AsyncContext getAsyncContext()
+	{
+		return (AsyncContext) null;
+	}
+
+	@Override
+	public DispatcherType getDispatcherType()
+	{
+		return (DispatcherType) null;
+	}
+
+	@Override
+	public long getContentLengthLong()
+	{
+		return 0;
 	}
 }

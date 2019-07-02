@@ -386,10 +386,8 @@ public class PostAction extends Command
 
 		this.setTemplateName(TemplateKeys.POSTS_USER_POSTS_LIST);
 
-		this.context.put("canDownloadAttachments", SecurityRepository.canAccess(
-				SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
+		this.context.put("canDownloadAttachments", SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
 		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
-		this.context.put("toggleMessageBody", SystemGlobals.getBoolValue(ConfigKeys.USER_POSTS_TOGGLE));
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(false));
 		this.context.put("posts", posts);
 		this.context.put("topics", topics);

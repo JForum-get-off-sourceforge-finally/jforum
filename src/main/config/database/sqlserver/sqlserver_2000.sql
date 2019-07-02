@@ -56,7 +56,7 @@ PostModel.selectHotForRSS = SELECT TOP %d \
 
 PostModel.selectAllByTopicByLimit = SELECT TOP %d \
 	p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND topic_id = ? \
@@ -66,7 +66,7 @@ PostModel.selectAllByTopicByLimit = SELECT TOP %d \
 
 PostModel.selectByUserByLimit = SELECT TOP %d \
     p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, u.user_viewonline \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
 	AND p.user_id = u.user_id \
@@ -107,7 +107,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT TOP %d \
   FROM jforum_topics t, jforum_posts p \
   WHERE p.post_id = t.topic_last_post_id \
   AND p.need_moderate = 0 \
-  ORDER BY topic_views DESC
+  ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC
 
 TopicModel.selectByUserByLimit = SELECT TOP %d \
     t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \

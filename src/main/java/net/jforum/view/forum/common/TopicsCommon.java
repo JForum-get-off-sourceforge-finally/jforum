@@ -141,7 +141,6 @@ public class TopicsCommon
 		UserSession userSession = SessionFacade.getUserSession();
 
 		long lastVisit = userSession.getLastVisit().getTime();
-		int hotBegin = SystemGlobals.getIntValue(ConfigKeys.HOT_TOPIC_BEGIN);
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		
 		List<Topic> newTopics = new ArrayList<Topic>(topics.size());
@@ -185,10 +184,7 @@ public class TopicsCommon
 				topic.setPaginate(false);
 				topic.setTotalPages(Double.valueOf(0));
 			}
-			
-			// Check if this is a hot topic
-			topic.setHot(topic.getTotalReplies() >= hotBegin);
-			
+
 			topic.setRead(read);
 			newTopics.add(topic);
 		}

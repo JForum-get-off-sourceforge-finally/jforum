@@ -61,6 +61,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import net.jforum.dao.DataAccessDriver;
 import net.jforum.exceptions.ForumException;
 
 /**
@@ -284,12 +285,9 @@ public final class SystemGlobals implements VariableStore
             p.store(out, "Installation specific configuration options");
             out.close();
 
-			// store in DB, as a workaround for #64, see ticket why it's currently commented out 
-			/*
 			if (saveToDB) {
 				DataAccessDriver.getInstance().newConfigDAO().update(p);
 			}
-			*/
         }
         catch (IOException e) {
             throw new ForumException(e);

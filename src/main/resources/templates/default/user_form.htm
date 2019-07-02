@@ -117,16 +117,8 @@ function validateForm()
 					<td class="row2"><input type="text" class="post" style="width:300px" maxlength="15" size="10" name="icq" value="${u.icq?default("")?html}" /> </td>
 				</tr>
 				<tr>
-					<td class="row1"><span class="gen">${I18n.getMessage("User.aim")}:</span></td>
-					<td class="row2"><input type="text" class="post" style="width:300px" maxlength="255" name="aim" value="${u.aim?default("")?html}" /> </td>
-				</tr>
-				<tr>
-					<td class="row1"><span class="gen">${I18n.getMessage("User.msn")}:</span></td>
-					<td class="row2"><input type="text" class="post" style="width:300px" maxlength="255" name="msn" value="${u.msnm?default("")?html}" /> </td>
-				</tr>
-				<tr>
-					<td class="row1"><span class="gen">${I18n.getMessage("User.yahoo")}:</span></td>
-					<td class="row2"><input type="text" class="post" style="width:300px" maxlength="255" name="yim" value="${u.yim?default("")?html}" /> </td>
+					<td class="row1"><span class="gen">${I18n.getMessage("User.skype")}:</span></td>
+					<td class="row2"><input type="text" class="post" style="width:300px" maxlength="255" name="skype" value="${u.skype?default("")?html}" /> </td>
 				</tr>
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.www")}:</span></td>
@@ -166,15 +158,6 @@ function validateForm()
 						<input type="radio" value="1" <#if u.isViewEmailEnabled()>checked="checked"</#if> name="viewemail" /> 
 						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
 						<input type="radio" value="0" <#if !u.isViewEmailEnabled()>checked="checked"</#if> name="viewemail" /> 
-						<span class="gen">${I18n.getMessage("User.no")}</span>
-					</td>
-				</tr>
-				<tr>
-					<td class="row1"><span class="gen">${I18n.getMessage("User.hideOnlineStatus")}:</span></td>
-					<td class="row2">
-						<input type="radio" value="1" <#if !u.isViewOnlineEnabled()>checked="checked"</#if> name="hideonline" /> 
-						<span class="gen">${I18n.getMessage("User.yes")}</span>&nbsp;&nbsp; 
-						<input type="radio" value="0" <#if u.isViewOnlineEnabled()>checked="checked"</#if> name="hideonline" /> 
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>

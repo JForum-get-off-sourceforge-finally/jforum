@@ -201,12 +201,10 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 
 	protected void fillUserFromResultSet(User user, ResultSet rs) throws SQLException
 	{
-		user.setAim(rs.getString("user_aim"));
 		user.setAvatar(rs.getString("user_avatar"));
 		user.setRankId(rs.getInt("rank_id"));
 		user.setPrivateMessagesEnabled(rs.getInt("user_allow_pm") == 1);
 		user.setNotifyOnMessagesEnabled(rs.getInt("user_notify") == 1);
-		user.setViewOnlineEnabled(rs.getInt("user_viewonline") == 1);
 		user.setPassword(rs.getString("user_password"));
 		user.setViewEmailEnabled(rs.getInt("user_viewemail") == 1);		
 		user.setAvatarEnabled(rs.getInt("user_allowavatar") == 1);
@@ -226,11 +224,10 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		user.setRegistrationDate(new Date(rs.getTimestamp("user_regdate").getTime()));
 		user.setSignature(rs.getString("user_sig"));
 		user.setWebSite(rs.getString("user_website"));
-		user.setYim(rs.getString("user_yim"));
 		user.setUsername(rs.getString("username"));
 		user.setLang(rs.getString("user_lang"));
 		user.setAttachSignatureEnabled(rs.getInt("user_attachsig") == 1);
-		user.setMsnm(rs.getString("user_msnm"));
+		user.setSkype(rs.getString("user_skype"));
 		user.setActive(rs.getInt("user_active"));
 		user.setKarma(new KarmaStatus(user.getId(), rs.getDouble("user_karma")));
 		user.setNotifyPrivateMessagesEnabled(rs.getInt("user_notify_pm") == 1);
@@ -273,42 +270,39 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("UserModel.update"));
 
-			pstmt.setString(1, user.getAim());
-			pstmt.setString(2, user.getAvatar());
-			pstmt.setInt(3, user.isPrivateMessagesEnabled() ? 1 : 0);
-			pstmt.setInt(4, user.isAvatarEnabled() ? 1 : 0);
-			pstmt.setInt(5, user.isBbCodeEnabled() ? 1 : 0);
-			pstmt.setInt(6, user.isHtmlEnabled() ? 1 : 0);
-			pstmt.setInt(7, user.isSmiliesEnabled() ? 1 : 0);
-			pstmt.setString(8, user.getEmail());
-			pstmt.setString(9, user.getFrom());
-			pstmt.setString(10, user.getIcq());
-			pstmt.setString(11, user.getInterests());
-			pstmt.setString(12, user.getOccupation());
-			pstmt.setString(13, user.getSignature());
-			pstmt.setString(14, user.getWebSite());
-			pstmt.setString(15, user.getYim());
-			pstmt.setString(16, user.getMsnm());
-			pstmt.setString(17, user.getPassword());
-			pstmt.setInt(18, user.isViewEmailEnabled() ? 1 : 0);
-			pstmt.setInt(19, user.isViewOnlineEnabled() ? 1 : 0);
-			pstmt.setInt(20, user.isNotifyOnMessagesEnabled() ? 1 : 0);
-			pstmt.setInt(21, user.isAttachSignatureEnabled() ? 1 : 0);
-			pstmt.setString(22, user.getUsername());
-			pstmt.setString(23, user.getLang());
-			pstmt.setInt(24, user.isNotifyPrivateMessagesEnabled() ? 1 : 0);
-			pstmt.setString(25, user.getBiography());
+			pstmt.setString(1, user.getAvatar());
+			pstmt.setInt(2, user.isPrivateMessagesEnabled() ? 1 : 0);
+			pstmt.setInt(3, user.isAvatarEnabled() ? 1 : 0);
+			pstmt.setInt(4, user.isBbCodeEnabled() ? 1 : 0);
+			pstmt.setInt(5, user.isHtmlEnabled() ? 1 : 0);
+			pstmt.setInt(6, user.isSmiliesEnabled() ? 1 : 0);
+			pstmt.setString(7, user.getEmail());
+			pstmt.setString(8, user.getFrom());
+			pstmt.setString(9, user.getIcq());
+			pstmt.setString(10, user.getInterests());
+			pstmt.setString(11, user.getOccupation());
+			pstmt.setString(12, user.getSignature());
+			pstmt.setString(13, user.getWebSite());
+			pstmt.setString(14, user.getSkype());
+			pstmt.setString(15, user.getPassword());
+			pstmt.setInt(16, user.isViewEmailEnabled() ? 1 : 0);
+			pstmt.setInt(17, user.isNotifyOnMessagesEnabled() ? 1 : 0);
+			pstmt.setInt(18, user.isAttachSignatureEnabled() ? 1 : 0);
+			pstmt.setString(19, user.getUsername());
+			pstmt.setString(20, user.getLang());
+			pstmt.setInt(21, user.isNotifyPrivateMessagesEnabled() ? 1 : 0);
+			pstmt.setString(22, user.getBiography());
 
 			if (user.getLastVisit() == null) {
 				user.setLastVisit(new Date());
 			}
 
-			pstmt.setTimestamp(26, new Timestamp(user.getLastVisit().getTime()));
-			pstmt.setInt(27, user.notifyAlways() ? 1 : 0);
-			pstmt.setInt(28, user.notifyText() ? 1 : 0);
-            pstmt.setString(29, user.getTwitter());
-			pstmt.setInt(30, user.getRankId());
-			pstmt.setInt(31, user.getId());
+			pstmt.setTimestamp(23, new Timestamp(user.getLastVisit().getTime()));
+			pstmt.setInt(24, user.notifyAlways() ? 1 : 0);
+			pstmt.setInt(25, user.notifyText() ? 1 : 0);
+            pstmt.setString(26, user.getTwitter());
+			pstmt.setInt(27, user.getRankId());
+			pstmt.setInt(28, user.getId());
 
 			pstmt.executeUpdate();
 		}
