@@ -60,8 +60,14 @@
 					<td class="row2" valign="middle" align="center"><span class="postdetails">${topic.totalViews}</span></td>
 					<td class="row3right" valign="middle" nowrap="nowrap" align="center">
 						<#if (topic.lastPostTime?length > 0)>
-						   <span class="name">${topic.lastPostTime}<br />
-							<a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+							<span class="name">
+							<#if topic.type == TOPIC_WIKI>
+								${topic.lastEditTimeStr}
+								<br />
+							<#else>
+								${topic.lastPostTime}
+								<br /><a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+							</#if>
 							<#assign startPage = ""/>
 							<#if (topic.totalReplies + 1 > topicsPerPage?number)>
 								<#assign startPage = ((topic.totalReplies / topicsPerPage?number)?int * topicsPerPage?number) +"/"/>

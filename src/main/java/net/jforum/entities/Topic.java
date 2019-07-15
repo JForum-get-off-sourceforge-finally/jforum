@@ -391,6 +391,13 @@ public class Topic implements Serializable
 	}
 
 	/**
+	 * @return the lastEditTime as formatted string
+	 */
+	public String getLastEditTimeStr() {
+        return ViewCommon.formatDate(lastEditTime);
+	}
+
+	/**
 	 * @param read
 	 */
 	public void setRead(boolean read) {
