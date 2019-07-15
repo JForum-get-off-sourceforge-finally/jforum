@@ -17,7 +17,8 @@
   <div class="mobilePostText">
      ${I18n.getMessage("ForumIndex.answers")}: ${topic.totalReplies}<br />
      ${I18n.getMessage("ForumIndex.author")}: <a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a><br />
-     ${I18n.getMessage("ForumIndex.lastMessage")}: ${topic.lastPostTime} ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+     ${I18n.getMessage("ForumIndex.lastMessage")}: <#if topic.type == TOPIC_WIKI>${topic.lastEditTimeStr}<#else>${topic.lastPostTime}</#if>
+	 ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
      <#if topic.paginate>
 		 <span class="gensmall">
 		  <br /><@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>

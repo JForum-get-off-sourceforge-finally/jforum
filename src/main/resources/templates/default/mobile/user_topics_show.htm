@@ -15,7 +15,9 @@
 		<#if (topic.totalReplies + 1 > postsPerPage?number)>
 			<#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
 		</#if>
-               ${I18n.getMessage("ForumIndex.lastMessage")}: <a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}#p${topic.lastPostId}")}">${topic.lastPostTime}</a> ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username?html}</a><br />
+               ${I18n.getMessage("ForumIndex.lastMessage")}:
+			   <a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}#p${topic.lastPostId}")}"><#if topic.type == TOPIC_WIKI>${topic.lastEditTimeStr}<#else>${topic.lastPostTime}</#if></a>
+			   ${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username?html}</a><br />
 		<#if topic.paginate>
 			<br>
 			<span class="gensmall">
