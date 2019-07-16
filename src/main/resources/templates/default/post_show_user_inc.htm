@@ -1,3 +1,6 @@
+<#if topic.type == TOPIC_WIKI>
+	<div style="filter: opacity(0.2)">
+</#if>
 <span class="genmed"><nobr><b><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username?html}</a></b></nobr></span>
 <br />
 <#if showKarma && karmaEnabled && post.userId != 1>
@@ -48,3 +51,6 @@
 	</#if>
 </#if>
 </span>
+<#if topic.type == TOPIC_WIKI>
+	</div>
+</#if>
