@@ -62,12 +62,15 @@ import net.jforum.search.SearchPost;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericLuceneDAO implements LuceneDAO
 {
+	private static final Logger LOGGER = Logger.getLogger(GenericLuceneDAO.class);
+
 	/**
 	 * @see net.jforum.dao.LuceneDAO#getPostsToIndex(int, int)
 	 */
@@ -226,7 +229,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	private Post makePost(ResultSet rs) throws SQLException
 	{
 		Post post = new SearchPost();
-		
+
 		post.setId(rs.getInt("post_id"));
 		post.setForumId(rs.getInt("forum_id"));
 		post.setTopicId(rs.getInt("topic_id"));
@@ -236,15 +239,18 @@ public class GenericLuceneDAO implements LuceneDAO
 		post.setBbCodeEnabled(rs.getInt("enable_bbcode") == 1);
 		post.setSmiliesEnabled(rs.getInt("enable_smilies") == 1);
 		post.hasAttachments(rs.getInt("attach") == 1);
+		post.setTopicType(rs.getInt("topic_type"));
+		Timestamp ts = rs.getTimestamp("post_edit_time");
+		if (ts != null) {
+			post.setEditTime(new Date(ts.getTime()));
+		}
 
 		String subject = rs.getString("post_subject");
-		
 		if (StringUtils.isBlank(subject)) {
 			subject = rs.getString("topic_title");
 		}
-		
 		post.setSubject(subject);
-		
+
 		return post;
 	}
 	

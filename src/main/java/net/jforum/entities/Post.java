@@ -74,6 +74,7 @@ public class Post implements Serializable
 	private KarmaStatus karma;
 	private boolean hasAttachments;
 	private boolean moderate;
+	private int topicType;
 
 	public Post() { }
 	
@@ -269,6 +270,10 @@ public class Post implements Serializable
 		return this.userId;
 	}
 
+	public int getTopicType() {
+		return this.topicType;
+	}
+
 	/**
 	 * Gets the IP of the user who have posted the message
 	 * 
@@ -383,6 +388,10 @@ public class Post implements Serializable
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public void setTopicType(int topicType) {
+		this.topicType = topicType;
 	}
 	
 	/**

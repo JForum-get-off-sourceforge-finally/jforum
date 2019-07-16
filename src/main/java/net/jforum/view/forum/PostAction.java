@@ -819,6 +819,7 @@ public class PostAction extends Command
 				return;
 			}
 
+			post.setTopicType(this.request.getIntParameter("topic_type"));
 			postDao.update(post);
 
 			// Attachments
@@ -1184,6 +1185,7 @@ public class PostAction extends Command
 			post.hasAttachments(attachments.getAttachments(post.getId(), forumId).size() > 0);
 			topic.setHasAttach(topic.hasAttach()||post.hasAttachments());
 
+			post.setTopicType(this.request.getIntParameter("topic_type"));
 			postDao.index(post);
 
 			if (!moderate) {

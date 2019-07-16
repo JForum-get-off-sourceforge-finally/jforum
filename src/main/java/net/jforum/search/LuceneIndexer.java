@@ -235,6 +235,7 @@ public class LuceneIndexer
 		doc.add(new StringField(SearchFields.Keyword.USER_ID, String.valueOf(post.getUserId()), Field.Store.YES));
 		doc.add(new NumericDocValuesField(SearchFields.Keyword.DATE, post.getTime().getTime()));
 		doc.add(new StoredField(SearchFields.Keyword.DATE, post.getTime().getTime()));
+		doc.add(new StringField(SearchFields.Keyword.TOPIC_TYPE, String.valueOf(post.getTopicType()), Field.Store.YES));
 
 		// remove UBB tags so that searches for "quote" doesn't find posts that include a quote tag
 		String text = post.getText();

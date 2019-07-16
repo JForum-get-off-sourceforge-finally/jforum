@@ -27,7 +27,8 @@ ${I18n.getMessage("Search.searchResults")}: ${totalRecords}
 	<div class="mobilePostText">
 		${I18n.getMessage("Search.author")}: <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a><br>
 		${I18n.getMessage("Search.forum")}: <a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${post.forum.name?html}</a><br /> 
-               ${I18n.getMessage("Search.postDate")}: ${post.formattedTime}<br />
+		${I18n.getMessage("Search.postDate")}: ${post.formattedTime}<br />
+		<#if post.topicType == TOPIC_WIKI && post.formattedEditTime != "">${I18n.getMessage("Search.edited")?capitalize}: ${post.formattedEditTime}<br /></#if>
 	</div>
 	  <div class="latestpost">${post.mobileText}</div>  		
   <br />

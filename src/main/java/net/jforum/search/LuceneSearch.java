@@ -181,6 +181,7 @@ public class LuceneSearch implements NewDocumentAdded
 
 		SortField forumGroupingSortField = new SortField(SearchFields.Keyword.FORUM_ID, SortField.Type.INT, false);
 		SortField dateSortField = new SortField(SearchFields.Keyword.DATE, SortField.Type.LONG, args.isOrderDirectionDescending());
+		// TODO: for wiki topics, we should use the edit date, not the post date
 
 		if ("time".equals(args.getOrderBy())) {
 			// sort by date
@@ -228,23 +229,6 @@ public class LuceneSearch implements NewDocumentAdded
 			if (userIds.length > 1000) {
 				throw new RuntimeException("This first name/last name combination matches too many users. Please be more specific.");
 			}
-
-			/*
-			 if (args.shouldLimitSearchToTopicStarted()) {			 
-				// just looking for topics started by this user
-				criteria.append("+(").append(SearchFields.Keyword.IS_FIRST_POST).append(":true) ");
-			} else {
-				// if searching for all posts by a member, we have
-				// the option of filtering by those I started
-				if (args.isTopicsIstarted()) {
-					criteria.append("+(")
-							.append(SearchFields.Keyword.TOPIC_STARTER_ID)
-							.append(':')
-							.append(userId<0 ? "\\" : "")
-							.append(userId)
-							.append(')');
-				}
-			}*/
 
 			StringBuilder query = new StringBuilder();
 			for (int i = 0; i < userIds.length; i++) {
