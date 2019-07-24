@@ -70,9 +70,11 @@ public class ContextListener implements ServletContextListener {
     @Override public void contextInitialized (ServletContextEvent sce) {
         final ServletContext application = sce.getServletContext();
         String appPath = application.getRealPath("");
-        if (appPath != null) {
+        if (appPath != null && appPath.endsWith(File.separator)) {
+			// On Tomcat, getRealPath ends with a "/", whereas on Jetty, it does not. The next line allows for that.
         	appPath = appPath.substring(0, appPath.lastIndexOf(File.separator));
         }
+		LOGGER.info("application root is "+appPath);
         LoggerHelper.checkLoggerInitialization(appPath + "/WEB-INF", appPath + "/WEB-INF/classes");
         final String containerInfo = application.getServerInfo();
         ConfigLoader.startSystemglobals(appPath);

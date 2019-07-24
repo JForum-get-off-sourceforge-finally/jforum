@@ -35,6 +35,10 @@ public class CsrfListener implements ServletContextListener {
     @Override public void contextInitialized(ServletContextEvent event) {
         ServletContext context = event.getServletContext();
         String appPath = event.getServletContext().getRealPath("");
+        if (appPath != null && appPath.endsWith(File.separator)) {
+			// On Tomcat, getRealPath ends with a "/", whereas on Jetty, it does not. The next line allows for that.
+        	appPath = appPath.substring(0, appPath.lastIndexOf(File.separator));
+        }
         String config = context.getInitParameter(CONFIG_PARAM);
         String extensions = context.getInitParameter(CONFIG_EXTENSIONS_PARAM);
         if (config == null) {
