@@ -411,12 +411,14 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 	@Override public void addOrReplaceParameter(final String name, final Object value)
 	{
-		// only called for "action" and "module" - which have String values
-		String val = (String) value;
-		if (val != null) {
+		if (value != null && (MODULE.equals(name) || ACTION.equals(name))) {
+			// make safe against XSS attacks
+			String val = (String) value;
 			val = val.replaceAll("[^\\p{Alpha}]", "");
+			this.query.put(name, val);
+		} else {
+			this.query.put(name, value);
 		}
-		this.query.put(name, val);
 	}
 
 	/**
