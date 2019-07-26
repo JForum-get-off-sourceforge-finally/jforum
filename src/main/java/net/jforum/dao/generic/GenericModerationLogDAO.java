@@ -128,7 +128,7 @@ public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDA
 		ModerationLog log = new ModerationLog();
 		
 		log.setId(rs.getInt("log_id"));
-		log.setDescription(this.readDesriptionFromResultSet(rs));
+		log.setDescription(this.readDescriptionFromResultSet(rs));
 		log.setOriginalMessage(this.readOriginalMessageFromResultSet(rs));
 		log.setType(rs.getInt("log_type"));
 		log.setDate(new Date(rs.getTimestamp("log_date").getTime()));
@@ -150,7 +150,7 @@ public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDA
 		return log;
 	}
 	
-	protected String readDesriptionFromResultSet(ResultSet rs) throws SQLException
+	protected String readDescriptionFromResultSet(ResultSet rs) throws SQLException
 	{
 		return rs.getString("log_description");
 	}

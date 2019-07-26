@@ -110,9 +110,9 @@ public class OracleModerationLogDAO extends GenericModerationLogDAO
 	}
 	
 	/**
-	 * @see net.jforum.dao.generic.GenericModerationLogDAO#readDesriptionFromResultSet(java.sql.ResultSet)
+	 * @see net.jforum.dao.generic.GenericModerationLogDAO#readDescriptionFromResultSet(java.sql.ResultSet)
 	 */
-	@Override protected String readDesriptionFromResultSet(final ResultSet resultSet) throws SQLException 
+	@Override protected String readDescriptionFromResultSet(final ResultSet resultSet) throws SQLException 
 	{
 		return OracleUtils.readBlobUTF16BinaryStream(resultSet, "log_description");
 	}
