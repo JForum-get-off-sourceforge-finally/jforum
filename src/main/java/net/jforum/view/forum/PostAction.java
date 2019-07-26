@@ -1185,7 +1185,7 @@ public class PostAction extends Command
 			post.hasAttachments(attachments.getAttachments(post.getId(), forumId).size() > 0);
 			topic.setHasAttach(topic.hasAttach()||post.hasAttachments());
 
-			post.setTopicType(this.request.getIntParameter("topic_type"));
+			post.setTopicType(topic.getType());
 			postDao.index(post);
 
 			if (!moderate) {
