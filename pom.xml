@@ -124,7 +124,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.6</version>
+			<version>1.7</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.freemarker</groupId>
@@ -259,12 +259,12 @@
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
-			<version>7.2.2.jre8</version>
+			<version>7.4.1.jre8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-parsers</artifactId>
-			<version>1.21</version>
+			<version>1.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.owasp</groupId>
