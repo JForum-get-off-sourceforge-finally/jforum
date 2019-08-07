@@ -1513,7 +1513,6 @@ public class PostAction extends Command
 
 	public void listSmilies()
 	{
-		this.setTemplateName(SystemGlobals.getValue(ConfigKeys.TEMPLATE_DIR) + "/empty.htm");
 		this.setTemplateName(TemplateKeys.POSTS_LIST_SMILIES);
 		this.context.put("smilies", SmiliesRepository.getSmilies());
 	}
