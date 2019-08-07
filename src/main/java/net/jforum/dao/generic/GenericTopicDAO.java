@@ -454,8 +454,8 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	/**
 	 * @see net.jforum.dao.TopicDAO#selectAllByForumByLimit(int, int, int)
 	 *
-	 * A count smaller than zero means no limit - simplied SQL is used
-	 * for that in order to avoid a limit of Integer.MAX_VALUE
+	 * A count smaller than zero means no limit - simplified SQL is used
+	 * in that case in order to avoid a limit of Integer.MAX_VALUE
 	 */
 	@Override public List<Topic> selectAllByForumByLimit(int forumId, int startFrom, int count)
 	{

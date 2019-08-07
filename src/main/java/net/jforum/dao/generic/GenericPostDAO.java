@@ -356,8 +356,8 @@ public class GenericPostDAO extends AutoKeys implements net.jforum.dao.PostDAO
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 *
-	 * A count smaller than zero means no limit - simplied SQL is used
-	 * for that in order to avoid a limit of Integer.MAX_VALUE
+	 * A count smaller than zero means no limit - simplified SQL is used
+	 * in that case in order to avoid a limit of Integer.MAX_VALUE
 	 */
 	@Override public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
 	{

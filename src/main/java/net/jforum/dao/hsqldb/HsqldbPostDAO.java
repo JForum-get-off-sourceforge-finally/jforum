@@ -49,7 +49,6 @@ import net.jforum.entities.Post;
 
 /**
  * @author Marc Wick
- * @version $Id$
  */
 public class HsqldbPostDAO extends GenericPostDAO
 {
@@ -60,15 +59,20 @@ public class HsqldbPostDAO extends GenericPostDAO
 	{
 		return super.selectLatestByForumForRSS(limit, forumId);
 	}
-	
+
 	/**
 	 * @see net.jforum.dao.PostDAO#selectAllByTopicByLimit(int, int, int)
 	 */
 	@Override public List<Post> selectAllByTopicByLimit(final int topicId, final int startFrom, final int count)
 	{
-		return super.selectAllByTopicByLimit(startFrom, count, topicId);
+		if (count < 0) {
+			// 2nd and 3rd parameters are ignored anyway
+			return super.selectAllByTopicByLimit(topicId, startFrom, count);
+		} else {
+			return super.selectAllByTopicByLimit(startFrom, count, topicId);
+		}
 	}
-	
+
 	/**
 	 * @see net.jforum.dao.generic.GenericPostDAO#selectByUserByLimit(int, int, int)
 	 */

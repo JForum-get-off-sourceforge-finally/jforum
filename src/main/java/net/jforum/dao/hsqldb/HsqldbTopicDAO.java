@@ -55,7 +55,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Marc Wick
- * @version $Id$
  */
 public class HsqldbTopicDAO extends GenericTopicDAO
 {
@@ -64,6 +63,11 @@ public class HsqldbTopicDAO extends GenericTopicDAO
 	 */
 	@Override public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
 	{
+		if (count < 0) {
+			// 2nd and 3rd parameter are ignored anyway
+			return super.selectAllByForumByLimit(forumId, startFrom, count);
+		}
+
 		final String sql = SystemGlobals.getSql("TopicModel.selectAllByForumByLimit");
 
 		PreparedStatement pstmt = null;
