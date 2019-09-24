@@ -171,8 +171,8 @@ PrivateMessageModel.baseListing = SELECT * \
     FROM ( SELECT ROW_NUMBER() OVER (ORDER BY pm.privmsgs_date DESC) - 1 AS rownumber, \
     pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username \
     FROM jforum_privmsgs pm, jforum_users u \
-    #FILTER# \
-    WHERE rownumber >= ? and rownumber < ?
+    #FILTER# ) res \
+    WHERE res.rownumber >= ? and res.rownumber < ?
 
 # #############
 # SmiliesModel
