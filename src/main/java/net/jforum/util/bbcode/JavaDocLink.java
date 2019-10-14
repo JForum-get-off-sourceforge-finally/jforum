@@ -108,22 +108,12 @@ public class JavaDocLink implements Substitution {
     // Sun / Oracle
     private static final String J2SE_URL = VERSIONED+":"+JSE_KEY;
     private static final String J2EE_URL = VERSIONED+":"+JEE_KEY;
-	// JME 8 is very different - removed some packages, added some new ones
-	// https://docs.oracle.com/javame/8.0/api/meep/api/index.html
-    private static final String JME_URL = "https://docs.oracle.com/javame/config/cldc/ref-impl/midp2.0/jsr118/";
-	// JOGL 1.1.1a
-    // private static final String JOGL_URL = "http://www.coderanch.com/how-to/javadoc/jogl-1.1.1a/";
-	// JOGL 2.0
 	private static final String JAVAFX_URL = "https://docs.oracle.com/javafx/2/api/";
     private static final String JOGL_URL = "https://www.jogamp.org/deployment/v2.3.2/javadoc/jogl/javadoc/";
     private static final String JAVA3D_URL = "https://www.jogamp.org/deployment/java3d/1.6.0-final/javadoc/";
     private static final String JMF_URL = "https://docs.oracle.com/cd/E17802_01/j2se/javase/technologies/desktop/media/jmf/2.1.1/apidocs/";
     private static final String JAI_URL = "https://docs.oracle.com/cd/E17802_01/products/products/java-media/jai/forDevelopers/jai-apidocs/";
-    private static final String JAVAHELP_URL = "http://www.coderanch.com/how-to/javadoc/javahelp-2.0_05/";
-    private static final String JAVASPEECH_URL = "https://docs.oracle.com/cd/E17802_01/products/products/java-media/speech/forDevelopers/jsapi-doc/";
-    private static final String COMMONDOM_URL = "https://docs.oracle.com/javase/8/docs/jre/api/plugin/dom/";
-    private static final String JERSEY1_URL = "https://jersey.github.io/apidocs/1.19.1/jersey/";
-    private static final String JERSEY2_URL = "https://jersey.github.io/apidocs/latest/jersey/";
+    private static final String JERSEY2_URL = "https://eclipse-ee4j.github.io/jersey.github.io/apidocs/latest/jersey/index.html";
     private static final String COM_SUN_MAIL_URL = "https://javaee.github.io/javamail/docs/api/";
     private static final String JAVAXCOMM_URL = "https://docs.oracle.com/cd/E17802_01/products/products/javacomm/reference/api/";
 
@@ -131,11 +121,10 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_1_1/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_2_0/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
-    private static final String STRUTS1_URL = "https://struts.apache.org/release/1.3.x/apidocs/";
     private static final String STRUTS2_URL = "https://struts.apache.org/maven/struts2-core/apidocs/";
     private static final String WICKET_URL = "https://ci.apache.org/projects/wicket/apidocs/6.x/";
     private static final String XMLBEANS_URL = "https://xmlbeans.apache.org/docs/2.6.0/reference/";
@@ -172,27 +161,20 @@ public class JavaDocLink implements Substitution {
     // Other 3rd party
     private static final String JUNIT_URL = "http://junit.org/junit5/docs/current/api/";
     private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
-    private static final String ITEXT2_URL = "http://www.coderanch.com/how-to/javadoc/itext-2.1.7/";
+    private static final String ITEXT2_URL = "http://www.ulfdittmer.com/javadoc/openpdf/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
 	private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.13/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
-    private static final String IMAGEJ_URL = "http://rsb.info.nih.gov/ij/developer/api/";
+    private static final String IMAGEJ_URL = "https://rsb.info.nih.gov/ij/developer/api/";
     private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
     private static final String XOM_URL = "http://www.xom.nu/apidocs/";
-    private static final String JCHART2D_URL = "http://jchart2d.sourceforge.net/docs/javadoc/";
     private static final String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
     private static final String STRIPES_URL = "http://stripes.sourceforge.net/docs/current/javadoc/";
-    private static final String OPENCHART_URL = "http://www.coderanch.com/how-to/javadoc/openchart2-1.4.3/";
-    private static final String QUICKTIME_URL = "http://www.coderanch.com/how-to/javadoc/qtjavadocs/";
-    private static final String APPLEJAVA_URL = "http://www.coderanch.com/how-to/javadoc/appledoc/api/";
     private static final String ANDROID_URL = "https://developer.android.com/reference/";
-    private static final String JEXCEL_URL = "http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/";
     private static final String MPXJ_URL = "http://mpxj.sourceforge.net/apidocs/";
-    private static final String HTTPUNIT_URL = "http://httpunit.sourceforge.net/doc/api/";
     private static final String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
     private static final String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
     private static final String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
-    private static final String JDOM1_URL = "http://www.jdom.org/docs/apidocs.1.1/";
     private static final String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
     private static final String SEAM_URL = "http://docs.jboss.org/seam/3/latest/api/";
     private static final String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
@@ -202,7 +184,7 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.0-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.1-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.ulfdittmer.com/javadoc/jaxen-1.2.0/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
@@ -237,15 +219,6 @@ public class JavaDocLink implements Substitution {
         {"javax.xml.registry", J2EE_URL},
         {"javax.xml.rpc", J2EE_URL},
         {"javax.comm", JAVAXCOMM_URL},
-
-        {"com.sun.java.browser.dom", COMMONDOM_URL},
-        {"org.w3c.dom.css", COMMONDOM_URL},
-        {"org.w3c.dom.html", COMMONDOM_URL},
-        {"org.w3c.dom.ranges", COMMONDOM_URL},
-        {"org.w3c.dom.ranges", COMMONDOM_URL},
-        {"org.w3c.dom.stylesheets", COMMONDOM_URL},
-        {"org.w3c.dom.traversal", COMMONDOM_URL},
-        {"org.w3c.dom.views", COMMONDOM_URL},
 
         {"java.applet", J2SE_URL},
         {"java.awt", J2SE_URL},
@@ -286,9 +259,6 @@ public class JavaDocLink implements Substitution {
         {"org.w3c.dom", J2SE_URL}, // after all the other W3C DOM subpackages in Common DOM
         {"org.xml.sax", J2SE_URL},
 
-        {"javax.microedition", JME_URL},
-        {"javax.help", JAVAHELP_URL},
-        {"javax.speech", JAVASPEECH_URL},
 		{"javafx", JAVAFX_URL},
         {"javax.media.jai", JAI_URL},
         {"com.sun.j3d", JAVA3D_URL},
@@ -298,8 +268,6 @@ public class JavaDocLink implements Substitution {
         {"javax.media.nativewindow", JOGL_URL},
         {"javax.media.opengl", JOGL_URL},
         {"javax.media", JMF_URL}, // after all the other javax.media subpackages in JAI, Java3D and JOGL
-        {"com.sun.jersey", JERSEY1_URL},
-        {"com.sun.ws.rs.ext", JERSEY1_URL},
         {"org.glassfish.jersey", JERSEY2_URL},
         {"com.sun.research.ws.wadl", JERSEY2_URL},
 
@@ -307,8 +275,6 @@ public class JavaDocLink implements Substitution {
         {"org.apache.poi", POI_URL},
         {"org.apache.log4j", LOG4J_URL},
         {"org.apache.axis2", AXIS2_URL},
-        {"org.apache.strutsel", STRUTS1_URL},
-        {"org.apache.struts", STRUTS1_URL},
         {"org.apache.struts2", STRUTS2_URL},
         {"com.opensymphony.xwork2", STRUTS2_URL},
         {"org.apache.wicket", WICKET_URL},
@@ -361,21 +327,13 @@ public class JavaDocLink implements Substitution {
         {"org.jfree.data", JFREECHART_URL},
         {"net.sourceforge.jwebunit", JWEBUNIT_URL},
         {"nu.xom", XOM_URL},
-        {"info.monitorenter", JCHART2D_URL},
         {"jcifs", JCIFS_URL},
         {"net.sourceforge.stripes", STRIPES_URL},
-        {"com.approximatrix.charting", OPENCHART_URL},
-        {"quicktime", QUICKTIME_URL},
-        {"com.apple.eawt", APPLEJAVA_URL},
-        {"com.apple.eio", APPLEJAVA_URL},
         {"android", ANDROID_URL},
         {"dalvik", ANDROID_URL},
-        {"com.meterware", HTTPUNIT_URL},
         {"com.gargoylesoftware.htmlunit", HTMLUNIT_URL},
         {"org.jdom2", JDOM2_URL},
-        {"org.jdom", JDOM1_URL},
         {"org.dom4j", DOM4J_URL},
-        {"jxl", JEXCEL_URL},
         {"net.sf.mpxj", MPXJ_URL},
         {"org.springframework", SPRING_URL},
         {"org.jboss.seam", SEAM_URL},
