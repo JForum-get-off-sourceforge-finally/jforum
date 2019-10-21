@@ -80,7 +80,7 @@ public class PostCommon
 {
     private static final Logger LOGGER = Logger.getLogger(PostCommon.class);
 
-	public static Post preparePostForDisplay(Post post)
+	public static Post preparePostForDisplay (Post post)
 	{
 		if (post.getText() == null) {
 			return post;
@@ -101,7 +101,6 @@ public class PostCommon
 		text = text.replaceAll("\n", "<br /> ");
 
 		SafeHtml safeHtml = new SafeHtml();
-
 		post.setText(safeHtml.makeSafe(text));
 		post.setSubject(safeHtml.makeSafe(subject));
 		processText(post);
@@ -109,7 +108,7 @@ public class PostCommon
 		return post;
 	}
 
-	private static void processText(Post post)
+	private static void processText (Post post)
 	{
 		int codeIndex = post.getText().indexOf("[code");
 		int codeEndIndex = codeIndex > -1 ? post.getText().indexOf("[/code]") : -1;
@@ -159,7 +158,7 @@ public class PostCommon
 		JForumExecutionContext.getTemplateContext().put("hasCodeBlock", hasCodeBlock);
 	}
 
-	private static String parseCode(String origText)
+	private static String parseCode (String origText)
 	{
 		StringBuilder processed = new StringBuilder(origText.length());
 		Matcher contentMatcher = Pattern.compile("(\\[code.*?\\])(.*)(\\[/code\\])", Pattern.DOTALL).matcher(origText);
@@ -170,8 +169,7 @@ public class PostCommon
 			ViewCommon.replaceAll(contents, "<", "&lt;");
 			ViewCommon.replaceAll(contents, ">", "&gt;");
 			// Note: there is no replacing for spaces and tabs as
-			// we are relying on the JavaScript SyntaxHighlighter library
-			// to do it for us
+			// we are relying on the JavaScript SyntaxHighlighter library to do it for us
 			processed.append(contentMatcher.group(1));
 			processed.append(contents);
 			processed.append(contentMatcher.group(3));
@@ -199,7 +197,8 @@ public class PostCommon
 		return text;
 	}
 
-    public static String prepareTextForDisplayExceptCodeTag (String text, boolean isBBCodeEnabled, boolean isSmiliesEnabled) {
+    public static String prepareTextForDisplayExceptCodeTag (String text, boolean isBBCodeEnabled, boolean isSmiliesEnabled)
+	{
         if (text == null) {
             return text;
         }
@@ -237,7 +236,7 @@ public class PostCommon
         return text;
     }
 
-	public static String parseDefaultRequiredBBCode(String origText)
+	public static String parseDefaultRequiredBBCode (String origText)
 	{
 		String text = origText;
 		Collection<BBCode> list = BBCodeRepository.getBBCollection().getAlwaysProcessList();
@@ -256,7 +255,8 @@ public class PostCommon
 	 * @return the parsed text. Note that the StringBuilder you pass as parameter
 	 * will already have the right contents, as the replaces are done on the instance
 	 */
-    private static String processSmilies(StringBuilder text) {
+    private static String processSmilies (StringBuilder text)
+	{
         List<Smilie> smilies = SmiliesRepository.getSmilies();
         BBCodeHandler bbch = BBCodeRepository.getBBCollection();
         for (Iterator<Smilie> iter = smilies.iterator(); iter.hasNext();) {
@@ -311,7 +311,7 @@ public class PostCommon
 		return fillPostFromRequest(post, false);
 	}
 
-	public static Post fillPostFromRequest(Post post, boolean isEdit) 
+	public static Post fillPostFromRequest (Post post, boolean isEdit) 
 	{
 		RequestContext request = JForumExecutionContext.getRequest();
 
@@ -339,7 +339,7 @@ public class PostCommon
 		return post;
 	}
 
-	public static boolean canEditPost(Post post)
+	public static boolean canEditPost (Post post)
 	{
 		TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
 		Topic topic = dao.selectById(post.getTopicId());
@@ -352,7 +352,7 @@ public class PostCommon
 				);
 	}
 
-	public static List<Post> topicPosts(PostDAO dao, boolean canEdit, int userId, int topicId, int start, int count)
+	public static List<Post> topicPosts (PostDAO dao, boolean canEdit, int userId, int topicId, int start, int count)
 	{
 		boolean needPrepare = true;
 		List<Post> posts;
@@ -373,7 +373,7 @@ public class PostCommon
 
 			helperList.add(needPrepare ? PostCommon.preparePostForDisplay(post) : post);
 
-			if (!hasCodeBlock && post.getText().indexOf("pre name=\"code\"") != -1) {
+			if (!hasCodeBlock && post.getText().indexOf("code class=\"language-") != -1) {
 				hasCodeBlock = true;
 			}
 		}

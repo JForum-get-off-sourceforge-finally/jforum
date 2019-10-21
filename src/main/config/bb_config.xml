@@ -13,23 +13,23 @@
 <bbConfig>
 	<!-- CODE -->
 	<match name="code">
-		<regex>(?s)\[code\](.*?)\[/code\]</regex>
+		<regex>(?s)\[code\]\s*(.*?)\s*\[/code\]</regex>
 		<replace>
 		<![CDATA[
- 		<pre name="code" class="brush: java">$1</pre>
+ 		<pre class="line-numbers"><code class="language-java match-braces">$1</code></pre>
 		]]>
 		</replace>
 	</match>
 
 	<match name="code-highlight">
-		<regex>(?s)(?i)\[code=['"]?(.*?[^'"])['"]?\](.*?)\[/code\]</regex>
+		<regex>(?s)(?i)\[code=['"]?(.*?[^'"])['"]?\]\s*(.*?)\s*\[/code\]</regex>
 		<replace>
 		<![CDATA[
- 		<pre name="code" class="brush: $1">$2</pre>
+ 		<pre class="line-numbers"><code class="language-$1 match-braces">$2</code></pre>
 		]]>
 		</replace>
 	</match>
-  
+
 	<match name="openSimpleQuote">
 		<regex>(?i)\[quote\]</regex>
 		<replace>
