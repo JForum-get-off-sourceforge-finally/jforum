@@ -46,6 +46,11 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import com.octo.captcha.image.ImageCaptcha;
 
@@ -60,6 +65,8 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Logger;
+
 /**
  * Stores information about user's session.
  * 
@@ -67,6 +74,8 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class UserSession implements Serializable
 {
+    private static final Logger LOGGER = Logger.getLogger(UserSession.class);
+
 	private static final long serialVersionUID = 0;
 	
 	private long sessionTime;
@@ -149,6 +158,7 @@ public class UserSession implements Serializable
 	 */
 	public void setPrivateMessages(final int privateMessages)
 	{
+		//LOGGER.info("userId="+userId+", PM before="+this.privateMessages+", PM now="+privateMessages+", sessionId="+sessionId);
 		this.privateMessages = privateMessages;
 	}
 
@@ -452,4 +462,23 @@ public class UserSession implements Serializable
 	{
 		return this.sessionId.hashCode();
 	}
+    
+    public static boolean changeOnUser (User user, Consumer<UserSession> consumer) {
+        return changeOnUser(user.getId(), consumer);
+    }
+
+    public static boolean changeOnUser (final int userId, Consumer<UserSession> consumer) {
+        if (userId < 1) return false; // exclude guest and non-real users
+
+        Set<String> sessionIds = SessionFacade.findSessionIdsOfUser(userId);
+
+        List<UserSession> sessions = sessionIds.stream()
+            .map(SessionFacade::getUserSession) // obtain UserSession object
+            .filter(Objects::nonNull) // filter out null sessions
+            .collect(Collectors.toList());
+
+        sessions.forEach(consumer);
+
+        return !sessions.isEmpty();
+    }
 }

@@ -76,7 +76,6 @@ import net.jforum.view.forum.common.BannerCommon;
  * Common methods used by the controller.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class ControllerUtils
 {
@@ -203,29 +202,21 @@ public class ControllerUtils
 		// last visit's session expires, we should check for
 		// existent user information and then, if found, store
 		// it to the database before getting his information back.
-		final String sessionId = SessionFacade.isUserInSession(user.getId());
+		UserSession.changeOnUser(user, SessionFacade::storeSessionData);
+ 
+        final UserSessionDAO userSessionDAO = DataAccessDriver.getInstance().newUserSessionDAO();
+        // we fetch the last visit time based on the user session information stored in the DB
+        final Date knownLastVisitTime = userSessionDAO.fetchLastVisitTime(userSession, JForumExecutionContext.getConnection());
+        if (knownLastVisitTime == null) {
+            // there's no available information about the user's last visit,
+			// so let's set the current time as his last visit
+            userSession.setLastVisit(new Date(System.currentTimeMillis()));
+        } else {
+            // Update the user's last visit time in the current session
+            userSession.setLastVisit(knownLastVisitTime);
+        }
 
-		UserSession tmpUs;
-		if (sessionId == null) {
-			final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
-			tmpUs = userSessionDao.selectById(userSession, JForumExecutionContext.getConnection());	
-		}
-		else {			
-			SessionFacade.storeSessionData(sessionId, JForumExecutionContext.getConnection());
-			tmpUs = SessionFacade.getUserSession(sessionId);
-			SessionFacade.remove(sessionId);
-		}
-
-		if (tmpUs == null) {
-			userSession.setLastVisit(new Date(System.currentTimeMillis()));
-		}
-		else {
-			// Update last visit and session start time
-			userSession.setLastVisit(new Date(tmpUs.getStartTime().getTime() + tmpUs.getSessionTime()));
-		}
-
-		// If the execution point gets here, then the user
-		// has chosen "autoLogin"
+		// If the execution point gets here, then the user has chosen "autoLogin"
 		userSession.setAutoLogin(true);
 		SessionFacade.makeLogged();
 

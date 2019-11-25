@@ -43,12 +43,12 @@
 package net.jforum.dao;
 
 import java.sql.Connection;
+import java.util.Date;
 
 import net.jforum.entities.UserSession;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public interface UserSessionDAO
 {
@@ -98,4 +98,13 @@ public interface UserSessionDAO
 	 * @return UserSession
 	 */
 	UserSession selectById(UserSession userSession, Connection conn) ;
+
+    /**
+     * Returns the last/previous visit time for the passed <code>userId</code> based on the persisted session
+     * information. If there is no such information available for that user, then this method returns null
+     *
+	 * @param userSession The complete <code>UserSession</code> object data
+     * @return the last/previous visit date, or {@code null} if not found
+     */
+    Date fetchLastVisitTime(UserSession userSession, Connection conn);
 }

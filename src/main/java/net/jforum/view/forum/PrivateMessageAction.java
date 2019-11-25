@@ -134,29 +134,28 @@ public class PrivateMessageAction extends Command
 
 		new StatsEvent("PM sent page", request.getRequestURL()).record();
 	}
-	
+
 	private void putTypes()
 	{
 		this.context.put("NEW", Integer.valueOf(PrivateMessageType.NEW));
 		this.context.put("READ", Integer.valueOf(PrivateMessageType.READ));
 		this.context.put("UNREAD", Integer.valueOf(PrivateMessageType.UNREAD));
 	}
-	
+
 	public void send() 
 	{
 		if (!SessionFacade.isLogged()) {
 			this.setTemplateName(ViewCommon.contextToLogin());
 			return;
 		}
-		
-		User user = DataAccessDriver.getInstance().newUserDAO().selectById(
-			SessionFacade.getUserSession().getUserId());
-		
+
+		User user = DataAccessDriver.getInstance().newUserDAO().selectById(SessionFacade.getUserSession().getUserId());
+
 		ViewCommon.prepareUserSignature(user);
 
 		this.sendFormCommon(user);
 	}
-	
+
 	public void sendTo()
 	{
 		if (!SessionFacade.isLogged()) {
@@ -164,14 +163,13 @@ public class PrivateMessageAction extends Command
 			return;
 		}
 		
-		User user = DataAccessDriver.getInstance().newUserDAO().selectById(
-				SessionFacade.getUserSession().getUserId());
+		User user = DataAccessDriver.getInstance().newUserDAO().selectById(SessionFacade.getUserSession().getUserId());
 
 		int userId = this.request.getIntParameter("user_id");
-		
+
 		if (userId > 0){
 			User recipient = DataAccessDriver.getInstance().newUserDAO().selectById(userId);
-			
+
 			this.context.put("pmRecipient", recipient);
 			this.context.put("toUserId", Integer.valueOf(recipient.getId()));
 			this.context.put("toUsername", recipient.getUsername());
@@ -232,19 +230,19 @@ public class PrivateMessageAction extends Command
 			this.context.put("message", I18n.getMessage("PrivateMessage.userIdNotFound"));
 			return;
 		}
-		
+
 		PrivateMessage pm = new PrivateMessage();
 		pm.setPost(PostCommon.fillPostFromRequest());
-		
+
 		// Sender
 		User fromUser = new User();
 		fromUser.setId(SessionFacade.getUserSession().getUserId());
 		pm.setFromUser(fromUser);
-		
+
 		// Recipient
 		User toUser = userDao.selectById(toUserId);
 		pm.setToUser(toUser);
-		
+
 		boolean preview = "1".equals(this.request.getParameter("preview"));
 
 		if (preview) {
@@ -280,11 +278,7 @@ public class PrivateMessageAction extends Command
 					+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION)}));
 
 			// If the target user is in the forum, then increment his private message count
-			String sid = SessionFacade.isUserInSession(toUserId);
-			if (sid != null) {
-				UserSession us = SessionFacade.getUserSession(sid);
-				us.setPrivateMessages(us.getPrivateMessages() + 1);
-			}
+			UserSession.changeOnUser(toUser.getId(), us -> us.setPrivateMessages(us.getPrivateMessages() + 1));
 
 			if (toUser.getEmail() != null 
 				&& toUser.getEmail().trim().length() > 0
@@ -333,8 +327,7 @@ public class PrivateMessageAction extends Command
 		
 		pm = DataAccessDriver.getInstance().newPrivateMessageDAO().selectById(pm);
 		
-		// Don't allow the read of messages that don't belongs
-		// to the current user
+		// Don't allow the read of messages that don't belongs to the current user
 		UserSession us = SessionFacade.getUserSession();
 		int userId = us.getUserId();
 		
@@ -349,7 +342,7 @@ public class PrivateMessageAction extends Command
 				int totalMessages = us.getPrivateMessages();
 
 				if (totalMessages > 0) {
-					us.setPrivateMessages(totalMessages - 1);
+					UserSession.changeOnUser(us.getUserId(), uSession -> uSession.setPrivateMessages(totalMessages - 1));
 				}
 			}
 			
@@ -395,21 +388,17 @@ public class PrivateMessageAction extends Command
 				
 				deleteList[i] = pm;
 			}
-			
-			UserSession userSession = SessionFacade.getUserSession();
-			
-			dao.delete(deleteList, userSession.getUserId());
-			
-			// Subtracts the number of delete messages
-			int total = userSession.getPrivateMessages() - unreadCount;
-			
-			if (total < 0) {
-				total = 0;
-			}
-			
-			userSession.setPrivateMessages(total);
+
+			UserSession us = SessionFacade.getUserSession();
+
+			dao.delete(deleteList, us.getUserId());
+
+			// Subtracts the number of deleted messages
+			final int total = (us.getPrivateMessages() - unreadCount < 0) ? 0 : (us.getPrivateMessages() - unreadCount);
+
+			UserSession.changeOnUser(us.getUserId(), uSession -> us.setPrivateMessages(total));
 		}
-		
+
 		this.setTemplateName(TemplateKeys.PM_DELETE);
 		this.context.put("message", I18n.getMessage("PrivateMessage.deleteDone", 
 			new String[] { this.request.getContextPath() 

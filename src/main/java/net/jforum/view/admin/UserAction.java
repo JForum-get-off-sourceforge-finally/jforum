@@ -63,7 +63,6 @@ import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class UserAction extends AdminCommand 
 {
@@ -281,14 +280,8 @@ public class UserAction extends AdminCommand
 				
 				if (userDao.isDeleted(user)){
 					userDao.undelete(user);
-				} 
-				else {
-					String sessionId = SessionFacade.isUserInSession(user);
-					
-					if (sessionId != null) {
-						SessionFacade.remove(sessionId);
-					}
-					
+				} else {
+					SessionFacade.removeUserSessions(user);
 					userDao.delete(user);
 				}
 			}

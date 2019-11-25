@@ -42,6 +42,7 @@
  */
 package net.jforum.dao.generic;
 
+import java.util.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,7 +56,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 {
@@ -92,8 +92,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserSessionDAO#update(net.jforum.entities.UserSession,
-	 *      java.sql.Connection)
+	 * @see net.jforum.dao.UserSessionDAO#update(net.jforum.entities.UserSession, java.sql.Connection)
 	 */
 	@Override public void update(UserSession us, Connection conn)
 	{
@@ -122,8 +121,7 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.UserSessionDAO#selectById(net.jforum.entities.UserSession,
-	 *      java.sql.Connection)
+	 * @see net.jforum.dao.UserSessionDAO#selectById(net.jforum.entities.UserSession, java.sql.Connection)
 	 */
 	@Override public UserSession selectById(UserSession us, Connection conn)
 	{
@@ -153,4 +151,14 @@ public class GenericUserSessionDAO implements net.jforum.dao.UserSessionDAO
 			DbUtils.close(rs, pstmt);
 		}
 	}
+
+    @Override
+    public Date fetchLastVisitTime(UserSession us, Connection conn) {
+        if (us == null || us.getStartTime() == null) {
+            return null;
+        }
+        final Date previousVisitTime = new Date(us.getStartTime().getTime() + us.getSessionTime());
+        return previousVisitTime;
+    }
+
 }

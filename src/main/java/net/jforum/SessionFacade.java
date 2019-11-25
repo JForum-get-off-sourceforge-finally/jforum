@@ -45,9 +45,12 @@ package net.jforum;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
@@ -63,23 +66,24 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class SessionFacade implements Cacheable
 {
 	private static final Logger LOGGER = Logger.getLogger(SessionFacade.class);
-	
+
+	// map session IDs to UserSession objects
 	private static final String FQN = "sessions";
+	// map session IDs to UserSession objects of whose online status is publicly visible.
 	private static final String FQN_LOGGED = FQN + "/logged";
+	// map different types of user count types (string names) to int user counts 
 	private static final String FQN_COUNT = FQN + "/count";
+    // map user IDs (int) to a set of session IDs (Set<String>)
 	private static final String FQN_USER_ID = FQN + "/userId";
 	private static final String ANONYMOUS_COUNT = "anonymousCount";
 	private static final String LOGGED_COUNT = "loggedCount";
 	
 	private static CacheEngine cache;
 	
-	private static final Object MUTEX_FQN = new Object();
-
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
 	 */
@@ -92,7 +96,12 @@ public class SessionFacade implements Cacheable
 	{
 		cache = engine;
 	}
-	
+
+	//TODO hack so csrf can access cache
+	public static UserSession getUserSesssion (String sessionId) {
+	    return (UserSession) cache.get(FQN, sessionId);
+	}
+
 	/**
 	 * Add a new <code>UserSession</code> entry to the session.
 	 * This method will make a call to <code>JForum.getRequest.getSession().getId()</code>
@@ -123,29 +132,43 @@ public class SessionFacade implements Cacheable
 	 * @param userSession the UserSession to add
 	 * @param sessionId the user's session id
 	 */
-	public static void add(final UserSession userSession, final String sessionId)
-	{
-		if (userSession.getSessionId() == null || userSession.getSessionId().equals("")) {
-			userSession.setSessionId(sessionId);
+
+	public static void add(UserSession us, String sessionId) {
+		if (us.getSessionId() == null || us.getSessionId().equals("")) {
+			us.setSessionId(sessionId);
 		}
 		
-		synchronized (MUTEX_FQN) {
-			cache.add(FQN, userSession.getSessionId(), userSession);
-			
+		final String usSessId = us.getSessionId();
+
+		synchronized (FQN) {
+			cache.add(FQN, usSessId, us);
+
 			if (!JForumExecutionContext.getForumContext().isBot()) {
-				if (userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+				if (us.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+					changeUserCount(LOGGED_COUNT, true);
+
+					cache.add(FQN_LOGGED, usSessId, us);
+
+					final String userIdStr = String.valueOf(us.getUserId()); 
+
+					Set<String> sessIds = (Set<String>)cache.get(FQN_USER_ID, userIdStr);
+					if (sessIds == null) {
+					    sessIds = new HashSet<>();
+					}
+
+					if (!sessIds.contains(usSessId)) {
+					    sessIds.add(usSessId);
+					}
+
+					cache.add(FQN_USER_ID, userIdStr, sessIds);
+				} else {
 					// TODO: check the anonymous IP constraint
 					changeUserCount(ANONYMOUS_COUNT, true);
-				}
-				else {
-					changeUserCount(LOGGED_COUNT, true);
-					cache.add(FQN_LOGGED, userSession.getSessionId(), userSession);
-					cache.add(FQN_USER_ID, Integer.toString(userSession.getUserId()), userSession.getSessionId());
 				}
 			}
 		}
 	}
-	
+
 	private static void changeUserCount(final String cacheEntryName, final boolean increment)
 	{
 		Integer count = (Integer)cache.get(FQN_COUNT, cacheEntryName);
@@ -201,33 +224,60 @@ public class SessionFacade implements Cacheable
 	 * 
 	 * @param sessionId The session id to remove
 	 */
-	public static void remove(final String sessionId)
-	{
+
+	public static void remove(String sessionId) {
 		if (cache == null) {
 			LOGGER.warn("Got a null cache instance. #" + sessionId);
 			return;
 		}
-		
-		LOGGER.debug("Removing session " + sessionId);
-		
-		synchronized (MUTEX_FQN) {
-			final UserSession userSession = getUserSession(sessionId);
 
-			if (userSession != null) {
-				if (userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+		synchronized (FQN) {
+			UserSession us = getUserSession(sessionId);
+
+			if (us != null) {
+				cache.remove(FQN_LOGGED, sessionId);
+				removeSpecificUserSession(us.getUserId(), sessionId);
+
+				if (us.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+					changeUserCount(LOGGED_COUNT, false);
+				}
+				else {
 					changeUserCount(ANONYMOUS_COUNT, false);
 				}
-				else {					
-					changeUserCount(LOGGED_COUNT, false);
-					cache.remove(FQN_LOGGED, sessionId);
-					cache.remove(FQN_USER_ID, Integer.toString(userSession.getUserId()));
-				}
 			}
-			
+
 			cache.remove(FQN, sessionId);
 		}
 	}
 	
+	public static void removeUserSessions(int userId) {
+	    final String userIdStr = String.valueOf(userId);
+	    Set<String> sessIds = (Set<String>)cache.get(FQN_USER_ID, userIdStr);
+        if(sessIds != null) {
+            for(final String sessId: sessIds) {
+                remove(sessId);
+            }
+            cache.remove(FQN_USER_ID, userIdStr);
+        }
+	}
+
+	private static void removeSpecificUserSession(int userId, String sessionId) {
+	    final String userIdStr = String.valueOf(userId);
+	    Set<String> sessIds = (Set<String>) cache.get(FQN_USER_ID, userIdStr);
+	    if (sessIds != null) {
+	        // remove if we have a session with the given session ID
+	        if (sessIds.removeIf(s -> s.equals(sessionId))) {
+	            // if removing caused the set to be empty (i.e.- we had only one session per user),
+	            // remove the whole cache entry for this user. Otherwise, add the new session to the cache
+	            if (sessIds.isEmpty()) {
+	                cache.remove(FQN_USER_ID, userIdStr);
+	            } else {
+	                cache.add(FQN_USER_ID, userIdStr, sessIds);
+	            }
+	        }
+	    }
+	}
+
 	/**
 	 * Get all registered sessions
 	 * 
@@ -236,7 +286,7 @@ public class SessionFacade implements Cacheable
 	 */
 	public static List<UserSession> getAllSessions()
 	{
-		synchronized (MUTEX_FQN) {
+		synchronized (FQN) {
 			Collection<Object> values = cache.getValues(FQN);
 			ArrayList<UserSession> list = new ArrayList<UserSession>();
 			for (Iterator<?> iter = values.iterator(); iter.hasNext(); ) {
@@ -252,7 +302,7 @@ public class SessionFacade implements Cacheable
 	 */
 	public static List<UserSession> getLoggedSessions()
 	{
-		synchronized (MUTEX_FQN) {
+		synchronized (FQN) {
 			Collection<Object> values = cache.getValues(FQN_LOGGED);
 			ArrayList<UserSession> list = new ArrayList<UserSession>();
 			for (Iterator<?> iter = values.iterator(); iter.hasNext(); ) {
@@ -286,7 +336,7 @@ public class SessionFacade implements Cacheable
 	
 	public static void clear()
 	{
-		synchronized (MUTEX_FQN) {
+		synchronized (FQN) {
 			cache.add(FQN, new ConcurrentHashMap<String, UserSession>());
 			cache.add(FQN_COUNT, LOGGED_COUNT, Integer.valueOf(0));
 			cache.add(FQN_COUNT, ANONYMOUS_COUNT, Integer.valueOf(0));
@@ -331,56 +381,23 @@ public class SessionFacade implements Cacheable
 	{
 		return (anonymousSize() + registeredSize());
 	}
-	
+
 	/**
-	 * Verify if the user in already loaded
+	 * Verify if there is an user in the session with the user id passed as parameter.
 	 * 
-	 * @param username The username to check
-	 * @return The session id if the user is already registered into the session, 
-	 * or <code>null</code> if it is not.
+	 * @param userId The user id to check for existance in the session
+	 * @return A set of session ids associated to this user, if the user is
+	 *         already registered into at least one session, or an empty set if it is not.
 	 */
-	public static String isUserInSession(final String username)
-	{
-		String sessionId = null;
-		
-		final int aid = SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID);
-		
-		synchronized (MUTEX_FQN) {
-			for (final Iterator<?> iter = cache.getValues(FQN).iterator(); iter.hasNext(); ) {
-				final UserSession userSession = (UserSession)iter.next();
-				final String thisUsername = userSession.getUsername();
-				
-				if (thisUsername == null) {
-					continue;
-				}
-				
-				if (userSession.getUserId() != aid && thisUsername.equals(username)) {
-					sessionId = userSession.getSessionId();
-				}
-			}
-		}
-		
-		return sessionId;
+	public static Set<String> findSessionIdsOfUser(int userId) {
+		Set<String> val = (Set<String>) cache.get(FQN_USER_ID, Integer.toString(userId));
+		return val != null ? val : Collections.emptySet();
 	}
-	
-	/**
-	 * Verify if there is a user in the session with the 
-	 * user id passed as parameter.
-	 * 
-	 * @param userId The user id to check for existence in the session
-	 * @return The session id if the user is already registered into the session, 
-	 * or <code>null</code> if it is not.
-	 */
-	public static String isUserInSession(final int userId)
-	{
-		return (String)cache.get(FQN_USER_ID, Integer.toString(userId));
-	}
-	
+
 	/**
 	 * Verify is the user is logged in.
 	 * 
-	 * @return <code>true</code> if the user is logged, or <code>false</code> if is 
-	 * an anonymous user.
+	 * @return <code>true</code> if the user is logged, or <code>false</code> if is an anonymous user.
 	 */
 	public static boolean isLogged()
 	{
@@ -434,56 +451,36 @@ public class SessionFacade implements Cacheable
 
 	/**
 	 * Persists user session information.
-	 * This method will get a <code>Connection</code> making a call to
-	 * <code>DBConnection.getImplementation().getConnection()</code>, and
-	 * then releasing the connection after the method is processed.   
 	 * 
-	 * @param sessionId The session which we're going to persist information
-	 * @see #storeSessionData(String, Connection)
-	 */
-	public static void storeSessionData(final String sessionId)
-	{
-		Connection conn = null;
-		try {
-			if (DBConnection.getImplementation().isDatabaseUp()) {
-				conn = DBConnection.getImplementation().getConnection();
-				SessionFacade.storeSessionData(sessionId, conn);
-			}
-		}
-		finally {
-			if (conn != null) {
-				try {
-					DBConnection.getImplementation().releaseConnection(conn);
-				}
-				catch (DatabaseException e) {
-					LOGGER.warn("Error while releasing a connection: " + e);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Persists user session information.
-	 * 
-	 * @param sessionId The session which we're going to persist
-	 * @param conn A <code>Connection</code> to be used to connect to
-	 * the database. 
+	 * @param sessionId The session which we're going to persist the database. 
 	 * @see #storeSessionData(String)
 	 */
-	public static void storeSessionData(final String sessionId, final Connection conn) 
-	{
-		final UserSession userSession = SessionFacade.getUserSession(sessionId);
-		if (userSession != null) {
+	public static void storeSessionData (String sessionId) {
+		UserSession us = SessionFacade.getUserSession(sessionId);
+		if (us != null) {
 			try {
-				if (userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-					DataAccessDriver.getInstance().newUserSessionDAO().update(userSession, conn);
+				if (us.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+					DataAccessDriver.getInstance().newUserSessionDAO().update(us, JForumExecutionContext.getConnection());
 				}
-				
-				SecurityRepository.remove(userSession.getUserId());
+				SecurityRepository.remove(us.getUserId());
 			}
 			catch (Exception e) {
 				LOGGER.warn("Error storing user session data: " + e, e);
 			}
 		}
 	}
+	
+	public static void storeSessionData (UserSession us) {
+	    if (us != null) {
+            try {
+                if (us.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
+                    DataAccessDriver.getInstance().newUserSessionDAO().update(us, JForumExecutionContext.getConnection());
+                }
+            }
+            catch (Exception e) {
+                LOGGER.warn("Error storing user session data: " + e, e);
+            }
+        }
+	}
+
 }

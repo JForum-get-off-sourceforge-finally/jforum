@@ -50,6 +50,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.SessionFacade;
@@ -751,7 +752,8 @@ public class User implements Serializable
 	 */	
 	public boolean isOnline()
 	{
-		return (SessionFacade.isUserInSession(this.id) != null);
+	    Set<String> st = SessionFacade.findSessionIdsOfUser(this.id);
+		return !st.isEmpty();
 	}
 
 	/**

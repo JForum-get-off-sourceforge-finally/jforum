@@ -469,27 +469,24 @@ public class UserAction extends Command
 
 				SessionFacade.makeLogged();
 
-				String sessionId = SessionFacade.isUserInSession(user.getId());
 				UserSession userSession = new UserSession(SessionFacade.getUserSession());
 
 				// Remove the "guest" session
 				SessionFacade.remove(userSession.getSessionId());
 
 				userSession.dataToUser(user);
-
-				UserSession currentUs = SessionFacade.getUserSession(sessionId);
-
-				// Check if the user is returning to the system
-				// before its last session has expired ( hypothesis )
-                UserSession tmpUs;
-				if (sessionId != null && currentUs != null) {
-					// Write its old session data
-					SessionFacade.storeSessionData(sessionId, JForumExecutionContext.getConnection());
-					tmpUs = new UserSession(currentUs);
-					SessionFacade.remove(sessionId);
+		 
+				final UserSessionDAO userSessionDAO = DataAccessDriver.getInstance().newUserSessionDAO();
+				// we fetch the last visit time based on the user session information stored in the DB
+				final Date knownLastVisitTime = userSessionDAO.fetchLastVisitTime(userSession, JForumExecutionContext.getConnection());
+				if (knownLastVisitTime == null) {
+					// there's no available information about the user's last visit,
+					// so let's set the current time as his last visit
+					userSession.setLastVisit(new Date(System.currentTimeMillis()));
 				}
 				else {
-					tmpUs = userSessionDao.selectById(userSession, JForumExecutionContext.getConnection());
+					// Update the user's last visit time in the current session
+					userSession.setLastVisit(knownLastVisitTime);
 				}
 
 				I18n.load(user.getLang());
@@ -515,14 +512,6 @@ public class UserAction extends Command
 					// Remove cookies for safety
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_USER_HASH), null);
 					ControllerUtils.addCookie(SystemGlobals.getValue(ConfigKeys.COOKIE_AUTO_LOGIN), null);
-				}
-
-				if (tmpUs == null) {
-					userSession.setLastVisit(new Date(System.currentTimeMillis()));
-				}
-				else {
-					// Update last visit and session start time
-					userSession.setLastVisit(new Date(tmpUs.getStartTime().getTime() + tmpUs.getSessionTime()));
 				}
 
 				SessionFacade.add(userSession);
@@ -661,7 +650,7 @@ public class UserAction extends Command
 			+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 
 		UserSession userSession = SessionFacade.getUserSession();
-		SessionFacade.storeSessionData(userSession.getSessionId(), JForumExecutionContext.getConnection());
+		SessionFacade.storeSessionData(userSession.getSessionId());
 
 		SessionFacade.makeUnlogged();
 		SessionFacade.remove(userSession.getSessionId());
