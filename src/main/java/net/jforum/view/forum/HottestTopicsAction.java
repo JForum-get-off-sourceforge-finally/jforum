@@ -96,7 +96,7 @@ public class HottestTopicsAction extends Command
         new StatsEvent("Hot topics page", request.getRequestURL()).record();
 
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		final List<Topic> tmpTopics = TopicRepository.getHottestTopics();
+		final List<Topic> tmpTopics = TopicRepository.loadHottestTopics();
 		
 		this.forums = new ArrayList<Forum>(postsPerPage);
 

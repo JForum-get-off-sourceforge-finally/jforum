@@ -68,7 +68,6 @@ import net.jforum.util.preferences.SystemGlobals;
 public class TopicRepository implements Cacheable {
 	private static final String FQN = "topics";
 	private static final String RECENT = "recent";
-	private static final String HOTTEST = "hottest";
 	private static final String FQN_FORUM = FQN + "/byforum";
 	private static final String RELATION = "relation";
 	private static final String FQN_LOADED = FQN + "/loaded";
@@ -77,11 +76,9 @@ public class TopicRepository implements Cacheable {
 	private static CacheEngine cache;
 
 	private static final Object MUTEX_RECENT = new Object();
-	private static final Object MUTEX_HOTTEST = new Object();
 	private static final Object MUTEX_FQN_FORUM = new Object();
 
 	private static int maxRecentTopics = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-	private static int maxHottestTopics = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
 	/**
 	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
@@ -121,36 +118,6 @@ public class TopicRepository implements Cacheable {
 			synchronized (MUTEX_RECENT) {
 				cache.add(FQN, RECENT, latestList);
 			}
-
-			limit = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
-
-			LinkedList<Topic> hottestList = (LinkedList<Topic>) cache.get(FQN, HOTTEST);
-			if (hottestList == null || hottestList.isEmpty()) {
-				hottestList = new LinkedList<Topic>(loadHottestTopics());
-			}
-
-			if (!hottestList.contains(topic)) {
-				hottestList.addLast(topic);
-			} else {
-				int index = hottestList.indexOf(topic);
-				hottestList.remove(index);
-				while (index > 0) {
-					Topic preTopic = (Topic) hottestList.get(index - 1);
-					if (preTopic.getTotalViews() < topic.getTotalViews()) {
-						index--;
-					} else {
-						break;
-					}
-				}
-				hottestList.add(index, topic);
-			}
-
-			while (hottestList.size() > limit) {
-				hottestList.removeLast();
-			}
-			synchronized (MUTEX_HOTTEST) {
-				cache.add(FQN, HOTTEST, hottestList);
-			}
 		}
 	}
 
@@ -179,22 +146,6 @@ public class TopicRepository implements Cacheable {
 		} else {
 			return loadMostRecentTopics(start, limit);
 		}
-	}
-
-	/**
-	 * Get all cached hottest topics.
-	 */
-	public static List<Topic> getHottestTopics() {
-		List<Topic> hottestList = (List<Topic>) cache.get(FQN, HOTTEST);
-		int limit = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
-
-		if (limit != maxHottestTopics || hottestList == null || hottestList.isEmpty()
-				|| !SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
-			hottestList = loadHottestTopics();
-			maxHottestTopics = limit;
-		}
-
-		return new ArrayList<Topic>(hottestList);
 	}
 
 	/**
@@ -228,12 +179,7 @@ public class TopicRepository implements Cacheable {
 		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
 		int limit = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS);
 
-		List<Topic> hottestList = tm.selectHottestTopics(limit);
-		synchronized (MUTEX_HOTTEST) {
-			cache.add(FQN, HOTTEST, new LinkedList<Topic>(hottestList));
-		}
-
-		return hottestList;
+		return tm.selectHottestTopics(limit);
 	}
 
 	/**
@@ -357,29 +303,6 @@ public class TopicRepository implements Cacheable {
 					if (index > -1) {
 						latestList.set(index, topic);
 						cache.add(FQN, RECENT, latestList);
-					}
-				}
-			}
-
-			synchronized (MUTEX_HOTTEST) {
-				List<Topic> hottestList = (List<Topic>) cache.get(FQN, HOTTEST);
-
-				if (hottestList != null) {
-					int index = hottestList.indexOf(topic);
-					if (index > -1) {
-						hottestList.remove(index);
-					}
-					while (index > 0) {
-						Topic preTopic = (Topic) hottestList.get(index - 1);
-						if (preTopic.getTotalViews() < topic.getTotalViews()) {
-							index--;
-						} else {
-							break;
-						}
-					}
-					if (index > -1) {
-						hottestList.add(index, topic);
-						cache.add(FQN, HOTTEST, hottestList);
 					}
 				}
 			}
