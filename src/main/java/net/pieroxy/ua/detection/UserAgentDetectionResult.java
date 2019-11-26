@@ -144,7 +144,6 @@ public class UserAgentDetectionResult {
     UserAgentDetectionResult wrapUp (UserAgentContext context) {
         this.ignoredTokens = context.getIgnoredTokens();
         this.unknownTokens = context.getRemainingTokens();
-        context.getDebug();
         return this;
     }
 

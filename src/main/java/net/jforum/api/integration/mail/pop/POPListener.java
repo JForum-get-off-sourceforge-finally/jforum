@@ -44,23 +44,25 @@ package net.jforum.api.integration.mail.pop;
 
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.MailIntegration;
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class POPListener implements Job
 {
 	private static final Logger LOGGER = Logger.getLogger(POPListener.class);
-	private static boolean working = false;
+	private static final Lock lock = new ReentrantLock();
 	protected transient POPConnector connector = new POPConnector();
 	
 	/**
@@ -68,44 +70,42 @@ public class POPListener implements Job
 	 */
 	@Override public void execute(final JobExecutionContext jobContext) throws JobExecutionException
 	{
-		if (working) {
+		if (! lock.tryLock()) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Already working. Leaving for now.");
 			}
-		} else {	
-			try {
-				working = true;
+			return;
+		}
 
-				final List<MailIntegration> integrationList = DataAccessDriver.getInstance().newMailIntegrationDAO().findAll();
-				final POPParser parser = new POPParser();
-				
-				for (final Iterator<MailIntegration> iter = integrationList.iterator(); iter.hasNext(); ) {
-					final MailIntegration integration = iter.next();
-					
-					connector.setMailIntegration(integration);
-					
-					try {
-						if (LOGGER.isDebugEnabled()) {
-							LOGGER.debug("Going to check " + integration);
-						}
-						
-						connector.openConnection();
-						parser.parseMessages(connector);
-						
-						final POPPostAction postAction = new POPPostAction();
-						postAction.insertMessages(parser);
+		try {
+			final List<MailIntegration> integrationList = DataAccessDriver.getInstance().newMailIntegrationDAO().findAll();
+			final POPParser parser = new POPParser();
+
+			for (final Iterator<MailIntegration> iter = integrationList.iterator(); iter.hasNext(); ) {
+				final MailIntegration integration = iter.next();
+
+				connector.setMailIntegration(integration);
+
+				try {
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("Going to check " + integration);
 					}
-					finally {
-						connector.closeConnection();
-					}
+
+					connector.openConnection();
+					parser.parseMessages(connector);
+
+					final POPPostAction postAction = new POPPostAction();
+					postAction.insertMessages(parser);
+				}
+				finally {
+					connector.closeConnection();
 				}
 			}
-			finally {
-				working = false;
-			}
-		}		
+		} finally {
+			lock.unlock();
+		}
 	}
-	
+
 	public POPConnector getConnector()
 	{
 		return this.connector;
