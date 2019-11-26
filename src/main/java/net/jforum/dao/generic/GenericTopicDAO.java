@@ -922,7 +922,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		List<Topic> l = new ArrayList<Topic>();
 		ResultSet rs = null;
 		PreparedStatement pstmt2 = null;
-		
+
 		try {
 			rs = pstmt.executeQuery();
 
@@ -1036,13 +1036,17 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
 	        	SystemGlobals.getSql("TopicModel.selectMaxViewsMaxReplies"));
 			ResultSet rs = pstmt.executeQuery();
-			int maxViews = 100;
+			int maxViews = 0;
 			int maxReplies = 0;
 			if (rs.next()) {
 				maxViews = rs.getInt("max_views");
 				maxReplies = rs.getInt("max_replies");
-				//LOGGER.info("maxViews="+maxViews+", maxReplies="+maxReplies);
 			}
+			if (maxViews == 0)
+				maxViews = 1;
+			if (maxReplies == 0)
+				maxReplies = 1;
+			//LOGGER.INFO("percentViews="+percentViews+", maxViews="+maxViews+", maxReplies="+maxReplies);
 
 	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
 	        	SystemGlobals.getSql("TopicModel.selectHottestTopicsByLimit"));
