@@ -59,7 +59,6 @@ import net.jforum.view.forum.common.ViewCommon;
 /**
  * Notify users of replies to existing topics
  * @author Rafael Steil
- * @version $Id$
  */
 public class TopicReplySpammer extends Spammer 
 {
@@ -70,7 +69,7 @@ public class TopicReplySpammer extends Spammer
 	 * only a notification will be sent
 	 * @param users list of users who'll be notified
 	 */
-	public TopicReplySpammer(final Topic topic, final Post origPost, final List<User> users)
+	public TopicReplySpammer (final Topic topic, final Post origPost, final List<User> users)
 	{
 		super();
 		Post post = new Post(origPost);
@@ -106,7 +105,7 @@ public class TopicReplySpammer extends Spammer
 		}
 
 		this.setTemplateParams(params);
-		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_ANSWER_SUBJECT);
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_ANSWER_SUBJECT).replaceAll("'", "\u2019");
 
 		this.prepareMessage(
 			MessageFormat.format(subject, new Object[] { topic.getTitle() }),

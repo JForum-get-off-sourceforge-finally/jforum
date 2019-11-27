@@ -54,11 +54,10 @@ import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class LostPasswordSpammer extends Spammer
 {
-	public LostPasswordSpammer(final User user, final String mailTitle) 
+	public LostPasswordSpammer (final User user) 
 	{
 		super();
 		final String forumLink = ViewCommon.getForumLink();
@@ -80,7 +79,8 @@ public class LostPasswordSpammer extends Spammer
 		this.setUsers(recipients);
 		this.setTemplateParams(params);
 
-		super.prepareMessage(mailTitle, 
-			SystemGlobals.getValue(ConfigKeys.MAIL_LOST_PASSWORD_MESSAGE_FILE));
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_LOST_PASSWORD_SUBJECT).replaceAll("'", "\u2019");
+
+		super.prepareMessage(subject, SystemGlobals.getValue(ConfigKeys.MAIL_LOST_PASSWORD_MESSAGE_FILE));
 	}
 }

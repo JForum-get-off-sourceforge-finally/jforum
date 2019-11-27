@@ -54,11 +54,10 @@ import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class PrivateMessageSpammer extends Spammer
 {
-	public PrivateMessageSpammer(final User user)
+	public PrivateMessageSpammer (final User user)
 	{
 		super();
 		if (user.getEmail() == null || user.getEmail().trim().equals("")) {
@@ -81,7 +80,8 @@ public class PrivateMessageSpammer extends Spammer
 		this.setUsers(recipients);
 		this.setTemplateParams(params);
 
-		super.prepareMessage(SystemGlobals.getValue(ConfigKeys.MAIL_NEW_PM_SUBJECT),
-			SystemGlobals.getValue(ConfigKeys.MAIL_NEW_PM_MESSAGE_FILE));
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_PM_SUBJECT).replaceAll("'", "\u2019");
+
+		super.prepareMessage(subject, SystemGlobals.getValue(ConfigKeys.MAIL_NEW_PM_MESSAGE_FILE));
 	}
 }

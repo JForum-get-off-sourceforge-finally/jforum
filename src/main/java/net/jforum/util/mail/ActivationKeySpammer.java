@@ -53,11 +53,10 @@ import net.jforum.view.forum.common.ViewCommon;
 
 /**
  * @author James Young
- * @version $Id$
  */
 public class ActivationKeySpammer extends Spammer
 {
-	public ActivationKeySpammer(final User user)
+	public ActivationKeySpammer (final User user)
 	{
 		super();
 		//gets the url to the forum.
@@ -89,7 +88,8 @@ public class ActivationKeySpammer extends Spammer
 		this.setUsers(recipients);
 		this.setTemplateParams(params);
 
-		this.prepareMessage(SystemGlobals.getValue(ConfigKeys.MAIL_ACTIVATION_KEY_SUBJECT), 
-				SystemGlobals.getValue(ConfigKeys.MAIL_ACTIVATION_KEY_MESSAGE_FILE));
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_ACTIVATION_KEY_SUBJECT).replaceAll("'", "\u2019");
+
+		this.prepareMessage(subject, SystemGlobals.getValue(ConfigKeys.MAIL_ACTIVATION_KEY_MESSAGE_FILE));
 	}
 }

@@ -56,13 +56,16 @@ import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ForumNewTopicSpammer extends Spammer 
 {
-	public ForumNewTopicSpammer(final Forum forum, final Topic topic, final Post origPost, final List<User> users)
+	private static final Logger LOGGER = Logger.getLogger(ForumNewTopicSpammer.class);
+
+	public ForumNewTopicSpammer (final Forum forum, final Topic topic, final Post origPost, final List<User> users)
 	{
 		super();
 		Post post = origPost;
@@ -85,7 +88,7 @@ public class ForumNewTopicSpammer extends Spammer
 
 		this.setTemplateParams(params);
 
-		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_TOPIC_SUBJECT);
+		final String subject = SystemGlobals.getValue(ConfigKeys.MAIL_NEW_TOPIC_SUBJECT).replaceAll("'", "\u2019");
 
 		super.prepareMessage(
 			MessageFormat.format(subject, new Object[] { topic.getTitle() }),

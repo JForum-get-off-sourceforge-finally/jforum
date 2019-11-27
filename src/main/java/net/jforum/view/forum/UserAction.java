@@ -737,9 +737,7 @@ public class UserAction extends Command
 			return;
 		}
 
-		Executor.execute(new EmailSenderTask(
-				new LostPasswordSpammer(user, 
-					SystemGlobals.getValue(ConfigKeys.MAIL_LOST_PASSWORD_SUBJECT))));
+		Executor.execute(new EmailSenderTask(new LostPasswordSpammer(user)));
 
 		this.setTemplateName(TemplateKeys.USER_LOSTPASSWORD_SEND);
 		this.context.put(MESSAGE, I18n.getMessage(
