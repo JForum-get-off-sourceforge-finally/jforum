@@ -246,22 +246,9 @@ public class LuceneSearch implements NewDocumentAdded
 		LOGGER.debug("searching for: " + args.rawKeywords());
 		if (args.rawKeywords().length() > 0) {
 			if (args.isMatchRaw()) {
-				if (criteria.length() >0) {
-					criteria.append(" AND ");
-				}
+				// do exactly nothing
+				criteria.append(args.rawKeywords());
 
-				criteria.append('(');
-
-				if (args.shouldLimitSearchToSubject()) {
-					// subject only
-					criteria.append(SearchFields.Indexed.SUBJECT).append(':').append(args.rawKeywords());
-				} else {
-					// contents and subject 
-					criteria.append(SearchFields.Indexed.CONTENTS).append(':').append(args.rawKeywords());
-					criteria.append(" OR ").append(SearchFields.Indexed.SUBJECT).append(':').append(args.rawKeywords());
-				}
-
-				criteria.append(')');
 			} else if (args.isMatchExact()) {
 				String escapedKeywords = "\"" + QueryParser.escape(args.rawKeywords()) + "\"";
 
@@ -285,9 +272,10 @@ public class LuceneSearch implements NewDocumentAdded
 						criteria.append(" AND ");
 					}
 					criteria.append("+(");
-			// for Porter stemming it's problematic to analyze (and potentially alter) the keywords twice
-			if (settings.analyzer() instanceof PorterStandardAnalyzer)
-				keywords = args.rawKeywords().split("\\s");
+
+					// for Porter stemming it's problematic to analyze (and potentially alter) the keywords twice
+					if (settings.analyzer() instanceof PorterStandardAnalyzer)
+						keywords = args.rawKeywords().split("\\s");
 
 					for (int i = 0; i < keywords.length; i++) {
 						if (keywords[i].trim().length() == 0)
