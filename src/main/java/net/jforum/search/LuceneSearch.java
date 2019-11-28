@@ -246,9 +246,12 @@ public class LuceneSearch implements NewDocumentAdded
 		LOGGER.debug("searching for: " + args.rawKeywords());
 		if (args.rawKeywords().length() > 0) {
 			if (args.isMatchRaw()) {
-				// do exactly nothing
+				criteria.append("+(");
+
+				// append search term as it was entered
 				criteria.append(args.rawKeywords());
 
+				criteria.append(')');
 			} else if (args.isMatchExact()) {
 				String escapedKeywords = "\"" + QueryParser.escape(args.rawKeywords()) + "\"";
 

@@ -38,6 +38,15 @@
 		<appender-ref ref="jforum.log" />
 	</category>
 
+<!--
+	additional output for debugging issues with the search
+
+	<category name="net.jforum.search" additivity="false">
+		<priority value="debug" />
+		<appender-ref ref="jforum.log" />
+	</category>
+-->
+
 	<category name="freemarker" additivity="false">
 		<priority value="info" />
 		<appender-ref ref="jforum.log" />
