@@ -153,6 +153,25 @@ function testEmail()
 </tr>
 
 <tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ForumTrashcan")}</span></td>
+	<td class="row1" width="38%">
+	<span class="gen">
+	<select name="p_forum.trashcan.id">
+		<option value="0">${I18n.getMessage("Config.Form.ForumTrashcan.None")}</option>
+	<#list allCategories as category>
+		<#list category.getForums() as forum>
+			<#if (forum.id == forumTrashcan) >
+				<option value="${forum.id}" selected>${forum.name?html}</option>
+			<#else>
+				<option value="${forum.id}">${forum.name?html}</option>
+			</#if>
+		</#list>
+	</#list>
+	</select>
+	</span>
+</tr>
+
+<tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.htmlTags")}</span></td>
 	<td class="row1" width="38%"><span class="gen"><input type="text" size="50" name="p_html.tags.welcome" value="${config.getProperty("html.tags.welcome")?html}" /></span></td>
 </tr>

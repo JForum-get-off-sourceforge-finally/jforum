@@ -331,5 +331,7 @@ public final class ConfigKeys
 
 	public static final String BANNER_PAGES_LIST = "banner.pages.list";
 
+	public static final String FORUM_TRASHCAN = "forum.trashcan.id";
+
 	private ConfigKeys() {}
 }

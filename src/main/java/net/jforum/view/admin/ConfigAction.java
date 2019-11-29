@@ -60,6 +60,7 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.TopicRepository;
 import net.jforum.search.SearchFacade;
+import net.jforum.view.forum.common.ForumCommon;
 import net.jforum.util.I18n;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
@@ -110,6 +111,8 @@ public class ConfigAction extends AdminCommand
 
 		this.context.put("config", p);
 		this.context.put("locales", localesList);
+		this.context.put("forumTrashcan", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN)));
+		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(true));
 		this.setTemplateName(TemplateKeys.CONFIG_LIST);
 	}
 

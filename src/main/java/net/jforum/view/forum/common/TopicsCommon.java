@@ -269,8 +269,7 @@ public class TopicsCommon
 			TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
 			List<User> usersToNotify = dao.notifyUsers(topic);
 
-			// We only have to send an email if there are users
-			// subscribed to the topic
+			// We only have to send an email if there are users subscribed to the topic
 			if (usersToNotify != null && !usersToNotify.isEmpty()) {
 				Executor.execute(new EmailSenderTask(new TopicReplySpammer(topic, post, usersToNotify)));
 			}
@@ -294,22 +293,22 @@ public class TopicsCommon
 	{
 		topic.setLastPostId(lastPostId);
 		topicDao.update(topic);
-		
+
 		forumDao.setLastPost(topic.getForumId(), lastPostId);
-		
+
 		if (firstPost) {
 			forumDao.incrementTotalTopics(topic.getForumId(), 1);
 		}
 		else {
 			topicDao.incrementTotalReplies(topic.getId());
 		}
-		
+
 		TopicRepository.addTopic(topic);
 		TopicRepository.pushTopic(topic);
-		
+
 		ForumRepository.incrementTotalMessages();
 	}
-	
+
 	/**
 	 * Deletes a topic.
 	 * This method will remove the topic from the database,

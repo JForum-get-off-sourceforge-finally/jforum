@@ -43,10 +43,14 @@
 					<#assign lpi = forumRepository.getLastPostInfo(forum.id)/>
 					<tr>
 						<td class="row1" valign="middle" align="center">
-						<#if forum.unread>
-							<img src="${contextPath}/templates/${templateName}/images/folder_new_big.gif" alt="[New Folder]" />
+						<#if (forum.id == forumTrashcan) >
+							<img src="${contextPath}/templates/${templateName}/images/folder_trashcan_big.gif" alt="[Trash Can]" />
 						<#else>
-							<img src="${contextPath}/templates/${templateName}/images/folder_big.gif" alt="[Folder]" />
+							<#if forum.unread>
+								<img src="${contextPath}/templates/${templateName}/images/folder_new_big.gif" alt="[New Folder]" />
+							<#else>
+								<img src="${contextPath}/templates/${templateName}/images/folder_big.gif" alt="[Folder]" />
+							</#if>
 						</#if>
 						</td>
 						<td class="row1" width="100%">
@@ -180,8 +184,13 @@
 					<td align="center" width="20"><img src="${contextPath}/templates/${templateName}/images/folder.gif" alt="[Folder]" /></td>
 					<td><span class="gensmall">${I18n.getMessage("ForumListing.noNewMessages")}</span></td>
 					<td>&nbsp;&nbsp;</td>
-					<td align="center" width="20"><img src="${contextPath}/templates/${templateName}/images/folder_lock.gif" alt="[Lock Folder]" /></td>
+					<td align="center" width="20"><img src="${contextPath}/templates/${templateName}/images/folder_lock.gif" alt="[Locked Folder]" /></td>
 					<td><span class="gensmall">${I18n.getMessage("ForumListing.blocked")}</span></td>
+					<#if (forumTrashcan > 0) >
+						<td>&nbsp;&nbsp;</td>
+						<td align="center" width="20"><img src="${contextPath}/templates/${templateName}/images/folder_trashcan.gif" alt="[Trash Can]" /></td>
+						<td><span class="gensmall">${I18n.getMessage("ForumListing.trashcan")}</span></td>
+					</#if>
 				</tr>
 			</table>
 		</td>

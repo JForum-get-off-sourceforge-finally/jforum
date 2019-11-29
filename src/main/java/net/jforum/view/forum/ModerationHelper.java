@@ -65,12 +65,13 @@ import net.jforum.repository.SecurityRepository;
 import net.jforum.repository.TopicRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.ForumCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ModerationHelper 
 {
@@ -87,32 +88,37 @@ public class ModerationHelper
 		if (SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION)) {
 			// Deleting topics
 			RequestContext request = JForumExecutionContext.getRequest();
-			
+
 			if (request.getParameter("topicRemove") != null) {
 				if (SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_POST_REMOVE)) {
-					this.removeTopics();
-					
+					// if there's a trash can forum, deleting means moving to that forum
+					if (SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN) > 0) {
+						this.moveTopics();
+					} else {
+						this.removeTopics();
+					}
+
 					status = SUCCESS;
 				}
 			}
 			else if (request.getParameter("topicMove") != null) {
 				if (SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_MOVE)) {
 					this.moveTopics();
-					
+
 					status = IGNORE;
 				}
 			}
 			else if (request.getParameter("topicLock") != null) {
 				if (SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_LOCK_UNLOCK)) {
 					this.lockUnlockTopics(Topic.STATUS_LOCKED);
-					
+
 					status = SUCCESS;
 				}
 			}
 			else if (request.getParameter("topicUnlock") != null) {
 				if (SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_LOCK_UNLOCK)) {
 					this.lockUnlockTopics(Topic.STATUS_UNLOCKED);
-					
+
 					status = SUCCESS;
 				}
 			}
