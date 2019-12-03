@@ -46,7 +46,6 @@ import java.util.Date;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ModerationLog
 {
@@ -149,6 +148,11 @@ public class ModerationLog
 	
 	/**
 	 * @param type the type to set
+	 * 0 = moved
+	 * 1 = deleted
+	 * 2 = edited
+	 * 3 = locked/unlocked
+	 * 4 = composted
 	 */
 	public void setType(final int type)
 	{

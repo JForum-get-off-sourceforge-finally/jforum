@@ -197,8 +197,9 @@ public interface ForumDAO
 	 * @param topics The topics id array
 	 * @param fromForumId The original forum id
 	 * @param toForumId The destination forum id
+	 * @param marker whether to leave a forwarding marker in the previous forum
 	 */
-	void moveTopics(String[] topics, int fromForumId, int toForumId) ;
+	void moveTopics(String[] topics, int fromForumId, int toForumId, boolean marker) ;
 	
 	/**
 	 * Check if the forum has unread topics.

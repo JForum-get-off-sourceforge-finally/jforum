@@ -63,8 +63,10 @@
 							${I18n.getMessage("ModerationLog.typeDeleted")}
 						<#elseif log.type == 2>
 							${I18n.getMessage("ModerationLog.typeEdited")}
-						<#else>
+						<#elseif log.type == 3>
 							${I18n.getMessage("ModerationLog.typeLockUnlock")}
+						<#else>
+							${I18n.getMessage("ModerationLog.typeComposted")}
 						</#if>
 					</td>
 					<td class="row1" valign="top">${log.description?html}</td>
@@ -77,8 +79,7 @@
 						<#if log.type != 1>
 							[<a href="${JForumContext.encodeURL("/posts/list/${log.topicId}")}">${I18n.getMessage("ModerationLog.viewTopic")}</a>]<br />
 						</#if>
-
-						<#if log.type != 1>
+						<#if log.type == 2>
 							[<a href="${JForumContext.encodeURL("/posts/preList/${log.topicId}/${log.postId}")}">${I18n.getMessage("ModerationLog.viewMessage")}</a>]
 						</#if>
 					</td>

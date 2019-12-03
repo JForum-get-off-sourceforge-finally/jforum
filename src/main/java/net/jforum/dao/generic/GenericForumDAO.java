@@ -616,19 +616,24 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	}
 
 	/**
-	 * @see net.jforum.dao.ForumDAO#moveTopics(java.lang.String[], int, int)
+	 * @see net.jforum.dao.ForumDAO#moveTopics(java.lang.String[], int, int, boolean)
 	 */
-	@Override public void moveTopics(final String[] topics, final int fromForumId, final int toForumId)
+	@Override public void moveTopics(final String[] topics, final int fromForumId, final int toForumId, boolean marker)
 	{
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		try {
-			pstmt1 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.moveTopics"));
-			pstmt2 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.setForumByTopic"));
-
-			pstmt1.setInt(1, toForumId);
-			pstmt1.setInt(2, fromForumId);
+			if (marker) {
+				pstmt1 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.moveTopics"));
+				pstmt1.setInt(1, toForumId);
+				pstmt1.setInt(2, fromForumId);
+			}
+			else {
+				pstmt1 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.compostTopics"));
+				pstmt1.setInt(1, toForumId);
+			}
 			
+			pstmt2 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.setForumByTopic"));
 			pstmt2.setInt(1, toForumId);
 
 			TopicDAO tdao = DataAccessDriver.getInstance().newTopicDAO();
@@ -637,7 +642,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 
 			for (int i = 0; i < topics.length; i++) {
 				int topicId = Integer.parseInt(topics[i]);
-				pstmt1.setInt(3, topicId);
+				pstmt1.setInt(marker ? 3 : 2, topicId);
 				pstmt2.setInt(2, topicId);
 
 				pstmt1.executeUpdate();
