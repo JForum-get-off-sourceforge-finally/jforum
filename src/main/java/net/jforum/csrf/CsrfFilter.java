@@ -74,7 +74,11 @@ public class CsrfFilter implements Filter {
                 // If there is no session, no harm can be done
                 filterChain.doFilter(httpRequest, (HttpServletResponse) response);
                 // added this because wasn't creating tokens on initial request
-                session = httpRequest.getSession(true);
+				try {
+					session = httpRequest.getSession(true);
+				} catch (IllegalStateException isex) {
+					/* throws "Cannot create a session after the response has been committed" */
+				}
                 csrfGuard.updateTokens(httpRequest);
                 return;
             }
