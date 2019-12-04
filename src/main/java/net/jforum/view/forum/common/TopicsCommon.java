@@ -216,9 +216,12 @@ public class TopicsCommon
 		context.put("can_remove_posts", pc.canAccess(SecurityConstants.PERM_MODERATION_POST_REMOVE));
 		context.put("can_move_topics", pc.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_MOVE));
 		context.put("can_lockUnlock_topics", pc.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_LOCK_UNLOCK));
+
+		// Miscellaneous
 		context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
+		context.put("trashForumId", SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN));
 	}
-	
+
 	/**
 	 * Checks if the user is allowed to view the topic.
 	 * If the currently logged user does not have access

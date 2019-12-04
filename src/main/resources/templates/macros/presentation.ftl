@@ -68,7 +68,7 @@
 <#-- Moderation buttons -->
 <#-- ****************** -->
 <#macro moderationButtons>
-	<#if moderator  && openModeration?default(false)>
+	<#if moderator && openModeration?default(false)>
 		<#if can_remove_posts?default(false)><input type="submit" name="topicRemove" value="&nbsp;&nbsp;${I18n.getMessage("Delete")}&nbsp;&nbsp;" class="liteoption" onclick="return validateModerationDelete();" /></#if>
 		<#if can_move_topics?default(false)><input type="submit" name="topicMove" value="&nbsp;&nbsp;${I18n.getMessage("move")}&nbsp;&nbsp;" class="liteoption" onclick="return verifyModerationCheckedTopics();" /></#if>
 		<#if can_lockUnlock_topics?default(false)>
@@ -115,14 +115,12 @@
 	/* ]]> */
 	</script>
 	<#if isModerator || isAdmin>
-		<#if can_remove_posts?default(false)>
+		<#if can_remove_posts?default(false) && (forum.id != trashForumId)>
 			<a href="javascript:deleteTopic();"><img class="icon_topic_delete" src="${contextPath}/images/transp.gif" title="${I18n.getMessage("Delete")}" alt="" /></a>
 		</#if>
-
 		<#if can_move_topics?default(false)>
 			<a href="javascript:moveTopic();"><img class="icon_topic_move" src="${contextPath}/images/transp.gif" title="${I18n.getMessage("move")}" alt="" /></a>
 		</#if>
-
 		<#if can_lockUnlock_topics?default(false)>
 			<#if topic.status == STATUS_LOCKED>
 				<a href="javascript:lockUnlock(false);"><img class="icon_topic_unlock" src="${contextPath}/images/transp.gif" title="${I18n.getMessage("Unlock")}" alt="" /></a>
