@@ -668,7 +668,9 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
+		boolean isTopicInTrash = topic.getForumId() == SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN);
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("TopicModel.notifyUsers"));
@@ -680,11 +682,16 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			rs = pstmt.executeQuery();
 
 			List<User> users = new ArrayList<User>();
-			
-			while (rs.next()) {
-				User user = new User();
 
-				user.setId(rs.getInt(USER_ID));
+			while (rs.next()) {
+				User user = new User(rs.getInt(USER_ID));
+
+				// if topic is in trash, only notify admins and moderators
+				if (isTopicInTrash && !user.isAdmin() && !user.isModerator()) {
+					//LOGGER.info("skipping notification for user="+user.getId());
+					continue;
+				}
+
 				user.setEmail(rs.getString("user_email"));
 				user.setUsername(rs.getString("username"));
 				user.setLang(rs.getString("user_lang"));
@@ -692,7 +699,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 				users.add(user);
 			}
-			
+
 			rs.close();
 			pstmt.close();
 
@@ -1046,7 +1053,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				maxViews = 1;
 			if (maxReplies == 0)
 				maxReplies = 1;
-			//LOGGER.INFO("percentViews="+percentViews+", maxViews="+maxViews+", maxReplies="+maxReplies);
+			//LOGGER.info("percentViews="+percentViews+", maxViews="+maxViews+", maxReplies="+maxReplies);
 
 	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
 	        	SystemGlobals.getSql("TopicModel.selectHottestTopicsByLimit"));
