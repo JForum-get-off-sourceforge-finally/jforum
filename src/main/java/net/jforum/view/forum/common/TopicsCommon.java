@@ -218,7 +218,6 @@ public class TopicsCommon
 		context.put("can_lockUnlock_topics", pc.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_LOCK_UNLOCK));
 
 		// Miscellaneous
-		context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 		context.put("trashForumId", SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN));
 	}
 

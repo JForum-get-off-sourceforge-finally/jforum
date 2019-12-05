@@ -208,7 +208,6 @@ public class PostAction extends Command
 		this.context.put("thumbShowBox", SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_THUMB_BOX_SHOW));
 		this.context.put("am", new AttachmentCommon(this.request, topic.getForumId()));
 		this.context.put("karmaVotes", userVotes);
-		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 		this.context.put("canRemove", pc.canAccess(SecurityConstants.PERM_MODERATION_POST_REMOVE));
 		this.context.put("moderatorCanEdit", moderatorCanEdit);
 		this.context.put("editAfterReply", SystemGlobals.getBoolValue(ConfigKeys.POSTS_EDIT_AFTER_REPLY));
@@ -387,7 +386,6 @@ public class PostAction extends Command
 		this.setTemplateName(TemplateKeys.POSTS_USER_POSTS_LIST);
 
 		this.context.put("canDownloadAttachments", SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
-		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(false));
 		this.context.put("posts", posts);
 		this.context.put("topics", topics);

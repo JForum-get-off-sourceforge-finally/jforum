@@ -154,6 +154,8 @@ public final class ConfigKeys
 	public static final String RSS_ENABLED = "rss.enabled";
 	public static final String SOCIAL_SHARING_ENABLED = "social.enabled";
 	public static final String SOCIAL_SHARING_SITES = "social.sites.list";
+	public static final String USER_LIST_PUBLIC = "user.list.public";
+	public static final String MODERATION_LOG_PUBLIC = "moderation.log.public";
 
 	public static final String TOPICS_PER_PAGE = "topicsPerPage";
 	public static final String POSTS_PER_PAGE = "postsPerPage";

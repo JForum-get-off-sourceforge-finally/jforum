@@ -88,7 +88,6 @@ public class ForumAction extends Command
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(true));
 		this.context.put("topicsPerPage", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)));
 		this.context.put("postsPerPage", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE)));
-		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 		this.context.put("forumTrashcan", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN)));
 
 		this.context.put("totalMessages", Integer.valueOf(ForumRepository.getTotalMessages()));
@@ -208,7 +207,6 @@ public class ForumAction extends Command
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(false));
         this.context.put("category", ForumRepository.getCategory(forum.getCategoryId()));
 		this.context.put("forum", forum);
-		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 		this.context.put("pageTitle", forum.getName());
 		this.context.put("canApproveMessages", canApproveMessages);
 		this.context.put("replyOnly", !SecurityRepository.canAccess(SecurityConstants.PERM_REPLY_ONLY, Integer.toString(forum.getId())));

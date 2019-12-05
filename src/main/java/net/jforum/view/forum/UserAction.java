@@ -628,7 +628,6 @@ public class UserAction extends Command
 			this.context.put("nbookmarks", Integer.valueOf(count));
 			this.context.put("ntopics", Integer.valueOf(da.newTopicDAO().countUserTopics(user.getId())));
 			this.context.put("nposts", Integer.valueOf(da.newPostDAO().countUserPosts(user.getId())));
-            this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 			this.context.put("isLogged", SessionFacade.isLogged());
 			this.context.put("isAdmin", SessionFacade.getUserSession().isAdmin());
 			this.context.put("isModerator", SessionFacade.getUserSession().isModerator());

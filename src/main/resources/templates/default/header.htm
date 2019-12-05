@@ -58,13 +58,13 @@ Modifications by JForum Team
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Recent Topics]" /> <a id="latest" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Hottest Topics]" /> <a id="hottest" class="mainmenu" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a> &nbsp;
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Top Downloads]" /> <a id="topdownload" class="mainmenu" href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a> &nbsp;
-									<#if logged>										
+									<#if logged && (userListPublic || session.isAdmin() || session.isModerator())>
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Members]" /> <a id="userlist" class="mainmenu" href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a> &nbsp;
 									</#if>
 									<img src="${contextPath}/templates/${templateName}/images/icon_mini_groups.gif" alt="[Groups]" /> <a id="backtosite" class="mainmenu" href="${homepageLink}">${I18n.getMessage("ForumBase.backToSite")}</a>&nbsp;
 									<br />
 									<#if logged>										
-										<#if canAccessModerationLog?default(false)>										
+										<#if canAccessModerationLog?default(false) && (moderationLogPublic || session.isAdmin() || session.isModerator())>
 											<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Moderation Log]" /> <a id="moderationlog" class="mainmenu" href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a> &nbsp;
 										</#if>
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" alt="[Profile]" /> <a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>&nbsp; 

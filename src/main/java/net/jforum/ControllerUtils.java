@@ -120,6 +120,9 @@ public class ControllerUtils
         }
 		context.put("socialEnabled", SystemGlobals.getBoolValue(ConfigKeys.SOCIAL_SHARING_ENABLED));
 		context.put("socialSites", SystemGlobals.getValue(ConfigKeys.SOCIAL_SHARING_SITES));
+		context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
+		context.put("userListPublic", SystemGlobals.getBoolValue(ConfigKeys.USER_LIST_PUBLIC));
+		context.put("moderationLogPublic", SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOG_PUBLIC));
 		context.put("bannerPages", SystemGlobals.getValue(ConfigKeys.BANNER_PAGES_LIST));
 		context.put("jQueryURL", SystemGlobals.getValue(ConfigKeys.JQUERY_URL));
 		context.put("stopForumSpamWebURL", SystemGlobals.getValue(ConfigKeys.STOPFORUMSPAM_WEB_URL));
