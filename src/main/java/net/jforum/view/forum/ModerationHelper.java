@@ -56,6 +56,7 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.ForumDAO;
 import net.jforum.dao.ModerationLogDAO;
 import net.jforum.dao.TopicDAO;
+import net.jforum.entities.Forum;
 import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
@@ -193,7 +194,12 @@ public class ModerationHelper
 
 				log.setTopicId(topic.getId());
 				log.setPosterUser(topic.getPostedBy());
-				log.setOriginalMessage(I18n.getMessage("Config.Form.Forum")+" id "+topic.getForumId()+": \""+topic.getTitle()+"\"");
+				Forum forum = ForumRepository.getForum(topic.getForumId());
+				if (forum != null) {
+					log.setOriginalMessage(forum.getName()+": \""+topic.getTitle()+"\"");
+				} else {
+					log.setOriginalMessage(I18n.getMessage("Config.Form.Forum")+" #"+topic.getForumId()+": \""+topic.getTitle()+"\"");
+				}
 
 				this.saveModerationLog(log);
 
