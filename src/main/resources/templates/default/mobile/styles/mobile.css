@@ -46,6 +46,8 @@ a:hover  { color: #dd6900; text-decoration: underline; }
 
 .errorMessage { color : #ff0000; font-size: 1.1em}
 
+.topictitle { font-weight: bold; color: #000000; }
+
 /* quote */
 blockquote {
 	background:#FFFFFF none no-repeat scroll 6px 8px;

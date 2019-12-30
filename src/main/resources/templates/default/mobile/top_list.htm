@@ -1,0 +1,28 @@
+<#include "header.htm"/>
+<script type="text/javascript">
+<#include "../js/utils.js"/>
+</script>
+
+<br>
+<div class="maintitle">${I18n.getMessage("ForumBase.topDownloads")}</div>
+
+<div class="mobilePostText">
+<#list topDownloads as topDownload>
+	<div class="subject">
+		<a href="${JForumContext.encodeURL("/posts/downloadAttach/${topDownload.attachId}")}" class="gensmall">${topDownload.realFilename}</a>
+	</div>
+	${I18n.getMessage("Search.forum")}:
+	<a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${forums.get(topDownload_index).getId()}")}">${forums.get(topDownload_index).getName()}</a>
+	<br>${I18n.getMessage("ForumIndex.topics")}:
+	<span class="topictitle">
+		<a href="${JForumContext.encodeURL("/posts/list/${topDownload.topicId}")}"><#if (topDownload.topicTitle?length == 0)>No Subject<#else>${topDownload.topicTitle?html}</#if></a>
+	</span>
+	<br>${I18n.getMessage("Attachments.filesize")}:
+	<#if (topDownload.filesize < 1024)>${topDownload.filesize} bytes<#else>${topDownload.filesize / 1024} Kbytes</#if>
+	<br>${I18n.getMessage("Attachments.totalDownload")}:
+	${topDownload.downloadCount} ${I18n.getMessage("Attachments.time")}
+	<p>
+</#list>		
+</div>
+
+<#include "bottom.htm"/>
