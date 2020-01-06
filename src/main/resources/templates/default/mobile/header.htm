@@ -39,12 +39,15 @@
 <p>
 <div class="mobileLabel">
 	<a id="search" href="${JForumContext.encodeURL("/search/filters")}">${I18n.getMessage("ForumBase.search")}</a>
-	  |
-	<a href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
-	  |
-	<a href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
-	  |
-	<a href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a>
+	  | <a href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
+	  | <a href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
+	  | <a href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a>
+	<#if logged && (userListPublic || session.isAdmin() || session.isModerator())>
+	  | <a href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a>
+	</#if>
+	<#if canAccessModerationLog?default(false) && (moderationLogPublic || session.isAdmin() || session.isModerator())>
+	  | <a href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a>
+	</#if>
 	<#if logged>
 	  | <a id="search" href="${JForumContext.encodeURL("/pm/inbox")}">${I18n.getMessage("ForumBase.privateMessages")}</a>
 	</#if>

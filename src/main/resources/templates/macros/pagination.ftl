@@ -56,7 +56,7 @@
 		<#-- ------------- -->
 		<#if (thisPage > 1)>
 			<#assign start = (thisPage - 2) * recordsPerPage/>
-			<a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}">&#9668;</a>
+			<a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}<#if (mobile != 0)>?nonMobile=false</#if>">&#9668;</a>
 		</#if>
 
 		<#if (totalPages > 10)>
@@ -64,7 +64,7 @@
 			<#-- Always write the first 3 links -->
 			<#-- ------------------------------ -->
 			<#list 1 .. 3 as page>
-				<@pageLink page, id/>
+				<@pageLink page, id, mobile/>
 			</#list>
 
 			<#-- ------------------ -->
@@ -87,7 +87,7 @@
 
 				<#if (max >= min + 1)>
 					<#list min .. max - 1 as page>
-						<@pageLink page, id/>
+						<@pageLink page, id, mobile/>
 					</#list>
 				</#if>
 
@@ -100,11 +100,11 @@
 			<#-- Write the last 3 links -->
 			<#-- ---------------------- -->
 			<#list totalPages - 2 .. totalPages as page>
-				<@pageLink page, id/>
+				<@pageLink page, id, mobile/>
 			</#list>
 		<#else>
 			<#list 1 .. totalPages as page>
-				<@pageLink page, id/>
+				<@pageLink page, id, mobile/>
 			</#list>
 		</#if>
 
@@ -113,7 +113,7 @@
 		<#-- ------------- -->
 		<#if (thisPage < totalPages)>
 			<#assign start = thisPage * recordsPerPage/>
-			<a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}">&#9658;</a>
+			<a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}<#if (mobile != 0)>?nonMobile=false</#if>">&#9658;</a>
 		</#if>
 
 		<#if (mobile == 0)>
@@ -132,10 +132,10 @@
 	</#if>
 </#macro>
 
-<#macro pageLink page id>
+<#macro pageLink page id mobile>
 	<#assign start = recordsPerPage * (page - 1)/>
 	<#if page != thisPage>
-		<#assign link><a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}">${page}</a></#assign>
+		<#assign link><a href="${contextPath}/${moduleName}/${action}<#if (start > 0)>/${start}</#if><#if (id > -1)>/${id}</#if>${extension}<#if (mobile != 0)>?nonMobile=false</#if>">${page}</a></#assign>
 	<#else>
 		<#assign link><span class="current">${page}</span></#assign>
 	</#if>

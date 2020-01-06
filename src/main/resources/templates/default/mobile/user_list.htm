@@ -1,0 +1,36 @@
+<#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination>
+<script type="text/javascript">
+/* <![CDATA[ */
+<#include "../js/utils.js"/>
+/* ]]> */
+</script>
+
+<div class="maintitle">${pageTitle?default(I18n.getMessage("ForumBase.userList"))?html}</div>
+<p>
+<#list users as user>
+	<#if (user.id > 1)>
+		<div class="subject">
+			<a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a>
+		</div>
+		<div class="mobilePostText">
+			${I18n.getMessage("UserProfile.privateMessage")}: <a href="${JForumContext.encodeURL("/pm/sendTo/${user.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a><br />
+			<#if (user.isViewEmailEnabled() && user.email?exists && user.email?length > 0)>
+				<#assign e = user.email.split("@")/>
+				<#if e?size == 2>
+					${I18n.getMessage("email")}: 
+					<a href="#" onclick="document.location.href = 'mailto:' + showEmail('${e[0]?default("")?html}', '${e[1]?default("")?html}'); return false;"><img src="${contextPath}/templates/${templateName}/images/icon_email.gif" alt="[Email]" /></a>
+					<br />
+				</#if>
+			</#if>
+			${I18n.getMessage("UserProfile.registrationDate")}: ${user.registrationDate}<br />
+			${I18n.getMessage("User.numMessages")}: ${user.totalPosts}
+		</div>
+		<br />
+	</#if>
+</#list>
+
+<@pagination.doPagination "list", -1, 1 /><br />
+
+<#include "bottom.htm"/>
+

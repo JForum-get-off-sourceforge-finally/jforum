@@ -1,0 +1,40 @@
+<#include "header.htm"/>
+<#import "../../macros/pagination.ftl" as pagination>
+
+<div class="maintitle">${I18n.getMessage("ModerationLog.moderationLog")}</div>
+<p>
+<#list activityLog as log>
+	<div class="mobilePostText">
+		${I18n.getMessage("ModerationLog.date")}: ${log.date?datetime}<br>
+		<#if canAccessFullModerationLog>
+			${I18n.getMessage("ModerationLog.moderator")}: <a href="${JForumContext.encodeURL("/user/profile/${log.user.id}")}">${log.user.username}</a><br>
+		</#if>
+		<#if log.posterUser.username?exists>
+			${I18n.getMessage("ModerationLog.user")}: <a href="${JForumContext.encodeURL("/user/profile/${log.posterUser.id}")}">${log.posterUser.username}</a><br>
+		</#if>
+		${I18n.getMessage("ModerationLog.type")}:
+			<#if log.type == 0>${I18n.getMessage("ModerationLog.typeMoved")}
+			<#elseif log.type == 1>${I18n.getMessage("ModerationLog.typeDeleted")}
+			<#elseif log.type == 2>${I18n.getMessage("ModerationLog.typeEdited")}
+			<#elseif log.type == 3>${I18n.getMessage("ModerationLog.typeLockUnlock")}
+			<#else>${I18n.getMessage("ModerationLog.typeComposted")}
+			</#if>
+		<br>
+		${I18n.getMessage("ModerationLog.description")}: ${log.description?html}<br>
+		<#if canAccessFullModerationLog>
+			${I18n.getMessage("ModerationLog.originalMessage")}: ${log.originalMessage?default("&nbsp;")}<br>
+		</#if>
+		<#if log.type != 1>
+			<a href="${JForumContext.encodeURL("/posts/list/${log.topicId}")}">${I18n.getMessage("ModerationLog.viewTopic")}</a>
+		</#if>
+		<#if log.type == 2>
+			<a href="${JForumContext.encodeURL("/posts/preList/${log.topicId}/${log.postId}")}">${I18n.getMessage("ModerationLog.viewMessage")}</a>
+		</#if>
+	</div>
+	<br />
+</#list>
+
+<@pagination.doPagination "showActivityLog", -1, 1 /><br />
+
+<#include "bottom.htm"/>
+
