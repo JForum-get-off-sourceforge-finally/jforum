@@ -1,52 +1,13 @@
-<br>
-<div class="mobileLabel">
-	<a id="search" href="${JForumContext.encodeURL("/search/filters")}">${I18n.getMessage("ForumBase.search")}</a>
-	  | <a href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
-	  | <a href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
-	  | <a href="${JForumContext.encodeURL("/topDownloads/list")}">${I18n.getMessage("ForumBase.topDownloads")}</a>
-	<#if logged && (userListPublic || session.isAdmin() || session.isModerator())>
-	  | <a href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a>
-	</#if>
-	<#if canAccessModerationLog?default(false) && (moderationLogPublic || session.isAdmin() || session.isModerator())>
-	  | <a href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a>
-	</#if>
-	<#if logged>
-	  | <a id="search" href="${JForumContext.encodeURL("/pm/inbox")}">${I18n.getMessage("ForumBase.privateMessages")}</a>
-	</#if>
-	<#if bookmarksEnabled && logged>
-		| <a href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}">${I18n.getMessage("Bookmarks.myBag")}</a>
-	</#if>
-	<#if logged>
-		| <a id="myposts" href="${JForumContext.encodeURL("/posts/listByUser/${session.userId}")}">${I18n.getMessage("ForumBase.posts")}</a>
-		| <a class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>
-	</#if>
-</div>
-
-<#if googleAnalyticsTracker?exists >
-<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', '${googleAnalyticsTracker}']);
-	_gaq.push(['_gat._anonymizeIp']);
-	_gaq.push(['_trackPageview']);
-
-	(function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-</script>
-</#if>
-
 <br />
 <a name="bottom"></a>
 <a href="#top"><img src="${contextPath}/templates/default/mobile/images/up_arrow.png" width="10" height="10" alt="Jump to top of page" /></a>
 &nbsp;|&nbsp;
 <#if logged>
-	<a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} </a>
+	<a id="logout" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} </a>
 </#if>
 <#if !logged>
-	<a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a> /
-	<a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>
+	<a id="register" href="${JForumContext.encodeURL("/user/insert")}">${I18n.getMessage("ForumBase.register")}</a> /
+	<a id="login" href="${JForumContext.encodeURL("/user/login")}">${I18n.getMessage("ForumBase.login")}</a>
 </#if>
 &nbsp;|&nbsp;
 <a href="?nonMobile=true">${I18n.getMessage("ForumBase.desktopView")}</a>

@@ -3,13 +3,11 @@
 <#include "../js/utils.js"/>
 </script>
 
-<br>
 <div class="maintitle">${I18n.getMessage("ForumBase.topDownloads")}</div>
-
-<div class="mobilePostText">
+<p>
 <#list topDownloads as topDownload>
 	<div class="subject">
-		<a href="${JForumContext.encodeURL("/posts/downloadAttach/${topDownload.attachId}")}" class="gensmall">${topDownload.realFilename}</a>
+		<a href="${JForumContext.encodeURL("/posts/downloadAttach/${topDownload.attachId}")}">${topDownload.realFilename}</a>
 	</div>
 	${I18n.getMessage("Search.forum")}:
 	<a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${forums.get(topDownload_index).getId()}")}">${forums.get(topDownload_index).getName()}</a>
@@ -23,6 +21,5 @@
 	${topDownload.downloadCount} ${I18n.getMessage("Attachments.time")}
 	<p>
 </#list>		
-</div>
 
 <#include "bottom.htm"/>
