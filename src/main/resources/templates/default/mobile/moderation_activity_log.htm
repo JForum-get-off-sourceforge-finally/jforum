@@ -3,6 +3,8 @@
 
 <div class="maintitle">${I18n.getMessage("ModerationLog.moderationLog")}</div>
 <p>
+<@pagination.doPagination "showActivityLog", -1, 1 /><br />
+
 <#list activityLog as log>
 	<div class="mobilePostText">
 		${I18n.getMessage("ModerationLog.date")}: ${log.date?datetime}<br>
