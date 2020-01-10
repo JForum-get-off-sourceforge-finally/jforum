@@ -1,7 +1,4 @@
 <br />
-<a name="bottom"></a>
-<a href="#top"><img src="${contextPath}/templates/default/mobile/images/up_arrow.png" width="10" height="10" alt="Jump to top of page" /></a>
-&nbsp;|&nbsp;
 <#if logged>
 	<a id="logout" href="${JForumContext.encodeURL("/user/logout")}">${I18n.getMessage("ForumBase.logout")} </a>
 </#if>
@@ -11,5 +8,8 @@
 </#if>
 &nbsp;|&nbsp;
 <a href="?nonMobile=true">${I18n.getMessage("ForumBase.desktopView")}</a>
+&nbsp;|&nbsp;
+<a href="#top"><img src="${contextPath}/templates/default/mobile/images/up_arrow.png" width="10" height="10" alt="Jump to top of page" /></a>
+<a name="bottom"></a>
 </body>
 </html>
