@@ -40,6 +40,7 @@
 <div class="dropdown">
   <span class="dropbtn">${I18n.getMessage("ForumIndex.navigation")}</span>
   <div class="dropdown-content">
+	<a href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
 	<a href="${JForumContext.encodeURL("/search/filters")}">${I18n.getMessage("ForumBase.search")}</a>
 	<a href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
 	<a href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
