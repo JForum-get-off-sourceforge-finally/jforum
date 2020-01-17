@@ -9,5 +9,5 @@ ALTER TABLE jforum_users DROP user_yim;
 ALTER TABLE jforum_users DROP user_msnm;
 
 -- widen config field for long entries
-ALTER TABLE jforum_config MODIFY config_value TYPE VARCHAR(1024);
+ALTER TABLE jforum_config MODIFY config_value VARCHAR(1024);
 
