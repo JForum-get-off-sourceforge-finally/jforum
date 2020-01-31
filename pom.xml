@@ -27,7 +27,7 @@
 		<repository>
 			<id>jahia</id>
 			<name>jahia</name>
-			<url>http://maven.jahia.org/maven2/</url>
+			<url>https://maven.jahia.org/maven2/</url>
 		</repository>
 		<repository>
 			<id>codelds</id>
@@ -35,7 +35,7 @@
 		</repository>
 		<repository>
 			<id>jfrog</id>
-			<url>http://repo.jfrog.org/artifactory/libs-releases/</url>
+			<url>https://repo.jfrog.org/artifactory/libs-releases/</url>
 		</repository>
 	</repositories>
 
@@ -55,7 +55,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>4.13</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -244,7 +244,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.18</version>
+			<version>8.0.19</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
