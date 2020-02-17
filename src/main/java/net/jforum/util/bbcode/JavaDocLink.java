@@ -122,7 +122,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_3_0/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_4_1/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
@@ -162,7 +162,7 @@ public class JavaDocLink implements Substitution {
     // Other 3rd party
     private static final String JUNIT_URL = "http://junit.org/junit5/docs/current/api/";
     private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
-    private static final String ITEXT2_URL = "http://www.ulfdittmer.com/javadoc/openpdf/";
+    private static final String ITEXT2_URL = "https://librepdf.github.io/OpenPDF/docs-1-3-3/";
     private static final String ITEXT_URL = "http://api.itextpdf.com/";
 	private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.13/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
@@ -182,11 +182,11 @@ public class JavaDocLink implements Substitution {
     private static final String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
     private static final String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
     private static final String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
-    private static final String QUARTZ_URL = "http://www.quartz-scheduler.org/api/2.3.0/";
+    private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
 	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.1-jre/api/docs/";
-	private static final String JAXEN_URL = "http://www.ulfdittmer.com/javadoc/jaxen-1.2.0/";
+	private static final String JAXEN_URL = "https://www.ulfdittmer.com/javadoc/jaxen-1.2.0/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
     private static final String[][] URL_MAP = new String[][] {
@@ -331,7 +331,9 @@ public class JavaDocLink implements Substitution {
         {"jcifs", JCIFS_URL},
         {"net.sourceforge.stripes", STRIPES_URL},
         {"android", ANDROID_URL},
-        {"dalvik", ANDROID_URL},
+        {"androidx", ANDROID_URL},
+        {"com.android", ANDROID_URL},
+        {"com.google.android", ANDROID_URL},
         {"com.gargoylesoftware.htmlunit", HTMLUNIT_URL},
         {"org.jdom2", JDOM2_URL},
         {"org.dom4j", DOM4J_URL},
