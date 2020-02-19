@@ -167,12 +167,11 @@ public class JavaDocLink implements Substitution {
 	private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.13/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "https://rsb.info.nih.gov/ij/developer/api/";
-    private static final String JWEBUNIT_URL = "http://jwebunit.sourceforge.net/apidocs/";
     private static final String XOM_URL = "http://www.xom.nu/apidocs/";
     private static final String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
     private static final String STRIPES_URL = "http://stripes.sourceforge.net/docs/current/javadoc/";
     private static final String ANDROID_URL = "https://developer.android.com/reference/";
-    private static final String MPXJ_URL = "http://mpxj.sourceforge.net/apidocs/";
+    private static final String MPXJ_URL = "http://www.mpxj.org/apidocs/";
     private static final String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
     private static final String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
     private static final String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
@@ -186,7 +185,7 @@ public class JavaDocLink implements Substitution {
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
 	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.1-jre/api/docs/";
-	private static final String JAXEN_URL = "https://www.ulfdittmer.com/javadoc/jaxen-1.2.0/";
+	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 
     private static final String[][] URL_MAP = new String[][] {
@@ -326,7 +325,6 @@ public class JavaDocLink implements Substitution {
         {"org.apache.pdfbox", PDFBOX_URL},
         {"org.jfree.chart", JFREECHART_URL},
         {"org.jfree.data", JFREECHART_URL},
-        {"net.sourceforge.jwebunit", JWEBUNIT_URL},
         {"nu.xom", XOM_URL},
         {"jcifs", JCIFS_URL},
         {"net.sourceforge.stripes", STRIPES_URL},
