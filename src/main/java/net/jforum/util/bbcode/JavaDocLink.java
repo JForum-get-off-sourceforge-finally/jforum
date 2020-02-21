@@ -149,9 +149,10 @@ public class JavaDocLink implements Substitution {
     private static final String CONFIGURATION_URL = ACP + "-configuration/apidocs/";
     private static final String CODEC_URL = ACP + "-codec/apidocs/";
     private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.4/apidocs/";
-	// TODO: should add version 4 of the HttpClients API, but it's split over various packages
-	// with no easy pattern to separate: https://hc.apache.org/user-docs.html
     private static final String HTTPCLIENT_URL = "https://hc.apache.org/httpclient-3.x/apidocs/";
+    private static final String HC_CLIENT_URL = "https://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/";
+    private static final String HC_CORE_URL = "https://hc.apache.org/httpcomponents-core-5.0.x/httpcore5/apidocs/";
+    private static final String HC_CORE_HTTP2_URL = "https://hc.apache.org/httpcomponents-core-5.0.x/httpcore5-h2/apidocs/";
     private static final String NET_URL = ACP + "-net/javadocs/api-3.6/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
@@ -187,6 +188,7 @@ public class JavaDocLink implements Substitution {
 	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.1-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
+	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
 
     private static final String[][] URL_MAP = new String[][] {
         {"javax.activation", J2EE_URL},
@@ -306,6 +308,9 @@ public class JavaDocLink implements Substitution {
         {"org.apache.commons.compress", COMPRESS_URL},
         {"org.apache.commons.betwixt", BETWIXT_URL},
         {"org.apache.commons.pool", POOL_URL},
+        {"org.apache.http", HC_CLIENT_URL},
+        {"org.apache.hc.core5.http2", HC_CORE_HTTP2_URL},
+        {"org.apache.hc.core5", HC_CORE_URL}, // after HC_CORE_HTTP2_URL
 
         {"org.apache.catalina", TOMCAT_URL},
         {"org.apache.coyote", TOMCAT_URL},
@@ -330,8 +335,11 @@ public class JavaDocLink implements Substitution {
         {"net.sourceforge.stripes", STRIPES_URL},
         {"android", ANDROID_URL},
         {"androidx", ANDROID_URL},
+        {"dalvik", ANDROID_URL},
         {"com.android", ANDROID_URL},
         {"com.google.android", ANDROID_URL},
+        {"org.xmlpull", ANDROID_URL},
+        {"org.json", ANDROID_URL},
         {"com.gargoylesoftware.htmlunit", HTMLUNIT_URL},
         {"org.jdom2", JDOM2_URL},
         {"org.dom4j", DOM4J_URL},
@@ -354,7 +362,8 @@ public class JavaDocLink implements Substitution {
 		{"org.osgi", OSGI_URL_ENTERPRISE}, // after the other org.osgi packages that are part of the Core
 		{"com.google.common", GOOGLE_GUAVA_URL },
 		{"org.jaxen", JAXEN_URL },
-		{"freemarker", FREEMARKER_URL }
+		{"freemarker", FREEMARKER_URL },
+		{"org.bouncycastle", BOUNCYCASTLE_URL }
     };
 
 	private String lookup (String packageName, String apiVersion) {
