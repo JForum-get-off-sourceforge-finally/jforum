@@ -138,7 +138,6 @@ public class JavaDocLink implements Substitution {
     private static final String COLLECTIONS_URL = ACP + "-collections/javadocs/api-release/";
     private static final String CLI_URL = ACP + "-cli/javadocs/api-release/";
     private static final String VALIDATOR_URL = ACP + "-validator/apidocs/";
-    private static final String PRIMITIVES_URL = ACP + "-primitives/apidocs/";
     private static final String MATH_URL = ACP + "-math/javadocs/api-3.6.1/";
     private static final String JEXL_URL = ACP + "-jexl/apidocs/";
     private static final String JXPATH_URL = ACP + "-jxpath/apidocs/";
@@ -157,7 +156,6 @@ public class JavaDocLink implements Substitution {
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
     private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-release/";
-    private static final String BETWIXT_URL = ACP + "-betwixt/apidocs/";
 	private static final String POOL_URL = ACP + "-pool/api-2.7.0/";
 
     // Other 3rd party
@@ -170,22 +168,19 @@ public class JavaDocLink implements Substitution {
     private static final String IMAGEJ_URL = "https://rsb.info.nih.gov/ij/developer/api/";
     private static final String XOM_URL = "http://www.xom.nu/apidocs/";
     private static final String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
-    private static final String STRIPES_URL = "http://stripes.sourceforge.net/docs/current/javadoc/";
     private static final String ANDROID_URL = "https://developer.android.com/reference/";
     private static final String MPXJ_URL = "http://www.mpxj.org/apidocs/";
     private static final String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
     private static final String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
     private static final String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
     private static final String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
-    private static final String SEAM_URL = "http://docs.jboss.org/seam/3/latest/api/";
     private static final String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
     private static final String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
     private static final String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
-    private static final String HIBERNATE_SHARDS_URL = "http://docs.jboss.org/hibernate/stable/shards/api/";
     private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://google.github.io/guava/releases/28.1-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/28.2-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
@@ -290,7 +285,6 @@ public class JavaDocLink implements Substitution {
         {"org.apache.commons.collections", COLLECTIONS_URL},
         {"org.apache.commons.cli", CLI_URL},
         {"org.apache.commons.validator", VALIDATOR_URL},
-        {"org.apache.commons.primitives", PRIMITIVES_URL},
         {"org.apache.commons.math", MATH_URL},
         {"org.apache.commons.jexl", JEXL_URL},
         {"org.apache.commons.jxpath", JXPATH_URL},
@@ -306,7 +300,6 @@ public class JavaDocLink implements Substitution {
         {"org.apache.commons.lang", LANG_URL},
         {"org.apache.commons.logging", LOGGING_URL},
         {"org.apache.commons.compress", COMPRESS_URL},
-        {"org.apache.commons.betwixt", BETWIXT_URL},
         {"org.apache.commons.pool", POOL_URL},
         {"org.apache.http", HC_CLIENT_URL},
         {"org.apache.hc.core5.http2", HC_CORE_HTTP2_URL},
@@ -332,7 +325,6 @@ public class JavaDocLink implements Substitution {
         {"org.jfree.data", JFREECHART_URL},
         {"nu.xom", XOM_URL},
         {"jcifs", JCIFS_URL},
-        {"net.sourceforge.stripes", STRIPES_URL},
         {"android", ANDROID_URL},
         {"androidx", ANDROID_URL},
         {"dalvik", ANDROID_URL},
@@ -345,10 +337,8 @@ public class JavaDocLink implements Substitution {
         {"org.dom4j", DOM4J_URL},
         {"net.sf.mpxj", MPXJ_URL},
         {"org.springframework", SPRING_URL},
-        {"org.jboss.seam", SEAM_URL},
         {"org.hibernate.search", HIBERNATE_SEARCH_URL},
         {"org.hibernate.validator", HIBERNATE_VALIDATOR_URL},
-        {"org.hibernate.shards", HIBERNATE_SHARDS_URL},
         {"org.hibernate", HIBERNATE_URL}, // after the other org.hibernate subpackages
 		{"org.quartz", QUARTZ_URL},
 		{"org.osgi.framework", OSGI_URL_CORE},
