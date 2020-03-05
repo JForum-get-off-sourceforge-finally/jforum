@@ -122,6 +122,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
+    private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
 	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_4_1/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
@@ -129,7 +130,7 @@ public class JavaDocLink implements Substitution {
     private static final String STRUTS2_URL = "https://struts.apache.org/maven/struts2-core/apidocs/";
     private static final String WICKET_URL = "https://ci.apache.org/projects/wicket/apidocs/6.x/";
     private static final String XMLBEANS_URL = "https://xmlbeans.apache.org/docs/3.0.0/reference/";
-    private static final String TAPESTRY5_URL = "https://tapestry.apache.org/current/apidocs/";
+    private static final String TAPESTRY_URL = "https://tapestry.apache.org/current/apidocs/";
     private static final String WSS4J_URL = "https://ws.apache.org/wss4j/apidocs/";
     private static final String SHIRO_URL = "https://shiro.apache.org/static/current/apidocs/";
 
@@ -271,13 +272,14 @@ public class JavaDocLink implements Substitution {
         {"org.apache.lucene", LUCENE_URL},
         {"org.apache.poi", POI_URL},
         {"org.apache.log4j", LOG4J_URL},
+        {"org.apache.logging.log4j", LOG4J2_URL},
         {"org.apache.axis2", AXIS2_URL},
         {"org.apache.struts2", STRUTS2_URL},
         {"com.opensymphony.xwork2", STRUTS2_URL},
         {"org.apache.wicket", WICKET_URL},
         {"org.apache.xmlbeans", XMLBEANS_URL},
         {"org.apache.shiro", SHIRO_URL},
-        {"org.apache.tapestry5", TAPESTRY5_URL},
+        {"org.apache.tapestry5", TAPESTRY_URL},
         {"org.apache.ws.axis.security", WSS4J_URL},
         {"org.apache.ws.security", WSS4J_URL},
         {"org.apache.xml.security", XML_CRYPTO_URL},
