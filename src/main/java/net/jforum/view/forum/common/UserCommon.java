@@ -107,17 +107,15 @@ public final class UserCommon
 			}
 		}
 
-		final SafeHtml safeHtml = new SafeHtml();
-
 		user.setId(userId);
-		user.setIcq(safeHtml.makeSafe(request.getParameter("icq")));
-		user.setTwitter(safeHtml.makeSafe(request.getParameter("twitter")));
-		user.setSkype(safeHtml.makeSafe(request.getParameter("skype")));
-		user.setFrom(safeHtml.makeSafe(request.getParameter("location")));
-		user.setOccupation(checkForSpam(safeHtml, request.getParameter("occupation"), isAdmin));
-		user.setInterests(checkForSpam(safeHtml, request.getParameter("interests"), isAdmin));
-		user.setBiography(checkForSpam(safeHtml, request.getParameter("biography"), isAdmin));
-		user.setSignature(checkForSpam(safeHtml, request.getParameter("signature"), isAdmin));
+		user.setIcq(SafeHtml.makeSafe(request.getParameter("icq")));
+		user.setTwitter(SafeHtml.makeSafe(request.getParameter("twitter")));
+		user.setSkype(SafeHtml.makeSafe(request.getParameter("skype")));
+		user.setFrom(SafeHtml.makeSafe(request.getParameter("location")));
+		user.setOccupation(checkForSpam(request.getParameter("occupation"), isAdmin));
+		user.setInterests(checkForSpam(request.getParameter("interests"), isAdmin));
+		user.setBiography(checkForSpam(request.getParameter("biography"), isAdmin));
+		user.setSignature(checkForSpam(request.getParameter("signature"), isAdmin));
 		user.setViewEmailEnabled(request.getParameter("viewemail").equals("1"));
 		user.setNotifyPrivateMessagesEnabled(request.getParameter("notifypm").equals("1"));
 		user.setNotifyOnMessagesEnabled(request.getParameter("notifyreply").equals("1"));
@@ -129,7 +127,7 @@ public final class UserCommon
 		user.setNotifyAlways("1".equals(request.getParameter("notify_always")));
 		user.setNotifyText("1".equals(request.getParameter("notify_text")));
 
-		String website = safeHtml.makeSafe(request.getParameter("website"));
+		String website = SafeHtml.makeSafe(request.getParameter("website"));
 		if (StringUtils.isNotEmpty(website) && !website.toLowerCase(Locale.US).startsWith("http://") 
 				&& !website.toLowerCase(Locale.US).startsWith("https://")) {
 			website = "http://" + website;
@@ -152,7 +150,7 @@ public final class UserCommon
 					|| user.getPassword().equals(currentPasswordMD5)
 					|| user.getPassword().equals(currentPasswordSHA512)
 					|| user.getPassword().equals(currentPasswordSHA512Salt)) {
-				user.setEmail(safeHtml.makeSafe(request.getParameter("email")));
+				user.setEmail(SafeHtml.makeSafe(request.getParameter("email")));
 
 				final String newPassword = request.getParameter("new_password");
 
@@ -223,10 +221,10 @@ public final class UserCommon
 		return errors;
 	}
 
-    private static String checkForSpam (SafeHtml safeHtml, String text, boolean isAdmin) {
+    private static String checkForSpam (String text, boolean isAdmin) {
 		String result = SpamRepository.findSpam(text);
         if (isAdmin || (result == null)) {
-			return safeHtml.makeSafe(text);
+			return SafeHtml.makeSafe(text);
         } else {
 			return "";
 		}

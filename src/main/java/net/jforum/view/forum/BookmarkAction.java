@@ -169,10 +169,9 @@ public class BookmarkAction extends Command
 	public void insertSave()
 	{
 		Bookmark bookmark = new Bookmark();
-		final SafeHtml safeHtml = new SafeHtml();
 
-		bookmark.setDescription(safeHtml.makeSafe(this.request.getParameter("description")));
-		bookmark.setTitle(safeHtml.makeSafe(this.request.getParameter("title")));
+		bookmark.setDescription(SafeHtml.makeSafe(this.request.getParameter("description")));
+		bookmark.setTitle(SafeHtml.makeSafe(this.request.getParameter("title")));
 
 		String publicVisible = this.request.getParameter("visible");
 		bookmark.setPublicVisible(publicVisible != null && publicVisible.length() > 0);
@@ -196,10 +195,8 @@ public class BookmarkAction extends Command
 			return;
 		}
 
-		final SafeHtml safeHtml = new SafeHtml();
-
-		bookmark.setDescription(safeHtml.makeSafe(this.request.getParameter("description")));
-		bookmark.setTitle(safeHtml.makeSafe(this.request.getParameter("title")));
+		bookmark.setDescription(SafeHtml.makeSafe(this.request.getParameter("description")));
+		bookmark.setTitle(SafeHtml.makeSafe(this.request.getParameter("title")));
 
 		String visible = this.request.getParameter("visible");
 		bookmark.setPublicVisible(StringUtils.isNotBlank(visible));

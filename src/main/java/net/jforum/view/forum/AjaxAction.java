@@ -247,7 +247,7 @@ public class AjaxAction extends Command
 		post.setSmiliesEnabled("true".equals(this.request.getParameter("smilies")));
 
 		if (post.isHtmlEnabled()) {
-			post.setText(new SafeHtml().makeSafe(post.getText()));
+			post.setText(SafeHtml.makeSafe(post.getText()));
 		}
 
 		post = PostCommon.preparePostForDisplay(post);

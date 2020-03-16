@@ -299,7 +299,7 @@ public class PrivateMessageAction extends Command
 	public void findUser()
 	{
 		boolean showResult = false;
-		String username = new SafeHtml().makeSafe(this.request.getParameter("username"));
+		String username = SafeHtml.makeSafe(this.request.getParameter("username"));
 
 		if (username != null && !username.equals("")) {
 			List<User> namesList = DataAccessDriver.getInstance().newUserDAO().findByName(username, false);

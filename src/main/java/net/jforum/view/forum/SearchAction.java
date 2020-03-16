@@ -120,7 +120,7 @@ public class SearchAction extends Command
 			filters();
 			return;
 		}
-		new StatsEvent("Search", new SafeHtml().makeSafe(args.rawKeywords())).record();
+		new StatsEvent("Search", SafeHtml.makeSafe(args.rawKeywords())).record();
 		this.search(new ContentSearchOperation(), args);
     }
 

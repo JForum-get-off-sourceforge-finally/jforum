@@ -100,11 +100,10 @@ public class PostCommon
 		// cause some regular expressions to fail
 		text = text.replaceAll("\n", "<br /> ");
 
-		SafeHtml safeHtml = new SafeHtml();
-		post.setText(safeHtml.makeSafe(text));
-		post.setSubject(safeHtml.makeSafe(subject));
+		post.setText(SafeHtml.makeSafe(text));
+		post.setSubject(SafeHtml.makeSafe(subject));
 		processText(post);
-		post.setText(safeHtml.ensureAllAttributesAreSafe(post.getText()));
+		post.setText(SafeHtml.makeSafe(post.getText()));
 		return post;
 	}
 
@@ -330,7 +329,7 @@ public class PostCommon
 		post.setHtmlEnabled(htmlEnabled && request.getParameter("disable_html") == null);
 
 		if (post.isHtmlEnabled()) {
-			post.setText(new SafeHtml().makeSafe(request.getParameter("message")));
+			post.setText(SafeHtml.makeSafe(request.getParameter("message")));
 		}
 		else {
 			post.setText(request.getParameter("message"));
