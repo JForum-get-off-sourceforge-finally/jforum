@@ -123,7 +123,7 @@ public class JavaDocLink implements Substitution {
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_4_1/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_5_0/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
