@@ -157,33 +157,33 @@ public class JavaDocLink implements Substitution {
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
     private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-release/";
-	private static final String POOL_URL = ACP + "-pool/api-2.7.0/";
+	private static final String POOL_URL = ACP + "-pool/api-2.8.0/";
 
     // Other 3rd party
-    private static final String JUNIT_URL = "http://junit.org/junit5/docs/current/api/";
+    private static final String JUNIT_URL = "https://junit.org/junit5/docs/current/api/";
     private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
     private static final String ITEXT2_URL = "https://librepdf.github.io/OpenPDF/docs-1-3-3/";
-    private static final String ITEXT_URL = "http://api.itextpdf.com/";
+    private static final String ITEXT_URL = "https://api.itextpdf.com/";
 	private static final String PDFBOX_URL = "https://pdfbox.apache.org/docs/2.0.13/javadocs/";
     private static final String JFREECHART_URL = "http://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "https://rsb.info.nih.gov/ij/developer/api/";
     private static final String XOM_URL = "http://www.xom.nu/apidocs/";
-    private static final String JCIFS_URL = "http://jcifs.samba.org/src/docs/api/";
+    private static final String JCIFS_URL = "https://jcifs.samba.org/src/docs/api/";
     private static final String ANDROID_URL = "https://developer.android.com/reference/";
-    private static final String MPXJ_URL = "http://www.mpxj.org/apidocs/";
+    private static final String MPXJ_URL = "https://www.mpxj.org/apidocs/";
     private static final String HTMLUNIT_URL = "http://htmlunit.sourceforge.net/apidocs/";
     private static final String DOM4J_URL = "http://dom4j.sourceforge.net/dom4j-1.6.1/apidocs/";
     private static final String JDOM2_URL = "http://www.jdom.org/docs/apidocs/";
-    private static final String SPRING_URL = "http://static.springsource.org/spring/docs/current/javadoc-api/";
-    private static final String HIBERNATE_URL = "http://docs.jboss.org/hibernate/stable/entitymanager/api/";
-    private static final String HIBERNATE_SEARCH_URL = "http://docs.jboss.org/hibernate/stable/search/api/";
-    private static final String HIBERNATE_VALIDATOR_URL = "http://docs.jboss.org/hibernate/stable/validator/api/";
+    private static final String SPRING_URL = "https://docs.spring.io/spring/docs/current/javadoc-api/";
+    private static final String HIBERNATE_URL = "https://docs.jboss.org/hibernate/stable/entitymanager/api/";
+    private static final String HIBERNATE_SEARCH_URL = "https://docs.jboss.org/hibernate/stable/search/api/";
+    private static final String HIBERNATE_VALIDATOR_URL = "https://docs.jboss.org/hibernate/stable/validator/api/";
     private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
 	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/28.2-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
-	private static final String FREEMARKER_URL = "http://freemarker.org/docs/api/";
+	private static final String FREEMARKER_URL = "https://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
 
     private static final String[][] URL_MAP = new String[][] {
@@ -302,7 +302,7 @@ public class JavaDocLink implements Substitution {
         {"org.apache.commons.lang", LANG_URL},
         {"org.apache.commons.logging", LOGGING_URL},
         {"org.apache.commons.compress", COMPRESS_URL},
-        {"org.apache.commons.pool", POOL_URL},
+        {"org.apache.commons.pool2", POOL_URL},
         {"org.apache.http", HC_CLIENT_URL},
         {"org.apache.hc.core5.http2", HC_CORE_HTTP2_URL},
         {"org.apache.hc.core5", HC_CORE_URL}, // after HC_CORE_HTTP2_URL
