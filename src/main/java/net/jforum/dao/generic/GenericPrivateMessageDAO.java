@@ -185,7 +185,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectFromInbox(net.jforum.entities.User)
 	 */
-	@Override public List<PrivateMessage> selectFromInbox(User user, int startFrom, int count)
+	@Override public List<PrivateMessage> selectFromInbox(int userId, int startFrom, int count)
 	{
 		String query = SystemGlobals.getSql("PrivateMessageModel.baseListing");
 		query = query.replaceAll("#FILTER#", SystemGlobals.getSql("PrivateMessageModel.inbox"));
@@ -194,7 +194,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 		ResultSet rs = null;
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
-			pstmt.setInt(1, user.getId());
+			pstmt.setInt(1, userId);
 			pstmt.setInt(2, startFrom);
 			pstmt.setInt(3, count);
 
@@ -226,7 +226,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 	/**
 	 * @see net.jforum.dao.PrivateMessageDAO#selectFromSent(net.jforum.entities.User)
 	 */
-	@Override public List<PrivateMessage> selectFromSent(User user, int startFrom, int count)
+	@Override public List<PrivateMessage> selectFromSent(int userId, int startFrom, int count)
 	{
 		String query = SystemGlobals.getSql("PrivateMessageModel.baseListing");
 		query = query.replaceAll("#FILTER#", SystemGlobals.getSql("PrivateMessageModel.sent"));
@@ -235,7 +235,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 		ResultSet rs = null;
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
-			pstmt.setInt(1, user.getId());
+			pstmt.setInt(1, userId);
 			pstmt.setInt(2, startFrom);
 			pstmt.setInt(3, count);
 

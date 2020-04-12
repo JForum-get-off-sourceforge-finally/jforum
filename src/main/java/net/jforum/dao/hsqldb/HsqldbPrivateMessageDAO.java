@@ -36,53 +36,34 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
  * 
- * Created on 21.09.2004 
+ * Created on 20/05/2004 - 15:51:10
  * The JForum Project
  * http://www.jforum.net
  */
 package net.jforum.dao.hsqldb;
 
-import net.jforum.dao.PostDAO;
-import net.jforum.dao.PrivateMessageDAO;
-import net.jforum.dao.TopicDAO;
-import net.jforum.dao.UserDAO;
-import net.jforum.dao.generic.GenericDataAccessDriver;
+import java.util.List;
 
-/**
- * @author Marc Wick
- */
-public class HsqldbDataAccessDriver extends GenericDataAccessDriver 
+import net.jforum.dao.generic.GenericPrivateMessageDAO;
+import net.jforum.entities.PrivateMessage;
+import net.jforum.entities.User;
+
+public class HsqldbPrivateMessageDAO extends GenericPrivateMessageDAO
 {
-	private static PostDAO postDao = new HsqldbPostDAO();
-	private static PrivateMessageDAO pmDao = new HsqldbPrivateMessageDAO();
-	private static UserDAO userDao = new HsqldbUserDAO();
-	private static TopicDAO topicDao = new HsqldbTopicDAO();
-	
 	/**
-	 * @see net.jforum.dao.DataAccessDriver#newPostDAO()
+	 * @see net.jforum.dao.PrivateMessageDAO#selectFromInbox(net.jforum.entities.User)
 	 */
-	@Override public PostDAO newPostDAO() {
-		return postDao;
-	}
-	
-	/**
-	 * @see net.jforum.dao.DataAccessDriver#newPrivateMessageDAO()
-	 */
-	@Override public PrivateMessageDAO newPrivateMessageDAO() {
-		return pmDao;
+	@Override public List<PrivateMessage> selectFromInbox (int userId, int startFrom, int count)
+	{
+		return super.selectFromInbox(startFrom, count, userId);
 	}
 
 	/**
-	 * @see net.jforum.dao.DataAccessDriver#newTopicDAO()
+	 * @see net.jforum.dao.PrivateMessageDAO#selectFromSent(net.jforum.entities.User)
 	 */
-	@Override public TopicDAO newTopicDAO() {
-		return topicDao;
+	@Override public List<PrivateMessage> selectFromSent (int userId, int startFrom, int count)
+	{
+		return super.selectFromSent(startFrom, count, userId);
 	}
-	
-	/**
-	 * @see net.jforum.dao.DataAccessDriver#newUserDAO()
-	 */
-	@Override public UserDAO newUserDAO() {
-		return userDao;
-	}
+
 }

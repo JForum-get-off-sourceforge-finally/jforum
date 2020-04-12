@@ -48,7 +48,6 @@ import net.jforum.entities.User;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public interface PrivateMessageDAO
 {
@@ -86,7 +85,7 @@ public interface PrivateMessageDAO
 	 * @return A <code>List</code> with all messages found. Each 
 	 * entry is a <code>PrivateMessage</code> entry.
 	 */
-	List<PrivateMessage> selectFromInbox(User user, int startFrom, int count) ;
+	List<PrivateMessage> selectFromInbox(int userId, int startFrom, int count) ;
 	
 	/**
 	 * Selects all messages from the user's sent box. 
@@ -95,7 +94,7 @@ public interface PrivateMessageDAO
 	 * @return A <code>List</code> with all messages found. Each 
 	 * entry is a <code>PrivateMessage</code> entry.
 	 */
-	List<PrivateMessage> selectFromSent(User user, int startFrom, int count) ;
+	List<PrivateMessage> selectFromSent(int userId, int startFrom, int count) ;
 	
 	/**
 	 * Gets a <code>PrivateMessage</code> by its id.

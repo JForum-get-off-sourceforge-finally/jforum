@@ -90,7 +90,7 @@ public class PrivateMessageAction extends Command
  		
  		int totalMessages = pmdao.getTotalInbox(user.getId());
  		
- 		List<PrivateMessage> pmList = pmdao.selectFromInbox(user, start, postsPerPage);
+ 		List<PrivateMessage> pmList = pmdao.selectFromInbox(user.getId(), start, postsPerPage);
 
 		this.setTemplateName(TemplateKeys.PM_INBOX);
 		this.context.put("inbox", true);
@@ -121,7 +121,7 @@ public class PrivateMessageAction extends Command
 		
 		int totalMessages = pmdao.getTotalSent(user.getId());
 		
-		List<PrivateMessage> pmList = DataAccessDriver.getInstance().newPrivateMessageDAO().selectFromSent(user, start, postsPerPage);
+		List<PrivateMessage> pmList = DataAccessDriver.getInstance().newPrivateMessageDAO().selectFromSent(user.getId(), start, postsPerPage);
 
 		this.context.put("sentbox", true);
 		this.context.put("pmList", pmList);
