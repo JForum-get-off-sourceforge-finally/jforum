@@ -33,8 +33,8 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<artifactId>mail</artifactId>
 					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
 				</exclusion>
 			</exclusions>
 			<version>1.6</version>
@@ -53,16 +53,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.activation</groupId>
-			<artifactId>jakarta.activation</artifactId>
-			<version>1.2.2</version>
-			<!-- 2.0 soon -->
-			<scope>runtime</scope>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
-			<artifactId>jakarta.mail</artifactId>
-			<version>1.6.5</version>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
@@ -208,10 +207,15 @@
 		</dependency>
 		<dependency>
 			<groupId>com.octo.captcha</groupId>
+			<artifactId>jcaptcha-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha</artifactId>
 			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jcaptcha-1.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -252,7 +256,7 @@
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
-			<version>8.2.1.jre8</version>
+			<version>8.2.2.jre8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tika</groupId>
@@ -269,6 +273,8 @@
 			<groupId>org.owasp</groupId>
 			<artifactId>csrfguard</artifactId>
 			<version>3.1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/csrfguard-3.1-latest.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.greenrobot</groupId>
