@@ -140,13 +140,11 @@ public class ForumRepository implements Cacheable
 
 	/**
 	 * Gets a category by its id.
-	 * A call to @link #getCategory(int, int) is made, using the
-	 * return of <code>SessionFacade.getUserSession().getUserId()</code>
-	 * as argument for the "userId" parameter.
+	 * A call to @link #getCategory(int, int) is made, using the return of
+	 * <code>SessionFacade.getUserSession().getUserId()</code> as argument for the "userId" parameter.
 	 * 
 	 * @param categoryId The id of the category to check
-	 * @return <code>null</code> if the category is either not
-	 * found or access is denied.
+	 * @return <code>null</code> if the category is either not found or access is denied.
 	 * @see #getCategory(int, int)
 	 */
 	public static Category getCategory(final int categoryId)
@@ -159,8 +157,7 @@ public class ForumRepository implements Cacheable
 	 *  
 	 * @param userId The user id who is requesting the category
 	 * @param categoryId The id of the category to get
-	 * @return <code>null</code> if the category is either not
-	 * found or access is denied.
+	 * @return <code>null</code> if the category is either not found or access is denied.
 	 * @see #getCategory(int)
 	 */
 	public static Category getCategory(final int userId, final int categoryId)
@@ -207,9 +204,8 @@ public class ForumRepository implements Cacheable
 
 	/**
 	 * Check if some category is accessible.
-	 * A call to @link #isCategoryAccessible(int, int) is made, using the
-	 * return of <code>SessionFacade.getUserSession().getUserId()</code>
-	 * as argument for the "userId" parameter.
+	 * A call to @link #isCategoryAccessible(int, int) is made, using the return of
+	 * <code>SessionFacade.getUserSession().getUserId()</code> as argument for the "userId" parameter.
 	 * 
 	 * @param categoryId The category id to check for access rights
 	 * @return <code>true</code> if access to the category is allowed.
@@ -281,9 +277,8 @@ public class ForumRepository implements Cacheable
 
 	/**
 	 * Get all categories.
-	 * A call to @link #getAllCategories(int) is made, passing
-	 * the return of <code>SessionFacade.getUserSession().getUserId()</code> 
-	 * as the value for the "userId" argument.
+	 * A call to @link #getAllCategories(int) is made, passing the return of
+	 * <code>SessionFacade.getUserSession().getUserId()</code> as the value for the "userId" argument.
 	 * 
 	 * @return <code>List</code> with the categories. Each entry is a <code>Category</code> object.
 	 * @see #getAllCategories(int)
@@ -363,8 +358,7 @@ public class ForumRepository implements Cacheable
 
 	/**
 	 * Remove a category from the cache
-	 * @param category The category to remove. The instance should have the 
-	 * category id at least
+	 * @param category The category to remove. The instance should have the category id at least
 	 */
 	public static synchronized void removeCategory(Category category)
 	{
@@ -457,8 +451,13 @@ public class ForumRepository implements Cacheable
 
 	public static boolean isForumAccessible(int userId, int forumId)
 	{
-		int categoryId = Integer.parseInt((String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId)));
-		return isForumAccessible(userId, categoryId, forumId);
+		// avoiding spurious NPEs
+		try {
+			int categoryId = Integer.parseInt((String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId)));
+			return isForumAccessible(userId, categoryId, forumId);
+		} catch (RuntimeException rtex) {
+			return false;
+		}
 	}
 
 	public static boolean isForumAccessible(int userId, int categoryId, int forumId)
@@ -477,7 +476,6 @@ public class ForumRepository implements Cacheable
 	public static synchronized void addForum(Forum forum)
 	{
 		String categoryId = Integer.toString(forum.getCategoryId());
-
 
         if (cache.get(FQN, categoryId) == null) {
             ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
@@ -523,9 +521,8 @@ public class ForumRepository implements Cacheable
 	/**
 	 * Reloads a forum.
 	 * The forum should already be in the cache and <b>SHOULD NOT</b>
-	 * have its order changed. If the forum's order was changed, 
-	 * then you <b>MUST CALL</b> @link Category#changeForumOrder(Forum) <b>BEFORE</b>
-	 * calling this method.
+	 * have its order changed. If the forum's order was changed, then you
+	 * <b>MUST CALL</b> @link Category#changeForumOrder(Forum) <b>BEFORE</b> calling this method.
 	 * 
 	 * @param forumId int The forum to reload its information
 	 */
@@ -627,8 +624,7 @@ public class ForumRepository implements Cacheable
 				try {
 					list = DataAccessDriver.getInstance().newForumDAO().getModeratorList(forumId);
 					cache.add(FQN_MODERATORS, Integer.toString(forumId), list);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					throw new DatabaseException(e);
 				}
 			}
@@ -732,8 +728,7 @@ public class ForumRepository implements Cacheable
 	/**
 	 * Update the value of most online users ever.
 	 * 
-	 * @param m MostUsersEverOnline The new value to store. Generally it
-	 * will be a bigger one.
+	 * @param m MostUsersEverOnline The new value to store. Generally it will be a bigger one.
 	 */
 	public static void updateMostUsersEverOnline(MostUsersEverOnline m)
 	{
@@ -848,8 +843,7 @@ public class ForumRepository implements Cacheable
 		if (config != null) {
 			mostUsersEverOnline.setTotal(Integer.parseInt(config.getValue()));
 
-			// We're assuming that, if we have one key, the another one
-			// will always exist
+			// We're assuming that, if we have one key, the another one will always exist
 			config = cm.selectByName(ConfigKeys.MOST_USER_EVER_ONLINE_DATE);
 			mostUsersEverOnline.setTimeInMillis(Long.parseLong(config.getValue()));
 		}
@@ -885,5 +879,4 @@ public class ForumRepository implements Cacheable
 
 		return (n <= 0) ? "-1" : buf.toString();
 	}
-
 }

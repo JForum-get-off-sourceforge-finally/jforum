@@ -14,7 +14,7 @@
 			<a href="${user.webSite?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_www.gif" alt="[WWW]"/></a>
 		</#if>
 		<#if (user.icq?exists && user.icq?length > 0)>
-			<a href="http://wwp.icq.com/scripts/search.dll?to=${user.icq?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="[ICQ]" /></a>
+			<a href="https://icq.im/${user.icq?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="[ICQ]" /></a>
 		</#if>
 		<#if (user.skype?exists && user.skype?length > 0)>
 			<a href="skype:${user.skype}")}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_skype.png" alt="[Skype]"/></a>

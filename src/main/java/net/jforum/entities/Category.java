@@ -67,15 +67,12 @@ import net.jforum.util.ForumOrderComparator;
  * Each category holds a reference to all its forums, which 
  * can be retrieved by calling either @link #getForums(), 
  * @link #getForum(int) and related methods. 
- * 
  * <br />
- * 
  * This class also controls the access to its forums, so a call
  * to @link #getForums() will only return the forums accessible
  * to the user who make the call tho the method. 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class Category implements Serializable, Comparable<Category>
 {
@@ -87,41 +84,41 @@ public class Category implements Serializable, Comparable<Category>
 	private String name;
 	private Map<Integer, Forum> forumsIdMap = new ConcurrentHashMap<Integer, Forum>();
 	private Set<Forum> forums = new TreeSet<Forum>(new ForumOrderComparator());
-		
+
 	public Category() {}
-	
+
 	public Category(int id) {
 		this.id = id;
 	}
-	
+
 	public Category(String name, int id) {
 		this.name = name;
 		this.id = id;
 	}
-	
+
 	public Category(Category category) {
 		this.name = category.getName();
 		this.id = category.getId();
 		this.order = category.getOrder();
 		this.moderated = category.isModerated();
-		
+
 		for (Iterator<Forum> iter = category.getForums().iterator(); iter.hasNext(); ) {
 			Forum forum = new Forum(iter.next());
 			this.forumsIdMap.put(Integer.valueOf(forum.getId()), forum);
 			this.forums.add(forum);
 		}
 	}
-	
+
 	public void setModerated(boolean status)
 	{
 		this.moderated = status;
 	}
-	
+
 	public boolean isModerated() 
 	{
 		return this.moderated;
 	}
-	
+
 	/**
 	 * @return int
 	 */
@@ -166,7 +163,7 @@ public class Category implements Serializable, Comparable<Category>
 	public void setOrder(int order) {
 		this.order = order;
 	}
-	
+
 	/**
 	 * Adds a forum to this category
 	 * 
@@ -176,40 +173,37 @@ public class Category implements Serializable, Comparable<Category>
 		this.forumsIdMap.put(Integer.valueOf(forum.getId()), forum);
 		this.forums.add(forum);
 	}
-	
+
 	/**
 	 * Reloads a forum.
 	 * The forum should already be in the cache and <b>SHOULD NOT</b>
-	 * have its order changed. If the forum's order was changed, 
-	 * then you <b>MUST CALL</b> @link #changeForumOrder(Forum) <b>BEFORE</b>
-	 * calling this method.
+	 * have its order changed. If the forum's order was changed, then you
+	 * <b>MUST CALL</b> @link #changeForumOrder(Forum) <b>BEFORE</b> calling this method.
 	 * 
 	 * @param forum The forum to reload its information
 	 * @see #changeForumOrder(Forum)
 	 */
 	public void reloadForum(Forum forum) {
 		Forum currentForum = this.getForum(forum.getId());
-		
+
 		if (forum.getOrder() != currentForum.getOrder()) {
 			throw new ForumOrderChangedException("Forum #" + forum.getId() + " cannot be reloaded, since its "
-					+ "display order was changed. You must call Category#changeForumOrder(Forum)"
-					+ "first");
+					+ "display order was changed. You must call Category#changeForumOrder(Forum) first");
 		}
-		
+
 		Set<Forum> tmpSet = new TreeSet<Forum>(new ForumOrderComparator());
 		tmpSet.addAll(this.forums);
 		tmpSet.remove(currentForum);
 		tmpSet.add(forum);
 		this.forumsIdMap.put(Integer.valueOf(forum.getId()), forum);
-		
+
 		this.forums = tmpSet;
 	}
-	
+
 	/**
 	 * Changes a forum's display order. 
-	 * This method changes the position of the
-	 * forum in the current display order of the
-	 * forum instance passed as argument, if applicable.
+	 * This method changes the position of the forum in the current
+	 * display order of the forum instance passed as argument, if applicable.
 	 * 
 	 * @param forum The forum to change
 	 */
@@ -217,23 +211,22 @@ public class Category implements Serializable, Comparable<Category>
 	{
 		Forum current = this.getForum(forum.getId());
 		Forum currentAtOrder = this.findByOrder(forum.getOrder());
-		
+
 		Set<Forum> tmpSet = new TreeSet<Forum>(new ForumOrderComparator());
 		tmpSet.addAll(this.forums);
-		
+
 		// Remove the forum in the current order
 		// where the changed forum will need to be
 		if (currentAtOrder != null) {
 			tmpSet.remove(currentAtOrder);
 		}
-		
+
 		tmpSet.add(forum);
 		this.forumsIdMap.put(Integer.valueOf(forum.getId()), forum);
-		
+
 		// Remove the forum in the position occupied
 		// by the changed forum before its modification,
-		// so then we can add the another forum into 
-		// its position
+		// so then we can add the another forum into its position
 		if (currentAtOrder != null) {
 			tmpSet.remove(current);
 			currentAtOrder.setOrder(current.getOrder());
@@ -241,10 +234,10 @@ public class Category implements Serializable, Comparable<Category>
 
 			this.forumsIdMap.put(Integer.valueOf(currentAtOrder.getId()), currentAtOrder);
 		}
-		
+
 		this.forums = tmpSet;
 	}
-	
+
 	private Forum findByOrder(int order)
 	{
 		for (Iterator<Forum> iter = this.forums.iterator(); iter.hasNext(); ) {
@@ -253,10 +246,10 @@ public class Category implements Serializable, Comparable<Category>
 				return forum;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Removes a forum from the list.
 	 * @param forumId int
@@ -271,8 +264,7 @@ public class Category implements Serializable, Comparable<Category>
 	 * 
 	 * @param userId The user's id who is trying to see the forum
 	 * @param forumId The id of the forum to get
-	 * @return The <code>Forum</code> instance if found, or <code>null</code>
-	 * otherwise.
+	 * @return The <code>Forum</code> instance if found, or <code>null</code> otherwise.
 	 * @see #getForum(int)
 	 */
 	public Forum getForum(int userId, int forumId)
@@ -281,9 +273,7 @@ public class Category implements Serializable, Comparable<Category>
 		if (pc.canAccess(SecurityConstants.PERM_FORUM, Integer.toString(forumId))) {
 			return this.forumsIdMap.get(Integer.valueOf(forumId));
 		}
-		if (LOGGER.isEnabledFor(Level.INFO)) {
-			LOGGER.info("User with userId " + userId + " failed to access forum with forumId " + forumId);
-		}
+		LOGGER.debug("User with userId " + userId + " failed to access forum with forumId " + forumId);
 		return null;
 	}
 
@@ -303,8 +293,7 @@ public class Category implements Serializable, Comparable<Category>
 	/**
 	 * Get all forums from this category.
 	 * 
-	 * @return All forums, regardless it is accessible 
-	 * to the user or not.
+	 * @return All forums, regardless it is accessible to the user or not.
 	 */
 	public Collection<Forum> getForums()
 	{
@@ -333,29 +322,20 @@ public class Category implements Serializable, Comparable<Category>
 				forums.add(forum);
 			}
 		}
-		
+
 		return forums;
 	}
 
-	/** 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override public int hashCode() 
 	{
 		return this.id;
 	}
 
-	/** 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override public boolean equals(Object o) 
 	{
 		return ((o instanceof Category) && (((Category)o).getId() == this.id));
 	}
-	
-	/** 
-	 * @see java.lang.Object#toString()
-	 */
+
 	@Override public String toString() {
 		return "[" + this.name + ", id=" + this.id + ", order=" + this.order + "]"; 
 	}
@@ -363,5 +343,4 @@ public class Category implements Serializable, Comparable<Category>
 	@Override public int compareTo(Category o) {
 		return this.getOrder() - ((Category)o).getOrder();
 	}
-
 }
