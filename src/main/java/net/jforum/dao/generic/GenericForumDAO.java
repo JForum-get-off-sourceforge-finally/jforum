@@ -60,14 +60,17 @@ import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.GroupSecurityDAO;
+import net.jforum.dao.PostDAO;
 import net.jforum.dao.TopicDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.ForumStats;
 import net.jforum.entities.LastPostInfo;
 import net.jforum.entities.ModeratorInfo;
+import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 import net.jforum.exceptions.DatabaseException;
+import net.jforum.search.SearchFacade;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -76,7 +79,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * @author Rafael Steil
  * @author Vanessa Sabino
  * @author socialnetwork@gmail.com, adding "watch forum" methods. 
- * @version $Id$
  */
 public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 {
@@ -374,8 +376,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			pstmt.executeUpdate();
 			pstmt.close();
 
-			// If there are no more topics, then clean the
-			// last post id information
+			// If there are no more topics, clean the last post id information
 			final int totalTopics = this.getTotalTopics(forumId);
 			if (totalTopics < 1) {
 				this.setLastPost(forumId, 0);
@@ -636,7 +637,8 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			pstmt2 = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("PostModel.setForumByTopic"));
 			pstmt2.setInt(1, toForumId);
 
-			TopicDAO tdao = DataAccessDriver.getInstance().newTopicDAO();
+			TopicDAO topicDAO = DataAccessDriver.getInstance().newTopicDAO();
+			PostDAO postDAO = DataAccessDriver.getInstance().newPostDAO();
 
 			Forum forum = this.selectById(toForumId);
 
@@ -648,7 +650,12 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 				pstmt1.executeUpdate();
 				pstmt2.executeUpdate();
 
-				tdao.setModerationStatusByTopic(topicId, forum.isModerated());
+				topicDAO.setModerationStatusByTopic(topicId, forum.isModerated());
+
+				List<Post> posts = postDAO.selectAllByTopic(topicId);
+				for (Post post : posts) {
+					SearchFacade.update(post);
+				}
 			}
 
 			this.decrementTotalTopics(fromForumId, topics.length);
