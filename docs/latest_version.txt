@@ -1,55 +1,15 @@
-2.6.0
+2.7.0
 
-<p>Some features have been added, changed or fixed in JForum 2.6.0, like:</p>
+<p>This is a feature release for JForum. It includes the following improvements, amongst others:</p>
 
 <ul>
-	<li><b>Java 8 is now required instead of Java 7</b></li>
-	<li>Note that due to the Lucene library update, all posts must be reindexed. This will be done automatically when the web app is first started, but -depending on the number of posts- may take a while. Keep an eye on the jforum.log file for progress updates.</li>
-	<li>Mobile pages: fixed bug  where the wrong forum name was shown in the Recent Topics page; added the Hot Topics page; Google Analytics (if enabled) is now also used in the mobile pages; user rank is displayed better; pretty dates are used, if those are enabled using the dateTime.pretty property or configuration; PM pages (inbox and sent box) have pagination; posts require captchas (if captchas are enabled)</li>
-	<li>Localizations: lots of improvements to various translations, particularly Italian, and a brand new Spanish localization </li>
-	<li>switch Google Analytics from ga.js to analytics.js</li>
-	<li>Social media sharing: added Whatsapp, Tumblr, Hackernews and Print, and fixed bugs with Twitter and XING</li>
-	<li>properly handle missing server version information</li>
-	<li>replaced links to various jforum.net pages with links to sourceforge.net wiki</li>
-	<li>avoid stack overflow when loading templates that weren't cached</li>
-	<li>PostgreSQL performance improvement for a few DB queries</li>
-	<li>put a more meaningful message into the moderation log when a topic is deleted</li>
-	<li>Feature: stop words for searching can now be configured in a language-specific way</li>
-	<li>Bug fix: clicking the Twitter handle in the user profile now opens the Twitter page in a new window</li>
-	<li>address potential XSS issues</li>
-	<li>only show registration day, not registration time, on user profile</li>
-	<li>Broken utf8 chars in form-urlencoded POST request</li>
-	<li>Bug fix: Categories can't be added when using the EhCache caching engine</li>
-	<li>Some minor cosmetic fixes</li>
-	<li>Pagination for personal messages</li>
-	<li>posts.new.delay is now applied to personal messages as well as posts</li>
-	<li>Relative timestamps like GitHub or Facebook</li>
-	<li>on topic pages, the user name is now a link to the user's profile</li>
-	<li>Member list and moderation log are now only shown after login</li>
-	<li>allow additional SMTP properties when sending mails</li>
-
-	<li>removed Apache Commons Codec, because Java 8 has Base64 built in</li>
-	<li>updated Apache Commons FileUpload from 1.3.3 to 1.4</li>
-	<li>updated Apache Commons Lang3 from 3.7 to 3.9</li>
-	<li>updated Apache Commons Text from 1.2 to 1.6</li>
-	<li>updated Apache Lucene from 3.6.2 to 8.1.1</li>
-	<li>updated Apache Tika from 1.17 to 1.21</li>
-	<li>updated c3p0 from 0.9.5.2 to 0.9.5.4</li>
-	<li>updated FreeMarker from 2.3.27-incubating to 2.3.28</li>
-	<li>updated Hsqldb driver from 2.4.0 to 2.4.1</li>
-	<li>updated JavaMail from 1.6.0 to 1.6.2</li>
-	<li>updated jQuery from 1.12.4 to 2.2.4</li>
-	<li>updated Mysql Connector from 5.1.45 to 5.1.47</li>
-	<li>updated Postgresql driver from 42.2.1.jre7 to 42.2.5</li>
-	<li>updatd Quartz from 2.3.0 to 2.3.1</li>
-	<li>updated SqlServer driver from 6.2.2.jre7 to 7.2.2.jre8</li>
-	<li>updated slf4j from 1.7.25 to 1.7.26</li>
-
-	<li>new configuration: <tt>lucene.analyzer.stopwords</tt> 	Comma-separated list containing zero or more of: ar, br, cz, de, en, fr, bg, bn, ca, cjk, ckb, da, el, es, eu, fa, fi, ga, gl, hi, hu, hy, id, it, lt, lv, nl, no, pt, ro, ru, sv, th, tr. Include all languages for which there is content in the forums; that will prevent stop words in those languages from being indexed for searching. The index needs to be recreated for this to take effect. Default is "en" because that's how it worked before. If you have content predominantly from one language, you may want to adjust both the lucene.analyzerand lucene.analyzer.stopwordsproperties to reflect that language.</li>
-	<li>new configuration: <tt>dateTime.pretty</tt> Whether to show relative times like "1 hour ago", "1 day ago", "6 month ago" etc, or absolute times like "December 21, 2018". This replaces the dateTime.local property which is no longer supported.</li>
-	<li>new configuration: <tt>mail.smtp.additional.properties</tt> A comma-separated list of additional SMTP properties to use when sending out mails. For example, adding mail.smtp.starttls.enable=true and mail.smtp.starttls.required=true would require TLS to be used.</li>
+<li>Banners can be shown at the top and the bottom of pages</li>
+<li>Deleted posts can go into a designated "Trash Can" forum rather than be deleted outright</li>
+<li>The mobile view got a number of improvements: The Top Downloads, Member Listing and Moderation Log pages are now available, and site navigation is done via a dropdown menu that makes for a less cluttered interface</li>
+<li>Eight new smilies :-)</li>
+<li>Numerous bug fixes</li>
 </ul>
 
-<p>
-<span color="red"><b>Upgrading is HIGHLY recommended</span>
-</p>
+<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures270/">this page</a> for a full list of what is new and changed.</p>
+
+<p>Everyone should upgrade, which involves running a fairly simple database upgrade script. A Servlet 3.1 container, like Tomcat 8, is now required.</p>
