@@ -19,7 +19,8 @@
 			<#elseif log.type == 1>${I18n.getMessage("ModerationLog.typeDeleted")}
 			<#elseif log.type == 2>${I18n.getMessage("ModerationLog.typeEdited")}
 			<#elseif log.type == 3>${I18n.getMessage("ModerationLog.typeLockUnlock")}
-			<#else>${I18n.getMessage("ModerationLog.typeComposted")}
+			<#elseif log.type == 4>${I18n.getMessage("ModerationLog.typeComposted")}
+			<#else>${I18n.getMessage("ModerationLog.typeRejected")}
 			</#if>
 		<br>
 		${I18n.getMessage("ModerationLog.description")}: ${log.description?html}<br>

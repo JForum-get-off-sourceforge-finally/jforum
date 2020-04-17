@@ -43,11 +43,15 @@
 package net.jforum.view.admin;
 
 import freemarker.template.SimpleHash;
+
+import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.dao.DataAccessDriver;
+import net.jforum.dao.ModerationLogDAO;
 import net.jforum.dao.PostDAO;
 import net.jforum.dao.TopicDAO;
 import net.jforum.dao.UserDAO;
+import net.jforum.entities.ModerationLog;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
@@ -63,7 +67,6 @@ import net.jforum.view.forum.common.TopicsCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ModerationAction extends AdminCommand
 {
@@ -71,13 +74,13 @@ public class ModerationAction extends AdminCommand
 	 * Empty Constructor
 	 */
 	public ModerationAction() {}
-	
+
 	public ModerationAction(final SimpleHash context, final RequestContext request)
 	{
 		this.context = context;
 		this.request = request;
 	}
-	
+
 	/**
 	 * @see net.jforum.Command#list()
 	 */
@@ -86,109 +89,125 @@ public class ModerationAction extends AdminCommand
 		this.setTemplateName(TemplateKeys.MODERATION_ADMIN_LIST);
 		this.context.put("infoList", DataAccessDriver.getInstance().newModerationDAO().categoryPendingModeration());
 	}
-	
+
 	public void view()
 	{
 		final int forumId = this.request.getIntParameter("forum_id");
-		
+
 		this.setTemplateName(TemplateKeys.MODERATION_ADMIN_VIEW);
 		this.context.put("forum", ForumRepository.getForum(forumId));
 		this.context.put("topics", DataAccessDriver.getInstance().newModerationDAO().topicsByForum(
 				forumId));
 	}
-	
+
 	public void doSave()
 	{
 		final String[] posts = this.request.getParameterValues("post_id");
 
 		if (posts != null) {
 			final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
-			
+
 			for (int i = 0; i < posts.length; i++) {
 				final int postId = Integer.parseInt(posts[i]);
-				
+
 				final String status = this.request.getParameter("status_" + postId);
-				
+
 				if ("defer".startsWith(status)) {
 					continue;
 				}
-				
-				if ("aprove".startsWith(status)) {
+
+				if ("approve".startsWith(status)) {
 					Post post = DataAccessDriver.getInstance().newPostDAO().selectById(postId);
-					
+
 					// Check is the post is in fact waiting for moderation
 					if (!post.isModerationNeeded()) {
 						continue;
 					}
-					
+
 					UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 					User user = userDao.selectById(post.getUserId());
-					
+
 					boolean first = false;
 					Topic topic = TopicRepository.getTopic(new Topic(post.getTopicId()));
-					
+
 					if (topic == null) {
 						topic = topicDao.selectById(post.getTopicId());
-						
+
 						if (topic.getId() == 0) {
 							first = true;
 							topic = topicDao.selectRaw(post.getTopicId());
 						}
 					}
-					
+
 					DataAccessDriver.getInstance().newModerationDAO().approvePost(postId);
-					
+
 					boolean firstPost = (topic.getFirstPostId() == postId);
-					
+
 					if (!firstPost) {
 						topic.setTotalReplies(topic.getTotalReplies() + 1);
 					}
-					
+
 					topic.setLastPostId(postId);
 					topic.setLastPostBy(user);
 					topic.setLastPostDate(post.getTime());
 					topic.setLastPostTime(post.getTime());
-					
+
 					topicDao.update(topic);
-					
+
 					if (first) {
 						topic = topicDao.selectById(topic.getId());
 					}
 
 					TopicsCommon.updateBoardStatus(topic, postId, firstPost,
 						topicDao, DataAccessDriver.getInstance().newForumDAO());
-					
+
 					ForumRepository.updateForumStats(topic, user, post);
 					TopicsCommon.notifyUsers(topic, post);
-					
+
 					userDao.incrementPosts(post.getUserId());
-					
+
 					if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {
 						PostRepository.append(post.getTopicId(), PostCommon.preparePostForDisplay(post));
 					}
-				}
+				} // must be "reject"
 				else {
 					PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 					Post post = postDao.selectById(postId);
-					
+
 					if (post == null || !post.isModerationNeeded()) {
 						continue;
 					}
-					
+
 					postDao.delete(post);
-					
+
 					new AttachmentCommon(this.request, post.getForumId()).deleteAttachments(postId, post.getForumId());
-					
+
 					int totalPosts = topicDao.getTotalPosts(post.getTopicId());
-					
+
 					if (totalPosts == 0) {
 						TopicsCommon.deleteTopic(post.getTopicId(), post.getForumId(), true);
 					}
+
+					ModerationLog log = new ModerationLog();
+					User user = new User();
+					user.setId(SessionFacade.getUserSession().getUserId());
+					log.setUser(user);
+					User posterUser = new User();
+					posterUser.setId(post.getUserId());
+					log.setPosterUser(posterUser);
+					log.setType(5); // post rejected
+					log.setTopicId(post.getTopicId());
+					log.setDescription("-");
+					log.setOriginalMessage("Forum #"+post.getForumId()+": \""+post.getSubject()+"\"");
+
+					ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
+					dao.add(log);
+
 				}
 			}
 		}
 	}
-	
+
 	public void save()
 	{
 		this.doSave();

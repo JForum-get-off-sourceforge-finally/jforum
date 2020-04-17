@@ -65,8 +65,10 @@
 							${I18n.getMessage("ModerationLog.typeEdited")}
 						<#elseif log.type == 3>
 							${I18n.getMessage("ModerationLog.typeLockUnlock")}
-						<#else>
+						<#elseif log.type == 4>
 							${I18n.getMessage("ModerationLog.typeComposted")}
+						<#else>
+							${I18n.getMessage("ModerationLog.typeRejected")}
 						</#if>
 					</td>
 					<td class="row1" valign="top">${log.description?html}</td>

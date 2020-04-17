@@ -153,6 +153,7 @@ public class ModerationLog
 	 * 2 = edited
 	 * 3 = locked/unlocked
 	 * 4 = composted
+	 * 5 = post rejected
 	 */
 	public void setType(final int type)
 	{

@@ -185,7 +185,7 @@ public class ModerationHelper
 		if (topics != null && topics.length > 0) {
 			ModerationLog log = this.buildModerationLogFromRequest();
 			if (move) {
-				log.setDescription("composting thread");
+				log.setDescription("-");
 				log.setType(4); // composted
 			}
 
