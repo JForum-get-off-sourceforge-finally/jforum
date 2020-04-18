@@ -58,6 +58,7 @@ import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.PostRepository;
 import net.jforum.repository.TopicRepository;
+import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -183,11 +184,11 @@ public class ModerationAction extends AdminCommand
 					new AttachmentCommon(this.request, post.getForumId()).deleteAttachments(postId, post.getForumId());
 
 					int totalPosts = topicDao.getTotalPosts(post.getTopicId());
-
 					if (totalPosts == 0) {
 						TopicsCommon.deleteTopic(post.getTopicId(), post.getForumId(), true);
 					}
 
+					// moderation log entry that a post was rejected
 					ModerationLog log = new ModerationLog();
 					User user = new User();
 					user.setId(SessionFacade.getUserSession().getUserId());
@@ -196,9 +197,11 @@ public class ModerationAction extends AdminCommand
 					posterUser.setId(post.getUserId());
 					log.setPosterUser(posterUser);
 					log.setType(5); // post rejected
-					log.setTopicId(post.getTopicId());
-					log.setDescription("-");
-					log.setOriginalMessage("Forum #"+post.getForumId()+": \""+post.getSubject()+"\"");
+					if (totalPosts > 0) {
+						log.setTopicId(post.getTopicId());
+					}
+					log.setDescription(I18n.getMessage("ForumIndex.topics")+" \""+post.getSubject()+"\"");
+					log.setOriginalMessage(post.getText());
 
 					ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
 					dao.add(log);

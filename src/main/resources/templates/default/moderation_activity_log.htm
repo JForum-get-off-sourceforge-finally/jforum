@@ -57,18 +57,12 @@
 						</#if>
 					</td>
 					<td class="row2" valign="top" align="center" nowrap="nowrap">
-						<#if log.type == 0>
-							${I18n.getMessage("ModerationLog.typeMoved")}
-						<#elseif log.type == 1>
-							${I18n.getMessage("ModerationLog.typeDeleted")}
-						<#elseif log.type == 2>
-							${I18n.getMessage("ModerationLog.typeEdited")}
-						<#elseif log.type == 3>
-							${I18n.getMessage("ModerationLog.typeLockUnlock")}
-						<#elseif log.type == 4>
-							${I18n.getMessage("ModerationLog.typeComposted")}
-						<#else>
-							${I18n.getMessage("ModerationLog.typeRejected")}
+						<#if log.type == 0>${I18n.getMessage("ModerationLog.typeMoved")}
+						<#elseif log.type == 1>${I18n.getMessage("ModerationLog.typeDeleted")}
+						<#elseif log.type == 2>${I18n.getMessage("ModerationLog.typeEdited")}
+						<#elseif log.type == 3>${I18n.getMessage("ModerationLog.typeLockUnlock")}
+						<#elseif log.type == 4>${I18n.getMessage("ModerationLog.typeComposted")}
+						<#else>${I18n.getMessage("ModerationLog.typeRejected")}
 						</#if>
 					</td>
 					<td class="row1" valign="top">${log.description?html}</td>
@@ -78,7 +72,7 @@
 					</#if>
 
 					<td class="row2 gensmall" valign="top" align="center" width="100">
-						<#if log.type != 1>
+						<#if (log.type != 1) && (log.topicId > 0)>
 							[<a href="${JForumContext.encodeURL("/posts/list/${log.topicId}")}">${I18n.getMessage("ModerationLog.viewTopic")}</a>]<br />
 						</#if>
 						<#if log.type == 2>

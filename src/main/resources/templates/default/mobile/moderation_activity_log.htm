@@ -27,7 +27,7 @@
 		<#if canAccessFullModerationLog>
 			${I18n.getMessage("ModerationLog.originalMessage")}: ${log.originalMessage?default("&nbsp;")}<br>
 		</#if>
-		<#if log.type != 1>
+		<#if (log.type != 1) && (log.topicId > 0) >
 			<a href="${JForumContext.encodeURL("/posts/list/${log.topicId}")}">${I18n.getMessage("ModerationLog.viewTopic")}</a>
 		</#if>
 		<#if log.type == 2>
