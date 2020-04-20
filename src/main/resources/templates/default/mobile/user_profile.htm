@@ -67,7 +67,7 @@
 	</#if>
 	${I18n.getMessage("UserProfile.privateMessage")}: <a href="${JForumContext.encodeURL("/pm/sendTo/${u.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a><br>
 	<#if (u.twitter?exists && u.twitter?length > 0)>
-		${I18n.getMessage("User.twitter")}: <a href="https://twitter.com/${u.twitter?html}" target="_new">@${u.twitter}</a><br>
+		${I18n.getMessage("User.twitter")}: <a href="https://twitter.com/${u.twitter?html}" target="_new">@${u.twitter?html}</a><br>
 	</#if>
 	<#if (u.icq?exists && u.icq?length > 0)>
 		${I18n.getMessage("User.icq")}: ${u.icq?html}<br>

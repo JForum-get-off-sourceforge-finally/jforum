@@ -17,7 +17,7 @@
 			<a href="https://icq.im/${user.icq?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" alt="[ICQ]" /></a>
 		</#if>
 		<#if (user.skype?exists && user.skype?length > 0)>
-			<a href="skype:${user.skype}")}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_skype.png" alt="[Skype]"/></a>
+			<a href="skype:${user.skype?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_skype.png" alt="[Skype]"/></a>
 		</#if>
 		<#if (user.twitter?exists && user.twitter?length > 0)>
 			<a href="https://twitter.com/${user.twitter?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_twitter.jpg" alt="[Twitter]" /></a>

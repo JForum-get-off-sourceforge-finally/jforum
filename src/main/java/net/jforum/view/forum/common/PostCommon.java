@@ -103,7 +103,10 @@ public class PostCommon
 		post.setText(SafeHtml.makeSafe(text));
 		post.setSubject(SafeHtml.makeSafe(subject));
 		processText(post);
-		post.setText(SafeHtml.makeSafe(post.getText()));
+		// Attributes that are not allowed have been removed already at this point,
+		// so this oculd only be attributes introduced by the BB replacements.
+		// Let's trust the forum admins not to put anything unsafe in there.
+		//post.setText(SafeHtml.ensureAllAttributesAreSafe(post.getText()));
 		return post;
 	}
 
@@ -164,6 +167,7 @@ public class PostCommon
 		if (contentMatcher.matches()) {
 			StringBuilder contents = new StringBuilder(contentMatcher.group(2));
 			ViewCommon.replaceAll(contents, "<br /> ", "\n");
+			ViewCommon.replaceAll(contents, "<br>", "\n");
 			// XML-like tags
 			ViewCommon.replaceAll(contents, "<", "&lt;");
 			ViewCommon.replaceAll(contents, ">", "&gt;");

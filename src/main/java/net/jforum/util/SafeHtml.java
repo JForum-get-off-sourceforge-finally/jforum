@@ -42,15 +42,19 @@
  */
 package net.jforum.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 
 import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
@@ -69,6 +73,7 @@ public class SafeHtml
 {
 	private static Set<String> welcomeTags;
 	private static Set<String> welcomeAttributes;
+	private static Set<String> allowedAttributes;
 	private static Set<String> allowedProtocols;
 	private static String forumLink;
 	private static Whitelist white;
@@ -103,7 +108,7 @@ public class SafeHtml
 		}
 		white.addAttributes(":all", "class", "id");
 		white.addAttributes("a", "rel", "target", "href");
-		white.addAttributes("img", "src", "border");
+		white.addAttributes("img", "src", "border", "alt", "width", "height");
 
 		for (String protocol : allowedProtocols) {
 			if (protocol.contains(":")) {
@@ -113,9 +118,14 @@ public class SafeHtml
 			white.addProtocols("a", "href", protocol);
 			white.addProtocols("img", "src", protocol);
 		}
+
+		allowedAttributes = new HashSet<String>(welcomeAttributes);
+		// TODO This list would really have to include all tags used in bb_config.xml - quite a list.
+		// But ensureAllAttributesAreSafe is not really needed, so it's not currently called.
+		allowedAttributes.addAll(new ArrayList<String>(Arrays.asList("class", "id", "rel", "target", "href", "src", "border", "alt", "width", "height")));
 	}
 
-	private static void splitAndTrim(String s, Set<String> data)
+	private static void splitAndTrim (String s, Set<String> data)
 	{
 		String value = SystemGlobals.getValue(s);
 
@@ -128,6 +138,26 @@ public class SafeHtml
 		for (int i = 0; i < tags.length; i++) {
 			data.add(tags[i].trim());
 		}
+	}
+
+	public static String ensureAllAttributesAreSafe (String contents) 
+	{
+		Document doc = Jsoup.parseBodyFragment(contents);
+		Elements el = doc.getAllElements();
+		for (Element e : el) {
+			List<String>  attToRemove = new ArrayList<>();
+			Attributes at = e.attributes();
+			for (Attribute a : at) {
+				if (! allowedAttributes.contains(a.getKey()))
+					attToRemove.add(a.getKey());
+			}
+
+			for (String att : attToRemove) {
+				e.removeAttr(att);
+		   }
+		}
+
+		return doc.body().html();
 	}
 
 	/**
