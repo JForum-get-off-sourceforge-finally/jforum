@@ -111,6 +111,16 @@
 		</replace>
 	</match>
 
+	<!-- LIST -->
+	<match name="list">
+		<regex>(?s)(?i)\[list\](.*?)\[/list\]</regex>
+		<replace>
+		<![CDATA[
+		<li>$1</li>
+		]]>
+		</replace>
+	</match>
+
 	<!-- HR -->
 	<match name="hr">
 		<regex>\[hr\]</regex>

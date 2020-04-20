@@ -98,7 +98,7 @@ public class PostCommon
 
 		// Do not remove the trailing blank space, as it would
 		// cause some regular expressions to fail
-		text = text.replaceAll("\n", "<br /> ");
+		text = text.replaceAll("\n", "<br>");
 
 		post.setText(SafeHtml.makeSafe(text));
 		post.setSubject(SafeHtml.makeSafe(subject));
@@ -166,13 +166,10 @@ public class PostCommon
 		Matcher contentMatcher = Pattern.compile("(\\[code.*?\\])(.*)(\\[/code\\])", Pattern.DOTALL).matcher(origText);
 		if (contentMatcher.matches()) {
 			StringBuilder contents = new StringBuilder(contentMatcher.group(2));
-			ViewCommon.replaceAll(contents, "<br /> ", "\n");
 			ViewCommon.replaceAll(contents, "<br>", "\n");
 			// XML-like tags
 			ViewCommon.replaceAll(contents, "<", "&lt;");
 			ViewCommon.replaceAll(contents, ">", "&gt;");
-			// Note: there is no replacing for spaces and tabs as
-			// we are relying on the JavaScript SyntaxHighlighter library to do it for us
 			processed.append(contentMatcher.group(1));
 			processed.append(contents);
 			processed.append(contentMatcher.group(3));
