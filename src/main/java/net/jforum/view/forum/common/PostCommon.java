@@ -103,10 +103,7 @@ public class PostCommon
 		post.setText(SafeHtml.makeSafe(text));
 		post.setSubject(SafeHtml.makeSafe(subject));
 		processText(post);
-		// Attributes that are not allowed have been removed already at this point,
-		// so this oculd only be attributes introduced by the BB replacements.
-		// Let's trust the forum admins not to put anything unsafe in there.
-		//post.setText(SafeHtml.ensureAllAttributesAreSafe(post.getText()));
+		post.setText(SafeHtml.ensureAllAttributesAreSafe(post.getText()));
 		return post;
 	}
 

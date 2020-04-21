@@ -73,7 +73,6 @@ public class SafeHtml
 {
 	private static Set<String> welcomeTags;
 	private static Set<String> welcomeAttributes;
-	private static Set<String> allowedAttributes;
 	private static Set<String> allowedProtocols;
 	private static String forumLink;
 	private static Whitelist white;
@@ -115,14 +114,9 @@ public class SafeHtml
 				// previously, protocols included colon and slashes
 				protocol = protocol.substring(0, protocol.indexOf(":"));
 			}
-			white.addProtocols("a", "href", protocol);
-			white.addProtocols("img", "src", protocol);
+			white.addProtocols("a", "href", toLowerCase(protocol));
+			white.addProtocols("img", "src", toLowerCase(protocol));
 		}
-
-		allowedAttributes = new HashSet<String>(welcomeAttributes);
-		// TODO This list would really have to include all tags used in bb_config.xml - quite a list.
-		// But ensureAllAttributesAreSafe is not really needed, so it's not currently called.
-		allowedAttributes.addAll(new ArrayList<String>(Arrays.asList("class", "id", "rel", "target", "href", "src", "border", "alt", "width", "height")));
 	}
 
 	private static void splitAndTrim (String s, Set<String> data)
@@ -140,6 +134,9 @@ public class SafeHtml
 		}
 	}
 
+	/**
+	 * Make sure that attribute values are safe, based on name and value
+	 */
 	public static String ensureAllAttributesAreSafe (String contents) 
 	{
 		Document doc = Jsoup.parseBodyFragment(contents);
@@ -148,16 +145,58 @@ public class SafeHtml
 			List<String>  attToRemove = new ArrayList<>();
 			Attributes at = e.attributes();
 			for (Attribute a : at) {
-				if (! allowedAttributes.contains(a.getKey()))
-					attToRemove.add(a.getKey());
+				String name = toLowerCase(a.getKey());
+				String value = toLowerCase(a.getValue());
+				if (name.length() >= 2 && name.charAt(0) == 'o' && name.charAt(1) == 'n') {
+					// disallow JavaScript onXYZ handlers
+					attToRemove.add(name);
+				}
+				else if ("style".equals(name)) {
+					// It is much more a try to not allow constructions
+					// like style="background-color: url(javascript:xxxx)" than anything else
+					if (value.indexOf('(') > -1) {
+						attToRemove.add(name);
+					}
+				}
+				else if ("href".equals(name) || "src".equals(name)) {
+					if (! isHrefValid(value)) {
+						attToRemove.add(name);
+					}
+				}
+				else {
+					// remove quotes, so it can't escape its value
+					a.setValue(value.replaceAll("\n\r'\"", ""));
+				}
 			}
 
 			for (String att : attToRemove) {
 				e.removeAttr(att);
-		   }
+			}
 		}
 
 		return doc.body().html();
+	}
+
+	/**
+	 * Checks if a given address is valid
+	 * @param href The address to check
+	 * @return true if it is valid
+	 */
+	private static boolean isHrefValid (String href) 
+	{
+		if (SystemGlobals.getBoolValue(ConfigKeys.HTML_LINKS_ALLOW_RELATIVE)
+			&& href.length() > 0 
+			&& href.charAt(0) == '/') {
+			return true;
+		}
+		
+		for (String protocol : allowedProtocols) {
+			if (href.startsWith(protocol)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -206,5 +245,36 @@ public class SafeHtml
 		}
 
 		return sb.toString();
+	}
+
+	/** This method runs about 20 times faster than java.lang.String.toLowerCase
+	 * (and doesn't waste any storage when the result is equal to the input).
+	 * Warning: Don't use this method when your default locale is Turkey.
+	 * java.lang.String.toLowerCase is slow because (a) it uses a
+	 * StringBuffer (which has synchronized methods), (b) it initializes
+	 * the StringBuffer to the default size, and (c) it gets the default
+	 * locale every time to test for name equal to "tr".
+	 * @author Peter Norvig (www.norvig.com) **/
+
+	public static String toLowerCase (String str) {
+		if (str == null) return null;
+		int len = str.length();
+		int different = -1;
+		for (int i = len-1; i >= 0; i--) {
+			char ch = str.charAt(i);
+			if (Character.toLowerCase(ch) != ch) {
+				different = i;
+				break;
+			}
+		}
+		if (different == -1) {
+			return str;
+		} else {
+			char[] chars = new char[len];
+			str.getChars(0, len, chars, 0);
+			for (int j = different; j >= 0; j--)
+				chars[j] = Character.toLowerCase(chars[j]);
+			return new String(chars);
+		}
 	}
 }

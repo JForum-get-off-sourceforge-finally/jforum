@@ -22,7 +22,7 @@
 	</match>
 
 	<match name="code-highlight">
-		<regex>(?s)(?i)\[code=['"]?(.*?[^'"])['"]?\]\s*(.*?)\s*\[/code\]</regex>
+		<regex>(?s)(?i)\[code=['"]?([a-z]*?[^'"])['"]?\]\s*(.*?)\s*\[/code\]</regex>
 		<replace>
 		<![CDATA[
  		<pre class="line-numbers"><code class="language-$1 match-braces">$2</code></pre>
