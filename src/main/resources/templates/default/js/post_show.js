@@ -34,6 +34,9 @@ function handleBbCode(evt)
 	else if (e.altKey && ch == "w") {
 		bbstyle(14);
 	}
+	else if (e.altKey && ch == "r") {
+		bbstyle(32);
+	}
 }
 
 function enterText(field)

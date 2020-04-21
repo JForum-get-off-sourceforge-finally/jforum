@@ -18,3 +18,4 @@ y_help = "Youtube: [youtube]${I18n.getMessage("PostForm.helplineYoutube")}[/yout
 k_help = "Flash: [flash]${I18n.getMessage("PostForm.helplineFlash")}[/flash]";
 v_help = "WMV: [wmv]${I18n.getMessage("PostForm.helplineWmv")}[/wmv]";
 m_help = "Vimeo: [vimeo]${I18n.getMessage("PostForm.helplineVimeo")}[/vimeo]";
+r_help = "${I18n.getMessage("PostForm.helplineHR")}: [hr] (alt+r)";

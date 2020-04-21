@@ -21,7 +21,7 @@ bbcode = new Array();
 bbtags = new Array('[b]','[/b]', '[i]','[/i]', '[u]','[/u]', '[quote]','[/quote]', '[code]','[/code]',
 	'[list]','[/list]', '[img]','[/img]', '[url]','[/url]', '[google]','[/google]', '[youtube]','[/youtube]', 
 	'[flash]','[/flash]', '[wmv]','[/wmv]', '[tt]','[/tt]', '[strike]','[/strike]', '[wikipedia]','[/wikipedia]',
-	'[vimeo]', '[/vimeo]');
+	'[vimeo]', '[/vimeo]', '[hr]', '[hr]');
 imageTag = false;
 
 var openBBtags = new Array();
