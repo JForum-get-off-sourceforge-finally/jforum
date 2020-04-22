@@ -59,7 +59,6 @@ import org.junit.Test;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class I18nTest extends TestCase
 {
@@ -91,6 +90,7 @@ public class I18nTest extends TestCase
 		SessionFacade.add(this.us, SESSION_ID);
 
 		SystemGlobals.setValue(ConfigKeys.RESOURCE_DIR, TestCaseUtils.getRootDir() + "/test-classes");
+		SystemGlobals.setValue(ConfigKeys.DEVELOPMENT, "false");
 		I18n.reset();
 		I18n.load();
 	}
@@ -154,7 +154,9 @@ public class I18nTest extends TestCase
 		assertEquals("default value 1", I18n.getMessage("default", "defaultKey1"));
 		assertEquals("default cheese 1", I18n.getMessage("cheese", "defaultKey1"));
 		assertEquals("default orange 1", I18n.getMessage("orange", "defaultKey1"));
-		assertNull(I18n.getMessage("default", "orange"));
+		// I18n.getMessage now never returns null
+		//assertNull(I18n.getMessage("default", "orange"));
+		assertEquals("ORANGE", I18n.getMessage("default", "orange"));
 	}
 	
 	@Test
