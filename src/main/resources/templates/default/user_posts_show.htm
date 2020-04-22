@@ -73,7 +73,7 @@
 								<tr>
 									<td>
 										<span class="gen">
-											<span id="a_${post.topicId}_${post.id}">[<a href="javascript:showDetails('${post.topicId}_${post.id}')" >${I18n.getMessage("PostShow.showMessage")}</a>]</span>
+											<span id="a_${post.topicId}_${post.id}">[<a href="javascript:showDetails('${post.topicId}_${post.id}')" >+</a>]</span>
 											<a href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a> 
 											&raquo; <a href="${JForumContext.encodeURL("/posts/list/${post.topicId}")}">${topic.title?default("Empty")?html}</a>, ${post.formattedTime}
 											&raquo; <a href="${JForumContext.encodeURL("/posts/preList/${post.topicId}/${post.id}")}">${I18n.getMessage("PostShow.goToMessage")}</a>
