@@ -53,12 +53,12 @@ package net.jforum.util.preferences;
 public final class ConfigKeys 
 {
 	public static final String LOGGED = "logged";
+	public static final String DEVELOPMENT = "development";
 	public static final String APPLICATION_PATH = "application.path";
 	public static final String INSTALLATION = "installation";
 	public static final String INSTALLED = "installed";
 	public static final String INSTALLATION_CONFIG = "installation.config";
 	public static final String CACHEABLE_OBJECTS = "cacheable.objects";
-
 	public static final String FILECHANGES_DELAY = "file.changes.delay";
 
 	public static final String DAO_DRIVER = "dao.driver";

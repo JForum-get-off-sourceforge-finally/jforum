@@ -72,23 +72,23 @@ public class JForumBaseServlet extends HttpServlet
 {
 	private static final Logger LOGGER = Logger.getLogger(JForumBaseServlet.class);
 	private static final long serialVersionUID = -587702931480527827L;
-	protected transient boolean debug;
+	protected transient boolean isDevelopment;
 
 	@Override public void init(final ServletConfig config) throws ServletException
 	{
 		super.init(config);
 
 		try {
-			debug = "true".equals(config.getInitParameter("development"));
+			isDevelopment = SystemGlobals.getBoolValue(ConfigKeys.DEVELOPMENT);
 			if (LOGGER.isEnabledFor(Level.INFO)) {
-				LOGGER.info("Starting JForum. Debug mode is " + debug);
+				LOGGER.info("Starting JForum. Debug mode is " + isDevelopment);
 			}
 
 			ConfigLoader.startCacheEngine();
 
 			// Configure the template engine
 			final Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_30);
-			if (this.debug) {
+			if (this.isDevelopment) {
 				templateCfg.setTemplateUpdateDelayMilliseconds(2000);
 			} else {
 				templateCfg.setTemplateUpdateDelayMilliseconds(3600000);

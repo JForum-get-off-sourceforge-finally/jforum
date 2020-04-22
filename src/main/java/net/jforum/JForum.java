@@ -191,7 +191,8 @@ public class JForum extends JForumBaseServlet
             final ControllerUtils utils = new ControllerUtils();
             utils.refreshSession();
 
-            context.put("logged", SessionFacade.isLogged());
+            context.put(ConfigKeys.LOGGED, SessionFacade.isLogged());
+            context.put(ConfigKeys.DEVELOPMENT, isDevelopment ? "true" : "false");
 
             // Process security data
             SecurityRepository.load(SessionFacade.getUserSession().getUserId());

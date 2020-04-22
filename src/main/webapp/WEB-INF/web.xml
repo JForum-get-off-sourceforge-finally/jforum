@@ -50,19 +50,11 @@
   <servlet>
     <servlet-name>install</servlet-name>
     <servlet-class>net.jforum.InstallServlet</servlet-class>
-    <init-param>
-      <param-name>development</param-name>
-      <param-value>true</param-value>
-    </init-param>
   </servlet>
   <!-- JForum Controller -->
   <servlet>
     <servlet-name>jforum</servlet-name>
     <servlet-class>net.jforum.JForum</servlet-class>
-    <init-param>
-      <param-name>development</param-name>
-      <param-value>true</param-value>
-    </init-param>
   </servlet>
   <!-- Mapping -->
   <servlet-mapping>

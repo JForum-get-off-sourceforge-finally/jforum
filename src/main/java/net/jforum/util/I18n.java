@@ -70,7 +70,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * 
  * @author Rafael Steil
  * @author James Yong
- * @version $Id$
  */
 public final class I18n
 {
@@ -81,14 +80,13 @@ public final class I18n
     private static final Properties LOCAL_NAMES = new Properties();
     private static String defaultName;
     private static String baseDir;
+	private static boolean isDevelopment;
     private static final List<String> WATCHING = new ArrayList<String>();
     public static final String CANNOT_DELETE_GROUP = "CannotDeleteGroup";
     public static final String CANNOT_DELETE_CATEGORY = "CannotDeleteCategory";
     public static final String CANNOT_DELETE_BANNER = "CannotDeleteBanner";
 
-    private I18n()
-    {
-    }
+    private I18n() { }
 
     /**
      * Gets the singleton
@@ -102,10 +100,10 @@ public final class I18n
 
     /**
      * Load the default I18n file
-     * 
      */
     public static synchronized void load()
     {
+        isDevelopment = SystemGlobals.getBoolValue(ConfigKeys.DEVELOPMENT);
         baseDir = SystemGlobals.getValue(ConfigKeys.LOCALES_DIR);
 
         loadLocales();
@@ -157,8 +155,7 @@ public final class I18n
      * <p>
      * After having loaded the 
      * 
-     * @param localeName
-     *        the locale to be loaded. If this value does not exists in the LOCAL_NAMES and
+     * @param localeName the locale to be loaded. If this value does not exists in the LOCAL_NAMES and
      *        its value there is not an existing language resource file the ${ConfigKeys.I18N_DEFAULT_ADMIN}
      *        is loaded and then registered into the MESSAGES_MAP under the given localeName.
      *        TODO: In the latter case, it does not make sense to register the new localeName for FileMonitor. 
@@ -166,11 +163,9 @@ public final class I18n
      *        values served as blueprint for the not existing localeName) which is detected by the FileMonitor of I18N_DEFAULT_ADMIN, only 
      *        triggers the reload of the I18N_DEFAULT_ADMIN itself and not the actual localeName which is derived 
      *        by the I18N_DEFAULT_ADMIN. The same applies to any given mergeWith-locale which can also be changed
-     * @param mergeWith
-     *        if not null and not empty this locale is first loaded as Properties and used
+     * @param mergeWith if not null and not empty this locale is first loaded as Properties and used
      *        as default when later loading the given locale
-     * @param force
-     *        forces a reloading of the locale
+     * @param force forces a reloading of the locale
      */
     private static void load(String localeName, String mergeWith, boolean force)
     {
@@ -189,7 +184,10 @@ public final class I18n
                 load(mergeWith, null);
             }
 
-            p.putAll(MESSAGES_MAP.get(mergeWith));
+			if (! isDevelopment) {
+				// in development mode, don't default to another language, so we can flag missing properties
+				p.putAll(MESSAGES_MAP.get(mergeWith));
+			}
         }
 
         FileInputStream fis = null;
@@ -223,8 +221,7 @@ public final class I18n
      * Loads a new locale. If <code>localeName</code> is either null or empty, or if the locale is
      * already loaded, the method will return without executing any code.
      * 
-     * @param localeName
-     *            The locale name to load
+     * @param localeName The locale name to load
      */
     public static void load(String localeName)
     {
@@ -245,9 +242,7 @@ public final class I18n
                      */
                     @Override public void fileChanged(String filename)
                     {
-                    	if (LOGGER.isEnabledFor(Level.INFO)) {
-                    		LOGGER.info("Reloading i18n for " + localeName);
-                    	}
+                   		LOGGER.info("Reloading i18n for " + localeName);
 
                         I18n.load(localeName, SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT), true);
                     }
@@ -259,28 +254,30 @@ public final class I18n
     /**
      * Gets a I18N (internationalized) message.
      * 
-     * @param localeName
-     *            The locale name to retrieve the messages from
-     * @param messageName
-     *            The message name to retrieve. Must be a valid entry into the file specified by
+     * @param localeName The locale name to retrieve the messages from
+     * @param m The message name to retrieve. Must be a valid entry into the file specified by
      *            <code>i18n.file</code> property.
-     * @param params
-     *            Parameters needed by some messages. The messages with extra parameters are
+     * @param params Parameters needed by some messages. The messages with extra parameters are
      *            formatted according to {@link java.text.MessageFormat}specification
      * @return String With the message
      */
-    public static String getMessage(String localeName, String messageName, Object params[])
+    public static String getMessage(String localeName, String m, Object params[])
     {
-        return MessageFormat.format(MESSAGES_MAP.get(localeName).getProperty(messageName), params);
+        String msg = MESSAGES_MAP.get(localeName).getProperty(m);
+		if (msg != null) {
+			return MessageFormat.format(msg, params);
+		} else {
+			return m.toUpperCase();
+		}
     }
 
     /**
      * @see #getMessage(String, String, Object[])
-     * @param messageName String
+     * @param m String
      * @param params Object
      * @return String
      */
-    public static String getMessage(String messageName, Object params[])
+    public static String getMessage(String m, Object params[])
     {
         String lang = "";
         UserSession us = SessionFacade.getUserSession();
@@ -290,21 +287,19 @@ public final class I18n
         }
 
         if ("".equals(lang)) {
-            return getMessage(getUserLanguage(), messageName, params);
+            return getMessage(getUserLanguage(), m, params);
         }
 
-        return getMessage(lang, messageName, params);
+        return getMessage(lang, m, params);
     }
 
     /**
      * Gets an I18N (internationalization) message.
      * 
-     * @param m
-     *            The message name to retrieve. Must be a valid entry into the file specified by
+     * @param m The message name to retrieve. Must be a valid entry into the file specified by
      *            <code>i18n.file</code> property.
      * @return String With the message
-     * @param localeName
-     *            String
+     * @param localeName String
      */
     public static String getMessage(String localeName, String m)
     {
@@ -312,7 +307,12 @@ public final class I18n
             load(localeName);
         }
 
-        return MESSAGES_MAP.get(localeName).getProperty(m);
+        String msg = MESSAGES_MAP.get(localeName).getProperty(m);
+		if (msg != null) {
+			return msg;
+		} else {
+			return m.toUpperCase();
+		}
     }
 
     public static String getMessage(String m)
@@ -333,9 +333,8 @@ public final class I18n
     }
 
     /**
-     * Gets the language name for the current request. The method will first look at
-     * {@link UserSession#getLang()} and use it if any value is found. Otherwise, the default board
-     * language will be used
+     * Gets the language name for the current request. The method will first look at {@link UserSession#getLang()}
+	 * and use it if any value is found. Otherwise, the default board language will be used
      * 
      * @return String
      */
@@ -361,8 +360,7 @@ public final class I18n
     /**
      * Check whether the language is loaded in i18n.
      * 
-     * @param language
-     *            String
+     * @param language String
      * @return boolean
      */
     public static boolean contains(String language)
@@ -373,8 +371,7 @@ public final class I18n
     /**
      * Check if the given language exist.
      * 
-     * @param language
-     *            The language to check
+     * @param language The language to check
      * @return <code>true</code> if the language is a valid and registered translation.
      */
     public static boolean languageExists(String language)
