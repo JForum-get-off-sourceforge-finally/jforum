@@ -152,7 +152,7 @@
 		   <#if (nposts > 0) >
 			   <#if (u.twitter?exists && u.twitter?length > 0)>
 					<tr>
-						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.twitter")}:</span></td>
+						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">Twitter:</span></td>
 						<td class="row1">
 							<b><span class="gen">
 							<a href="https://twitter.com/${u.twitter?html}" target="_blank">@${u.twitter}</a>
@@ -168,7 +168,7 @@
 				</#if>
 				<#if (u.skype?exists && u.skype?length > 0)>
 					<tr>
-						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.skype")}:</span></td>
+						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">Skype:</span></td>
 						<td class="row1" valign="middle"><span class="gen">${u.skype?html}</span></td>
 					</tr>
 				</#if>
