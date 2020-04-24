@@ -445,8 +445,6 @@ TopicModel.selectForNewMessages = SELECT t.*, p.user_id AS last_user_id, p.post_
     AND p.post_id = t.topic_last_post_id \
     ORDER BY topic_last_post_id DESC
 
-TopicModel.selectMaxViewsMaxReplies = SELECT MAX(topic_views) as max_views, MAX(topic_replies) as max_replies from jforum_topics
-
 TopicModel.selectHottestTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, (SELECT SUM(p.attach) \
         FROM jforum_posts p \
         WHERE p.topic_id = t.topic_id \
@@ -454,7 +452,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT t.*, p.user_id AS last_user_id, p
     FROM jforum_topics t, jforum_posts p \
     WHERE p.post_id = t.topic_last_post_id \
     AND p.need_moderate = 0 \
-    ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC \
+    ORDER BY :WHAT: DESC \
     LIMIT ?
 
 TopicModel.getUserInformation = SELECT user_id, username FROM jforum_users WHERE user_id IN (#ID#)

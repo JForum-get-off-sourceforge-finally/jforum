@@ -107,7 +107,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT TOP %d \
   FROM jforum_topics t, jforum_posts p \
   WHERE p.post_id = t.topic_last_post_id \
   AND p.need_moderate = 0 \
-  ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC
+  ORDER BY :WHAT: DESC
 
 TopicModel.selectByUserByLimit = SELECT TOP %d \
     t.*, p.user_id AS last_user_id, p.post_time, (SELECT SUM(p.attach) \

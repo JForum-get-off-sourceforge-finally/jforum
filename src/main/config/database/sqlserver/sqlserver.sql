@@ -143,7 +143,7 @@ TopicModel.selectRecentTopicsByLimit = SELECT * \
 	WHERE rownumber >= ? and rownumber < ?
 
 TopicModel.selectHottestTopicsByLimit = SELECT * \
-    FROM ( SELECT ROW_NUMBER() OVER (ORDER BY (? * t.topic_views / ? + ? * t.topic_replies / ?) DESC) - 1 AS rownumber, \
+    FROM ( SELECT ROW_NUMBER() OVER (ORDER BY :WHAT: DESC) - 1 AS rownumber, \
     t.*, p.user_id AS last_user_id, p.post_time, p.post_edit_time, p.attach AS attach \
     FROM jforum_topics t, jforum_posts p \
     WHERE p.post_id = t.topic_last_post_id \

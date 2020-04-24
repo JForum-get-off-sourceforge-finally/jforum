@@ -161,7 +161,7 @@ public final class ConfigKeys
 	public static final String POSTS_PER_PAGE = "postsPerPage";
 	public static final String USERS_PER_PAGE = "usersPerPage";
 	public static final String HOTTEST_TOPICS = "topic.hottest";
-	public static final String HOTTEST_TOPICS_PERCENT_VIEW = "topic.hottest.percent.views";
+	public static final String HOTTEST_TOPICS_SORT = "topic.hottest.sort";
 	public static final String POSTS_CACHE_SIZE = "posts.cache.size";
 	public static final String POSTS_CACHE_ENABLED = "posts.cache.enabled";
 	public static final String TOP_DOWNLOADS = "top.downloads";

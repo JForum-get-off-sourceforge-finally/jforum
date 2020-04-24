@@ -1032,37 +1032,14 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	@Override public List<Topic> selectHottestTopics (int limit)
 	{
-		int percentViews = SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS_PERCENT_VIEW);
-		if (percentViews < 0)
-			percentViews = 0;
-		else if (percentViews > 100)
-			percentViews = 100;
-
+		boolean sortByViews = SystemGlobals.getBoolValue(ConfigKeys.HOTTEST_TOPICS_SORT);
 	    PreparedStatement pstmt = null;
 	    try {
-	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
-	        	SystemGlobals.getSql("TopicModel.selectMaxViewsMaxReplies"));
-			ResultSet rs = pstmt.executeQuery();
-			int maxViews = 0;
-			int maxReplies = 0;
-			if (rs.next()) {
-				maxViews = rs.getInt("max_views");
-				maxReplies = rs.getInt("max_replies");
-			}
-			if (maxViews == 0)
-				maxViews = 1;
-			if (maxReplies == 0)
-				maxReplies = 1;
-			//LOGGER.info("percentViews="+percentViews+", maxViews="+maxViews+", maxReplies="+maxReplies);
+	        String sql = SystemGlobals.getSql("TopicModel.selectHottestTopicsByLimit");
+			sql = sql.replaceAll(":WHAT:", sortByViews ? "t.topic_views" : "t.topic_replies");
+	        pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
+	        pstmt.setInt(1, limit);
 
-	        pstmt = JForumExecutionContext.getConnection().prepareStatement(
-	        	SystemGlobals.getSql("TopicModel.selectHottestTopicsByLimit"));
-	        pstmt.setInt(1, percentViews);
-	        pstmt.setInt(2, maxViews);
-	        pstmt.setInt(3, 100 - percentViews);
-	        pstmt.setInt(4, maxReplies);
-	        pstmt.setInt(5, limit);
-	  
 	        return this.fillTopicsData(pstmt);
 	    }
 	    catch (SQLException e) {
@@ -1072,7 +1049,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	        DbUtils.close(pstmt);
 	    }
 	}
-	
+
 	/**
 	 * @see net.jforum.dao.TopicDAO#setFirstPostId(int, int)
 	 */
