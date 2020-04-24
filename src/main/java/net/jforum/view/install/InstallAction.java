@@ -224,7 +224,7 @@ public class InstallAction extends Command
             }
             
             if (!this.updateAdminPassword(conn)) {
-                this.context.put("message", I18n.getMessage("Install.updateAdminError"));
+			this.context.put("message", I18n.getMessage("Install.updateAdminError"));
                 dbError = true;
                 this.error();
                 return;
@@ -376,6 +376,15 @@ public class InstallAction extends Command
 
                 try {
                     if (query.startsWith("UPDATE") || query.startsWith("INSERT") || query.startsWith("SET")) {
+						// the admin user name can be changed during installation
+						query = query.replaceAll("#ADMIN#", this.getFromSession("adminUser"));
+						// need to get the proper link to the forum, including the context
+						String link = this.getFromSession("forumLink");
+						if (link.endsWith("/")) {
+							// the SQL has a slash in it, so remove an existing one
+							link = link.substring(0, link.length()-1);
+						}
+						query = query.replaceAll("#FORUM_LINK#", link);
                         stmt.executeUpdate(query);
                     }
                     else if (query.startsWith("SELECT")) {
