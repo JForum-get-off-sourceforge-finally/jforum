@@ -78,11 +78,11 @@ public class Browser extends VersionedObject {
         if (d.renderingEngine==null && renderingEngine!=d.renderingEngine) return false;
         return
             ( (d.getFamily()==null && family==null) || d.getFamily().equals(family) ) &&
-            ( (d.version==null && version==null) || d.version.equals(version) ) &&
-            ( (d.vendor==null && vendor==null) || d.vendor.equals(vendor) ) &&
-            ( (d.description==null && description==null) || d.description.equals(description) ) &&
-            ( (d.fullVersion==null && fullVersion==null) || d.fullVersion.equals(fullVersion) ) &&
-            ( (d.renderingEngine==null && renderingEngine==null) || d.renderingEngine.equals(renderingEngine) ) &&
+            ( (d.version==null && version==null) || (d.version != null &&d.version.equals(version)) ) &&
+            ( (d.vendor==null && vendor==null) || (d.vendor != null && d.vendor.equals(vendor)) ) &&
+            ( (d.description==null && description==null) || (d.description != null && d.description.equals(description)) ) &&
+            ( (d.fullVersion==null && fullVersion==null) || (d.fullVersion != null &&d.fullVersion.equals(fullVersion)) ) &&
+            ( (d.renderingEngine==null && renderingEngine==null) || (d.renderingEngine != null &&d.renderingEngine.equals(renderingEngine)) ) &&
             d.inWebView == inWebView;
     }
 

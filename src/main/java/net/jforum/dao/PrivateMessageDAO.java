@@ -44,7 +44,6 @@ package net.jforum.dao;
 import java.util.List;
 
 import net.jforum.entities.PrivateMessage;
-import net.jforum.entities.User;
 
 /**
  * @author Rafael Steil

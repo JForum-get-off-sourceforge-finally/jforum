@@ -102,8 +102,6 @@ public class UserAction extends Command
 	private static final String EMAIL = "email";
 
 	private transient final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
-	private transient  final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
-
 	private boolean canEdit()
 	{
 		final int tmpId = SessionFacade.getUserSession().getUserId();

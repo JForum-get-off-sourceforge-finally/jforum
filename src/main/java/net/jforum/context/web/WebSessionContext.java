@@ -81,8 +81,7 @@ public class WebSessionContext implements SessionContext
 		return httpSession.getId();
 	}
 
-	@Override @SuppressWarnings("unchecked")
-	public Enumeration<String> getAttributeNames()
+	@Override public Enumeration<String> getAttributeNames()
 	{
 		return httpSession.getAttributeNames();
 	}

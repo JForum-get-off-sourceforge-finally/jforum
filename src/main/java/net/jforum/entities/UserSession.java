@@ -65,8 +65,6 @@ import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.log4j.Logger;
-
 /**
  * Stores information about user's session.
  * 
@@ -74,9 +72,7 @@ import org.apache.log4j.Logger;
  */
 public class UserSession implements Serializable
 {
-    private static final Logger LOGGER = Logger.getLogger(UserSession.class);
-
-	private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
 	
 	private long sessionTime;
 	

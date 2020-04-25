@@ -78,11 +78,11 @@ public class Device {
         if (! (o instanceof Device)) return false;
         Device d = (Device) o;
         return
-            ( (d.deviceType==null && deviceType==null) || d.deviceType.equals(deviceType) ) &&
-            ( (d.brand==null && brand==null) || d.brand.equals(brand) ) &&
-            ( (d.device==null && device==null) || d.device.equals(device) ) &&
-            ( (d.architecture==null && architecture==null) || d.architecture.equals(architecture) ) &&
-            ( (d.manufacturer==null && manufacturer==null) || d.manufacturer.equals(manufacturer) ) &&
+            ( (d.deviceType==null && deviceType==null) || (d.deviceType != null && d.deviceType.equals(deviceType)) ) &&
+            ( (d.brand==null && brand==null) || (d.brand != null && d.brand.equals(brand)) ) &&
+            ( (d.device==null && device==null) || (d.device != null && d.device.equals(device)) ) &&
+            ( (d.architecture==null && architecture==null) || (d.architecture != null && d.architecture.equals(architecture)) ) &&
+            ( (d.manufacturer==null && manufacturer==null) || (d.manufacturer != null && d.manufacturer.equals(manufacturer)) ) &&
             ( d.touch == touch );
     }
     @Override public int hashCode() {

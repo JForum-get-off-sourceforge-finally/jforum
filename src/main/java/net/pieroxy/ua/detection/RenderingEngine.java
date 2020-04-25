@@ -94,9 +94,9 @@ public class RenderingEngine extends VersionedObject {
         if (d.fullVersion==null && fullVersion!=d.fullVersion) return false;
         return
             ( (d.getFamily()==null && family==null) || d.getFamily().equals(family) ) &&
-            ( (d.version==null && version==null) || d.version.equals(version) ) &&
-            ( (d.vendor==null && vendor==null) || d.vendor.equals(vendor) ) &&
-            ( (d.fullVersion==null && fullVersion==null) || d.fullVersion.equals(fullVersion) ) ;
+            ( (d.version==null && version==null) || (d.version != null && d.version.equals(version)) ) &&
+            ( (d.vendor==null && vendor==null) || (d.vendor != null && d.vendor.equals(vendor)) ) &&
+            ( (d.fullVersion==null && fullVersion==null) || (d.fullVersion != null && d.fullVersion.equals(fullVersion)) ) ;
     }
 
     @Override public int hashCode() {

@@ -47,7 +47,6 @@ import net.jforum.JForumExecutionContext;
 import net.jforum.dao.BannerDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.Banner;
-import net.jforum.view.forum.common.BannerCommon;
 
 /**
  * @author Samuel Yung

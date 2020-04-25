@@ -48,10 +48,10 @@ public class Bot {
         if (d.url==null && url!=d.url) return false;
         return
             ( (d.getFamily()==null && family==null) || d.getFamily().equals(family) ) &&
-            ( (d.description==null && description==null) || d.description.equals(description) ) &&
-            ( (d.vendor==null && vendor==null) || d.vendor.equals(vendor) ) &&
-            ( (d.url==null && url==null) || d.url.equals(url) ) &&
-            ( (d.version==null && version==null) || d.version.equals(version) );
+            ( (d.description==null && description==null) || (d.description != null && d.description.equals(description)) ) &&
+            ( (d.vendor==null && vendor==null) || (d.vendor != null && d.vendor.equals(vendor)) ) &&
+            ( (d.url==null && url==null) || (d.url != null && d.url.equals(url)) ) &&
+            ( (d.version==null && version==null) || (d.version != null && d.version.equals(version)) );
     }
     @Override public int hashCode() {
         int res = 0;

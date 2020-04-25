@@ -62,15 +62,11 @@ import net.jforum.search.SearchPost;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Rafael Steil
  */
 public class GenericLuceneDAO implements LuceneDAO
 {
-	private static final Logger LOGGER = Logger.getLogger(GenericLuceneDAO.class);
-
 	/**
 	 * @see net.jforum.dao.LuceneDAO#getPostsToIndex(int, int)
 	 */

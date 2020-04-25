@@ -1,8 +1,6 @@
 
 package net.jforum.util.bbcode;
 
-import net.jforum.util.*;
-
 /**
  * Transform a UBB tag like {@code [url]http://www.google.com/[/url]} into a link.
  * Replacement for the corresponding entry in bb_config.xml which was vulnerable to XSS attacks:<br>

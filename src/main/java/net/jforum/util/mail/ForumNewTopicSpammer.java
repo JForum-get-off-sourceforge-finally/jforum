@@ -56,15 +56,11 @@ import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Rafael Steil
  */
 public class ForumNewTopicSpammer extends Spammer 
 {
-	private static final Logger LOGGER = Logger.getLogger(ForumNewTopicSpammer.class);
-
 	public ForumNewTopicSpammer (final Forum forum, final Topic topic, final Post origPost, final List<User> users)
 	{
 		super();

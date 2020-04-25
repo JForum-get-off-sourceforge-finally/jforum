@@ -28,9 +28,9 @@ public class OS {
         OS d = (OS) o;
         return
             ( (d.getFamily()==null && family==null) || d.getFamily().equals(family) ) &&
-            ( (d.description==null && description==null) || d.description.equals(description) ) &&
-            ( (d.vendor==null && vendor==null) || d.vendor.equals(vendor) ) &&
-            ( (d.version==null && version==null) || d.version.equals(version) );
+            ( (d.description==null && description==null) || (d.description != null && d.description.equals(description)) ) &&
+            ( (d.vendor==null && vendor==null) || (d.vendor != null && d.vendor.equals(vendor)) ) &&
+            ( (d.version==null && version==null) || (d.version != null && d.version.equals(version)) );
     }
 
     @Override public int hashCode() {

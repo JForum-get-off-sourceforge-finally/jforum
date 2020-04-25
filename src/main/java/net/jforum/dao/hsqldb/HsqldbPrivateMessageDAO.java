@@ -46,7 +46,6 @@ import java.util.List;
 
 import net.jforum.dao.generic.GenericPrivateMessageDAO;
 import net.jforum.entities.PrivateMessage;
-import net.jforum.entities.User;
 
 public class HsqldbPrivateMessageDAO extends GenericPrivateMessageDAO
 {

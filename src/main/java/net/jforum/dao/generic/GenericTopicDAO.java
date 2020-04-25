@@ -73,15 +73,11 @@ import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Rafael Steil
  */
 public class GenericTopicDAO extends AutoKeys implements TopicDAO
 {
-	private static final Logger LOGGER = Logger.getLogger(GenericTopicDAO.class);
-
 	private static final String USER_ID = "user_id";
 	/**
 	 * @see net.jforum.dao.TopicDAO#findTopicsByDateRange(net.jforum.search.SearchArgs)

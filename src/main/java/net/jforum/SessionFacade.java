@@ -42,7 +42,6 @@
  */
 package net.jforum;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,7 +58,6 @@ import net.jforum.cache.CacheEngine;
 import net.jforum.cache.Cacheable;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.UserSession;
-import net.jforum.exceptions.DatabaseException;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -72,7 +70,7 @@ public class SessionFacade implements Cacheable
 	private static final Logger LOGGER = Logger.getLogger(SessionFacade.class);
 
 	// map session IDs to UserSession objects
-	private static final String FQN = "sessions";
+	private static final String FQN = new String("sessions");
 	// map session IDs to UserSession objects of whose online status is publicly visible.
 	private static final String FQN_LOGGED = FQN + "/logged";
 	// map different types of user count types (string names) to int user counts 
