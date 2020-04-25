@@ -383,7 +383,7 @@ public class SessionFacade implements Cacheable
 	/**
 	 * Verify if there is an user in the session with the user id passed as parameter.
 	 * 
-	 * @param userId The user id to check for existance in the session
+	 * @param userId The user id to check for existence in the session
 	 * @return A set of session ids associated to this user, if the user is
 	 *         already registered into at least one session, or an empty set if it is not.
 	 */

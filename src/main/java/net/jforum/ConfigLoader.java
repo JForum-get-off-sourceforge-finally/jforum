@@ -169,7 +169,7 @@ public final class ConfigLoader
      *     <ul>
      *       <li><i>SystemGlobals.properties</i></li>
      *       <li><i>quartz-jforum.properties</i></li>
-     *       <li>if exists: <i>jforum_custom.config</i></li>
+     *       <li>if exists: <i>jforum-custom.conf</i></li>
      *     </ul>
      *   </li>
      *   <li>
