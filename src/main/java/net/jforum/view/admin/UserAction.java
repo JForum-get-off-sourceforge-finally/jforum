@@ -49,8 +49,10 @@ import java.util.List;
 import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.GroupDAO;
+import net.jforum.dao.ModerationLogDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Group;
+import net.jforum.entities.ModerationLog;
 import net.jforum.entities.User;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.util.I18n;
@@ -274,16 +276,31 @@ public class UserAction extends AdminCommand
 		String ids[] = this.request.getParameterValues(USER_ID);
 		
 		if (ids != null) {
+			ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
+
 			for (int i = 0; i < ids.length; i++) {
 				
-				int user = Integer.parseInt(ids[i]);
-				
-				if (userDao.isDeleted(user)){
-					userDao.undelete(user);
+				int userId = Integer.parseInt(ids[i]);
+
+				ModerationLog log = new ModerationLog();
+				User user = new User();
+				user.setId(SessionFacade.getUserSession().getUserId());
+				log.setUser(user);
+				User posterUser = new User();
+				posterUser.setId(userId);
+				log.setPosterUser(posterUser);
+				log.setType(6); // user lock/unlock
+
+				if (userDao.isDeleted(userId)) {
+					userDao.undelete(userId);
+					log.setDescription(I18n.getMessage("Unlock")+" "+I18n.getMessage("User.user"));
 				} else {
-					SessionFacade.removeUserSessions(user);
-					userDao.delete(user);
+					SessionFacade.removeUserSessions(userId);
+					userDao.delete(userId);
+					log.setDescription(I18n.getMessage("Lock")+" "+I18n.getMessage("User.user"));
 				}
+
+				dao.add(log);
 			}
 		}
 		

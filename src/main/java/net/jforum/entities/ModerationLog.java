@@ -151,9 +151,10 @@ public class ModerationLog
 	 * 0 = moved
 	 * 1 = deleted
 	 * 2 = edited
-	 * 3 = locked/unlocked
+	 * 3 = topic locked/unlocked
 	 * 4 = composted
 	 * 5 = post rejected
+	 * 6 = user locked/unlocked
 	 */
 	public void setType(final int type)
 	{
