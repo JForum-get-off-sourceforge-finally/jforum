@@ -3,6 +3,23 @@
 <#import "../../macros/pagination.ftl" as pagination/>
 <#import "macros/group_macros.ftl" as lib />
 
+<script type="text/javascript">
+	function lockUnlockComment() 
+	{
+		var message = prompt("${I18n.getMessage("ModerationLog.changeReason")}");
+
+		if (message == null || message == "") {
+			alert("${I18n.getMessage("PostForm.textEmpty")}");
+			return false;
+		}
+		else {
+			document.form.comment.value = message;
+		}
+
+		return true;
+	}
+</script>
+
 <table class="forumline" cellspacing="1" cellpadding="3" width="100%">
 	<tr>
 		<th class="thhead" valign="middle" colspan="6">${I18n.getMessage("User.adminTitle")}</th>
@@ -38,6 +55,7 @@
 	<input type="hidden" name="action" value="delete" />
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="start" value="${start}" />
+	<input type="hidden" name="comment" value="" />
 	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
     <table class="forumline" cellspacing="1" cellpadding="3" width="100%">  
 	<tr>
@@ -73,7 +91,7 @@
 			<input class="mainoption" type="button" value="${I18n.getMessage("Insert")}" onclick="document.location = '${contextPath}/user/insert${extension}';" />&nbsp;&nbsp;	
 		</td>
 		<td class="catbottom" align="center">
-			<input class="mainoption" type="submit" value="${I18n.getMessage("Lock")} / ${I18n.getMessage("Unlock")}" name="submit" />
+			<input class="mainoption" onclick="return lockUnlockComment();" type="submit" value="${I18n.getMessage("Lock")} / ${I18n.getMessage("Unlock")}" name="submit" />
 		</td>
 	</tr>
     </table>

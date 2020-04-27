@@ -23,28 +23,23 @@
 						<tr>
 							<td colspan="2" class="catleft">&nbsp;<span class="gen"><b>${info.topicTitle?html}</b></span></td>
 						</tr>
-
 						<tr>
 							<td>
 								<table width="95%" align="center">
-
 									<tr>
 										<th class="thcornerl" width="150">${I18n.getMessage("PostShow.author")}</th>
 										<th class="thcornerr">${I18n.getMessage("PostShow.messageTitle")}</th>
 									</tr>
-
 									<#list info.posts as post>
 										<#if post_index % 2 == 0>
 											<#assign rowColor = "row1">
 										<#else>
 											<#assign rowColor = "row2">
 										</#if>
-
 										<tr>
 											<td align="left" valign="top" class="row1">
 												<span class="name"><a name=""></a><b>${post.postUsername}</b></span>
 											</td>
-											
 											<td class="row1" valign="top">
 												<table width="100%" cellspacing="0" cellpadding="0">
 													<tr>
@@ -63,18 +58,18 @@
 												</table>
 											</td>
 										</tr>
-
 										<tr>
-											<td colspan="2" align="right">
+											<td colspan="2">
+												<BR>
 												<span class="gensmall">
 													<input type="radio" name="status_${post.id}" value="approve">${I18n.getMessage("Moderation.Admin.aprove")}&nbsp;
 													<input type="radio" name="status_${post.id}" value="defer" checked="checked">${I18n.getMessage("Moderation.Admin.defer")}&nbsp;
 													<input type="radio" name="status_${post.id}" value="reject">${I18n.getMessage("Moderation.Admin.reject")}&nbsp;
 													<input type="hidden" name="post_id" value="${post.id}" />
+													${I18n.getMessage("Banner.comment")}: <input type="text" name="comment_${post.id}" value="" size="80"/>
 												</span>
 											</td>
 										</tr>
-										
 										<tr>
 											<td colspan="2" class="spacerow"><img src="${contextPath}/templates/${templateName}/images/spacer.gif" alt="" width="1" /></td>
 										</tr>
@@ -87,7 +82,6 @@
 			</tr>
 		</tr>
 		</#list>
-
 		<tr>
 			<td align="center" class="catleft"><input class="mainoption" type="submit" value="${I18n.getMessage("Moderation.Admin.submit")}"></td>
 		</tr>

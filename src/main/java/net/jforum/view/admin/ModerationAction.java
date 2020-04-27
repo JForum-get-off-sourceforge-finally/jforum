@@ -200,7 +200,9 @@ public class ModerationAction extends AdminCommand
 					if (totalPosts > 0) {
 						log.setTopicId(post.getTopicId());
 					}
-					log.setDescription(I18n.getMessage("ForumIndex.topics")+" \""+post.getSubject()+"\"");
+					log.setDescription(I18n.getMessage("ForumIndex.topics")
+									+" \""+post.getSubject()+"\": "
+									+this.request.getParameter("comment_" + postId));
 					log.setOriginalMessage(post.getText());
 
 					ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();

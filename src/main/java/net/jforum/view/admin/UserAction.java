@@ -56,6 +56,7 @@ import net.jforum.entities.ModerationLog;
 import net.jforum.entities.User;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.util.I18n;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.TreeGroup;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -73,6 +74,7 @@ public class UserAction extends AdminCommand
 	
 	private final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 	private final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
+	private final ModerationLogDAO modLogDao = DataAccessDriver.getInstance().newModerationLogDAO();
 	
 	@Override public void list()
 	{
@@ -274,12 +276,11 @@ public class UserAction extends AdminCommand
 	public void delete()
 	{
 		String ids[] = this.request.getParameterValues(USER_ID);
-		
-		if (ids != null) {
-			ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
+		String comment = this.request.getParameter("comment");
 
+		if (ids != null) {
 			for (int i = 0; i < ids.length; i++) {
-				
+
 				int userId = Integer.parseInt(ids[i]);
 
 				ModerationLog log = new ModerationLog();
@@ -290,6 +291,7 @@ public class UserAction extends AdminCommand
 				posterUser.setId(userId);
 				log.setPosterUser(posterUser);
 				log.setType(6); // user lock/unlock
+				log.setOriginalMessage(SafeHtml.makeSafe(comment));
 
 				if (userDao.isDeleted(userId)) {
 					userDao.undelete(userId);
@@ -300,10 +302,10 @@ public class UserAction extends AdminCommand
 					log.setDescription(I18n.getMessage("Lock")+" "+I18n.getMessage("User.user"));
 				}
 
-				dao.add(log);
+				modLogDao.add(log);
 			}
 		}
-		
+
 		this.list();
 	}
 	
