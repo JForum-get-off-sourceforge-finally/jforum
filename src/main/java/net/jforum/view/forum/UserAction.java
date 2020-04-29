@@ -102,6 +102,8 @@ public class UserAction extends Command
 	private static final String EMAIL = "email";
 
 	private transient final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+	private transient  final UserSessionDAO userSessionDao = DataAccessDriver.getInstance().newUserSessionDAO();
+
 	private boolean canEdit()
 	{
 		final int tmpId = SessionFacade.getUserSession().getUserId();
@@ -474,9 +476,8 @@ public class UserAction extends Command
 
 				userSession.dataToUser(user);
 		 
-				final UserSessionDAO userSessionDAO = DataAccessDriver.getInstance().newUserSessionDAO();
 				// we fetch the last visit time based on the user session information stored in the DB
-				final Date knownLastVisitTime = userSessionDAO.fetchLastVisitTime(userSession, JForumExecutionContext.getConnection());
+				final Date knownLastVisitTime = userSessionDao.fetchLastVisitTime(userSession, JForumExecutionContext.getConnection());
 				if (knownLastVisitTime == null) {
 					// there's no available information about the user's last visit,
 					// so let's set the current time as his last visit
@@ -785,8 +786,9 @@ public class UserAction extends Command
 		UserSession userSession = SessionFacade.getUserSession();
 		// only logged-in users get to see the member list
 		if (userSession != null
-				&& userSession.getUserId() != SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-
+			&& (SystemGlobals.getBoolValue(ConfigKeys.USER_LIST_PUBLIC)
+				 || userSession.isAdmin() || userSession.isModerator()))
+		{
 			int start = this.preparePagination(userDao.getTotalUsers());
 			int usersPerPage = SystemGlobals.getIntValue(ConfigKeys.USERS_PER_PAGE);
 

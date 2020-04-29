@@ -6,10 +6,10 @@
 <script type="text/javascript">
 	function lockUnlockComment() 
 	{
-		var message = prompt("${I18n.getMessage("ModerationLog.changeReason")}");
+		var message = prompt("${I18n.getMessage("ModerationLog.lockReason")}");
 
 		if (message == null || message == "") {
-			alert("${I18n.getMessage("PostForm.textEmpty")}");
+			alert("${I18n.getMessage("ModerationLog.lockReasonEmpty")}");
 			return false;
 		}
 		else {

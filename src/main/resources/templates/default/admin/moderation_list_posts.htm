@@ -66,7 +66,7 @@
 													<input type="radio" name="status_${post.id}" value="defer" checked="checked">${I18n.getMessage("Moderation.Admin.defer")}&nbsp;
 													<input type="radio" name="status_${post.id}" value="reject">${I18n.getMessage("Moderation.Admin.reject")}&nbsp;
 													<input type="hidden" name="post_id" value="${post.id}" />
-													${I18n.getMessage("Banner.comment")}: <input type="text" name="comment_${post.id}" value="" size="80"/>
+													${I18n.getMessage("ModerationLog.rejectReason")}: <input type="text" name="comment_${post.id}" value="" size="80"/>
 												</span>
 											</td>
 										</tr>
@@ -83,10 +83,31 @@
 		</tr>
 		</#list>
 		<tr>
-			<td align="center" class="catleft"><input class="mainoption" type="submit" value="${I18n.getMessage("Moderation.Admin.submit")}"></td>
+			<td align="center" class="catleft"><input class="mainoption" type="submit" onclick="return rejectComment();" value="${I18n.getMessage("Moderation.Admin.submit")}"></td>
 		</tr>
 	</#if>
 </table>
 </form>
+
+<script type="text/javascript">
+	function rejectComment() 
+	{
+		var reject = false;
+		<#list topics.values() as info>
+			<#list info.posts as post>
+				if (document.form.status_${post.id}.value == "reject"
+						&& document.form.comment_${post.id}.value.trim() == "") {
+					reject = true;
+				}
+			</#list>
+		</#list>
+		if (reject) {
+			alert("${I18n.getMessage("ModerationLog.rejectReasonEmpty")}");
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
 
 <#include "bottom.htm"/>

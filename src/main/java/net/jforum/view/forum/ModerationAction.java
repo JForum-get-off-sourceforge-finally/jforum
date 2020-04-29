@@ -73,7 +73,7 @@ import net.jforum.view.forum.common.ViewCommon;
 public class ModerationAction extends Command
 {
 	private static final String RETURN_URL = "returnUrl";
-	
+
 	/**
 	 * @throws UnsupportedOperationException always
 	 * @see net.jforum.Command#list()
@@ -82,39 +82,36 @@ public class ModerationAction extends Command
 	{
 		throw new UnsupportedOperationException();
 	}
-	
+
 	public void showActivityLog() 
 	{
-		if (!SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_LOG)) {
-			this.denied();
-			return;
-		}
-
 		UserSession userSession = SessionFacade.getUserSession();
-		// only logged-in users get to see the moderation log
+		// only logged-in users get to see the member list
 		if (userSession == null
-				|| userSession.getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)) {
-			this.denied();
+			|| (!SystemGlobals.getBoolValue(ConfigKeys.MODERATION_LOG_PUBLIC)
+				 && !userSession.isAdmin() && !userSession.isModerator()))
+		{
+			JForumExecutionContext.setRedirect(this.request.getContextPath());
 			return;
 		}
 
 		final ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
-		
+
 		final int start = ViewCommon.getStartPage();
 		final int recordsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-		
+
 		final List<ModerationLog> list = dao.selectAll(start, recordsPerPage);
 		final boolean canAccessFullModerationLog = SecurityRepository.canAccess(SecurityConstants.PERM_FULL_MODERATION_LOG);
-		
+
 		final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
-		
+
 		for (final Iterator<ModerationLog> iter = list.iterator(); iter.hasNext();) {
 			final ModerationLog log = iter.next();
-			
+
 			if (log.getPostId() > 0) {
 				final Post post = postDao.selectById(log.getPostId());
-				
+
 				if (post.getId() > 0 && ForumRepository.getForum(post.getForumId()) == null) {
 					iter.remove();
 					continue;
@@ -122,55 +119,51 @@ public class ModerationAction extends Command
 			}
 			else if (log.getTopicId() > 0) {
 				Topic topic = topicDao.selectRaw(log.getTopicId());
-				
+
 				if (topic.getId() > 0 && ForumRepository.getForum(topic.getForumId()) == null) {
 					iter.remove();
 					continue;
 				}
 			}
-			
+
 			if (log.getOriginalMessage() != null && canAccessFullModerationLog) {
 				Post post = new Post();
 				post.setText(log.getOriginalMessage());
-				
+
 				log.setOriginalMessage(PostCommon.preparePostForDisplay(post).getText());
 			}
 		}
-		
+
 		this.setTemplateName(TemplateKeys.MODERATION_SHOW_ACTIVITY_LOG);
 		this.context.put("activityLog", list);
 		this.context.put("canAccessFullModerationLog", canAccessFullModerationLog);
-		
+		this.context.put("pageTitle", I18n.getMessage("ModerationLog.moderationLog"));
+
 		int totalRecords = dao.totalRecords();
-		
+
 		ViewCommon.contextToPagination(start, totalRecords, recordsPerPage);
 
 		new StatsEvent("Moderation log", request.getRequestURL()).record();
 	}
-	
-	private void denied() {
-		this.setTemplateName(TemplateKeys.MODERATION_LOG_DENIED);
-		this.context.put("message", I18n.getMessage("ModerationLog.denied"));
-	}
-	
+
 	public void doModeration()
 	{
 		String returnUrl = this.request.getParameter(RETURN_URL);
-		
+
 		new ModerationHelper().doModeration(returnUrl);
-		
+
 		this.context.put(RETURN_URL, returnUrl);
-		
+
 		if (JForumExecutionContext.getRequest().getParameter("topicMove") != null) {
 			this.setTemplateName(TemplateKeys.MODERATION_MOVE_TOPICS);
 		}
 	}
-	
+
 	public void moveTopic()
 	{
 		new ModerationHelper().moveTopicsSave(this.request.getParameter(RETURN_URL));
 	}
-	
+
 	public void moderationDone()
 	{
 		this.setTemplateName(new ModerationHelper().moderationDone(this.request.getParameter(RETURN_URL)));
