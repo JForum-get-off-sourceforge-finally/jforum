@@ -23,7 +23,7 @@
 			<a href="https://twitter.com/${user.twitter?html}" target="_blank"><img src="${contextPath}/templates/${templateName}/images/icon_twitter.jpg" alt="[Twitter]" /></a>
 		</#if>
 	</td>
-	<#if karmaEnabled && post.userId != session.userId && logged>
+	<#if showKarma && karmaEnabled && post.userId != session.userId && logged>
 		<td align="right">
 		<#if !karmaVotes.containsKey(post.id)>
 			<script type="text/javascript">karmaPointsCombo(${post.id})</script>
