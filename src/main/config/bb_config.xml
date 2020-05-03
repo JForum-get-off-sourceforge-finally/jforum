@@ -370,20 +370,6 @@
         </replace>
     </match>
 
-    <!--I'm Vlog -->
-    <match name="imvlog" lockedForSmilies="imvlog">
-        <regex>(?i)\[imvlog\]http\:\/\/www.im.tv/vlog/Personal\/(.*?)/(.*?)\[/imvlog\]</regex>
-        <replace>
-        <![CDATA[
-        <object width="450" height="338" type="application/x-shockwave-flash" data="http://myvlog.im.tv/?id=$2&amp;mid=$1&amp;MemberID=&amp;inIMTV=Y&amp;album=0&amp;playnext=0">
-            <param name="movie" value="http://myvlog.im.tv/?id=$2&amp;mid=$1&amp;MemberID=&amp;inIMTV=Y&amp;album=0&amp;playnext=0" />
-            <param name="allowFullScreen" value="true" />
-            <param name="allowscriptaccess" value="always" />            
-        </object> 
-        ]]>
-        </replace>
-    </match>
-
 	<!-- Javadoc -->
 	<match name="javadoc" lockedForSmilies="javadoc">
 		<regex>(?i)\[javadoc\](.*?)\[/javadoc\]</regex>
