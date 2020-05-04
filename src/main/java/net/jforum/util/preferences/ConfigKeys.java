@@ -192,7 +192,7 @@ public final class ConfigKeys
 	public static final String MAIL_NEW_ANSWER_SUBJECT = "mail.newAnswer.subject";
 	public static final String MAIL_NEW_PM_SUBJECT = "mail.newPm.subject";
 	public static final String MAIL_NEW_PM_MESSAGE_FILE = "mail.newPm.messageFile";
-	public static final String MAIL_MESSSAGE_FORMAT = "mail.messageFormat";
+	public static final String MAIL_MESSAGE_FORMAT = "mail.messageFormat";
 
 	public static final String MAIL_POP3_DEBUG_KEEP_MESSAGES = "mail.pop3.debug.keep.messages";
 	public static final String MAIL_POP3_INTEGRATION_ENABLED = "mail.pop3.integration.enabled";

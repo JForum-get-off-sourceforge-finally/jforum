@@ -128,7 +128,7 @@ public class Spammer
 		username = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_USERNAME);
 		password = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PASSWORD);
 
-		messageFormat = SystemGlobals.getValue(ConfigKeys.MAIL_MESSSAGE_FORMAT).equals("html") 
+		messageFormat = SystemGlobals.getValue(ConfigKeys.MAIL_MESSAGE_FORMAT).equals("html") 
 			? MESSAGE_HTML
 			: MESSAGE_TEXT;
 

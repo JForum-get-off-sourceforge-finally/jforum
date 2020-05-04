@@ -93,7 +93,7 @@
 	        <td class="row1" width="50%" colspan="2"><span class="gen">${I18n.getMessage("Search.searchByUserId")}:</span><br /></td>
 	        <td class="row2" valign="top">
 	        <span class="genmed"> <input type="text" class="post" style="width:100px" size="15" name="user_id" />
-	        <#if (session.userId > 0)>
+	        <#if (session.userId > 1)>
 	        &nbsp;&nbsp;(<a href="" onClick="document.formSearch.user_id.value='${session.userId}'; return false;"><font size="1">${I18n.getMessage("Search.myOwnPosts")}</font></a>)
 	        </#if>
 	        </span>
