@@ -10,6 +10,9 @@
 <div class="mobilePostText">
 	<#assign rankStr = rank.getRankTitle(u.rankId, u.totalPosts)/>
 	<#if rankStr?trim != "">${I18n.getMessage("PostShow.ranking")}: ${rankStr}<br></#if>
+	<#if showKarma && karmaEnabled && (u.karma.karmaPoints > 0)>
+		${I18n.getMessage("Karma.karma")}: <script type="text/javascript">writeStars(${u.karma.karmaPoints}, ${u.id});</script><br>
+	</#if>
 	${I18n.getMessage("UserProfile.registrationDate")}: ${u.registrationDay}<br>
 	${I18n.getMessage("UserProfile.totalMessages")}:
 	<#if (nposts > 0)>

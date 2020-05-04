@@ -29,10 +29,12 @@
 					<img src="${contextPath}/${avatarPath}/${u.avatar}" alt="avatar" /><br />
 				</#if>
 			</#if>
+			<#assign ranking = rank.getRankTitle(u.rankId, u.totalPosts)/>
 			<span class="postdetails">
-				${I18n.getMessage("PostShow.ranking")}: ${rank.getRankTitle(u.rankId, u.totalPosts)?html}
-			
-				<#if showKarma && karmaEnabled>
+				<#if (ranking?length > 0)>
+					${I18n.getMessage("PostShow.ranking")}: ${ranking?html}
+				</#if>
+				<#if showKarma && karmaEnabled && (u.karma.karmaPoints > 0)>
 					<br />${I18n.getMessage("Karma.karma")}: <script type="text/javascript">writeStars(${u.karma.karmaPoints}, ${u.id});</script>
 				</#if>
 			</span>
