@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
+			<version>3.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -241,7 +241,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.9</version>
+			<version>42.2.12</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -251,7 +251,7 @@
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
-			<version>12.2.0.1</version>
+			<version>19.6.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -261,7 +261,7 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-parsers</artifactId>
-			<version>1.24</version>
+			<version>1.24.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jsoup</groupId>
@@ -283,12 +283,12 @@
 		<dependency>
 			<groupId>org.greenrobot</groupId>
 			<artifactId>eventbus</artifactId>
-			<version>3.1.1</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ocpsoft.prettytime</groupId>
 			<artifactId>prettytime</artifactId>
-			<version>4.0.1.Final</version>
+			<version>4.0.5.Final</version>
 		</dependency>
 	</dependencies>
 
@@ -390,7 +390,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>3.9.0</version>
 			</plugin>
 		</plugins>
 	</build>
