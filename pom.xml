@@ -412,7 +412,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<lucene.version>8.5.1</lucene.version>
+		<lucene.version>8.5.2</lucene.version>
 		<!--
 		<maven.test.skip.exec>true</maven.test.skip.exec>
 		-->
