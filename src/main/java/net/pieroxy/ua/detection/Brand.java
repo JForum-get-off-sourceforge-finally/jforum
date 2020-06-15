@@ -127,7 +127,7 @@ public enum Brand {
     UTSTARCOM("UTStarcom", "http://www.utstar.com"),
     YUANDAO("Yuandao (VIDO)", "http://en.yuandaocn.com/");
 
-    private String label;
+    private final String label;
     private String website;
 
     Brand(String l) {

@@ -5,8 +5,8 @@ enum MatchingRegion {
     BOTH(true,true),
     CONSUMED(false,false);
 
-    private boolean paren;
-    private boolean regular;
+    private final boolean paren;
+    private final boolean regular;
     public boolean includesParenthesis() {
         return paren;
     }

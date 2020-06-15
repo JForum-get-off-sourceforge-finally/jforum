@@ -2,7 +2,6 @@ package net.pieroxy.ua.detection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 class UserAgentContext {
@@ -10,8 +9,8 @@ class UserAgentContext {
     private String debug = "";
     private String ua;
     private String lcua;
-    private List<String> tokens = new LinkedList<String>();
-    private List<String> parenTokens = new LinkedList<String>();
+    private List<String> tokens = new ArrayList<String>();
+    private List<String> parenTokens = new ArrayList<String>();
     private List<String> ignoredTokens = new ArrayList<String>();
     private List<String> consumedTokens = new ArrayList<String>();
 

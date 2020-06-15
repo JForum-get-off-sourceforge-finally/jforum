@@ -101,8 +101,8 @@ public enum OSFamily {
     */
     UNKNOWN("",false);
 
-    private boolean linuxKernel;
-    private String label;
+    private final boolean linuxKernel;
+    private final String label;
     OSFamily(String _label, boolean _linux) {
         this.linuxKernel = _linux;
         this.label = _label;

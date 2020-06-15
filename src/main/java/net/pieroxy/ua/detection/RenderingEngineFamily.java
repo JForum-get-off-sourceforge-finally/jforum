@@ -48,9 +48,9 @@ public enum RenderingEngineFamily {
     */
     NONE("",false,false);
 
-    private boolean webkitDerivative;
-    private boolean tridentDerivative;
-    private String label;
+    private final boolean webkitDerivative;
+    private final boolean tridentDerivative;
+    private final String label;
     RenderingEngineFamily(String _label, boolean _webkitlike, boolean _tridentlike) {
         this.webkitDerivative = _webkitlike;
         this.tridentDerivative = _tridentlike;

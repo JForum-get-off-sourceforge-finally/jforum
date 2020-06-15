@@ -301,7 +301,7 @@ public enum Country {
     /** Zaire */ZR("Zaire"),
     /** ZIMBABWE */ZW("ZIMBABWE");
 
-    private String label;
+    private final String label;
     Country(String _label) {
         label = _label;
     }

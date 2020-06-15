@@ -33,8 +33,8 @@ public enum BotFamily {
     */
     NOT_A_BOT("Not a bot",false);
 
-    private boolean nefarious;
-    private String label;
+    private final boolean nefarious;
+    private final String label;
     BotFamily(String _label, boolean _bad) {
         nefarious=_bad;
         label = _label;

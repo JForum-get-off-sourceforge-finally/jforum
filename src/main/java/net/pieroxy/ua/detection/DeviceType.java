@@ -32,7 +32,7 @@ public enum DeviceType {
     */
     UNKNOWN_MOBILE(true);
 
-    private boolean mobile;
+    private final boolean mobile;
     DeviceType(boolean l) {
         this.mobile = l;
     }

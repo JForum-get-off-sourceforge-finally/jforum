@@ -44,7 +44,6 @@ package net.jforum.entities;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class QuotaLimit
 {
@@ -67,7 +66,7 @@ public class QuotaLimit
 	public boolean exceedsQuota(final long size)
 	{
 		if (this.type == QuotaLimit.KB) {
-			return (size > this.size * 1024);
+			return (size > this.size * 1024L);
 		}
 		
 		return (size > this.size * 1024L * 1024);

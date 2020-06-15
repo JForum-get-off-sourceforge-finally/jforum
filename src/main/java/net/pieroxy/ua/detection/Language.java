@@ -211,7 +211,7 @@ public enum Language {
     /** Chinese */ ZH("Chinese"),
     /** Zulu */ ZU("Zulu");
 
-    private String label;
+    private final String label;
     Language(String _label) {
         label = _label;
     }

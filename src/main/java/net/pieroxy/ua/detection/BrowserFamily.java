@@ -72,11 +72,11 @@ public enum BrowserFamily {
     */
     UNKNOWN("",false, false, false, false);
 
-    private boolean gecko;
-    private boolean trident;
-    private boolean webkit;
-    private boolean robot;
-    private String label;
+    private final boolean gecko;
+    private final boolean trident;
+    private final boolean webkit;
+    private final boolean robot;
+    private final String label;
     BrowserFamily(String _label, boolean _gecko, boolean _trident, boolean _webkit, boolean _robot) {
         gecko=_gecko;
         trident=_trident;
