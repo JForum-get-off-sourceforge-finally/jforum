@@ -52,7 +52,7 @@
 								<span class="gen">
 									<img class="icon_folder" src="${contextPath}/images/transp.gif" alt=""/>
 									<strong><a href="${postUrl}">${post.subject}</a></strong>, 
-									${I18n.getMessage("Search.postedOn")} <a href="${JForumContext.encodeURL("/forums/show/${post.forum.id}")}">${post.forum.name?html}</a>, 
+									${I18n.getMessage("Search.forum")} <a href="${JForumContext.encodeURL("/forums/show/${post.forum.id}")}">${post.forum.name?html}</a>, 
 									${post.formattedTime}, 
 									${I18n.getMessage("Search.postedBy")} <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a><#if post.topicType == TOPIC_WIKI && post.formattedEditTime != "">,</#if>
 									<#if post.topicType == TOPIC_WIKI && post.formattedEditTime != "">${I18n.getMessage("Search.edited")} ${post.formattedEditTime}</#if>
