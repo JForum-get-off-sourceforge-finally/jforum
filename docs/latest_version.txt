@@ -5,6 +5,7 @@
 <ul>
 <li>Banners can be shown at the top and the bottom of pages</li>
 <li>Deleted posts can go into a designated "Trash Can" forum rather than be deleted outright</li>
+<li>Missing translations have been added for a number of languages</li>
 <li>The mobile view got a number of improvements: The Top Downloads, Member Listing and Moderation Log pages are now available, and site navigation is done via a dropdown menu that makes for a less cluttered interface</li>
 <li>Eight new smilies :-)</li>
 <li>Numerous bug fixes</li>
