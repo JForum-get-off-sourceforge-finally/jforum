@@ -11,6 +11,3 @@ if (index > -1) {
 
 document.location = s + "#preview";
 
-SyntaxHighlighter.config.clipboardSwf = '${contextPath}/javascript/clipboard.swf';
-SyntaxHighlighter.all();
-dp.SyntaxHighlighter.HighlightAll('code');
