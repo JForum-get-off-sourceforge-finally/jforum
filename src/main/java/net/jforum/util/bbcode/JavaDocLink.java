@@ -122,7 +122,7 @@ public class JavaDocLink implements Substitution {
     private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_5_2/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_6_0/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
@@ -152,11 +152,11 @@ public class JavaDocLink implements Substitution {
     private static final String HC_CLIENT_URL = "https://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/";
     private static final String HC_CORE_URL = "https://hc.apache.org/httpcomponents-core-5.0.x/httpcore5/apidocs/";
     private static final String HC_CORE_HTTP2_URL = "https://hc.apache.org/httpcomponents-core-5.0.x/httpcore5-h2/apidocs/";
-    private static final String NET_URL = ACP + "-net/javadocs/api-3.6/";
+    private static final String NET_URL = ACP + "-net/javadocs/api-3.7/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
     private static final String COMPRESS_URL = ACP + "-compress/javadocs/api-release/";
-	private static final String POOL_URL = ACP + "-pool/api-2.8.0/";
+    private static final String POOL_URL = ACP + "-pool/apidocs/";
 
     // Other 3rd party
     private static final String JUNIT_URL = "https://junit.org/junit5/docs/current/api/";
@@ -180,7 +180,7 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/28.2-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/29.0-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "https://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
