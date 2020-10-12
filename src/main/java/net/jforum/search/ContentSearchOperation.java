@@ -63,7 +63,7 @@ public class ContentSearchOperation extends SearchOperation
         final SearchResult<Post> searchResult =
 				(args.getKeywords().length > 0 || args.getUserIds().length > 0)
 				? SearchFacade.search(args, userId)
-				: new SearchResult<Post>(new ArrayList<Post>());
+				: new SearchResult<Post>(new ArrayList<Post>(), 0);
 
 		this.results = searchResult.getRecords();
 

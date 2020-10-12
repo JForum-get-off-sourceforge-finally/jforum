@@ -150,7 +150,7 @@ public class LuceneSearch implements NewDocumentAdded
 			LOGGER.debug("criteria=["+criteria.toString()+"]");
 
 			if (criteria.length() == 0) {
-				result =  new SearchResult<Post>(new ArrayList<Post>());
+				result =  new SearchResult<Post>(new ArrayList<Post>(), 0);
 			} else {
 				Query query = new QueryParser(SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
 
@@ -159,9 +159,9 @@ public class LuceneSearch implements NewDocumentAdded
 				ScoreDoc[] docs = tfd.scoreDocs;
 				TotalHits th = tfd.totalHits;
 				if (th.value > 0) {
-					result = new SearchResult<Post>(resultCollector.collect(args, docs, query));
+					result = new SearchResult<Post>(resultCollector.collect(args, docs, query), (int) th.value);
 				} else {
-					result = new SearchResult<Post>(new ArrayList<Post>());
+					result = new SearchResult<Post>(new ArrayList<Post>(), 0);
 				}
 
 				LOGGER.debug((th.relation == TotalHits.Relation.EQUAL_TO ? "" : "minimum ") + "number of hits="+th.value);

@@ -135,7 +135,7 @@ public class SearchAction extends Command
 		operation.prepareForDisplay();
 		List<?> results = operation.filterResults(operation.getResults());
 		this.setTemplateName(operation.viewTemplate());
-		
+
 		this.context.put("results", results);
 		this.context.put("categories", ForumRepository.getAllCategories());
 		this.context.put("searchArgs", args);
@@ -143,9 +143,10 @@ public class SearchAction extends Command
 		this.context.put("pageTitle", I18n.getMessage("ForumBase.search"));
 		this.context.put("openModeration", "1".equals(this.request.getParameter("openModeration")));
 		this.context.put("postsPerPage", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE)));
-		
+
 		//ViewCommon.contextToPagination(start, results.size(), recordsPerPage);
-		ViewCommon.contextToPagination(start, searchResults.getNumberOfHits(), recordsPerPage);
+		//ViewCommon.contextToPagination(start, searchResults.getNumberOfHits(), recordsPerPage);
+		ViewCommon.contextToPagination(start, searchResults.getTotalHits(), recordsPerPage);
 		TopicsCommon.topicListingBase();
 	}
 

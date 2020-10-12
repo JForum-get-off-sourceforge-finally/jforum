@@ -52,9 +52,12 @@ public class SearchResult<T>
 {
 	private transient final List<T> records;
 
-	public SearchResult (final List<T> records)
+	private transient int totalHits;
+
+	public SearchResult (final List<T> records, int totalHits)
 	{
 		this.records = records;
+		this.totalHits = totalHits;
 	}
 
 	public List<T> getRecords()
@@ -66,4 +69,10 @@ public class SearchResult<T>
 	{
 		return records.size();
 	}
+
+	public int getTotalHits()
+	{
+		return totalHits;
+	}
+
 }

@@ -43,6 +43,10 @@
  */
 package net.jforum.search;
 
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.entities.Post;
+import net.jforum.exceptions.ForumException;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
@@ -60,15 +64,15 @@ import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 
-import net.jforum.dao.DataAccessDriver;
-import net.jforum.entities.Post;
-import net.jforum.exceptions.ForumException;
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
  */
 public class LuceneContentCollector 
 {
+	private static final Logger LOGGER = Logger.getLogger(LuceneContentCollector.class);
+
 	private LuceneSettings settings;
 
 	public LuceneContentCollector (LuceneSettings settings)
@@ -78,12 +82,13 @@ public class LuceneContentCollector
 
 	public List<Post> collect (SearchArgs args, ScoreDoc[] results, Query query) {
 		try {
-			int[] postIds = new int[Math.min(args.fetchCount(), results.length)];
+			int[] postIds = new int[results.length];
+			LOGGER.debug("collect: results="+results.length+", args.fetchCount="+args.fetchCount());
 
 			IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(this.settings.directory()));
 			for (int docIndex = args.startFrom(), i = 0; 
-				docIndex < args.startFrom() + args.fetchCount() && docIndex < results.length; 
-				docIndex++, i++) {
+					docIndex < results.length; 
+					docIndex++, i++) {
 				ScoreDoc hit = results[docIndex];
 		        Document doc = searcher.doc(hit.doc);
 				postIds[i] = Integer.parseInt(doc.get(SearchFields.Keyword.POST_ID));
@@ -122,6 +127,7 @@ public class LuceneContentCollector
 			fragment = highlighter.getBestFragment(tokenStream, post.getSubject());
 			post.setSubject(fragment != null ? fragment : post.getSubject());
 		}
+		LOGGER.debug("retrieveRealPosts: postIds.length="+postIds.length+", posts.length="+posts.size());
 
 		return posts;
 	}

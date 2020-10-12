@@ -86,7 +86,7 @@ public final class SearchFacade
 	{
 		return isSearchEnabled()
 			? searchManager.search(args, userId)
-			: new SearchResult<Post>(new ArrayList<Post>());
+			: new SearchResult<Post>(new ArrayList<Post>(), 0);
 	}
 
 	private static boolean isSearchEnabled()

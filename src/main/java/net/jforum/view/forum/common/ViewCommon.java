@@ -42,18 +42,6 @@
  */
 package net.jforum.view.forum.common;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.ocpsoft.prettytime.PrettyTime;
-
-import freemarker.template.SimpleHash;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
@@ -63,6 +51,22 @@ import net.jforum.exceptions.ForumException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
+import org.ocpsoft.prettytime.PrettyTime;
+
+import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil
@@ -79,7 +83,7 @@ public final class ViewCommon
 	 * 	<ul>
 	 * 		<li> <i>totalPages</i> - total number of pages
 	 * 		<li> <i>recordsPerPage</i> - how many records will be shown on each page
-	 * 		<li> <i>totalRecords</i> - number of records fount
+	 * 		<li> <i>totalRecords</i> - number of records found
 	 * 		<li> <i>thisPage</i> - the current page being shown
 	 * 		<li> <i>start</i> - 
 	 * 	</ul>
@@ -282,37 +286,19 @@ public final class ViewCommon
 	}
 
 	/**
-	 * Escapes &lt; by &amp;lt; and &gt; by &amp;gt;
-	 * @param contents the string to parse
-	 * @return the new string
-	 */
-	public static String espaceHtml(final String contents)
-	{
-		final StringBuilder stringBuffer = new StringBuilder(contents);
-
-		replaceAll(stringBuffer, "<", "&lt");
-		replaceAll(stringBuffer, ">", "&gt;");
-
-		return stringBuffer.toString();
-	}
-
-	/**
 	 * Replaces some string with another value
 	 * @param stringBuffer the StrinbBuilder with the contents to work on
 	 * @param what the string to be replaced
 	 * @param with the new value
 	 * @return the new string
 	 */
-	public static String replaceAll(StringBuilder stringBuffer, final String what, final String with)
+	public static String replaceAll(StringBuilder sb, String what, String with)
 	{
-		int pos = stringBuffer.indexOf(what);
-
-		while (pos > -1) {
-			stringBuffer.replace(pos, pos + what.length(), with);
-			pos = stringBuffer.indexOf(what);
-		}
-
-		return stringBuffer.toString();
+		// https://coderanch.com/t/670780
+		// Pattern.matcher takes a CharSequence, so no need to transform sb into a String
+		return Pattern.compile(Pattern.quote(what))
+						.matcher(sb)
+						.replaceAll(Matcher.quoteReplacement(with));
 	}
 
 	/**
