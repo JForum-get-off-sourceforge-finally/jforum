@@ -43,6 +43,7 @@
 package net.jforum.util.stats;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -142,8 +143,21 @@ public class Stats {
             return ForbidDetailDisplay.isForbidden(tag);
         }
 
-		@Override public int compareTo(Object rec) {
+		@Override public int compareTo (Object rec) {
 			return tag.compareTo(((Record) rec).tag);
+		}
+
+		@Override public boolean equals (Object rec) {
+			if ((rec == null) || ! (rec instanceof Record))
+				return false;
+
+			if (rec == this) return true;
+
+			return 0 == ((Record) rec).compareTo(this);
+		}
+
+		@Override public int hashCode() {
+			return Arrays.hashCode(new Object[] { tag, Double.valueOf(cps), Long.valueOf(count) } );
 		}
     }
 

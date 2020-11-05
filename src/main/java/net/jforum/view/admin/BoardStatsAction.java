@@ -49,6 +49,7 @@ import java.net.URLDecoder;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -149,6 +150,19 @@ public class BoardStatsAction extends AdminCommand {
 		@Override public int compareTo (Object rec) {
 			return name.compareTo(((Item) rec).name);
 		}
-    }
 
+		@Override public boolean equals (Object rec) {
+			if ((rec == null) || ! (rec instanceof Item))
+				return false;
+
+			if (rec == this) return true;
+
+			return 0 == ((Item) rec).compareTo(this);
+		}
+
+		@Override public int hashCode() {
+			return Arrays.hashCode(new Object[] { name, value } );
+		}
+
+    }
 }
