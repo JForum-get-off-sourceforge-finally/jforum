@@ -241,7 +241,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.16</version>
+			<version>42.2.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -251,7 +251,7 @@
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
-			<version>19.7.0.0</version>
+			<version>19.8.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -412,7 +412,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<lucene.version>8.6.2</lucene.version>
+		<lucene.version>8.7.0</lucene.version>
 		<!--
 		<maven.test.skip.exec>true</maven.test.skip.exec>
 		-->
