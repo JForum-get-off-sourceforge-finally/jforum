@@ -1,0 +1,11 @@
+<#include "header.htm"/>
+	<div class="maintitle">${I18n.getMessage("User.agreement.title")}</div>
+
+	<div class="gen">${agreementContents}</div>
+
+	<input class="mainoption" value="${I18n.getMessage("User.agreement.accept")}" name="submit" onclick="document.location = '${JForumContext.encodeURL("/user/acceptAgreement")}';" type="button" />
+	<P>
+	<input class="mainoption" value="${I18n.getMessage("User.agreement.noAccept")}" onclick="document.location = '${JForumContext.encodeURL("/forums/list")}';" type="button" />
+	<P>
+<#include "bottom.htm"/>
+

@@ -1,0 +1,91 @@
+<#include "header.htm"/>
+<script type="text/javascript">
+	function checkemail(str)
+	{
+		var filter=/^([\w]+(?:(?:-|\+|\.)[\w]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,20}(?:\.[a-z]{2})?)$/i
+		if (filter.test(str)) return true;
+		else return false;
+	}
+
+	function validateRegistrationForm(f)
+	{
+		if (f.username.value == "") {
+			alert("${I18n.getMessage("User.fillUsername")}");
+			f.username.focus();
+			return false;
+		}
+
+		if (f.email.value == "" || checkemail(f.email.value) != true) {
+			alert("${I18n.getMessage("User.fillEmail")}");
+			f.email.focus();
+			return false;
+		}
+
+		if (f.password.value == "") {
+			alert("${I18n.getMessage("User.fillPassword")}");
+			f.password.focus();
+			return false;
+		}
+
+		if (f.password_confirm.value == "") {
+			alert("${I18n.getMessage("User.fillPasswordConfirmation")}");
+			f.password_confirm.focus();
+			return false;
+		}
+
+		if (f.password.value != f.password_confirm.value) {
+			alert("${I18n.getMessage("User.passwordNotMatch")}");
+			return false;
+		}
+
+		return true;
+	}
+
+	function newCaptcha()
+	{	
+		document.getElementById("captcha_img").src = "${JForumContext.encodeURL("/captcha/generate")}?timestamp="+new Date().getTime();
+	}
+</script>
+<form id="formregister" accept-charset="${encoding}" name="formregister" action="${JForumContext.encodeURL("/jforum")}" method="post" onsubmit="return validateRegistrationForm(this);">
+	<input type="hidden" name="action" value="${action}" />
+	<input type="hidden" name="module" value="${moduleName}" />
+	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+
+	<div class="maintitle">${I18n.getMessage("User.registerInformation")}</div>
+	<p>
+	<table>
+	<tr><td colspan="2"><span class="gen"><font color="red">${I18n.getMessage("User.requiredFields")}</font></span></td></tr>
+
+	<tr><td><span class="gen">${I18n.getMessage("User.user")}: *</span></td>
+	<td><input type="text" maxlength="50" size="25" name="username" value="${username?default("")?html}"/></td></tr>
+
+	<tr><td><span class="gen">${I18n.getMessage("User.emailAddress")}: *</span></td>
+	<td><input type="text" maxlength="255" size="25" name="email" value="${email?default("")?html}"/></td></tr>
+
+	<tr><td><span class="gen">${I18n.getMessage("User.password")}: *</span></td>
+	<td><input type="password" size="25" maxlength="32" name="password" autocomplete="off" /></td></tr>
+
+	<tr><td><span class="gen">${I18n.getMessage("User.confirmPassword")}: * </span></td>
+	<td><input type="password" maxlength="32" size="25" name="password_confirm" autocomplete="off" /></td></tr>
+	</table>
+
+	<#if captcha_reg?exists>
+		<P>
+		<span class="gen">${I18n.getMessage("User.captchaResponse")}: *</span>
+		<P>
+		<input type="text" style="font-weight: bold;" maxlength="25" size="25" name="captchaResponse" /> 
+		<p>
+		<img src="${JForumContext.encodeURL("/captcha/generate/${timestamp}")}" align="top" alt="Captcha unavailable" id="captcha_img"/></p>
+		<span class="gen">${I18n.getMessage("User.hardCaptchaPart1")} <a href="#newCaptcha" onclick="newCaptcha()"><b>${I18n.getMessage("User.hardCaptchaPart2")}</b></a></span>
+		<P>
+	</#if>
+						
+	<#if error?exists>
+		<span class="gen"><font color="#ff0000"><b>${error?html}</b></font></span>
+	</#if>
+
+	<P>
+	<input class="mainoption" type="submit" value="${I18n.getMessage("User.submit")}" name="submit" />
+	<P>
+</form>
+<#include "bottom.htm"/>
