@@ -192,6 +192,8 @@ public class JForum extends JForumBaseServlet
             utils.refreshSession();
 
             context.put(ConfigKeys.LOGGED, SessionFacade.isLogged());
+
+			boolean isDevelopment = SystemGlobals.getBoolValue(ConfigKeys.DEVELOPMENT);
             context.put(ConfigKeys.DEVELOPMENT, isDevelopment ? "true" : "false");
 
             // Process security data

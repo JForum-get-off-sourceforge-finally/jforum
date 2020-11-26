@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import freemarker.template.SimpleHash;
+import net.jforum.JForumExecutionContext;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
 import net.jforum.entities.Category;
@@ -66,6 +66,9 @@ import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
+
+import freemarker.template.Configuration;
+import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil
@@ -140,8 +143,6 @@ public class ConfigAction extends AdminCommand
 	
 	protected void updateData(Properties p)
 	{
-		int oldTopicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
-
 		for (Iterator<Map.Entry<Object, Object>>  iter = p.entrySet().iterator(); iter.hasNext(); ) {
 			Map.Entry<Object, Object> entry = iter.next();
 			
@@ -158,6 +159,7 @@ public class ConfigAction extends AdminCommand
 		SearchFacade.manager().init();
 
 		// If topicsPerPage has changed, force a reload in all forums
+		int oldTopicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		if (oldTopicsPerPage != SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)) {
 			List<Category> categories = ForumRepository.getAllCategories();
 			
@@ -169,6 +171,14 @@ public class ConfigAction extends AdminCommand
 					TopicRepository.clearCache(forum.getId());
 				}
 			}
+		}
+
+		// needs to be done especially, as it's only loaded at servlet initialization
+		Configuration templateCfg = JForumExecutionContext.getTemplateConfig();
+		if (SystemGlobals.getBoolValue(ConfigKeys.DEVELOPMENT)) {
+			templateCfg.setTemplateUpdateDelayMilliseconds(2000);
+		} else {
+			templateCfg.setTemplateUpdateDelayMilliseconds(3600000);
 		}
 	}
 }

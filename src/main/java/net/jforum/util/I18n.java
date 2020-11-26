@@ -79,7 +79,6 @@ public final class I18n
     private static final Properties LOCAL_NAMES = new Properties();
     private static String defaultName;
     private static String baseDir;
-	private static boolean isDevelopment;
     private static final List<String> WATCHING = new ArrayList<String>();
     public static final String CANNOT_DELETE_GROUP = "CannotDeleteGroup";
     public static final String CANNOT_DELETE_CATEGORY = "CannotDeleteCategory";
@@ -102,7 +101,6 @@ public final class I18n
      */
     public static synchronized void load()
     {
-        isDevelopment = SystemGlobals.getBoolValue(ConfigKeys.DEVELOPMENT);
         baseDir = SystemGlobals.getValue(ConfigKeys.LOCALES_DIR);
 
         loadLocales();
@@ -183,7 +181,7 @@ public final class I18n
                 load(mergeWith, null);
             }
 
-			if (! isDevelopment) {
+			if (! SystemGlobals.getBoolValue(ConfigKeys.DEVELOPMENT)) {
 				// in development mode, don't default to another language, so we can flag missing properties
 				p.putAll(MESSAGES_MAP.get(mergeWith));
 			}

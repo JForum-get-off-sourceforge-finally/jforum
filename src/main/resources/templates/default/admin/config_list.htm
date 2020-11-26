@@ -375,6 +375,19 @@ function testEmail()
 	</td>
 </tr>
 
+<tr>
+	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DevelopMode")}</span></td>
+	<td class="row2" width="38%">
+		<#assign o = config.getProperty("development")/>
+		<span class="gen">
+			<select name="p_development">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
+</tr>
+
 <!-- Captcha -->
 <tr>
 	<td class="catsides" colspan="2"><span class="gen"><b>${I18n.getMessage("Config.Form.Captcha")}</b></span></td>
