@@ -113,7 +113,7 @@ function limitTextArea(field, limit)
         
 	<tr>
 		<td class="row1" width="20%"><span class="gen">${I18n.getMessage("Forums.Form.ForumName")}</span></td>
-		<td class="row2"><input type="text" class="post" style="width: 200px" maxlength="150" size="25" name="forum_name" value="<#if forum?exists>${forum.name?html}</#if>" /></td>
+		<td class="row2"><input type="text" class="post" maxlength="150" size="50" name="forum_name" value="<#if forum?exists>${forum.name?html}</#if>" /></td>
 	</tr>
 
 	<tr>
@@ -137,7 +137,7 @@ function limitTextArea(field, limit)
 
 	<tr>
 		<td class="row1"><span class="gen">${I18n.getMessage("Forums.Form.Description")}</span></td>
-		<td class="row2"><textarea name="description" cols="40" rows="10" class="post" style="width: 100%" onkeydown="limitTextArea(this, 255);" onkeyup="limitTextArea(this, 255);"><#if forum?exists>${forum.description?default("")}</#if></textarea></td>
+		<td class="row2"><textarea name="description" cols="40" rows="5" class="post" style="width: 100%" onkeydown="limitTextArea(this, 255);" onkeyup="limitTextArea(this, 255);"><#if forum?exists>${forum.description?default("")}</#if></textarea></td>
 	</tr>
 	
 	<#if !edit>
