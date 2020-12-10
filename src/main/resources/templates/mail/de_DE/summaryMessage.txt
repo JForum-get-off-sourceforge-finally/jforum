@@ -1,6 +1,6 @@
 Hallo,
 
-dies ist die Forum-Zusammenfassung für diese Woche.
+dies ist die Forum-Zusammenfassung fÃ¼r diese Woche.
 
 <#list posts as post>
 

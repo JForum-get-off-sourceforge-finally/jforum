@@ -5,12 +5,12 @@
 <#if !hasMessageContents>
 Hallo, 
 
-Sie haben diese E-Mail erhalten weil ein neues Thema in unserem Forum eröffnet würde.
-Der Titel des Themas lautet "${topic.title}" und sie können folgenden Link benutzen um es zu lesen:
+Sie haben diese E-Mail erhalten weil ein neues Thema in unserem Forum erÃ¶ffnet wurde.
+Der Titel des Themas lautet "${topic.title}" und sie kÃ¶nnen folgenden Link benutzen um es zu lesen:
 
 ${path}
 
-Falls Sie keine weiteren Benachrichtungen für dieses Forum erhalten wollen, klicken Sie folgenden Link: ${unwatch}
+Falls Sie keine weiteren Benachrichtungen fÃ¼r dieses Forum erhalten wollen, klicken Sie folgenden Link: ${unwatch}
 
 <#else>
 <#include "mailNewReplyWithContents.txt"/>

@@ -6,12 +6,12 @@
 <#if !hasMessageContents>
 Hallo, 
 
-Sie erhalten diese E-Mail, weil <#if isWiki>das<#else>zum</#if> Thema "${topic.title}" bei ${forumName} seit Ihrem letzten Besuch <#if isWiki>bearbeitet worden ist<#else>neue Beiträge hinzugekommen sind</#if>.
-Sie können die folgende URL nutzen, um die Beiträge zu lesen. Sie werden keine weiteren Benachrichtigungen mehr bekommen, bevor Sie das Thema gelesen haben.
+Sie erhalten diese E-Mail, weil <#if isWiki>das<#else>zum</#if> Thema "${topic.title}" bei ${forumName} seit Ihrem letzten Besuch <#if isWiki>bearbeitet worden ist<#else>neue BeitrÃ¤ge hinzugekommen sind</#if>.
+Sie kÃ¶nnen die folgende URL nutzen, um die BeitrÃ¤ge zu lesen. Sie werden keine weiteren Benachrichtigungen mehr bekommen, bevor Sie das Thema gelesen haben.
 
 ${path}
 
-Wenn Sie für dieses Thema keine Benachrichtigungen mehr bekommen wollen, benutzen Sie bitte diese URL:
+Wenn Sie fÃ¼r dieses Thema keine Benachrichtigungen mehr bekommen wollen, benutzen Sie bitte diese URL:
 
 ${unwatch}
 <#else>

@@ -8,6 +8,6 @@ ${message}
 <br>
 ---------<br>
 Lesen Sie dieses Thema online: ${path}<br>
-Dieses Thema nicht l�nger beobachten: ${unwatch}<br>
+Dieses Thema nicht länger beobachten: ${unwatch}<br>
 </body>
 </html>
