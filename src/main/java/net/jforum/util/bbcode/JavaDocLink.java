@@ -48,66 +48,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * Transform a UBB tag like [javadoc]javax.servlet.http.HttpServletRequest[/javadoc]
  * into a link to the corresponding javadoc page.
  * If no package name is given, then java.lang is assumed.
- *
- * Class names can be <i>versioned</i> if for some reason it makes sense to refer to the
- * javadocs of various API versions. This is done by appending a version ID to the class name:
- * [javadoc]String:5[/javadoc] refers to the javadocs of Java 5, while [javadoc]String:1.4[/javadoc]
- * refers to the javadocs of Java 1.4. Without the version ID, the latest available version is used.
  */
 
 public class JavaDocLink implements Substitution {
 
-	// indicates that there are several URLs for different versions of an API
-	private static final String VERSIONED =		"versioned";
-	private static final String OTHER =			"all";
-	private static final String JSE_KEY =		"JSE";
-	private static final String JEE_KEY =		"JEE";
-	private static final String JASPER_KEY =	"JASPER";
-	private static final String TOMCAT_KEY =	"TOMCAT";
-
-	private static Map<String, String> versionedUrls;
-
-	static {
-		versionedUrls = new ConcurrentHashMap<String, String>();
-
-		// JSE; "1.5" and "5" are synonyms
-        versionedUrls.put(JSE_KEY+":1.5", "https://docs.oracle.com/javase/1.5.0/docs/api/");
-        versionedUrls.put(JSE_KEY+":5", "https://docs.oracle.com/javase/1.5.0/docs/api/");
-        versionedUrls.put(JSE_KEY+":6", "https://docs.oracle.com/javase/6/docs/api/");
-        versionedUrls.put(JSE_KEY+":7", "https://docs.oracle.com/javase/7/docs/api/");
-        versionedUrls.put(JSE_KEY+":8", "https://docs.oracle.com/javase/8/docs/api/");
-        versionedUrls.put(JSE_KEY+":9", "https://docs.oracle.com/javase/9/docs/api/");
-        versionedUrls.put(JSE_KEY+":"+OTHER, "https://docs.oracle.com/javase/9/docs/api/");
-
-		// JEE
-		versionedUrls.put(JEE_KEY+":1.2", "https://docs.oracle.com/javaee/1.2.1/api/");
-        versionedUrls.put(JEE_KEY+":1.3", "https://docs.oracle.com/javaee/1.3/api/");
-        versionedUrls.put(JEE_KEY+":1.4", "https://docs.oracle.com/javaee/1.4/api/");
-        versionedUrls.put(JEE_KEY+":5", "https://docs.oracle.com/javaee/5/api/");
-        versionedUrls.put(JEE_KEY+":6", "https://docs.oracle.com/javaee/6/api/");
-        versionedUrls.put(JEE_KEY+":7", "https://docs.oracle.com/javaee/7/api/");
-        versionedUrls.put(JEE_KEY+":8", "https://javaee.github.io/javaee-spec/javadocs/");
-        versionedUrls.put(JEE_KEY+":"+OTHER, "https://javaee.github.io/javaee-spec/javadocs/");
-
-		// Tomcat
-		versionedUrls.put(JASPER_KEY+":5.5", "https://tomcat.apache.org/tomcat-5.5-doc/jasper/docs/api/");
-        versionedUrls.put(JASPER_KEY+":6", "https://tomcat.apache.org/tomcat-6.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":7", "https://tomcat.apache.org/tomcat-7.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":8", "https://tomcat.apache.org/tomcat-8.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":9", "https://tomcat.apache.org/tomcat-9.0-doc/api/");
-        versionedUrls.put(JASPER_KEY+":"+OTHER, "https://tomcat.apache.org/tomcat-9.0-doc/api/");
-
-		versionedUrls.put(TOMCAT_KEY+":5.5", "https://tomcat.apache.org/tomcat-5.5-doc/catalina/docs/api/");
-        versionedUrls.put(TOMCAT_KEY+":6", "https://tomcat.apache.org/tomcat-6.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":7", "https://tomcat.apache.org/tomcat-7.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":8", "https://tomcat.apache.org/tomcat-8.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":9", "https://tomcat.apache.org/tomcat-9.0-doc/api/");
-        versionedUrls.put(TOMCAT_KEY+":"+OTHER, "https://tomcat.apache.org/tomcat-9.0-doc/api/");
-	}
-
     // Sun / Oracle
-    private static final String J2SE_URL = VERSIONED+":"+JSE_KEY;
-    private static final String J2EE_URL = VERSIONED+":"+JEE_KEY;
+    private static final String JAVASE_URL = "https://docs.oracle.com/javase/9/docs/api/";
+    private static final String JAVAEE_URL = "https://javaee.github.io/javaee-spec/javadocs/";
+    private static final String JAKARTAEE_URL = "https://jakarta.ee/specifications/platform/9/apidocs/";
 	// JavaFX is now at https://openjfx.io/javadoc/13/, but the URL structure has changed in a non-trivial way
 	private static final String JAVAFX_URL = "https://docs.oracle.com/javafx/2/api/";
     private static final String JOGL_URL = "https://www.jogamp.org/deployment/v2.3.2/javadoc/jogl/javadoc/";
@@ -118,8 +66,7 @@ public class JavaDocLink implements Substitution {
     private static final String COM_SUN_MAIL_URL = "https://javaee.github.io/javamail/docs/api/";
 
     // Apache
-    private static final String TOMCAT_URL = VERSIONED+":"+TOMCAT_KEY;
-    private static final String JASPER_URL = VERSIONED+":"+JASPER_KEY;
+    private static final String TOMCAT_URL = "https://tomcat.apache.org/tomcat-9.0-doc/api/";
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
 	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_7_0/core/";
@@ -182,81 +129,106 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/29.0-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/30.0-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "https://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
 	private static final String EVENTBUS_URL = "https://greenrobot.org/files/eventbus/javadoc/3.0/";
+    private static final String MARKENWERK_URL = "https://markenwerk.github.io/java-utils-mail-dkim/";
 
     private static final String[][] URL_MAP = new String[][] {
-        {"javax.activation", J2EE_URL},
-        {"javax.annotation.security", J2EE_URL}, // 6
-        {"javax.annotation.sql", J2EE_URL}, // 6
-        {"javax.batch", J2EE_URL}, // 7
-        {"javax.context", J2EE_URL}, // 6
-        {"javax.decorator", J2EE_URL}, // 6
-        {"javax.ejb", J2EE_URL},
-        {"javax.el", J2EE_URL},
-        {"javax.enterprise", J2EE_URL},
-        {"javax.event", J2EE_URL}, // 6
-        {"javax.faces", J2EE_URL},
-        {"javax.inject", J2EE_URL}, // 6
-        {"javax.jms", J2EE_URL},
-        {"javax.json", J2EE_URL}, // 7
-        {"javax.mail", J2EE_URL},
+        {"javax.activation", JAVAEE_URL},
+        {"javax.annotation.security", JAVAEE_URL}, // 6
+        {"javax.annotation.sql", JAVAEE_URL}, // 6
+        {"javax.batch", JAVAEE_URL}, // 7
+        {"javax.context", JAVAEE_URL}, // 6
+        {"javax.decorator", JAVAEE_URL}, // 6
+        {"javax.ejb", JAVAEE_URL},
+        {"javax.el", JAVAEE_URL},
+        {"javax.enterprise", JAVAEE_URL},
+        {"javax.event", JAVAEE_URL}, // 6
+        {"javax.faces", JAVAEE_URL},
+        {"javax.inject", JAVAEE_URL}, // 6
+        {"javax.jms", JAVAEE_URL},
+        {"javax.json", JAVAEE_URL}, // 7
+        {"javax.mail", JAVAEE_URL},
         {"com.sun.mail", COM_SUN_MAIL_URL},
-        {"javax.management.j2ee", J2EE_URL}, // 7
-        {"javax.persistence", J2EE_URL},
-        {"javax.resource", J2EE_URL},
-        {"javax.security.auth.message", J2EE_URL}, // 6
-        {"javax.security.jacc", J2EE_URL},
-        {"javax.servlet", J2EE_URL},
-        {"javax.transaction", J2EE_URL},
-        {"javax.validation", J2EE_URL}, // 6
-        {"javax.webbeans", J2EE_URL}, // 6
-        {"javax.websocket", J2EE_URL}, // 7
-        {"javax.ws.rs", J2EE_URL}, // 6
-        {"javax.xml.registry", J2EE_URL},
-        {"javax.xml.rpc", J2EE_URL},
+        {"javax.management.j2ee", JAVAEE_URL}, // 7
+        {"javax.persistence", JAVAEE_URL},
+        {"javax.resource", JAVAEE_URL},
+        {"javax.security.auth.message", JAVAEE_URL}, // 6
+        {"javax.security.jacc", JAVAEE_URL},
+        {"javax.servlet", JAVAEE_URL},
+        {"javax.transaction", JAVAEE_URL},
+        {"javax.validation", JAVAEE_URL}, // 6
+        {"javax.webbeans", JAVAEE_URL}, // 6
+        {"javax.websocket", JAVAEE_URL}, // 7
+        {"javax.ws.rs", JAVAEE_URL}, // 6
+        {"javax.xml.registry", JAVAEE_URL},
+        {"javax.xml.rpc", JAVAEE_URL},
 
-        {"java.applet", J2SE_URL},
-        {"java.awt", J2SE_URL},
-        {"java.beans", J2SE_URL},
-        {"java.io", J2SE_URL},
-        {"java.lang", J2SE_URL},
-        {"java.math", J2SE_URL},
-        {"java.net", J2SE_URL},
-        {"java.nio", J2SE_URL},
-        {"java.rmi", J2SE_URL},
-        {"java.security", J2SE_URL},
-        {"java.sql", J2SE_URL},
-        {"java.text", J2SE_URL},
-        {"java.time", J2SE_URL}, // 8
-        {"java.util", J2SE_URL},
-        {"javax.accessibility", J2SE_URL},
-        {"javax.activity", J2SE_URL}, // 1.5
-        {"javax.annotation", J2SE_URL}, // 6
-        {"javax.crypto", J2SE_URL},
-        {"javax.imageio", J2SE_URL},
-        {"javax.jnlp", J2SE_URL},
-        {"javax.jws", J2SE_URL},
-        {"javax.lang", J2SE_URL}, // 6
-        {"javax.management", J2SE_URL}, // 7
-        {"javax.naming", J2SE_URL},
-        {"javax.net", J2SE_URL},
-        {"javax.print", J2SE_URL},
-        {"javax.rmi", J2SE_URL},
-        {"javax.script", J2SE_URL}, // 6
-        {"javax.security", J2SE_URL},
-        {"javax.sound", J2SE_URL},
-        {"javax.sql", J2SE_URL},
-        {"javax.swing", J2SE_URL},
-        {"javax.tools", J2SE_URL}, // 6
-        {"javax.xml", J2SE_URL}, // after all the other javax.xml subpackages in JEE
-        {"org.ietf.jgss", J2SE_URL},
-        {"org.omg", J2SE_URL},
-        {"org.w3c.dom", J2SE_URL}, // after all the other W3C DOM subpackages in Common DOM
-        {"org.xml.sax", J2SE_URL},
+        {"jakarta.activation", JAKARTAEE_URL},
+        {"jakarta.annotation", JAKARTAEE_URL},
+        {"jakarta.batch", JAKARTAEE_URL},
+        {"jakarta.decorator", JAKARTAEE_URL},
+        {"jakarta.ejb", JAKARTAEE_URL},
+        {"jakarta.el", JAKARTAEE_URL},
+        {"jakarta.enterprise", JAKARTAEE_URL},
+        {"jakarta.faces", JAKARTAEE_URL},
+        {"jakarta.inject", JAKARTAEE_URL},
+        {"jakarta.interceptor", JAKARTAEE_URL},
+        {"jakarta.jms", JAKARTAEE_URL},
+        {"jakarta.json", JAKARTAEE_URL},
+        {"jakarta.jws", JAKARTAEE_URL},
+        {"jakarta.mail", JAKARTAEE_URL},
+        {"jakarta.persistence", JAKARTAEE_URL},
+        {"jakarta.resource", JAKARTAEE_URL},
+        {"jakarta.security", JAKARTAEE_URL},
+        {"jakarta.servlet", JAKARTAEE_URL},
+        {"jakarta.transaction", JAKARTAEE_URL},
+        {"jakarta.validation", JAKARTAEE_URL},
+        {"jakarta.websocket", JAKARTAEE_URL},
+        {"jakarta.ws", JAKARTAEE_URL},
+        {"jakarta.xml", JAKARTAEE_URL},
+
+        {"java.applet", JAVASE_URL},
+        {"java.awt", JAVASE_URL},
+        {"java.beans", JAVASE_URL},
+        {"java.io", JAVASE_URL},
+        {"java.lang", JAVASE_URL},
+        {"java.math", JAVASE_URL},
+        {"java.net", JAVASE_URL},
+        {"java.nio", JAVASE_URL},
+        {"java.rmi", JAVASE_URL},
+        {"java.security", JAVASE_URL},
+        {"java.sql", JAVASE_URL},
+        {"java.text", JAVASE_URL},
+        {"java.time", JAVASE_URL}, // 8
+        {"java.util", JAVASE_URL},
+        {"javax.accessibility", JAVASE_URL},
+        {"javax.activity", JAVASE_URL}, // 1.5
+        {"javax.annotation", JAVASE_URL}, // 6
+        {"javax.crypto", JAVASE_URL},
+        {"javax.imageio", JAVASE_URL},
+        {"javax.jnlp", JAVASE_URL},
+        {"javax.jws", JAVASE_URL},
+        {"javax.lang", JAVASE_URL}, // 6
+        {"javax.management", JAVASE_URL}, // 7
+        {"javax.naming", JAVASE_URL},
+        {"javax.net", JAVASE_URL},
+        {"javax.print", JAVASE_URL},
+        {"javax.rmi", JAVASE_URL},
+        {"javax.script", JAVASE_URL}, // 6
+        {"javax.security", JAVASE_URL},
+        {"javax.sound", JAVASE_URL},
+        {"javax.sql", JAVASE_URL},
+        {"javax.swing", JAVASE_URL},
+        {"javax.tools", JAVASE_URL}, // 6
+        {"javax.xml", JAVASE_URL}, // after all the other javax.xml subpackages in JEE
+        {"org.ietf.jgss", JAVASE_URL},
+        {"org.omg", JAVASE_URL},
+        {"org.w3c.dom", JAVASE_URL}, // after all the other W3C DOM subpackages in Common DOM
+        {"org.xml.sax", JAVASE_URL},
 
 		{"javafx", JAVAFX_URL},
         {"javax.media.jai", JAI_URL},
@@ -313,8 +285,7 @@ public class JavaDocLink implements Substitution {
         {"org.apache.catalina", TOMCAT_URL},
         {"org.apache.coyote", TOMCAT_URL},
         {"org.apache.el", TOMCAT_URL},
-        {"org.apache.jasper", JASPER_URL},
-        {"org.apache.jk", TOMCAT_URL},
+        {"org.apache.jasper", TOMCAT_URL},
         {"org.apache.juli", TOMCAT_URL},
         {"org.apache.naming", TOMCAT_URL},
         {"org.apache.tomcat", TOMCAT_URL},
@@ -359,22 +330,14 @@ public class JavaDocLink implements Substitution {
 		{"org.jaxen", JAXEN_URL },
 		{"freemarker", FREEMARKER_URL },
 		{"org.bouncycastle", BOUNCYCASTLE_URL },
-		{"org.greenrobot.eventbus", EVENTBUS_URL }
+		{"org.greenrobot.eventbus", EVENTBUS_URL },
+		{"net.markenwerk", MARKENWERK_URL }
     };
 
-	private String lookup (String packageName, String apiVersion) {
+	private String lookup (String packageName) {
         for (int i=0; i<URL_MAP.length; i++) {
             if (packageName.startsWith(URL_MAP[i][0])) {
-				String url = URL_MAP[i][1];
-				if (url.startsWith(VERSIONED)) {
-					String versionKey = url.substring(url.indexOf(':')+1);
-					String finalUrl = versionedUrls.get(versionKey+":"+apiVersion);
-					if (finalUrl != null) {
-						return finalUrl;
-					}
-					return versionedUrls.get(versionKey+":"+OTHER);
-				}
-				return url;
+				return URL_MAP[i][1];
             }
         }
 
@@ -387,10 +350,10 @@ public class JavaDocLink implements Substitution {
 		// remove any leading or trailing whitespace
 		clazzName = clazzName.trim();
 
+		// different API versions used to be supported by suffixing them after a colon,
+		// but no longer - just remove and ignore it
 		int colonIndex = clazzName.indexOf(':');
-		String apiVersion = null;
 		if (colonIndex != -1) {
-			apiVersion = clazzName.substring(colonIndex+1);
 			clazzName = clazzName.substring(0, colonIndex);
 		}
 
@@ -414,7 +377,7 @@ public class JavaDocLink implements Substitution {
 
         String packageName = clazzName.substring(0, lastDotIndex).toLowerCase();
 
-		String url = lookup(packageName, apiVersion);
+		String url = lookup(packageName);
 		if (url != null) {
 				// http://java.sun.com/javase/6/docs/api/java/util/Map.Entry.html
 			if (hashIndex != -1) {
@@ -425,11 +388,8 @@ public class JavaDocLink implements Substitution {
 					clazzName += "()";
 					part2 += "()";
 				}
-				if (url.equals(versionedUrls.get(JSE_KEY+":8"))
-						||  url.equals(versionedUrls.get(JSE_KEY+":9"))) {
-					// Java SE 8 introduces a new URL style
-					part2 = part2.replaceAll("[)(]", "-");
-				}
+				// Java SE 8 introduces a new URL style
+				part2 = part2.replaceAll("[)(]", "-");
 
 				return "<a class=\"snap_shots\" href=\"" + url + part1 + ".html" + part2 
 					+ "\" target=\"_blank\" rel=\"nofollow\">" + clazzName + "</a>";
