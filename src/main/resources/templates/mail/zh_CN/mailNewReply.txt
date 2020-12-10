@@ -11,7 +11,6 @@ ${path}
 
 如果你不想再收到新贴发布的邮件提示,可以点 ${unwatch} 这里取消.
 
-${unwatch}
 <#else>
 <#include "mailNewReplyWithContents.txt"/>
 </#if>
