@@ -42,6 +42,7 @@
  */
 package net.jforum.util.mail;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import net.markenwerk.utils.mail.dkim.DkimMessage;
+import net.markenwerk.utils.mail.dkim.DkimSigner;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -87,6 +91,11 @@ public class Spammer
 
 	// the regex looks for a property in form "prop_key.name=propValue"
 	private static final Pattern EXTRA_PROPS_PATTERN = Pattern.compile("([\\p{IsAlphabetic}0-9_\\-\\.]*)=(.*)$");
+
+	private static String signingDomain = SystemGlobals.getValue(ConfigKeys.MAIL_DKIM_SIGNING_DOMAIN);
+	private static String selector = SystemGlobals.getValue(ConfigKeys.MAIL_DKIM_SELECTOR);
+	private static String derFile = SystemGlobals.getValue(ConfigKeys.MAIL_DKIM_DER_FILE);
+	private static String identity = SystemGlobals.getValue(ConfigKeys.MAIL_DKIM_IDENTITY);
 
 	private static int messageFormat;
 	private Session session;
@@ -183,12 +192,31 @@ public class Spammer
 	                        	if (this.needCustomization) {
 	                        		this.defineUserMessage(user);
 	                        	}
-	                        	
+
 	                        	if (StringUtils.isNotEmpty(user.getEmail())) {
 	                        		Address address = new InternetAddress(user.getEmail());	                        	
 	                        		LOGGER.debug("Sending mail to: " + user.getEmail());	                        	
 	                        		this.message.setRecipient(Message.RecipientType.TO, address);	                            
 									new StatsEvent("Sent email", user.getEmail()).record();
+
+									// no point in trying DKIM if the relevant properties have not been set
+									if (StringUtils.isNotEmpty(signingDomain) && StringUtils.isNotEmpty(derFile)) {
+										try {
+											DkimSigner dkimSigner = new DkimSigner(signingDomain, selector, new File(derFile));
+											dkimSigner.setIdentity(identity);
+											/*
+											dkimSigner.setHeaderCanonicalization(Canonicalization.SIMPLE);
+											dkimSigner.setBodyCanonicalization(Canonicalization.RELAXED);
+											dkimSigner.setSigningAlgorithm(SigningAlgorithm.SHA256_WITH_RSA);
+											dkimSigner.setLengthParam(true);
+											dkimSigner.setCopyHeaderFields(false);
+											*/
+											this.message = new DkimMessage(this.message, dkimSigner);
+										} catch (Exception ex) {
+											LOGGER.warn("Can't use DKIM: "+ex.getMessage());
+										}
+									}
+
 	                        		transport.sendMessage(this.message, new Address[] { address });
 	                        	}
 	                        	if (sendDelay > 0) {

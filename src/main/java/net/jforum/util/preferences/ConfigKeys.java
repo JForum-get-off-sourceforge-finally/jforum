@@ -222,6 +222,11 @@ public final class ConfigKeys
 	public static final String MAIL_NEW_TOPIC_MESSAGE_FILE = "mail.newTopic.messageFile";
 	public static final String MAIL_NEW_TOPIC_SUBJECT = "mail.newTopic.subject";
 
+	public static final String MAIL_DKIM_SIGNING_DOMAIN = "mail.dkim.signingDomain";
+	public static final String MAIL_DKIM_SELECTOR = "mail.dkim.selector";
+	public static final String MAIL_DKIM_DER_FILE = "mail.dkim.derFile";
+	public static final String MAIL_DKIM_IDENTITY = "mail.dkim.identity";
+
 	public static final String HTML_TAGS_WELCOME = "html.tags.welcome";
 	public static final String HTML_ATTRIBUTES_WELCOME = "html.attributes.welcome";
 	public static final String HTML_LINKS_ALLOW_RELATIVE = "html.links.allow.relative";
