@@ -43,15 +43,19 @@
  */
 package net.jforum.search;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -65,14 +69,11 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.TikaCoreProperties;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.sax.BodyContentHandler;
-import org.xml.sax.ContentHandler;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+import net.jforum.ContextListener;
 import net.jforum.dao.AttachmentDAO;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.entities.Attachment;
@@ -253,46 +254,24 @@ public class LuceneIndexer
 			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
 				AttachmentInfo info = att.getInfo();
 				doc.add(new TextField(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO));
+				LOGGER.debug("indexing filename="+info.getPhysicalFilename()+", mimetype="+info.getMimetype());
 
 				File f = new File(attachDir + File.separatorChar + info.getPhysicalFilename());
-				LOGGER.debug("indexing "+f.getName());
-				InputStream is = null;
-				try {
-					Metadata metadata = new Metadata();
-					metadata.set(Metadata.RESOURCE_NAME_KEY, f.getName());
-					is = new FileInputStream(f);
-					Parser parser = new AutoDetectParser();
-					ContentHandler handler = new BodyContentHandler(-1);
-					//-1 disables the character size limit; otherwise only the first 100.000 characters are indexed
-					ParseContext context = new ParseContext();
-					context.set(Parser.class, parser);
-
-					Set<String> textualMetadataFields = new HashSet<String>();
-					textualMetadataFields.add(TikaCoreProperties.TITLE.getName());
-					textualMetadataFields.add(TikaCoreProperties.COMMENTS.getName());
-					textualMetadataFields.add(TikaCoreProperties.KEYWORDS.getName());
-					textualMetadataFields.add(TikaCoreProperties.DESCRIPTION.getName());
-
-					parser.parse(is, handler, metadata, context);
-
-					doc.add(new TextField(SearchFields.Indexed.CONTENTS, handler.toString(), Field.Store.NO));
-
-					String[] names = metadata.names();
-					for (int j=0; j<names.length; j++) {
-						String value = metadata.get(names[j]);
-
-						if (textualMetadataFields.contains(names[j])) {
-							doc.add(new TextField(SearchFields.Indexed.CONTENTS, value, Field.Store.NO));
-						}
+				try (InputStream is = new FileInputStream(f)) {
+					if (info.getMimetype().startsWith("text")) {
+						String contents = new BufferedReader(new InputStreamReader(is))
+											.lines().collect(Collectors.joining("\n"));
+						doc.add(new TextField(SearchFields.Indexed.CONTENTS, contents, Field.Store.NO));
+					} else if (info.getMimetype().equals("application/pdf")) {
+						PDDocument pdfDocument = PDDocument.load(is, "");
+						StringWriter writer = new StringWriter();
+						PDFTextStripper stripper = new PDFTextStripper();
+						stripper.writeText(pdfDocument, writer);
+						String contents = writer.getBuffer().toString();
+						doc.add(new TextField(SearchFields.Indexed.CONTENTS, contents, Field.Store.NO));
 					}
 				} catch (Exception ex) {
-					LOGGER.info("error indexing "+f.getName()+": " + ex.getMessage());
-				} finally {
-					try {
-						is.close();
-					} catch (Exception e) { 
-						LOGGER.error("error  closing FileInputStream " +f.getName() + ": " + e.getMessage());
-					}
+					LOGGER.error("indexing "+f.getName()+": " + ex.getMessage());
 				}
 			}
 		}

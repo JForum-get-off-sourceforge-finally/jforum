@@ -407,7 +407,8 @@ public class JForum extends JForumBaseServlet
         final List<UserSession> sessions = SessionFacade.getAllSessions();
         for (UserSession userSession: sessions) {
             final HttpSession session = (HttpSession)getServletContext().getAttribute(userSession.getSessionId());
-            session.invalidate();
+            if (session != null)
+				session.invalidate();
             if (LOGGER.isDebugEnabled()) {
             	LOGGER.debug("Current sessions: " + SessionFacade.size());
             }
