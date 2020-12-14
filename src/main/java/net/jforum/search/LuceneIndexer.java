@@ -269,6 +269,7 @@ public class LuceneIndexer
 						stripper.writeText(pdfDocument, writer);
 						String contents = writer.getBuffer().toString();
 						doc.add(new TextField(SearchFields.Indexed.CONTENTS, contents, Field.Store.NO));
+						pdfDocument.close();
 					}
 				} catch (Exception ex) {
 					LOGGER.error("indexing "+f.getName()+": " + ex.getMessage());
