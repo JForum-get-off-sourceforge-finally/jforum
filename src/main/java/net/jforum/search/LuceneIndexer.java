@@ -248,9 +248,7 @@ public class LuceneIndexer
 		text = text.replaceAll("\\[[^\\]=]+?=([^\\]]+?)\\]", "$1 ");
 		doc.add(new TextField(SearchFields.Indexed.CONTENTS, text, Field.Store.NO));
 
-		boolean indexAttachments = SystemGlobals.getBoolValue(ConfigKeys.LUCENE_INDEX_ATTACHMENTS);
-
-		if (indexAttachments && post.hasAttachments()) {
+		if (post.hasAttachments()) {
 			for (Attachment att : attachDAO.selectAttachments(post.getId())) {
 				AttachmentInfo info = att.getInfo();
 				doc.add(new TextField(SearchFields.Indexed.CONTENTS, info.getComment(), Field.Store.NO));

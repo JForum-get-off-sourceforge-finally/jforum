@@ -321,7 +321,6 @@ public final class ConfigKeys
 	public static final String LUCENE_CURRENTLY_INDEXING = "lucene.currently.indexing";
 	public static final String LUCENE_INDEXER_RAM_NUMDOCS = "lucene.indexer.ram.numdocs";
 	public static final String LUCENE_INDEXER_DB_FETCH_COUNT = "lucene.indexer.db.fetch.count";
-	public static final String LUCENE_INDEX_ATTACHMENTS = "lucene.index.attachments";
 	public static final String LUCENE_STOPWORDs = "lucene.analyzer.stopwords";
 
 	public static final String MODERATION_LOGGING_ENABLED = "moderation.logging.enabled";
