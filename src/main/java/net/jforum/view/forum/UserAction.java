@@ -300,10 +300,26 @@ public class UserAction extends Command
 		}
 
         // check if the email is "well formed"
-        if (!MailChecker.checkEmail(email)) {
+        if (!error && !MailChecker.checkEmail(email)) {
             this.context.put("error", I18n.getMessage("User.emailInvalid", new String[] { email }));
             error = true;
         }
+
+        // check if the email is from an allowed domain
+		String allowedDomains = SystemGlobals.getValue(ConfigKeys.REGISTRATION_DOMAINS);
+        if (!error && !allowedDomains.isEmpty()) {
+			boolean anyOK = false;
+			for (String domain : allowedDomains.split(",")) {
+				if (email.trim().endsWith(domain.trim())) {
+					anyOK = true;
+					break;
+				}
+			}
+			if (! anyOK) {
+				this.context.put("error", I18n.getMessage("User.emailInvalid", new String[] { email }));
+				error = true;
+			}
+		}
 
 		final BanlistDAO banlistDao = DataAccessDriver.getInstance().newBanlistDAO();
 		boolean stopForumSpamEnabled = SystemGlobals.getBoolValue(ConfigKeys.STOPFORUMSPAM_API_ENABLED);

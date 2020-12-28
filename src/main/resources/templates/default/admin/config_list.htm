@@ -190,7 +190,7 @@ function testEmail()
 </tr>
 
 <tr>
-	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DisableRegistraion")}</span></td>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DisableRegistration")}</span></td>
 	<td class="row1" width="38%">
 		<#assign o = config.getProperty("registration.enabled")/>
 		<span class="gen">
@@ -200,6 +200,11 @@ function testEmail()
 			</select>
 		</span>
 	</td>
+</tr>
+
+<tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.RegistrationDomains")}</span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="text" size="60" name="p_registration.domains" value="${config.getProperty("registration.domains")?html}" /></span></td>
 </tr>
 
 <tr>

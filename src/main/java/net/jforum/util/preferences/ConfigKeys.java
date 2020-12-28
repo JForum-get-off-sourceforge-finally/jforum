@@ -266,6 +266,7 @@ public final class ConfigKeys
 	public static final String AGREEMENT_FILES_PATH = "agreement.files.path";
 	public static final String REGISTRATION_ENABLED = "registration.enabled";
 	public static final String USERNAME_MAX_LENGTH = "username.max.length";
+	public static final String REGISTRATION_DOMAINS = "registration.domains";
 
 	public static final String QUARTZ_CONFIG = "quartz.config";
 	public static final String QUARTZ_CONTEXT = "org.quartz.context.";
