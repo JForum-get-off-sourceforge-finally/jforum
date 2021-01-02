@@ -61,6 +61,7 @@
 	<tr>
 		<td class="row2" width="10%" align="center"><span class="gen"><b>${I18n.getMessage("User.id")}</b></span></td>
 		<td class="row2"><span class="gen"><b>${I18n.getMessage("User.username")}</b></span></td>
+		<td class="row2"><span class="gen"><b>${I18n.getMessage("PostShow.userRegistrationDate")}</b></span></td>
 		<td class="row2" align="center"><span class="gen"><b>&nbsp;</b></span></td>
 		<td class="row2" align="center"><span class="gen"><b>&nbsp;</b></span></td>
 		<td class="row2" width="10%" align="center"><span class="gen"><b>${I18n.getMessage("Lock")}</b></span></td>
@@ -71,6 +72,7 @@
 		<tr>
 			<td class="row1" align="center"><span class="gen">${user.id}</span></td>
 			<td class="row1"><span class="gen"><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username}</a></span></td>
+			<td class="row1"><span class="gen">${user.registrationDay}</td>
 			<td class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/edit/${user.id}")}">${I18n.getMessage("Edit")}</a></span></td>
 			<td class="row1" align="center"><span class="gen"><a href="${JForumContext.encodeURL("/adminUsers/groups/${user.id}")}">${I18n.getMessage("User.Groups")}</a></span></td>
 			<#if user.deleted>
@@ -84,7 +86,7 @@
 	</#list>
 
 	<tr>
-		<td class="catbottom" colspan="5" align="center">
+		<td class="catbottom" colspan="6" align="center">
 		<!--
 			<input class="mainoption" type="button" value="${I18n.getMessage("Insert")}" onclick="document.location = '${JForumContext.encodeURL("/jforum")}?module=adminUsers&action=insert';" />&nbsp;&nbsp;	
 		-->
