@@ -56,20 +56,18 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ModulesRepository
 {
 	private static final Logger LOGGER = Logger.getLogger(ModulesRepository.class);
 	
-	private static Map<String, Properties> cache = new ConcurrentHashMap<String, Properties>();
+	private static Map<String, Properties> cache = new ConcurrentHashMap<>();
 	private static final String ENTRIES = "entries";
 
 	/**
 	 * Loads all modules mapping.
 	 * 
-	 * @param baseDir The directory where the file "modulesMapping.properties"
-	 * is placed.
+	 * @param baseDir The directory where the file "modulesMapping.properties" is placed.
 	 * @throws IOException
 	 */
 	public static void init(final String baseDir)
@@ -91,7 +89,7 @@ public class ModulesRepository
 	 */
 	public static String getModuleClass(final String moduleName) {
 		Properties properties = cache.get(ENTRIES);
-		
+
 		if (properties == null) {
             ModulesRepository.init(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR));
             properties = cache.get(ENTRIES);

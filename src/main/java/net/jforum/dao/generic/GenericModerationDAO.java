@@ -63,7 +63,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericModerationDAO implements ModerationDAO
 {
@@ -94,7 +93,7 @@ public class GenericModerationDAO implements ModerationDAO
 	 */
 	@Override public Map<Integer, TopicModerationInfo> topicsByForum(int forumId)
 	{
-		Map<Integer, TopicModerationInfo> m = new ConcurrentHashMap<Integer, TopicModerationInfo>();
+		Map<Integer, TopicModerationInfo> m = new ConcurrentHashMap<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -170,7 +169,7 @@ public class GenericModerationDAO implements ModerationDAO
 	 */
 	@Override public List<ModerationPendingInfo> categoryPendingModeration()
 	{
-		List<ModerationPendingInfo> l = new ArrayList<ModerationPendingInfo>();
+		List<ModerationPendingInfo> l = new ArrayList<>();
 		int lastId = 0;
 		ModerationPendingInfo info = null;
 		Statement stmt = null;

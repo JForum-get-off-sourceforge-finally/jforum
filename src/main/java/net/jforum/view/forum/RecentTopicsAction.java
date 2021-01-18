@@ -44,9 +44,9 @@ package net.jforum.view.forum;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -55,11 +55,11 @@ import net.jforum.dao.TopicDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
-import net.jforum.entities.TopicTypeComparator;
 import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.TopicRepository;
 import net.jforum.util.I18n;
+import net.jforum.util.TopicTypeComparator;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -105,7 +105,7 @@ public class RecentTopicsAction extends Command
 		final List<Topic> topics = TopicRepository.getRecentTopics(start, limit);
 		topics.sort(new TopicTypeComparator(true));
 
-		this.forums = new ArrayList<Forum>(postsPerPage);
+		this.forums = new ArrayList<>(postsPerPage);
 
 		for (final Iterator<Topic> iter = topics.iterator(); iter.hasNext(); ) {
 			final Topic topic = (Topic)iter.next();
@@ -153,10 +153,10 @@ public class RecentTopicsAction extends Command
 
 		final List<Topic> topics = tdao.selectByUserByLimit(user.getId(), start, topicsPerPage);
 		topics.sort(new TopicTypeComparator(true));
-		
+
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);
-		final Map<Integer, Forum> forums = new ConcurrentHashMap<Integer, Forum>();
-		
+		final Map<Integer, Forum> forums = new HashMap<>();
+
 		for (final Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
 			final Topic topic = (Topic)iter.next();
 

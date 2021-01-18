@@ -48,7 +48,6 @@ import java.util.Map;
 /**
  * @author Pieter Olivier
  * @author Rafael Steil
- * @version $Id$
  */
 public class VariableExpander
 {
@@ -64,7 +63,7 @@ public class VariableExpander
 		this.variables = variables;
 		this.pre = pre;
 		this.post = post;
-		cache = new HashMap<String, String>();
+		cache = new HashMap<>();
 	}
 
 	public void clearCache()

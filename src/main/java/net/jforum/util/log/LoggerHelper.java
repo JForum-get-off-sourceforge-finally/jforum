@@ -277,7 +277,7 @@ public final class LoggerHelper
      */
     private static List<Logger> getCurrentLoggers()
     {
-        List<Logger> result = new ArrayList<Logger>();
+        List<Logger> result = new ArrayList<>();
         @SuppressWarnings( "rawtypes")
         Enumeration loggers = LogManager.getCurrentLoggers();
         while ( loggers.hasMoreElements() )

@@ -43,10 +43,10 @@
 package net.jforum.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author David Almilli
- * @version $Id$
  */
 public class PollOption implements Serializable 
 {
@@ -144,12 +144,6 @@ public class PollOption implements Serializable
 	 */
 	@Override public int hashCode()
 	{
-		int result = 17;
-		
-		result *= 37 + this.id;
-		result *= 37 + this.text.hashCode();
-		result *= 37 + this.voteCount;
-		
-		return result;
+		return Objects.hash(this.id, this.text, this.voteCount);
 	}
 }

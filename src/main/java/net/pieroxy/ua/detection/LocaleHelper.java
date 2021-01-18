@@ -5,12 +5,12 @@ class LocaleHelper {
     static Map<String,Language> allLangs;
     static Map<String,Country> allCountries;
     static {
-        allLangs = new HashMap<String,Language>();
+        allLangs = new HashMap<>();
         for (Language l : Language.values()) {
             allLangs.put(l.name().toLowerCase(),l);
             allLangs.put(l.name().toUpperCase(),l);
         }
-        allCountries = new HashMap<String,Country>();
+        allCountries = new HashMap<>();
         for (Country l : Country.values()) {
             allCountries.put(l.name().toLowerCase(),l);
             allCountries.put(l.name().toUpperCase(),l);

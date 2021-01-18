@@ -43,11 +43,11 @@
 package net.jforum.util.stats;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,7 +63,7 @@ import net.jforum.util.preferences.SystemGlobals;
 public class Stats {
     
 	private static Stats INSTANCE = new Stats();
-    private Map<String, Data> buffers = new ConcurrentHashMap<String, Data>();
+    private Map<String, Data> buffers = new ConcurrentHashMap<>();
     private Date restartTime = new Date();
 
 	public static void init() {
@@ -80,12 +80,8 @@ public class Stats {
 	}
 
     public static Data getStatsFor(String tag) {
-        Data buffer = INSTANCE.buffers.get(tag);
-        if (buffer == null) {
-            buffer = new Data();
-            INSTANCE.buffers.put(tag, buffer);
-        }
-        return buffer;
+		INSTANCE.buffers.putIfAbsent(tag, new Data());
+        return INSTANCE.buffers.get(tag);
     }
 
 	/* called by EventBus */
@@ -157,7 +153,7 @@ public class Stats {
 		}
 
 		@Override public int hashCode() {
-			return Arrays.hashCode(new Object[] { tag, Double.valueOf(cps), Long.valueOf(count) } );
+			return Objects.hash( tag, Double.valueOf(cps), Long.valueOf(count) );
 		}
     }
 

@@ -140,7 +140,7 @@ public class UserAction extends AdminCommand
 		
 		this.commonData();
 		
-		final List<Integer> list = new ArrayList<Integer>();
+		final List<Integer> list = new ArrayList<>();
 		list.add(Integer.valueOf(groupId));
 		
 		this.context.put("selectedList", list);
@@ -161,7 +161,7 @@ public class UserAction extends AdminCommand
 	    if (!"".equals(ip)) {
             ipSearch();
         } else if (!"".equals(userId)) {
-            List<User> users = new ArrayList<User>();
+            List<User> users = new ArrayList<>();
             try {
                 User user = userDao.selectById(Integer.parseInt(userId));
                 if (user != null) {
@@ -316,7 +316,7 @@ public class UserAction extends AdminCommand
 		
 		User user = userDao.selectById(userId);
 		
-		List<Integer> selectedList = new ArrayList<Integer>();
+		List<Integer> selectedList = new ArrayList<>();
 		for (Iterator<Group> iter = user.getGroupsList().iterator(); iter.hasNext(); ) {
 			selectedList.add(Integer.valueOf(iter.next().getId()));
 		}

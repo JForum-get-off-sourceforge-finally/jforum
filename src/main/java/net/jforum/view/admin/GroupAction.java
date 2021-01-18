@@ -65,7 +65,6 @@ import net.jforum.util.preferences.TemplateKeys;
  * ViewHelper class for group administration.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class GroupAction extends AdminCommand 
 {
@@ -87,7 +86,7 @@ public class GroupAction extends AdminCommand
 	{
 		this.context.put("groups", new TreeGroup().getNodes());
 		this.context.put("action", "insertSave");
-		this.context.put("selectedList", new ArrayList<Group>());
+		this.context.put("selectedList", new ArrayList<>());
 		this.setTemplateName(TemplateKeys.GROUP_INSERT);
 	}
 	
@@ -128,7 +127,7 @@ public class GroupAction extends AdminCommand
 					
 		this.context.put("group", groupDao.selectById(groupId));
 		this.context.put("groups", new TreeGroup().getNodes());
-		this.context.put("selectedList", new ArrayList<Group>());
+		this.context.put("selectedList", new ArrayList<>());
 		this.context.put("action", "editSave");	
 	}
 	
@@ -145,7 +144,7 @@ public class GroupAction extends AdminCommand
 			return;
 		}
 		
-		final List<String> errors = new ArrayList<String>();
+		final List<String> errors = new ArrayList<>();
 		final GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
 			
 		for (int i = 0; i < groupId.length; i++) {

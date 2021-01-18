@@ -73,7 +73,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * Manipulates XML permission control file definition 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class XMLPermissionControl extends DefaultHandler 
 {
@@ -112,9 +111,9 @@ public class XMLPermissionControl extends DefaultHandler
 	
 	public XMLPermissionControl(final PermissionControl permissionControl)
 	{
-		this.listSections = new ArrayList<PermissionSection>();
-		this.permissionData = new ArrayList<FormSelectedData>();
-		this.queries = new ConcurrentHashMap<String, List<SelectData>>();
+		this.listSections = new ArrayList<>();
+		this.permissionData = new ArrayList<>();
+		this.queries = new ConcurrentHashMap<>();
 		this.permissionControl = permissionControl;
 	}
 
@@ -165,7 +164,7 @@ public class XMLPermissionControl extends DefaultHandler
 		else if ("permission".equals(tag)) {
 			this.section.addPermission(new PermissionItem(this.permissionName, this.permissionId, this.permissionType, this.permissionData));
 
-			this.permissionData = new ArrayList<FormSelectedData>();
+			this.permissionData = new ArrayList<>();
 		}
 	}
 
@@ -215,7 +214,7 @@ public class XMLPermissionControl extends DefaultHandler
 					final String valueField = atts.getValue("valueField");
 					final String captionField = atts.getValue("captionField");
 					
-					final List<SelectData> list = new ArrayList<SelectData>();
+					final List<SelectData> list = new ArrayList<>();
 					
 					while (resultSet.next()) {
 						list.add(new SelectData(resultSet.getInt(valueField), resultSet.getString(captionField)));

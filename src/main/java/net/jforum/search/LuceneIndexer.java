@@ -94,7 +94,7 @@ public class LuceneIndexer
 	private Directory ramDirectory;
 	private IndexWriter ramWriter;
 	private int ramNumDocs;
-	private List<NewDocumentAdded> newDocumentAddedList = new ArrayList<NewDocumentAdded>();
+	private List<NewDocumentAdded> newDocumentAddedList = new ArrayList<>();
 
 	private AttachmentDAO attachDAO;
 	private String attachDir = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR);

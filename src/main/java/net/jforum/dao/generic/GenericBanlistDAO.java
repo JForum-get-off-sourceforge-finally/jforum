@@ -57,7 +57,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericBanlistDAO extends AutoKeys implements BanlistDAO
 {
@@ -118,7 +117,7 @@ public class GenericBanlistDAO extends AutoKeys implements BanlistDAO
 		ResultSet resultSet = null;
 		PreparedStatement pstmt = null;
 		
-		final List<Banlist> list = new ArrayList<Banlist>();
+		final List<Banlist> list = new ArrayList<>();
 		
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(

@@ -68,7 +68,6 @@ import net.jforum.view.admin.common.ModerationCommon;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ForumAction extends AdminCommand 
 {
@@ -91,7 +90,7 @@ public class ForumAction extends AdminCommand
 		final CategoryDAO categoryDao = DataAccessDriver.getInstance().newCategoryDAO();
 		
 		this.context.put("groups", new TreeGroup().getNodes());
-		this.context.put("selectedList", new ArrayList<Forum>());
+		this.context.put("selectedList", new ArrayList<>());
 		this.setTemplateName(TemplateKeys.FORUM_ADMIN_INSERT);
 		this.context.put("categories",categoryDao.selectAll());
 		this.context.put("action", "insertSave");		
@@ -205,7 +204,7 @@ public class ForumAction extends AdminCommand
 				this.request.getParameter(FORUM_ID))));
 		
 		Category category = ForumRepository.getCategory(toChange.getCategoryId());
-		List<Forum> forums = new ArrayList<Forum>(category.getForums());
+		List<Forum> forums = new ArrayList<>(category.getForums());
 		int index = forums.indexOf(toChange);
 		
 		if (index == -1 || (isUp && index == 0) || (!isUp && index + 1 == forums.size())) {

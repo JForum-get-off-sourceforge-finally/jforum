@@ -104,7 +104,7 @@ public class Spammer
 	
 	private Properties mailProps = new Properties();
 	private MimeMessage message;
-	private List<User> users = new ArrayList<User>();
+	private List<User> users = new ArrayList<>();
 	private String messageId;
 	private String inReplyTo;
 	private boolean needCustomization;

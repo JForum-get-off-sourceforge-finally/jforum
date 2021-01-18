@@ -163,7 +163,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 		ResultSet resultSet = null;
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("ForumModel.selectAll"));
-			final List<Forum> list = new ArrayList<Forum>();
+			final List<Forum> list = new ArrayList<>();
 
 			resultSet = pstmt.executeQuery();
 
@@ -493,7 +493,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	 */
 	@Override public List<ModeratorInfo> getModeratorList(final int forumId)
 	{
-		List<ModeratorInfo> list = new ArrayList<ModeratorInfo>();
+		List<ModeratorInfo> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -678,7 +678,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 	 */
 	@Override public List<Topic> checkUnreadTopics(final int forumId, final long lastVisit)
 	{
-		final List<Topic> list = new ArrayList<Topic>();
+		final List<Topic> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -843,7 +843,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
 			pstmt.setInt(3, anonUser); // don't notify the anonymous user
 
 			resultSet = pstmt.executeQuery();
-			final List<User> users = new ArrayList<User>();
+			final List<User> users = new ArrayList<>();
 			
 			while (resultSet.next()) {
 				final User user = new User();
@@ -991,7 +991,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
     * @param userId The user id
     */
     @Override public List<Map<String, Object>> selectWatchesByUser(int userId) {
-        List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> l = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
         try {
@@ -999,7 +999,7 @@ public class GenericForumDAO extends AutoKeys implements net.jforum.dao.ForumDAO
             p.setInt(1, userId);
             rs = p.executeQuery();
             while (rs.next()) {
-                Map<String, Object> m = new ConcurrentHashMap<String, Object>();
+                Map<String, Object> m = new ConcurrentHashMap<>();
                 m.put("id", rs.getInt("forum_id"));
                 m.put("forumName", rs.getString("forum_name"));
                 l.add(m);

@@ -47,13 +47,12 @@ import java.util.List;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class ModerationPendingInfo
 {
 	private int categoryId;
 	private String categoryName;
-	private transient final List<ForumModerationInfo> infoList = new ArrayList<ForumModerationInfo>();
+	private transient final List<ForumModerationInfo> infoList = new ArrayList<>();
 	
 	public void setCategoryId(final int categoryId)
 	{

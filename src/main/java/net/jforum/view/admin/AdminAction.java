@@ -72,7 +72,6 @@ import net.jforum.util.preferences.TemplateKeys;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class AdminAction extends Command {
 
@@ -137,17 +136,15 @@ public class AdminAction extends Command {
 	
 	public void fetchMail() throws Exception
 	{
-		new Thread(new Runnable() {
-			@Override public void run() {
-				try {
-					new POPListener().execute(null);
-				}
-				catch (Exception e) {
-					LOGGER.error(e.getMessage(), e);
-				}
+		new Thread(() -> {
+			try {
+				new POPListener().execute(null);
+			}
+			catch (Exception e) {
+				LOGGER.error(e.getMessage(), e);
 			}
 		}).start();
-		
+
 		this.main();
 	}
 	

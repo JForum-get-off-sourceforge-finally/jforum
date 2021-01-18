@@ -58,7 +58,6 @@ import net.jforum.util.preferences.TemplateKeys;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class AttachmentsAction extends AdminCommand
 {
@@ -89,7 +88,7 @@ public class AttachmentsAction extends AdminCommand
 		this.context.put("quotas", am.selectQuotaLimit());
 		this.setTemplateName(TemplateKeys.ATTACHMENTS_QUOTA_LIMIT);
 		this.context.put("groups", new TreeGroup().getNodes());
-		this.context.put("selectedList", new ArrayList<QuotaLimit>());
+		this.context.put("selectedList", new ArrayList<>());
 		this.context.put("groupQuotas", am.selectGroupsQuotaLimits());
 	}
 	
@@ -110,7 +109,7 @@ public class AttachmentsAction extends AdminCommand
 		
 		// First check if we should delete some entry
 		String[] delete = this.request.getParameterValues("delete");
-		List<String> deleteList = new ArrayList<String>();
+		List<String> deleteList = new ArrayList<>();
 		if (delete != null) {
 			deleteList = Arrays.asList(delete);
 			am.removeQuotaLimit(delete);
@@ -159,7 +158,7 @@ public class AttachmentsAction extends AdminCommand
 		
 		// Check if there are records to remove
 		String[] delete = this.request.getParameterValues("delete");
-		List<String> deleteList = new ArrayList<String>();
+		List<String> deleteList = new ArrayList<>();
 		if (delete != null) {
 			deleteList = Arrays.asList(delete);
 			am.removeExtensionGroups(delete);
@@ -217,7 +216,7 @@ public class AttachmentsAction extends AdminCommand
 		
 		// Check for records to delete
 		String[] delete = this.request.getParameterValues("delete");
-		List<String> deleteList = new ArrayList<String>();
+		List<String> deleteList = new ArrayList<>();
 
 		if (delete != null) {
 			deleteList = Arrays.asList(delete);

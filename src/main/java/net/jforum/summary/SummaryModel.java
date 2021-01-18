@@ -67,7 +67,6 @@ import net.jforum.view.forum.common.ViewCommon;
  * @see net.jforum.summary.SummaryScheduler
  * 
  * @author Franklin S. Dattein (<a href="mailto:franklin@hp.com">franklin@hp.com</a>)
- * @version $Id$
  */
 public class SummaryModel extends Spammer
 {
@@ -114,7 +113,7 @@ public class SummaryModel extends Spammer
 
 	private List<User> recipientsAsUsers(final List<String> recipients)
 	{
-		final List<User> list = new ArrayList<User>();
+		final List<User> list = new ArrayList<>();
 
 		for (final String email : recipients) {
 			if (LOGGER.isDebugEnabled()) {

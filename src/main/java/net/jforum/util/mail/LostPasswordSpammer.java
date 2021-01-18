@@ -73,7 +73,7 @@ public class LostPasswordSpammer extends Spammer
 		params.put("url", url);
 		params.put("user", user);
 
-		final List<User> recipients = new ArrayList<User>();
+		final List<User> recipients = new ArrayList<>();
 		recipients.add(user);
 
 		this.setUsers(recipients);

@@ -693,7 +693,7 @@ public class UserAgentDetector implements IUserAgentDetector {
         }
     }
 
-    static Map<String, GeckoSpinoff> geckoSpinOffs = new HashMap<String, GeckoSpinoff>();
+    static Map<String, GeckoSpinoff> geckoSpinOffs = new HashMap<>();
     static {
         geckoSpinOffs.put("Chimera", new GeckoSpinoff());
         geckoSpinOffs.put("Iceweasel", new GeckoSpinoff());

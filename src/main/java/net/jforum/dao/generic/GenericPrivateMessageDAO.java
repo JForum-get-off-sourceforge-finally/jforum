@@ -198,7 +198,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 			pstmt.setInt(2, startFrom);
 			pstmt.setInt(3, count);
 
-			List<PrivateMessage> pmList = new ArrayList<PrivateMessage>();
+			List<PrivateMessage> pmList = new ArrayList<>();
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -239,7 +239,7 @@ public class GenericPrivateMessageDAO extends AutoKeys implements net.jforum.dao
 			pstmt.setInt(2, startFrom);
 			pstmt.setInt(3, count);
 
-			List<PrivateMessage> pmList = new ArrayList<PrivateMessage>();
+			List<PrivateMessage> pmList = new ArrayList<>();
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

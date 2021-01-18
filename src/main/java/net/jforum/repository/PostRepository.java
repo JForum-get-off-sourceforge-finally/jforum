@@ -63,7 +63,6 @@ import net.jforum.view.forum.common.PostCommon;
  * 
  * @author Sean Mitchell
  * @author Rafael Steil
- * @version $Id$
  */
 public class PostRepository implements Cacheable
 {
@@ -101,7 +100,7 @@ public class PostRepository implements Cacheable
 	{
 		Map<String, List<Post>> map = (Map<String, List<Post>>)cache.get(FQN);
 		if (map == null) {
-			return new ArrayList<String>();
+			return new ArrayList<>();
 		}
 		
 		return map.keySet();

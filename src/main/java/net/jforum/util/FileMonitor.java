@@ -64,12 +64,31 @@ public class FileMonitor
     private Map<String, FileAlterationMonitor> timerEntries;
 
     private FileMonitor() {
-        this.timerEntries = new ConcurrentHashMap<String, FileAlterationMonitor>();
+        this.timerEntries = new ConcurrentHashMap<>();
     }
 
     public static FileMonitor getInstance() {
         return INSTANCE;
     }
+
+	private static class MyFileAlterationListenerAdaptor extends FileAlterationListenerAdaptor {
+		private String absoluteFilename;
+		private FileChangeListener listener;
+
+		MyFileAlterationListenerAdaptor (String absoluteFilename, FileChangeListener listener) {
+			this.absoluteFilename = absoluteFilename;
+			this.listener = listener;
+		}
+
+		@Override
+		public void onFileChange (File file) {
+			String absPath = file.getAbsolutePath();
+			if (absPath.equals(absoluteFilename)) {
+				//System.out.println("File changed: " + absoluteFilename);
+				listener.fileChanged(absPath);
+			}
+		}
+	}
 
     /**
      * Add a file to the monitor
@@ -84,16 +103,7 @@ public class FileMonitor
        	LOGGER.info("Watching " + absoluteFilename);
 
 		FileAlterationObserver observer = new FileAlterationObserver(new File(filename).getParent());
-		observer.addListener(new FileAlterationListenerAdaptor() {
-			@Override
-			public void onFileChange (File file) {
-                String absPath = file.getAbsolutePath();
-				if (absPath.equals(absoluteFilename)) {
-					//System.out.println("File changed: " + absoluteFilename);
-					listener.fileChanged(absPath);
-				}
-			}
-		});
+		observer.addListener(new MyFileAlterationListenerAdaptor(absoluteFilename, listener));
 
 		FileAlterationMonitor monitor = new FileAlterationMonitor(period, observer);
 		try {

@@ -60,8 +60,9 @@ import net.jforum.util.preferences.SystemGlobals;
 /**
  * Authenticate users against a LDAP server. 
  * 
+ * This class must use Hashtable because the InitialDirContext constructor needs it.
+ *
  * @author Rafael Steil
- * @version $Id$
  */
 public class LDAPAuthenticator implements LoginAuthenticator
 {

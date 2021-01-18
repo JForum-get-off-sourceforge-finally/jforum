@@ -362,7 +362,7 @@ public class PostCommon
  			posts = dao.selectAllByTopicByLimit(topicId, start, count);
  		}
  
-		List<Post> helperList = new ArrayList<Post>();
+		List<Post> helperList = new ArrayList<>();
 
 		boolean hasCodeBlock = false;
 		for (Post post : posts) {

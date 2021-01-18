@@ -56,7 +56,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericTreeGroupDAO implements net.jforum.dao.TreeGroupDAO
 {
@@ -65,7 +64,7 @@ public class GenericTreeGroupDAO implements net.jforum.dao.TreeGroupDAO
 	 */
 	@Override public List<GroupNode> selectGroups(final int parentId)
 	{
-		final List<GroupNode> list = new ArrayList<GroupNode>();
+		final List<GroupNode> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

@@ -48,13 +48,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang3.StringUtils;
-import freemarker.template.SimpleHash;
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -101,6 +99,10 @@ import net.jforum.view.forum.common.PollCommon;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
+
+import org.apache.commons.lang3.StringUtils;
+
+import freemarker.template.SimpleHash;
 
 /**
  * @author Rafael Steil
@@ -194,7 +196,7 @@ public class PostAction extends Command
 		}
 
 		boolean karmaEnabled = SecurityRepository.canAccess(SecurityConstants.PERM_KARMA_ENABLED);
-		Map<Integer, Integer> userVotes = new ConcurrentHashMap<Integer, Integer>();
+		Map<Integer, Integer> userVotes = new HashMap<>();
 
 		if (logged && karmaEnabled) {
 			userVotes = DataAccessDriver.getInstance().newKarmaDAO().getUserVotes(topic.getId(), us.getUserId());
@@ -348,8 +350,8 @@ public class PostAction extends Command
 		int totalMessages = pm.countUserPosts(user.getId());
 
 		// get list of forums
-		Map<Integer, Topic> topics = new ConcurrentHashMap<Integer, Topic>();
-		Map<Integer, Forum> forums = new ConcurrentHashMap<Integer, Forum>();
+		Map<Integer, Topic> topics = new HashMap<>();
+		Map<Integer, Forum> forums = new HashMap<>();
 
 		for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
 			Post post = iter.next();

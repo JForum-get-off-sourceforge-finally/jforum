@@ -60,7 +60,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Franklin Samir (franklin (at) portaljava [dot] com)
- * @version $Id$
  */
 public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 {
@@ -79,7 +78,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 			pstmt.setTimestamp(1, new Timestamp(firstDate.getTime()));
 			pstmt.setTimestamp(2, new Timestamp(lastDate.getTime()));
 
-			List<Post> posts = new ArrayList<Post>();
+			List<Post> posts = new ArrayList<>();
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -126,7 +125,7 @@ public class GenericSummaryDAO extends AutoKeys implements SummaryDAO
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(query);
 			rs = pstmt.executeQuery();
 
-			List<String> recipients = new ArrayList<String>();
+			List<String> recipients = new ArrayList<>();
 			String mail = null;
 			while (rs.next()) {
 				mail = rs.getString("user_email");

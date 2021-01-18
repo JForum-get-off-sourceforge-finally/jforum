@@ -49,13 +49,13 @@ import java.net.URLDecoder;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Objects;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -82,7 +82,7 @@ public class BoardStatsAction extends AdminCommand {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMinimumFractionDigits(1);
 		nf.setMaximumFractionDigits(2);
-		List<Item> sysInfo = new ArrayList<Item>();
+		List<Item> sysInfo = new ArrayList<>();
         sysInfo.add(new Item("Java version", System.getProperty("java.version")));
         sysInfo.add(new Item("Max memory", ""+Runtime.getRuntime().maxMemory()));
         sysInfo.add(new Item("Total memory", ""+Runtime.getRuntime().totalMemory()));
@@ -108,21 +108,20 @@ public class BoardStatsAction extends AdminCommand {
         String tag = this.request.getParameter("tag");
         try {
             tag = URLDecoder.decode(tag, "UTF-8");
-            Map<Date, Object> values = new ConcurrentHashMap<Date, Object>();
+            Map<Date, Object> values = new HashMap<>();
             if (tag != null && !Stats.ForbidDetailDisplay.isForbidden(tag)) {
                 tag = URLDecoder.decode(tag, "UTF-8");
                 Stats.Data data = Stats.getStatsFor(tag);
                 values = data.getValues();
             }
-			List<Date> times = new ArrayList<Date>(values.keySet());
+			List<Date> times = new ArrayList<>(values.keySet());
 			// sort list of descending time
-			times.sort(new Comparator<Date>() {
-				@Override public int compare (Date obj1, Date obj2) {
+			Collections.sort(times,
+				(obj1, obj2) -> {
 					if (obj1.getTime() < obj2.getTime())	return 1;
 					if (obj1.getTime() > obj2.getTime())	return -1;
 					else 									return 0;
-				}
-			});
+				});
             this.context.put("tag", tag);
             this.context.put("times", times);     
             this.context.put("data", values);     
@@ -161,7 +160,7 @@ public class BoardStatsAction extends AdminCommand {
 		}
 
 		@Override public int hashCode() {
-			return Arrays.hashCode(new Object[] { name, value } );
+			return Objects.hash(name, value);
 		}
 
     }

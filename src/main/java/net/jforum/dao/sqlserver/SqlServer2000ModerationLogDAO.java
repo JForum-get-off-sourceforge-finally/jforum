@@ -57,25 +57,24 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Andowson Chang
- * @version $Id$ 
  */
 public class SqlServer2000ModerationLogDAO extends GenericModerationLogDAO {
-	
+
 	/**
 	 * @see net.jforum.dao.generic.GenericModerationLogDAO#selectAll(int, int)
 	 */
 	@Override public List<ModerationLog> selectAll(final int startFrom, final int count) 
 	{
-		final List<ModerationLog> list = new ArrayList<ModerationLog>();
+		final List<ModerationLog> list = new ArrayList<>();
 
 		String sql = SystemGlobals.getSql("ModerationLog.selectAll");
 		sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
-		
+
 		try {
-			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);	
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 
 			resultSet = pstmt.executeQuery();
 

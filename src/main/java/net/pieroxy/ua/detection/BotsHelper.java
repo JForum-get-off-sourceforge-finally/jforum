@@ -37,15 +37,15 @@ class BotsHelper {
     private static Map<String, String> mapCfNetworkArchitecture;
 
     static {
-        hiddenBots = new HashSet<String>();
+        hiddenBots = new HashSet<>();
         hiddenBots.add("Mozilla/4.0 (compatible; MSIE8.0; Windows NT 6.0) .NET CLR 2.0.50727)");
         hiddenBots.add("Mozilla/0.6 Beta (Windows)");
         hiddenBots.add("Mozilla/0.91 Beta (Windows)");
 
-        genericBotsLiteral = new HashMap<String, Bot>();
+        genericBotsLiteral = new HashMap<>();
         genericBotsLiteral.put("AdnormCrawler www.adnorm.com/crawler", new Bot(Brand.OTHER, BotFamily.ROBOT, "AdnormCrawler", ""));
 
-        genericBotsBrandAndType = new HashMap<String, Bot>();
+        genericBotsBrandAndType = new HashMap<>();
         // Complicated
         genericBotsBrandAndType.put("YodaoBot", new Bot(Brand.NETEASE, BotFamily.CRAWLER, "Yodao Bot", ""));
         genericBotsBrandAndType.put("Exabot", new Bot(Brand.EXALEAD, BotFamily.CRAWLER, "Exalead crawler", ""));
@@ -95,7 +95,7 @@ class BotsHelper {
         genericBotsBrandAndType.put("Y!J-ASR/0.1 crawler", new Bot(Brand.YAHOO,BotFamily.CRAWLER,"Yahoo Japan",""));
         genericBotsBrandAndType.put("CCBot", new Bot(Brand.OTHER,BotFamily.CRAWLER,"Common Crawl",""));
 
-        mapCfNetworkOS = new HashMap<String, OS>();
+        mapCfNetworkOS = new HashMap<>();
         mapCfNetworkOS.put("1.1/", new OS(Brand.APPLE, OSFamily.MACOSX, "MacOSX", "10.2"));
         mapCfNetworkOS.put("1.2.1/", new OS(Brand.APPLE, OSFamily.MACOSX, "MacOSX", "10.3.2"));
         mapCfNetworkOS.put("1.2.2/", new OS(Brand.APPLE, OSFamily.MACOSX, "MacOSX", "10.3.9"));
@@ -197,7 +197,7 @@ class BotsHelper {
         mapCfNetworkOS.put("720.3.6/14.3.0", new OS(Brand.APPLE, OSFamily.MACOSX, "MacOSX", "10.10.3"));
         mapCfNetworkOS.put("720.3.9/14.3.0", new OS(Brand.APPLE, OSFamily.MACOSX, "MacOSX", "10.10.3"));
 
-        mapCfNetworkArchitecture = new HashMap<String, String>();
+        mapCfNetworkArchitecture = new HashMap<>();
         mapCfNetworkArchitecture.put("128/8.0.0", "PowerPC");
         mapCfNetworkArchitecture.put("128/8.1.0", "PowerPC");
         mapCfNetworkArchitecture.put("128.2/8.2.0", "PowerPC");

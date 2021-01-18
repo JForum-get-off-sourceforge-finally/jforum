@@ -60,7 +60,6 @@ import net.jforum.util.preferences.SystemGlobals;
  * @author Andre de Andrade da Silva (<a href="mailto:andre.de.andrade@gmail.com">andre.de.andrade@gmail.com</a>)
  * @author Dirk Rasmussen (<a href="mailto:d.rasmussen@bevis.de">d.rasmussen@bevis.de</a>)
  * @author Andowson Chang
- * @version $Id$
  */
 public class SqlServer2000PostDAO extends GenericPostDAO
 {
@@ -69,14 +68,14 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 	 */
 	@Override public List<Post> selectAllByTopicByLimit(int topicId, int startFrom, int count)
 	{
-		List<Post> l = new ArrayList<Post>();
+		List<Post> l = new ArrayList<>();
 
 		String sql = SystemGlobals.getSql("PostModel.selectAllByTopicByLimit");
 		sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, topicId);
@@ -105,16 +104,16 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 		String sql = SystemGlobals.getSql("PostModel.selectByUserByLimit");
 		sql = sql.replaceAll(":fids:", ForumRepository.getListAllowedForums());
 		sql = sql.replaceAll("%d", String.valueOf(startFrom + count));
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);			
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, userId);
 
 			rs = pstmt.executeQuery();
-			List<Post> l = new ArrayList<Post>();
+			List<Post> l = new ArrayList<>();
 
 			while (rs.next()) {
 				l.add(this.makePost(rs));
@@ -132,7 +131,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 
     @Override public List<Post> selectLatestByForumForRSS(int forumId, int limit) 
     {
-        List<Post> l = new ArrayList<Post>();
+        List<Post> l = new ArrayList<>();
 
         String sql = SystemGlobals.getSql("PostModel.selectLatestByForumForRSS");
         sql = sql.replaceAll("%d", String.valueOf(limit));
@@ -164,7 +163,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
 
     @Override public List<Post> selectLatestForRSS(int limit) 
     {
-        List<Post> l = new ArrayList<Post>();
+        List<Post> l = new ArrayList<>();
 
         String sql = SystemGlobals.getSql("PostModel.selectLatestForRSS");
         sql = sql.replaceAll("%d", String.valueOf(limit));
@@ -195,7 +194,7 @@ public class SqlServer2000PostDAO extends GenericPostDAO
     
     @Override public List<Post> selectHotForRSS(int limit) 
     {
-        List<Post> l = new ArrayList<Post>();
+        List<Post> l = new ArrayList<>();
 
         String sql = SystemGlobals.getSql("PostModel.selectHotForRSS");
         sql = sql.replaceAll("%d", String.valueOf(limit));

@@ -51,7 +51,6 @@ import java.util.List;
 
 /**
  * @author David Almilli
- * @version $Id$
  */
 public class Poll implements Serializable {
 
@@ -62,7 +61,7 @@ public class Poll implements Serializable {
 	private String label;
 	private Date startTime;
 	private transient PollChanges pollChanges;
-	private List<PollOption> options = new ArrayList<PollOption>();
+	private List<PollOption> options = new ArrayList<>();
 
 	public int getId() {
 		return id;

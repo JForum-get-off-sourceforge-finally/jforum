@@ -57,7 +57,7 @@ import net.jforum.view.forum.common.TopicsCommon;
  */
 public class NewMessagesSearchOperation extends SearchOperation
 {
-	private transient List<Topic> results = new ArrayList<Topic>();
+	private transient List<Topic> results = new ArrayList<>();
 	
 	@Override public SearchResult<Topic> performSearch(final SearchArgs args, final int userId)
 	{

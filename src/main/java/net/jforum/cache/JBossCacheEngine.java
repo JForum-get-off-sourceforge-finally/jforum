@@ -72,7 +72,7 @@ public class JBossCacheEngine implements CacheEngine
 	@Override public void init()
 	{
 		try {
-			final CacheFactory<String, Object> factory = new DefaultCacheFactory<String, Object>();			
+			final CacheFactory<String, Object> factory = new DefaultCacheFactory<>();			
 			this.cache = factory.createCache(SystemGlobals.getValue(ConfigKeys.JBOSS_CACHE_PROPERTIES));
 			
 			this.cache.addCacheListener(new JBossCacheListener());
@@ -162,7 +162,7 @@ public class JBossCacheEngine implements CacheEngine
 			map = this.cache.getData(Fqn.fromString(fqn));
 		}
 		
-		return map == null ? new ArrayList<Object>() : map.values();
+		return map == null ? new ArrayList<>() : map.values();
 	}
 
 	/**

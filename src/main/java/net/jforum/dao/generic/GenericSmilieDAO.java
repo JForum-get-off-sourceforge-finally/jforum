@@ -56,7 +56,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieDAO
 {
@@ -144,7 +143,7 @@ public class GenericSmilieDAO extends AutoKeys implements net.jforum.dao.SmilieD
 	 */
 	@Override public List<Smilie> selectAll()
 	{
-		List<Smilie> l = new ArrayList<Smilie>();
+		List<Smilie> l = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

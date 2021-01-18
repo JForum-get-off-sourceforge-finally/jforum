@@ -106,7 +106,7 @@ public class ConfigAction extends AdminCommand
 			throw new ForumException(e);
 		}
 
-		List<Object> localesList = new ArrayList<Object>();
+		List<Object> localesList = new ArrayList<>();
 
 		for (Enumeration<Object> e = locales.keys(); e.hasMoreElements();) {
 			localesList.add(e.nextElement());

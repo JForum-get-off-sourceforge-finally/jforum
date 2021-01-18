@@ -203,7 +203,7 @@ public class SearchArgs
 	 * test ids (or anonymous or admin), real users won't be searching for them.
 	 */
 	private List<User> removeNegativeIds(List<User> list) {
-		List<User> result = new ArrayList<User>(list.size());
+		List<User> result = new ArrayList<>(list.size());
 		for (User user : list) {
 			if (user.getId() >= 0) {
 				result.add(user);

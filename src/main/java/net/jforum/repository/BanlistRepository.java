@@ -56,7 +56,6 @@ import net.jforum.entities.Banlist;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class BanlistRepository implements Cacheable
 {
@@ -129,7 +128,7 @@ public class BanlistRepository implements Cacheable
 		Map<Integer, Banlist> map = (Map<Integer, Banlist>)cache.get(FQN, BANLIST);
         
 		if (map == null) {
-			map = new ConcurrentHashMap<Integer, Banlist>();
+			map = new ConcurrentHashMap<>();
 		}
 		
 		return map;

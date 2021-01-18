@@ -43,10 +43,10 @@
 package net.jforum.view.forum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -98,7 +98,7 @@ public class HottestTopicsAction extends Command
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		final List<Topic> tmpTopics = TopicRepository.loadHottestTopics();
 		
-		this.forums = new ArrayList<Forum>(postsPerPage);
+		this.forums = new ArrayList<>(postsPerPage);
 
 		for (final Iterator<Topic> iter = tmpTopics.iterator(); iter.hasNext(); ) {
 			final Topic topic = (Topic)iter.next();
@@ -149,8 +149,8 @@ public class HottestTopicsAction extends Command
 		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
 		
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);
-		final Map<Integer, Forum> forums = new ConcurrentHashMap<Integer, Forum>();
-		
+		final Map<Integer, Forum> forums = new HashMap<>();
+
 		for (final Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
 			final Topic topic = (Topic)iter.next();
 			

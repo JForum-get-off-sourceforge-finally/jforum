@@ -99,7 +99,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	{
 		super(superRequest);
 
-		this.query = new HashMap<String, Object>();
+		this.query = new HashMap<>();
 		boolean isMultipart = false;
 		
 		final String requestType = superRequest.getMethod().toUpperCase();
@@ -397,7 +397,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				list = (List<Object>)currentValue;				
 			}
 			else {
-				list = new ArrayList<Object>();
+				list = new ArrayList<>();
 				list.add(currentValue);
 			}
 			

@@ -97,7 +97,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			pstmt.setTimestamp(2, new Timestamp(args.getToDate().getTime()));
 			
 			resultSet = pstmt.executeQuery();
-			final List<Integer> list = new ArrayList<Integer>();
+			final List<Integer> list = new ArrayList<>();
 			
 			int counter = 0;
 			
@@ -109,7 +109,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				counter++;
 			}
 			
-			result = new SearchResult<Topic>(this.newMessages(list), list.size());
+			result = new SearchResult<>(this.newMessages(list), list.size());
 		}
 		catch (SQLException e) {
 			throw new DatabaseException(e);
@@ -216,7 +216,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	@Override public void delete(final Topic topic, final boolean fromModeration)
 	{
-		final List<Topic> list = new ArrayList<Topic>();
+		final List<Topic> list = new ArrayList<>();
 		list.add(topic);
 		this.deleteTopics(list, fromModeration);
 	}
@@ -276,7 +276,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 			pstmt.setInt(1, forumId);
 
 			rs = pstmt.executeQuery();
-			List<Topic> topics = new ArrayList<Topic>();
+			List<Topic> topics = new ArrayList<>();
 			
 			while (rs.next()) {
 				Topic topic = new Topic();
@@ -677,7 +677,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 			rs = pstmt.executeQuery();
 
-			List<User> users = new ArrayList<User>();
+			List<User> users = new ArrayList<>();
 
 			while (rs.next()) {
 				User user = new User(rs.getInt(USER_ID));
@@ -754,7 +754,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		User user = new User();
 		user.setId(userId);
 		
-		List<User> l = new ArrayList<User>();
+		List<User> l = new ArrayList<>();
 		l.add(user);
 		
 		this.subscribeUsers(topicId, l);
@@ -881,7 +881,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	private List<Topic> newMessages(List<Integer> topicIds)
 	{
 		if (topicIds.isEmpty()) {
-			return new ArrayList<Topic>();
+			return new ArrayList<>();
 		}
 		
 		PreparedStatement pstmt = null;
@@ -922,7 +922,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	public List<Topic> fillTopicsData(PreparedStatement pstmt)
 	{
-		List<Topic> l = new ArrayList<Topic>();
+		List<Topic> l = new ArrayList<>();
 		ResultSet rs = null;
 		PreparedStatement pstmt2 = null;
 
@@ -966,7 +966,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				String sql = SystemGlobals.getSql("TopicModel.getUserInformation");
 				sql = sql.replaceAll("#ID#", sbFirst.toString() + sbLast.toString());
 
-				Map<Integer, String> users = new ConcurrentHashMap<Integer, String>();
+				Map<Integer, String> users = new ConcurrentHashMap<>();
 
 				pstmt2 = JForumExecutionContext.getConnection().prepareStatement(sql);
 				rs = pstmt2.executeQuery();
@@ -1142,7 +1142,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	@Override public List<Map<String, Object>> selectTopicTitlesByIds(Collection<?> idList)
 	{
-		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> l = new ArrayList<>();
 		String sql = SystemGlobals.getSql("TopicModel.selectTopicTitlesByIds");
 
 		StringBuilder sb = new StringBuilder(idList.size() * 2);
@@ -1159,7 +1159,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				Map<String, Object> m = new ConcurrentHashMap<String, Object>();
+				Map<String, Object> m = new ConcurrentHashMap<>();
 				m.put("id", Integer.valueOf(rs.getInt("topic_id")));
 				m.put("title", rs.getString("topic_title"));
 
@@ -1180,7 +1180,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 	 */
 	@Override public Map<Integer, User> topicPosters(int topicId)
 	{
-		Map<Integer, User> m = new ConcurrentHashMap<Integer, User>();
+		Map<Integer, User> m = new ConcurrentHashMap<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1250,7 +1250,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
     * @param userId The user id
     */
     @Override public List<Map<String, Object>> selectWatchesByUser(int userId) {
-        List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> l = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
         try {
@@ -1259,7 +1259,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
             p.setInt(1, userId);
             rs = p.executeQuery();
             while (rs.next()) {
-            	Map<String, Object> m = new ConcurrentHashMap<String, Object>();
+            	Map<String, Object> m = new ConcurrentHashMap<>();
                 m.put("id", Integer.valueOf(rs.getInt("topic_id")));
                 m.put("title", SafeHtml.escapeUnsafe(rs.getString("topic_title")));
                 m.put("forumName", rs.getString("forum_name"));

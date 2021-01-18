@@ -161,7 +161,7 @@ public class RSSAction extends Command
 		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestForRSS(
 			SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE));
 
-		final List<Post> authPosts = new ArrayList<Post>();  
+		final List<Post> authPosts = new ArrayList<>();  
 		final Iterator<Post> iter = posts.iterator();  
 		while ( iter.hasNext() ) {  
 		     Post post = iter.next();  
@@ -183,7 +183,7 @@ public class RSSAction extends Command
 		List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectHotForRSS(
 			SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS));
 
-		List<Post> authPosts = new ArrayList<Post>();  
+		List<Post> authPosts = new ArrayList<>();  
 		Iterator<Post> iter = posts.iterator();  
 		while ( iter.hasNext() ) {  
 		     Post post = iter.next();  

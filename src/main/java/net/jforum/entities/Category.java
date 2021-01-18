@@ -81,8 +81,8 @@ public class Category implements Serializable, Comparable<Category>
 	private int order;
 	private boolean moderated;
 	private String name;
-	private Map<Integer, Forum> forumsIdMap = new ConcurrentHashMap<Integer, Forum>();
-	private Set<Forum> forums = new TreeSet<Forum>(new ForumOrderComparator());
+	private Map<Integer, Forum> forumsIdMap = new ConcurrentHashMap<>();
+	private Set<Forum> forums = new TreeSet<>(new ForumOrderComparator());
 
 	public Category() {}
 
@@ -190,7 +190,7 @@ public class Category implements Serializable, Comparable<Category>
 					+ "display order was changed. You must call Category#changeForumOrder(Forum) first");
 		}
 
-		Set<Forum> tmpSet = new TreeSet<Forum>(new ForumOrderComparator());
+		Set<Forum> tmpSet = new TreeSet<>(new ForumOrderComparator());
 		tmpSet.addAll(this.forums);
 		tmpSet.remove(currentForum);
 		tmpSet.add(forum);
@@ -211,7 +211,7 @@ public class Category implements Serializable, Comparable<Category>
 		Forum current = this.getForum(forum.getId());
 		Forum currentAtOrder = this.findByOrder(forum.getOrder());
 
-		Set<Forum> tmpSet = new TreeSet<Forum>(new ForumOrderComparator());
+		Set<Forum> tmpSet = new TreeSet<>(new ForumOrderComparator());
 		tmpSet.addAll(this.forums);
 
 		// Remove the forum in the current order
@@ -313,7 +313,7 @@ public class Category implements Serializable, Comparable<Category>
 	public Collection<Forum> getForums(int userId) 
 	{
 		PermissionControl pc = SecurityRepository.get(userId);
-		List<Forum> forums = new ArrayList<Forum>();
+		List<Forum> forums = new ArrayList<>();
 
 		for (Iterator<Forum> iter = this.forums.iterator(); iter.hasNext(); ) {
 			Forum forum = iter.next();

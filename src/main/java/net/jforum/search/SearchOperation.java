@@ -67,31 +67,26 @@ public abstract class SearchOperation
 	public final <T> List<T> filterResults(final List<T> input)
 	{
 		final List<T> output = new ArrayList<T>();
-		
-		final Map<Integer, ForumFilterResult> forums = new ConcurrentHashMap<Integer, ForumFilterResult>();
-		
+
+		final Map<Integer, ForumFilterResult> forums = new ConcurrentHashMap<>();
+
 		for (final Iterator<T> iter = input.iterator(); iter.hasNext(); ) {
 			final T currentObject = iter.next();
-			
+
 			final Integer forumId = Integer.valueOf(this.extractForumId(currentObject));
+
+			forums.putIfAbsent(forumId, new ForumFilterResult(ForumRepository.getForum(forumId)));
 			ForumFilterResult result = forums.get(forumId);
-			
-			if (result == null) {
-				final Forum forum = ForumRepository.getForum(forumId.intValue());
-				result = new ForumFilterResult(forum);
-				forums.put(forumId, result);
-			}
-			
 			if (result.isValid()) {
 				// TODO: decouple
 				if (currentObject instanceof SearchPost) {
 					((SearchPost)currentObject).setForum(result.getForum());
 				}
-				
+
 				output.add(currentObject);
 			}
 		}
-		
+
 		return output;
 	}
 	

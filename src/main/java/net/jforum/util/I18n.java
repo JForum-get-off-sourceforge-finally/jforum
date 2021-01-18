@@ -75,11 +75,11 @@ public final class I18n
     private static final Logger LOGGER = Logger.getLogger(I18n.class);
 
     private static final I18n INSTANCE = new I18n();
-    private static final Map<String, Properties> MESSAGES_MAP = new ConcurrentHashMap<String, Properties>();
+    private static final Map<String, Properties> MESSAGES_MAP = new ConcurrentHashMap<>();
     private static final Properties LOCAL_NAMES = new Properties();
     private static String defaultName;
     private static String baseDir;
-    private static final List<String> WATCHING = new ArrayList<String>();
+    private static final List<String> WATCHING = new ArrayList<>();
     public static final String CANNOT_DELETE_GROUP = "CannotDeleteGroup";
     public static final String CANNOT_DELETE_CATEGORY = "CannotDeleteCategory";
     public static final String CANNOT_DELETE_BANNER = "CannotDeleteBanner";
@@ -394,7 +394,7 @@ public final class I18n
 
     public static void reset()
     {
-        //messagesMap = new ConcurrentHashMap<String, Properties>();
+        //messagesMap = new ConcurrentHashMap<>();
         MESSAGES_MAP.clear();
         //localeNames = new Properties();
         LOCAL_NAMES.clear();

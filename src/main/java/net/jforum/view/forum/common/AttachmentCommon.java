@@ -86,7 +86,6 @@ import net.jforum.util.stats.StatsEvent;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class AttachmentCommon
 {
@@ -96,7 +95,7 @@ public class AttachmentCommon
 	private final RequestContext request;
 	private AttachmentDAO attachmentDao;
 	private final boolean canProceed;
-	private final Map<UploadUtils, Attachment> filesToSave = new ConcurrentHashMap<UploadUtils, Attachment>();
+	private final Map<UploadUtils, Attachment> filesToSave = new ConcurrentHashMap<>();
 	
 	public AttachmentCommon(final RequestContext request, final int forumId)
 	{
@@ -317,7 +316,7 @@ public class AttachmentCommon
 		AttachmentDAO am = DataAccessDriver.getInstance().newAttachmentDAO();
 		
 		// Check for attachments to remove
-		List<String> deleteList = new ArrayList<String>();
+		List<String> deleteList = new ArrayList<>();
 		String[] delete = null;
 		String s = this.request.getParameter("delete_attach");
 		
@@ -443,7 +442,7 @@ public class AttachmentCommon
 		if (!SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD)
 				&& !SecurityRepository.canAccess(SecurityConstants.PERM_ATTACHMENTS_ENABLED, 
 						Integer.toString(forumId))) {
-			return new ArrayList<Attachment>();
+			return new ArrayList<>();
 		}
 		
 		return this.attachmentDao.selectAttachments(postId);

@@ -41,9 +41,6 @@
  */
 package net.jforum.util.bbcode;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * Transform a UBB tag like [javadoc]javax.servlet.http.HttpServletRequest[/javadoc]
  * into a link to the corresponding javadoc page.

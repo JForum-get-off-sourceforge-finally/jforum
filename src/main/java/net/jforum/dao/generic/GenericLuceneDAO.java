@@ -72,7 +72,7 @@ public class GenericLuceneDAO implements LuceneDAO
 	 */
 	@Override public List<Post> getPostsToIndex(int fromPostId, int toPostId)
 	{
-		List<Post> l = new ArrayList<Post>();
+		List<Post> l = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -150,10 +150,10 @@ public class GenericLuceneDAO implements LuceneDAO
 	@Override public List<Post> getPostsData(int[] postIds)
 	{
 		if (postIds.length == 0) {
-			return new ArrayList<Post>();
+			return new ArrayList<>();
 		}
 		
-		List<Post> l = new ArrayList<Post>();
+		List<Post> l = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -192,12 +192,12 @@ public class GenericLuceneDAO implements LuceneDAO
 	 * @return
 	 */
 	private List<Post> resortByPostId (int[] postIds, List<Post> posts) {
-		Map<Integer, Post> postsById = new ConcurrentHashMap<Integer, Post>(postIds.length);
+		Map<Integer, Post> postsById = new ConcurrentHashMap<>(postIds.length);
 		for (Post post : posts) {
 			postsById.put(post.getId(), post);
 		}
 
-		List<Post> result = new ArrayList<Post>();
+		List<Post> result = new ArrayList<>();
 		for (int postId : postIds) {
 			Post post = postsById.get(postId);
 

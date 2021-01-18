@@ -81,15 +81,9 @@ public class LuceneReindexer
     
 	public void startBackgroundProcess()
 	{
-		Runnable indexingJob = new Runnable() {	    
-			@Override public void run() {
-				reindex();
-			}
-		};
-
 		SystemGlobals.setValue(ConfigKeys.LUCENE_CURRENTLY_INDEXING, "1");
 
-		new Thread(indexingJob).start();
+		new Thread(() -> reindex()).start();
 	}
 
 	private void reindex()

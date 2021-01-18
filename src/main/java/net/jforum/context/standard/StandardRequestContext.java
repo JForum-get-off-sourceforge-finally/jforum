@@ -56,7 +56,6 @@ import net.jforum.context.SessionContext;
 /**
  * Request context non-dependent of HTTP 
  * @author Rafael Steil
- * @version $Id$
  */
 public class StandardRequestContext implements RequestContext
 {
@@ -65,7 +64,7 @@ public class StandardRequestContext implements RequestContext
 	
 	public StandardRequestContext()
 	{
-		this.data = new ConcurrentHashMap<String, Object>();
+		this.data = new ConcurrentHashMap<>();
 		this.sessionContext = new StandardSessionContext();
 	}
 	

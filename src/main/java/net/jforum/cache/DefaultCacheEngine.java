@@ -49,7 +49,6 @@ import java.util.Map;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class DefaultCacheEngine implements CacheEngine
 {
@@ -60,7 +59,7 @@ public class DefaultCacheEngine implements CacheEngine
 	 */
 	@Override public void init()
 	{
-		this.cache = new HashMap<String, Object>();
+		this.cache = new HashMap<>();
 	}
 	
 	/**
@@ -84,10 +83,8 @@ public class DefaultCacheEngine implements CacheEngine
 	 */
 	@Override public void add(final String fqn, final String key, final Object value)
 	{
+		this.cache.putIfAbsent(fqn, new HashMap<>());
 		Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
-		if (map == null) {
-			map = new HashMap<String, Object>();
-		}
 
 		map.put(key, value);
 		this.cache.put(fqn, map);
@@ -118,9 +115,9 @@ public class DefaultCacheEngine implements CacheEngine
 	{
 		final Map<String, Object> map = (Map<String, Object>)this.cache.get(fqn);
 		if (map == null) {
-			return new ArrayList<Object>();
+			return new ArrayList<>();
 		}
-		
+
 		return map.values();
 	}
 	

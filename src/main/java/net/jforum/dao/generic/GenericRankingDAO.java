@@ -56,7 +56,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 {
@@ -95,7 +94,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	 */
 	@Override public List<Ranking> selectAll()
 	{
-		List<Ranking> l = new ArrayList<Ranking>();
+		List<Ranking> l = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -187,7 +186,7 @@ public class GenericRankingDAO implements net.jforum.dao.RankingDAO
 	
 	@Override public List<Ranking> selectSpecials()
 	{
-		List<Ranking> l = new ArrayList<Ranking>();
+		List<Ranking> l = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

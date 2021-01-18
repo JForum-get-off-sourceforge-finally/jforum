@@ -56,7 +56,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Samuel Yung
- * @version $Id$
  */
 public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerDAO
 {
@@ -92,7 +91,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 		ResultSet resultSet = null;
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("BannerDAO.selectAll"));
-			final List<Banner> list = new ArrayList<Banner>();
+			final List<Banner> list = new ArrayList<>();
 
 			resultSet = pstmt.executeQuery();
 			while (resultSet.next()) {
@@ -233,7 +232,7 @@ public class GenericBannerDAO extends AutoKeys implements net.jforum.dao.BannerD
 					SystemGlobals.getSql("BannerDAO.selectActiveBannerByPlacement"));
 			pstmt.setInt(1, placement);
 
-			final List<Banner> list = new ArrayList<Banner>();
+			final List<Banner> list = new ArrayList<>();
 
 			resultSet = pstmt.executeQuery();
 			while (resultSet.next()) {

@@ -56,7 +56,6 @@ import net.jforum.security.RoleValueCollection;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 class PermissionProcessHelper 
 {
@@ -102,7 +101,7 @@ class PermissionProcessHelper
 						this.addRoleValues(roleValues, this.getSplitedValues("all" + paramName));
 					}
 					else {
-						List<String> allowList = new ArrayList<String>(Arrays.asList(this.getSplitedValues("all" + paramName))); 
+						List<String> allowList = new ArrayList<>(Arrays.asList(this.getSplitedValues("all" + paramName))); 
 						allowList.removeAll(Arrays.asList(paramValues));
 						
 						this.addRoleValues(roleValues, allowList.toArray());

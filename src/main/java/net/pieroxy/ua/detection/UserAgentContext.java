@@ -9,10 +9,10 @@ class UserAgentContext {
     private String debug = "";
     private String ua;
     private String lcua;
-    private List<String> tokens = new ArrayList<String>();
-    private List<String> parenTokens = new ArrayList<String>();
-    private List<String> ignoredTokens = new ArrayList<String>();
-    private List<String> consumedTokens = new ArrayList<String>();
+    private List<String> tokens = new ArrayList<>();
+    private List<String> parenTokens = new ArrayList<>();
+    private List<String> ignoredTokens = new ArrayList<>();
+    private List<String> consumedTokens = new ArrayList<>();
 
     public UserAgentContext(String u) {
         if (u != null) {

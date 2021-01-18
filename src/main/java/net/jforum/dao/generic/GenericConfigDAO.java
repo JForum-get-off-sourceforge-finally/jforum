@@ -157,7 +157,7 @@ public class GenericConfigDAO implements net.jforum.dao.ConfigDAO
 	 */
 	@Override public List<Config> selectAll()
 	{
-		final List<Config> list = new ArrayList<Config>();
+		final List<Config> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;

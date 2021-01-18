@@ -55,7 +55,6 @@ import java.util.List;
  * This class is also used together with <code>TreeGroup</code>.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class GroupNode 
 {
@@ -72,7 +71,7 @@ public class GroupNode
 	 */
 	public GroupNode()
 	{
-		this.extraNodes = new ArrayList<GroupNode>();
+		this.extraNodes = new ArrayList<>();
 	}
 
 	/**

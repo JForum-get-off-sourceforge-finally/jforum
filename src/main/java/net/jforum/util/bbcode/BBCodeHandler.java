@@ -64,13 +64,12 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id: BBCodeHandler.java,v 1.19 2007/07/28 14:17:09 rafaelsteil Exp $
  */
 public class BBCodeHandler extends DefaultHandler implements Serializable
 {
 	private static final long serialVersionUID = 8729382987305842571L;
-	private Map<String, BBCode> bbMap = new LinkedHashMap<String, BBCode>();
-	private Map<String, BBCode> alwaysProcessMap = new LinkedHashMap<String, BBCode>();
+	private Map<String, BBCode> bbMap = new LinkedHashMap<>();
+	private Map<String, BBCode> alwaysProcessMap = new LinkedHashMap<>();
 	private String tagName = "";
 	private StringBuilder sb;
 	private BBCode bb;

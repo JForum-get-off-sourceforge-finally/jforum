@@ -51,7 +51,6 @@ import net.jforum.context.SessionContext;
 /**
  * Session Context non-dependent of HTTP requests
  * @author Rafael Steil
- * @version $Id$
  */
 public class StandardSessionContext implements SessionContext
 {
@@ -61,7 +60,7 @@ public class StandardSessionContext implements SessionContext
 	
 	public StandardSessionContext()
 	{
-		this.data = new ConcurrentHashMap<String, Object>();
+		this.data = new ConcurrentHashMap<>();
 		this.createSessionId();
 	}
 

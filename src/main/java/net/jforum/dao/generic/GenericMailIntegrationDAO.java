@@ -57,7 +57,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericMailIntegrationDAO implements MailIntegrationDAO
 {
@@ -138,7 +137,7 @@ public class GenericMailIntegrationDAO implements MailIntegrationDAO
 	 */
 	@Override public List<MailIntegration> findAll()
 	{
-		List<MailIntegration> l = new ArrayList<MailIntegration>();
+		List<MailIntegration> l = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

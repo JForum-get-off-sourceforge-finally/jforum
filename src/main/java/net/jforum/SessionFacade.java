@@ -70,6 +70,7 @@ public class SessionFacade implements Cacheable
 	private static final Logger LOGGER = Logger.getLogger(SessionFacade.class);
 
 	// map session IDs to UserSession objects
+	// creating new String object because we're synchonizing on it
 	private static final String FQN = new String("sessions");
 	// map session IDs to UserSession objects of whose online status is publicly visible.
 	private static final String FQN_LOGGED = FQN + "/logged";
@@ -286,7 +287,7 @@ public class SessionFacade implements Cacheable
 	{
 		synchronized (FQN) {
 			Collection<Object> values = cache.getValues(FQN);
-			ArrayList<UserSession> list = new ArrayList<UserSession>();
+			ArrayList<UserSession> list = new ArrayList<>();
 			for (Iterator<?> iter = values.iterator(); iter.hasNext(); ) {
 				list.add((UserSession)iter.next());
 			}
@@ -302,7 +303,7 @@ public class SessionFacade implements Cacheable
 	{
 		synchronized (FQN) {
 			Collection<Object> values = cache.getValues(FQN_LOGGED);
-			ArrayList<UserSession> list = new ArrayList<UserSession>();
+			ArrayList<UserSession> list = new ArrayList<>();
 			for (Iterator<?> iter = values.iterator(); iter.hasNext(); ) {
 				list.add((UserSession)iter.next());
 			}			
@@ -430,7 +431,7 @@ public class SessionFacade implements Cacheable
 		Map<Integer, Long> tracking = (Map<Integer, Long>)getAttribute(ConfigKeys.TOPICS_READ_TIME);
 		
 		if (tracking == null) {
-			tracking = new ConcurrentHashMap<Integer, Long>();
+			tracking = new ConcurrentHashMap<>();
 			setAttribute(ConfigKeys.TOPICS_READ_TIME, tracking);
 		}
 		

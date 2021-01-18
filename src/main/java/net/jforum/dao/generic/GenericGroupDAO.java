@@ -58,7 +58,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 {
@@ -192,7 +191,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 	 */
 	@Override public List<Integer> selectUsersIds(final int groupId)
 	{
-		final ArrayList<Integer> list = new ArrayList<Integer>();
+		final ArrayList<Integer> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -218,7 +217,7 @@ public class GenericGroupDAO implements net.jforum.dao.GroupDAO
 
 	protected List<Group> fillGroups(final ResultSet resultSet) throws SQLException
 	{
-		final List<Group> list = new ArrayList<Group>();
+		final List<Group> list = new ArrayList<>();
 
 		while (resultSet.next()) {
 			list.add(this.getGroup(resultSet));

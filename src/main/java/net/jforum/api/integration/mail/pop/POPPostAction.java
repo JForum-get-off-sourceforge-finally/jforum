@@ -65,7 +65,6 @@ import net.jforum.view.forum.PostAction;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class POPPostAction
 {
@@ -84,7 +83,7 @@ public class POPPostAction
 
 			JForumExecutionContext.set(executionContext);
 
-			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new ConcurrentHashMap<Integer, Long>());
+			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new ConcurrentHashMap<>());
 
 			for (final Iterator<POPMessage> iter = parser.getMessages().iterator(); iter.hasNext(); ) {
 				final POPMessage message = (POPMessage)iter.next();

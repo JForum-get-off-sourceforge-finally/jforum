@@ -152,10 +152,10 @@ public class EhCacheEngine implements CacheEngine {
 			if (!manager.cacheExists(fqn)) {
 				//manager.addCache(fqn);
 				LOGGER.debug("cache " + fqn + " doesn't exist and returns empty collection");
-				return new ArrayList<Object>();
+				return new ArrayList<>();
 			}
 			final Cache cache = manager.getCache(fqn);
-			final List<Object> values = new ArrayList<Object>();
+			final List<Object> values = new ArrayList<>();
 			final List<?> keys = cache.getKeys();
 			
 			for (final Iterator<?> iter = keys.iterator(); iter.hasNext(); ) {

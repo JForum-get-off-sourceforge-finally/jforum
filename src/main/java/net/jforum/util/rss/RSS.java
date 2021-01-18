@@ -49,7 +49,6 @@ import java.util.List;
  * Represents a RSS document
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class RSS 
 {
@@ -69,7 +68,7 @@ public class RSS
 	 */
 	public RSS(final String title, final String description, final String encoding, final String link)
 	{
-		this.items = new ArrayList<RSSItem>();
+		this.items = new ArrayList<>();
 		this.title = title;
 		this.description = description;
 		this.encoding = encoding;

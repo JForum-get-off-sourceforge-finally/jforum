@@ -125,7 +125,6 @@ import net.jforum.dao.TreeGroupDAO;
  * The same operation is done to all other groups and its sub groups. 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class TreeGroup 
 {
@@ -137,7 +136,7 @@ public class TreeGroup
 	 * */
 	public List<GroupNode> getNodes()
 	{
-		final List<GroupNode> nodes = new ArrayList<GroupNode>();
+		final List<GroupNode> nodes = new ArrayList<>();
 		
 		final TreeGroupDAO tgm = DataAccessDriver.getInstance().newTreeGroupDAO();
 

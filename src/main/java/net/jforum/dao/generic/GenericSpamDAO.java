@@ -16,7 +16,7 @@ import net.jforum.util.preferences.SystemGlobals;
 public class GenericSpamDAO implements SpamDAO {
 
 	@Override public List<String> selectAll() {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		PreparedStatement p = null;
 		ResultSet rs = null;
 		try {

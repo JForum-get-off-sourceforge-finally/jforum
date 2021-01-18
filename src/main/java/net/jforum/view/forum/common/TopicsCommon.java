@@ -56,7 +56,6 @@ import net.jforum.dao.TopicDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
-import net.jforum.entities.TopicTypeComparator;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.repository.ForumRepository;
@@ -66,6 +65,7 @@ import net.jforum.repository.TopicRepository;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
+import net.jforum.util.TopicTypeComparator;
 import net.jforum.util.concurrent.Executor;
 import net.jforum.util.mail.EmailSenderTask;
 import net.jforum.util.mail.TopicReplySpammer;
@@ -143,7 +143,7 @@ public class TopicsCommon
 		long lastVisit = userSession.getLastVisit().getTime();
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		
-		List<Topic> newTopics = new ArrayList<Topic>(topics.size());
+		List<Topic> newTopics = new ArrayList<>(topics.size());
 		Map<Integer, Long> topicsReadTime = SessionFacade.getTopicsReadTime();
 		Map<Integer, Long> topicReadTimeByForum = SessionFacade.getTopicsReadTimeByForum();
 		

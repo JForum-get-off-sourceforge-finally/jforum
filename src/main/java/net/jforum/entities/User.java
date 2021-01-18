@@ -111,7 +111,7 @@ public class User implements Serializable
 	private int active;
 	private String activationKey;
 	private int deleted;
-	private Map<String, Object> extra = new ConcurrentHashMap<String, Object>();
+	private Map<String, Object> extra = new ConcurrentHashMap<>();
 	
 	public User(int userId)
 	{
@@ -123,7 +123,7 @@ public class User implements Serializable
 	 */
 	public User() 
 	{
-		this.groupsList = new ArrayList<Group>(); 
+		this.groupsList = new ArrayList<>(); 
 	}
 	
 	public void addExtra(String name, Object value)

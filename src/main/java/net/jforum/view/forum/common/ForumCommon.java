@@ -68,7 +68,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public final class ForumCommon 
 {
@@ -108,8 +107,7 @@ public final class ForumCommon
 	 * about the topics read by the user
 	 * @param origCheckUnreadPosts <code>true</code> if is to search for unread topics inside the forums, 
 	 * or <code>false</code> if this action is not needed. 
-	 * @return A <code>List</code> instance where each record is an instance of a <code>Category</code>
-	 * object
+	 * @return A <code>List</code> instance where each record is an instance of a <code>Category</code> object
 	 */
 	public static List<Category> getAllCategoriesAndForums(final UserSession userSession, final int anonymousUserId, 
 			final Map<Integer, Long> tracking, boolean origCheckUnreadPosts)
@@ -132,7 +130,7 @@ public final class ForumCommon
 			return categories;
 		}
 
-		final List<Category> returnCategories = new ArrayList<Category>();
+		final List<Category> returnCategories = new ArrayList<>();
 		for (Iterator<Category> iter = categories.iterator(); iter.hasNext(); ) {
 			Category category = new Category(iter.next());
 			

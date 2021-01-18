@@ -58,7 +58,6 @@ import net.jforum.util.preferences.SystemGlobals;
 /**
  * @author Marc Wick
  * @author Rafael Steil
- * @version $Id$
  */
 public class HsqldbUserDAO extends GenericUserDAO
 {
@@ -74,7 +73,7 @@ public class HsqldbUserDAO extends GenericUserDAO
      * @see net.jforum.dao.UserDAO#findAllUsersByEmail(String, int, int)
 	 */
 	@Override public List<User> findAllUsersByEmail(final String email, final int start, final int count) {
-		final List<User> result = new ArrayList<User>();
+		final List<User> result = new ArrayList<>();
 		PreparedStatement p = null;
 		ResultSet rs = null;
 
@@ -106,7 +105,7 @@ public class HsqldbUserDAO extends GenericUserDAO
      * @see net.jforum.dao.UserDAO#findAllUsersByIp(String, int, int)
 	 */
 	@Override public List<User> findAllUsersByIp(final String ip, final int start, final int count) {
-		final List<User> result = new ArrayList<User>();
+		final List<User> result = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
 

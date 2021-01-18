@@ -55,7 +55,7 @@ import net.jforum.cache.Cacheable;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.TopicDAO;
 import net.jforum.entities.Topic;
-import net.jforum.entities.TopicTypeComparator;
+import net.jforum.util.TopicTypeComparator;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
@@ -106,7 +106,7 @@ public class TopicRepository implements Cacheable {
 
 			LinkedList<Topic> latestList = (LinkedList<Topic>) cache.get(FQN, RECENT);
 			if (latestList == null || latestList.isEmpty()) {
-				latestList = new LinkedList<Topic>(loadMostRecentTopics());
+				latestList = new LinkedList<>(loadMostRecentTopics());
 			}
 
 			latestList.remove(topic);
@@ -142,7 +142,7 @@ public class TopicRepository implements Cacheable {
 				maxRecentTopics = limit;
 			}
 
-			return new ArrayList<Topic>(latestList);
+			return new ArrayList<>(latestList);
 		} else {
 			return loadMostRecentTopics(start, limit);
 		}
@@ -157,7 +157,7 @@ public class TopicRepository implements Cacheable {
 
 		List<Topic> latestList = tm.selectRecentTopics(limit);
 		synchronized (MUTEX_RECENT) {
-			cache.add(FQN, RECENT, new LinkedList<Topic>(latestList));
+			cache.add(FQN, RECENT, new LinkedList<>(latestList));
 		}
 
 		return latestList;
@@ -191,12 +191,12 @@ public class TopicRepository implements Cacheable {
 	public static void addAll(int forumId, List<Topic> topics) {
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			synchronized (MUTEX_FQN_FORUM) {
-				cache.add(FQN_FORUM, Integer.toString(forumId), new LinkedList<Topic>(topics));
+				cache.add(FQN_FORUM, Integer.toString(forumId), new LinkedList<>(topics));
 
 				Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 				if (m == null) {
-					m = new ConcurrentHashMap<Integer, Integer>();
+					m = new ConcurrentHashMap<>();
 				}
 
 				Integer fId = Integer.valueOf(forumId);
@@ -220,7 +220,7 @@ public class TopicRepository implements Cacheable {
 	 */
 	public static void clearCache(int forumId) {
 		synchronized (MUTEX_FQN_FORUM) {
-			cache.add(FQN_FORUM, Integer.toString(forumId), new LinkedList<Topic>());
+			cache.add(FQN_FORUM, Integer.toString(forumId), new LinkedList<>());
 			cache.remove(FQN, RELATION); 
 			// TODO: is the next line necessary or not? https://coderanch.com/t/425011#1887278
 			// cache.remove(FQN_LOADED, Integer.toString(forumId));
@@ -242,7 +242,7 @@ public class TopicRepository implements Cacheable {
 			LinkedList<Topic> forumTopicsList = (LinkedList<Topic>) cache.get(FQN_FORUM, forumId);
 
 			if (forumTopicsList == null) {
-				forumTopicsList = new LinkedList<Topic>();
+				forumTopicsList = new LinkedList<>();
 				forumTopicsList.add(topic);
 			} else {
 				boolean contains = forumTopicsList.contains(topic);
@@ -264,7 +264,7 @@ public class TopicRepository implements Cacheable {
 			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 			if (m == null) {
-				m = new ConcurrentHashMap<Integer, Integer>();
+				m = new ConcurrentHashMap<>();
 			}
 
 			m.put(Integer.valueOf(topic.getId()), Integer.valueOf(forumId));
@@ -381,9 +381,9 @@ public class TopicRepository implements Cacheable {
 		}
 
 		if (returnList == null) {
-			return new ArrayList<Topic>();
+			return new ArrayList<>();
 		} else {
-			return new ArrayList<Topic>(returnList);
+			return new ArrayList<>(returnList);
 		}
 	}
 }

@@ -77,6 +77,28 @@ public class AjaxAction extends Command
 {
 	private static final Logger LOGGER = Logger.getLogger(AjaxAction.class);
 
+	private static class TestSpammer extends Spammer {
+		public TestSpammer(String to) {
+			List<User> l = new ArrayList<>();
+
+			User user = new User();
+			user.setEmail(to);
+
+			l.add(user);
+
+			this.setUsers(l);
+
+			this.setTemplateParams(JForumExecutionContext.newSimpleHash());
+			this.prepareMessage("JForum Test Mail", null);
+		}
+
+		@Override protected String processTemplate() {
+			return ("Test mail from JForum Admin Panel. Sent at " + new Date());
+		}
+
+		@Override protected void createTemplate(String messageFile) throws IOException {}
+	}
+
 	/**
 	 * Sends a test message and set the status message in context
 	 *  sender The sender's email address
@@ -121,30 +143,7 @@ public class AjaxAction extends Command
 		String status = "OK";
 
 		// Send the test mail
-		class TestSpammer extends Spammer {
-			public TestSpammer(String to) {
-				List<User> l = new ArrayList<User>();
-
-				User user = new User();
-				user.setEmail(to);
-
-				l.add(user);
-
-				this.setUsers(l);
-
-				this.setTemplateParams(JForumExecutionContext.newSimpleHash());
-				this.prepareMessage("JForum Test Mail", null);
-			}
-
-			@Override protected String processTemplate() {
-				return ("Test mail from JForum Admin Panel. Sent at " + new Date());
-			}
-
-			@Override protected void createTemplate(String messageFile) throws IOException {}
-		}
-
 		Spammer s = new TestSpammer(to);
-
 		try {
 			s.dispatchMessages();
 		}

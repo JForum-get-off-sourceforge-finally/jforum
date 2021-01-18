@@ -66,7 +66,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericUserDAO extends AutoKeys implements UserDAO
 {
@@ -97,7 +96,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		List<User> l = new ArrayList<User>();
+		List<User> l = new ArrayList<>();
 		
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
@@ -538,7 +537,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 
 	protected List<User> processSelectAll(ResultSet rs) throws SQLException
 	{
-		List<User> list = new ArrayList<User>();
+		List<User> list = new ArrayList<>();
 
 		while (rs.next()) {
 			User user = new User();
@@ -887,7 +886,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	 */
 	@Override public List<User> findByName(String input, boolean exactMatch)
 	{
-		List<User> namesList = new ArrayList<User>();
+		List<User> namesList = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1025,14 +1024,13 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	/**
 	 * Load KarmaStatus from a list of users.
 	 * 
-	 * @param users
-	 *            List
+	 * @param users List
 	 * @return List
 	 * @throws SQLException
 	 */
 	protected List<User> loadKarma(List<User> users)
 	{
-		List<User> result = new ArrayList<User>(users.size());
+		List<User> result = new ArrayList<>(users.size());
 
 		for (Iterator<User> iter = users.iterator(); iter.hasNext();) {
 			User user = iter.next();
@@ -1137,7 +1135,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
      * @see net.jforum.dao.UserDAO#findAllUsersByEmail(String, int, int)
 	 */
 	@Override public List<User> findAllUsersByEmail(String email, int start, int count) {
-		List<User> result = new ArrayList<User>();
+		List<User> result = new ArrayList<>();
 		PreparedStatement p = null;
 		ResultSet rs = null;
 
@@ -1195,7 +1193,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
      * @see net.jforum.dao.UserDAO#findAllUsersByIp(String, int, int)
 	 */
 	@Override public List<User> findAllUsersByIp(String ip, int start, int count) {
-        List<User> result = new ArrayList<User>();
+        List<User> result = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
 

@@ -49,7 +49,6 @@ import java.util.List;
  * Represents a single RSS piece of content.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class RSSItem 
 {
@@ -63,7 +62,7 @@ public class RSSItem
 	
 	public RSSItem() 
 	{
-		this.categories = new ArrayList<String>();
+		this.categories = new ArrayList<>();
 	}
 	
 	/**

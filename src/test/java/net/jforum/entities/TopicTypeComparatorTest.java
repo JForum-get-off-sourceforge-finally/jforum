@@ -3,6 +3,8 @@
  */
 package net.jforum.entities;
 
+import net.jforum.util.TopicTypeComparator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -14,7 +16,6 @@ import org.junit.Test;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class TopicTypeComparatorTest extends TestCase
 {

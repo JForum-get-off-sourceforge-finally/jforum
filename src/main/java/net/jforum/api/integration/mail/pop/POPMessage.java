@@ -65,7 +65,6 @@ import net.jforum.exceptions.MailException;
 /**
  * Represents a pop message. 
  * @author Rafael Steil
- * @version $Id$
  */
 public class POPMessage
 {
@@ -117,7 +116,7 @@ public class POPMessage
 				this.replyTo = this.sender;
 			}
 			
-			this.headers = new ConcurrentHashMap<String, String>();
+			this.headers = new ConcurrentHashMap<>();
 			
 			for (final Enumeration<?> enumeration = message.getAllHeaders(); enumeration.hasMoreElements(); ) {
 				final Header header = (Header)enumeration.nextElement();

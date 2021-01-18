@@ -53,7 +53,6 @@ import net.jforum.exceptions.ForumException;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public final class ParseDBStructFile
 {
@@ -61,7 +60,7 @@ public final class ParseDBStructFile
 	
 	public static List<String> parse(final String filename)
 	{
-		final List<String> statements = new ArrayList<String>();
+		final List<String> statements = new ArrayList<>();
 		
 		BufferedReader reader = null;
 		

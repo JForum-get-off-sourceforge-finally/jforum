@@ -57,7 +57,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 {
@@ -153,7 +152,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 	 */
 	@Override public List<Bookmark> selectByUser(final int userId)
 	{
-		final List<Bookmark> list = new ArrayList<Bookmark>();
+		final List<Bookmark> list = new ArrayList<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -241,7 +240,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 
 	protected List<Bookmark> getUsers(final int userId)
 	{
-		final List<Bookmark> list = new ArrayList<Bookmark>();
+		final List<Bookmark> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
@@ -275,7 +274,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
-			final List<Bookmark> list = new ArrayList<Bookmark>();
+			final List<Bookmark> list = new ArrayList<>();
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectTopicBookmarks"));
 			pstmt.setInt(1, userId);
@@ -306,7 +305,7 @@ public class GenericBookmarkDAO implements net.jforum.dao.BookmarkDAO
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
-			final List<Bookmark> list = new ArrayList<Bookmark>();
+			final List<Bookmark> list = new ArrayList<>();
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("BookmarkModel.selectForumBookmarks"));
 			pstmt.setInt(1, userId);

@@ -98,8 +98,8 @@ public class TopDownloadsAction extends Command
 		final AttachmentDAO dao = DataAccessDriver.getInstance().newAttachmentDAO();
 		final List<TopDownloadInfo> tmpTopDownloads = dao.selectTopDownloads(limit);
 
-		this.forums = new ArrayList<Forum>(limit);
-		this.topics = new ArrayList<Topic>(limit);
+		this.forums = new ArrayList<>(limit);
+		this.topics = new ArrayList<>(limit);
 
 		for (final Iterator<TopDownloadInfo> iter = tmpTopDownloads.iterator(); iter.hasNext(); ) {
 			final TopDownloadInfo tdi = iter.next();

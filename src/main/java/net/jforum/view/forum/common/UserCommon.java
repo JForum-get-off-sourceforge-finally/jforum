@@ -87,7 +87,7 @@ public final class UserCommon
 	 */
 	public static List<String> saveUser(final int userId)
 	{
-		final List<String> errors = new ArrayList<String>();
+		final List<String> errors = new ArrayList<>();
 
 		final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 		final User user = userDao.selectById(userId);

@@ -66,7 +66,7 @@ public class Extension {
     }
 
     public static Set<Extension> deserialize(String exs) {
-        Set<Extension> res = new HashSet<Extension>();
+        Set<Extension> res = new HashSet<>();
         String[]array = exs.split("\\^");
 
         for (String s : array) {

@@ -2,7 +2,7 @@ package net.pieroxy.ua.detection;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +12,7 @@ import java.util.Set;
 */
 
 public class UserAgentDetectionResult {
-    private Set<Extension> extensions = new HashSet<Extension>();
+    private Set<Extension> extensions = new HashSet<>();
 
     private String ignoredTokens;
     private String unknownTokens;
@@ -103,7 +103,7 @@ public class UserAgentDetectionResult {
 
     public UserAgentDetectionResult() {
         locale = new Locale();
-        extensions = new HashSet<Extension>();
+        extensions = new HashSet<>();
         ignoredTokens = "";
         unknownTokens = "";
     }
@@ -148,12 +148,12 @@ public class UserAgentDetectionResult {
     }
 
     public void addExtension(Extension e) {
-        if (extensions == null) extensions = new HashSet<Extension>();
+        if (extensions == null) extensions = new HashSet<>();
         extensions.add(e);
     }
 
     public void addAllExtensions(Collection<Extension> ee) {
-        if (extensions == null) extensions = new HashSet<Extension>();
+        if (extensions == null) extensions = new HashSet<>();
         extensions.addAll(ee);
     }
 
@@ -162,13 +162,10 @@ public class UserAgentDetectionResult {
     }
 
     private List<Extension> getSortedExtensions() {
-        ArrayList<Extension> le = new ArrayList<Extension>();
+        ArrayList<Extension> le = new ArrayList<>();
         le.addAll(getExtensions());
-        le.sort(new Comparator<Extension>() {
-            @Override public int compare(Extension a, Extension b) {
-                return a.serialize().compareTo(b.serialize());
-            }
-        });
+		Collections.sort(le,
+			(a, b) -> a.serialize().compareTo(b.serialize()));
         return le;
     }
 

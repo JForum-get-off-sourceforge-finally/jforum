@@ -60,7 +60,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDAO
 {
@@ -95,7 +94,7 @@ public class GenericModerationLogDAO extends AutoKeys implements ModerationLogDA
 
 	@Override public List<ModerationLog> selectAll(int start, int count)
 	{
-		List<ModerationLog> l = new ArrayList<ModerationLog>();
+		List<ModerationLog> l = new ArrayList<>();
 
 		String sql = SystemGlobals.getSql("ModerationLog.selectAll");
 

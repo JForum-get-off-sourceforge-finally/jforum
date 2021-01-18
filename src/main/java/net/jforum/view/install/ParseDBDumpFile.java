@@ -52,7 +52,6 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public final class ParseDBDumpFile
 {
@@ -60,7 +59,7 @@ public final class ParseDBDumpFile
 	
 	public static List<String> parse(final String filename) throws IOException
 	{
-		final List<String> statements = new ArrayList<String>();
+		final List<String> statements = new ArrayList<>();
 		
 		BufferedReader reader = null;
 		

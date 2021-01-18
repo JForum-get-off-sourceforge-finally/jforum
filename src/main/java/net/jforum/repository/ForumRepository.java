@@ -237,7 +237,7 @@ public class ForumRepository implements Cacheable
 	public static List<Category> getAllCategories(int userId)
 	{
 		final PermissionControl permissionControl = SecurityRepository.get(userId);
-		final List<Category> list = new ArrayList<Category>();
+		final List<Category> list = new ArrayList<>();
 
         if (cache.get(FQN, CATEGORIES_SET) == null) {
            ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
@@ -313,7 +313,7 @@ public class ForumRepository implements Cacheable
 		final Category current = (Category)cache.get(FQN, Integer.toString(category.getId()));
 		final Category currentAtOrder = findCategoryByOrder(category.getOrder());
 
-		final Set<Category> tmpSet = new TreeSet<Category>(new CategoryOrderComparator());
+		final Set<Category> tmpSet = new TreeSet<>(new CategoryOrderComparator());
 		tmpSet.addAll((Set<Category>)cache.get(FQN, CATEGORIES_SET));
 
 		if (currentAtOrder != null) {
@@ -390,7 +390,7 @@ public class ForumRepository implements Cacheable
 		Set<Category> set = (Set<Category>)cache.get(FQN, CATEGORIES_SET);
 
 		if (set == null) {
-			set = new TreeSet<Category>(new CategoryOrderComparator());
+			set = new TreeSet<>(new CategoryOrderComparator());
 		}
 
 		set.add(category);
@@ -398,7 +398,7 @@ public class ForumRepository implements Cacheable
 
 		Map<String, String> relation = (Map<String, String>)cache.get(FQN, RELATION);
 		if (relation == null) {
-			relation = new ConcurrentHashMap<String, String>();
+			relation = new ConcurrentHashMap<>();
 		}
 
 		for (final Iterator<Forum> iter = category.getForums().iterator(); iter.hasNext(); ) {
@@ -773,7 +773,7 @@ public class ForumRepository implements Cacheable
 
 		Map<String, String> m = (Map<String, String>)cache.get(FQN, RELATION);
 		if (m == null) {
-			m = new ConcurrentHashMap<String, String>();
+			m = new ConcurrentHashMap<>();
 		}
 
 		int lastId = 0;
@@ -823,7 +823,7 @@ public class ForumRepository implements Cacheable
 	private void loadCategories(CategoryDAO cm)
 	{
 		List<Category> categories = cm.selectAll();
-		Set<Category> categoriesSet = new TreeSet<Category>(new CategoryOrderComparator());
+		Set<Category> categoriesSet = new TreeSet<>(new CategoryOrderComparator());
 
 		for (Iterator<Category> iter = categories.iterator(); iter.hasNext(); ) {
 			Category category = iter.next();

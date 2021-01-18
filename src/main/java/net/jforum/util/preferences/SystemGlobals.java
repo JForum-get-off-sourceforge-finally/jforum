@@ -89,8 +89,8 @@ public final class SystemGlobals implements VariableStore
 
     private Properties defaults = new Properties();
     private Properties installation = new Properties();
-    private Map<String, Object> objectProperties = new ConcurrentHashMap<String, Object>();
-    private static List<File> additionalDefaultsList = new ArrayList<File>();
+    private Map<String, Object> objectProperties = new ConcurrentHashMap<>();
+    private static List<File> additionalDefaultsList = new ArrayList<>();
     private static Properties queries = new Properties();
     private static Properties transientValues = new Properties();
 
@@ -270,7 +270,7 @@ public final class SystemGlobals implements VariableStore
 			 * Called by the store method
 			 */
 			@Override public synchronized Enumeration<Object> keys() {
-				Vector<String> v = new Vector<String>();
+				Vector<String> v = new Vector<>();
 				for (final Object o : keySet()) {
 					v.add(o.toString());
 				}

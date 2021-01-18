@@ -67,7 +67,7 @@ import net.jforum.util.preferences.SystemGlobals;
  */
 public class JForumExecutionContext
 {
-    private static ThreadLocal<JForumExecutionContext> userData = new ThreadLocal<JForumExecutionContext>();
+    private static ThreadLocal<JForumExecutionContext> userData = new ThreadLocal<>();
 	private static final Logger LOGGER = Logger.getLogger(JForumExecutionContext.class);
 	private static Configuration templateConfig;
 	private static final BeansWrapper BEANS_WRAPPER = new BeansWrapperBuilder(Configuration.VERSION_2_3_30).build();

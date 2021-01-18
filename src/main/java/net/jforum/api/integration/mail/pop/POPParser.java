@@ -51,13 +51,12 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class POPParser
 {
 	private static final Logger LOGGER = Logger.getLogger(POPParser.class);
 	
-	private transient final List<POPMessage> messages = new ArrayList<POPMessage>();
+	private transient final List<POPMessage> messages = new ArrayList<>();
 	
 	public void parseMessages(final POPConnector connector)
 	{

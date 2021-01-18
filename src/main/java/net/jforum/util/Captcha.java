@@ -77,7 +77,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author James Yong
- * @version $Id$
  */
 public class Captcha extends ListImageCaptchaEngine
 {
@@ -121,7 +120,7 @@ public class Captcha extends ListImageCaptchaEngine
 		final Color[] colors = new Color[] { Color.PINK, Color.RED, Color.GREEN, Color.ORANGE, Color.MAGENTA };
 		final RandomListColorGenerator colorGenerator = new RandomListColorGenerator(colors);	
 
-		final List<BackgroundGenerator> backgroundGeneratorList = new ArrayList<BackgroundGenerator>();
+		final List<BackgroundGenerator> backgroundGeneratorList = new ArrayList<>();
 		Color previousColor = colorGenerator.getNextColor();
 		for (int i = 0; i < colors.length - 1; i++) {
 			final Color nextColor = colorGenerator.getNextColor();
@@ -131,12 +130,12 @@ public class Captcha extends ListImageCaptchaEngine
 		}
 		backgroundGeneratorList.add(new FunkyBackgroundGenerator(width, height));		
 		
-		final List<TextPaster> textPasterList = new ArrayList<TextPaster>();
+		final List<TextPaster> textPasterList = new ArrayList<>();
 		textPasterList.add(new RandomTextPaster(minWords, maxWords, Color.DARK_GRAY));
 		textPasterList.add(new RandomTextPaster(minWords, maxWords, Color.BLUE));
 		textPasterList.add(new RandomTextPaster(minWords, maxWords, Color.BLACK));
 
-		final List<FontGenerator> fontGeneratorList = new ArrayList<FontGenerator>();
+		final List<FontGenerator> fontGeneratorList = new ArrayList<>();
 		fontGeneratorList.add(new TwistedAndShearedRandomFontGenerator(minFontSize, maxFontSize));
 
 		// Create a random word generator

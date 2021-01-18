@@ -66,7 +66,6 @@ import net.jforum.view.admin.common.ModerationCommon;
  * ViewHelper for category administration.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class CategoryAction extends AdminCommand 
 {
@@ -88,7 +87,7 @@ public class CategoryAction extends AdminCommand
 	public void insert()
 	{
 		this.context.put("groups", new TreeGroup().getNodes());
-		this.context.put("selectedList", new ArrayList<Category>());
+		this.context.put("selectedList", new ArrayList<>());
 		this.setTemplateName(TemplateKeys.CATEGORY_INSERT);
 		this.context.put("action", "insertSave");
 	}
@@ -127,7 +126,7 @@ public class CategoryAction extends AdminCommand
 	public void delete()
 	{
 		String ids[] = this.request.getParameterValues("categories_id");
-		List<String> errors = new ArrayList<String>();
+		List<String> errors = new ArrayList<>();
 		
 		if (ids != null) {						
 			for (int i = 0; i < ids.length; i++){

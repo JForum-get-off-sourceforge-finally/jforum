@@ -82,7 +82,7 @@ public class ActivationKeySpammer extends Spammer
 		params.put("user", user);
 		params.put("manualUrl", manualUrl);
 
-		final List<User> recipients = new ArrayList<User>();
+		final List<User> recipients = new ArrayList<>();
 		recipients.add(user);
 
 		this.setUsers(recipients);

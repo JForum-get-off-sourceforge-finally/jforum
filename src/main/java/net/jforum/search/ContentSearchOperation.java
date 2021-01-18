@@ -56,14 +56,14 @@ import net.jforum.view.forum.common.PostCommon;
  */
 public class ContentSearchOperation extends SearchOperation
 {
-    private transient List<Post> results = new ArrayList<Post>();
+    private transient List<Post> results = new ArrayList<>();
 	
 	@Override public SearchResult<Post> performSearch(final SearchArgs args, final int userId)
 	{
         final SearchResult<Post> searchResult =
 				(args.getKeywords().length > 0 || args.getUserIds().length > 0)
 				? SearchFacade.search(args, userId)
-				: new SearchResult<Post>(new ArrayList<Post>(), 0);
+				: new SearchResult<Post>(new ArrayList<>(), 0);
 
 		this.results = searchResult.getRecords();
 

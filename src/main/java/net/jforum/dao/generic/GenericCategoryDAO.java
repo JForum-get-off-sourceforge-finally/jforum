@@ -56,7 +56,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.CategoryDAO
 {
@@ -99,7 +98,7 @@ public class GenericCategoryDAO extends AutoKeys implements net.jforum.dao.Categ
 		try {
 			pstmt = JForumExecutionContext.getConnection()
 					.prepareStatement(SystemGlobals.getSql("CategoryModel.selectAll"));
-			final List<Category> list = new ArrayList<Category>();
+			final List<Category> list = new ArrayList<>();
 
 			resultSet = pstmt.executeQuery();
 			while (resultSet.next()) {

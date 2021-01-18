@@ -47,14 +47,13 @@ import java.util.List;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class TopicModerationInfo
 {
 	private int topicId;
 	private int topicReplies;
 	private String topicTitle;
-	private transient final List<Post> posts = new ArrayList<Post>();
+	private transient final List<Post> posts = new ArrayList<>();
 	
 	public void setTopicId(final int topicId)
 	{

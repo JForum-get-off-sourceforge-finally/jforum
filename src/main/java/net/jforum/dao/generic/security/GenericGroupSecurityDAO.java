@@ -68,13 +68,12 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDAO
 {
 	private List<Integer> selectForumRoles(final int forumId) 
 	{
-		final List<Integer> l = new ArrayList<Integer>();
+		final List<Integer> l = new ArrayList<>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

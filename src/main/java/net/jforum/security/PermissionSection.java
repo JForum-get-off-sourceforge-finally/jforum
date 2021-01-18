@@ -52,7 +52,6 @@ import java.util.List;
  * Stores the permissions page's sections and its respective items
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class PermissionSection 
 {
@@ -64,7 +63,7 @@ public class PermissionSection
 	{
 		this.sectionName = sectionName;
 		this.sectionId = sectionId;
-		this.permissionItems = new ArrayList<PermissionItem>();
+		this.permissionItems = new ArrayList<>();
 	}		
 	
 	public void addPermission(final PermissionItem item)

@@ -8,11 +8,10 @@ import java.util.List;
  *
  * @author <a href="plightbo@hotmail.com">Patrick Lightbody</a>
  * @author Rafael Steil (little hacks for JForum)
- * @version $Id$
  */
 public class ClickstreamConfig {
-    private transient final List<String> botAgents = new ArrayList<String>();
-    private transient final List<String> botHosts = new ArrayList<String>();
+    private transient final List<String> botAgents = new ArrayList<>();
+    private transient final List<String> botHosts = new ArrayList<>();
 
     public void addBotAgent(final String agent) {
         botAgents.add(agent);

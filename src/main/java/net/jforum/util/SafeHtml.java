@@ -76,9 +76,9 @@ public class SafeHtml
 	private static Whitelist white;
 
 	static {
-		welcomeTags = new HashSet<String>();
-		welcomeAttributes = new HashSet<String>();
-		allowedProtocols = new HashSet<String>();
+		welcomeTags = new HashSet<>();
+		welcomeAttributes = new HashSet<>();
+		allowedProtocols = new HashSet<>();
 
 		updateConfiguration();
 	}

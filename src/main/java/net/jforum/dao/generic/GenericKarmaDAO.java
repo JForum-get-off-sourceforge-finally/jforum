@@ -62,7 +62,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 {
@@ -273,7 +272,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 	 */
 	@Override public Map<Integer, Integer> getUserVotes(final int topicId, final int userId)
 	{
-		final Map<Integer, Integer> map = new ConcurrentHashMap<Integer, Integer>();
+		final Map<Integer, Integer> map = new ConcurrentHashMap<>();
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
@@ -399,7 +398,7 @@ public class GenericKarmaDAO implements net.jforum.dao.KarmaDAO
 
 	protected List<User> fillUser(final ResultSet resultSet) throws SQLException
 	{
-		final List<User> usersAndPoints = new ArrayList<User>();
+		final List<User> usersAndPoints = new ArrayList<>();
 		KarmaStatus karma = null;
 		while (resultSet.next()) {
 			final User user = new User();

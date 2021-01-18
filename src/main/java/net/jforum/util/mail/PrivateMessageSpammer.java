@@ -74,7 +74,7 @@ public class PrivateMessageSpammer extends Spammer
 		params.put("path", forumLink);
 		params.put("user", user);
 
-		final List<User> recipients = new ArrayList<User>();
+		final List<User> recipients = new ArrayList<>();
 		recipients.add(user);
 
 		this.setUsers(recipients);

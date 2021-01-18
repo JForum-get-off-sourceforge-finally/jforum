@@ -52,7 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class UrlPatternCollection
 {
-    private static Map<String, UrlPattern> patternsMap = new ConcurrentHashMap<String, UrlPattern>();
+    private static Map<String, UrlPattern> patternsMap = new ConcurrentHashMap<>();
 
     /**
      * Try to find a <code>UrlPattern</code> by its name.

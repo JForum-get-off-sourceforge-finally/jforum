@@ -172,11 +172,11 @@ public class ModerationHelper
 	{
 		String[] topics = JForumExecutionContext.getRequest().getParameterValues("topic_id");
 
-		List<Integer> forumsList = new ArrayList<Integer>();
+		List<Integer> forumsList = new ArrayList<>();
 		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
 		ForumDAO fm = DataAccessDriver.getInstance().newForumDAO();
 
-		List<Topic> topicsToDelete = new ArrayList<Topic>();
+		List<Topic> topicsToDelete = new ArrayList<>();
 
 		// if there's a trash can forum, deleting means moving to that forum, without leaving a forwarding marker
 		int trashForumId = SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN);

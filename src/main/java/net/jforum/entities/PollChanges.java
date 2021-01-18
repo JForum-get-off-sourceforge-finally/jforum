@@ -52,12 +52,11 @@ import net.jforum.view.forum.common.PostCommon;
  * A helper class that holds changes made to the pool.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class PollChanges {
-	private List<PollOption> deletedOptions = new ArrayList<PollOption>();
-	private List<PollOption> newOptions = new ArrayList<PollOption>();
-	private List<PollOption> changedOptions = new ArrayList<PollOption>();
+	private List<PollOption> deletedOptions = new ArrayList<>();
+	private List<PollOption> newOptions = new ArrayList<>();
+	private List<PollOption> changedOptions = new ArrayList<>();
 	
 	private boolean hasChanges;
 	
