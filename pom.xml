@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.jforum</groupId>
 	<artifactId>jforum</artifactId>
-	<version>2.7.0</version>
+	<version>2.7.1-b1</version>
 	<packaging>war</packaging>
 	<name>JForum</name>
 	<description>JForum is a powerful and robust discussion board system implemented in Javatm. It provides an attractive interface, an efficient forum engine, an easy to use administrative panel, an advanced permission control system and much more. </description>
@@ -236,7 +236,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.22</version>
+			<version>8.0.23</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -251,7 +251,7 @@
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
-			<version>19.8.0.0</version>
+			<version>19.9.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -278,7 +278,7 @@
 		<dependency>
 			<groupId>org.ocpsoft.prettytime</groupId>
 			<artifactId>prettytime</artifactId>
-			<version>4.0.5.Final</version>
+			<version>4.0.6.Final</version>
 		</dependency>
 	</dependencies>
 

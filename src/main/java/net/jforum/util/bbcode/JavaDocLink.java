@@ -132,6 +132,7 @@ public class JavaDocLink implements Substitution {
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
 	private static final String EVENTBUS_URL = "https://greenrobot.org/files/eventbus/javadoc/3.0/";
     private static final String MARKENWERK_URL = "https://markenwerk.github.io/java-utils-mail-dkim/";
+    private static final String JSON_SIMPLE_URL = "https://cliftonlabs.github.io/json-simple/target/apidocs/";
 
     private static final String[][] URL_MAP = new String[][] {
         {"javax.activation", JAVAEE_URL},
@@ -305,6 +306,7 @@ public class JavaDocLink implements Substitution {
         {"com.google.android", ANDROID_URL},
         {"org.xmlpull", ANDROID_URL},
         {"org.json", ANDROID_URL},
+        {"com.github.cliftonlabs.json_simple", JSON_SIMPLE_URL},
         {"com.gargoylesoftware.htmlunit", HTMLUNIT_URL},
         {"org.jdom2", JDOM2_URL},
         {"org.dom4j", DOM4J_URL},

@@ -147,8 +147,6 @@ public class LuceneSearch implements NewDocumentAdded
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
 
-			LOGGER.debug("criteria=["+criteria.toString()+"]");
-
 			if (criteria.length() == 0) {
 				result =  new SearchResult<>(new ArrayList<>(), 0);
 			} else {
@@ -164,7 +162,7 @@ public class LuceneSearch implements NewDocumentAdded
 					result = new SearchResult<>(new ArrayList<>(), 0);
 				}
 
-				LOGGER.debug((th.relation == TotalHits.Relation.EQUAL_TO ? "" : "minimum ") + "number of hits="+th.value);
+				LOGGER.debug("criteria=["+criteria.toString()+"], "+(th.relation == TotalHits.Relation.EQUAL_TO ? "" : "minimum ") + "number of hits="+th.value);
 			}
 		} catch (Exception e) {
 			throw new SearchException(e);

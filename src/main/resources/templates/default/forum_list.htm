@@ -122,8 +122,6 @@
 				<tr>
 					<td class="row1 gensmall" align="left">
 						${I18n.getMessage("ForumListing.numberOfUsersOnline", [ totalOnlineUsers, totalRegisteredOnlineUsers, totalAnonymousUsers ])}&nbsp;&nbsp;
-						<br />
-						${I18n.getMessage("ForumListing.mostUsersEverOnline", [ mostUsersEverOnline.getTotal(), mostUsersEverOnline.getDate()?string ])}
 						<#if showOnline >
 							<br />
 							${I18n.getMessage("ForumListing.connectedUsers")}:

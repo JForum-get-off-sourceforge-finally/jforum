@@ -83,7 +83,7 @@ public class LuceneContentCollector
 	public List<Post> collect (SearchArgs args, ScoreDoc[] results, Query query) {
 		try {
 			int[] postIds = new int[results.length];
-			LOGGER.debug("collect: results="+results.length+", args.fetchCount="+args.fetchCount());
+			//LOGGER.debug("collect: results="+results.length+", args.fetchCount="+args.fetchCount());
 
 			IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(this.settings.directory()));
 			for (int docIndex = args.startFrom(), i = 0; 
@@ -127,7 +127,7 @@ public class LuceneContentCollector
 			fragment = highlighter.getBestFragment(tokenStream, post.getSubject());
 			post.setSubject(fragment != null ? fragment : post.getSubject());
 		}
-		LOGGER.debug("retrieveRealPosts: postIds.length="+postIds.length+", posts.length="+posts.size());
+		//LOGGER.debug("retrieveRealPosts: postIds.length="+postIds.length+", posts.length="+posts.size());
 
 		return posts;
 	}

@@ -67,7 +67,6 @@ import net.jforum.entities.Config;
 import net.jforum.entities.Forum;
 import net.jforum.entities.LastPostInfo;
 import net.jforum.entities.ModeratorInfo;
-import net.jforum.entities.MostUsersEverOnline;
 import net.jforum.entities.Post;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
@@ -96,7 +95,6 @@ public class ForumRepository implements Cacheable
 	private static final String RELATION = "relationForums";
 	private static final String FQN_MODERATORS = FQN + "/moderators";
 	private static final String TOTAL_MESSAGES = "totalMessages";
-	private static final String MOST_USERS_ONLINE = "mostUsersEverOnline";
 	private static final String LOADED = "loaded";
 	private static final String LAST_USER = "lastUser";
 	private static final String TOTAL_USERS = "totalUsers";
@@ -132,7 +130,6 @@ public class ForumRepository implements Cacheable
 		if (cache.get(FQN, LOADED) == null) {
 			instance.loadCategories(categoryDAO);
 			instance.loadForums(forumDAO);
-			instance.loadMostUsersEverOnline(configModel);
 			instance.loadUsersInfo();
 			cache.add(FQN, LOADED, "1");
 		}
@@ -711,59 +708,6 @@ public class ForumRepository implements Cacheable
 	}
 
 	/**
-	 * Gets the number of most online users ever
-	 * @return MostUsersEverOnline
-	 */
-	public static MostUsersEverOnline getMostUsersEverOnline()
-	{
-		MostUsersEverOnline online = (MostUsersEverOnline)cache.get(FQN, MOST_USERS_ONLINE);
-
-		if (online == null) {
-			online = instance.loadMostUsersEverOnline(DataAccessDriver.getInstance().newConfigDAO());
-		}
-
-		return online;
-	}
-
-	/**
-	 * Update the value of most online users ever.
-	 * 
-	 * @param m MostUsersEverOnline The new value to store. Generally it will be a bigger one.
-	 */
-	public static void updateMostUsersEverOnline(MostUsersEverOnline m)
-	{
-		ConfigDAO cm = DataAccessDriver.getInstance().newConfigDAO();
-		Config config = cm.selectByName(ConfigKeys.MOST_USERS_EVER_ONLINE);
-
-		if (config == null) {
-			// Total
-			config = new Config();
-			config.setName(ConfigKeys.MOST_USERS_EVER_ONLINE);
-			config.setValue(Integer.toString(m.getTotal()));
-
-			cm.insert(config);
-
-			// Date
-			config.setName(ConfigKeys.MOST_USER_EVER_ONLINE_DATE);
-			config.setValue(Long.toString(m.getTimeInMillis()));
-
-			cm.insert(config);
-		}
-		else {
-			// Total
-			config.setValue(Integer.toString(m.getTotal()));
-			cm.update(config);
-
-			// Date
-			config.setName(ConfigKeys.MOST_USER_EVER_ONLINE_DATE);
-			config.setValue(Long.toString(m.getTimeInMillis()));
-			cm.update(config);
-		}
-
-		cache.add(FQN, MOST_USERS_ONLINE, m);
-	}
-
-	/**
 	 * Loads all forums.
      * @param fm ForumDAO
      */
@@ -834,25 +778,6 @@ public class ForumRepository implements Cacheable
 
 		cache.add(FQN, CATEGORIES_SET, categoriesSet);
 	}
-
-	private synchronized MostUsersEverOnline loadMostUsersEverOnline(ConfigDAO cm) 
-	{
-		Config config = cm.selectByName(ConfigKeys.MOST_USERS_EVER_ONLINE);
-		MostUsersEverOnline mostUsersEverOnline = new MostUsersEverOnline();
-
-		if (config != null) {
-			mostUsersEverOnline.setTotal(Integer.parseInt(config.getValue()));
-
-			// We're assuming that, if we have one key, the another one will always exist
-			config = cm.selectByName(ConfigKeys.MOST_USER_EVER_ONLINE_DATE);
-			mostUsersEverOnline.setTimeInMillis(Long.parseLong(config.getValue()));
-		}
-
-		cache.add(FQN, MOST_USERS_ONLINE, mostUsersEverOnline);
-
-		return mostUsersEverOnline;
-	}
-
 
 	public static String getListAllowedForums() 
 	{

@@ -56,7 +56,6 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.ForumDAO;
 import net.jforum.dao.ModerationDAO;
 import net.jforum.entities.Forum;
-import net.jforum.entities.MostUsersEverOnline;
 import net.jforum.entities.Topic;
 import net.jforum.entities.TopicModerationInfo;
 import net.jforum.entities.UserSession;
@@ -96,8 +95,8 @@ public class ForumAction extends Command
 		this.context.put("lastUser", ForumRepository.lastRegisteredUser());
 
 		GregorianCalendar gc = new GregorianCalendar();
-               this.context.put("now", ViewCommon.formatDatePatternOnly(gc.getTime()));
-               this.context.put("lastVisit", ViewCommon.formatDate(SessionFacade.getUserSession().getLastVisit()));
+		this.context.put("now", ViewCommon.formatDatePatternOnly(gc.getTime()));
+		this.context.put("lastVisit", ViewCommon.formatDate(SessionFacade.getUserSession().getLastVisit()));
 		this.context.put("forumRepository", new ForumRepository());
 
 		// Online Users
@@ -118,9 +117,8 @@ public class ForumAction extends Command
 			}
 		}
 
-		// If there are only guest users, then just register
-		// a single one. In any other situation, we do not
-		// show the "guest" username
+		// If there are only guest users, then just register a single one.
+		// In any other situation, we do not show the "guest" username
 		if (onlineUsersList.isEmpty()) {
 			UserSession us = new UserSession();
 
@@ -140,17 +138,6 @@ public class ForumAction extends Command
 		this.context.put("totalRegisteredOnlineUsers", Integer.valueOf(registeredSize));
 		this.context.put("totalAnonymousUsers", Integer.valueOf(anonymousSize));
 
-		// Most users ever online
-		MostUsersEverOnline mostUsersEverOnline = ForumRepository.getMostUsersEverOnline();
-
-		if (totalOnlineUsers > mostUsersEverOnline.getTotal()) {
-			mostUsersEverOnline.setTotal(totalOnlineUsers);
-			mostUsersEverOnline.setTimeInMillis(System.currentTimeMillis());
-
-			ForumRepository.updateMostUsersEverOnline(mostUsersEverOnline);
-		}
-
-		this.context.put("mostUsersEverOnline", mostUsersEverOnline);
         new StatsEvent("Show index page", "").record();
 	}
 
