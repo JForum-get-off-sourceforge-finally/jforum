@@ -7,7 +7,6 @@ INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.next
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_karma_enabled');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_anonymous_post');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_create_poll');
-INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_bookmarks_enabled');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_attachments_enabled');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_attachments_download');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_create_sticky_announcement_topics');
@@ -59,7 +58,6 @@ INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.next
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_vote');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_create_poll');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_karma_enabled');
-INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_bookmarks_enabled');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_attachments_enabled');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_attachments_download');
 INSERT INTO jforum_roles (role_id, group_id, name) VALUES (jforum_roles_seq.nextval, jforum_groups_seq.currval, 'perm_moderation_log');

@@ -401,11 +401,9 @@
 				<tr>
 					<td align="left" valign="top" class="gensmall">
 						<#if logged>
-							<#if bookmarksEnabled>
-								<img src="${contextPath}/templates/${templateName}/images/icon_bookmark.gif" align="middle" alt="Bookmark" />
-								<a href="#bookmark" onclick="addBookmark(2, ${topic.id});">${I18n.getMessage("Bookmarks.addTo")}</a>
-								<br />
-							</#if>
+							<img src="${contextPath}/templates/${templateName}/images/icon_bookmark.gif" align="middle" alt="Bookmark" />
+							<a href="#bookmark" onclick="addBookmark(2, ${topic.id});">${I18n.getMessage("Bookmarks.addTo")}</a>
+							<br />
 							<#if !watching>
 								<a class="toggleWatchLink" id="toggleWatchLinkID" href="${JForumContext.encodeURL("/posts/watch/${start}/${topic.id}")}"
 									onClick="turnOn=true; toggleWatch(); return false">

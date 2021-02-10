@@ -131,7 +131,7 @@ CREATE TABLE jforum_categories (
 --
 CREATE TABLE jforum_config (
   config_name varchar(255) DEFAULT ('') NOT NULL,
-  config_value varchar(255) NOT NULL,
+  config_value varchar(1000) NOT NULL,
   config_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL 
 );
 

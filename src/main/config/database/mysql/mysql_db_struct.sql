@@ -31,7 +31,7 @@ CREATE TABLE jforum_categories (
 DROP TABLE IF EXISTS jforum_config;
 CREATE TABLE jforum_config (
   config_name VARCHAR(255) NOT NULL DEFAULT '',
-  config_value VARCHAR(255) NOT NULL DEFAULT '',
+  config_value VARCHAR(1000) NOT NULL DEFAULT '',
   config_id INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (config_id)
 ) ENGINE=InnoDB;

@@ -44,8 +44,10 @@
 			${I18n.getMessage("UserProfile.biography")}: ${u.biography?html}<br>
 		</#if>
 	</#if>
-	<#if bookmarksEnabled && (nbookmarks > 0)>
-		${I18n.getMessage("Permissions.bookmarks")}: <a class="gen" href="${JForumContext.encodeURL("/bookmarks/list/${u.id}")}"> ${nbookmarks} </a><br>
+	<#if (nbookmarks > 0)>
+		${I18n.getMessage("Bookmarks.myBag")}: <a class="gen" href="${JForumContext.encodeURL("/bookmarks/list/${u.id}")}"> ${nbookmarks} </a><br>
+	<#else>
+		${I18n.getMessage("Bookmarks.empty")}<br>
 	</#if>
 </div>
 

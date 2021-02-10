@@ -309,8 +309,8 @@ public class UserAction extends Command
 		String allowedDomains = SystemGlobals.getValue(ConfigKeys.REGISTRATION_DOMAINS);
         if (!error && !allowedDomains.isEmpty()) {
 			boolean anyOK = false;
-			for (String domain : allowedDomains.split(",")) {
-				if (email.trim().endsWith(domain.trim())) {
+			for (String domain : allowedDomains.split("\\s*,\\s*")) {
+				if (email.trim().endsWith(domain)) {
 					anyOK = true;
 					break;
 				}

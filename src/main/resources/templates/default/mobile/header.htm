@@ -53,11 +53,7 @@
 	</#if>
 	<#if logged>
 		<a href="${JForumContext.encodeURL("/pm/inbox")}">${I18n.getMessage("ForumBase.privateMessages")}</a>
-	</#if>
-	<#if bookmarksEnabled && logged>
 		<a href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}">${I18n.getMessage("Bookmarks.myBag")}</a>
-	</#if>
-	<#if logged>
 		<a href="${JForumContext.encodeURL("/posts/listByUser/${session.userId}")}">${I18n.getMessage("ForumBase.posts")}</a>
 		<a href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>
 	</#if>

@@ -92,14 +92,6 @@
 		</permission>
 	</section>
 
-	<!-- Bookmarks -->
-	<section id="bookmarks_disabled" title="Permissions.bookmarks">
-		<permission id="perm_bookmarks_enabled" title="Permissions.bookmarksDescription" type="single">
-			<option value="deny" description="No"/>
-			<option value="allow" description="Yes"/>
-		</permission>
-	</section>
-
 	<!-- Attachments -->
 	<section id="attachments_disabled" title="Permissions.attachments">
 		<permission id="perm_attachments_enabled" title="Permissions.attachmentsEnable" type="multiple">

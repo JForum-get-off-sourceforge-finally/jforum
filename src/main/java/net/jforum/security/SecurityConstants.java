@@ -44,7 +44,6 @@ package net.jforum.security;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public final class SecurityConstants 
 {
@@ -69,7 +68,6 @@ public final class SecurityConstants
 	public static final String PERM_HTML_DISABLED = "perm_html_disabled";
 	public static final String PERM_REPLY_ONLY = "perm_reply_only";
 	public static final String PERM_KARMA_ENABLED = "perm_karma_enabled";
-	public static final String PERM_BOOKMARKS_ENABLED = "perm_bookmarks_enabled";
 	public static final String PERM_ATTACHMENTS_ENABLED = "perm_attachments_enabled";
 	public static final String PERM_ATTACHMENTS_DOWNLOAD = "perm_attachments_download";
 	public static final String PERM_MODERATION_LOG = "perm_moderation_log";

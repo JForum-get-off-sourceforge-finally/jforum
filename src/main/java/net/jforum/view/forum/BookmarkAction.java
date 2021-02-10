@@ -256,11 +256,6 @@ public class BookmarkAction extends Command
 		this.context.put("message", I18n.getMessage(message));
 	}
 
-	public void disabled()
-	{
-		this.error("Bookmarks.featureDisabled");
-	}
-
 	public void anonymousIsDenied()
 	{
 		this.error("Bookmarks.anonymousIsDenied");
@@ -345,9 +340,6 @@ public class BookmarkAction extends Command
 		if (SessionFacade.getUserSession().getUserId() == SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID)
 				&& !request.getAction().equals("list")) {
 			request.addParameter("action", "anonymousIsDenied");
-		}
-		else if (!SecurityRepository.canAccess(SecurityConstants.PERM_BOOKMARKS_ENABLED)) {
-			request.addParameter("action", "disabled");
 		}
 
 		return super.process(request, response, context);

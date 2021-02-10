@@ -43,7 +43,7 @@ CREATE SEQUENCE jforum_config_seq
 
 CREATE TABLE jforum_config (
   config_name VARCHAR2(255) DEFAULT ' ' NOT NULL,
-  config_value VARCHAR2(255) DEFAULT ' ' NOT NULL,
+  config_value VARCHAR2(1000) DEFAULT ' ' NOT NULL,
   config_id NUMBER(10) NOT NULL,
   PRIMARY KEY(config_id)
 );

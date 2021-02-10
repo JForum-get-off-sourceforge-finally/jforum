@@ -31,7 +31,7 @@ CREATE TABLE jforum_categories (
 CREATE SEQUENCE jforum_config_seq;
 CREATE TABLE jforum_config (
   config_name VARCHAR(255) NOT NULL DEFAULT '',
-  config_value VARCHAR(255) NOT NULL DEFAULT '',
+  config_value VARCHAR(1000) NOT NULL DEFAULT '',
   config_id int NOT NULL PRIMARY KEY DEFAULT nextval('jforum_config_seq')
 );
 

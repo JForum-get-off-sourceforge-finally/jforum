@@ -68,9 +68,7 @@ Modifications by JForum Team
 											<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Moderation Log]" /> <a id="moderationlog" class="mainmenu" href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a> &nbsp;
 										</#if>
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" alt="[Profile]" /> <a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}">${I18n.getMessage("ForumBase.profile")}</a>&nbsp; 
-										<#if bookmarksEnabled>
-											<img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[Post]" /> <a class="mainmenu" href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}">${I18n.getMessage("Bookmarks.myBag")}</a>&nbsp;
-										</#if>
+										<img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[Post]" /> <a class="mainmenu" href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}">${I18n.getMessage("Bookmarks.myBag")}</a>&nbsp;
 										<img src="${contextPath}/templates/${templateName}/images/icon_mini_message.gif" alt="[Message]" /> <a id="privatemessages" class="mainmenu" href="${JForumContext.encodeURL("/pm/inbox")}">
 											<#if (session.privateMessages > 0)>
 												${I18n.getMessage("ForumBase.newPm")}: (${session.privateMessages})

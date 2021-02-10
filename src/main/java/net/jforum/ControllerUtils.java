@@ -109,7 +109,6 @@ public class ControllerUtils
 		context.put("forumLink", SystemGlobals.getValue(ConfigKeys.FORUM_LINK));
 		context.put("homepageLink", SystemGlobals.getValue(ConfigKeys.HOMEPAGE_LINK));
 		context.put("encoding", SystemGlobals.getValue(ConfigKeys.ENCODING));
-		context.put("bookmarksEnabled", SecurityRepository.canAccess(SecurityConstants.PERM_BOOKMARKS_ENABLED));
 		context.put("canAccessModerationLog", SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_LOG));
 		context.put("JForumContext", jforumContext);
 		context.put("bannerCommon", new BannerCommon());
