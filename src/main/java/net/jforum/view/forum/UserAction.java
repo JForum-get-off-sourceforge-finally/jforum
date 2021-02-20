@@ -306,6 +306,7 @@ public class UserAction extends Command
         }
 
         // check if the email is from an allowed domain
+		// This can also be used to allow individual addresses, not just domains.
 		String allowedDomains = SystemGlobals.getValue(ConfigKeys.REGISTRATION_DOMAINS);
         if (!error && !allowedDomains.isEmpty()) {
 			boolean anyOK = false;

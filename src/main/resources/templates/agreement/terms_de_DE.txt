@@ -17,9 +17,8 @@ dafür verantwortlich gemacht werden, falls sich jemand diese Daten durch so gen
 <p>
 Dieses Forum benutzt Cookies um Informationen auf ihrem Computer zu speichern. Diese Cookies beinhalten nicht die oben genannten Informationen.
 Sie dienen nur dazu die Benutzung des Forums angenehmer für sie zu gestalten. Die E-Mail Adresse wird nur zur Bestätigung ihrer Registrierung
-sowie des Passwortes verwendet(oder um Ihnen ein neues Passwort zu senden, falls Sie Ihres vergessen haben sollten).
+sowie des Passwortes verwendet (oder um Ihnen ein neues Passwort zu senden, falls Sie Ihres vergessen haben sollten).
 </p>
-
 
 <p>
 Wenn Sie unten auf 'Registrieren' klicken, erklären Sie sich mit den Nutzungsbedingungen einverstanden. 
