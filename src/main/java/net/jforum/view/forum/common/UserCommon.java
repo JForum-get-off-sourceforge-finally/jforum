@@ -152,10 +152,17 @@ public final class UserCommon
 					|| user.getPassword().equals(currentPasswordSHA512Salt)) {
 				user.setEmail(SafeHtml.makeSafe(request.getParameter("email")));
 
-				final String newPassword = request.getParameter("new_password");
+				String newPassword = request.getParameter("new_password");
 
-				if (newPassword != null && newPassword.length() > 0) {
-					user.setPassword(Hash.sha512(newPassword+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
+				if (! StringUtils.isBlank(newPassword)) {
+					newPassword = newPassword.trim();
+
+					int pwdMinLength = SystemGlobals.getIntValue(ConfigKeys.PASSWORD_MIN_LENGTH);
+					if (newPassword.length() < pwdMinLength) {
+						errors.add(I18n.getMessage("User.passwordTooShort", new Integer[] { pwdMinLength }));
+					} else {
+						user.setPassword(Hash.sha512(newPassword+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
+					}
 				}
 			}
 			else {
