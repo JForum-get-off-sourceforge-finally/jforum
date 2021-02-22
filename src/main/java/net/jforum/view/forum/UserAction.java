@@ -270,9 +270,7 @@ public class UserAction extends Command
 			error = true;
 		}
 
-		if (username != null) {
-			username = username.trim();
-		}
+		username = username.trim();
 
         if (!error && username != null && username.length() > SystemGlobals.getIntValue(ConfigKeys.USERNAME_MAX_LENGTH)) {
 			this.context.put("error", I18n.getMessage("User.usernameTooBig"));
@@ -286,6 +284,14 @@ public class UserAction extends Command
 
 		if (!error && userDao.isUsernameRegistered(username)) {
 			this.context.put("error", I18n.getMessage("UsernameExists"));
+			error = true;
+		}
+
+		password = password.trim();
+
+        int pwdMinLength = SystemGlobals.getIntValue(ConfigKeys.PASSWORD_MIN_LENGTH);
+        if (!error && password.length() < pwdMinLength) {
+			this.context.put("error", I18n.getMessage("User.passwordTooShort", new Integer[] { pwdMinLength }));
 			error = true;
 		}
 

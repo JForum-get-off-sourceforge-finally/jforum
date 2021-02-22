@@ -28,9 +28,6 @@ UserModel.selectById = SELECT u.*, \
 	FROM jforum_users u \
 	WHERE u.user_id = ?
 
-UserModel.isUsernameRegistered = SELECT COUNT(1) as registered FROM jforum_users WHERE LCASE(username) = LCASE(?)
-UserModel.login = SELECT user_id FROM jforum_users WHERE LCASE(username) = LCASE(?) AND user_password = ?
-
 # #############
 # PostModel
 # #############

@@ -58,11 +58,9 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * Default login authenticator for JForum.
- * This authenticator will validate the input against
- * <i>jforum_users</i>. 
+ * This authenticator will validate the input against <i>jforum_users</i>. 
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class DefaultLoginAuthenticator implements LoginAuthenticator
 {
@@ -86,14 +84,17 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 		User user = null;
 		ResultSet resultSet = null;
 		PreparedStatement pstmt = null;
-		
+
 		try 
 		{
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("UserModel.login"));
 			pstmt.setString(1, username);
+			// passing the username twice, because it is also checked against the email
+			// because these days, people expect to log in with their email, not a username
+			pstmt.setString(2, username);
 			// first try MD5 hash
-			pstmt.setString(2, Hash.md5(password));
+			pstmt.setString(3, Hash.md5(password));
 
 			resultSet = pstmt.executeQuery();
 			if (resultSet.next() && resultSet.getInt("user_id") > 0) {
@@ -101,7 +102,7 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 			} else {
 				resultSet.close();
 				// then, SHA-512
-				pstmt.setString(2, Hash.sha512(password));
+				pstmt.setString(3, Hash.sha512(password));
 
 				resultSet = pstmt.executeQuery();
 				if (resultSet.next() && resultSet.getInt("user_id") > 0) {
@@ -109,7 +110,7 @@ public class DefaultLoginAuthenticator implements LoginAuthenticator
 				} else {
 					resultSet.close();
 					// then, SHA-512 with a salt
-					pstmt.setString(2, Hash.sha512(password+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
+					pstmt.setString(3, Hash.sha512(password+SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE)));
 
 					resultSet = pstmt.executeQuery();
 					if (resultSet.next() && resultSet.getInt("user_id") > 0) {

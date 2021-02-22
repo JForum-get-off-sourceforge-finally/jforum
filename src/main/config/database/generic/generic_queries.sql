@@ -119,8 +119,7 @@ UserModel.update = UPDATE jforum_users SET user_avatar = ?,\
 UserModel.lastUserRegistered = SELECT user_id, username FROM jforum_users ORDER BY user_regdate DESC LIMIT 1
 UserModel.totalUsers = SELECT COUNT(1) as total_users FROM jforum_users
 UserModel.isUsernameRegistered = SELECT COUNT(1) as registered FROM jforum_users WHERE LOWER(username) = LOWER(?)
-UserModel.login = SELECT user_id FROM jforum_users WHERE LOWER(username) = LOWER(?) AND user_password = ?
-UserModel.loginMatch = SELECT user_id FROM jforum_users WHERE LOWER(username) = LOWER(?)
+UserModel.login = SELECT user_id FROM jforum_users WHERE (LOWER(username) = LOWER(?) OR LOWER(user_email) = LOWER(?)) AND user_password = ?
 UserModel.addToGroup = INSERT INTO jforum_user_groups ( user_id, group_id ) VALUES ( ?, ? )
 UserModel.removeFromGroup = DELETE FROM jforum_user_groups WHERE user_id = ? AND group_id = ?
 
