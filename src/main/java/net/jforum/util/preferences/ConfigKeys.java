@@ -150,6 +150,7 @@ public final class ConfigKeys
 
 	public static final String DATE_TIME_FORMAT = "dateTime.format";
 	public static final String DATE_TIME_PRETTY = "dateTime.pretty";
+	public static final String TIMEZONE = "dateTime.timezone";
 	public static final String RSS_DATE_TIME_FORMAT = "rss.datetime.format";
 	public static final String RSS_ENABLED = "rss.enabled";
 	public static final String SOCIAL_SHARING_ENABLED = "social.enabled";

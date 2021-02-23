@@ -349,12 +349,26 @@
 	<!-- Vimeo -->
 	<match name="vimeo" lockedForSmilies="vimeo">
 		<regex>
-			(?i)\[vimeo\]http[s]?\:\/\/vimeo.com\/(.*?)\[/vimeo\]
+			(?i)\[vimeo\]http[s]?://(?:[0-9A-Z-]+\.)?vimeo.com/(.*?)\[/vimeo\]
 		</regex>
 		<replace>
 			<![CDATA[
 				<iframe width="640" height="480"
-					src="https://player.vimeo.com/video/$1?title=0&amp;byline=0&amp;portrait=0&amp;badge=0">
+					src="https://player.vimeo.com/video/$1?title=0&byline=0&portrait=0&badge=0">
+				</iframe>
+                ]]>
+		</replace>
+	</match>
+
+	<!-- Dailymotion -->
+	<match name="dailymotion" lockedForSmilies="dailymotion">
+		<regex>
+			(?i)\[dailymotion\]http[s]?://(?:[a-z]+\.)?dailymotion.com/video/(.*?)\[/dailymotion\]
+		</regex>
+		<replace>
+			<![CDATA[
+				<iframe width="640" height="480" frameborder="0" allowfullscreen="allowfullscreen"
+					src="https://www.dailymotion.com/embed/video/$1"
 				</iframe>
                 ]]>
 		</replace>

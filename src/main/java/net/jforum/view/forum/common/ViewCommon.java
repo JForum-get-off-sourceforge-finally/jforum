@@ -56,8 +56,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -248,25 +250,30 @@ public final class ViewCommon
 	 * Formats a date using the pattern defined in the configuration file.
 	 * The key is the value of {@link net.jforum.util.preferences.ConfigKeys#DATE_TIME_FORMAT}
 	 * Pretty dates are shown together with local, which are shown as a tooltip text (ConfigKeys.DATE_TIME_PRETTY).
+	 * The board default locale, the user locale (if available) and the board timezone are considered.
 	 * @param date the date to format
 	 * @return the string with the formatted date
 	 */
-	public static String formatDate(final Date date) 
+	public static String formatDate (final Date date) 
 	{
-		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
-		if (SystemGlobals.getBoolValue(ConfigKeys.DATE_TIME_PRETTY)) {
-			UserSession us = SessionFacade.getUserSession();
-			Locale locale = new Locale ("en");
-
-			if (us != null && us.getLang() != null) {
-				// JForum only uses locales that are 5 characters long, except for the default locale
-				if (us.getLang().length() == 5) {
-					locale = new Locale(us.getLang().substring(0, 2), us.getLang().substring(3));
-				}
+		Locale locale = new Locale(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT));
+		UserSession us = SessionFacade.getUserSession();
+		if (us != null && us.getLang() != null) {
+			// JForum only uses locales that are 5 characters long, except for the default locale
+			if (us.getLang().length() == 5) {
+				locale = new Locale(us.getLang().substring(0, 2), us.getLang().substring(3));
 			}
+		}
 
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), locale);
+		if (StringUtils.isBlank(SystemGlobals.getValue(ConfigKeys.TIMEZONE))) {
+			sdf.setTimeZone(TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().getID()));
+		} else {
+			sdf.setTimeZone(TimeZone.getTimeZone(SystemGlobals.getValue(ConfigKeys.TIMEZONE)));
+		}
+
+		if (SystemGlobals.getBoolValue(ConfigKeys.DATE_TIME_PRETTY)) {
 			PrettyTime pt = new PrettyTime(locale);
-
 			return "<span title=\""+sdf.format(date)+"\">"+pt.format(date)+"</span>";
 		} else {
 			return sdf.format(date);
@@ -279,9 +286,15 @@ public final class ViewCommon
 	* @param date the date to format
 	* @return the string with the formatted date
 	 */
-	public static String formatDatePatternOnly(final Date date) 
+	public static String formatDatePatternOnly (final Date date) 
 	{
-		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), Locale.getDefault());
+        final Locale defaultLocale = new Locale(SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT));
+		final SimpleDateFormat sdf = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT), defaultLocale);
+		if (StringUtils.isBlank(SystemGlobals.getValue(ConfigKeys.TIMEZONE))) {
+			sdf.setTimeZone(TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().getID()));
+		} else {
+			sdf.setTimeZone(TimeZone.getTimeZone(SystemGlobals.getValue(ConfigKeys.TIMEZONE)));
+		}
 		return sdf.format(date);
 	}
 
