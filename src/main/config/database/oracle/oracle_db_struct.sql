@@ -647,3 +647,11 @@ CREATE TABLE jforum_spam (
   pattern VARCHAR2(100) NOT NULL
 );
 
+--
+-- Table structure for table 'jforum_registrations'
+--
+CREATE TABLE jforum_registrations (
+  email VARCHAR2(100) NOT NULL,
+  group_id NUMBER(10) NOT NULL
+);
+

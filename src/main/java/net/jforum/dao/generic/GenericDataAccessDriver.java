@@ -62,6 +62,7 @@ import net.jforum.dao.PollDAO;
 import net.jforum.dao.PostDAO;
 import net.jforum.dao.PrivateMessageDAO;
 import net.jforum.dao.RankingDAO;
+import net.jforum.dao.RegEmailDAO;
 import net.jforum.dao.SmilieDAO;
 import net.jforum.dao.SpamDAO;
 import net.jforum.dao.SummaryDAO;
@@ -102,6 +103,7 @@ public class GenericDataAccessDriver extends DataAccessDriver
     private static ModerationLogDAO moderationLogDao = new GenericModerationLogDAO();
     private static LuceneDAO luceneDao = new GenericLuceneDAO();
     private static SpamDAO spamDao = new GenericSpamDAO();
+    private static RegEmailDAO regEmailDao = new GenericRegEmailDAO();
 
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newForumDAO()
@@ -310,4 +312,13 @@ public class GenericDataAccessDriver extends DataAccessDriver
     {
     	return spamDao;
     }
+
+    /**
+     * @see net.jforum.dao.DataAccessDriver#newRegEmailDAO()
+     */
+    @Override public RegEmailDAO newRegEmailDAO()
+    {
+    	return regEmailDao;
+    }
+
 }

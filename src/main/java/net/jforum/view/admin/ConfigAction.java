@@ -54,6 +54,8 @@ import java.util.Properties;
 import net.jforum.JForumExecutionContext;
 import net.jforum.context.RequestContext;
 import net.jforum.context.ResponseContext;
+import net.jforum.dao.DataAccessDriver;
+import net.jforum.dao.GroupDAO;
 import net.jforum.entities.Category;
 import net.jforum.entities.Forum;
 import net.jforum.exceptions.ForumException;
@@ -77,9 +79,7 @@ public class ConfigAction extends AdminCommand
 {
 	public ConfigAction() {}
 	
-	public ConfigAction(RequestContext request,
-			ResponseContext response, 
-			SimpleHash context)
+	public ConfigAction (RequestContext request, ResponseContext response, SimpleHash context)
 	{
 		this.request = request;
 		this.response = response;
@@ -114,7 +114,10 @@ public class ConfigAction extends AdminCommand
 
 		this.context.put("config", p);
 		this.context.put("locales", localesList);
+		GroupDAO groupDao = DataAccessDriver.getInstance().newGroupDAO();
+        this.context.put("groups", groupDao.selectAll());
 		this.context.put("forumTrashcan", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.FORUM_TRASHCAN)));
+		this.context.put("defaultUserGroup", Integer.valueOf(SystemGlobals.getIntValue(ConfigKeys.DEFAULT_USER_GROUP)));
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(true));
 		this.setTemplateName(TemplateKeys.CONFIG_LIST);
 	}

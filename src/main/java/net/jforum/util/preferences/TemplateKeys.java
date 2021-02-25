@@ -206,6 +206,8 @@ public final class TemplateKeys
 
     public static final String SPAM_BLOCK_LIST = "spamBlock.list";
 
+    public static final String REG_EMAIL_LIST = "regEmail.list";
+
 	public static final String SEARCH_STATS_LIST = "search.stats.list";
 	public static final String SEARCH_STATS_NOT_ENABLED = "search.stats.not.enabled";
 	public static final String AJAX_PREVIEW_POST = "ajax.preview.post";

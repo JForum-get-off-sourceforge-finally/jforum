@@ -71,6 +71,7 @@ import net.jforum.entities.UserSession;
 import net.jforum.repository.BanlistRepository;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.RankingRepository;
+import net.jforum.repository.RegEmailRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.security.StopForumSpam;
@@ -313,19 +314,10 @@ public class UserAction extends Command
 
         // check if the email is from an allowed domain
 		// This can also be used to allow individual addresses, not just domains.
-		String allowedDomains = SystemGlobals.getValue(ConfigKeys.REGISTRATION_DOMAINS);
-        if (!error && !allowedDomains.isEmpty()) {
-			boolean anyOK = false;
-			for (String domain : allowedDomains.split("\\s*,\\s*")) {
-				if (email.trim().endsWith(domain)) {
-					anyOK = true;
-					break;
-				}
-			}
-			if (! anyOK) {
-				this.context.put("error", I18n.getMessage("User.emailInvalid", new String[] { email }));
-				error = true;
-			}
+		int groupId = RegEmailRepository.canRegister(email.trim());
+		if (groupId < 0) {
+			this.context.put("error", I18n.getMessage("User.emailInvalid", new String[] { email }));
+			error = true;
 		}
 
 		final BanlistDAO banlistDao = DataAccessDriver.getInstance().newBanlistDAO();
@@ -371,7 +363,7 @@ public class UserAction extends Command
 			user.setActivationKey(Hash.md5(username + System.currentTimeMillis() + SystemGlobals.getValue(ConfigKeys.USER_HASH_SEQUENCE) + new SecureRandom().nextInt(999999)));
 		}
 
-		int newUserId = userDao.addNew(user);
+		int newUserId = userDao.addNew(user, groupId);
 
 		if (needMailActivation) {
 			Executor.execute(new EmailSenderTask(new ActivationKeySpammer(user)));

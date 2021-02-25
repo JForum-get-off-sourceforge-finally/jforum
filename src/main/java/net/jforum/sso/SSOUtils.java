@@ -46,12 +46,13 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
+import net.jforum.util.preferences.ConfigKeys;
+import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * General utilities to use with SSO.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class SSOUtils
 {
@@ -59,7 +60,7 @@ public class SSOUtils
 	private transient boolean exists = true;
 	private transient User user;
 	private transient UserDAO dao;
-	
+
 	/**
 	 * Checks if a user exists in the database
 	 * 
@@ -76,10 +77,10 @@ public class SSOUtils
 
 		this.user = this.dao.selectByName(username);
 		this.exists = this.user != null;
-		
+
 		return this.exists;
 	}
-	
+
 	/**
 	 * Registers a new user. 
 	 * This method should be used together with {@link #userExists(String)}. 
@@ -103,13 +104,13 @@ public class SSOUtils
         this.user.setEmail(email);
         this.user.setActive(1);
 
-        this.dao.addNew(this.user);
+        this.dao.addNew(this.user, SystemGlobals.getIntValue(ConfigKeys.DEFAULT_USER_GROUP));
 
         // Update the information
         ForumRepository.setLastRegisteredUser(this.user);
         ForumRepository.incrementTotalUsers();
     }
-	
+
 	/**
 	 * Gets the user associated to this class instance.
 	 * 

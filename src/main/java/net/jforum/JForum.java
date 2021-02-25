@@ -83,6 +83,7 @@ import net.jforum.repository.BBCodeRepository;
 import net.jforum.repository.BanlistRepository;
 import net.jforum.repository.ModulesRepository;
 import net.jforum.repository.RankingRepository;
+import net.jforum.repository.RegEmailRepository;
 import net.jforum.repository.SecurityRepository;
 import net.jforum.repository.SmiliesRepository;
 import net.jforum.summary.SummaryScheduler;
@@ -142,6 +143,7 @@ public class JForum extends JForumBaseServlet
             RankingRepository.loadRanks();
             SmiliesRepository.loadSmilies();
             BanlistRepository.loadBanlist();
+            RegEmailRepository.load();
         }
         catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -65,7 +65,7 @@ public interface UserDAO
 	 * @see #selectAll
 	 */
 	User selectById(int userId) ;
-	
+
 	/**
 	 * Gets a specific <code>User</code>.
 	 * 
@@ -75,14 +75,14 @@ public interface UserDAO
 	 * @see #selectAll
 	 */
 	User selectByName(String username) ;
-	
+
 	/**
 	 * Gets all users
 	 * 
 	 * @return an <code>ArrayList</code> with the users. Each entry is a <code>User</code> object
 	 */
 	List<User> selectAll() ;
-	
+
 	/**
 	 * Gets all users with your Karma.
 	 * 
@@ -90,7 +90,7 @@ public interface UserDAO
 	 * (with the KarmaStatus populated).
 	 */
 	List<User> selectAllWithKarma() ;
-	
+
 	/**
 	 * Gets all users from a specific group.
 	 * 
@@ -100,7 +100,7 @@ public interface UserDAO
 	 * @return <code>List</code> with the users. Each entry is a <code>User</code> object
 	 */
 	List<User> selectAllByGroup(int groupId, int start, int count) ;
-	
+
 	/**
 	 * Gets all users
 	 *
@@ -110,7 +110,7 @@ public interface UserDAO
 	 * (with the KarmaStatus populated).
 	 */
 	List<User> selectAllWithKarma(int startFrom, int count) ;
-	
+
 	/**
 	 * Finds a user by matching an input string. 
 	 * 
@@ -123,7 +123,7 @@ public interface UserDAO
 	 * <code>User</code> object, where only the <i>id</i> and <i>username</i> members are filled.
 	 */
 	List<User> findByName(String input, boolean exactMath) ;
-	
+
 	/**
 	 * Gets all users
 	 *
@@ -132,7 +132,7 @@ public interface UserDAO
 	 * @return an <code>ArrayList</code> with the users. Each entry is a <code>User</code> object
 	 */
 	List<User> selectAll(int startFrom, int count) ;
-	
+
 
 	/**
 	 * Deletes a user.
@@ -141,7 +141,7 @@ public interface UserDAO
 	 * @see #undelete(int)
 	 */
 	void delete(int userId) ;
-	
+
 	/**
 	 * Undeletes a user.
 	 * The system allows user undeletation because when you 
@@ -152,22 +152,23 @@ public interface UserDAO
 	 * @see #delete(int)
 	 */
 	void undelete(int userId) ;
-	
+
 	/**
 	 * Updates a user.
 	 * 
 	 * @param user Reference to a <code>User</code> object to update
 	 */
 	void update(User user) ;
-	
+
 	/**
 	 * Adds a new User.
 	 * After successfully persisting the data, this method
 	 * <b>should</b> call <code>user.setId(theNewId);</code>, as well return the new user id. 
 	 * @param user Reference to a valid and configured <code>User</code> object
+	 * @param groupId the group which this user gets assigned to
 	 * @return The new user id
 	 */
-	int addNew(User user) ;
+	int addNew(User user, int groupId) ;
 
 	/**
 	 * Adds a new user with a predefined user id
@@ -175,8 +176,8 @@ public interface UserDAO
 	 * (added by Pieter for external login support)
 	 * @param user Reference to a valid and configured <code>User</code> object, with the user id already set
 	 */
-	void addNewWithId(User user)  ;
-	
+	void addNewWithId(User user) ;
+
 	/**
 	 * Set the active status.
 	 * a user with the active status equals to false cannot be considered
@@ -187,7 +188,7 @@ public interface UserDAO
 	 * @param active <code>true</code> or <code>false</code>
 	 */
 	void setActive(int userId, boolean active) ;
-	
+
 	/**
 	 * Sets the ranking.
 	 * 
@@ -195,21 +196,21 @@ public interface UserDAO
 	 * @param rankingId int
 	 */
 	void setRanking(int userId, int rankingId) ;
-	
+
 	/**
 	 * Increments the number of posts of the user.
 	 * 
 	 * @param userId The user ID to increment the number of posts
 	 */
 	void incrementPosts(int userId) ;
-	
+
 	/**
 	 * Decrement the number of posts of some user.
 	 * 
 	 * @param userId The user ID do decrement the number of posts.
 	 */
 	void decrementPosts(int userId) ;
-	
+
 	/**
 	 * Gets some piece of information of the last user registered
 	 * 
@@ -218,14 +219,14 @@ public interface UserDAO
 	 * <li><b>userId</b>: The user's ID 
 	 */
 	User getLastUserInfo() ;
-	
+
 	/**
 	 * Gets the total number of users
 	 * 
 	 * @return The total number of users
 	 */
 	int getTotalUsers() ;
-	
+
 	/**
 	 * Gets the total number of users of some group.
 	 * 
@@ -233,7 +234,7 @@ public interface UserDAO
 	 * @return The total number of users
 	 */
 	int getTotalUsersByGroup(int groupId) ;
-	
+
 	/**
 	 * whether the user is locked or not.
 	 *
@@ -241,7 +242,7 @@ public interface UserDAO
 	 * @return boolean
 	 */
 	boolean isDeleted(int userId) ;
-	
+
 	/***
 	 * Checks the existence of some username.
 	 * This method is used to ensure that there will not be two equal usernames in the database.
@@ -250,7 +251,7 @@ public interface UserDAO
 	 * @return <code>true</code> or <code>false</code>, if the user was found or not, respectively
 	 */
 	boolean isUsernameRegistered(String username) ;
-	
+
 	/**
 	 * Validates the user login.
 	 * 
@@ -259,7 +260,7 @@ public interface UserDAO
 	 * @return The user object if the provided information was correct, <code>null</code> if the information was invalid 
 	 */
 	User validateLogin(String username, String password) ;
-	
+
 	/**
 	 * Associate the user to the group
 	 * 
@@ -267,7 +268,7 @@ public interface UserDAO
 	 * @param groupId The group id to associate to
 	 */
 	void addToGroup(int userId, int[] groupId) ;
-	
+
 	/**
 	 * Remove the user from the group
 	 * 
@@ -275,7 +276,7 @@ public interface UserDAO
 	 * @param groupId The group id to remove the user from
 	 */
 	void removeFromGroup(int userId, int[] groupId) ;
-	
+
 	/**
 	 * Stores the "lost password" security hash, that was generated
 	 * when the user asked the system to get a reminder of his password. 
@@ -285,7 +286,7 @@ public interface UserDAO
 	 * @param hash The hash to store.
 	 */
 	void writeLostPasswordHash(String email, String hash) ;
-	
+
 	/**
 	 * Validate the provided security hash against the data stored in our system.
 	 * 
@@ -294,7 +295,7 @@ public interface UserDAO
 	 * @return <code>true</code> if the data matches ok, of <code>false</code> if it is invalid
 	 */
 	boolean validateLostPasswordHash(String email, String hash) ;
-	
+
 	/**
 	 * Writes a new password for the user. 
 	 * 
@@ -302,7 +303,7 @@ public interface UserDAO
 	 * @param email The user email
 	 */
 	void saveNewPassword(String password, String email) ;
-	
+
 	/**
 	 * Gets the username related to the email
 	 * 
@@ -358,7 +359,7 @@ public interface UserDAO
 	/**
 	 * Validate if the activated key matches the one in the database
 	 * 
-	 * @param userId Which user to validate the activation key?
+	 * @param userId Which user to validate the activation key
 	 * @param hash The activation key
 	 * @return <code>true</code> if the data matches ok, of <code>false</code> if it is invalid
 	 */
@@ -367,10 +368,10 @@ public interface UserDAO
 	/**
 	 * Set user account to active
 	 * 
-	 * @param userId Which user account to set active?
+	 * @param userId Which user account to set active
 	 */
 	void writeUserActive(int userId) ;
-	
+
 	/**
 	 * Updates only the username. 
 	 * This method generally will be used in implementations of
@@ -381,7 +382,7 @@ public interface UserDAO
 	 * @param username The new username to write
 	 */
 	void updateUsername(int userId, String username) ;
-	
+
 	/**
 	 * Check if the username passed as argument is different of the username existent in the database. 
 	 * 
@@ -390,21 +391,21 @@ public interface UserDAO
 	 * @return <code>true</code> if the usernames are different.
 	 */
 	boolean hasUsernameChanged(int userId, String usernameToCheck) ;
-	
+
 	/**
 	 * Saves the user-specific security hash to the database
 	 * @param userId the user id to save
 	 * @param hash the security hash
 	 */
 	void saveUserAuthHash(int userId, String hash) ;
-	
+
 	/**
 	 * Retrieves the auth hash from the database
 	 * @param userId int
 	 * @return String
 	 */
 	String getUserAuthHash(int userId) ;
-	
+
 	/**
 	 * Returns a list of users that haven't yet activated their accounts
 	 * @return ArrayList of pending activation users

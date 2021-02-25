@@ -226,8 +226,33 @@ function testEmail()
 </tr>
 
 <tr>
-	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.RegistrationDomains")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="text" size="60" name="p_registration.domains" value="${config.getProperty("registration.domains")?html}" /></span></td>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.EmailNotMatchingRegistration")}</span></td>
+	<td class="row1" width="38%">
+		<#assign o = config.getProperty("registration.emailNotMatching.enabled")/>
+		<span class="gen">
+			<select name="p_registration.emailNotMatching.enabled">
+				<option value="true" <#if o == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+				<option value="false" <#if o == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			</select>
+		</span>
+	</td>
+</tr>
+
+<tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.DefaultUserGroup")}</span></td>
+	<td class="row1" width="38%">
+		<span class="gen">
+		<select name="p_defaultUserGroup">
+		<#list groups as g>
+			<#assign selected = ""/>
+			<#if g.id == defaultUserGroup>
+				<#assign selected = "selected=\"selected\""/>
+			</#if>
+			<option value="${g.id}" ${selected}>${g.name}</option>
+		</#list>
+		</select>
+		</span>
+	</td>
 </tr>
 
 <tr>

@@ -1,0 +1,96 @@
+<html>
+<head>
+<#-- CSRF fix-->
+<title>default/admin/regEmail_list.htm</title></head>
+
+<script type="text/javascript">
+function validateForm(f)
+{
+	if (f.email.value.trim().length < 6) {
+		alert("${I18n.getMessage("RegEmail.emailInvalid")}");
+		return false;
+	}
+
+	return true;
+}
+</script>
+<style type="text/css">@import url( ${contextPath}/templates/default/styles/style.css?${startupTime} );</style>
+<body>
+<table width="100%" cellpadding="5" border="0">
+	<tr>
+		<th class="thhead" height="25" colspan="2">${I18n.getMessage("RegEmail.settings")}</th>
+	</tr>
+	<tr>
+		<td class="row1 gen" width="50%">${I18n.getMessage("Config.Form.DisableRegistration")}: </td>
+		<td class="row1 gen" width="50%">${registrationEnabled?then(I18n.getMessage("True"),I18n.getMessage("False"))}</td>
+	</tr>
+	<tr>
+		<td class="row1 gen" width="50%">${I18n.getMessage("Config.Form.EmailNotMatchingRegistration")}: </td>
+		<td class="row1 gen" width="50%">${registrationEmailNotMatchingEnabled?then(I18n.getMessage("True"),I18n.getMessage("False"))}</td>
+	</tr>
+	<tr>
+		<td class="row1 gen" width="50%">${I18n.getMessage("Config.Form.DefaultUserGroup")}: </td>
+		<td class="row1 gen" width="50%">
+		<#list groups as g>
+			<#assign selected = ""/>
+			<#if g.id == defaultUserGroup>${g.name}</#if>
+		</#list>
+		</td>
+	</tr>
+</table>
+<table width="100%" cellpadding="5" border="0">
+	<tr>
+		<th class="thhead" height="25">${I18n.getMessage("RegEmail.createNew")}</th>
+	</tr>
+	<tr>
+		<td class="row1 gen">
+			<form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post" onsubmit="return validateForm(this);">
+				<input type="hidden" name="module" value="${moduleName}" />
+				<input type="hidden" name="action" value="insert" />
+				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+				<table><tr><td><label>${I18n.getMessage("RegEmail.email")}</label></td>
+				<td><input type="text" name="email" size="40" /></td></tr>
+				<tr><td><br><label>${I18n.getMessage("RegEmail.group")}</label></td>
+				<td><br><select name="group">
+				<#list groups as group>
+					<option value="${group.id}"<#if group.id==defaultUserGroup> selected="selected"</#if>>${group.name?html}</option>
+				</#list>
+				</select>&emsp;(${I18n.getMessage("RegEmail.groupExplanation")})</td></tr>
+				<tr><td>&nbsp;</td><td><br><input type="submit" value="${I18n.getMessage("RegEmail.create")}"/></td></tr></table>
+			</form>
+		</td>
+	</tr>
+	<#if errorMessage?exists>
+		<tr>
+			<td class="row1 gen"><span class="gen"><font color="#ff0000"><b>${errorMessage}</b></font></span></td>
+		</tr>
+	</#if>
+</table>
+<table width="100%" cellpadding="5" cellspacing="1" border="0">
+	<thead>
+		<tr>
+			<th class="thhead" height="25" colspan="3">${I18n.getMessage("RegEmail.existing")}</th>
+		</tr>
+		<tr>
+			<th class="row2 gen">${I18n.getMessage("RegEmail.email")}</th>
+			<th class="row2 gen">${I18n.getMessage("RegEmail.group")}</th>
+			<th class="row2 gen">${I18n.getMessage("RegEmail.delete")}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<#list regEmails.entrySet() as entry>
+		<tr align="center">
+			<form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post">
+				<input type="hidden" name="module" value="${moduleName}" />
+				<input type="hidden" name="action" value="delete" />
+				<input type="hidden" name="email" value="${entry.key?html}" />
+				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
+				<td class="row1 gen">${entry.key?html}</td>
+				<td class="row1 gen">${entry.value.name?html}</td>
+				<td class="row1 gen"><input type="submit" value="${I18n.getMessage("RegEmail.delete")}"/></td>
+			</form>
+		</tr>
+		</#list>
+	</tbody>
+</table>
+</body></html>

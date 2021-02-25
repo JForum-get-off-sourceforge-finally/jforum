@@ -55,3 +55,6 @@ ALTER TABLE jforum_moderation_log ADD FOREIGN KEY (user_id) REFERENCES jforum_us
 ALTER TABLE jforum_moderation_log ADD FOREIGN KEY (post_user_id) REFERENCES jforum_users(user_id);
 
 ALTER TABLE jforum_mail_integration ADD FOREIGN KEY (forum_id) REFERENCES jforum_forums(forum_id);
+
+ALTER TABLE jforum_registrations ADD FOREIGN KEY (group_id) REFERENCES jforum_groups(group_id);
+

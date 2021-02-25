@@ -103,6 +103,9 @@ DROP TABLE jforum_api;
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_spam') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
 DROP TABLE jforum_spam;
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'jforum_registrations') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE jforum_registrations;
+
 --
 -- Table structure for table 'jforum_banlist'
 --
@@ -599,3 +602,12 @@ CREATE TABLE jforum_api (
 CREATE TABLE jforum_spam (
   pattern nvarchar(100) NOT NULL
 );
+
+--
+-- Table structure for table 'jforum_registrations'
+--
+CREATE TABLE jforum_registrations (
+  email nvarchar(100) NOT NULL,
+  group_id INT NOT NULL
+);
+

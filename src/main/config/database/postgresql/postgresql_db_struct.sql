@@ -543,3 +543,11 @@ CREATE TABLE jforum_spam (
   pattern varchar(100) NOT NULL
 );
 
+--
+-- Table structure for table 'jforum_registrations'
+--
+CREATE TABLE jforum_registrations (
+  email VARCHAR(100) NOT NULL,
+  group_id INT NOT NULL
+);
+

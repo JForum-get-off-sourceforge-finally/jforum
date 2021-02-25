@@ -274,4 +274,11 @@ public abstract class DataAccessDriver
      * @return <code>net.jforum.dao.SpamDAO</code> instance.
      */
 	public abstract SpamDAO newSpamDAO();
+
+	/**
+     * Gets a {@link net.jforum.dao.RegEmailDAO} instance.
+     *
+     * @return <code>net.jforum.dao.RegEmailDAO</code> instance.
+     */
+	public abstract RegEmailDAO newRegEmailDAO();
 }

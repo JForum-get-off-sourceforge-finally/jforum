@@ -121,3 +121,6 @@ DROP TABLE jforum_api;
 -- jforum_spam
 DROP TABLE jforum_spam;
 
+-- jforum_registrations
+DROP TABLE jforum_registrations;
+

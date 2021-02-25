@@ -58,3 +58,4 @@ DROP TABLE jforum_mail_integration;
 DROP TABLE jforum_api;
 DROP SEQUENCE jforum_api_seq;
 DROP TABLE jforum_spam;
+DROP TABLE jforum_registrations;

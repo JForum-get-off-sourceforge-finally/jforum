@@ -864,3 +864,10 @@ Spam.selectAll = SELECT pattern FROM jforum_spam ORDER BY pattern ASC
 Spam.create = INSERT INTO jforum_spam (pattern) values (?)
 Spam.delete = DELETE FROM jforum_spam WHERE pattern = ?
 
+# ################
+# Domains and email addresses allowed to register 
+# ################
+RegEmail.selectAll = SELECT * FROM jforum_registrations ORDER BY email ASC
+RegEmail.create = INSERT INTO jforum_registrations (email, group_id) values (?, ?)
+RegEmail.delete = DELETE FROM jforum_registrations WHERE email = ?
+

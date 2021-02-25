@@ -56,6 +56,7 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.User;
 import net.jforum.exceptions.APIException;
+import net.jforum.repository.RegEmailRepository;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -63,7 +64,6 @@ import net.jforum.util.preferences.TemplateKeys;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class UserREST extends Command
 {
@@ -99,33 +99,38 @@ public class UserREST extends Command
 			final String username = this.requiredRequestParameter("username");
 			final String email = this.requiredRequestParameter("email");
 			final String password = this.requiredRequestParameter("password");
-			
+
 			if (username.length() > SystemGlobals.getIntValue(ConfigKeys.USERNAME_MAX_LENGTH)) {
 				throw new APIException(I18n.getMessage("User.usernameTooBig"));
 			}
-			
+
 			if (username.indexOf('<') > -1 || username.indexOf('>') > -1) {
 				throw new APIException(I18n.getMessage("User.usernameInvalidChars"));
 			}
-			
+
 			final UserDAO dao = DataAccessDriver.getInstance().newUserDAO();
 
 			if (dao.isUsernameRegistered(username)) {
 				throw new APIException(I18n.getMessage("UsernameExists"));
 			}
-			
+
 			if (dao.findByEmail(email) != null) {
 				throw new APIException(I18n.getMessage("User.emailExists", new Object[] { email }));
 			}
-			
+
+			int groupId = RegEmailRepository.canRegister(email.trim());
+			if (groupId < 0) {
+				throw new APIException(I18n.getMessage("User.emailInvalid", new Object[] { email }));
+			}
+
 			// OK, time to insert the user
 			final User user = new User();
 			user.setUsername(username);
 			user.setEmail(email);
 			user.setPassword(password);
-			
-			final int userId = dao.addNew(user);
-			
+
+			final int userId = dao.addNew(user, groupId);
+
 			this.setTemplateName(TemplateKeys.API_USER_INSERT);
 			this.context.put("userId", Integer.valueOf(userId));
 		}
