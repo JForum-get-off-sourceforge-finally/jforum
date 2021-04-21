@@ -48,6 +48,7 @@ import net.jforum.context.RequestContext;
 import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.exceptions.ForumException;
+import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
@@ -321,12 +322,12 @@ public final class ViewCommon
 	public static void prepareUserSignature(final User user)
 	{
 		if (user.getSignature() != null) {
-			final StringBuilder stringBuffer = new StringBuilder(user.getSignature());
+			final StringBuilder sb = new StringBuilder(user.getSignature());
 
-			replaceAll(stringBuffer, "\n", "<br />");
+			replaceAll(sb, "\n", "<br />");
 
-			user.setSignature(stringBuffer.toString());
 			user.setSignature(PostCommon.prepareTextForDisplayExceptCodeTag(user.getSignature(), true, true));
+			user.setSignature(SafeHtml.ensureAllAttributesAreSafe(user.getSignature()));
 		}
 	}
 

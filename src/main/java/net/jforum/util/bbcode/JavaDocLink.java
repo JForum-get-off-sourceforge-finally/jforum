@@ -66,13 +66,13 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = "https://tomcat.apache.org/tomcat-9.0-doc/api/";
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_8_0/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_8_2/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
     private static final String STRUTS2_URL = "https://struts.apache.org/maven/struts2-core/apidocs/";
     private static final String WICKET_URL = "https://ci.apache.org/projects/wicket/apidocs/6.x/";
-    private static final String XMLBEANS_URL = "https://xmlbeans.apache.org/docs/3.1.0/reference/";
+    private static final String XMLBEANS_URL = "https://xmlbeans.apache.org/docs/5.0.0/";
     private static final String TAPESTRY_URL = "https://tapestry.apache.org/current/apidocs/";
     private static final String WSS4J_URL = "https://ws.apache.org/wss4j/apidocs/";
     private static final String SHIRO_URL = "https://shiro.apache.org/static/current/apidocs/";
@@ -126,7 +126,7 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/30.0-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/30.1.1-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "https://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";

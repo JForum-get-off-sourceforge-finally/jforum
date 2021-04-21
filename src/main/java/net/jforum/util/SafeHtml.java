@@ -199,8 +199,7 @@ public class SafeHtml
 
 	/**
 	 * Given an input, makes it safe for HTML displaying. 
-	 * Removes any not allowed HTML tag or attribute, as well
-	 * unwanted JavaScript statements inside the tags. 
+	 * Removes any forbidden HTML tags or attributes, as well as unwanted JavaScript statements inside the tags. 
 	 * @param contents the input to analyze
 	 * @return the modified and safe string
 	 */

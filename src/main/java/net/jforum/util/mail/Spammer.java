@@ -97,11 +97,11 @@ public class Spammer
 	private static String derFile = SystemGlobals.getValue(ConfigKeys.MAIL_DKIM_DER_FILE);
 	private static String identity = SystemGlobals.getValue(ConfigKeys.MAIL_DKIM_IDENTITY);
 
-	private static int messageFormat;
+	private int messageFormat;
 	private Session session;
 	private String username;
 	private String password;
-	
+
 	private Properties mailProps = new Properties();
 	private MimeMessage message;
 	private List<User> users = new ArrayList<>();
@@ -110,7 +110,7 @@ public class Spammer
 	private boolean needCustomization;
 	private SimpleHash templateParams;
 	private Template template;
-	
+
 	protected Spammer() throws MailException
 	{
 		final boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
@@ -137,7 +137,7 @@ public class Spammer
 		username = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_USERNAME);
 		password = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_PASSWORD);
 
-		messageFormat = SystemGlobals.getValue(ConfigKeys.MAIL_MESSAGE_FORMAT).equals("html") 
+		messageFormat = SystemGlobals.getValue(ConfigKeys.MAIL_MESSAGE_FORMAT).trim().equals("html") 
 			? MESSAGE_HTML
 			: MESSAGE_TEXT;
 
@@ -173,22 +173,22 @@ public class Spammer
         try
         {
             int sendDelay = SystemGlobals.getIntValue(ConfigKeys.MAIL_SMTP_DELAY);
-            
+
 			if (SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_AUTH)) {
 				if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
                 	boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
 
                     Transport transport = this.session.getTransport(ssl ? "smtps" : "smtp");
-                    
+
                     try {
 	                    String host = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST);
 
 	                    transport.connect(host, username, password);
-	
+
 	                    if (transport.isConnected()) {
 	                        for (Iterator<User> userIter = this.users.iterator(); userIter.hasNext(); ) {
 	                        	User user = userIter.next();
-	                        	
+
 	                        	if (this.needCustomization) {
 	                        		this.defineUserMessage(user);
 	                        	}
@@ -239,7 +239,7 @@ public class Spammer
             else {
             	for (Iterator<User> iter = this.users.iterator(); iter.hasNext();) {
                 	User user = iter.next();
-                	
+
                 	if (this.needCustomization) {
                 		this.defineUserMessage(user);
                 	}
@@ -272,7 +272,7 @@ public class Spammer
 	{
 		try {
 			this.templateParams.put("user", user);
-			
+
 			String text = this.processTemplate();
 			int oldMessageFormat = messageFormat;
 			if (user.notifyText()) {
@@ -298,22 +298,21 @@ public class Spammer
 		if (this.messageId != null) {
 			this.message = new IdentifiableMimeMessage(session);
 			((IdentifiableMimeMessage)this.message).setMessageId(this.messageId);
-		}
-		else {
+		} else {
 			this.message = new MimeMessage(session);
 		}
-		
+
 		this.templateParams.put("forumName", SystemGlobals.getValue(ConfigKeys.FORUM_NAME));
 
 		try {
 			this.message.setSentDate(new Date());
 			this.message.setFrom(new InternetAddress(SystemGlobals.getValue(ConfigKeys.MAIL_SENDER)));
 			this.message.setSubject(subject, SystemGlobals.getValue(ConfigKeys.MAIL_CHARSET));
-			
+
 			if (this.inReplyTo != null) {
 				this.message.addHeader("In-Reply-To", this.inReplyTo);
 			}
-			
+
 			this.createTemplate(messageFile);
 			this.needCustomization = this.isCustomizationNeeded();
 
@@ -336,7 +335,7 @@ public class Spammer
 	private void defineMessageText(final String text) throws MessagingException
 	{
 		String charset = SystemGlobals.getValue(ConfigKeys.MAIL_CHARSET);
-		
+
 		if (messageFormat == MESSAGE_HTML) {
 			this.message.setContent(text.replaceAll("\n", "<br>"), "text/html; charset=" + charset);
 		} else {
