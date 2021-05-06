@@ -11,12 +11,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.owasp.csrfguard.CsrfGuard;
-import org.owasp.csrfguard.util.Streams;
 
 /**
  * Reads OWASP format property file with one exception. We add all the
- * "org.owasp.csrfguard.unprotected" properties at runtime using the
- * csrf.properties file.
+ * "org.owasp.csrfguard.unprotected" properties at runtime using the csrf.properties file.
  * 
  * Except for the new addCsrfExcludeProperties() method, all code was copied
  * from OWASP's CsrfGuardServletContextListener.java
@@ -25,7 +23,6 @@ import org.owasp.csrfguard.util.Streams;
  * Also added appPath since /WEB-INF wasn't loading
  * 
  * @author Jeanne Boyarsky
- * @version $Id: $
  */
 public class CsrfListener implements ServletContextListener {
     private static final String CONFIG_PARAM = "Owasp.CsrfGuard.Config";
@@ -45,20 +42,15 @@ public class CsrfListener implements ServletContextListener {
             throw new RuntimeException(String.format("failure to specify context init-param - %s", CONFIG_PARAM));
         }
         if (extensions == null) {
-            throw new RuntimeException(String.format("failure to specify context init-param - %s",
-                    CONFIG_EXTENSIONS_PARAM));
+            throw new RuntimeException(String.format("failure to specify context init-param - %s", CONFIG_EXTENSIONS_PARAM));
         }
-        InputStream is = null;
         Properties properties = new Properties();
-        try {
-            is = getResourceStream(appPath + config, context);
+        try (InputStream is = getResourceStream(appPath + config, context)) {
             properties.load(is);
             addCsrfExcludeProperties(appPath + extensions, properties);
             CsrfGuard.load(properties);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            Streams.close(is);
         }
         String printConfig = context.getInitParameter(CONFIG_PRINT_PARAM);
         if (printConfig != null && Boolean.parseBoolean(printConfig)) {
