@@ -559,6 +559,7 @@ CREATE TABLE jforum_spam (
 --
 CREATE TABLE jforum_registrations (
   email VARCHAR(100) NOT NULL,
-  group_id INT NOT NULL
+  group_id INT NOT NULL,
+  FOREIGN KEY  (group_id) REFERENCES jforum_groups (group_id)
 );
 
