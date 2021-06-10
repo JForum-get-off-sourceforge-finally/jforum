@@ -151,6 +151,7 @@ public class LuceneSearch implements NewDocumentAdded
 				result =  new SearchResult<>(new ArrayList<>(), 0);
 			} else {
 				Query query = new QueryParser(SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
+				LOGGER.debug("query=["+query.toString()+"], criteria=["+criteria.toString()+"]");
 
 				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
 				TopFieldDocs tfd = searcher.search(query, limit, getSorter(args));
@@ -162,7 +163,7 @@ public class LuceneSearch implements NewDocumentAdded
 					result = new SearchResult<>(new ArrayList<>(), 0);
 				}
 
-				LOGGER.debug("criteria=["+criteria.toString()+"], "+(th.relation == TotalHits.Relation.EQUAL_TO ? "" : "minimum ") + "number of hits="+th.value);
+				LOGGER.debug((th.relation == TotalHits.Relation.EQUAL_TO ? "" : "minimum ") + "number of hits="+th.value);
 			}
 		} catch (Exception e) {
 			throw new SearchException(e);

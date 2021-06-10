@@ -232,6 +232,7 @@ public class LuceneIndexer
 		doc.add(new TextField(SearchFields.Indexed.SUBJECT, post.getSubject(), Field.Store.NO));
 		doc.add(new StringField(SearchFields.Keyword.POST_ID, String.valueOf(post.getId()), Field.Store.YES));
 		doc.add(new StringField(SearchFields.Keyword.FORUM_ID, String.valueOf(post.getForumId()), Field.Store.YES));
+		doc.add(new NumericDocValuesField(SearchFields.Keyword.FORUM_ID, post.getForumId()));
 		doc.add(new StringField(SearchFields.Keyword.TOPIC_ID, String.valueOf(post.getTopicId()), Field.Store.YES));
 		doc.add(new StringField(SearchFields.Keyword.USER_ID, String.valueOf(post.getUserId()), Field.Store.YES));
 		doc.add(new NumericDocValuesField(SearchFields.Keyword.DATE, post.getTime().getTime()));
