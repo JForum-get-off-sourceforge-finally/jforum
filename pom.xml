@@ -215,13 +215,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.30</version>
+			<version>1.7.31</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.30</version>
+			<version>1.7.31</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mchange</groupId>
@@ -236,7 +236,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.21</version>
+			<version>42.2.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -397,7 +397,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<lucene.version>8.8.2</lucene.version>
+		<lucene.version>8.9.0</lucene.version>
 		<!--
 		<maven.test.skip.exec>true</maven.test.skip.exec>
 		-->
