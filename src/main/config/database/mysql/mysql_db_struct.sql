@@ -473,7 +473,7 @@ CREATE TABLE jforum_attach_quota (
 DROP TABLE IF EXISTS jforum_banner;
 CREATE TABLE jforum_banner (
   banner_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  banner_name VARCHAR(90),
+  banner_name VARCHAR(1024),
   banner_placement INT NOT NULL DEFAULT 0,
   banner_description VARCHAR(250),
   banner_clicks INT NOT NULL DEFAULT 0,

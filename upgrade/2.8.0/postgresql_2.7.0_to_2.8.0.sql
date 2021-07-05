@@ -8,3 +8,4 @@ CREATE TABLE jforum_registrations (
 
 ALTER TABLE jforum_registrations ADD FOREIGN KEY (group_id) REFERENCES jforum_groups(group_id);
 
+ALTER TABLE jforum_banner ALTER COLUMN banner_name TYPE VARCHAR(1024);

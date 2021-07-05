@@ -542,7 +542,7 @@ CREATE INDEX idx_aq_ql ON jforum_attach_quota(quota_limit_id);
 --
 CREATE TABLE jforum_banner (
   banner_id bigint IDENTITY (1, 1) PRIMARY KEY NOT NULL,
-  banner_name nvarchar(90),
+  banner_name nvarchar(1024),
   banner_placement int DEFAULT (0) NOT NULL,
   banner_description nvarchar(250),
   banner_clicks int DEFAULT (0) NOT NULL,

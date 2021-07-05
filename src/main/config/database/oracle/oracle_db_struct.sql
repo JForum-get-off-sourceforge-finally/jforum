@@ -573,7 +573,7 @@ CREATE SEQUENCE jforum_banner_seq
 
 CREATE TABLE jforum_banner (
   banner_id NUMBER(10) NOT NULL,
-  banner_name VARCHAR2(90),
+  banner_name VARCHAR2(1024),
   banner_placement NUMBER(1) DEFAULT 0 NOT NULL,
   banner_description VARCHAR2(250),
   banner_clicks NUMBER(8) DEFAULT 0 NOT NULL,

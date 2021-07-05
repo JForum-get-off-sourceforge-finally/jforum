@@ -9,3 +9,6 @@ CREATE TABLE jforum_registrations (
 
 ALTER TABLE jforum_registrations ADD FOREIGN KEY (group_id) REFERENCES jforum_groups(group_id);
 
+-- widen config field for long entries
+ALTER TABLE jforum_banner MODIFY banner_name VARCHAR(1024);
+
