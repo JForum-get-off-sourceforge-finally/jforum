@@ -52,7 +52,7 @@ import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 import org.jsoup.select.Elements;
 
 import net.jforum.util.preferences.ConfigKeys;
@@ -73,7 +73,7 @@ public class SafeHtml
 	private static Set<String> welcomeAttributes;
 	private static Set<String> allowedProtocols;
 	private static String forumLink;
-	private static Whitelist white;
+	private static Safelist safe;
 
 	static {
 		welcomeTags = new HashSet<>();
@@ -93,27 +93,27 @@ public class SafeHtml
 
 		forumLink = SystemGlobals.getValue(ConfigKeys.FORUM_LINK);
 
-		white = Whitelist.none();
-		white.preserveRelativeLinks(SystemGlobals.getBoolValue(ConfigKeys.HTML_LINKS_ALLOW_RELATIVE));
+		safe = Safelist.none();
+		safe.preserveRelativeLinks(SystemGlobals.getBoolValue(ConfigKeys.HTML_LINKS_ALLOW_RELATIVE));
 
 		for (String tag : welcomeTags) {
-			white.addTags(tag);
+			safe.addTags(tag);
 		}
 
 		for (String attr : welcomeAttributes) {
-			white.addAttributes(":all", attr);
+			safe.addAttributes(":all", attr);
 		}
-		white.addAttributes(":all", "class", "id");
-		white.addAttributes("a", "rel", "target", "href");
-		white.addAttributes("img", "src", "border", "alt", "width", "height");
+		safe.addAttributes(":all", "class", "id");
+		safe.addAttributes("a", "rel", "target", "href");
+		safe.addAttributes("img", "src", "border", "alt", "width", "height");
 
 		for (String protocol : allowedProtocols) {
 			if (protocol.contains(":")) {
 				// previously, protocols included colon and slashes
 				protocol = protocol.substring(0, protocol.indexOf(":"));
 			}
-			white.addProtocols("a", "href", toLowerCase(protocol));
-			white.addProtocols("img", "src", toLowerCase(protocol));
+			safe.addProtocols("a", "href", toLowerCase(protocol));
+			safe.addProtocols("img", "src", toLowerCase(protocol));
 		}
 	}
 
@@ -209,7 +209,7 @@ public class SafeHtml
 			return contents;
 		}
 
-		return Jsoup.clean(contents, forumLink, white, new Document.OutputSettings().prettyPrint(false));
+		return Jsoup.clean(contents, forumLink, safe, new Document.OutputSettings().prettyPrint(false));
 	}
 /*
 	public static String makeSafeEscape (String contents)
@@ -218,7 +218,7 @@ public class SafeHtml
 			return contents;
 		}
 
-		if (Jsoup.isValid(contents, white)) {
+		if (Jsoup.isValid(contents, safe)) {
 			return contents;
 		} else {
 			return makeSafe(contents);
