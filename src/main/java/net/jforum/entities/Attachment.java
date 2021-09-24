@@ -49,7 +49,6 @@ import net.jforum.util.preferences.SystemGlobals;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class Attachment
 {
@@ -137,16 +136,14 @@ public class Attachment
 	{
 		this.info = info;
 	}
-	
+
 	public boolean hasThumb() 
 	{
 		String filename = this.info.getPhysicalFilename();
-		String extension = filename.substring(filename.lastIndexOf('.') + 1, 
-				filename.length() - 1);
-		return SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_CREATE_THUMB)
-			&& isPicture(extension);
+		String extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length() - 1);
+		return SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_CREATE_THUMB) && isPicture(extension);
 	}
-	
+
 	public String thumbPath() {
 		String urlPath = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_UPLOAD_DIR)
 		    + "/" + this.info.getPhysicalFilename();
@@ -154,15 +151,16 @@ public class Attachment
 		    + "/" + this.info.getPhysicalFilename();
 		if (new File(realPath + "_thumb").exists()) {
 			return urlPath + "_thumb";
-		} 
-		else {
+		} else {
 			return urlPath;
 		}    
 	}
-	
-	public static boolean isPicture(String extension) {
+
+	public static boolean isPicture (String extension) {
 		return ("jpg".equals(extension) || "jpeg".equals(extension) 
 				|| "gif".equals(extension) || "png".equals(extension)
+				|| "svg".equals(extension) || "webp".equals(extension)
+				|| "apng".equals(extension) || "avif".equals(extension)
 				|| "bmp".equals(extension));
 	}
 }

@@ -1463,7 +1463,10 @@ public class PostAction extends Command
 		try (FileInputStream fis = new FileInputStream(filename);
 				OutputStream os = response.getOutputStream())
 			{
-			a.getInfo().setDownloadCount(a.getInfo().getDownloadCount() + 1);
+			// the preview should not count for the download count
+			if (this.request.getParameter("pv") == null) {
+				a.getInfo().setDownloadCount(a.getInfo().getDownloadCount() + 1);
+			}
 			am.updateAttachment(a);
 
 			if (am.isPhysicalDownloadMode(a.getInfo().getExtension().getExtensionGroupId())) {
