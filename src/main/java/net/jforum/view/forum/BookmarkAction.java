@@ -62,8 +62,6 @@ import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
 import net.jforum.entities.User;
 import net.jforum.repository.ForumRepository;
-import net.jforum.repository.SecurityRepository;
-import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
 import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;

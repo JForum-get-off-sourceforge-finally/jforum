@@ -63,7 +63,6 @@ import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.ForumDAO;
 import net.jforum.dao.UserDAO;
 import net.jforum.entities.Category;
-import net.jforum.entities.Config;
 import net.jforum.entities.Forum;
 import net.jforum.entities.LastPostInfo;
 import net.jforum.entities.ModeratorInfo;
@@ -75,7 +74,6 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.CategoryOrderComparator;
-import net.jforum.util.preferences.ConfigKeys;
 
 /**
  * Repository for the forums of the System.
