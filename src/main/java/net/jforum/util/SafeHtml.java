@@ -112,8 +112,8 @@ public class SafeHtml
 				// previously, protocols included colon and slashes
 				protocol = protocol.substring(0, protocol.indexOf(":"));
 			}
-			safe.addProtocols("a", "href", toLowerCase(protocol));
-			safe.addProtocols("img", "src", toLowerCase(protocol));
+			safe.addProtocols("a", "href", protocol.toLowerCase());
+			safe.addProtocols("img", "src", protocol.toLowerCase());
 		}
 	}
 
@@ -143,8 +143,8 @@ public class SafeHtml
 			List<String>  attToRemove = new ArrayList<>();
 			Attributes at = e.attributes();
 			for (Attribute a : at) {
-				String name = toLowerCase(a.getKey());
-				String value = toLowerCase(a.getValue());
+				String name = a.getKey().toLowerCase();
+				String value = a.getValue().toLowerCase();
 				if (name.length() >= 2 && name.charAt(0) == 'o' && name.charAt(1) == 'n') {
 					// disallow JavaScript onXYZ handlers
 					attToRemove.add(name);
@@ -211,26 +211,6 @@ public class SafeHtml
 
 		return Jsoup.clean(contents, forumLink, safe, new Document.OutputSettings().prettyPrint(false));
 	}
-/*
-	public static String makeSafeEscape (String contents)
-	{
-		if (contents == null || contents.length() == 0) {
-			return contents;
-		}
-
-		if (Jsoup.isValid(contents, safe)) {
-			return contents;
-		} else {
-			return makeSafe(contents);
-		}
-	}
-*/
-	public static String escapeUnsafe (CharSequence str) {
-		StringBuilder tmp = new StringBuilder(str);
-		replaceAll(tmp, "<", "&lt;");
-		replaceAll(tmp, ">", "&gt;");
-		return tmp.toString();
-	}
 
 	public static String replaceAll (StringBuilder sb, String what, String with)
 	{
@@ -242,36 +222,5 @@ public class SafeHtml
 		}
 
 		return sb.toString();
-	}
-
-	/** This method runs about 20 times faster than java.lang.String.toLowerCase
-	 * (and doesn't waste any storage when the result is equal to the input).
-	 * Warning: Don't use this method when your default locale is Turkey.
-	 * java.lang.String.toLowerCase is slow because (a) it uses a
-	 * StringBuffer (which has synchronized methods), (b) it initializes
-	 * the StringBuffer to the default size, and (c) it gets the default
-	 * locale every time to test for name equal to "tr".
-	 * @author Peter Norvig (www.norvig.com) **/
-
-	public static String toLowerCase (String str) {
-		if (str == null) return null;
-		int len = str.length();
-		int different = -1;
-		for (int i = len-1; i >= 0; i--) {
-			char ch = str.charAt(i);
-			if (Character.toLowerCase(ch) != ch) {
-				different = i;
-				break;
-			}
-		}
-		if (different == -1) {
-			return str;
-		} else {
-			char[] chars = new char[len];
-			str.getChars(0, len, chars, 0);
-			for (int j = different; j >= 0; j--)
-				chars[j] = Character.toLowerCase(chars[j]);
-			return new String(chars);
-		}
 	}
 }

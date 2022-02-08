@@ -1261,7 +1261,7 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
             while (rs.next()) {
             	Map<String, Object> m = new ConcurrentHashMap<>();
                 m.put("id", Integer.valueOf(rs.getInt("topic_id")));
-                m.put("title", SafeHtml.escapeUnsafe(rs.getString("topic_title")));
+                m.put("title", rs.getString("topic_title"));
                 m.put("forumName", rs.getString("forum_name"));
                 l.add(m);
             }
