@@ -32,7 +32,7 @@ public class RegEmailAction extends AdminCommand {
         setTemplateName(TemplateKeys.REG_EMAIL_LIST);
     }
 
-    public void insert() {
+    public void insertEmailOrDomain() {
         final String email = request.getParameter("email").trim();
         final int groupId = request.getIntParameter("group");
 

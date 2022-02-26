@@ -46,7 +46,7 @@ function validateForm(f)
 		<td class="row1 gen">
 			<form accept-charset="${encoding}" name="form" action="${JForumContext.encodeURL("/jforum")}" method="post" onsubmit="return validateForm(this);">
 				<input type="hidden" name="module" value="${moduleName}" />
-				<input type="hidden" name="action" value="insert" />
+				<input type="hidden" name="action" value="insertEmailOrDomain" />
 				<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 				<table><tr><td><label>${I18n.getMessage("RegEmail.email")}</label></td>
 				<td><input type="text" name="email" size="40" /></td></tr>
