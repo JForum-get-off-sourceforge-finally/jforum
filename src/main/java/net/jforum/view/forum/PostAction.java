@@ -208,6 +208,7 @@ public class PostAction extends Command
 		this.context.put("attachmentsEnabled", pc.canAccess(SecurityConstants.PERM_ATTACHMENTS_ENABLED, Integer.toString(topic.getForumId())));
 		this.context.put("canDownloadAttachments", pc.canAccess(SecurityConstants.PERM_ATTACHMENTS_DOWNLOAD));
 		this.context.put("thumbShowBox", SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_THUMB_BOX_SHOW));
+		this.context.put("thumbShowHover", SystemGlobals.getBoolValue(ConfigKeys.ATTACHMENTS_IMAGES_THUMB_HOVER_SHOW));
 		this.context.put("am", new AttachmentCommon(this.request, topic.getForumId()));
 		this.context.put("karmaVotes", userVotes);
 		this.context.put("canRemove", pc.canAccess(SecurityConstants.PERM_MODERATION_POST_REMOVE));

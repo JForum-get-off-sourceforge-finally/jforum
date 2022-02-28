@@ -539,7 +539,6 @@ function testEmail()
 <tr>
 	<td class="catsides" colspan="2"><span class="gen"><b>${I18n.getMessage("Config.Form.avatar")}</b></span></td>
 </tr>
-
 <tr>
 	<td class="row2" width="38%"><span class="gen">${I18n.getMessage("Config.Form.avatarSize")}</span></td>
 	<td class="row2" width="38%"><span class="gen"><input type="text" size="10" name="p_avatarMaxKbSize" value="${config.getProperty("avatarMaxKbSize")}" /></span></td>
@@ -558,6 +557,38 @@ function testEmail()
 		<input type="hidden" name="thumbH" value="${config.getProperty("avatar.maxHeight")}" />	
 		<input type="hidden" name="thumbW" value="${config.getProperty("avatar.maxWidth")}" />
 		<div id="avatarPreview" style="align:center; border:1px solid orange;">&nbsp;</div>
+	</td>
+</tr>
+
+<!-- Attachments -->
+<tr>
+	<td class="catsides" colspan="2"><span class="gen"><b>${I18n.getMessage("Config.Form.Attachments")}</b></span></td>
+</tr>
+<tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.CreateThumbnails")}</span></td>
+	<td class="row1" width="38%">
+		<select name="p_attachments.images.createthumb">
+			<option value="false" <#if config.getProperty("attachments.images.createthumb") == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			<option value="true" <#if config.getProperty("attachments.images.createthumb") == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ShowDownloadBox")}</span></td>
+	<td class="row1" width="38%">
+		<select name="p_attachments.images.thumb.box.show">
+			<option value="false" <#if config.getProperty("attachments.images.thumb.box.show") == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			<option value="true" <#if config.getProperty("attachments.images.thumb.box.show") == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.ShowFullOnHover")}</span></td>
+	<td class="row1" width="38%">
+		<select name="p_attachments.images.thumb.hover.show">
+			<option value="false" <#if config.getProperty("attachments.images.thumb.hover.show") == "false">selected="selected"</#if>>${I18n.getMessage("False")}</option>
+			<option value="true" <#if config.getProperty("attachments.images.thumb.hover.show") == "true">selected="selected"</#if>>${I18n.getMessage("True")}</option>
+		</select>
 	</td>
 </tr>
 

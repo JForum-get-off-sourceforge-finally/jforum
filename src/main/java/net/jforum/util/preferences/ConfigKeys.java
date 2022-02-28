@@ -254,6 +254,7 @@ public final class ConfigKeys
 	public static final String ATTACHMENTS_IMAGES_MAX_THUMB_W = "attachments.images.thumb.maxsize.w";
 	public static final String ATTACHMENTS_IMAGES_MAX_THUMB_H = "attachments.images.thumb.maxsize.h";
 	public static final String ATTACHMENTS_IMAGES_THUMB_BOX_SHOW = "attachments.images.thumb.box.show";
+	public static final String ATTACHMENTS_IMAGES_THUMB_HOVER_SHOW = "attachments.images.thumb.hover.show";
 	public static final String ATTACHMENTS_ICON = "attachments.icon";
 	public static final String ATTACHMENTS_STORE_DIR = "attachments.store.dir";
 	public static final String ATTACHMENTS_UPLOAD_DIR = "attachments.upload.dir";
