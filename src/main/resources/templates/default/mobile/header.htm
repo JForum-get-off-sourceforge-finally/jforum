@@ -10,6 +10,16 @@
 	@import url( ${contextPath}/templates/${templateName}/mobile/styles/mobile.css ) ;
 	@import url( ${contextPath}/templates/${templateName}/mobile/styles/${language}.css ) ;
 	</style>
+	<script>
+		window.addEventListener("DOMContentLoaded", function() {
+			var r = document.querySelector(':root');
+			r.style.setProperty('--colorOrange', '${colorOrange}');
+			r.style.setProperty('--colorDarkBlue', '${colorDarkBlue}');
+			r.style.setProperty('--colorVeryLight', '${colorVeryLight}');
+			r.style.setProperty('--colorQuiteLight', '${colorQuiteLight}');
+			r.style.setProperty('--colorLightGray', '${colorLightGray}');
+		}, false);
+	</script>
     <title>${pageTitle?default("JForum")?html}</title>
 	<#if googleAnalyticsTracker?exists >
 		<script type="text/javascript">

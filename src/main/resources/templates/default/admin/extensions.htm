@@ -9,16 +9,16 @@
 	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 	<tr>
-		<td class="cathead" colspan="8" align="center"><span class="cattitle">${I18n.getMessage("AdminAttachments.addNewExtension")}</span></td>
+		<th class="thhead" align="center" colspan="8">${I18n.getMessage("AdminAttachments.addNewExtension")}</th>
 	</tr>	
 
 	<!-- Add new -->
 	<tr>
-		<th class="thleft">&nbsp;${I18n.getMessage("AdminAttachments.extension")}&nbsp;</th>
-		<th>&nbsp;${I18n.getMessage("AdminAttachments.allowed")}&nbsp;</th>
-		<th>&nbsp;${I18n.getMessage("AdminAttachments.extensionExplanation")}&nbsp;</th>
-		<th>&nbsp;${I18n.getMessage("AdminAttachments.extensionGroup")}&nbsp;</th>
-		<th colspan="2">&nbsp;${I18n.getMessage("AdminAttachments.uploadIcon")}&nbsp;</th>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.extension")}</b></span></td>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.allowed")}</b></span></td>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.extensionExplanation")}</b></span></td>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.extensionGroup")}</b></span></td>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.uploadIcon")}</b></span></td>
 	</tr>
 	<tr>
 		<td class="row1" align="center" valign="middle">
@@ -33,7 +33,7 @@
 		<td class="row1" align="center" valign="middle"><input type="checkbox" name="allow" /></td>
 		<td class="row1" align="center" valign="middle"><input type="text" size="20" maxlength="100" name="comment" value="" /></td>
 
-		<td class="row2" align="center" valign="middle">			
+		<td class="row1" align="center" valign="middle">			
 			<select name="extension_group">
 				<#list groups as g>
 					<option value="${g.id}">${g.name?html}</option>
@@ -54,7 +54,7 @@
 	<tr><td colspan="8">&nbsp;</td></tr>
 
 	<tr>
-		<td class="cathead" colspan="8" align="center"><span class="cattitle">${I18n.getMessage("AdminAttachments.existingExtensions")}</span></td>
+		<th class="thhead" align="center" colspan="8">${I18n.getMessage("AdminAttachments.existingExtensions")}</th>
 	</tr>
 
 	<!-- Edit -->
@@ -69,12 +69,12 @@
         <table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 
 		<tr>
-			<th class="thleft">&nbsp;${I18n.getMessage("AdminAttachments.extension")}&nbsp;</th>
-			<th>&nbsp;${I18n.getMessage("AdminAttachments.allowed")}&nbsp;</th>
-			<th>&nbsp;${I18n.getMessage("AdminAttachments.extensionExplanation")}&nbsp;</th>
-			<th>&nbsp;${I18n.getMessage("AdminAttachments.extensionGroup")}&nbsp;</th>
-			<th>&nbsp;${I18n.getMessage("AdminAttachments.uploadIcon")}&nbsp;</th>
-			<th>&nbsp;${I18n.getMessage("AdminAttachments.quotaDelete")}&nbsp;</th>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.extension")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.allowed")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.extensionExplanation")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.extensionGroup")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.uploadIcon")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaDelete")}</b></span></td>
 		</tr>
 
 		<#assign counter = 0/>
@@ -92,7 +92,7 @@
 
 				<td class="row1" align="center" valign="middle"><input type="checkbox" name="allow_${counter}" <#if e.isAllow()>checked="checked"</#if>/></td>		
 				<td class="row1" align="center" valign="middle"><input type="text" size="20" maxlength="100" name="comment_${counter}" value="${e.comment?default("")}" /></td>
-				<td class="row2" align="center" valign="middle">
+				<td class="row1" align="center" valign="middle">
 					<select name="extension_group_${counter}">
 						<#list groups as g>
 							<option value="${g.id}" <#if e.extensionGroupId == g.id>selected="selected"</#if>>${g.name?html}</option>

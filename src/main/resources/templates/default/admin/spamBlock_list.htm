@@ -1,11 +1,6 @@
-<html>
-<head>
-<#-- CSRF fix-->
-<title>default/admin/spamBlock_list.htm</title></head>
-<body>
-<style type="text/css">@import url( ${contextPath}/templates/default/styles/style.css?${startupTime} );</style>
+<#include "header.htm"/>
 
-<table width="100%" cellpadding="5" border="0">
+<table class="forumline" width="100%" cellpadding="5" border="0">
 	<tr>
 		<th class="thhead" height="25">${I18n.getMessage("SpamBlock.createNew")}</th>
 	</tr>
@@ -25,14 +20,14 @@
 
 <BR>
 
-<table width="100%" cellpadding="5" cellspacing="1" border="0">
+<table class="forumline" width="100%" cellpadding="5" cellspacing="1" border="0">
 	<thead>
 		<tr>
 			<th class="thhead" height="25" colspan="2">${I18n.getMessage("SpamBlock.existing")}</th>
 		</tr>
 		<tr>
-			<th class="row2 gen">${I18n.getMessage("SpamBlock.pattern")}</th>
-			<th class="row2 gen">${I18n.getMessage("SpamBlock.delete")}</th>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("SpamBlock.pattern")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("SpamBlock.delete")}</b></span></td>
 		</tr>
 	</thead>
 	<tbody>
@@ -51,4 +46,4 @@
 	</tbody>
 </table>
 
-</body></html>
+<#include "bottom.htm"/>

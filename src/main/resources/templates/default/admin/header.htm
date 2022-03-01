@@ -7,6 +7,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
 <link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/style.css" />
 <link rel="stylesheet" type="text/css" href="${contextPath}/templates/${templateName}/styles/${language}.css" />
+<script>
+	window.addEventListener("DOMContentLoaded", function() {
+		var r = document.querySelector(':root');
+		r.style.setProperty('--colorOrange', '${colorOrange}');
+		r.style.setProperty('--colorDarkBlue', '${colorDarkBlue}');
+		r.style.setProperty('--colorVeryLight', '${colorVeryLight}');
+		r.style.setProperty('--colorQuiteLight', '${colorQuiteLight}');
+		r.style.setProperty('--colorLightGray', '${colorLightGray}');
+	}, false);
+</script>
 <title>Administration - ${moduleName}</title>
 </head>
 <body>

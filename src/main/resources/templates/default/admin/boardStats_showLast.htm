@@ -1,11 +1,6 @@
-<html>
-<head>
-<#-- CSRF fix-->
-<title>default/admin/boardStats_showLast.htm</title>
-</head>
-<body>
+<#include "header.htm"/>
+
 <#setting number_format = "#.####"/>
-<style type="text/css">@import url( ${contextPath}/templates/default/styles/style.css?${startupTime} );</style>
 <script type="text/javascript" src="${jQueryURL}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -39,4 +34,4 @@
 </table>
 </form>
 
-</body></html>
+<#include "bottom.htm"/>

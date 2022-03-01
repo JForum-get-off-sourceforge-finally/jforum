@@ -11,23 +11,30 @@ h1 { font-size: 22px; font-family: arial, verdana; }
 </style>
 <script type="text/javascript" src="${jQueryURL}"></script>
 <script type="text/javascript">
-/* <![CDATA[ */
-function fetchMail()
-{
-  $("#fetchMailButton").val("Fetching mail...").attr("disabled", "disabled");
-  
-  var params = { };
-  $.ajax({
-	  type:"GET",
-	  url:"${JForumContext.encodeURL("/admBase/fetchMail")}",
-	  data:params,
-	  dataType:"script",
-	  global:false
-  });
-  alert("Fetch mail post done!");
-  $("#fetchMailButton").val("Fetch mail").removeAttr("disabled");
-}
-/* ]]> */
+	function fetchMail()
+	{
+	  $("#fetchMailButton").val("Fetching mail...").attr("disabled", "disabled");
+	  
+	  var params = { };
+	  $.ajax({
+		  type:"GET",
+		  url:"${JForumContext.encodeURL("/admBase/fetchMail")}",
+		  data:params,
+		  dataType:"script",
+		  global:false
+	  });
+	  alert("Fetch mail post done!");
+	  $("#fetchMailButton").val("Fetch mail").removeAttr("disabled");
+	}
+
+	window.addEventListener("DOMContentLoaded", function() {
+		var r = document.querySelector(':root');
+		r.style.setProperty('--colorOrange', '${colorOrange}');
+		r.style.setProperty('--colorDarkBlue', '${colorDarkBlue}');
+		r.style.setProperty('--colorVeryLight', '${colorVeryLight}');
+		r.style.setProperty('--colorQuiteLight', '${colorQuiteLight}');
+		r.style.setProperty('--colorLightGray', '${colorLightGray}');
+	}, false);
 </script>
 <title>Welcome</title>
 </head>
@@ -75,21 +82,21 @@ function fetchMail()
   </tr>
   <tr>
 	<td class="row1" nowrap="nowrap">${I18n.getMessage("Admin.welcome.numPosts")}</td>
-	<td class="row1"><b>${stats.posts}</b></td>
+	<td class="row2"><b>${stats.posts}</b></td>
 	<td class="row1" nowrap="nowrap">${I18n.getMessage("Admin.welcome.postsPerDay")}</td>
 	<td class="row2"><b>${stats.postsPerDay}</b></td>
   </tr>
   <tr>
-	<td class="row2" nowrap="nowrap">${I18n.getMessage("Admin.welcome.numTopics")}</td>
+	<td class="row1" nowrap="nowrap">${I18n.getMessage("Admin.welcome.numTopics")}</td>
 	<td class="row2"><b>${stats.topics}</b></td>
-	<td class="row2" nowrap="nowrap">${I18n.getMessage("Admin.welcome.topicsPerDay")}</td>
+	<td class="row1" nowrap="nowrap">${I18n.getMessage("Admin.welcome.topicsPerDay")}</td>
 	<td class="row2"><b>${stats.topicsPerDay}</b></td>
   </tr>
   <tr>
 	<td class="row1" nowrap="nowrap">${I18n.getMessage("Admin.welcome.numUsers")}</td>
-	<td class="row1"><b>${stats.users}</b></td>
+	<td class="row2"><b>${stats.users}</b></td>
 	<td class="row1" nowrap="nowrap">${I18n.getMessage("Admin.welcome.usersPerDay")}</td>
-	<td class="row1"><b>${stats.usersPerDay}</b></td>
+	<td class="row2"><b>${stats.usersPerDay}</b></td>
   </tr>
   <tr>
 	<td class="catbottom" colspan="4" align="center">&nbsp;</td>
@@ -107,13 +114,13 @@ function fetchMail()
 		<th width="25%" class="thcornerr">&nbsp;${I18n.getMessage("Admin.welcome.ipAddress")}&nbsp;</th>
 	</tr>
 
-	<#assign row = "row2"/>
+	<#assign row = "row1"/>
 	<#list sessions as s>
 		<#if !s.isBot()>
-			<#if row == "row2">
+			<#if row == "row1">
 				<#assign row = "row1"/>
 			<#else>
-				<#assign row = "row2"/>
+				<#assign row = "row1"/>
 			</#if>
 
 			<tr>

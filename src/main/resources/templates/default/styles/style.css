@@ -1,16 +1,24 @@
+:root {
+	/* colors that can be overridden in the Admin -> Configurations panel */
+	--colorOrange: #ffa34f;
+	--colorDarkBlue: #01336b;
+	--colorVeryLight: #fafafa;
+	--colorQuiteLight: #f7f7f7;
+	--colorLightGray: #dee3e7;
+}
 img, table { border: 0px; }
 font, th, td, p { font-family: verdana, arial, helvetica, sans-serif; }
 
 /* Links */
-a:link   { color: #01336b; text-decoration: none; }
-a:active { color: #01336b; }
-a:visited{ color: #01336b; text-decoration: none; }
+a:link   { color: var(--colorDarkBlue); text-decoration: none; }
+a:active { color: var(--colorDarkBlue); }
+a:visited{ color: var(--colorDarkBlue); text-decoration: none; }
 a:hover  { color: #dd6900; text-decoration: underline; }
 
 /* make links in posts stand out */
-a.snap_shots:link   { color: #01336b; text-decoration: underline; }
-a.snap_shots:active { color: #01336b; text-decoration: underline; }
-a.snap_shots:visited{ color: #01336b; text-decoration: underline; }
+a.snap_shots:link   { color: var(--colorDarkBlue); text-decoration: underline; }
+a.snap_shots:active { color: var(--colorDarkBlue); text-decoration: underline; }
+a.snap_shots:visited{ color: var(--colorDarkBlue); text-decoration: underline; }
 
 hr         { border: #dfdfdf 1px solid; height: 0px; }
 .bodyline  { border: #cccccc 1px solid; }
@@ -18,8 +26,8 @@ hr         { border: #dfdfdf 1px solid; height: 0px; }
 
 /* td */
 table.forumlist td.row1 { height: 50px; }
-td.row1 { background-color: #fafafa; }
-td.row2 { background-color: #f7f7f8; }
+td.row1 { background-color: var(--colorVeryLight); }
+td.row2 { background-color: var(--colorQuiteLight); }
 td.row3, td.row3right, td.spacerow { background-color: #dfdfdf; }
 td.spacerow     { height: 1px; }
 td.row1announce { background-color: #fff8dd; }
@@ -31,8 +39,8 @@ td.row3sticky   { background-color: #d1d7dc; }
 td.rowpic       { background-color: #ffffff; background-image: url(../images/cellpic2.jpg); background-repeat: repeat-y; }
 
 th, td { border: #ffffff 1px none; }
-th { font-weight: bold; font-size: 11px; text-align: center; color: #ffa34f; height: 25px;
-	background-color: #01336b; background-image: url(../images/cellpic3.gif); }
+th { font-weight: bold; font-size: 11px; text-align: center; color: var(--colorOrange); height: 25px;
+	background-color: var(--colorDarkBlue); background-image: url(../images/cellpic3.gif); }
 td.cat, td.cathead, td.catsides, td.catleft, td.catright, td.catbottom { height: 28px; 
 	background-color: #dfdfdf; background-image: url(../images/cellpic1.gif); }
 th.thhead, th.thtop, th.thcornerl, th.thcornerr, td.cathead	{ border-top-style:		solid; }
@@ -53,8 +61,8 @@ th.thsides { height: 12px; }
 .strong { font-weight: bold; }
 
 .mainmenu { font-size: 11px; color: #000000 }
-.cattitle { font-weight: bold; font-size: 12px; color: #01336b; letter-spacing: 1px; }
-.forumlink { font-weight: bold; font-size: 12px; color: #01336b; }
+.cattitle { font-weight: bold; font-size: 12px; color: var(--colorDarkBlue); letter-spacing: 1px; }
+.forumlink { font-weight: bold; font-size: 12px; color: var(--colorDarkBlue); }
 .nav, .topictitle { font-weight: bold; font-size: 11px; color: #000000; }
 
 blockquote {
@@ -84,13 +92,13 @@ blockquote.uncited {
 	padding-top:25px;
 }
 
-.pre-error { font-size: 1em; color: #000000; font-family: verdana, arial, helvetica, sans-serif; background-color: #fafafa; border: 0; padding-left: 0; }
+.pre-error { font-size: 1em; color: #000000; font-family: verdana, arial, helvetica, sans-serif; background-color: var(--colorVeryLight); border: 0; padding-left: 0; }
 .copyright { font-size: 10px; color: #444444; font-family: verdana, arial, helvetica, sans-serif; letter-spacing: -1px }
 
 /* posts */
 .postbody { font-size: 12px; line-height: 1.5em; }
 
-.postinfo { font-size: 10px; color: #000000; background-color: #dee3e7; padding-right: 5px; height: 2em; }
+.postinfo { font-size: 10px; color: #000000; background-color: var(--colorLightGray); padding-right: 5px; height: 2em; }
 .postinfo .date { float: left; }
 .postinfo .subject { float: left; }
 .postinfo .action { float: right; }
@@ -107,7 +115,7 @@ input.button, input.mainoption, input.liteoption, .inlineedit input {
 	color: #000000; 
 	font-family: 
 	verdana, arial, helvetica, sans-serif; 
-	background: #fafafa none repeat-x scroll center top; 
+	background: var(--colorVeryLight) none repeat-x scroll center top; 
 	background-image: url(../images/button.gif);
 	cursor: pointer;
 }
@@ -127,16 +135,16 @@ input[type="submit"]:disabled, input[type="button"]:disabled, input[type="reset"
 	border-color: #dedede #bfbfbf #bfbfbf #dedede;
 }
 
-.helpline { background-color: #f7f7f8; border: 0px; font-weight: bold; font-style: italic; color: green; }
+.helpline { background-color: var(--colorQuiteLight); border: 0px; font-weight: bold; font-style: italic; color: green; }
 
 input[type='text']:hover, input[type='text']:focus, 
 	input[type='password']:hover, input[type='password']:focus, 
 	textarea:focus, textarea:hover, 
 	select:hover, select:focus { border-style:inset; }
 
-.moderatortitle { font-weight: bold; font-size: 12px; color: #ffa34f; }
+.moderatortitle { font-weight: bold; font-size: 12px; color: var(--colorOrange); }
 .moderator { font-size: 10px; color: #006600; }
-.admin { font-size: 10px; color: #ffa34f; }
+.admin { font-size: 10px; color: var(--colorOrange); }
 .online { color: #006600; }
 .offline { color: #ff0000; }
 
@@ -233,7 +241,7 @@ table.attachtable	{ font: normal 12px verdana, arial, helvetica, sans-serif; col
 	position:absolute; 
 	display:none; 
 	border: 1px solid black;
-	background-color: #fafafa; 
+	background-color: var(--colorVeryLight); 
 	padding: 2px;
 	width: 190px;
 }

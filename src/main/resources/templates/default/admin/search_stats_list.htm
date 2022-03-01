@@ -144,22 +144,22 @@ function checkIfPostExists()
 
 	<#if !isInformationAvailable>
 		<tr>
-			<td width="200" colspan="2"><strong>${I18n.getMessage("SearchStats.informationUnavailable")}</td>
+			<td width="200" colspan="2" class="row1"><b>${I18n.getMessage("SearchStats.informationUnavailable")}</b></td>
 		</tr>
 	<#else>
 		<tr>
-			<td width="200"><strong>${I18n.getMessage("SearchStats.totalPostsInDatabase")}:</strong> </td>
-			<td><i>${totalMessages}</i></td>
+			<td width="200" class="row1"><b>${I18n.getMessage("SearchStats.totalPostsInDatabase")}:</b> </td>
+			<td class="row2"><i>${totalMessages}</i></td>
 		</tr>
 
 		<tr>
-			<td class="row3"><strong>${I18n.getMessage("SearchStats.indexLocation")}:</strong></td>
-			<td class="row3"><i>${indexLocation}</i></td>
+			<td class="row1"><b>${I18n.getMessage("SearchStats.indexLocation")}:</b></td>
+			<td class="row2"><i>${indexLocation}</i></td>
 		</tr>
 
 		<tr>
-			<td><strong>${I18n.getMessage("SearchStats.indexExists")}:</strong></td>
-			<td>
+			<td class="row1"><b>${I18n.getMessage("SearchStats.indexExists")}:</b></td>
+			<td class="row2">
 				<#if !indexExists>
 					<i>${I18n.getMessage("No")}</i> <a href="${JForumContext.encodeURL("/adminSearchStats/createIndexDirectory")}">>${I18n.getMessage("SearchStats.createIndexNow")}</a>
 				<#else>
@@ -170,28 +170,28 @@ function checkIfPostExists()
 	
 		<#if indexExists>
 			<tr>
-				<td><strong>${I18n.getMessage("SearchStats.numberOfDocs")}:</strong> </td>
-				<td><i>${numberOfDocs}</i></td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.numberOfDocs")}:</b> </td>
+				<td class="row2"><i>${numberOfDocs}</i></td>
 			</tr>
 			<tr>
-				<td><strong>${I18n.getMessage("SearchStats.numberDeletedDocs")}:</strong></td>
-				<td><i>${numberDeletedDocs}</i></td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.numberDeletedDocs")}:</b></td>
+				<td class="row2"><i>${numberDeletedDocs}</i></td>
 			</tr>
 			<tr>
-				<td><strong>${I18n.getMessage("SearchStats.refCount")}:</strong></td>
-				<td><i>${refCount}</i></td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.refCount")}:</b></td>
+				<td class="row2"><i>${refCount}</i></td>
 			</tr>
 			<tr>
-				<td><strong>${I18n.getMessage("SearchStats.totalTermCount")}:</strong></td>
-				<td><i>${totalTermCount}</i></td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.totalTermCount")}:</b></td>
+				<td class="row2"><i>${totalTermCount}</i></td>
 			</tr>
 			<tr>
-				<td class="row3"><strong>${I18n.getMessage("SearchStats.indexVersion")}:</strong> </td>
-				<td class="row3"><i>${indexVersion}</i></td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.indexVersion")}:</b> </td>
+				<td class="row2"><i>${indexVersion}</i></td>
 			</tr>
 			<tr>
-				<td><strong>${I18n.getMessage("SearchStats.isLocked")}</strong> </td>
-				<td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.isLocked")}</b> </td>
+				<td class="row2">
 					<i>
 						<#if isLocked>
 							${I18n.getMessage("Yes")}
@@ -202,8 +202,8 @@ function checkIfPostExists()
 				</td>
 			</tr>
 			<tr>
-				<td class="row3"><strong>${I18n.getMessage("SearchStats.isPostIndexed")}</strong> </td>
-				<td class="gensmall row3">
+				<td class="row1"><b>${I18n.getMessage("SearchStats.isPostIndexed")}</b> </td>
+				<td class="row2">
 					${I18n.getMessage("SearchStats.enterPostId")}: 
 					<input type="text" id="checkPostId" />
 					<input type="button" value="${I18n.getMessage("SearchStats.check")}" onclick="checkIfPostExists();" class="mainoption" />
@@ -235,28 +235,25 @@ function checkIfPostExists()
 			<tr>
 				<td colspan="2">
 					<ul>
-					    <li><strong>${I18n.getMessage("SearchStats.currentlyIndexing")}</strong></li>
+					    <li><b>${I18n.getMessage("SearchStats.currentlyIndexing")}</b></li>
                         <li>${I18n.getMessage("SearchStats.wishToCancel")} <input class="mainoption" type="button" onclick="confirmCancel(this.form);" value="${I18n.getMessage("SearchStats.cancelIndexing")}" style="font-weight: bold; color: red;" /></li>
                     </ul>
 					<script type="text/javascript">
-					/* <![CDATA[ */
-			        window.setTimeout(function() { document.location = "${JForumContext.encodeURL("/adminSearchStats/list")}"; }, 5000);
-			        /* ]]> */
+						window.setTimeout(function() { document.location = "${JForumContext.encodeURL("/adminSearchStats/list")}"; }, 5000);
 			        </script>
 				</td>
 			</tr>
 		<#else>
 			<tr>
-				<td width="200">
+				<td width="200" class="row1">
 					<input type="radio" id="reindexByDate" name="type" value="1" checked="checked" /><label for="reindexByDate">${I18n.getMessage("SearchStats.byDate")}</label>
 				</td>
-				<td valign="top">
+				<td valign="top" class="row2">
 					<table class="gen">
 						<tr>
 							<td>${I18n.getMessage("SearchStats.from")}:</td>
 							<td>
 								<span class="gensmall">(dd/mm/yyyy hh:mm)</span>
-
 								<script type="text/javascript">
 									writeOptions("fromDay", 1, 31);
 									writeOptions("fromMonth", 1, 12);
@@ -265,12 +262,10 @@ function checkIfPostExists()
 								</script>
 							</td>
 						</tr>
-
 						<tr>
 							<td>${I18n.getMessage("SearchStats.to")}:</td>
 							<td>
 								<span class="gensmall">(dd/mm/yyyy hh:mm)</span>
-
 								<script type="text/javascript">
 									writeOptions("toDay", 1, 31);
 									writeOptions("toMonth", 1, 12);
@@ -282,45 +277,41 @@ function checkIfPostExists()
 					</table>
 				</td>
 			</tr>
-
 			<tr>
-				<td class="row3">
+				<td class="row1">
 					<input type="radio" id="reindexByMessage" name="type" value="2" /><label for="reindexByMessage">${I18n.getMessage("SearchStats.byMessageId")}</label>
 				</td>
-				<td valign="top" class="row3">
+				<td valign="top" class="row2">
 					<table class="gen">
 						<tr>
-							<td>${I18n.getMessage("SearchStats.from")}:</td>
-							<td><input type="text" name="firstPostId" onblur="chooseByPostId(this);" /></td>
+							<td class="row2">${I18n.getMessage("SearchStats.from")}:</td>
+							<td class="row2"><input type="text" name="firstPostId" onblur="chooseByPostId(this);" /></td>
 						</tr>
-
 						<tr>
-							<td>${I18n.getMessage("SearchStats.to")}:</td>
-							<td><input type="text" name="lastPostId" onblur="chooseByPostId(this);" /></td>
+							<td class="row2">${I18n.getMessage("SearchStats.to")}:</td>
+							<td class="row2"><input type="text" name="lastPostId" onblur="chooseByPostId(this);" /></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 
 			<tr>
-				<td><strong>${I18n.getMessage("SearchStats.options")}:</strong></td>
-				<td>
+				<td class="row1"><b>${I18n.getMessage("SearchStats.options")}:</b></td>
+				<td class="row2">
 					<table class="gen" cellspacing="0" cellpadding="4">
 						<tr>
-							<td class="bottomLine">
+							<td class="bottomLine row2">
 								<input type="checkbox" id="avoidDuplicated" name="avoidDuplicatedRecords" value="yes" checked="checked" /><label for="avoidDuplicated">${I18n.getMessage("SearchStats.checkMessageExists")}</label>
 							</td>
-							<td class="bottomLine leftLine gensmall">${I18n.getMessage("SearchStats.warning")}</td>
+							<td class="bottomLine leftLine gen row1">${I18n.getMessage("SearchStats.warning")}</td>
 						</tr>
-
 						<tr>
-							<td class="bottomLine"><input type="radio" name="indexOperationType" checked="checked" id="operationTypeAppend" value="append" /><label for="operationTypeAppend">${I18n.getMessage("SearchStats.appendToIndex")}</label></td>
-							<td class="bottomLine leftLine gensmall">${I18n.getMessage("SearchStats.appendToIndexDesc")}</td>
+							<td class="bottomLine row2"><input type="radio" name="indexOperationType" checked="checked" id="operationTypeAppend" value="append" /><label for="operationTypeAppend">${I18n.getMessage("SearchStats.appendToIndex")}</label></td>
+							<td class="bottomLine leftLine gen row1">${I18n.getMessage("SearchStats.appendToIndexDesc")}</td>
 						</tr>
-
 						<tr>
-							<td><input type="radio" name="indexOperationType" id="operationTypeRecreate" value="operationTypeRecreate" /><label for="operationTypeRecreate">${I18n.getMessage("SearchStats.recreateIndex")}</label></td>
-							<td class="leftLine gensmall">${I18n.getMessage("SearchStats.recreateIndexDesc")}</td>
+							<td class="row2"><input type="radio" name="indexOperationType" id="operationTypeRecreate" value="operationTypeRecreate" /><label for="operationTypeRecreate">${I18n.getMessage("SearchStats.recreateIndex")}</label></td>
+							<td class="leftLine gen row1">${I18n.getMessage("SearchStats.recreateIndexDesc")}</td>
 						</tr>
 					</table>
 					

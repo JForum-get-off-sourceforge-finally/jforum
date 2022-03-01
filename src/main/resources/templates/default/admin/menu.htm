@@ -9,6 +9,16 @@
 <style type="text/css">
 th,td { text-align: left; }
 </style>
+<script>
+	window.addEventListener("DOMContentLoaded", function() {
+		var r = document.querySelector(':root');
+		r.style.setProperty('--colorOrange', '${colorOrange}');
+		r.style.setProperty('--colorDarkBlue', '${colorDarkBlue}');
+		r.style.setProperty('--colorVeryLight', '${colorVeryLight}');
+		r.style.setProperty('--colorQuiteLight', '${colorQuiteLight}');
+		r.style.setProperty('--colorLightGray', '${colorLightGray}');
+	}, false);
+</script>
 <title>Menu</title>
 </head>
 <body text="#000000" vlink="#5493b4" link="#006699" bgcolor="#e5e5e5">

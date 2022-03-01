@@ -1,3 +1,12 @@
+:root {
+	/* colors that can be overridden in the Admin -> Configurations panel */
+	--colorOrange: #ffa34f;
+	--colorDarkBlue: #01336b;
+	--colorVeryLight: #fafafa;
+	--colorQuiteLight: #f7f7f7;
+	--colorLightGray: #dee3e7;
+}
+
 .logo {
     padding-left: 10px;
     padding-top: 10px;
@@ -6,7 +15,7 @@
 .subject, .cattitle {
 	font-weight:bold;
 	font-size: 110%;
-	background-color: #dee3e7;
+	background-color: var(--colorLightGray);
 }
 
 .mobilePostBody, .forumlink, .boxBackground {
@@ -15,7 +24,7 @@
 }
 
 .mobilePostText, .latestpost {
-	background-color: #fafafa;
+	background-color: var(--colorVeryLight);
     padding: 0.625em;
     -ms-word-break: break-all;
     word-break: break-word;
@@ -74,7 +83,7 @@ blockquote.uncited {
 }
 
 .postTabContents { padding-top: 23px; }
-.postTabContents div { background-color: #dee3e7; }
+.postTabContents div { background-color: var(--colorLightGray); }
 .postTabContents .warn { background-color: #FDFFAB; margin: 9px; padding: 6px; border: 1px dashed #F00; }
 
 /*Images in posts (added using <img> tag for example) should not be allowed to exceed the size of the containing element */

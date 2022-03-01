@@ -239,6 +239,14 @@ public class JForum extends JForumBaseServlet
                     context.put("session", SessionFacade.getUserSession());
                     context.put("request", req);
                     context.put("response", response);
+
+					// add overridable colors
+                    context.put("colorOrange", SystemGlobals.getValue("color.orange"));
+                    context.put("colorDarkBlue", SystemGlobals.getValue("color.darkblue"));
+                    context.put("colorVeryLight", SystemGlobals.getValue("color.verylight"));
+                    context.put("colorQuiteLight", SystemGlobals.getValue("color.quitelight"));
+                    context.put("colorLightGray", SystemGlobals.getValue("color.lightgray"));
+
                     new StatsEvent("All page requests", req.getRequestURL()).record();
                     out = this.processCommand(out, request, response, encoding, context, moduleClass);
                 }
@@ -249,7 +257,7 @@ public class JForum extends JForumBaseServlet
         }
         finally {
             this.handleFinally(out, forumContext, response);
-        }		
+        }
     }
 
     private Writer processCommand(final Writer out, final RequestContext request, final ResponseContext response, 

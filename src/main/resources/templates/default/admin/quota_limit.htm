@@ -16,13 +16,13 @@
 
 	<!-- Enter a new quota -->
 	<tr>
-		<th class="thcornerl">${I18n.getMessage("AdminAttachments.quotaDescription")}</th>
-		<th class="thtop" colspan="2">${I18n.getMessage("AdminAttachments.quotaFilesize")}</th>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaDescription")}</b></span></td>
+		<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaFilesize")}</b></span></td>
 	</tr>
 
 	<tr>
 		<td class="row1" align="center" valign="middle"><input type="text" size="20" maxlength="50" name="quota_description" value=""/></td>
-		<td class="row2" align="center" valign="middle" colspan="2">
+		<td class="row1" align="center" valign="middle" colspan="2">
 			<input type="text" size="8" maxlength="15" name="max_filesize"/> 
 			<select name="type">
 				<option value="1">KB</option>
@@ -46,9 +46,9 @@
 	<input type="hidden" name="OWASP_CSRFTOKEN" value="${OWASP_CSRFTOKEN!""}" />
 	<table width="100%" align="center" cellpadding="4" cellspacing="1" class="forumline">
 		<tr>
-			<th class="thcornerl">${I18n.getMessage("AdminAttachments.quotaDescription")}</th>
-			<th class="thtop">${I18n.getMessage("AdminAttachments.quotaFilesize")}</th>
-			<th class="thcornerr">${I18n.getMessage("AdminAttachments.quotaDelete")}</th>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaDescription")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaFilesize")}</b></span></td>
+			<td class="row2" align="center"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaDelete")}</b></span></td>
 		</tr>
 
 		<#assign count = 0/>
@@ -59,7 +59,6 @@
 					<table width="100%" align="center" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class="row1" align="center" valign="middle" width="10%">&nbsp;</td>
-
 							<td class="row1" align="left" valign="middle">
 								<input type="text" size="20" maxlength="50" name="quota_desc_${count}" value="${q.description}" />
 							</td>
@@ -67,7 +66,7 @@
 					</table>
 				</td>
 
-				<td class="row2" align="center" valign="middle">
+				<td class="row1" align="center" valign="middle">
 					<input type="text" size="8" maxlength="15" name="max_filesize_${count}" value="${q.size}"/> 
 					<select name="type_${count}">
 						<option value="1" <#if q.type == 1>selected="selected"</#if>>KB</option>
@@ -110,8 +109,8 @@
 	</tr>
 
 	<tr>
-		<th class="thcornerl" width="50%">${I18n.getMessage("AdminAttachments.groupName")}</th>
-		<th class="thtop">${I18n.getMessage("AdminAttachments.quotaType")}</th>
+		<td class="row2" align="center" width="50%"><span class="gen"><b>${I18n.getMessage("AdminAttachments.groupName")}</b></span></td>
+		<td class="row2" align="center" width="50%"><span class="gen"><b>${I18n.getMessage("AdminAttachments.quotaType")}</b></span></td>
 	</tr>
 
 	<#assign row = 1/>

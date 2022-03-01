@@ -1,10 +1,6 @@
-<html>
-<head>
-<#-- CSRF fix-->
-<title>default/admin/boardStats_list.htm</title></head>
-<body>
+<#include "header.htm"/>
+
 <#setting number_format = "#.####"/>
-<style type="text/css">@import url( ${contextPath}/templates/default/styles/style.css?${startupTime} );</style>
 <script type="text/javascript" src="${jQueryURL}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -18,10 +14,10 @@
 		<th class="thhead" valign="middle" colspan="4" height="25">${I18n.getMessage("BoardStats.statistics")}</th>
 	</tr>
     <tr>
-		<th class="thhead" valign="middle" height="25">${I18n.getMessage("BoardStats.statistic")}</th>
-        <th class="thhead" valign="middle" height="25">${I18n.getMessage("BoardStats.totalSinceRestart")}</th>
-        <th class="thhead" valign="middle" height="25">${I18n.getMessage("BoardStats.countPerMinute")}</th>
-        <th class="thhead" valign="middle" height="25">&nbsp;</th>
+		<td class="row2" valign="middle" height="25"><span class="gen"><b>${I18n.getMessage("BoardStats.statistic")}</b></span></td>
+        <td class="row2" valign="middle" height="25"><span class="gen"><b>${I18n.getMessage("BoardStats.totalSinceRestart")}</b></span></td>
+        <td class="row2" valign="middle" height="25"><span class="gen"><b>${I18n.getMessage("BoardStats.countPerMinute")}</b></span></td>
+        <td class="row2" valign="middle" height="25">&nbsp;</td>
 	</tr>
 	<#list records as record>
 	<tr>
@@ -44,8 +40,8 @@
 		<th class="thhead" valign="middle" colspan="2" height="25">${I18n.getMessage("BoardStats.info")}</th>
 	</tr>
     <tr>
-        <th class="thhead" valign="middle" height="25" width="50%">${I18n.getMessage("BoardStats.infoName")}</th>
-        <th class="thhead" valign="middle" height="25" width="50%">${I18n.getMessage("BoardStats.infoValue")}</th>
+        <td class="row2" valign="middle" height="25" width="50%"><span class="gen"><b>${I18n.getMessage("BoardStats.infoName")}</b></span></td>
+        <td class="row2" valign="middle" height="25" width="50%"><span class="gen"><b>${I18n.getMessage("BoardStats.infoValue")}</b></span></td>
 	</tr>
 	<#list sysInfo as item>
 		<tr> <td valign="left">${item.name?html}</td><td valign="left">${item.value}</td> </tr>
@@ -54,5 +50,5 @@
 </div>
 <br />
 
-</body></html>
+<#include "bottom.htm"/>
 
