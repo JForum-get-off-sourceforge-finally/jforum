@@ -241,7 +241,16 @@ CREATE TABLE jforum_topics (
   KEY (user_id),
   KEY (topic_first_post_id),
   KEY (topic_last_post_id),
-  KEY (topic_moved_id)
+  KEY (topic_moved_id),
+	INDEX idx_forum (forum_id),
+	INDEX idx_user (user_id),
+	INDEX idx_fp (topic_first_post_id),
+	INDEX idx_lp (topic_last_post_id),
+	INDEX idx_time (topic_time),
+	INDEX idx_type (topic_type),
+	INDEX idx_moved (topic_moved_id),
+	INDEX idx_views (topic_views),
+	INDEX idx_replies (topic_replies)
 ) ENGINE=InnoDB;
 
 --

@@ -77,7 +77,7 @@ UserModel.activeStatus = UPDATE jforum_users SET user_active = ? WHERE user_id =
 UserModel.addNew = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, rank_id) VALUES (?, ?, ?, ?, ?, 0)
 UserModel.findByName = SELECT user_id, username, user_email, deleted FROM jforum_users WHERE LOWER(username) LIKE LOWER(?)
 UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?) LIMIT ?, ?
-UserModel.totalEmailMatches = SELECT COUNT(*) FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
+UserModel.totalEmailMatches = SELECT COUNT(1) FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
 UserModel.totalByIp = SELECT COUNT(DISTINCT u.user_id) \
     FROM jforum_users u LEFT JOIN jforum_posts p ON (u.user_id = p.user_id) \
     WHERE p.poster_ip LIKE ?
@@ -477,7 +477,8 @@ TopicModel.selectWatchesByUser = SELECT w.topic_id, t.topic_title, f.forum_name 
 
 TopicModel.countUserTopics = SELECT COUNT(1) AS total FROM jforum_topics t, jforum_posts p WHERE t.user_id = ? AND t.forum_id IN (:fids:) AND p.post_id = t.topic_first_post_id AND p.need_moderate = 0
 TopicModel.countAllTopics = SELECT COUNT(1) AS total FROM jforum_topics t, jforum_posts p WHERE t.forum_id IN (:fids:) AND p.post_id = t.topic_first_post_id AND p.need_moderate = 0
-    
+TopicModel.countAllTopicsApprox = SELECT COUNT(1) AS total FROM jforum_topics t WHERE t.forum_id IN (:fids:)
+
 TopicModel.getFirstLastPostId = SELECT MIN(post_id) AS first_post_id, MAX(post_id) AS last_post_id FROM jforum_posts WHERE topic_id = ?
 TopicModel.fixFirstLastPostId = UPDATE jforum_topics SET topic_first_post_id = ?, topic_last_post_id = ? WHERE topic_id = ?
 TopicModel.totalTopics = SELECT COUNT(1) FROM jforum_topics

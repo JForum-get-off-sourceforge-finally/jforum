@@ -546,9 +546,12 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
+			String sql = SystemGlobals.getSql(SystemGlobals.getBoolValue(ConfigKeys.TOPICS_RECENT_COUNT_EXACT)
+						? "TopicModel.countAllTopics"
+						: "TopicModel.countAllTopicsApprox");
+
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
-					SystemGlobals.getSql("TopicModel.countAllTopics").replaceAll(":fids:",
-							ForumRepository.getListAllowedForums()));
+					sql.replaceAll(":fids:", ForumRepository.getListAllowedForums()));
 
 			resultSet = pstmt.executeQuery();
 

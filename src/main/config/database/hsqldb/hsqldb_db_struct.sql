@@ -247,6 +247,8 @@ CREATE INDEX idx_topics_lp ON jforum_topics(topic_last_post_id);
 CREATE INDEX idx_topics_time ON jforum_topics(topic_time);
 CREATE INDEX idx_topics_type ON jforum_topics(topic_type);
 CREATE INDEX idx_topics_moved ON jforum_topics(topic_moved_id);
+CREATE INDEX idx_topics_views ON jforum_topics(topic_views);
+CREATE INDEX idx_topics_replies ON jforum_topics(topic_replies);
 
 --
 -- Table structure for table 'jforum_topics_watch'
