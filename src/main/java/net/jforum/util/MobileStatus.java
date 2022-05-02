@@ -41,14 +41,16 @@
  */
 package net.jforum.util;
 
-import java.util.WeakHashMap;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import net.pieroxy.ua.detection.DeviceType;
-import net.pieroxy.ua.detection.UserAgentDetectionResult;
-import net.pieroxy.ua.detection.UserAgentDetector;
+import org.apache.commons.collections.map.LRUMap;
+
+import org.apache.log4j.Logger;
+
+import nl.basjes.parse.useragent.*;
 
 /**
  * If this object is in the session, it represents the state of whether to user has made any mobile requests.
@@ -67,9 +69,13 @@ public enum MobileStatus {
      */
     HAVE_NOT_REQUESTED_MOBILE_PAGE_YET_IN_SESSION;
     // -----------------------------------------------------------
+
+	private static final Logger LOGGER = Logger.getLogger(MobileStatus.class);
+
     public static final String MOBILE_SESSION_ATTRIBUTE = "mobile";
 
-    private static WeakHashMap<String, UserAgentDetectionResult> cache = new WeakHashMap<>();
+	// YAUAA is single-threaded, so we need a ThreadLocal to keep a copy per thread
+    private static ThreadLocal<UserAgentAnalyzer> localAnalyzers = new ThreadLocal<>();
 
     public static MobileStatus getMobileRequest (HttpServletRequest request, String requestUri) {
         HttpSession session = request.getSession();
@@ -94,14 +100,22 @@ public enum MobileStatus {
 
     private static boolean isOnMobileDevice (HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
-        UserAgentDetectionResult agent = cache.get(userAgent);
-        if (agent == null) {
-			agent = new UserAgentDetector().parseUserAgent(userAgent); 
-			cache.put(userAgent, agent);
-        }
 
-		DeviceType type = agent.getDevice().getDeviceType();
-		return (type == DeviceType.PHONE || type == DeviceType.TABLET || type == DeviceType.UNKNOWN_MOBILE);
+		UserAgentAnalyzer uaa = (UserAgentAnalyzer) localAnalyzers.get();
+		if (uaa == null) {
+			uaa = UserAgentAnalyzer
+				.newBuilder()
+				.withCacheInstantiator(
+					(AbstractUserAgentAnalyzer.CacheInstantiator) size -> Collections.synchronizedMap(new LRUMap(size)))
+				.withCache(1000)
+				.withField(UserAgent.DEVICE_CLASS)
+				.build();
+
+			localAnalyzers.set(uaa);
+		}
+
+		UserAgent agent = uaa.parse(userAgent);
+		String type = agent.getValue(UserAgent.DEVICE_CLASS);
+		return (type != null) && (type.equals("Phone") || type.equals("Tablet") || type.equals("Mobile"));
     }
-
 }
