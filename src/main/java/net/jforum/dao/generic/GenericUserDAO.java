@@ -966,6 +966,27 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 	}
 
 	/**
+	 * @see net.jforum.dao.UserDAO#updateLastVisit(int, Date)
+	 */
+	@Override public void updateLastVisit(int userId, Date lastVisit)
+	{
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = JForumExecutionContext.getConnection().prepareStatement(
+					SystemGlobals.getSql("UserModel.updateLastVisit"));
+			pstmt.setTimestamp(1, new Timestamp(lastVisit.getTime()));
+			pstmt.setInt(2, userId);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DatabaseException(e);
+		}
+		finally {
+			DbUtils.close(pstmt);
+		}
+	}
+
+	/**
 	 * @see net.jforum.dao.UserDAO#updateUsername(int, String)
 	 */
 	@Override public void updateUsername(int userId, String username)

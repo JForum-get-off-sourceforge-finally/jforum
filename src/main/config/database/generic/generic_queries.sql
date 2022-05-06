@@ -136,6 +136,7 @@ UserModel.validateActivationKeyHash = SELECT COUNT(1) AS valid FROM jforum_users
 UserModel.writeUserActive = UPDATE jforum_users SET user_active = 1, user_actkey = NULL WHERE user_id = ?
 UserModel.updateUsername = UPDATE jforum_users SET username = ? WHERE user_id = ?
 UserModel.getUsername = SELECT username FROM jforum_users WHERE user_id = ?
+UserModel.updateLastVisit = UPDATE jforum_users SET user_lastvisit = ? WHERE user_id = ?
 
 # #############
 # PostModel

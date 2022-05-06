@@ -55,6 +55,7 @@ import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
 import net.jforum.dao.ForumDAO;
 import net.jforum.dao.ModerationDAO;
+import net.jforum.dao.UserDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
 import net.jforum.entities.TopicModerationInfo;
@@ -79,7 +80,7 @@ import net.jforum.view.forum.common.ViewCommon;
 public class ForumAction extends Command
 {
 	/**
-	 * List all the forums (first page of forum index)?
+	 * List all the forums (first page of forum index)
 	 */
 	@Override public void list()
 	{
@@ -116,6 +117,12 @@ public class ForumAction extends Command
 				currentUser.setLang(lang);
 			}
 		}
+
+		// update the time of the last visit to NOW
+		UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+		Date now = new Date();
+		userDao.updateLastVisit(currentUser.getUserId(), now);
+		currentUser.setLastVisit(now);
 
 		// If there are only guest users, then just register a single one.
 		// In any other situation, we do not show the "guest" username

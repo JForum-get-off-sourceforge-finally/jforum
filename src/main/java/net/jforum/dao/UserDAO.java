@@ -42,6 +42,7 @@
  */
 package net.jforum.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import net.jforum.entities.User;
@@ -371,6 +372,14 @@ public interface UserDAO
 	 * @param userId Which user account to set active
 	 */
 	void writeUserActive(int userId) ;
+
+	/**
+	 * Updates the time of the last visit. 
+	 * 
+	 * @param userId The user's id related to the username to update
+	 * @param lastVisit The time of the last visit
+	 */
+	void updateLastVisit(int userId, Date lastVisit) ;
 
 	/**
 	 * Updates only the username. 
