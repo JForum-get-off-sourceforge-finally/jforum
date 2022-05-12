@@ -97,7 +97,6 @@ public class ForumAction extends Command
 
 		GregorianCalendar gc = new GregorianCalendar();
 		this.context.put("now", ViewCommon.formatDatePatternOnly(gc.getTime()));
-		this.context.put("lastVisit", ViewCommon.formatDate(SessionFacade.getUserSession().getLastVisit()));
 		this.context.put("forumRepository", new ForumRepository());
 
 		// Online Users
@@ -109,6 +108,7 @@ public class ForumAction extends Command
 
 		// Check for an optional language parameter
 		UserSession currentUser = SessionFacade.getUserSession();
+		this.context.put("lastVisit", ViewCommon.formatDate(currentUser.getLastVisit()));
 
 		if (currentUser.getUserId() == aid) {
 			String lang = this.request.getParameter("lang");
@@ -122,7 +122,6 @@ public class ForumAction extends Command
 		UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 		Date now = new Date();
 		userDao.updateLastVisit(currentUser.getUserId(), now);
-		currentUser.setLastVisit(now);
 
 		// If there are only guest users, then just register a single one.
 		// In any other situation, we do not show the "guest" username
