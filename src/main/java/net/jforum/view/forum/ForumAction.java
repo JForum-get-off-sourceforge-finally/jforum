@@ -59,6 +59,7 @@ import net.jforum.dao.UserDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.Topic;
 import net.jforum.entities.TopicModerationInfo;
+import net.jforum.entities.User;
 import net.jforum.entities.UserSession;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.SecurityRepository;
@@ -108,8 +109,6 @@ public class ForumAction extends Command
 
 		// Check for an optional language parameter
 		UserSession currentUser = SessionFacade.getUserSession();
-		this.context.put("lastVisit", ViewCommon.formatDate(currentUser.getLastVisit()));
-
 		if (currentUser.getUserId() == aid) {
 			String lang = this.request.getParameter("lang");
 
@@ -118,10 +117,12 @@ public class ForumAction extends Command
 			}
 		}
 
-		// update the time of the last visit to NOW
 		UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
-		Date now = new Date();
-		userDao.updateLastVisit(currentUser.getUserId(), now);
+
+		User user = userDao.selectById(currentUser.getUserId());
+		this.context.put("lastVisit", ViewCommon.formatDate(user.getLastVisit()));
+		// update the time of the last visit to NOW
+		userDao.updateLastVisit(currentUser.getUserId(), new Date());
 
 		// If there are only guest users, then just register a single one.
 		// In any other situation, we do not show the "guest" username
