@@ -131,7 +131,6 @@ public final class ConfigKeys
 	public static final String USER_HASH_SEQUENCE = "user.hash.sequence";
 	public static final String TOPICS_READ_TIME = "topics.tracking";
 	public static final String TOPICS_READ_TIME_BY_FORUM = "topics.tracking.byforum";
-	public static final String TOPICS_RECENT_COUNT_EXACT = "topics.recent.count.exact";
 
 	public static final String TOPIC_CACHE_ENABLED = "topic.cache.enabled";
 	public static final String TOPIC_CACHE_SIZE = "topic.cache.size";

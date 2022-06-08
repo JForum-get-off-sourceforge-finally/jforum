@@ -546,7 +546,10 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
-			String sql = SystemGlobals.getSql(SystemGlobals.getBoolValue(ConfigKeys.TOPICS_RECENT_COUNT_EXACT)
+			// performance optimization: beyond 100000 posts, return a possibly approximate topic count 
+			// instead of the correct one. Mostly affects the paging of the Recent Topics pages.
+			int totalPosts = ForumRepository.getTotalMessages();
+			String sql = SystemGlobals.getSql(totalPosts < 100000
 						? "TopicModel.countAllTopics"
 						: "TopicModel.countAllTopicsApprox");
 
