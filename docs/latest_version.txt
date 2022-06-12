@@ -1,16 +1,17 @@
-2.8.0
+2.8.1
 
 <p>This is a feature release for JForum. It includes the following improvements, amongst others:</p>
 
 <ul>
-<li>Registration can be restricted to particular email addresses or email addresses from particular domains, and then be auto-assigned to specific groups.</li>
-<li>The authenticity of outgoing emails can now be verified via DKIM. </li>
-<li>The registration pages and the password recovery pages are now mobile-friendly.</li>
-<li>It's now possible to log in with the email address as well as username, as that is what users expect these days.</li>
-<li>New default connection pool, potentially increasing performance with multiple concurrent users.</li>
-<li>Numerous bug fixes and small improvements</li>
+	<li>Various font and background colors can be configured at runtime from the Configurations page</li>
+	<li>More control over image attachments from Configurations page</li>
+	<li>Optimize Recent Topics and Hot Topics for large installations</li>
+	<li>Fixed issue where the last visited time on the forum home page was not actually reflecting that, but the time of the last session start</li>
+	<li>Switch optional Google Analytics integration from analytics.js to gtag.js</li>
+	<li>Fixed a CSRF vulnerability</li>
 </ul>
 
-<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures280/">this page</a> for a full list of what is new and changed.</p>
+<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures281/">this page</a> for a full list of what is new and changed.</p>
 
-<p>Everyone should upgrade, which involves running a fairly simple database upgrade script. A Servlet 3.1 container, like Tomcat 8, running on Java 8 is now required.</p>
+<p>Everyone should upgrade, which involves running a fairly simple database upgrade script. 
+A Servlet 3.1 container, like Tomcat 8 or newer, running on Java 8 or newer, is required.</p>
