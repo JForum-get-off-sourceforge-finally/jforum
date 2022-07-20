@@ -82,12 +82,14 @@ public class LuceneContentCollector
 
 	public List<Post> collect (SearchArgs args, ScoreDoc[] results, Query query) {
 		try {
-			int[] postIds = new int[results.length];
-			//LOGGER.debug("collect: results="+results.length+", args.fetchCount="+args.fetchCount());
+			int finalResultSize = Math.min(args.fetchCount(), results.length - args.startFrom());
+			int[] postIds = new int[finalResultSize];
+			//LOGGER.debug(String.format("collect: results=%d, args.fetchCount=%d, args.startFrom=%d",
+			//				results.length, args.fetchCount(), args.startFrom()));
 
 			IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(this.settings.directory()));
 			for (int docIndex = args.startFrom(), i = 0; 
-					docIndex < results.length; 
+					i < finalResultSize;
 					docIndex++, i++) {
 				ScoreDoc hit = results[docIndex];
 		        Document doc = searcher.doc(hit.doc);

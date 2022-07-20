@@ -66,12 +66,12 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = "https://tomcat.apache.org/tomcat-9.0-doc/api/";
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/8_8_2/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/9_2_0/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
     private static final String STRUTS2_URL = "https://struts.apache.org/maven/struts2-core/apidocs/";
-    private static final String WICKET_URL = "https://ci.apache.org/projects/wicket/apidocs/6.x/";
+    private static final String WICKET_URL = "https://nightlies.apache.org/wicket/apidocs/10.x/";
     private static final String XMLBEANS_URL = "https://xmlbeans.apache.org/docs/5.0.0/";
     private static final String TAPESTRY_URL = "https://tapestry.apache.org/current/apidocs/";
     private static final String WSS4J_URL = "https://ws.apache.org/wss4j/apidocs/";
@@ -95,9 +95,9 @@ public class JavaDocLink implements Substitution {
     private static final String CODEC_URL = ACP + "-codec/apidocs/";
     private static final String BEANUTILS_URL = ACP + "-beanutils/javadocs/v1.9.4/apidocs/";
     private static final String HTTPCLIENT_URL = "https://hc.apache.org/httpclient-3.x/apidocs/";
-    private static final String HC_CLIENT_URL = "https://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/";
-    private static final String HC_CORE_URL = "https://hc.apache.org/httpcomponents-core-5.0.x/httpcore5/apidocs/";
-    private static final String HC_CORE_HTTP2_URL = "https://hc.apache.org/httpcomponents-core-5.0.x/httpcore5-h2/apidocs/";
+    private static final String HC_CLIENT_URL = "https://hc.apache.org/httpcomponents-client-5.1.x/current/httpclient5/apidocs/";
+    private static final String HC_CORE_URL = "https://hc.apache.org/httpcomponents-core-5.1.x/httpcore5/apidocs/";
+    private static final String HC_CORE_HTTP2_URL = "https://hc.apache.org/httpcomponents-core-5.1.x/httpcore5-h2/apidocs/";
     private static final String NET_URL = ACP + "-net/apidocs/";
     private static final String LANG_URL = ACP + "-lang/javadocs/api-release/";
     private static final String LOGGING_URL = ACP + "-logging/javadocs/api-release/";
@@ -126,11 +126,11 @@ public class JavaDocLink implements Substitution {
     private static final String QUARTZ_URL = "https://www.quartz-scheduler.org/api/2.3.0/";
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
-	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/30.1.1-jre/api/docs/";
+	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/31.1-jre/api/docs/";
 	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "https://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
-	private static final String EVENTBUS_URL = "https://greenrobot.org/files/eventbus/javadoc/3.0/";
+	private static final String EVENTBUS_URL = "https://greenrobot.org/files/eventbus/javadoc/current/";
     private static final String MARKENWERK_URL = "https://markenwerk.github.io/java-utils-mail-dkim/";
     private static final String JSON_SIMPLE_URL = "https://cliftonlabs.github.io/json-simple/target/apidocs/";
 
