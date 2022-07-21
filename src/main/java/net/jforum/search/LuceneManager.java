@@ -135,9 +135,9 @@ public class LuceneManager
 		indexer.update(post);
 	}
 
-	public SearchResult<Post> search(final SearchArgs args, int userId)
+	public SearchResult<Post> search(final SearchArgs args)
 	{
-		return search.search(args, userId);
+		return search.search(args);
 	}
 
 	public void delete(final Post post)

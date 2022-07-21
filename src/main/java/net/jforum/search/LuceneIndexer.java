@@ -112,8 +112,10 @@ public class LuceneIndexer
 		synchronized (LOGGER) {
 			try {
 				final Document document = this.createDocument(post);
-				this.ramWriter.addDocument(document);
-				this.flushRAMDirectoryIfNecessary();
+				if (document != null) {
+					this.ramWriter.addDocument(document);
+					this.flushRAMDirectoryIfNecessary();
+				}
 			}
 			catch (IOException e) {
 				throw new SearchException(e);
@@ -189,10 +191,12 @@ public class LuceneIndexer
 				writer = new IndexWriter(this.settings.directory(), conf);
 
 				final Document document = this.createDocument(post);
-				writer.addDocument(document);
+				if (document != null) {
+					writer.addDocument(document);
 
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("Indexed " + document);
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("Indexed " + document);
+					}
 				}
 			}
 			catch (Exception e) {
@@ -223,6 +227,9 @@ public class LuceneIndexer
 
 	private Document createDocument(final Post post)
 	{
+		if (post.isModerate())
+			return null;
+
 		Document doc = new Document();
 
 		doc.add(new TextField(SearchFields.Indexed.SUBJECT, post.getSubject(), Field.Store.NO));

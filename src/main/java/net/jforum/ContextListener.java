@@ -95,7 +95,7 @@ public class ContextListener implements ServletContextListener {
     @Override public void contextDestroyed (ServletContextEvent sce) {
 		// stop EventBus
         Stats.stop();
-
+/*
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
             Driver driver = drivers.nextElement();
@@ -107,6 +107,7 @@ public class ContextListener implements ServletContextListener {
                 LOGGER.error(e.getMessage(), e);
             }
         }
+*/
         LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
     }
 

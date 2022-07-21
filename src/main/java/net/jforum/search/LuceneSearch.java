@@ -69,8 +69,8 @@ import org.apache.lucene.search.TotalHits;
 
 import net.jforum.entities.Post;
 import net.jforum.exceptions.SearchException;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
+import net.jforum.repository.ForumRepository;
+import net.jforum.util.I18n;
 
 /**
  * @author Rafael Steil
@@ -110,9 +110,9 @@ public class LuceneSearch implements NewDocumentAdded
 	/**
 	 * @return the search result
 	 */
-	public SearchResult<Post> search (SearchArgs args, int userId)
+	public SearchResult<Post> search (SearchArgs args)
 	{
-		return this.performSearch(args, this.collector, userId);
+		return this.performSearch(args, this.collector);
 	}
 
 	public Document findDocumentByPostId (int postId) {
@@ -134,7 +134,7 @@ public class LuceneSearch implements NewDocumentAdded
 		return doc;
 	}
 
-	private SearchResult<Post> performSearch (SearchArgs args, LuceneContentCollector resultCollector, int userId)
+	private SearchResult<Post> performSearch (SearchArgs args, LuceneContentCollector resultCollector)
 	{
 		SearchResult<Post> result;
 
@@ -143,7 +143,7 @@ public class LuceneSearch implements NewDocumentAdded
 			StringBuilder criteria = new StringBuilder(256);
 
 			this.filterByForum(args, criteria);
-			this.filterByUser(args, criteria, userId);
+			this.filterByUser(args, criteria);
 			this.filterByKeywords(args, criteria);
 			this.filterByDateRange(args, criteria);
 
@@ -153,8 +153,8 @@ public class LuceneSearch implements NewDocumentAdded
 				Query query = new QueryParser(SearchFields.Indexed.CONTENTS, this.settings.analyzer()).parse(criteria.toString());
 				LOGGER.debug("query=["+query.toString()+"], criteria=["+criteria.toString()+"]");
 
-				final int limit = SystemGlobals.getIntValue(ConfigKeys.SEARCH_RESULT_LIMIT);
-				TopFieldDocs tfd = searcher.search(query, limit, getSorter(args));
+				final int totalPosts = ForumRepository.getTotalMessages();
+				TopFieldDocs tfd = searcher.search(query, totalPosts, getSorter(args));
 				ScoreDoc[] docs = tfd.scoreDocs;
 				TotalHits th = tfd.totalHits;
 				if (th.value > 0) {
@@ -217,7 +217,7 @@ public class LuceneSearch implements NewDocumentAdded
 		}
 	}
 
-	private void filterByUser (SearchArgs args, StringBuilder criteria, int userId) {
+	private void filterByUser (SearchArgs args, StringBuilder criteria) {
 		int[] userIds = args.getUserIds();
 
 		// if searching by user id (as opposed to solely by keyword)
@@ -226,7 +226,7 @@ public class LuceneSearch implements NewDocumentAdded
 			// By default, Lucene can't handle boolean queries with more than 1024 clauses.
 			// Instead of raising the limit, we ask the user to give more information.
 			if (userIds.length > 1000) {
-				throw new RuntimeException("This first name/last name combination matches too many users. Please be more specific.");
+				throw new RuntimeException(I18n.getMessage("Search.tooManyUsers"));
 			}
 
 			StringBuilder query = new StringBuilder();

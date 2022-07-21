@@ -44,9 +44,13 @@ package net.jforum.view.admin;
 
 import freemarker.template.SimpleHash;
 
+import org.apache.log4j.Logger;
+
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.dao.DataAccessDriver;
+import net.jforum.dao.ForumDAO;
+import net.jforum.dao.ModerationDAO;
 import net.jforum.dao.ModerationLogDAO;
 import net.jforum.dao.PostDAO;
 import net.jforum.dao.TopicDAO;
@@ -71,6 +75,8 @@ import net.jforum.view.forum.common.TopicsCommon;
  */
 public class ModerationAction extends AdminCommand
 {
+	private static final Logger LOGGER = Logger.getLogger(ModerationAction.class);
+
 	/**
 	 * Empty Constructor
 	 */
@@ -97,8 +103,7 @@ public class ModerationAction extends AdminCommand
 
 		this.setTemplateName(TemplateKeys.MODERATION_ADMIN_VIEW);
 		this.context.put("forum", ForumRepository.getForum(forumId));
-		this.context.put("topics", DataAccessDriver.getInstance().newModerationDAO().topicsByForum(
-				forumId));
+		this.context.put("topics", DataAccessDriver.getInstance().newModerationDAO().topicsByForum(forumId));
 	}
 
 	public void doSave()
@@ -107,6 +112,11 @@ public class ModerationAction extends AdminCommand
 
 		if (posts != null) {
 			final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
+			final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
+			final UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
+			final ModerationDAO moderationDao = DataAccessDriver.getInstance().newModerationDAO();
+			final ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
+			final ForumDAO forumDao = DataAccessDriver.getInstance().newForumDAO();
 
 			for (int i = 0; i < posts.length; i++) {
 				final int postId = Integer.parseInt(posts[i]);
@@ -118,14 +128,13 @@ public class ModerationAction extends AdminCommand
 				}
 
 				if ("approve".startsWith(status)) {
-					Post post = DataAccessDriver.getInstance().newPostDAO().selectById(postId);
+					Post post = postDao.selectById(postId);
 
 					// Check is the post is in fact waiting for moderation
 					if (!post.isModerationNeeded()) {
 						continue;
 					}
 
-					UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 					User user = userDao.selectById(post.getUserId());
 
 					boolean first = false;
@@ -140,7 +149,7 @@ public class ModerationAction extends AdminCommand
 						}
 					}
 
-					DataAccessDriver.getInstance().newModerationDAO().approvePost(postId);
+					moderationDao.approvePost(postId);
 
 					boolean firstPost = (topic.getFirstPostId() == postId);
 
@@ -159,8 +168,7 @@ public class ModerationAction extends AdminCommand
 						topic = topicDao.selectById(topic.getId());
 					}
 
-					TopicsCommon.updateBoardStatus(topic, postId, firstPost,
-						topicDao, DataAccessDriver.getInstance().newForumDAO());
+					TopicsCommon.updateBoardStatus(topic, postId, firstPost, topicDao, forumDao);
 
 					ForumRepository.updateForumStats(topic, user, post);
 					TopicsCommon.notifyUsers(topic, post);
@@ -170,9 +178,11 @@ public class ModerationAction extends AdminCommand
 					if (SystemGlobals.getBoolValue(ConfigKeys.POSTS_CACHE_ENABLED)) {
 						PostRepository.append(post.getTopicId(), PostCommon.preparePostForDisplay(post));
 					}
+
+					post.setModerate(false);
+					postDao.index(post);
 				} // must be "reject"
 				else {
-					PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 					Post post = postDao.selectById(postId);
 
 					if (post == null || !post.isModerationNeeded()) {
@@ -205,7 +215,6 @@ public class ModerationAction extends AdminCommand
 									+this.request.getParameter("comment_" + postId));
 					log.setOriginalMessage(post.getText());
 
-					ModerationLogDAO dao = DataAccessDriver.getInstance().newModerationLogDAO();
 					dao.add(log);
 
 				}

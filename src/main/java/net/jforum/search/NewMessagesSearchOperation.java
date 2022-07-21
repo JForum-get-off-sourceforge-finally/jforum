@@ -59,13 +59,13 @@ public class NewMessagesSearchOperation extends SearchOperation
 {
 	private transient List<Topic> results = new ArrayList<>();
 	
-	@Override public SearchResult<Topic> performSearch(final SearchArgs args, final int userId)
+	@Override public SearchResult<Topic> performSearch(final SearchArgs args)
 	{
 		final TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
 		final SearchResult<Topic> searchResult = dao.findTopicsByDateRange(args);
-		
+
 		this.results = searchResult.getRecords();
-		
+
 		return searchResult;
 	}
 

@@ -57,7 +57,7 @@ import net.jforum.repository.ForumRepository;
  */
 public abstract class SearchOperation
 {
-	public abstract SearchResult<?> performSearch(SearchArgs args, int userId);
+	public abstract SearchResult<?> performSearch(SearchArgs args);
 	public abstract int totalRecords();
 	public abstract void prepareForDisplay();
 	public abstract List<?> getResults();

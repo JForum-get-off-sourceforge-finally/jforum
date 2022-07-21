@@ -87,7 +87,7 @@ public class SearchAction extends Command
 		this.response = response;
 		this.context = context;
 	}
-	
+
 	public void filters()
 	{
 		this.setTemplateName(TemplateKeys.SEARCH_FILTERS);
@@ -116,7 +116,7 @@ public class SearchAction extends Command
 		try {
 			args = this.buildSearchArgs();
 		} catch (RuntimeException rex) {
-			context.put("error", "The search request was malformed. Please use sensible values only.");
+			context.put("error", I18n.getMessage("Search.malformed"));
 			filters();
 			return;
 		}
@@ -129,9 +129,7 @@ public class SearchAction extends Command
 		int start = args.startFrom();
 		int recordsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 
-		//operation.performSearch(args);
-		UserSession userSession = SessionFacade.getUserSession();
-		SearchResult<?> searchResults = operation.performSearch(args, userSession.getUserId());
+		SearchResult<?> searchResults = operation.performSearch(args);
 		operation.prepareForDisplay();
 		List<?> results = operation.filterResults(operation.getResults());
 		this.setTemplateName(operation.viewTemplate());
@@ -194,7 +192,7 @@ public class SearchAction extends Command
 					ip = ((WebRequestContext) request).getRemoteAddr();
 				}
 				LOGGER.error(requestDateRange + " is not a date. Not possible through the UI. IP " + ip);
-				throw new RuntimeException("The search request was malformed. Please use sensible values only.");
+				throw new RuntimeException(I18n.getMessage("Search.malformed"));
             }
         }
     }
