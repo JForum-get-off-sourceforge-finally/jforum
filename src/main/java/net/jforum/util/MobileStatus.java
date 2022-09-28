@@ -46,11 +46,7 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.map.LRUMap;
-
 import org.apache.log4j.Logger;
-
-import nl.basjes.parse.useragent.*;
 
 /**
  * If this object is in the session, it represents the state of whether to user has made any mobile requests.
@@ -73,9 +69,6 @@ public enum MobileStatus {
 	private static final Logger LOGGER = Logger.getLogger(MobileStatus.class);
 
     public static final String MOBILE_SESSION_ATTRIBUTE = "mobile";
-
-	// YAUAA is single-threaded, so we need a ThreadLocal to keep a copy per thread
-    private static ThreadLocal<UserAgentAnalyzer> localAnalyzers = new ThreadLocal<>();
 
     public static MobileStatus getMobileRequest (HttpServletRequest request, String requestUri) {
         HttpSession session = request.getSession();
@@ -100,22 +93,6 @@ public enum MobileStatus {
 
     private static boolean isOnMobileDevice (HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
-
-		UserAgentAnalyzer uaa = (UserAgentAnalyzer) localAnalyzers.get();
-		if (uaa == null) {
-			uaa = UserAgentAnalyzer
-				.newBuilder()
-				.withCacheInstantiator(
-					(AbstractUserAgentAnalyzer.CacheInstantiator) size -> Collections.synchronizedMap(new LRUMap(size)))
-				.withCache(1000)
-				.withField(UserAgent.DEVICE_CLASS)
-				.build();
-
-			localAnalyzers.set(uaa);
-		}
-
-		UserAgent agent = uaa.parse(userAgent);
-		String type = agent.getValue(UserAgent.DEVICE_CLASS);
-		return (type != null) && (type.equals("Phone") || type.equals("Tablet") || type.equals("Mobile"));
+		return userAgent.contains("Mobile");
     }
 }
