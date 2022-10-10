@@ -69,7 +69,6 @@ import net.jforum.repository.ForumRepository;
 import net.jforum.search.SearchArgs;
 import net.jforum.search.SearchResult;
 import net.jforum.util.DbUtils;
-import net.jforum.util.SafeHtml;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 

@@ -44,11 +44,7 @@
 package net.jforum;
 
 import java.beans.PropertyVetoException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
-import java.sql.SQLException;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.zaxxer.hikari.HikariConfig;

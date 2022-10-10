@@ -44,8 +44,6 @@ package net.jforum.view.admin;
 
 import freemarker.template.SimpleHash;
 
-import org.apache.log4j.Logger;
-
 import net.jforum.SessionFacade;
 import net.jforum.context.RequestContext;
 import net.jforum.dao.DataAccessDriver;
@@ -75,8 +73,6 @@ import net.jforum.view.forum.common.TopicsCommon;
  */
 public class ModerationAction extends AdminCommand
 {
-	private static final Logger LOGGER = Logger.getLogger(ModerationAction.class);
-
 	/**
 	 * Empty Constructor
 	 */

@@ -67,8 +67,6 @@ import net.jforum.util.stats.StatsEvent;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
 
-import org.apache.log4j.Logger;
-
 /**
  * Display a list of recent Topics
  * 
@@ -77,9 +75,7 @@ import org.apache.log4j.Logger;
  */
 public class RecentTopicsAction extends Command 
 {
-    private static final Logger LOGGER = Logger.getLogger(RecentTopicsAction.class);
-
-	private transient List<Forum> forums;
+    private transient List<Forum> forums;
 
 	@Override public void list()
 	{
