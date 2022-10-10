@@ -120,6 +120,10 @@ public class ForumAction extends Command
 		UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 
 		User user = userDao.selectById(currentUser.getUserId());
+		// If the user is a first-time visitor, set the last visit to NOW 
+		if (user.getLastVisit() == null) {
+			user.setLastVisit(new Date());
+		}
 		this.context.put("lastVisit", ViewCommon.formatDate(user.getLastVisit()));
 		// update the time of the last visit to NOW
 		userDao.updateLastVisit(currentUser.getUserId(), new Date());

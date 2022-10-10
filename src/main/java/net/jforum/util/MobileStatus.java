@@ -41,12 +41,8 @@
  */
 package net.jforum.util;
 
-import java.util.Collections;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
 
 /**
  * If this object is in the session, it represents the state of whether to user has made any mobile requests.
@@ -66,9 +62,7 @@ public enum MobileStatus {
     HAVE_NOT_REQUESTED_MOBILE_PAGE_YET_IN_SESSION;
     // -----------------------------------------------------------
 
-	private static final Logger LOGGER = Logger.getLogger(MobileStatus.class);
-
-    public static final String MOBILE_SESSION_ATTRIBUTE = "mobile";
+	public static final String MOBILE_SESSION_ATTRIBUTE = "mobile";
 
     public static MobileStatus getMobileRequest (HttpServletRequest request, String requestUri) {
         HttpSession session = request.getSession();
@@ -93,6 +87,6 @@ public enum MobileStatus {
 
     private static boolean isOnMobileDevice (HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
-		return userAgent.contains("Mobile");
+		return userAgent != null && userAgent.contains("Mobile");
     }
 }
