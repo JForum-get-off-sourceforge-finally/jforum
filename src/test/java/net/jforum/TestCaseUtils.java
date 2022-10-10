@@ -126,7 +126,7 @@ public final class TestCaseUtils
                                   + "/jforum/WEB-INF/config/SystemGlobals.properties");
 
         // Configure the template engine
-        Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_28);
+        Configuration templateCfg = new Configuration(Configuration.VERSION_2_3_31);
         File templateDir = new File(SystemGlobals.getApplicationPath(), "templates");
         LOGGER.debug( "templateDir: " + templateDir );
         templateCfg.setDirectoryForTemplateLoading( templateDir );

@@ -45,7 +45,7 @@ package net.jforum.api.integration.mail.pop;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.Message;
+import jakarta.mail.Message;
 
 import org.apache.log4j.Logger;
 

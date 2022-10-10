@@ -3,7 +3,7 @@
  */
 package net.jforum.api.integration.mail.pop;
 
-import javax.mail.Message;
+import jakarta.mail.Message;
 
 /**
  * @author Rafael Steil

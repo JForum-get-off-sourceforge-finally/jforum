@@ -11,12 +11,12 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Message;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
 import junit.framework.TestCase;
 import net.jforum.ConfigLoader;
@@ -179,7 +179,7 @@ public class POPListenerTestCase extends TestCase
 			
 			// OK, now send a new message, replying to the previously topic
 			subject = "Reply subject for topic " + afterTopicId;
-			contents = "Changed contents, replying tpoic " + afterTopicId;
+			contents = "Changed contents, replying topic " + afterTopicId;
 			
 			this.sendMessage(sender, subject, forumAddress, contents, MessageId.buildMessageId(7777, afterTopicId, 999999));
 			
@@ -191,13 +191,13 @@ public class POPListenerTestCase extends TestCase
 			assertTrue("There should be two posts", posts.size() == 2);
 			
 			// The first message was already validated
-			Post post = (Post)posts.get(1);
+			Post post = (Post)posts.get(0);
 			User user = DataAccessDriver.getInstance().newUserDAO().selectById(post.getUserId());
 
 			assertNotNull("User should not be null", user);
 			assertEquals("sender", sender, user.getEmail());
 			assertEquals("subject", subject, post.getSubject());
-			assertEquals("text", contents, post.getText());
+			assertEquals("text", contents, post.getText());			
 		}
 		finally {
 			this.deleteTopic(afterTopicId);

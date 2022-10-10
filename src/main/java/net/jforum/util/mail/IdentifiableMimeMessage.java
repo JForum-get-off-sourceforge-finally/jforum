@@ -42,9 +42,9 @@
  */
 package net.jforum.util.mail;
 
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  * A {@link MimeMessage} implementation where it's possible 
@@ -72,7 +72,7 @@ public class IdentifiableMimeMessage extends MimeMessage
 	}
 	
 	/**
-	 * @see javax.mail.internet.MimeMessage#updateMessageID()
+	 * @see jakarta.mail.internet.MimeMessage#updateMessageID()
 	 */
 	@Override protected void updateMessageID() throws MessagingException 
 	{
