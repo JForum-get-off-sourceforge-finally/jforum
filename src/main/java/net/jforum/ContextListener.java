@@ -71,14 +71,18 @@ public class ContextListener implements ServletContextListener {
         }
 		LOGGER.info("application root is "+appPath);
         LoggerHelper.checkLoggerInitialization(appPath + "/WEB-INF", appPath + "/WEB-INF/classes");
-        final String containerInfo = application.getServerInfo();
         ConfigLoader.startSystemglobals(appPath);
-        final String[] info = getAppServerNameAndVersion(containerInfo);
-		SystemGlobals.setValue("container.app", info[0]);
-		SystemGlobals.setValue("container.version", info[1]);
-        SystemGlobals.setValue("server.info", containerInfo);
-        SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
         SystemGlobals.setValue("context.path", application.getContextPath());
+        final String containerInfo = application.getServerInfo();
+        final String[] info = getAppServerNameAndVersion(containerInfo);
+        if (!containerInfo.equals(SystemGlobals.getValue("server.info"))) {
+	        SystemGlobals.setValue("container.app", info[0]);
+			SystemGlobals.setValue("container.version", info[1]);		
+	        SystemGlobals.setValue("server.info", containerInfo);
+	        SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
+	        // update jforum-custom.conf if you upgrade your application server version
+	        SystemGlobals.saveInstallation(true);
+		}        
 		// initialize EventBus
 		Stats.init();
         LOGGER.info(application.getContextPath() + " initialized in " + containerInfo);
