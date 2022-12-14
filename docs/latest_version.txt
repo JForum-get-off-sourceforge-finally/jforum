@@ -1,17 +1,15 @@
-2.8.1
+2.8.2
 
 <p>This is a feature release for JForum. It includes the following improvements, amongst others:</p>
 
 <ul>
-	<li>Various font and background colors can be configured at runtime from the Configurations page</li>
-	<li>More control over image attachments from Configurations page</li>
-	<li>Optimize Recent Topics and Hot Topics for large installations</li>
-	<li>Fixed issue where the last visited time on the forum home page was not actually reflecting that, but the time of the last session start</li>
-	<li>Switch optional Google Analytics integration from analytics.js to gtag.js</li>
-	<li>Fixed a CSRF vulnerability</li>
+	<li>Fixed a bug in the search page pagination</li>
+	<li>Fixed a bug that caused posts that were awaiting moderation to be found through the search</li>
+	<li>No longer uses an external library to detect access from a mobile device</li>
+	<li>Updates jforum-custom.conf:server.info when detecting an application server version change</li>
+	<li>numerous dependency updates</li>
 </ul>
 
-<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures281/">this page</a> for a full list of what is new and changed.</p>
+<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures282/">this page</a> for a full list of what is new and changed.</p>
 
-<p>Everyone should upgrade, which involves running a fairly simple database upgrade script. 
-A Servlet 3.1 container, like Tomcat 8 or newer, running on Java 8 or newer, is required.</p>
+<p>Everyone should upgrade. A Servlet 3.1 container, like Tomcat 8 or newer, running on Java 8 or newer, is required.</p>
