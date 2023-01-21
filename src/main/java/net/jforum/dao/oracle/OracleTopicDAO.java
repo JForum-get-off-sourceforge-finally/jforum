@@ -58,7 +58,10 @@ public class OracleTopicDAO extends net.jforum.dao.generic.GenericTopicDAO
 	 */
 	@Override public List<Topic> selectAllByForumByLimit(final int forumId, final int startFrom, final int count)
 	{
-		return super.selectAllByForumByLimit(forumId, startFrom, startFrom + count);
+		if (count < 0)
+			return super.selectAllByForumByLimit(forumId, startFrom, count);
+		else
+			return super.selectAllByForumByLimit(forumId, startFrom, startFrom + count);
 	}
 	
 	/**
