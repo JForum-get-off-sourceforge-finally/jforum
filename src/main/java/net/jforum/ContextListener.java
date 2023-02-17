@@ -74,15 +74,8 @@ public class ContextListener implements ServletContextListener {
         ConfigLoader.startSystemglobals(appPath);
         SystemGlobals.setValue("context.path", application.getContextPath());
         final String containerInfo = application.getServerInfo();
-        final String[] info = getAppServerNameAndVersion(containerInfo);
-        if (!containerInfo.equals(SystemGlobals.getValue("server.info"))) {
-	        SystemGlobals.setValue("container.app", info[0]);
-			SystemGlobals.setValue("container.version", info[1]);		
-	        SystemGlobals.setValue("server.info", containerInfo);
-	        SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
-	        // update jforum-custom.conf if you upgrade your application server version
-	        SystemGlobals.saveInstallation(true);
-		}        
+		SystemGlobals.setValue("server.info", containerInfo);
+		SystemGlobals.setValue("servlet.version", application.getMajorVersion()+"."+application.getMinorVersion());
 		// initialize EventBus
 		Stats.init();
         LOGGER.info(application.getContextPath() + " initialized in " + containerInfo);
@@ -108,34 +101,5 @@ public class ContextListener implements ServletContextListener {
         }
 */
         LOGGER.info(sce.getServletContext().getContextPath() + " destroyed");
-    }
-
-    public static String[] getAppServerNameAndVersion (String serverInfo)
-    {
-		/* According to https://docs.oracle.com/javaee/7/api/javax/servlet/ServletContext.html#getServerInfo--,
-			the server info is in the form "server name/server version (optional info)"
-		*/
-        String[] result = new String[2];
-		int slash = serverInfo.indexOf("/");
-		if (slash != -1) {
-            result[0] = serverInfo.substring(0, slash);
-            result[1] = serverInfo.substring(slash+1);
-			int dot = result[1].indexOf(".");
-			if (dot != -1) {
-				result[1] = result[1].substring(0, dot);
-			}
-		} else {
-			result[0] = result[1] = "???";
-		}
-		/*
-        final Pattern p = Pattern.compile("\\d+\\.\\d+(\\.\\d+)*");
-        final Matcher matcher = p.matcher(serverInfo);
-        if (matcher.find()){
-            result[0] = serverInfo.substring(0, matcher.start()-1);
-            String version = matcher.group();
-            result[1] = version.substring(0, version.indexOf('.'));
-        }
-		*/
-        return result;
     }
 }

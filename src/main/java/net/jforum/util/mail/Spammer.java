@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -54,10 +55,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jakarta.mail.Address;
+import jakarta.mail.Header;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
+import jakarta.mail.event.TransportEvent;
+import jakarta.mail.event.TransportListener;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
@@ -179,6 +183,24 @@ public class Spammer
                 	boolean ssl = SystemGlobals.getBoolValue(ConfigKeys.MAIL_SMTP_SSL);
 
                     Transport transport = this.session.getTransport(ssl ? "smtps" : "smtp");
+					/*
+					transport.addTransportListener(new TransportListener() {
+						@Override
+						public void messagePartiallyDelivered (TransportEvent e) {
+	                       	LOGGER.debug("messagePartiallyDelivered "+e.toString());
+						}
+
+						@Override
+						public void messageNotDelivered (TransportEvent e) {
+	                       	LOGGER.debug("messageNotDelivered "+e.toString());
+						}
+
+						@Override
+						public void messageDelivered (TransportEvent e) {
+	                       	LOGGER.debug("messageDelivered "+e.toString());
+						}
+					});
+					*/
 
                     try {
 	                    String host = SystemGlobals.getValue(ConfigKeys.MAIL_SMTP_HOST);
@@ -197,9 +219,17 @@ public class Spammer
 	                        		Address address = new InternetAddress(user.getEmail());	                        	
 	                        		LOGGER.debug("Sending mail to: " + user.getEmail());	                        	
 	                        		this.message.setRecipient(Message.RecipientType.TO, address);	                            
+									this.message.saveChanges();
 									new StatsEvent("Sent email", user.getEmail()).record();
 
+									//Enumeration headers = this.message.getAllHeaders();
+									//while (headers.hasMoreElements()) {
+									//	Header hdr = (Header) headers.nextElement();
+									//	LOGGER.debug(hdr.getName()+"="+hdr.getValue());
+									//}
+
 									// no point in trying DKIM if the relevant properties have not been set
+									DkimMessage dkimMsg = null;
 									if (StringUtils.isNotEmpty(signingDomain) && StringUtils.isNotEmpty(derFile)) {
 										try {
 											DkimSigner dkimSigner = new DkimSigner(signingDomain, selector, new File(derFile));
@@ -211,13 +241,13 @@ public class Spammer
 											dkimSigner.setLengthParam(true);
 											dkimSigner.setCopyHeaderFields(false);
 											*/
-											this.message = new DkimMessage(this.message, dkimSigner);
+											dkimMsg = new DkimMessage(this.message, dkimSigner);
 										} catch (Exception ex) {
 											LOGGER.warn("Can't use DKIM: "+ex.getMessage());
 										}
 									}
 
-	                        		transport.sendMessage(this.message, new Address[] { address });
+	                        		transport.sendMessage(dkimMsg != null ? dkimMsg : this.message, new Address[] { address });
 	                        	}
 	                        	if (sendDelay > 0) {
 		                        	try {
@@ -248,6 +278,7 @@ public class Spammer
                 		Address address = new InternetAddress(user.getEmail());
                 		LOGGER.debug("Sending mail to: " + user.getEmail());
                 		this.message.setRecipient(Message.RecipientType.TO,address);
+						this.message.saveChanges();
 						new StatsEvent("Sent email", user.getEmail()).record();
                 		Transport.send(this.message, new Address[] { address });
                 	}
@@ -339,10 +370,10 @@ public class Spammer
 		if (messageFormat == MESSAGE_HTML) {
 			this.message.setContent(text.replaceAll("\n", "<br>"), "text/html; charset=" + charset);
 		} else {
-			this.message.setText(text);
+			this.message.setText(text, charset, "text/plain");
 		}
 	}
-	
+
 	/**
 	 * Gets the message text to send in the email.
 	 * 

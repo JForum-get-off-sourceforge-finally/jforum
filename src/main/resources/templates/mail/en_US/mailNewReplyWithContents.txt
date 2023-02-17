@@ -8,6 +8,6 @@ ${message}
 <br>
 ---------<br>
 Read this topic online: ${path}<br>
-Unsubsribe to this topic: ${unwatch}<br>
+Unsubscribe from this topic: ${unwatch}<br>
 </body>
 </html>

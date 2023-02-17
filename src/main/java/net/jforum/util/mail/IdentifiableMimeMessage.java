@@ -47,11 +47,9 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
 /**
- * A {@link MimeMessage} implementation where it's possible 
- * to correctly set the Message-ID header.
+ * A {@link MimeMessage} implementation where it's possible to correctly set the Message-ID header.
  * 
  * @author Rafael Steil
- * @version $Id$
  */
 public class IdentifiableMimeMessage extends MimeMessage
 {
@@ -80,7 +78,7 @@ public class IdentifiableMimeMessage extends MimeMessage
 			super.updateMessageID();	
 		}
 		else {			
-			this.addHeader("Message-ID", this.messageId);
+			this.setHeader("Message-ID", this.messageId);
 		}
 	}
 }

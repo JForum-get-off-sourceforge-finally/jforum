@@ -83,7 +83,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 	private static final String MODULE = "module";
 	private static final String ACTION = "action";
-	
+
 	private transient final Map<String, Object> query;
 
 	// a mobile URL was requested
@@ -101,7 +101,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 		this.query = new HashMap<>();
 		boolean isMultipart = false;
-		
+
 		final String requestType = superRequest.getMethod().toUpperCase();
 		final String contextPath = superRequest.getContextPath();
 		String requestUri = this.extractRequestUri(superRequest.getRequestURI(), contextPath);
@@ -115,73 +115,66 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 
 		final boolean isPost = "POST".equals(requestType);
-		final boolean isGet = !isPost;		
+		final boolean isGet = !isPost;
 
 		final boolean isQueryStringEmpty = superRequest.getQueryString() == null 
 			|| superRequest.getQueryString().length() == 0;
-		
+
 		if (isGet && isQueryStringEmpty && requestUri.endsWith(servletExtension)) {
 			superRequest.setCharacterEncoding(encoding);
 			this.parseFriendlyURL(requestUri, servletExtension);
 		}
 		else if (isPost) {
 			isMultipart = ServletFileUpload.isMultipartContent(new ServletRequestContext(superRequest));
-			
+
 			if (isMultipart) {
 			    this.handleMultipart(superRequest, encoding);
 			}
 		}
-		
+
 		if (!isMultipart) {
 			final boolean isAjax = "XMLHttpRequest".equals(superRequest.getHeader("X-Requested-With"));
-			
+
 			if (isAjax) {
 				// Ajax requests are *usually* sent using application/x-www-form-urlencoded; charset=UTF-8.
-				// In JForum, we assume this as always true.
+				// In JForum, we assume this is always true.
 				superRequest.setCharacterEncoding("UTF-8");
 			}
 			else {
 				superRequest.setCharacterEncoding(encoding);
 			}
-			
+
 			String containerEncoding = SystemGlobals.getValue(ConfigKeys.DEFAULT_CONTAINER_ENCODING);
-			
+
 			if (isPost) { 
 				containerEncoding = encoding;
 			}
 			for (final Enumeration<String> enumeration = superRequest.getParameterNames(); enumeration.hasMoreElements(); ) {
 				final String name = (String)enumeration.nextElement();
-				
+
 				final String[] values = superRequest.getParameterValues(name);
-				
+
 				if (values != null && values.length > 1) {
 					for (int i = 0; i < values.length; i++) {
 						this.addParameter(name, new String(values[i].getBytes(containerEncoding), encoding));
 					}
-				}
-				else {					
+				} else {
 					final String value = superRequest.getParameter(name);
 					// Don't write password's value to log
 					if (!"password".equals(name)) {
 						LOGGER.debug(name + "=" + value);
 					}
-					final String containerApp = SystemGlobals.getValue("container.app");
-					final int containerVersion = Integer.parseInt(SystemGlobals.getValue("container.version"));
-					if (!"Apache Tomcat".equals(containerApp) || containerVersion == 4 || containerVersion >= 8) {
-						this.addParameter(name, value);
-			        } else {			            
-			            this.addParameter(name, new String(value.getBytes(containerEncoding), encoding));
-			        }
+					this.addParameter(name, value);
 				}
 			}
-			
+
 			if (this.getModule() == null && this.getAction() == null) {
 				final int index = requestUri.indexOf('?');
-				
+
 				if (index > -1) {
 					requestUri = requestUri.substring(0, index);
 				}
-				
+
 				this.parseFriendlyURL(requestUri, servletExtension);
 			}
 		}
@@ -198,13 +191,13 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		}
 		final String uri = requestUri.substring(0, requestUri.length() - servletExtension.length());
 		final String[] urlModel = uri.split("/");
-		
+
 		final int moduleIndex = 1;
 		final int actionIndex = 2;
 		int baseLen = 3;
-		
+
 		UrlPattern url = null;
-		
+
 		if (urlModel.length >= baseLen) {
 			// <moduleName>.<actionName>.<numberOfParameters>
 			StringBuilder stringBuffer = new StringBuilder(64)
@@ -213,21 +206,20 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				.append(urlModel[actionIndex])
 				.append('.')
 				.append(urlModel.length - baseLen);
-			
+
 			url = UrlPatternCollection.findPattern(stringBuffer.toString());
 		}
 
 		if (url == null) {
 			this.addOrReplaceParameter(MODULE, null);
-			this.addOrReplaceParameter(ACTION, null);				
-		}
-		else {			
+			this.addOrReplaceParameter(ACTION, null);
+		} else {
 			if (url.getSize() >= urlModel.length - baseLen) {
 				for (int i = 0; i < url.getSize(); i++) {
 					this.addParameter(url.getVars()[i], urlModel[i + baseLen]);
 				}
 			}
-			
+
 			this.addOrReplaceParameter(MODULE, urlModel[moduleIndex]);
 			this.addOrReplaceParameter(ACTION, urlModel[actionIndex]);
 		}
@@ -253,7 +245,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		    .append('/')
 		    .append(SystemGlobals.getValue(ConfigKeys.TMP_DIR))
 		    .toString();
-		
+
 		File tmpDir = new File(tmpPath);
 		boolean success = false;
 
@@ -261,32 +253,30 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			if (!tmpDir.exists()) {
 				success = tmpDir.mkdirs();
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			// We won't log it because the directory creation failed for some reason - a SecurityException
 			// or something else. We don't care about it, as the code below tries to use java.io.tmpdir
 		}
-		
+
 		if (!success) {
 			tmpPath = System.getProperty("java.io.tmpdir");
 			tmpDir = new File(tmpPath);
 		}
-		
+
 		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory(100 * 1024, tmpDir));
 		upload.setHeaderEncoding(encoding);
 
 		try {
 			List<FileItem> items = upload.parseRequest(superRequest);
-			
+
 			for (Iterator<FileItem> iter = items.iterator(); iter.hasNext(); ) {
 				FileItem item = (FileItem)iter.next();
-			
+
 				if (item.isFormField()) {
 					this.addParameter(item.getFieldName(), item.getString(encoding));
-				}
-				else {
+				} else {
 					if (item.getSize() > 0) {
-						// We really don't want to call addParameter(), as there should
+						// We really don't want to call addParameter(), as it should
 						// not be possible to have multiple values for a InputStream data
 						this.query.put(item.getFieldName(), item);
 					}
@@ -297,46 +287,46 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			throw new MultipartHandlingException("Error while processing multipart content: " + e);
 		}
 	}
-	
+
 	/**
 	 * @see javax.servlet.ServletRequestWrapper#getParameterValues(java.lang.String)
 	 */
 	@Override public String[] getParameterValues(final String name) 
 	{
 		Object value = this.getObjectParameter(name);
-		
+
 		if (value instanceof String) {
 			return new String[] { (String)value };
 		}
-		
+
 		List<?> list = (List<?>)value;
-		
+
 		return list == null
 			? super.getParameterValues(name)
 			: list.toArray(new String[list.size()]);
 	}
-	
+
 	private String extractRequestUri(final String requestUri, final String contextPath)
 	{
 		String uri = requestUri;
-		
+
 		// First, remove the context path from the requestUri, 
 		// so we can work only with the important stuff
 		if (contextPath != null && contextPath.length() > 0) {
 			uri = requestUri.substring(contextPath.length(), requestUri.length());
 		}
-		
+
 		// Remove the "jsessionid" (or similar) from the URI
 		// Probably this is not the right way to go, since we're discarding the value...
 		int index = uri.indexOf(';');
-		
+
 		if (index > -1) {
 			int lastIndex = uri.indexOf('?', index);
-			
+
 			if (lastIndex == -1) {
 				lastIndex = uri.indexOf('&', index);
 			}
-			
+
 			if (lastIndex == -1) {
 				uri = uri.substring(0, index);
 			}
@@ -345,7 +335,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				uri = part1 + uri.substring(lastIndex);
 			}
 		}
-		
+
 		return uri;
 	}
 
@@ -369,7 +359,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	{
 		return Integer.parseInt(this.getParameter(name));
 	}
-	
+
 	/**
 	 * Gets some request parameter as <code>Object</code>.
 	 * This method may be used when you have to get some value
@@ -382,7 +372,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	{
 		return this.query.get(name);
 	}
-	
+
 	@Override public void addParameter(final String name, final Object value)
 	{
 		if (MODULE.equals(name) || ACTION.equals(name)) {
@@ -392,19 +382,19 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 		if (this.query.containsKey(name)) {
 			Object currentValue = this.getObjectParameter(name);
 			List<Object> list;
-			
+
 			if (currentValue instanceof List<?>) {
-				list = (List<Object>)currentValue;				
+				list = (List<Object>)currentValue;
 			}
 			else {
 				list = new ArrayList<>();
 				list.add(currentValue);
 			}
-			
+
 			list.add(value);
-			this.query.put(name, list);	
+			this.query.put(name, list);
 		}
-		else {			
+		else {
 			this.query.put(name, value);
 		}
 	}
@@ -441,12 +431,12 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	{
 		return this.getParameter(ACTION);
 	}
-	
+
 	public void changeAction(final String newAction)
-	{	
+	{
 		this.addOrReplaceParameter(ACTION, newAction);
 	}
-	
+
 	/**
 	 * Gets the <i>module</i> of the current request.
 	 * 
@@ -467,12 +457,12 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	{
 		return this.getParameter(MODULE);
 	}
-	
+
 	public Object getObjectRequestParameter(final String parameter)
 	{
 		return this.query.get(parameter);
 	}
-	
+
 	/**
 	 * @see javax.servlet.http.HttpServletRequestWrapper#getContextPath()
 	 */
@@ -480,11 +470,11 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 	{
 		String contextPath = super.getContextPath();
 		String proxiedContextPath = SystemGlobals.getValue(ConfigKeys.PROXIED_CONTEXT_PATH);
-		
+
 		if (StringUtils.isNotEmpty(proxiedContextPath)) {
 			contextPath = proxiedContextPath;
 		}
-		
+
 		return contextPath;
 	}
 
