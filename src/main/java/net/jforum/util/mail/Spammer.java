@@ -229,7 +229,7 @@ public class Spammer
 									//}
 
 									// no point in trying DKIM if the relevant properties have not been set
-									DkimMessage dkimMsg = null;
+									MimeMessage msg = this.message;
 									if (StringUtils.isNotEmpty(signingDomain) && StringUtils.isNotEmpty(derFile)) {
 										try {
 											DkimSigner dkimSigner = new DkimSigner(signingDomain, selector, new File(derFile));
@@ -241,13 +241,13 @@ public class Spammer
 											dkimSigner.setLengthParam(true);
 											dkimSigner.setCopyHeaderFields(false);
 											*/
-											dkimMsg = new DkimMessage(this.message, dkimSigner);
+											msg = new DkimMessage(msg, dkimSigner);
 										} catch (Exception ex) {
 											LOGGER.warn("Can't use DKIM: "+ex.getMessage());
 										}
 									}
 
-	                        		transport.sendMessage(dkimMsg != null ? dkimMsg : this.message, new Address[] { address });
+	                        		transport.sendMessage(msg, new Address[] { address });
 	                        	}
 	                        	if (sendDelay > 0) {
 		                        	try {
