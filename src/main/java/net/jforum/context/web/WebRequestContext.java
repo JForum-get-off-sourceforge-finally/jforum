@@ -265,6 +265,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 
 		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory(100 * 1024, tmpDir));
 		upload.setHeaderEncoding(encoding);
+		upload.setFileCountMax(100);
 
 		try {
 			List<FileItem> items = upload.parseRequest(superRequest);
