@@ -70,7 +70,7 @@ public class JForumExecutionContext
     private static ThreadLocal<JForumExecutionContext> userData = new ThreadLocal<>();
 	private static final Logger LOGGER = Logger.getLogger(JForumExecutionContext.class);
 	private static Configuration templateConfig;
-	private static final BeansWrapper BEANS_WRAPPER = new BeansWrapperBuilder(Configuration.VERSION_2_3_31).build();
+	private static final BeansWrapper BEANS_WRAPPER = new BeansWrapperBuilder(Configuration.VERSION_2_3_32).build();
 
 	private transient Connection conn;
     private ForumContext forumContext;
@@ -86,7 +86,7 @@ public class JForumExecutionContext
 	 */
 	public static JForumExecutionContext get()
 	{
-		JForumExecutionContext executionContext = (JForumExecutionContext)userData.get();
+		JForumExecutionContext executionContext = userData.get();
 
 		if (executionContext == null) {
 			executionContext = new JForumExecutionContext();
@@ -176,7 +176,7 @@ public class JForumExecutionContext
 
     public static ForumContext getForumContext()
     {
-        return ((JForumExecutionContext)userData.get()).forumContext;
+        return userData.get().forumContext;
     }
 
     public void setForumContext(final ForumContext forumContext)
@@ -205,7 +205,7 @@ public class JForumExecutionContext
 	 * @return SimpleHash
 	 */
 	public static SimpleHash getTemplateContext() {
-		return ((JForumExecutionContext)userData.get()).context;
+		return userData.get().context;
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class JForumExecutionContext
      * @param redirect String
      */
 	public static void setRedirect(final String redirect) {
-		((JForumExecutionContext)userData.get()).redirectTo = redirect;
+		userData.get().redirectTo = redirect;
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class JForumExecutionContext
 	 * @param cntType String
 	 */
 	public static void setContentType(final String cntType) {
-		((JForumExecutionContext)userData.get()).contentType = cntType;
+		userData.get().contentType = cntType;
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class JForumExecutionContext
 	 */
 	public static String getContentType()
 	{
-		return ((JForumExecutionContext)userData.get()).contentType;
+		return userData.get().contentType;
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class JForumExecutionContext
 	 */
 	public static String getRedirectTo()
 	{
-		final JForumExecutionContext executionContext = (JForumExecutionContext)userData.get();
+		final JForumExecutionContext executionContext = userData.get();
 		return (executionContext == null ? null : executionContext.redirectTo);
 	}
 
@@ -248,24 +248,23 @@ public class JForumExecutionContext
 	 * @param enable boolean
 	 */
 	public static void enableCustomContent(final boolean enable) {
-		((JForumExecutionContext)userData.get()).isCustomContent = enable;
+		userData.get().isCustomContent = enable;
 	}
 
 	/**
 	 * Checks if the current request is binary
-	 * @return <code>true</code> if the content type for the current request is 
-	 * any binary data.
+	 * @return <code>true</code> if the content type for the current request is any binary data.
 	 */
 	public static boolean isCustomContent()
 	{
-		return ((JForumExecutionContext)userData.get()).isCustomContent;
+		return userData.get().isCustomContent;
 	}
 
 	/**
 	 * Forces the request to not commit the connection.
 	 */
 	public static void enableRollback() {
-		((JForumExecutionContext)userData.get()).enableRollback = true;
+		userData.get().enableRollback = true;
 	}
 
 	/**
@@ -273,7 +272,7 @@ public class JForumExecutionContext
 	 * @return <code>true</code> if a commit should NOT be made
 	 */
 	public static boolean shouldRollback() {
-		return ((JForumExecutionContext)userData.get()).enableRollback;
+		return userData.get().enableRollback;
 	}
 
     /**

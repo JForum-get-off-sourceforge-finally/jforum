@@ -99,8 +99,8 @@ public class LuceneReindexer
 
 		LuceneDAO dao = DataAccessDriver.getInstance().newLuceneDAO();
 
-		LuceneSearch luceneSearch = ((LuceneManager)SearchFacade.manager()).luceneSearch();
-		LuceneIndexer luceneIndexer = ((LuceneManager)SearchFacade.manager()).luceneIndexer();
+		LuceneSearch luceneSearch = SearchFacade.manager().luceneSearch();
+		LuceneIndexer luceneIndexer = SearchFacade.manager().luceneIndexer();
 
 		int fetchCount = SystemGlobals.getIntValue(ConfigKeys.LUCENE_INDEXER_DB_FETCH_COUNT);
 

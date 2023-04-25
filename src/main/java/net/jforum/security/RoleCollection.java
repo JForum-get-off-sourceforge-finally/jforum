@@ -66,7 +66,7 @@ public class RoleCollection extends LinkedHashMap<String, Role>
 	 */
 	public Role get(final String name)
 	{
-		return (Role)super.get(name);
+		return super.get(name);
 	}
 
 	/** 

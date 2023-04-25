@@ -16,7 +16,6 @@ import net.jforum.entities.UserSession;
 /**
  * Tests the auto login feature
  * @author Rafael Steil
- * @version $Id$
  */
 public class AutoLoginTest extends TestCase
 {
@@ -26,7 +25,7 @@ public class AutoLoginTest extends TestCase
 		final ControllerUtils c = this.newControllerUtils();
 		c.checkAutoLogin(this.newUserSession());
 	}
-	
+
 	private UserSession newUserSession()
 	{
 		return new UserSession() {
@@ -42,16 +41,14 @@ public class AutoLoginTest extends TestCase
 	{
 		return new ControllerUtils() {
 			private Map<String, Cookie> cookiesMap = new HashMap<String, Cookie>();
-			
+
 			protected Cookie getCookieTemplate(String name) {
-				return (Cookie)this.cookiesMap.get(name);
+				return this.cookiesMap.get(name);
 			}
-			
+
 			protected void addCookieTemplate(final String name, final String value) {
 				this.cookiesMap.put(name, new Cookie(name, value));
 			}
-			
-			
 		};
 	}
 }

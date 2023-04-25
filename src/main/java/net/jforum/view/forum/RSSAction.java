@@ -81,40 +81,40 @@ import net.jforum.view.forum.common.TopicsCommon;
 public class RSSAction extends Command 
 {
 	private static final String RSS_CONTENTS = "rssContents";
-	
+
 	/**
 	 * RSS for all N first topics for some given forum
 	 */
 	public void forumTopics()
 	{
-		final int forumId = this.request.getIntParameter("forum_id");		
+		final int forumId = this.request.getIntParameter("forum_id");
 		final Forum forum = ForumRepository.getForum(forumId);
-		
+
 		// Handle if forum doesn't  exist
 		if (forum == null) {
 			this.context.put(RSS_CONTENTS, "<!-- The requested forum does not exist-->");
 			return;
 		}
-		
+
 		if (!TopicsCommon.isTopicAccessible(forumId)) {
 			JForumExecutionContext.requestBasicAuthentication();
             return;
 		}
-		
+
 		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestByForumForRSS(
 			forumId, SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE));
-				
+
 		final String[] param = { forum.getName() };
-		
+
 		final RSSAware rss = new TopicRSS(I18n.getMessage("RSS.ForumTopics.title", param),
 			I18n.getMessage("RSS.ForumTopics.description", param),
 			forumId, 
 			posts);
-		
+
 		this.context.put(RSS_CONTENTS, rss.createRSS());
         new StatsEvent("RSS forum", request.getRequestURL()).record();
 	}
-	
+
 	/**
 	 * RSS for all N first posts for some given topic
 	 */
@@ -123,27 +123,27 @@ public class RSSAction extends Command
 		final int topicId = this.request.getIntParameter("topic_id");
 
 		final TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
-		
+
 		final Topic topic = topicDao.selectById(topicId);
-		
+
 		// Handle if topic doesn't  exist
 		if (topic.getId() == 0) {
 			this.context.put(RSS_CONTENTS, "<!-- The requested topic does not exist-->");
 			return;
 		}
-		
+
 		if (!TopicsCommon.isTopicAccessible(topic.getForumId())) {
 			JForumExecutionContext.requestBasicAuthentication(); 
             return;
 		}
-		
+
 		topicDao.incrementTotalViews(topic.getId());
-		
+
 		final PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		final List<Post> posts = postDao.selectAllByTopic(topicId);
-		
+
 		final String[] param = { topic.getTitle() };
-		
+
 		final String title = I18n.getMessage("RSS.TopicPosts.title", param);
 		final String description = I18n.getMessage("RSS.TopicPosts.description", param);
 
@@ -151,13 +151,13 @@ public class RSSAction extends Command
 		this.context.put(RSS_CONTENTS, rss.createRSS());
         new StatsEvent("RSS single topic", request.getRequestURL()).record();
 	}
-	
+
 	public void recentTopics()
 	{
 		final String title = I18n.getMessage("RSS.RecentTopics.title", 
 			new Object[] { SystemGlobals.getValue(ConfigKeys.FORUM_NAME) });
 		final String description = I18n.getMessage("RSS.RecentTopics.description");
-		
+
 		final List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectLatestForRSS(
 			SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE));
 
@@ -179,7 +179,7 @@ public class RSSAction extends Command
 		String title = I18n.getMessage("RSS.HottestTopics.title", 
 			new Object[] { SystemGlobals.getValue(ConfigKeys.FORUM_NAME) });
 		String description = I18n.getMessage("RSS.HottestTopics.description");
-		
+
 		List<Post> posts = DataAccessDriver.getInstance().newPostDAO().selectHotForRSS(
 			SystemGlobals.getIntValue(ConfigKeys.HOTTEST_TOPICS));
 
@@ -224,7 +224,7 @@ public class RSSAction extends Command
     */
     private void removeUnauthorizedPosts(List<Post> posts) {
         for (Iterator<Post> iter = posts.iterator(); iter.hasNext(); ) {
-            Post p = (Post) iter.next();
+            Post p = iter.next();
             Forum f = ForumRepository.getForum(p.getForumId());
             if ((f == null)
 					|| !ForumRepository.isCategoryAccessible(f.getCategoryId())
@@ -242,7 +242,7 @@ public class RSSAction extends Command
 	{
 		// Empty method
 	}
-	
+
 	/** 
 	 * @see net.jforum.Command#process(net.jforum.context.RequestContext, net.jforum.context.ResponseContext, freemarker.template.SimpleHash) 
 	 */

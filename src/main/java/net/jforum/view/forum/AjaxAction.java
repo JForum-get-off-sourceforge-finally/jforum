@@ -173,7 +173,7 @@ public class AjaxAction extends Command
 
 		this.setTemplateName(TemplateKeys.AJAX_IS_POST_INDEXED);
 
-		LuceneManager manager = (LuceneManager)SearchFacade.manager();
+		LuceneManager manager = SearchFacade.manager();
 		Document doc = manager.luceneSearch().findDocumentByPostId(postId);
 
 		this.context.put("doc", doc);

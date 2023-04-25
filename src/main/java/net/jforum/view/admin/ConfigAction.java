@@ -78,14 +78,14 @@ import freemarker.template.SimpleHash;
 public class ConfigAction extends AdminCommand 
 {
 	public ConfigAction() {}
-	
+
 	public ConfigAction (RequestContext request, ResponseContext response, SimpleHash context)
 	{
 		this.request = request;
 		this.response = response;
 		this.context = context;
 	}
-	
+
 	@Override public void list() {
 		Properties p = new Properties();
 		Iterator<Object> iter = SystemGlobals.fetchConfigKeyIterator();
@@ -97,7 +97,7 @@ public class ConfigAction extends AdminCommand
 		}
 
 		Properties locales = new Properties();
-		
+
 		try (FileInputStream fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR) + "/languages/locales.properties"))
 		{
 			locales.load(fis);
@@ -127,28 +127,28 @@ public class ConfigAction extends AdminCommand
 		this.updateData(this.getConfig());
 		this.list();
 	}
-	
+
 	protected Properties getConfig()
 	{
 		Properties p = new Properties();
 
 		Enumeration<String> e = this.request.getParameterNames();
 		while (e.hasMoreElements()) {
-			String name = (String) e.nextElement();
+			String name = e.nextElement();
 
 			if (name.startsWith("p_")) {
 				p.setProperty(name.substring(name.indexOf('_') + 1), this.request.getParameter(name));
 			}
 		}
-		
+
 		return p;
 	}
-	
+
 	protected void updateData(Properties p)
 	{
 		for (Iterator<Map.Entry<Object, Object>>  iter = p.entrySet().iterator(); iter.hasNext(); ) {
 			Map.Entry<Object, Object> entry = iter.next();
-			
+
 			SystemGlobals.setValue((String)entry.getKey(), (String)entry.getValue());
 		}
 
@@ -165,10 +165,10 @@ public class ConfigAction extends AdminCommand
 		int oldTopicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		if (oldTopicsPerPage != SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)) {
 			List<Category> categories = ForumRepository.getAllCategories();
-			
+
 			for (Iterator<Category> iter = categories.iterator(); iter.hasNext(); ) {
 				Category category = iter.next();
-				
+
 				for (Iterator<Forum> iter2 = category.getForums().iterator(); iter2.hasNext(); ) {
 					Forum forum = iter2.next();
 					TopicRepository.clearCache(forum.getId());

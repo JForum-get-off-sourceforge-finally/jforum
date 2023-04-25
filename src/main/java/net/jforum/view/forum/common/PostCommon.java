@@ -257,7 +257,7 @@ public class PostCommon
         List<Smilie> smilies = SmiliesRepository.getSmilies();
         BBCodeHandler bbch = BBCodeRepository.getBBCollection();
         for (Iterator<Smilie> iter = smilies.iterator(); iter.hasNext();) {
-            Smilie s = (Smilie) iter.next();
+            Smilie s = iter.next();
             int pos = 0;
             // The counter is used as prevention, in case
             // the while loop turns into an always true expression, for any reason

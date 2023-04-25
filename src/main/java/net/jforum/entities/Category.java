@@ -340,6 +340,6 @@ public class Category implements Serializable, Comparable<Category>
 	}
 
 	@Override public int compareTo(Category o) {
-		return this.getOrder() - ((Category)o).getOrder();
+		return this.getOrder() - o.getOrder();
 	}
 }

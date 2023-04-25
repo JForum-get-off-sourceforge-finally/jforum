@@ -69,13 +69,12 @@ public class UserPostsRSS extends GenericRSS {
 
     private void prepareRSS(List<Post> posts) {
         for (Iterator<Post> iter = posts.iterator(); iter.hasNext();) {
-            Post p = (Post) iter.next();
-            
-            Forum forum = ForumRepository.getForum(p.getForumId());
-
+            Post p = iter.next();
             p.setBbCodeEnabled(true);
             p.setHtmlEnabled(false);
             p.setHtmlEnabled(false);
+
+            Forum forum = ForumRepository.getForum(p.getForumId());
 
             RSSItem item = new RSSItem();
             item.setAuthor(p.getPostUsername());

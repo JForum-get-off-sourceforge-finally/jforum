@@ -224,7 +224,7 @@ public class ModerationHelper
 
 			// Reload changed forums
 			for (Iterator<Integer> iter = forumsList.iterator(); iter.hasNext(); ) {
-				int forumId = ((Integer)iter.next()).intValue();
+				int forumId = iter.next().intValue();
 
 				TopicRepository.clearCache(forumId);
 

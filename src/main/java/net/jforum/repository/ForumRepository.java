@@ -365,7 +365,7 @@ public class ForumRepository implements Cacheable
 
 		final Map<String, String> map = (Map<String, String>)cache.get(FQN, RELATION);
 		for (final Iterator<String> iter = map.values().iterator(); iter.hasNext(); ) {
-			if (Integer.parseInt((String)iter.next()) == category.getId()) {
+			if (Integer.parseInt(iter.next()) == category.getId()) {
 				iter.remove();
 			}
 		}
@@ -417,12 +417,12 @@ public class ForumRepository implements Cacheable
         String categoryId = null;
 
         if (cachedCategoryMap != null) {
-           categoryId = (String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
+           categoryId = ((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
         } else {
             ForumStartup.startForumRepository(); // re-cache these, they were flushed out of cache for some reason
             cachedCategoryMap = cache.get(FQN, RELATION);
             if (cachedCategoryMap != null) {
-                categoryId = (String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
+                categoryId = ((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId));
             } else {
                 LOGGER.error("Give up! Something is wrong with cache.  Please check configuration.");
             }
@@ -448,7 +448,7 @@ public class ForumRepository implements Cacheable
 	{
 		// avoiding spurious NPEs
 		try {
-			int categoryId = Integer.parseInt((String)((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId)));
+			int categoryId = Integer.parseInt(((Map<String, String>)cache.get(FQN, RELATION)).get(Integer.toString(forumId)));
 			return isForumAccessible(userId, categoryId, forumId);
 		} catch (RuntimeException rtex) {
 			return false;

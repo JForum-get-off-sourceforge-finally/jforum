@@ -81,7 +81,7 @@ public class HottestTopicsAction extends Command
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 
 		this.setTemplateName(TemplateKeys.HOTTEST_LIST);
-		
+
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
 		this.context.put("topics", this.topics());
 		this.context.put("forums", this.forums);
@@ -90,19 +90,19 @@ public class HottestTopicsAction extends Command
 		TopicsCommon.topicListingBase();
 		this.request.removeAttribute("template");
 	}
-	
+
 	private List<Topic> topics()
 	{
         new StatsEvent("Hot topics page", request.getRequestURL()).record();
 
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		final List<Topic> tmpTopics = TopicRepository.loadHottestTopics();
-		
+
 		this.forums = new ArrayList<>(postsPerPage);
 
 		for (final Iterator<Topic> iter = tmpTopics.iterator(); iter.hasNext(); ) {
-			final Topic topic = (Topic)iter.next();
-			
+			final Topic topic = iter.next();
+
 			if (TopicsCommon.isTopicAccessible(topic.getForumId())) {
 				// Get name of forum that the topic refers to
 				final Forum forum = ForumRepository.getForum(topic.getForumId());
@@ -112,62 +112,62 @@ public class HottestTopicsAction extends Command
 				iter.remove();
 			}
 		}
-		
+
 		JForumExecutionContext.getRequest().removeAttribute("template");
-		
+
 		return TopicsCommon.prepareTopics(tmpTopics);
 	}
 
 	public void showTopicsByUser() 
 	{
 		final DataAccessDriver dad = DataAccessDriver.getInstance();
-		
+
 		final UserDAO udao = dad.newUserDAO();
 		final User user = udao.selectById(this.request.getIntParameter("user_id"));
-		
+
 		if (user.getId() == 0) {
 			this.context.put("message", I18n.getMessage("User.notFound"));
 			this.setTemplateName(TemplateKeys.USER_NOT_FOUND);
 			return;
 		} 
-			
+
 		TopicsCommon.topicListingBase();
-		
+
 		final int start = ViewCommon.getStartPage();
 		final int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		final int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		
+
 		this.setTemplateName(TemplateKeys.HOTTEST_USER_TOPICS_SHOW);
-		
+
 		int totalTopics = dad.newTopicDAO().countUserTopics(user.getId());
-		
+
 		this.context.put("u", user);
 		this.context.put("pageTitle", I18n.getMessage("ForumListing.userTopics") + " " + user.getUsername());
-		
+
 		this.context.put("postsPerPage", Integer.valueOf(postsPerPage));
-		
+
 		final List<Topic> topics = dad.newTopicDAO().selectByUserByLimit(user.getId(), start, topicsPerPage);
-		
+
 		final List<Topic> list = TopicsCommon.prepareTopics(topics);
 		final Map<Integer, Forum> forums = new HashMap<>();
 
 		for (final Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
-			final Topic topic = (Topic)iter.next();
-			
+			final Topic topic = iter.next();
+
 			final Forum forum = ForumRepository.getForum(topic.getForumId());
-			
+
 			if (forum == null) {
 				iter.remove();
 				totalTopics--;
 				continue;
 			}
-			
+
 			forums.put(Integer.valueOf(topic.getForumId()), forum);
 		}
-		
+
 		this.context.put("topics", list);
 		this.context.put("forums", forums);
-		
+
 		ViewCommon.contextToPagination(start, totalTopics, topicsPerPage);
 	}
 }

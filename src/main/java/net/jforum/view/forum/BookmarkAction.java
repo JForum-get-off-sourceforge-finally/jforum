@@ -302,7 +302,7 @@ public class BookmarkAction extends Command
 		List<Bookmark> bookmarks = DataAccessDriver.getInstance().newBookmarkDAO().selectByUser(userId);
 		// remove bookmarks from list that are in forums which this user is not allowed to see
 		for (Iterator<Bookmark> iter = bookmarks.iterator(); iter.hasNext(); ) {
-			Bookmark b = (Bookmark) iter.next();			
+			Bookmark b = iter.next();
 			Forum f = ForumRepository.getForum(b.getForumId());
 			if (f == null || !ForumRepository.isCategoryAccessible(f.getCategoryId())) {
 				iter.remove();

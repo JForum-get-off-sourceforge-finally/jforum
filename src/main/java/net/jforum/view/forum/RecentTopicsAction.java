@@ -108,7 +108,7 @@ public class RecentTopicsAction extends Command
 		this.forums = new ArrayList<>(postsPerPage);
 
 		for (final Iterator<Topic> iter = topics.iterator(); iter.hasNext(); ) {
-			final Topic topic = (Topic)iter.next();
+			final Topic topic = iter.next();
 
 			if (TopicsCommon.isTopicAccessible(topic.getForumId())) {
 				final Forum forum = ForumRepository.getForum(topic.getForumId());
@@ -158,7 +158,7 @@ public class RecentTopicsAction extends Command
 		final Map<Integer, Forum> forums = new HashMap<>();
 
 		for (final Iterator<Topic> iter = list.iterator(); iter.hasNext(); ) {
-			final Topic topic = (Topic)iter.next();
+			final Topic topic = iter.next();
 
 			final Forum forum = ForumRepository.getForum(topic.getForumId());
 

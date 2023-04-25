@@ -74,17 +74,17 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 	private List<Integer> selectForumRoles(final int forumId) 
 	{
 		final List<Integer> l = new ArrayList<>();
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PermissionControl.selectForumRoles"));
 			pstmt.setString(1, String.valueOf(forumId));
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				l.add(Integer.valueOf(rs.getInt("role_id")));
 			}
@@ -95,30 +95,30 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return l;
 	}
-	
+
 	@Override public void deleteForumRoles(final int forumId) 
 	{
 		PreparedStatement pstmt = null;
-		
+
 		final List<Integer> roleIds = this.selectForumRoles(forumId);
-		
+
 		try {
 			final StringBuilder ids = new StringBuilder();
-			
+
 			for (final Iterator<Integer> iterator = roleIds.iterator(); iterator.hasNext();) {
-				final Integer id = (Integer)iterator.next();
+				final Integer id = iterator.next();
 				ids.append(id).append(',');
 			}
-			
+
 			ids.append("-1");
-			
+
 			// Role values
 			String sql = SystemGlobals.getSql("PermissionControl.deleteRoleValues");
 			sql = StringUtils.replace(sql, "#IDS#", ids.toString());
-			
+
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			pstmt.setString(1, String.valueOf(forumId));
 			pstmt.executeUpdate();
@@ -130,14 +130,14 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 			DbUtils.close(pstmt);
 		}
 	}
-	
+
 	/**
 	 * @see net.jforum.dao.GroupSecurityDAO#deleteAllRoles(int)
 	 */
 	@Override public void deleteAllRoles(final int groupId)
 	{
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 				SystemGlobals.getSql("PermissionControl.deleteAllRoleValues"));
@@ -184,12 +184,12 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 	{
 		return this.loadRoles(new int[] { groupId });
 	}
-	
+
 	protected RoleCollection loadRoles(int[] groupIds)
 	{
 		String sql = SystemGlobals.getSql("PermissionControl.loadGroupRoles");
 		String groupIdAsString = SecurityCommon.groupIdAsString(groupIds);
-		
+
 		if ("".equals(groupIdAsString)) {
 			// We suppose there is no "negative" group ids
 			sql = sql.replaceAll("#IN#", "-1");
@@ -197,16 +197,16 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 		else {
 			sql = sql.replaceAll("#IN#", groupIdAsString);
 		}
-		
+
 		RoleCollection roles = null;
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
+
 			roles = SecurityCommon.loadRoles(rs);
 		}
 		catch (SQLException e) {
@@ -215,7 +215,7 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return roles;
 	}
 
@@ -226,7 +226,7 @@ public class GenericGroupSecurityDAO extends AutoKeys implements GroupSecurityDA
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement(
 					SystemGlobals.getSql("PermissionControl.getRoleIdByName"));

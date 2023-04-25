@@ -70,28 +70,28 @@ public class VariableExpander
 	{
 		cache.clear();
 	}
-	
+
 	public String expandVariables(final String source)
 	{
-		String result = (String)this.cache.get(source);
-		
+		String result = this.cache.get(source);
+
 		if (source == null || result != null) {
 			return result;
 		}
-		
+
 		int fIndex = source.indexOf(this.pre);
-		
+
 		if (fIndex == -1) {
 			return source;
 		}
-		
+
 		final StringBuilder stringBuffer = new StringBuilder(source);
-		
+
 		while (fIndex > -1) {
 			final int lIndex = stringBuffer.indexOf(this.post);
-			
+
 			final int start = fIndex + this.pre.length();
-			
+
 			if (fIndex == 0) {
 				final String varName = stringBuffer.substring(start, start + lIndex - this.pre.length());
 				stringBuffer.replace(fIndex, fIndex + lIndex + 1, this.variables.getVariableValue(varName));
@@ -100,14 +100,14 @@ public class VariableExpander
 				final String varName = stringBuffer.substring(start, lIndex);
 				stringBuffer.replace(fIndex, lIndex + 1, this.variables.getVariableValue(varName));
 			}
-			
+
 			fIndex = stringBuffer.indexOf(this.pre);
 		}
-		
+
 		result = stringBuffer.toString();
-		
+
 		this.cache.put(source, result);
-		
+
 		return result;
 	}
 }

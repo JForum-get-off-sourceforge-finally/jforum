@@ -45,7 +45,6 @@ import org.junit.Test;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class POPListenerTestCase extends TestCase
 {
@@ -61,25 +60,25 @@ public class POPListenerTestCase extends TestCase
 	private boolean ssl = true;
 	private int userId = 1;
 	private int forumId = 1;
-	
+
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
 	protected void setUp() throws Exception
 	{
-		if (!started) {			
+		if (!started) {
 			TestCaseUtils.loadEnvironment();
 			TestCaseUtils.initDatabaseImplementation();
 			ConfigLoader.startCacheEngine();
-			
+
 			ForumStartup.startForumRepository();
 			RankingRepository.loadRanks();
 			SmiliesRepository.loadSmilies();
 			BBCodeRepository.setBBCollection(new BBCodeHandler().parse());
-			
+
 			SystemGlobals.setValue(ConfigKeys.SEARCH_INDEXING_ENABLED, "false");
-			
+
 			UserDAO userDao = DataAccessDriver.getInstance().newUserDAO();
 			User user = userDao.selectById(userId);
 			user.setEmail(sender);
@@ -101,8 +100,8 @@ public class POPListenerTestCase extends TestCase
 			}
 			started = true;
 		}
-	}	
-	
+	}
+
 	/**
 	 * A single and simple message
 	 */
@@ -110,16 +109,16 @@ public class POPListenerTestCase extends TestCase
 	public void testSimple() throws Exception
 	{
 		int beforeTopicId = this.maxTopicId();
-		
+
 		String subject = "Mail Message " + new Date();
 		String contents = "Mail message contents " + new Date();
-		
+
 		this.sendMessage(sender, subject, forumAddress, contents, null);
-		
+
 		int afterTopicId = this.maxTopicId();
-		
+
 		assertTrue("The message was not inserted", afterTopicId > beforeTopicId);
-		
+
 		try {
 			this.assertPost(afterTopicId, sender, subject, contents);
 		}
@@ -127,7 +126,7 @@ public class POPListenerTestCase extends TestCase
 			this.deleteTopic(afterTopicId);
 		}
 	}
-	
+
 	/**
 	 * Sends an invalid In-Reply-To header, which should cause the system
 	 * to create a new topic, instead of adding the message as a reply
@@ -136,17 +135,17 @@ public class POPListenerTestCase extends TestCase
 	@Test
 	public void testInReplyToIncorrectShouldCreateNewTopic() throws Exception
 	{
-		int beforeTopicId = this.maxTopicId();		
+		int beforeTopicId = this.maxTopicId();
 
 		String subject = "Mail Message " + new Date();
 		String contents = "Mail message contents " + new Date();
-		
+
 		this.sendMessage(sender, subject, forumAddress, contents, MessageId.buildMessageId(7777, 999999, 888888));
-		
+
 		int afterTopicId = this.maxTopicId();
-		
+
 		assertTrue("The message was not inserted", afterTopicId > beforeTopicId);
-		
+
 		try {
 			this.assertPost(afterTopicId, sender, subject, contents);
 		}
@@ -154,7 +153,7 @@ public class POPListenerTestCase extends TestCase
 			this.deleteTopic(afterTopicId);
 		}
 	}
-	
+
 	/**
 	 * Create a new topic, then send a message with the In-Reply-To header, 
 	 * which should create an answer to the previously created topic
@@ -163,47 +162,47 @@ public class POPListenerTestCase extends TestCase
 	@Test
 	public void testInReplyToCreateNewTopicThenReply() throws Exception
 	{
-		int beforeTopicId = this.maxTopicId();	
+		int beforeTopicId = this.maxTopicId();
 
 		String subject = "Mail Message " + new Date();
 		String contents = "Mail message contents " + new Date();
-		
+
 		this.sendMessage(sender, subject, forumAddress, contents, null);
-		
+
 		int afterTopicId = this.maxTopicId();
-		
+
 		assertTrue("The message was not inserted", afterTopicId > beforeTopicId);
-		
+
 		try {
 			this.assertPost(afterTopicId, sender, subject, contents);
-			
+
 			// OK, now send a new message, replying to the previously topic
 			subject = "Reply subject for topic " + afterTopicId;
 			contents = "Changed contents, replying topic " + afterTopicId;
-			
+
 			this.sendMessage(sender, subject, forumAddress, contents, MessageId.buildMessageId(7777, afterTopicId, 999999));
-			
+
 			assertTrue("A new message was created, instead of a reply", afterTopicId == maxTopicId());
-			
+
 			PostDAO postDAO = DataAccessDriver.getInstance().newPostDAO();
 			List<Post> posts = postDAO.selectAllByTopic(afterTopicId);
-			
+
 			assertTrue("There should be two posts", posts.size() == 2);
-			
+
 			// The first message was already validated
-			Post post = (Post)posts.get(0);
+			Post post = posts.get(0);
 			User user = DataAccessDriver.getInstance().newUserDAO().selectById(post.getUserId());
 
 			assertNotNull("User should not be null", user);
 			assertEquals("sender", sender, user.getEmail());
 			assertEquals("subject", subject, post.getSubject());
-			assertEquals("text", contents, post.getText());			
+			assertEquals("text", contents, post.getText());
 		}
 		finally {
 			this.deleteTopic(afterTopicId);
 		}
 	}
-	
+
 	/**
 	 * Emulates the action of sending an email.
 	 * 
@@ -218,18 +217,18 @@ public class POPListenerTestCase extends TestCase
 	private void sendMessage(String sender, String subject, String forumAddress, String contents, String inReplyTo) throws Exception
 	{
 		POPListener listener = new POPListenerMock();
-		
+
 		MimeMessageMock message = this.newMessageMock(sender, subject, forumAddress, contents);
-		
+
 		if (inReplyTo != null) {
 			message.addHeader("In-Reply-To", inReplyTo);
 		}
-		
+
 		((POPConnectorMock)listener.getConnector()).setMessages(new Message[] { message });
-		
+
 		listener.execute(null);
 	}
-	
+
 	/**
 	 * Asserts the post instance, after execution some part of the testcase
 	 * @param topicId the topic's id of the new message
@@ -241,19 +240,19 @@ public class POPListenerTestCase extends TestCase
 	{
 		PostDAO postDAO = DataAccessDriver.getInstance().newPostDAO();
 		List<Post> posts = postDAO.selectAllByTopic(topicId);
-		
+
 		assertTrue("There should be exactly one post", posts.size() == 1);
-		
-		Post post = (Post)posts.get(0);
-		
+
+		Post post = posts.get(0);
+
 		User user = DataAccessDriver.getInstance().newUserDAO().selectById(post.getUserId());
 		assertNotNull("User should not be null", user);
-		
+
 		assertEquals("sender", sender, user.getEmail());
 		assertEquals("subject", subject, post.getSubject());
 		assertEquals("text", contents, post.getText());
 	}
-	
+
 	/**
 	 * Gets the latest topic id existent
 	 * @return the topic id, or -1 if something went wrong
@@ -262,14 +261,14 @@ public class POPListenerTestCase extends TestCase
 	private int maxTopicId() throws Exception
 	{
 		int topicId = -1;
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pstmt = JForumExecutionContext.getConnection().prepareStatement("select max(topic_id) from jforum_topics");
 			rs = pstmt.executeQuery();
-			
+
 			if (rs.next()) {
 				topicId = rs.getInt(1);
 			}
@@ -277,7 +276,7 @@ public class POPListenerTestCase extends TestCase
 		finally {
 			DbUtils.close(rs, pstmt);
 		}
-		
+
 		return topicId;
 	}
 
@@ -289,47 +288,47 @@ public class POPListenerTestCase extends TestCase
 	{
 		try {
 			TopicDAO dao = DataAccessDriver.getInstance().newTopicDAO();
-			
+
 			Topic topic = new Topic(topicId);
 			topic.setForumId(forumId);
-			
+
 			dao.delete(topic, false);
-			
+
 			JForumExecutionContext.finish();
 		}
 		catch (Exception e) {
-			e.printStackTrace();				
+			e.printStackTrace();
 		}
 	}
-	
+
 	private MimeMessageMock newMessageMock(String sender, String subject, String listEmail, 
 			String text) throws Exception
 	{
 		MimeMessageMock m = new MimeMessageMock(null, new ByteArrayInputStream(text.getBytes()));
-		
+
 		m.setFrom(new InternetAddress(sender));
 		m.setRecipient(RecipientType.TO, new InternetAddress(listEmail));
 		m.setSubject(subject);
-		
+
 		return m;
 	}
-	
+
 	private static class MimeMessageMock extends MimeMessage
 	{
 		private InputStream is;
 		private String messageId;
-		
+
 		public MimeMessageMock(Session session, InputStream is) throws MessagingException
 		{
 			super(session, is);
 			this.is = is;
 		}
-		
+
 		public InputStream getInputStream() throws IOException, MessagingException
 		{
 			return this.is;
 		}
-		
+
 		protected void updateMessageID() throws MessagingException
 		{
 			if (this.messageId != null) {
@@ -339,13 +338,13 @@ public class POPListenerTestCase extends TestCase
 				super.updateMessageID();
 			}
 		}
-		
+
 		public void setMessageId(String messageId) throws MessagingException
 		{
 			this.addHeader("Message-ID", messageId);
 			this.messageId = messageId;
 		}
-		
+
 		public String getContentType() throws MessagingException
 		{
 			return "text/plain";

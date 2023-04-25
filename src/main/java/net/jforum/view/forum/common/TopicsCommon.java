@@ -81,7 +81,7 @@ import net.jforum.view.forum.ModerationHelper;
 public class TopicsCommon 
 {
 	private static final Object MUTEXT = new Object();
-	
+
 	/**
 	 * List all first 'n' topics of a given forum.
 	 * This method returns no more than <code>ConfigKeys.TOPICS_PER_PAGE</code> topics for the forum. 
@@ -95,7 +95,7 @@ public class TopicsCommon
 		TopicDAO tm = DataAccessDriver.getInstance().newTopicDAO();
 		int topicsPerPage = SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE);
 		List<Topic> topics;
-		
+
 		// Try to get the first's page of topics from the cache
 		if (SystemGlobals.getBoolValue(ConfigKeys.TOPIC_CACHE_ENABLED)) {
 			int topicCacheSize = SystemGlobals.getIntValue(ConfigKeys.TOPIC_CACHE_SIZE);
@@ -126,7 +126,7 @@ public class TopicsCommon
 
 		return topics.subList(start, (size < start + topicsPerPage) ? size : start + topicsPerPage);
 	}
-	
+
 	/**
 	 * Prepare the topics for listing.
 	 * This method does some preparation for a set ot <code>net.jforum.entities.Topic</code>
@@ -142,35 +142,35 @@ public class TopicsCommon
 
 		long lastVisit = userSession.getLastVisit().getTime();
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
-		
+
 		List<Topic> newTopics = new ArrayList<>(topics.size());
 		Map<Integer, Long> topicsReadTime = SessionFacade.getTopicsReadTime();
 		Map<Integer, Long> topicReadTimeByForum = SessionFacade.getTopicsReadTimeByForum();
-		
+
 		boolean checkUnread = (userSession.getUserId() 
 			!= SystemGlobals.getIntValue(ConfigKeys.ANONYMOUS_USER_ID));
-		
+
 		for (Iterator<Topic> iter = topics.iterator(); iter.hasNext(); ) {
-			Topic topic = (Topic)iter.next();
-			
+			Topic topic = iter.next();
+
 			boolean read = false;
 			boolean isReadByForum = false;
 			long lastPostTime = topic.getLastPostDate().getTime();
-			
+
 			if (topicReadTimeByForum != null) {
 				Long currentForumTime = topicReadTimeByForum.get(Integer.valueOf(topic.getForumId()));
 				isReadByForum = currentForumTime != null && lastPostTime < currentForumTime.longValue();
 			}
-			
+
 			boolean isTopicTimeOlder = !isReadByForum && lastPostTime <= lastVisit;
-			
+
 			if (!checkUnread || isReadByForum || isTopicTimeOlder) {
 				read = true;
 			}
 			else {
 				Integer topicId = Integer.valueOf(topic.getId());
 				Long currentTopicTime = topicsReadTime.get(topicId);
-				
+
 				if (currentTopicTime != null) {
 					read = currentTopicTime.longValue() > lastPostTime;
 				}
@@ -188,7 +188,7 @@ public class TopicsCommon
 			topic.setRead(read);
 			newTopics.add(topic);
 		}
-		
+
 		return newTopics;
 	}
 
@@ -198,20 +198,20 @@ public class TopicsCommon
 	public static void topicListingBase()
 	{
 		SimpleHash context = JForumExecutionContext.getTemplateContext();
-		
+
 		// Topic Types
 		context.put("TOPIC_ANNOUNCE", Integer.valueOf(Topic.TYPE_ANNOUNCE));
 		context.put("TOPIC_STICKY", Integer.valueOf(Topic.TYPE_STICKY));
 		context.put("TOPIC_NORMAL", Integer.valueOf(Topic.TYPE_NORMAL));
 		context.put("TOPIC_WIKI", Integer.valueOf(Topic.TYPE_WIKI));
-	
+
 		// Topic Status
 		context.put("STATUS_LOCKED", Integer.valueOf(Topic.STATUS_LOCKED));
 		context.put("STATUS_UNLOCKED", Integer.valueOf(Topic.STATUS_UNLOCKED));
-		
+
 		// Moderation
 		PermissionControl pc = SecurityRepository.get(SessionFacade.getUserSession().getUserId());
-		
+
 		context.put("moderator", pc.canAccess(SecurityConstants.PERM_MODERATION));
 		context.put("can_remove_posts", pc.canAccess(SecurityConstants.PERM_MODERATION_POST_REMOVE));
 		context.put("can_move_topics", pc.canAccess(SecurityConstants.PERM_MODERATION_TOPIC_MOVE));
@@ -248,7 +248,7 @@ public class TopicsCommon
 	public static boolean isTopicAccessible(int forumId, boolean showError)
 	{
 		Forum forum = ForumRepository.getForum(forumId);
-		
+
 		if (forum == null || !ForumRepository.isCategoryAccessible(forum.getCategoryId())) {
 			if (showError) {
 				new ModerationHelper().denied(I18n.getMessage("PostShow.denied"));
@@ -258,7 +258,7 @@ public class TopicsCommon
 
 		return true;
 	}
-	
+
 	/**
 	 * Sends a "new post" notification message to all users watching the topic.
 	 * 
@@ -277,7 +277,7 @@ public class TopicsCommon
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the board status after a new post is inserted.
 	 * This method is used in conjunct with moderation manipulation. 
@@ -322,7 +322,7 @@ public class TopicsCommon
 	public static synchronized void deleteTopic(int topicId, int forumId, boolean fromModeration)
 	{
 		TopicDAO topicDao = DataAccessDriver.getInstance().newTopicDAO();
-		
+
 		Topic topic = new Topic();
 		topic.setId(topicId);
 		topic.setForumId(forumId);
@@ -332,7 +332,7 @@ public class TopicsCommon
 		if (!fromModeration) {
 			// Updates the Recent Topics if it contains this topic
 			TopicRepository.loadMostRecentTopics();
-			
+
             // Updates the Hottest Topics if it contains this topic
 			TopicRepository.loadHottestTopics();
 			TopicRepository.clearCache(forumId);

@@ -150,7 +150,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 				containerEncoding = encoding;
 			}
 			for (final Enumeration<String> enumeration = superRequest.getParameterNames(); enumeration.hasMoreElements(); ) {
-				final String name = (String)enumeration.nextElement();
+				final String name = enumeration.nextElement();
 
 				final String[] values = superRequest.getParameterValues(name);
 
@@ -271,7 +271,7 @@ public class WebRequestContext extends HttpServletRequestWrapper implements Requ
 			List<FileItem> items = upload.parseRequest(superRequest);
 
 			for (Iterator<FileItem> iter = items.iterator(); iter.hasNext(); ) {
-				FileItem item = (FileItem)iter.next();
+				FileItem item = iter.next();
 
 				if (item.isFormField()) {
 					this.addParameter(item.getFieldName(), item.getString(encoding));

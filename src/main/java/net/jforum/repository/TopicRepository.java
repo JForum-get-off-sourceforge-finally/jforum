@@ -202,7 +202,7 @@ public class TopicRepository implements Cacheable {
 				Integer fId = Integer.valueOf(forumId);
 
 				for (Iterator<Topic> iter = topics.iterator(); iter.hasNext();) {
-					Topic topic = (Topic) iter.next();
+					Topic topic = iter.next();
 
 					m.put(Integer.valueOf(topic.getId()), fId);
 				}
@@ -326,7 +326,7 @@ public class TopicRepository implements Cacheable {
 			Map<Integer, Integer> m = (Map<Integer, Integer>) cache.get(FQN, RELATION);
 
 			if (m != null) {
-				Integer forumId = (Integer) m.get(Integer.valueOf(topic.getId()));
+				Integer forumId = m.get(Integer.valueOf(topic.getId()));
 
 				if (forumId != null) {
 					topic.setForumId(forumId.intValue());
@@ -346,7 +346,7 @@ public class TopicRepository implements Cacheable {
 			index = l.indexOf(topic);
 		}
 
-		return (index == -1 ? null : (Topic) l.get(index));
+		return (index == -1 ? null : l.get(index));
 	}
 
 	/**

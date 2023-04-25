@@ -86,7 +86,7 @@ public class POPPostAction
 			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME, new ConcurrentHashMap<>());
 
 			for (final Iterator<POPMessage> iter = parser.getMessages().iterator(); iter.hasNext(); ) {
-				final POPMessage message = (POPMessage)iter.next();
+				final POPMessage message = iter.next();
 				final String sessionId = currentTimestamp + message.getSender() + counter++;
 
 				request.getSessionContext().setAttribute(StandardSessionContext.SESSION_ID, sessionId);

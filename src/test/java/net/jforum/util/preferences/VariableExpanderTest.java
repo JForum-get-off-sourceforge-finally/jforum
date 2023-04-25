@@ -13,35 +13,34 @@ import junit.framework.TestCase;
 
 /**
  * @author Rafael Steil
- * @version $Id$
  */
 public class VariableExpanderTest extends TestCase
 {
 	private VariableExpander extapnder;
-	
+
 	private final String test = "${config.dir}/database/${database.driver.name}/${database.driver.name}.properties";
-		
+
 	private static class MyStore implements VariableStore
 	{
 		final private Map<String, String> data = new ConcurrentHashMap<String, String>();
-		
+
 		public MyStore()
 		{
 			this.fill();
 		}
-		
+
 		private void fill()
 		{
 			this.data.put("config.dir", "/config");
 			this.data.put("database.driver.name", "mysql");
 		}
-		
+
 		public String getVariableValue(final String variableName)
 		{
-			return (String)this.data.get(variableName);
+			return this.data.get(variableName);
 		}
 	}
-	
+
 	/**
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -50,7 +49,7 @@ public class VariableExpanderTest extends TestCase
 	{
 		this.extapnder = new VariableExpander(new MyStore(), "${", "}");
 	}
-	
+
 	@Test
 	public void testExpand()
 	{
