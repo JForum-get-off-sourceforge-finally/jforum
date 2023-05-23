@@ -133,6 +133,7 @@
 				</td>
 			</tr>
 			</#if>
+			<#if allowPM>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.privateMessage")}:</span></td>
 				<td class="row1" valign="middle">
@@ -141,6 +142,7 @@
 					</span></b>
 				</td>
 			</tr>
+			</#if>
 		   <#if (nposts > 0) >
 			   <#if (u.twitter?exists && u.twitter?length > 0)>
 					<tr>

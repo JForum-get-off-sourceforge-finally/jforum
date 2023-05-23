@@ -58,7 +58,7 @@ function validateForm()
 				<tr>
 					<td class="row2" colspan="2" align="center"><span class="gensmall"><font color="red">${I18n.getMessage("User.requiredFields")}</font></span></td>
 				</tr>
-			
+
 				<tr>
 					<td class="row1" width="38%"><span class="gen">${I18n.getMessage("User.user")}: </span></td>
 					<td class="row2">
@@ -71,12 +71,12 @@ function validateForm()
 						</span>
 					</td>
 				</tr>
-			
+
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.emailAddress")}: *</span></td>
 					<td class="row2"><input type="text" class="post" style="width:200px" maxlength="255" size="25" name="email" value="${u.email?default("")?html}" /></td>
 				</tr>
-			
+
 				<#if !sso>
 				<#if !admin?default(false)>
 				<tr>
@@ -199,6 +199,7 @@ function validateForm()
 					</td>
 				</tr>
 
+			<#if allowPM>
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.privateMessagesNotify")}:</span></td>
 					<td class="row2">
@@ -208,7 +209,10 @@ function validateForm()
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
-				
+			<#else>
+				<input type="hidden" value="0" name="notifypm" /> 
+			</#if>
+
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.alwaysAttachSignature")}:</span></td>
 					<td class="row2">
@@ -247,7 +251,7 @@ function validateForm()
 						<span class="gen">${I18n.getMessage("User.no")}</span>
 					</td>
 				</tr>
-			
+
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.langPreference")}:</span></td>
 					<td class="row2">
@@ -255,7 +259,7 @@ function validateForm()
 							<option value="" <#if u.lang?default("") == "">selected="selected"</#if>>${I18n.getMessage("User.Lang.default")}</option>
 							<option value="en_US" <#if u.lang?default("") == "en_US">selected="selected"</#if>>${I18n.getMessage("User.Lang.en_US")}</option>
 							<option value="zh_TW" <#if u.lang?default("") == "zh_TW">selected="selected"</#if>>${I18n.getMessage("User.Lang.zh_TW")}</option>
-							<option value="zh_CN" <#if u.lang?default("") == "zh_CN">selected="selected"</#if>>${I18n.getMessage("User.Lang.zh_CN")}</option>							
+							<option value="zh_CN" <#if u.lang?default("") == "zh_CN">selected="selected"</#if>>${I18n.getMessage("User.Lang.zh_CN")}</option>
 							<option value="fr_FR" <#if u.lang?default("") == "fr_FR">selected="selected"</#if>>${I18n.getMessage("User.Lang.fr_FR")}</option>
 							<option value="de_DE" <#if u.lang?default("") == "de_DE">selected="selected"</#if>>${I18n.getMessage("User.Lang.de_DE")}</option>
 							<option value="nl_NL" <#if u.lang?default("") == "nl_NL">selected="selected"</#if>>${I18n.getMessage("User.Lang.nl_NL")}</option>

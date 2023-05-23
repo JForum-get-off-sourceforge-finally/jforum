@@ -117,6 +117,7 @@ public class ControllerUtils
         if (googleTracker != null && googleTracker.trim().length() > 0) {
             context.put("googleAnalyticsTracker", googleTracker.trim());
         }
+		context.put("allowPM", SystemGlobals.getBoolValue(ConfigKeys.ALLOW_PM));
 		context.put("socialEnabled", SystemGlobals.getBoolValue(ConfigKeys.SOCIAL_SHARING_ENABLED));
 		context.put("socialSites", SystemGlobals.getValue(ConfigKeys.SOCIAL_SHARING_SITES));
 		context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));

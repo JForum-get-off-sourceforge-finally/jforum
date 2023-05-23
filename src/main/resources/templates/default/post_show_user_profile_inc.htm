@@ -2,7 +2,9 @@
 <tr>
 	<td valign="middle" nowrap="nowrap"> 
 		<a href="${JForumContext.encodeURL("/user/profile/${user.id}")}" class="icon_profile"><img src="${contextPath}/images/transp.gif" alt="" /></a>
-		<a href="${JForumContext.encodeURL("/pm/sendTo/${user.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+		<#if allowPM>
+			<a href="${JForumContext.encodeURL("/pm/sendTo/${user.id}")}" class="icon_pm"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+		</#if>
 		<#if (user.isViewEmailEnabled() && user.email?exists && user.email?length > 0)>
 			<#assign e = user.email.split("@")/>
 
