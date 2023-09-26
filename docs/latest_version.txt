@@ -1,15 +1,17 @@
-2.8.2
+2.8.3
 
-<p>This is a feature release for JForum. It includes the following improvements, amongst others:</p>
+<p>This is a mostly a bug and security fix release, although a couple of small features are also in it. It includes the following improvements, amongst others:</p>
 
 <ul>
-	<li>Fixed a bug in the search page pagination</li>
-	<li>Fixed a bug that caused posts that were awaiting moderation to be found through the search</li>
-	<li>No longer uses an external library to detect access from a mobile device</li>
-	<li>Updates jforum-custom.conf:server.info when detecting an application server version change</li>
-	<li>numerous dependency updates</li>
+    <li>fix problem when using Oracle as database</li>
+    <li>use system-wide date format in the user profile for the registration date</li>
+    <li>fixed a couple of bugs in the mail sending code</li>
+    <li>made a couple of changes for Wildfly compatibility</li>
+    <li>fix Commons FileUpload vulnerability</li>
+    <li>added Admin Config option to disable private messages</li>
+    <li>fixed an XSS vulnerability</li>
 </ul>
 
-<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures282/">this page</a> for a full list of what is new and changed.</p>
+<p>See <a href="https://sourceforge.net/p/jforum2/wiki2/NewFeatures283/">this page</a> for a full list of what is new and changed.</p>
 
 <p>Everyone should upgrade. A Servlet 3.1 container, like Tomcat 8 or newer, running on Java 8 or newer, is required.</p>
