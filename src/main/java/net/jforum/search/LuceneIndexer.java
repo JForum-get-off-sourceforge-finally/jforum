@@ -67,6 +67,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -250,6 +251,7 @@ public class LuceneIndexer
 		text = text.replaceAll("\\[/[^\\]]+?\\]", "");
 		// replace [quote=foo bar] by "foo bar "
 		text = text.replaceAll("\\[[^\\]=]+?=([^\\]]+?)\\]", "$1 ");
+		// TODO: we should remove more (or all) BB tags
 		doc.add(new TextField(SearchFields.Indexed.CONTENTS, text, Field.Store.NO));
 
 		if (post.hasAttachments()) {
@@ -265,7 +267,7 @@ public class LuceneIndexer
 											.lines().collect(Collectors.joining("\n"));
 						doc.add(new TextField(SearchFields.Indexed.CONTENTS, contents, Field.Store.NO));
 					} else if (info.getMimetype().equals("application/pdf")) {
-						PDDocument pdfDocument = PDDocument.load(is, "");
+						PDDocument pdfDocument = Loader.loadPDF(f);
 						StringWriter writer = new StringWriter();
 						PDFTextStripper stripper = new PDFTextStripper();
 						stripper.writeText(pdfDocument, writer);

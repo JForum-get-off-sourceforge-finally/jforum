@@ -63,10 +63,10 @@ public class JavaDocLink implements Substitution {
     private static final String COM_SUN_MAIL_URL = "https://javaee.github.io/javamail/docs/api/";
 
     // Apache
-    private static final String TOMCAT_URL = "https://tomcat.apache.org/tomcat-9.0-doc/api/";
+    private static final String TOMCAT_URL = "https://tomcat.apache.org/tomcat-10.1-doc/api/";
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/9_7_0/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/9_8_0/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
@@ -109,7 +109,7 @@ public class JavaDocLink implements Substitution {
     private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
     private static final String ITEXT2_URL = "https://librepdf.github.io/OpenPDF/docs-1-3-17/";
     private static final String ITEXT_URL = "https://api.itextpdf.com/";
-	private static final String PDFBOX_URL = "https://javadoc.io/doc/org.apache.pdfbox/pdfbox/2.0.29/";
+	private static final String PDFBOX_URL = "https://javadoc.io/doc/org.apache.pdfbox/pdfbox/3.0.0/";
     private static final String JFREECHART_URL = "https://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "https://rsb.info.nih.gov/ij/developer/api/";
     private static final String XOM_URL = "http://www.xom.nu/apidocs/";
