@@ -68,8 +68,10 @@ public class HikariPooledConnection extends DBConnection
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_DRIVER));
 		config.setJdbcUrl(SystemGlobals.getValue(ConfigKeys.DATABASE_CONNECTION_STRING));
+		config.setMinimumIdle(SystemGlobals.getIntValue(ConfigKeys.DATABASE_POOL_MIN));		
 		config.setMaximumPoolSize(SystemGlobals.getIntValue(ConfigKeys.DATABASE_POOL_MAX));
-		config.setKeepaliveTime(1000l * SystemGlobals.getIntValue(ConfigKeys.DATABASE_PING_DELAY));
+		// KeepaliveTime: The minimum allowed value is 30000ms (30 seconds)
+		config.setKeepaliveTime(Math.max(30000L, 1000L * SystemGlobals.getIntValue(ConfigKeys.DATABASE_PING_DELAY)));
 
 		this.dataSource = new HikariDataSource(config);
 
