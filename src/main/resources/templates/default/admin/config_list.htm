@@ -480,12 +480,12 @@ function testEmail()
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.CaptchaWidth")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="number" min="20" size="10" name="p_captcha.width" value="${config.getProperty("captcha.width")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="number" min="20" size="10" name="p_captcha.width" value="${config.getProperty("captcha.width")?html}" /></span></td>
 </tr>
 
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.CaptchaHeight")}</span></td>
-	<td class="row1" width="38%"><span class="gen"><input type="number" min="20" size="10" name="p_captcha.height" value="${config.getProperty("captcha.height")}" /></span></td>
+	<td class="row1" width="38%"><span class="gen"><input type="number" min="20" size="10" name="p_captcha.height" value="${config.getProperty("captcha.height")?html}" /></span></td>
 </tr>
 
 <tr>
@@ -565,8 +565,8 @@ function testEmail()
 <tr>
 	<td class="row1" width="38%"><span class="gen">${I18n.getMessage("Config.Form.avatarPreview")}</span></td>
 	<td class="row1" width="38%">
-		<input type="hidden" name="thumbH" value="${config.getProperty("avatar.maxHeight")}" />	
-		<input type="hidden" name="thumbW" value="${config.getProperty("avatar.maxWidth")}" />
+		<input type="hidden" name="thumbH" value="${config.getProperty("avatar.maxHeight")?html}" />	
+		<input type="hidden" name="thumbW" value="${config.getProperty("avatar.maxWidth")?html}" />
 		<div id="avatarPreview" style="align:center; border:1px solid orange;">&nbsp;</div>
 	</td>
 </tr>

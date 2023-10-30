@@ -742,6 +742,8 @@ public class UserAction extends Command
 		String username = this.request.getParameter(USERNAME);
 
 		User user = this.prepareLostPassword(username, email);
+		// The user no longer gets told if no active account exists.
+		/*
 		if (user == null) {
 			// user could not be found
 			this.context.put(MESSAGE,
@@ -749,8 +751,10 @@ public class UserAction extends Command
 			this.lostPassword();
 			return;
 		}
-
-		Executor.execute(new EmailSenderTask(new LostPasswordSpammer(user)));
+		*/
+		if (user != null) {
+			Executor.execute(new EmailSenderTask(new LostPasswordSpammer(user)));
+		}
 
 		this.setTemplateName(TemplateKeys.USER_LOSTPASSWORD_SEND);
 		this.context.put(MESSAGE, I18n.getMessage(

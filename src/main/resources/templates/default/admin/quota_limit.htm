@@ -23,7 +23,7 @@
 	<tr>
 		<td class="row1" align="center" valign="middle"><input type="text" size="20" maxlength="50" name="quota_description" value=""/></td>
 		<td class="row1" align="center" valign="middle" colspan="2">
-			<input type="text" size="8" maxlength="15" name="max_filesize"/> 
+			<input type="number" size="8" min="1" name="max_filesize"/> 
 			<select name="type">
 				<option value="1">KB</option>
 				<option value="2" selected="selected">MB</option>
@@ -67,7 +67,7 @@
 				</td>
 
 				<td class="row1" align="center" valign="middle">
-					<input type="text" size="8" maxlength="15" name="max_filesize_${count}" value="${q.size}"/> 
+					<input type="number" size="8" min="1" name="max_filesize_${count}" value="${q.size}"/> 
 					<select name="type_${count}">
 						<option value="1" <#if q.type == 1>selected="selected"</#if>>KB</option>
 						<option value="2" <#if q.type == 2>selected="selected"</#if>>MB</option>
