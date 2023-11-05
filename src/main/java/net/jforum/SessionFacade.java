@@ -70,7 +70,7 @@ public class SessionFacade implements Cacheable
 	private static final Logger LOGGER = Logger.getLogger(SessionFacade.class);
 
 	// map session IDs to UserSession objects
-	// creating new String object because we're synchonizing on it
+	// creating new String object because we're synchronizing on it
 	private static final String FQN = new String("sessions");
 	// map session IDs to UserSession objects of whose online status is publicly visible.
 	private static final String FQN_LOGGED = FQN + "/logged";

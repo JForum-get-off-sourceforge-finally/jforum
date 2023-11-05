@@ -1436,6 +1436,11 @@ public class PostAction extends Command
 
 		AttachmentDAO am = DataAccessDriver.getInstance().newAttachmentDAO();
 		Attachment a = am.selectAttachmentById(id);
+		if (a == null) {
+			this.setTemplateName(TemplateKeys.POSTS_ATTACH_NOTFOUND);
+			this.context.put("message", I18n.getMessage("Attachments.notFound"));
+			return;
+		}
 
 		PostDAO postDao = DataAccessDriver.getInstance().newPostDAO();
 		Post post = postDao.selectById(a.getPostId());
