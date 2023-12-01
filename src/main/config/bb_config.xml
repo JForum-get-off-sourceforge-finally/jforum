@@ -139,33 +139,6 @@
 		</replace>
 	</match>
 
-	<!-- Flash -->
-	<match name="flash" removeQuotes="true" lockedForSmilies="flash">
-		<regex>(?i)\[flash\](.*?)\[/flash\]</regex>
-		<replace>
-		<![CDATA[
-		<object width="450" height="370" type="application/x-shockwave-flash" data="$1" title="flash">
-			<param name="movie" value="$1" />
-			<param name="allowFullScreen" value="true" />
-			<param name="allowscriptaccess" value="always" /> 
-		</object>
-		]]>
-		</replace>
-	</match>
-
-	<match name="swf" removeQuotes="true" lockedForSmilies="swf">
-		<regex>(?i)\[swf\](.*?)\[/swf\]</regex>
-		<replace>
-		<![CDATA[
-		<object width="450" height="370" type="application/x-shockwave-flash" data="$1" title="flash">
-			<param name="movie" value="$1" />
-			<param name="allowFullScreen" value="true" />
-			<param name="allowscriptaccess" value="always" /> 
-		</object>
-		]]>
-		</replace>
-	</match>
-
 	<!-- Windows Media -->
 	<match name="wmv" removeQuotes="true" lockedForSmilies="wmv">
 		<regex>(?i)\[wmv\](.*?)\[/wmv\]</regex>
@@ -373,16 +346,6 @@
                 ]]>
 		</replace>
 	</match>
-
-    <!-- Xuite -->
-    <match name="xuite" lockedForSmilies="xuite">
-        <regex>(?i)\[xuite\]http[s]?\:\/\/vlog.xuite.net\/play\/(.*?)\[/xuite\]</regex>
-        <replace>
-        <![CDATA[
-        <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" width="640" height="360" src="https://vlog.xuite.net/embed/$1?ar=0&as=0"></iframe>
-        ]]>
-        </replace>
-    </match>
 
 	<!-- Javadoc -->
 	<match name="javadoc" lockedForSmilies="javadoc">
