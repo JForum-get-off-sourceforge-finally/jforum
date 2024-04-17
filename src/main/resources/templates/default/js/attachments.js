@@ -54,7 +54,7 @@ var counter = 0;
 		<#list attachments as a>
 			var attach_${a.id} = new Array();
 
-			attach_${a.id}["filename"] = "${a.info.realFilename}";
+			attach_${a.id}["filename"] = "${a.info.realFilename?html}";
 			attach_${a.id}["description"] = "${a.info.comment?html}";
 			attach_${a.id}["id"] = "${a.id}";
 

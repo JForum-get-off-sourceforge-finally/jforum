@@ -9,7 +9,7 @@
 					<#if !thumbShowBox>
 						<a href="${JForumContext.encodeURL("/posts/downloadAttach/${a.id}")}">
 					</#if>
-					<img src="${contextPath}/${a.thumbPath()}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" alt="[Thumb - ${a.info.realFilename}]"/>
+					<img src="${contextPath}/${a.thumbPath()}?OWASP_CSRFTOKEN=${OWASP_CSRFTOKEN!""}" alt="[Thumb - ${a.info.realFilename?html}]"/>
 					<#if !thumbShowBox></a></#if>
 				</td>
 			</tr>
@@ -18,7 +18,7 @@
 		<#if !hasThumb || thumbShowBox>
 			<tr>
 				<td><span class="genmed">${I18n.getMessage("Attachments.filename")}</span></td>
-				<td><span class="genmed">${a.info.realFilename}</span></td>
+				<td><span class="genmed">${a.info.realFilename?html}</span></td>
 			</tr>
 			<tr>
 				<td><span class="genmed">${I18n.getMessage("Attachments.description")}</span></td>

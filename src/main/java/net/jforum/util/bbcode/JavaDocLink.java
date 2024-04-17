@@ -66,7 +66,7 @@ public class JavaDocLink implements Substitution {
     private static final String TOMCAT_URL = "https://tomcat.apache.org/tomcat-10.1-doc/api/";
     private static final String LOG4J_URL = "https://logging.apache.org/log4j/docs/api/";
     private static final String LOG4J2_URL = "https://logging.apache.org/log4j/2.x/log4j-api/apidocs/";
-	private static final String LUCENE_URL = "https://lucene.apache.org/core/9_8_0/core/";
+	private static final String LUCENE_URL = "https://lucene.apache.org/core/9_10_0/core/";
     private static final String POI_URL = "https://poi.apache.org/apidocs/";
     private static final String AXIS2_URL = "https://axis.apache.org/axis2/java/core/api/";
     private static final String XML_CRYPTO_URL = "https://santuario.apache.org/Java/api/";
@@ -107,9 +107,9 @@ public class JavaDocLink implements Substitution {
     // Other 3rd party
     private static final String JUNIT_URL = "https://junit.org/junit5/docs/current/api/";
     private static final String JUNIT_OLD_URL = "http://junit.sourceforge.net/junit3.8.1/javadoc/";
-    private static final String ITEXT2_URL = "https://javadoc.io/doc/com.github.librepdf/openpdf/1.4.1/com.github.librepdf.openpdf/";
+    private static final String ITEXT2_URL = "https://javadoc.io/doc/com.github.librepdf/openpdf/1.4.2/com.github.librepdf.openpdf/";
     private static final String ITEXT_URL = "https://api.itextpdf.com/";
-	private static final String PDFBOX_URL = "https://javadoc.io/doc/org.apache.pdfbox/pdfbox/3.0.1/";
+	private static final String PDFBOX_URL = "https://javadoc.io/doc/org.apache.pdfbox/pdfbox/3.0.2/";
     private static final String JFREECHART_URL = "https://www.jfree.org/jfreechart/api/gjdoc/";
     private static final String IMAGEJ_URL = "https://rsb.info.nih.gov/ij/developer/api/";
     private static final String XOM_URL = "http://www.xom.nu/apidocs/";
@@ -127,7 +127,7 @@ public class JavaDocLink implements Substitution {
     private static final String OSGI_URL_CORE = "https://www.osgi.org/javadoc/r6/core/";
     private static final String OSGI_URL_ENTERPRISE = "https://www.osgi.org/javadoc/r6/enterprise/";
 	private static final String GOOGLE_GUAVA_URL = "https://guava.dev/releases/33.1.0-jre/api/docs/";
-	private static final String JAXEN_URL = "http://www.cafeconleche.org/jaxen/apidocs/";
+	private static final String JAXEN_URL = "https://www.cafeconleche.org/jaxen/apidocs/";
 	private static final String FREEMARKER_URL = "https://freemarker.org/docs/api/";
 	private static final String BOUNCYCASTLE_URL = "https://bouncycastle.org/docs/docs1.5on/";
 	private static final String EVENTBUS_URL = "https://greenrobot.org/files/eventbus/javadoc/current/";

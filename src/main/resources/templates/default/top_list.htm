@@ -37,7 +37,7 @@
 						</span>								
 					</td>
 					<td class="row2" valign="middle"><span class="postdetails"><img src="${contextPath}/templates/${templateName}/images/icon_disk.gif" alt="[Disk]" />
-					<a href="${JForumContext.encodeURL("/posts/downloadAttach/${topDownload.attachId}")}" class="gensmall">${topDownload.realFilename}</a></span></td>
+					<a href="${JForumContext.encodeURL("/posts/downloadAttach/${topDownload.attachId}")}" class="gensmall">${topDownload.realFilename?html}</a></span></td>
 					<td class="row3" valign="middle" align="center">
 						<span class="genmed">
 						<#if (topDownload.filesize < 1024)>
