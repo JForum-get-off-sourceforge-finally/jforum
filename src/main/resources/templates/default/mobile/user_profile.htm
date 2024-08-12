@@ -76,9 +76,6 @@
 	<#if (u.twitter?exists && u.twitter?length > 0)>
 		Twitter: <a href="https://twitter.com/${u.twitter?html}" target="_new">@${u.twitter?html}</a><br>
 	</#if>
-	<#if (u.icq?exists && u.icq?length > 0)>
-		${I18n.getMessage("User.icq")}: ${u.icq?html}<br>
-	</#if>
 	<#if (u.skype?exists && u.skype?length > 0)>
 		Skype: ${u.skype?html}<br>
 	</#if>

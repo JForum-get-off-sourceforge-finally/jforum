@@ -154,12 +154,6 @@
 						</td>
 					</tr>
 				</#if>
-				<#if (u.icq?exists && u.icq?length > 0)>
-					<tr>
-						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
-						<td class="row1" valign="middle"><span class="gen">${u.icq?html}</span></td>
-					</tr>
-				</#if>
 				<#if (u.skype?exists && u.skype?length > 0)>
 					<tr>
 						<td valign="middle" nowrap="nowrap" align="right"><span class="gen">Skype:</span></td>

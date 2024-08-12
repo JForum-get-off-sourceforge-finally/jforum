@@ -1230,7 +1230,6 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				user.setEmail(rs.getString("user_email"));
 				user.setRankId(rs.getInt("rank_id"));
 				user.setViewEmailEnabled(rs.getInt("user_viewemail") == 1);
-				user.setIcq(rs.getString("user_icq"));
 				user.setTwitter(rs.getString("user_twitter"));
 				user.setAttachSignatureEnabled(rs.getInt("user_attachsig") == 1);
 				user.setSkype(rs.getString("user_skype"));

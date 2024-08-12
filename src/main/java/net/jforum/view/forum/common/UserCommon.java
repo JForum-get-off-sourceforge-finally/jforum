@@ -108,7 +108,6 @@ public final class UserCommon
 		}
 
 		user.setId(userId);
-		user.setIcq(SafeHtml.makeSafe(request.getParameter("icq")));
 		user.setTwitter(SafeHtml.makeSafe(request.getParameter("twitter")));
 		user.setSkype(SafeHtml.makeSafe(request.getParameter("skype")));
 		user.setFrom(SafeHtml.makeSafe(request.getParameter("location")));

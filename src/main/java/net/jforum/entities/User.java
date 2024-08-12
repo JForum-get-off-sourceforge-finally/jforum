@@ -93,7 +93,6 @@ public class User implements Serializable
 	private String avatar;
 	private boolean isExternalAvatar;
 	private String email;
-	private String icq;
 	private String twitter;
 	private String webSite;
 	private String from;
@@ -208,14 +207,10 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Gets the ICQ UIM
+	 * Gets the Twitter ID
 	 * 
-	 * @return String with the UIN
+	 * @return String with the ID
 	 */
-	public String getIcq() {
-		return this.icq;
-	}
-
 	public String getTwitter() {
 		return this.twitter;
 	}
@@ -483,14 +478,10 @@ public class User implements Serializable
 	}
 
 	/**
-	 * Sets the icq UIN
+	 * Sets the Twitter ID
 	 * 
-	 * @param icq The icq to set
+	 * @param twitter The ID to set
 	 */
-	public void setIcq(String icq) {
-		this.icq = icq;
-	}
-
 	public void setTwitter (String twitter) {
 		this.twitter = twitter;
 	}

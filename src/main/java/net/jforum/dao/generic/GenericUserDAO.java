@@ -212,7 +212,6 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 		user.setSmiliesEnabled(rs.getInt("user_allowsmilies") == 1);
 		user.setEmail(rs.getString("user_email"));
 		user.setFrom(rs.getString("user_from"));
-		user.setIcq(rs.getString("user_icq"));
 		user.setTwitter(rs.getString("user_twitter"));
 		user.setId(rs.getInt("user_id"));
 		user.setInterests(rs.getString("user_interests"));
@@ -277,7 +276,7 @@ public class GenericUserDAO extends AutoKeys implements UserDAO
 			pstmt.setInt(6, user.isSmiliesEnabled() ? 1 : 0);
 			pstmt.setString(7, user.getEmail());
 			pstmt.setString(8, user.getFrom());
-			pstmt.setString(9, user.getIcq());
+			pstmt.setString(9, "");
 			pstmt.setString(10, user.getInterests());
 			pstmt.setString(11, user.getOccupation());
 			pstmt.setString(12, user.getSignature());
